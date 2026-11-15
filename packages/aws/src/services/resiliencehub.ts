@@ -303,7 +303,7 @@ export interface App {
   status?: AppStatusType | undefined;
   complianceStatus?: AppComplianceStatusType | undefined;
   lastAppComplianceEvaluationTime?: Date | undefined;
-  resiliencyScore?: number | undefined;
+  resiliencyScore: number;
   lastResiliencyScoreEvaluationTime?: Date | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   assessmentSchedule?: AppAssessmentScheduleType | undefined;
@@ -506,7 +506,7 @@ export interface AppInputSource {
   importType: ResourceMappingType;
   sourceArn?: string | undefined;
   terraformSource?: TerraformSource | undefined;
-  resourceCount?: number | undefined;
+  resourceCount: number;
   eksSourceClusterNamespace?: EksSourceClusterNamespace | undefined;
 }
 export interface DeleteAppInputSourceResponse {
@@ -572,10 +572,10 @@ export interface Cost {
 export type DisruptionResiliencyScore = { [key in DisruptionType]?: number | undefined };
 export type ResiliencyScoreType = "Compliance" | "Test" | "Alarm" | "Sop" | (string & {});
 export interface ScoringComponentResiliencyScore {
-  score?: number | undefined;
-  possibleScore?: number | undefined;
-  outstandingCount?: number | undefined;
-  excludedCount?: number | undefined;
+  score: number;
+  possibleScore: number;
+  outstandingCount: number;
+  excludedCount: number;
 }
 export type ScoringComponentResiliencyScores = {
   [key in ResiliencyScoreType]?: ScoringComponentResiliencyScore | undefined;
@@ -592,15 +592,15 @@ export type ComplianceStatus =
   | "MissingPolicy"
   | (string & {});
 export interface DisruptionCompliance {
-  achievableRtoInSecs?: number | undefined;
-  currentRtoInSecs?: number | undefined;
+  achievableRtoInSecs: number;
+  currentRtoInSecs: number;
   rtoReferenceId?: string | undefined;
   rtoDescription?: string | undefined;
-  currentRpoInSecs?: number | undefined;
+  currentRpoInSecs: number;
   rpoReferenceId?: string | undefined;
   rpoDescription?: string | undefined;
   complianceStatus: ComplianceStatus;
-  achievableRpoInSecs?: number | undefined;
+  achievableRpoInSecs: number;
   message?: string | undefined;
 }
 export type AssessmentCompliance = { [key in DisruptionType]?: DisruptionCompliance | undefined };
@@ -913,7 +913,7 @@ export interface AppAssessmentSummary {
   assessmentArn: string;
   complianceStatus?: ComplianceStatus | undefined;
   cost?: Cost | undefined;
-  resiliencyScore?: number | undefined;
+  resiliencyScore: number;
   versionName?: string | undefined;
   driftStatus?: DriftStatus | undefined;
 }
@@ -953,9 +953,9 @@ export type RecommendationComplianceStatus =
   | (string & {});
 export interface RecommendationDisruptionCompliance {
   expectedComplianceStatus: ComplianceStatus;
-  expectedRtoInSecs?: number | undefined;
+  expectedRtoInSecs: number;
   expectedRtoDescription?: string | undefined;
-  expectedRpoInSecs?: number | undefined;
+  expectedRpoInSecs: number;
   expectedRpoDescription?: string | undefined;
 }
 export type RecommendationCompliance = {
@@ -1029,7 +1029,7 @@ export interface AppSummary {
   description?: string | undefined;
   creationTime: Date;
   complianceStatus?: AppComplianceStatusType | undefined;
-  resiliencyScore?: number | undefined;
+  resiliencyScore: number;
   assessmentSchedule?: AppAssessmentScheduleType | undefined;
   status?: AppStatusType | undefined;
   driftStatus?: AppDriftStatusType | undefined;
@@ -3846,7 +3846,7 @@ function __c3(j: number): any {
           lastAppComplianceEvaluationTime: S.optional(
             S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           ),
-          resiliencyScore: S.optional(S.Number),
+          resiliencyScore: S.optional(S.Number).pipe(T.Default(0)),
           lastResiliencyScoreEvaluationTime: S.optional(
             S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           ),
@@ -4095,9 +4095,12 @@ function __c17(j: number): any {
 function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ rtoInSecs: S.Number, rpoInSecs: S.Number })).annotate({
-        identifier: "FailurePolicy",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          rtoInSecs: S.Number.pipe(T.Default(0)),
+          rpoInSecs: S.Number.pipe(T.Default(0)),
+        }),
+      ).annotate({ identifier: "FailurePolicy" });
     case 1:
       return S.Record(S.String, /*@__PURE__*/ __S(288, __c18, 0).pipe(S.optional));
     case 2:
@@ -4214,7 +4217,7 @@ function __c24(j: number): any {
           importType: S.String,
           sourceArn: S.optional(S.String),
           terraformSource: S.optional(__S(368, __c23, 0)),
-          resourceCount: S.optional(S.Number),
+          resourceCount: S.optional(S.Number).pipe(T.Default(0)),
           eksSourceClusterNamespace: S.optional(__S(384, __c24, 0)),
         }),
       ).annotate({ identifier: "AppInputSource" });
@@ -4346,15 +4349,15 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          achievableRtoInSecs: S.optional(S.Number),
-          currentRtoInSecs: S.optional(S.Number),
+          achievableRtoInSecs: S.optional(S.Number).pipe(T.Default(0)),
+          currentRtoInSecs: S.optional(S.Number).pipe(T.Default(0)),
           rtoReferenceId: S.optional(S.String),
           rtoDescription: S.optional(S.String),
-          currentRpoInSecs: S.optional(S.Number),
+          currentRpoInSecs: S.optional(S.Number).pipe(T.Default(0)),
           rpoReferenceId: S.optional(S.String),
           rpoDescription: S.optional(S.String),
           complianceStatus: S.String,
-          achievableRpoInSecs: S.optional(S.Number),
+          achievableRpoInSecs: S.optional(S.Number).pipe(T.Default(0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "DisruptionCompliance" });
@@ -4366,7 +4369,7 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ amount: S.Number, currency: S.String, frequency: S.String }),
+        S.Struct({ amount: S.Number.pipe(T.Default(0)), currency: S.String, frequency: S.String }),
       ).annotate({ identifier: "Cost" });
   }
 }
@@ -4377,10 +4380,10 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          score: S.optional(S.Number),
-          possibleScore: S.optional(S.Number),
-          outstandingCount: S.optional(S.Number),
-          excludedCount: S.optional(S.Number),
+          score: S.optional(S.Number).pipe(T.Default(0)),
+          possibleScore: S.optional(S.Number).pipe(T.Default(0)),
+          outstandingCount: S.optional(S.Number).pipe(T.Default(0)),
+          excludedCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ScoringComponentResiliencyScore" });
     case 2:
@@ -4388,7 +4391,7 @@ function __c33(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          score: S.Number,
+          score: S.Number.pipe(T.Default(0)),
           disruptionScore: __S(528, __c33, 0),
           componentScore: S.optional(__S(530, __c33, 2)),
         }),
@@ -4920,7 +4923,7 @@ function __c50(j: number): any {
           assessmentArn: S.String,
           complianceStatus: S.optional(S.String),
           cost: S.optional(__S(512, __c32, 0)),
-          resiliencyScore: S.optional(S.Number),
+          resiliencyScore: S.optional(S.Number).pipe(T.Default(0)),
           versionName: S.optional(S.String),
           driftStatus: S.optional(S.String),
         }),
@@ -4994,9 +4997,9 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expectedComplianceStatus: S.String,
-          expectedRtoInSecs: S.optional(S.Number),
+          expectedRtoInSecs: S.optional(S.Number).pipe(T.Default(0)),
           expectedRtoDescription: S.optional(S.String),
-          expectedRpoInSecs: S.optional(S.Number),
+          expectedRpoInSecs: S.optional(S.Number).pipe(T.Default(0)),
           expectedRpoDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecommendationDisruptionCompliance" });
@@ -5090,7 +5093,7 @@ function __c54(j: number): any {
           description: S.optional(S.String),
           creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           complianceStatus: S.optional(S.String),
-          resiliencyScore: S.optional(S.Number),
+          resiliencyScore: S.optional(S.Number).pipe(T.Default(0)),
           assessmentSchedule: S.optional(S.String),
           status: S.optional(S.String),
           driftStatus: S.optional(S.String),
@@ -5391,7 +5394,7 @@ function __c63(j: number): any {
           groupingRecommendationId: S.String,
           groupingAppComponent: __S(1009, __c63, 1),
           resources: __S(1011, __c63, 3),
-          score: S.Number,
+          score: S.Number.pipe(T.Default(0)),
           recommendationReasons: __S(16, __c1, 0),
           status: S.String,
           confidenceLevel: S.String,

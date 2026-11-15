@@ -909,7 +909,7 @@ export interface CreateLoginProfileRequest {
 export interface LoginProfile {
   UserName: string;
   CreateDate: Date;
-  PasswordResetRequired?: boolean | undefined;
+  PasswordResetRequired: boolean;
 }
 export interface CreateLoginProfileResponse {
   LoginProfile: LoginProfile;
@@ -948,7 +948,7 @@ export interface Policy {
   DefaultVersionId?: string | undefined;
   AttachmentCount?: number | undefined;
   PermissionsBoundaryUsageCount?: number | undefined;
-  IsAttachable?: boolean | undefined;
+  IsAttachable: boolean;
   Description?: string | undefined;
   CreateDate?: Date | undefined;
   UpdateDate?: Date | undefined;
@@ -965,7 +965,7 @@ export interface CreatePolicyVersionRequest {
 export interface PolicyVersion {
   Document?: string | undefined;
   VersionId?: string | undefined;
-  IsDefaultVersion?: boolean | undefined;
+  IsDefaultVersion: boolean;
   CreateDate?: Date | undefined;
 }
 export interface CreatePolicyVersionResponse {
@@ -1023,8 +1023,8 @@ export interface ServiceSpecificCredential {
   CreateDate: Date;
   ExpirationDate?: Date | undefined;
   ServiceName: string;
-  ServiceUserName?: string | undefined;
-  ServicePassword?: string | redacted.Redacted<string> | undefined;
+  ServiceUserName: string;
+  ServicePassword: string | redacted.Redacted<string>;
   ServiceCredentialAlias?: string | undefined;
   ServiceCredentialSecret?: string | redacted.Redacted<string> | undefined;
   ServiceSpecificCredentialId: string;
@@ -1344,7 +1344,7 @@ export interface ManagedPolicyDetail {
   DefaultVersionId?: string | undefined;
   AttachmentCount?: number | undefined;
   PermissionsBoundaryUsageCount?: number | undefined;
-  IsAttachable?: boolean | undefined;
+  IsAttachable: boolean;
   Description?: string | undefined;
   CreateDate?: Date | undefined;
   UpdateDate?: Date | undefined;
@@ -1357,7 +1357,7 @@ export interface GetAccountAuthorizationDetailsResponse {
   GroupDetailList?: GroupDetail[] | undefined;
   RoleDetailList?: RoleDetail[] | undefined;
   Policies?: ManagedPolicyDetail[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface GetAccountPasswordPolicyRequest {}
@@ -1367,12 +1367,12 @@ export type PasswordReusePreventionType = number;
 export type BooleanObjectType = boolean;
 export interface PasswordPolicy {
   MinimumPasswordLength?: number | undefined;
-  RequireSymbols?: boolean | undefined;
-  RequireNumbers?: boolean | undefined;
-  RequireUppercaseCharacters?: boolean | undefined;
-  RequireLowercaseCharacters?: boolean | undefined;
-  AllowUsersToChangePassword?: boolean | undefined;
-  ExpirePasswords?: boolean | undefined;
+  RequireSymbols: boolean;
+  RequireNumbers: boolean;
+  RequireUppercaseCharacters: boolean;
+  RequireLowercaseCharacters: boolean;
+  AllowUsersToChangePassword: boolean;
+  ExpirePasswords: boolean;
   MaxPasswordAge?: number | undefined;
   PasswordReusePrevention?: number | undefined;
   HardExpiry?: boolean | undefined;
@@ -1487,7 +1487,7 @@ export interface DelegationRequest {
   RedirectUrl?: string | undefined;
   Notes?: string | undefined;
   RejectionReason?: string | undefined;
-  OnlySendByOwner?: boolean | undefined;
+  OnlySendByOwner: boolean;
   UpdatedTime?: Date | undefined;
 }
 export type PermissionCheckStatusType = "COMPLETE" | "IN_PROGRESS" | "FAILED" | (string & {});
@@ -1506,7 +1506,7 @@ export type UserListType = User[];
 export interface GetGroupResponse {
   Group: Group;
   Users: User[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface GetGroupPolicyRequest {
@@ -1605,14 +1605,14 @@ export interface GetOrganizationsAccessReportResponse {
   NumberOfServicesAccessible?: number | undefined;
   NumberOfServicesNotAccessed?: number | undefined;
   AccessDetails?: AccessDetail[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
   ErrorDetails?: ErrorDetails | undefined;
 }
 export interface GetOutboundWebIdentityFederationInfoRequest {}
 export interface GetOutboundWebIdentityFederationInfoResponse {
   IssuerIdentifier?: string | undefined;
-  JwtVendingEnabled?: boolean | undefined;
+  JwtVendingEnabled: boolean;
 }
 export interface GetPolicyRequest {
   PolicyArn: string;
@@ -1677,9 +1677,9 @@ export interface ParameterDefinition {
   Type: ParameterTypeType;
   SubType?: string | undefined;
   Description?: string | undefined;
-  IsRequired?: boolean | undefined;
+  IsRequired: boolean;
   DefaultValue?: string | undefined;
-  Immutable?: boolean | undefined;
+  Immutable: boolean;
 }
 export type ParametersDefinitionListType = ParameterDefinition[];
 export type TagTemplateKeyType = string;
@@ -1698,7 +1698,7 @@ export interface RoleTemplateVersion {
   DefaultMinorVersion?: number | undefined;
   ManagedByType?: ManagedByTypeType | undefined;
   ManagedByValue?: string | undefined;
-  Enabled?: boolean | undefined;
+  Enabled: boolean;
   MinorVersion?: number | undefined;
   RoleNamePattern?: string | undefined;
   RolePathPattern?: string | undefined;
@@ -1710,7 +1710,7 @@ export interface RoleTemplateVersion {
   ParametersDefinition?: ParameterDefinition[] | undefined;
   RoleTagsTemplate?: TagTemplate[] | undefined;
   MaxSessionDuration?: number | undefined;
-  VersionEnabled?: boolean | undefined;
+  VersionEnabled: boolean;
   CreateTimestamp?: Date | undefined;
   UpdateTimestamp?: Date | undefined;
 }
@@ -1785,7 +1785,7 @@ export interface GetServiceLastAccessedDetailsResponse {
   JobCreationDate: Date;
   ServicesLastAccessed: ServiceLastAccessed[];
   JobCompletionDate: Date;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
   Error?: ErrorDetails | undefined;
 }
@@ -1813,7 +1813,7 @@ export interface GetServiceLastAccessedDetailsWithEntitiesResponse {
   JobCreationDate: Date;
   JobCompletionDate: Date;
   EntityDetailsList: EntityDetails[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
   Error?: ErrorDetails | undefined;
 }
@@ -1890,7 +1890,7 @@ export interface AccessKeyMetadata {
 export type AccessKeyMetadataListType = AccessKeyMetadata[];
 export interface ListAccessKeysResponse {
   AccessKeyMetadata: AccessKeyMetadata[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListAccountAliasesRequest {
@@ -1900,7 +1900,7 @@ export interface ListAccountAliasesRequest {
 export type AccountAliasListType = string[];
 export interface ListAccountAliasesResponse {
   AccountAliases: string[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListAttachedGroupPoliciesRequest {
@@ -1911,7 +1911,7 @@ export interface ListAttachedGroupPoliciesRequest {
 }
 export interface ListAttachedGroupPoliciesResponse {
   AttachedPolicies?: AttachedPolicy[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListAttachedRolePoliciesRequest {
@@ -1922,7 +1922,7 @@ export interface ListAttachedRolePoliciesRequest {
 }
 export interface ListAttachedRolePoliciesResponse {
   AttachedPolicies?: AttachedPolicy[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListAttachedUserPoliciesRequest {
@@ -1933,7 +1933,7 @@ export interface ListAttachedUserPoliciesRequest {
 }
 export interface ListAttachedUserPoliciesResponse {
   AttachedPolicies?: AttachedPolicy[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListDelegationRequestsRequest {
@@ -1945,7 +1945,7 @@ export type DelegationRequestsListType = DelegationRequest[];
 export interface ListDelegationRequestsResponse {
   DelegationRequests?: DelegationRequest[] | undefined;
   Marker?: string | undefined;
-  isTruncated?: boolean | undefined;
+  isTruncated: boolean;
 }
 export type PolicyUsageType = "PermissionsPolicy" | "PermissionsBoundary" | (string & {});
 export interface ListEntitiesForPolicyRequest {
@@ -1975,7 +1975,7 @@ export interface ListEntitiesForPolicyResponse {
   PolicyGroups?: PolicyGroup[] | undefined;
   PolicyUsers?: PolicyUser[] | undefined;
   PolicyRoles?: PolicyRole[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListGroupPoliciesRequest {
@@ -1986,7 +1986,7 @@ export interface ListGroupPoliciesRequest {
 export type PolicyNameListType = string[];
 export interface ListGroupPoliciesResponse {
   PolicyNames: string[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export type PathPrefixType = string;
@@ -1998,7 +1998,7 @@ export interface ListGroupsRequest {
 export type GroupListType = Group[];
 export interface ListGroupsResponse {
   Groups: Group[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListGroupsForUserRequest {
@@ -2008,7 +2008,7 @@ export interface ListGroupsForUserRequest {
 }
 export interface ListGroupsForUserResponse {
   Groups: Group[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListInstanceProfilesRequest {
@@ -2018,7 +2018,7 @@ export interface ListInstanceProfilesRequest {
 }
 export interface ListInstanceProfilesResponse {
   InstanceProfiles: InstanceProfile[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListInstanceProfilesForRoleRequest {
@@ -2028,7 +2028,7 @@ export interface ListInstanceProfilesForRoleRequest {
 }
 export interface ListInstanceProfilesForRoleResponse {
   InstanceProfiles: InstanceProfile[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListInstanceProfileTagsRequest {
@@ -2038,7 +2038,7 @@ export interface ListInstanceProfileTagsRequest {
 }
 export interface ListInstanceProfileTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListMFADevicesRequest {
@@ -2054,7 +2054,7 @@ export interface MFADevice {
 export type MfaDeviceListType = MFADevice[];
 export interface ListMFADevicesResponse {
   MFADevices: MFADevice[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListMFADeviceTagsRequest {
@@ -2064,7 +2064,7 @@ export interface ListMFADeviceTagsRequest {
 }
 export interface ListMFADeviceTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListOpenIDConnectProvidersRequest {}
@@ -2082,7 +2082,7 @@ export interface ListOpenIDConnectProviderTagsRequest {
 }
 export interface ListOpenIDConnectProviderTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListOrganizationsFeaturesRequest {}
@@ -2102,7 +2102,7 @@ export interface ListPoliciesRequest {
 export type PolicyListType = Policy[];
 export interface ListPoliciesResponse {
   Policies?: Policy[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export type ServiceNamespaceListType = string[];
@@ -2129,7 +2129,7 @@ export type ListPolicyGrantingServiceAccessResponseListType =
   ListPoliciesGrantingServiceAccessEntry[];
 export interface ListPoliciesGrantingServiceAccessResponse {
   PoliciesGrantingServiceAccess: ListPoliciesGrantingServiceAccessEntry[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListPolicyTagsRequest {
@@ -2139,7 +2139,7 @@ export interface ListPolicyTagsRequest {
 }
 export interface ListPolicyTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListPolicyVersionsRequest {
@@ -2149,7 +2149,7 @@ export interface ListPolicyVersionsRequest {
 }
 export interface ListPolicyVersionsResponse {
   Versions?: PolicyVersion[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListRolePoliciesRequest {
@@ -2159,7 +2159,7 @@ export interface ListRolePoliciesRequest {
 }
 export interface ListRolePoliciesResponse {
   PolicyNames: string[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListRolesRequest {
@@ -2169,7 +2169,7 @@ export interface ListRolesRequest {
 }
 export interface ListRolesResponse {
   Roles: Role[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListRoleTagsRequest {
@@ -2179,7 +2179,7 @@ export interface ListRoleTagsRequest {
 }
 export interface ListRoleTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListSAMLProvidersRequest {}
@@ -2199,7 +2199,7 @@ export interface ListSAMLProviderTagsRequest {
 }
 export interface ListSAMLProviderTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListServerCertificatesRequest {
@@ -2210,7 +2210,7 @@ export interface ListServerCertificatesRequest {
 export type ServerCertificateMetadataListType = ServerCertificateMetadata[];
 export interface ListServerCertificatesResponse {
   ServerCertificateMetadataList: ServerCertificateMetadata[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListServerCertificateTagsRequest {
@@ -2220,7 +2220,7 @@ export interface ListServerCertificateTagsRequest {
 }
 export interface ListServerCertificateTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export type AllUsers = boolean;
@@ -2234,7 +2234,7 @@ export interface ListServiceSpecificCredentialsRequest {
 export interface ServiceSpecificCredentialMetadata {
   UserName: string;
   Status: StatusType;
-  ServiceUserName?: string | undefined;
+  ServiceUserName: string;
   ServiceCredentialAlias?: string | undefined;
   CreateDate: Date;
   ExpirationDate?: Date | undefined;
@@ -2245,7 +2245,7 @@ export type ServiceSpecificCredentialsListType = ServiceSpecificCredentialMetada
 export interface ListServiceSpecificCredentialsResponse {
   ServiceSpecificCredentials?: ServiceSpecificCredentialMetadata[] | undefined;
   Marker?: string | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
 }
 export interface ListSigningCertificatesRequest {
   UserName?: string | undefined;
@@ -2262,7 +2262,7 @@ export interface SigningCertificate {
 export type CertificateListType = SigningCertificate[];
 export interface ListSigningCertificatesResponse {
   Certificates: SigningCertificate[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListSSHPublicKeysRequest {
@@ -2279,7 +2279,7 @@ export interface SSHPublicKeyMetadata {
 export type SSHPublicKeyListType = SSHPublicKeyMetadata[];
 export interface ListSSHPublicKeysResponse {
   SSHPublicKeys?: SSHPublicKeyMetadata[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListUserPoliciesRequest {
@@ -2289,7 +2289,7 @@ export interface ListUserPoliciesRequest {
 }
 export interface ListUserPoliciesResponse {
   PolicyNames: string[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListUsersRequest {
@@ -2299,7 +2299,7 @@ export interface ListUsersRequest {
 }
 export interface ListUsersResponse {
   Users: User[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface ListUserTagsRequest {
@@ -2309,7 +2309,7 @@ export interface ListUserTagsRequest {
 }
 export interface ListUserTagsResponse {
   Tags: Tag[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export type AssignmentStatusType = "Assigned" | "Unassigned" | "Any" | (string & {});
@@ -2321,7 +2321,7 @@ export interface ListVirtualMFADevicesRequest {
 export type VirtualMFADeviceListType = VirtualMFADevice[];
 export interface ListVirtualMFADevicesResponse {
   VirtualMFADevices: VirtualMFADevice[];
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export interface PutAccountPropertiesRequest {
@@ -2467,8 +2467,8 @@ export type PolicySourceType =
 export type LineNumber = number;
 export type ColumnNumber = number;
 export interface Position {
-  Line?: number | undefined;
-  Column?: number | undefined;
+  Line: number;
+  Column: number;
 }
 export interface Statement {
   SourcePolicyId?: string | undefined;
@@ -2478,10 +2478,10 @@ export interface Statement {
 }
 export type StatementListType = Statement[];
 export interface OrganizationsDecisionDetail {
-  AllowedByOrganizations?: boolean | undefined;
+  AllowedByOrganizations: boolean;
 }
 export interface PermissionsBoundaryDecisionDetail {
-  AllowedByPermissionsBoundary?: boolean | undefined;
+  AllowedByPermissionsBoundary: boolean;
 }
 export type EvalDecisionSourceType = string;
 export type EvalDecisionDetailsType = { [key: string]: PolicyEvaluationDecisionType | undefined };
@@ -2508,7 +2508,7 @@ export interface EvaluationResult {
 export type EvaluationResultsListType = EvaluationResult[];
 export interface SimulatePolicyResponse {
   EvaluationResults?: EvaluationResult[] | undefined;
-  IsTruncated?: boolean | undefined;
+  IsTruncated: boolean;
   Marker?: string | undefined;
 }
 export type PolicyIdentifierPolicyType =
@@ -9874,7 +9874,7 @@ function __c3(j: number): any {
           DefaultVersionId: S.optional(S.String),
           AttachmentCount: S.optional(S.Number),
           PermissionsBoundaryUsageCount: S.optional(S.Number),
-          IsAttachable: S.optional(S.Boolean),
+          IsAttachable: S.optional(S.Boolean).pipe(T.Default(false)),
           Description: S.optional(S.String),
           CreateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           UpdateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -9890,7 +9890,7 @@ function __c3(j: number): any {
           GroupDetailList: S.optional(__S(56, __c3, 8)),
           RoleDetailList: S.optional(__S(58, __c3, 10)),
           Policies: S.optional(__S(60, __c3, 12)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetAccountAuthorizationDetailsResponse" });
@@ -9930,12 +9930,12 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           MinimumPasswordLength: S.optional(S.Number),
-          RequireSymbols: S.optional(S.Boolean),
-          RequireNumbers: S.optional(S.Boolean),
-          RequireUppercaseCharacters: S.optional(S.Boolean),
-          RequireLowercaseCharacters: S.optional(S.Boolean),
-          AllowUsersToChangePassword: S.optional(S.Boolean),
-          ExpirePasswords: S.optional(S.Boolean),
+          RequireSymbols: S.optional(S.Boolean).pipe(T.Default(false)),
+          RequireNumbers: S.optional(S.Boolean).pipe(T.Default(false)),
+          RequireUppercaseCharacters: S.optional(S.Boolean).pipe(T.Default(false)),
+          RequireLowercaseCharacters: S.optional(S.Boolean).pipe(T.Default(false)),
+          AllowUsersToChangePassword: S.optional(S.Boolean).pipe(T.Default(false)),
+          ExpirePasswords: S.optional(S.Boolean).pipe(T.Default(false)),
           MaxPasswordAge: S.optional(S.Number),
           PasswordReusePrevention: S.optional(S.Number),
           HardExpiry: S.optional(S.Boolean),
@@ -10082,7 +10082,7 @@ function __c17(j: number): any {
           RedirectUrl: S.optional(S.String),
           Notes: S.optional(S.String),
           RejectionReason: S.optional(S.String),
-          OnlySendByOwner: S.optional(S.Boolean),
+          OnlySendByOwner: S.optional(S.Boolean).pipe(T.Default(false)),
           UpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "DelegationRequest" });
@@ -10103,7 +10103,7 @@ function __c18(j: number): any {
         S.Struct({
           Group: __S(2464, __c154, 0),
           Users: __S(304, __c19, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetGroupResponse" });
@@ -10249,7 +10249,7 @@ function __c26(j: number): any {
           NumberOfServicesAccessible: S.optional(S.Number),
           NumberOfServicesNotAccessed: S.optional(S.Number),
           AccessDetails: S.optional(__S(418, __c26, 2)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
           ErrorDetails: S.optional(__S(432, __c27, 0)),
         }).pipe(ns),
@@ -10276,7 +10276,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IssuerIdentifier: S.optional(S.String),
-          JwtVendingEnabled: S.optional(S.Boolean),
+          JwtVendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "GetOutboundWebIdentityFederationInfoResponse" });
   }
@@ -10360,9 +10360,9 @@ function __c33(j: number): any {
           Type: S.String,
           SubType: S.optional(S.String),
           Description: S.optional(S.String),
-          IsRequired: S.optional(S.Boolean),
+          IsRequired: S.optional(S.Boolean).pipe(T.Default(false)),
           DefaultValue: S.optional(S.String),
-          Immutable: S.optional(S.Boolean),
+          Immutable: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ParameterDefinition" });
     case 5:
@@ -10384,7 +10384,7 @@ function __c33(j: number): any {
           DefaultMinorVersion: S.optional(S.Number),
           ManagedByType: S.optional(S.String),
           ManagedByValue: S.optional(S.String),
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           MinorVersion: S.optional(S.Number),
           RoleNamePattern: S.optional(S.String),
           RolePathPattern: S.optional(S.String),
@@ -10396,7 +10396,7 @@ function __c33(j: number): any {
           ParametersDefinition: S.optional(__S(533, __c33, 5)),
           RoleTagsTemplate: S.optional(__S(535, __c33, 7)),
           MaxSessionDuration: S.optional(S.Number),
-          VersionEnabled: S.optional(S.Boolean),
+          VersionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           CreateTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           UpdateTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
@@ -10519,7 +10519,7 @@ function __c37(j: number): any {
           JobCreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           ServicesLastAccessed: __S(596, __c37, 4),
           JobCompletionDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
           Error: S.optional(__S(432, __c27, 0)),
         }).pipe(ns),
@@ -10563,7 +10563,7 @@ function __c38(j: number): any {
           JobCreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           JobCompletionDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           EntityDetailsList: __S(611, __c38, 3),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
           Error: S.optional(__S(432, __c27, 0)),
         }).pipe(ns),
@@ -10678,7 +10678,7 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AccessKeyMetadata: __S(706, __c44, 2),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAccessKeysResponse" });
@@ -10698,7 +10698,7 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AccountAliases: __S(721, __c45, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAccountAliasesResponse" });
@@ -10719,7 +10719,7 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AttachedPolicies: S.optional(__S(65, __c4, 1)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAttachedGroupPoliciesResponse" });
@@ -10740,7 +10740,7 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AttachedPolicies: S.optional(__S(65, __c4, 1)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAttachedRolePoliciesResponse" });
@@ -10761,7 +10761,7 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AttachedPolicies: S.optional(__S(65, __c4, 1)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAttachedUserPoliciesResponse" });
@@ -10784,7 +10784,7 @@ function __c49(j: number): any {
         S.Struct({
           DelegationRequests: S.optional(__S(785, __c49, 1)),
           Marker: S.optional(S.String),
-          isTruncated: S.optional(S.Boolean),
+          isTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "ListDelegationRequestsResponse" });
   }
@@ -10826,7 +10826,7 @@ function __c50(j: number): any {
           PolicyGroups: S.optional(__S(802, __c50, 2)),
           PolicyUsers: S.optional(__S(804, __c50, 4)),
           PolicyRoles: S.optional(__S(806, __c50, 6)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListEntitiesForPolicyResponse" });
@@ -10846,7 +10846,7 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PolicyNames: __S(832, __c52, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListGroupPoliciesResponse" });
@@ -10872,7 +10872,7 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Groups: __S(864, __c54, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListGroupsResponse" });
@@ -10898,7 +10898,7 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Groups: __S(864, __c54, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListGroupsForUserResponse" });
@@ -10918,7 +10918,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceProfiles: __S(80, __c5, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListInstanceProfilesResponse" });
@@ -10938,7 +10938,7 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceProfiles: __S(80, __c5, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListInstanceProfilesForRoleResponse" });
@@ -10958,7 +10958,7 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Tags: __S(2209, __c138, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListInstanceProfileTagsResponse" });
@@ -10988,7 +10988,7 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           MFADevices: __S(946, __c59, 2),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListMFADevicesResponse" });
@@ -11008,7 +11008,7 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Tags: __S(2209, __c138, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListMFADeviceTagsResponse" });
@@ -11048,7 +11048,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Tags: __S(2209, __c138, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListOpenIDConnectProviderTagsResponse" });
@@ -11090,7 +11090,7 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Policies: S.optional(__S(1025, __c64, 1)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListPoliciesResponse" });
@@ -11133,7 +11133,7 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PoliciesGrantingServiceAccess: __S(1045, __c65, 5),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListPoliciesGrantingServiceAccessResponse" });
@@ -11153,7 +11153,7 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Tags: __S(2209, __c138, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListPolicyTagsResponse" });
@@ -11173,7 +11173,7 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Versions: S.optional(__S(96, __c6, 0)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListPolicyVersionsResponse" });
@@ -11193,7 +11193,7 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PolicyNames: __S(832, __c52, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListRolePoliciesResponse" });
@@ -11213,7 +11213,7 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Roles: __S(2512, __c157, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListRolesResponse" });
@@ -11233,7 +11233,7 @@ function __c70(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Tags: __S(2209, __c138, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListRoleTagsResponse" });
@@ -11277,7 +11277,7 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Tags: __S(2209, __c138, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListSAMLProviderTagsResponse" });
@@ -11299,7 +11299,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ServerCertificateMetadataList: __S(1169, __c73, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListServerCertificatesResponse" });
@@ -11319,7 +11319,7 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Tags: __S(2209, __c138, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListServerCertificateTagsResponse" });
@@ -11342,7 +11342,7 @@ function __c75(j: number): any {
         S.Struct({
           UserName: S.String,
           Status: S.String,
-          ServiceUserName: S.optional(S.String),
+          ServiceUserName: S.optional(S.String).pipe(T.Default("")),
           ServiceCredentialAlias: S.optional(S.String),
           CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           ExpirationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -11357,7 +11357,7 @@ function __c75(j: number): any {
         S.Struct({
           ServiceSpecificCredentials: S.optional(__S(1202, __c75, 2)),
           Marker: S.optional(S.String),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "ListServiceSpecificCredentialsResponse" });
   }
@@ -11378,7 +11378,7 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Certificates: __S(1217, __c76, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListSigningCertificatesResponse" });
@@ -11423,7 +11423,7 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SSHPublicKeys: S.optional(__S(1250, __c78, 2)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListSSHPublicKeysResponse" });
@@ -11443,7 +11443,7 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PolicyNames: __S(832, __c52, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListUserPoliciesResponse" });
@@ -11463,7 +11463,7 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Users: __S(304, __c19, 0),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListUsersResponse" });
@@ -11483,7 +11483,7 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Tags: __S(2209, __c138, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListUserTagsResponse" });
@@ -11505,7 +11505,7 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           VirtualMFADevices: __S(1313, __c82, 1),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListVirtualMFADevicesResponse" });
@@ -11771,7 +11771,10 @@ function __c99(j: number): any {
       return S.Array(__S(1587, __c99, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ Line: S.optional(S.Number), Column: S.optional(S.Number) }),
+        S.Struct({
+          Line: S.optional(S.Number).pipe(T.Default(0)),
+          Column: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "Position" });
     case 6:
       return S.suspend(() =>
@@ -11785,12 +11788,12 @@ function __c99(j: number): any {
     case 7:
       return S.Array(__S(1590, __c99, 6));
     case 8:
-      return S.suspend(() => S.Struct({ AllowedByOrganizations: S.optional(S.Boolean) })).annotate({
-        identifier: "OrganizationsDecisionDetail",
-      });
+      return S.suspend(() =>
+        S.Struct({ AllowedByOrganizations: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "OrganizationsDecisionDetail" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ AllowedByPermissionsBoundary: S.optional(S.Boolean) }),
+        S.Struct({ AllowedByPermissionsBoundary: S.optional(S.Boolean).pipe(T.Default(false)) }),
       ).annotate({ identifier: "PermissionsBoundaryDecisionDetail" });
     case 10:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
@@ -11827,7 +11830,7 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EvaluationResults: S.optional(__S(1598, __c99, 14)),
-          IsTruncated: S.optional(S.Boolean),
+          IsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Marker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "SimulatePolicyResponse" });
@@ -12743,7 +12746,7 @@ function __c159(j: number): any {
         S.Struct({
           UserName: S.String,
           CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          PasswordResetRequired: S.optional(S.Boolean),
+          PasswordResetRequired: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "LoginProfile" });
   }
@@ -12810,7 +12813,7 @@ function __c164(j: number): any {
           DefaultVersionId: S.optional(S.String),
           AttachmentCount: S.optional(S.Number),
           PermissionsBoundaryUsageCount: S.optional(S.Number),
-          IsAttachable: S.optional(S.Boolean),
+          IsAttachable: S.optional(S.Boolean).pipe(T.Default(false)),
           Description: S.optional(S.String),
           CreateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           UpdateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -12842,7 +12845,7 @@ function __c166(j: number): any {
         S.Struct({
           Document: S.optional(S.String),
           VersionId: S.optional(S.String),
-          IsDefaultVersion: S.optional(S.Boolean),
+          IsDefaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
           CreateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "PolicyVersion" });
@@ -12929,8 +12932,8 @@ function __c171(j: number): any {
           CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           ExpirationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           ServiceName: S.String,
-          ServiceUserName: S.optional(S.String),
-          ServicePassword: S.optional(SensitiveString),
+          ServiceUserName: S.optional(S.String).pipe(T.Default("")),
+          ServicePassword: S.optional(SensitiveString).pipe(T.Default("")),
           ServiceCredentialAlias: S.optional(S.String),
           ServiceCredentialSecret: S.optional(SensitiveString),
           ServiceSpecificCredentialId: S.String,

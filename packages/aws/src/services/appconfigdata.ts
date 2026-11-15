@@ -139,7 +139,7 @@ export interface GetLatestConfigurationRequest {
 }
 export interface GetLatestConfigurationResponse {
   NextPollConfigurationToken?: string | undefined;
-  NextPollIntervalInSeconds?: number | undefined;
+  NextPollIntervalInSeconds: number;
   ContentType?: string | undefined;
   Configuration?: T.StreamingOutputBody | undefined;
   VersionLabel?: string | undefined;
@@ -276,9 +276,9 @@ function __c2(j: number): any {
           NextPollConfigurationToken: S.optional(S.String).pipe(
             T.HttpHeader("Next-Poll-Configuration-Token"),
           ),
-          NextPollIntervalInSeconds: S.optional(S.Number).pipe(
-            T.HttpHeader("Next-Poll-Interval-In-Seconds"),
-          ),
+          NextPollIntervalInSeconds: S.optional(S.Number)
+            .pipe(T.HttpHeader("Next-Poll-Interval-In-Seconds"))
+            .pipe(T.Default(0)),
           ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
           Configuration: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
           VersionLabel: S.optional(S.String).pipe(T.HttpHeader("Version-Label")),

@@ -511,10 +511,10 @@ export interface DiffItems {
 }
 export interface CategoryDiffResult {
   Status?: DiffStatus | undefined;
-  InSync?: number | undefined;
-  SourceOnly?: number | undefined;
-  TargetOnly?: number | undefined;
-  Diverged?: number | undefined;
+  InSync: number;
+  SourceOnly: number;
+  TargetOnly: number;
+  Diverged: number;
   Items?: DiffItems | undefined;
   Truncated?: boolean | undefined;
 }
@@ -1446,7 +1446,7 @@ export interface ChangeProgressStatusDetails {
   Status?: OverallChangeStatus | undefined;
   PendingProperties?: string[] | undefined;
   CompletedProperties?: string[] | undefined;
-  TotalNumberOfStages?: number | undefined;
+  TotalNumberOfStages: number;
   ChangeProgressStages?: ChangeProgressStage[] | undefined;
   LastUpdatedTime?: Date | undefined;
   ConfigChangeStatus?: ConfigChangeStatus | undefined;
@@ -1466,7 +1466,7 @@ export type OptionState = "RequiresIndexDocuments" | "Processing" | "Active" | (
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number | undefined;
+  UpdateVersion: number;
   State: OptionState;
   PendingDeletion?: boolean | undefined;
 }
@@ -1540,7 +1540,7 @@ export interface AutoTuneOptions {
 export interface AutoTuneStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number | undefined;
+  UpdateVersion: number;
   State: AutoTuneState;
   ErrorMessage?: string | undefined;
   PendingDeletion?: boolean | undefined;
@@ -1778,8 +1778,8 @@ export type StorageTypeList = StorageType[];
 export type MinimumInstanceCount = number;
 export type MaximumInstanceCount = number;
 export interface InstanceCountLimits {
-  MinimumInstanceCount?: number | undefined;
-  MaximumInstanceCount?: number | undefined;
+  MinimumInstanceCount: number;
+  MaximumInstanceCount: number;
 }
 export interface InstanceLimits {
   InstanceCountLimits?: InstanceCountLimits | undefined;
@@ -1851,7 +1851,7 @@ export type RecurringChargeList = RecurringCharge[];
 export interface ReservedInstanceOffering {
   ReservedInstanceOfferingId?: string | undefined;
   InstanceType?: OpenSearchPartitionInstanceType | undefined;
-  Duration?: number | undefined;
+  Duration: number;
   FixedPrice?: number | undefined;
   UsagePrice?: number | undefined;
   CurrencyCode?: string | undefined;
@@ -1876,11 +1876,11 @@ export interface ReservedInstance {
   ReservedInstanceOfferingId?: string | undefined;
   InstanceType?: OpenSearchPartitionInstanceType | undefined;
   StartTime?: Date | undefined;
-  Duration?: number | undefined;
+  Duration: number;
   FixedPrice?: number | undefined;
   UsagePrice?: number | undefined;
   CurrencyCode?: string | undefined;
-  InstanceCount?: number | undefined;
+  InstanceCount: number;
   State?: string | undefined;
   PaymentOption?: ReservedInstancePaymentOption | undefined;
   RecurringCharges?: RecurringCharge[] | undefined;
@@ -2067,8 +2067,8 @@ export interface GetMigrationResponse {
   status?: string | undefined;
   applicationId?: string | undefined;
   source?: MigrationSource | undefined;
-  exportedCount?: number | undefined;
-  importedCount?: number | undefined;
+  exportedCount: number;
+  importedCount: number;
   error?: MigrationError | undefined;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
@@ -2326,8 +2326,8 @@ export interface MigrationSummary {
   status?: string | undefined;
   applicationId?: string | undefined;
   source?: MigrationSource | undefined;
-  exportedCount?: number | undefined;
-  importedCount?: number | undefined;
+  exportedCount: number;
+  importedCount: number;
   error?: MigrationError | undefined;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
@@ -6388,7 +6388,7 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Strategy: S.String, CloneReadTrafficPercent: S.Number }),
+        S.Struct({ Strategy: S.String, CloneReadTrafficPercent: S.Number.pipe(T.Default(0)) }),
       ).annotate({ identifier: "TrafficSplitRequestOptions" });
     case 1:
       return S.suspend(() => S.Struct({ Target: S.String })).annotate({
@@ -7303,10 +7303,10 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.String),
-          InSync: S.optional(S.Number),
-          SourceOnly: S.optional(S.Number),
-          TargetOnly: S.optional(S.Number),
-          Diverged: S.optional(S.Number),
+          InSync: S.optional(S.Number).pipe(T.Default(0)),
+          SourceOnly: S.optional(S.Number).pipe(T.Default(0)),
+          TargetOnly: S.optional(S.Number).pipe(T.Default(0)),
+          Diverged: S.optional(S.Number).pipe(T.Default(0)),
           Items: S.optional(__S(1669, __c52, 5)),
           Truncated: S.optional(S.Boolean),
         }),
@@ -7675,9 +7675,9 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "IAMFederationOptionsInput" });
     case 17:
-      return S.suspend(() => S.Struct({ Hours: S.Number, Minutes: S.Number })).annotate({
-        identifier: "WindowStartTime",
-      });
+      return S.suspend(() =>
+        S.Struct({ Hours: S.Number.pipe(T.Default(0)), Minutes: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "WindowStartTime" });
     case 18:
       return S.suspend(() =>
         S.Struct({ WindowStartTime: S.optional(__S(1969, __c61, 17)) }),
@@ -8481,7 +8481,7 @@ function __c92(j: number): any {
           Status: S.optional(S.String),
           PendingProperties: S.optional(__S(960, __c30, 0)),
           CompletedProperties: S.optional(__S(960, __c30, 0)),
-          TotalNumberOfStages: S.optional(S.Number),
+          TotalNumberOfStages: S.optional(S.Number).pipe(T.Default(0)),
           ChangeProgressStages: S.optional(__S(2946, __c92, 2)),
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ConfigChangeStatus: S.optional(S.String),
@@ -8501,7 +8501,10 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ PrimaryReadTrafficPercent: S.Number, CloneReadTrafficPercent: S.Number }),
+        S.Struct({
+          PrimaryReadTrafficPercent: S.Number.pipe(T.Default(0)),
+          CloneReadTrafficPercent: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "TrafficPercents" });
   }
 }
@@ -8548,7 +8551,7 @@ function __c96(j: number): any {
         S.Struct({
           CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           UpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          UpdateVersion: S.optional(S.Number),
+          UpdateVersion: S.optional(S.Number).pipe(T.Default(0)),
           State: S.String,
           PendingDeletion: S.optional(S.Boolean),
         }),
@@ -8626,7 +8629,7 @@ function __c96(j: number): any {
         S.Struct({
           CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           UpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          UpdateVersion: S.optional(S.Number),
+          UpdateVersion: S.optional(S.Number).pipe(T.Default(0)),
           State: S.String,
           ErrorMessage: S.optional(S.String),
           PendingDeletion: S.optional(S.Boolean),
@@ -9028,8 +9031,8 @@ function __c107(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          MinimumInstanceCount: S.optional(S.Number),
-          MaximumInstanceCount: S.optional(S.Number),
+          MinimumInstanceCount: S.optional(S.Number).pipe(T.Default(0)),
+          MaximumInstanceCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "InstanceCountLimits" });
     case 6:
@@ -9145,7 +9148,7 @@ function __c110(j: number): any {
         S.Struct({
           ReservedInstanceOfferingId: S.optional(S.String),
           InstanceType: S.optional(S.String),
-          Duration: S.optional(S.Number),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
           FixedPrice: S.optional(S.Number),
           UsagePrice: S.optional(S.Number),
           CurrencyCode: S.optional(S.String),
@@ -9214,11 +9217,11 @@ function __c112(j: number): any {
           ReservedInstanceOfferingId: S.optional(S.String),
           InstanceType: S.optional(S.String),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Duration: S.optional(S.Number),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
           FixedPrice: S.optional(S.Number),
           UsagePrice: S.optional(S.Number),
           CurrencyCode: S.optional(S.String),
-          InstanceCount: S.optional(S.Number),
+          InstanceCount: S.optional(S.Number).pipe(T.Default(0)),
           State: S.optional(S.String),
           PaymentOption: S.optional(S.String),
           RecurringCharges: S.optional(__S(3553, __c111, 1)),
@@ -9658,8 +9661,8 @@ function __c128(j: number): any {
           status: S.optional(S.String),
           applicationId: S.optional(S.String),
           source: S.optional(__S(4160, __c130, 0)),
-          exportedCount: S.optional(S.Number),
-          importedCount: S.optional(S.Number),
+          exportedCount: S.optional(S.Number).pipe(T.Default(0)),
+          importedCount: S.optional(S.Number).pipe(T.Default(0)),
           error: S.optional(__S(4128, __c129, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -10235,8 +10238,8 @@ function __c145(j: number): any {
           status: S.optional(S.String),
           applicationId: S.optional(S.String),
           source: S.optional(__S(4160, __c130, 0)),
-          exportedCount: S.optional(S.Number),
-          importedCount: S.optional(S.Number),
+          exportedCount: S.optional(S.Number).pipe(T.Default(0)),
+          importedCount: S.optional(S.Number).pipe(T.Default(0)),
           error: S.optional(__S(4128, __c129, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

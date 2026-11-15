@@ -366,7 +366,7 @@ export type EnvironmentHealthStatus =
   | (string & {});
 export interface Listener {
   Protocol?: string | undefined;
-  Port?: number | undefined;
+  Port: number;
 }
 export type LoadBalancerListenersDescription = Listener[];
 export interface LoadBalancerDescription {
@@ -817,7 +817,7 @@ export interface Latency {
 }
 export interface ApplicationMetrics {
   Duration?: number | undefined;
-  RequestCount?: number | undefined;
+  RequestCount: number;
   StatusCodes?: StatusCodes | undefined;
   Latency?: Latency | undefined;
 }
@@ -1148,7 +1148,7 @@ export interface PlatformBranchSummary {
   PlatformName?: string | undefined;
   BranchName?: string | undefined;
   LifecycleState?: string | undefined;
-  BranchOrder?: number | undefined;
+  BranchOrder: number;
   SupportedTierList?: string[] | undefined;
 }
 export type PlatformBranchSummaryList = PlatformBranchSummary[];
@@ -2761,7 +2761,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Protocol: S.optional(S.String), Port: S.optional(S.Number) }),
+        S.Struct({ Protocol: S.optional(S.String), Port: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "Listener" });
     case 1:
       return S.Array(__S(160, __c5, 0));
@@ -3458,7 +3458,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Duration: S.optional(S.Number),
-          RequestCount: S.optional(S.Number),
+          RequestCount: S.optional(S.Number).pipe(T.Default(0)),
           StatusCodes: S.optional(__S(1249, __c39, 1)),
           Latency: S.optional(__S(1250, __c39, 2)),
         }),
@@ -3875,7 +3875,7 @@ function __c49(j: number): any {
           PlatformName: S.optional(S.String),
           BranchName: S.optional(S.String),
           LifecycleState: S.optional(S.String),
-          BranchOrder: S.optional(S.Number),
+          BranchOrder: S.optional(S.Number).pipe(T.Default(0)),
           SupportedTierList: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "PlatformBranchSummary" });

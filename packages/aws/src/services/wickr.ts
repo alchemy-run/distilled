@@ -112,7 +112,11 @@ export class InternalServerError
 export class RateLimitError
   extends /*@__PURE__*/ S.TaggedError<RateLimitError>()(
     "RateLimitError",
-    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    {
+      message: /*@__PURE__*/ S.optional(S.String)
+        .pipe(/*@__PURE__*/ T.Default("Too many requests sent"))
+        .pipe(/*@__PURE__*/ T.ErrorMessage()),
+    },
     /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ResourceNotFoundError

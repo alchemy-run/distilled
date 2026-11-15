@@ -23,7 +23,7 @@ import type { LazyHandler, Protocol, ProtocolHandler, ProtocolImpl } from "./cli
 import type { Request as ProtocolRequest } from "./client/request.ts";
 import type { ResolvedCredentials } from "./credentials.ts";
 import { ErrorMessage, errorMessageSymbol } from "./error-message.ts";
-import { blob, timestamp } from "./lite.ts";
+import { blob, defaultSymbol, timestamp } from "./lite.ts";
 
 /**
  * One of this package's modules, loaded on first use. A failed load is an
@@ -167,6 +167,9 @@ export const XmlFlattened = () => makeAnnotation(xmlFlattenedSymbol, true);
 /** smithy.api#sparse - List/map may contain null values */
 export const sparseSymbol = "distilled-aws/sparse" as const;
 export const Sparse = () => makeAnnotation(sparseSymbol, true);
+
+/** smithy.api#default - the value a response decodes for a missing member */
+export const Default = (value: unknown) => makeAnnotation(defaultSymbol, value);
 
 /** smithy.api#xmlAttribute - Serialize as XML attribute instead of element */
 export const xmlAttributeSymbol = "distilled-aws/xml-attribute" as const;

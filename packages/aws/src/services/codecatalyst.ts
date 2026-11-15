@@ -742,7 +742,7 @@ export interface UpdateDevEnvironmentResponse {
   alias?: string | undefined;
   ides?: IdeConfiguration[] | undefined;
   instanceType?: string | undefined;
-  inactivityTimeoutMinutes?: number | undefined;
+  inactivityTimeoutMinutes: number;
   clientToken?: string | undefined;
 }
 export interface UpdateProjectRequest {
@@ -2350,7 +2350,7 @@ function __c8(j: number): any {
           alias: S.optional(S.String),
           ides: S.optional(__S(361, __c45, 1)),
           instanceType: S.String,
-          inactivityTimeoutMinutes: S.Number,
+          inactivityTimeoutMinutes: S.Number.pipe(T.Default(0)),
           persistentStorage: __S(354, __c44, 2),
           vpcConnectionName: S.optional(S.String),
         }),
@@ -2669,7 +2669,7 @@ function __c21(j: number): any {
           alias: S.optional(S.String),
           ides: S.optional(__S(361, __c45, 1)),
           instanceType: S.String,
-          inactivityTimeoutMinutes: S.Number,
+          inactivityTimeoutMinutes: S.Number.pipe(T.Default(0)),
           persistentStorage: __S(354, __c44, 2),
           vpcConnectionName: S.optional(S.String),
         }),
@@ -3236,7 +3236,7 @@ function __c38(j: number): any {
           alias: S.optional(S.String),
           ides: S.optional(__S(361, __c45, 1)),
           instanceType: S.optional(S.String),
-          inactivityTimeoutMinutes: S.optional(S.Number),
+          inactivityTimeoutMinutes: S.optional(S.Number).pipe(T.Default(0)),
           clientToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateDevEnvironmentResponse" });

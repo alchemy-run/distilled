@@ -869,26 +869,26 @@ export interface ReportResult {
   ErrorDetail?: string | undefined;
 }
 export interface TaskExecutionFilesListedDetail {
-  AtSource?: number | undefined;
-  AtDestinationForDelete?: number | undefined;
+  AtSource: number;
+  AtDestinationForDelete: number;
 }
 export interface TaskExecutionFilesFailedDetail {
-  Prepare?: number | undefined;
-  Transfer?: number | undefined;
-  Verify?: number | undefined;
-  Delete?: number | undefined;
+  Prepare: number;
+  Transfer: number;
+  Verify: number;
+  Delete: number;
 }
 export type ItemCount = number;
 export interface TaskExecutionFoldersListedDetail {
-  AtSource?: number | undefined;
-  AtDestinationForDelete?: number | undefined;
+  AtSource: number;
+  AtDestinationForDelete: number;
 }
 export interface TaskExecutionFoldersFailedDetail {
-  List?: number | undefined;
-  Prepare?: number | undefined;
-  Transfer?: number | undefined;
-  Verify?: number | undefined;
-  Delete?: number | undefined;
+  List: number;
+  Prepare: number;
+  Transfer: number;
+  Verify: number;
+  Delete: number;
 }
 export interface DescribeTaskExecutionResponse {
   TaskExecutionArn?: string | undefined;
@@ -898,21 +898,21 @@ export interface DescribeTaskExecutionResponse {
   Includes?: FilterRule[] | undefined;
   ManifestConfig?: ManifestConfig | undefined;
   StartTime?: Date | undefined;
-  EstimatedFilesToTransfer?: number | undefined;
-  EstimatedBytesToTransfer?: number | undefined;
-  FilesTransferred?: number | undefined;
-  BytesWritten?: number | undefined;
-  BytesTransferred?: number | undefined;
-  BytesCompressed?: number | undefined;
+  EstimatedFilesToTransfer: number;
+  EstimatedBytesToTransfer: number;
+  FilesTransferred: number;
+  BytesWritten: number;
+  BytesTransferred: number;
+  BytesCompressed: number;
   Result?: TaskExecutionResultDetail | undefined;
   TaskReportConfig?: TaskReportConfig | undefined;
-  FilesDeleted?: number | undefined;
-  FilesSkipped?: number | undefined;
-  FilesVerified?: number | undefined;
+  FilesDeleted: number;
+  FilesSkipped: number;
+  FilesVerified: number;
   ReportResult?: ReportResult | undefined;
-  EstimatedFilesToDelete?: number | undefined;
+  EstimatedFilesToDelete: number;
   TaskMode?: TaskMode | undefined;
-  FilesPrepared?: number | undefined;
+  FilesPrepared: number;
   FilesListed?: TaskExecutionFilesListedDetail | undefined;
   FilesFailed?: TaskExecutionFilesFailedDetail | undefined;
   EstimatedFoldersToDelete?: number | undefined;
@@ -2653,7 +2653,7 @@ function __c5(j: number): any {
         S.Struct({
           Domain: S.optional(S.String),
           MountOptions: S.optional(__S(32, __c2, 0)),
-          Password: S.optional(SensitiveString),
+          Password: S.optional(SensitiveString).pipe(T.Default("")),
           User: S.String,
           ManagedSecretConfig: S.optional(__S(48, __c3, 0)),
           CmkSecretConfig: S.optional(__S(1088, __c68, 0)),
@@ -3382,25 +3382,28 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ReportResult" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ AtSource: S.optional(S.Number), AtDestinationForDelete: S.optional(S.Number) }),
+        S.Struct({
+          AtSource: S.optional(S.Number).pipe(T.Default(0)),
+          AtDestinationForDelete: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "TaskExecutionFilesListedDetail" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Prepare: S.optional(S.Number),
-          Transfer: S.optional(S.Number),
-          Verify: S.optional(S.Number),
-          Delete: S.optional(S.Number),
+          Prepare: S.optional(S.Number).pipe(T.Default(0)),
+          Transfer: S.optional(S.Number).pipe(T.Default(0)),
+          Verify: S.optional(S.Number).pipe(T.Default(0)),
+          Delete: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TaskExecutionFilesFailedDetail" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          List: S.optional(S.Number),
-          Prepare: S.optional(S.Number),
-          Transfer: S.optional(S.Number),
-          Verify: S.optional(S.Number),
-          Delete: S.optional(S.Number),
+          List: S.optional(S.Number).pipe(T.Default(0)),
+          Prepare: S.optional(S.Number).pipe(T.Default(0)),
+          Transfer: S.optional(S.Number).pipe(T.Default(0)),
+          Verify: S.optional(S.Number).pipe(T.Default(0)),
+          Delete: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TaskExecutionFoldersFailedDetail" });
     case 6:
@@ -3413,21 +3416,21 @@ function __c38(j: number): any {
           Includes: S.optional(__S(289, __c18, 1)),
           ManifestConfig: S.optional(__S(292, __c18, 4)),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          EstimatedFilesToTransfer: S.optional(S.Number),
-          EstimatedBytesToTransfer: S.optional(S.Number),
-          FilesTransferred: S.optional(S.Number),
-          BytesWritten: S.optional(S.Number),
-          BytesTransferred: S.optional(S.Number),
-          BytesCompressed: S.optional(S.Number),
+          EstimatedFilesToTransfer: S.optional(S.Number).pipe(T.Default(0)),
+          EstimatedBytesToTransfer: S.optional(S.Number).pipe(T.Default(0)),
+          FilesTransferred: S.optional(S.Number).pipe(T.Default(0)),
+          BytesWritten: S.optional(S.Number).pipe(T.Default(0)),
+          BytesTransferred: S.optional(S.Number).pipe(T.Default(0)),
+          BytesCompressed: S.optional(S.Number).pipe(T.Default(0)),
           Result: S.optional(__S(609, __c38, 1)),
           TaskReportConfig: S.optional(__S(297, __c18, 9)),
-          FilesDeleted: S.optional(S.Number),
-          FilesSkipped: S.optional(S.Number),
-          FilesVerified: S.optional(S.Number),
+          FilesDeleted: S.optional(S.Number).pipe(T.Default(0)),
+          FilesSkipped: S.optional(S.Number).pipe(T.Default(0)),
+          FilesVerified: S.optional(S.Number).pipe(T.Default(0)),
           ReportResult: S.optional(__S(610, __c38, 2)),
-          EstimatedFilesToDelete: S.optional(S.Number),
+          EstimatedFilesToDelete: S.optional(S.Number).pipe(T.Default(0)),
           TaskMode: S.optional(S.String),
-          FilesPrepared: S.optional(S.Number),
+          FilesPrepared: S.optional(S.Number).pipe(T.Default(0)),
           FilesListed: S.optional(__S(611, __c38, 3)),
           FilesFailed: S.optional(__S(612, __c38, 4)),
           EstimatedFoldersToDelete: S.optional(S.Number),

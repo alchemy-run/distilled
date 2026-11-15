@@ -4595,7 +4595,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OAuthAuthorizationUrl: SensitiveString,
+          OAuthAuthorizationUrl: SensitiveString.pipe(T.Default("")),
           AccountAssociationId: S.String,
           AssociationState: S.String,
           Arn: S.optional(S.String),
@@ -5329,7 +5329,7 @@ function __c37(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           Arn: S.optional(S.String),
-          OAuthAuthorizationUrl: SensitiveString,
+          OAuthAuthorizationUrl: SensitiveString.pipe(T.Default("")),
           Tags: S.optional(__S(16, __c1, 0)),
           GeneralAuthorization: S.optional(__S(32, __c2, 0)),
         }),
@@ -6911,9 +6911,9 @@ function __c90(j: number): any {
         ),
       ).annotate({ identifier: "StartAccountAssociationRefreshRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ OAuthAuthorizationUrl: SensitiveString })).annotate({
-        identifier: "StartAccountAssociationRefreshResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ OAuthAuthorizationUrl: SensitiveString.pipe(T.Default("")) }),
+      ).annotate({ identifier: "StartAccountAssociationRefreshResponse" });
   }
 }
 function __c91(j: number): any {

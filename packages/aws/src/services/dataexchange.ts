@@ -131,7 +131,7 @@ export class ServiceLimitExceededException
     "ServiceLimitExceededException",
     {
       LimitName: /*@__PURE__*/ S.optional(S.String),
-      LimitValue: /*@__PURE__*/ S.optional(S.Number),
+      LimitValue: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
     /*@__PURE__*/ T.HttpError(402),
@@ -504,7 +504,7 @@ export interface JobError {
   Code: string;
   Details?: Details | undefined;
   LimitName?: string | undefined;
-  LimitValue?: number | undefined;
+  LimitValue: number;
   Message: string;
   ResourceId?: string | undefined;
   ResourceType?: string | undefined;
@@ -534,13 +534,13 @@ export interface CreateRevisionResponse {
   Comment?: string | undefined;
   CreatedAt?: Date | undefined;
   DataSetId?: string | undefined;
-  Finalized?: boolean | undefined;
+  Finalized: boolean;
   Id?: string | undefined;
   SourceId?: string | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
   UpdatedAt?: Date | undefined;
   RevocationComment?: string | undefined;
-  Revoked?: boolean | undefined;
+  Revoked: boolean;
   RevokedAt?: Date | undefined;
 }
 export interface DeleteAssetRequest {
@@ -735,13 +735,13 @@ export interface GetRevisionResponse {
   Comment?: string | undefined;
   CreatedAt?: Date | undefined;
   DataSetId?: string | undefined;
-  Finalized?: boolean | undefined;
+  Finalized: boolean;
   Id?: string | undefined;
   SourceId?: string | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
   UpdatedAt?: Date | undefined;
   RevocationComment?: string | undefined;
-  Revoked?: boolean | undefined;
+  Revoked: boolean;
   RevokedAt?: Date | undefined;
 }
 export type MaxResults = number;
@@ -779,12 +779,12 @@ export interface RevisionEntry {
   Comment?: string | undefined;
   CreatedAt: Date;
   DataSetId: string;
-  Finalized?: boolean | undefined;
+  Finalized: boolean;
   Id: string;
   SourceId?: string | undefined;
   UpdatedAt: Date;
   RevocationComment?: string | undefined;
-  Revoked?: boolean | undefined;
+  Revoked: boolean;
   RevokedAt?: Date | undefined;
 }
 export type ListOfRevisionEntry = RevisionEntry[];
@@ -918,12 +918,12 @@ export interface RevokeRevisionResponse {
   Comment?: string | undefined;
   CreatedAt?: Date | undefined;
   DataSetId?: string | undefined;
-  Finalized?: boolean | undefined;
+  Finalized: boolean;
   Id?: string | undefined;
   SourceId?: string | undefined;
   UpdatedAt?: Date | undefined;
   RevocationComment?: string | undefined;
-  Revoked?: boolean | undefined;
+  Revoked: boolean;
   RevokedAt?: Date | undefined;
 }
 export interface SendApiAssetRequest {
@@ -1070,12 +1070,12 @@ export interface UpdateRevisionResponse {
   Comment?: string | undefined;
   CreatedAt?: Date | undefined;
   DataSetId?: string | undefined;
-  Finalized?: boolean | undefined;
+  Finalized: boolean;
   Id?: string | undefined;
   SourceId?: string | undefined;
   UpdatedAt?: Date | undefined;
   RevocationComment?: string | undefined;
-  Revoked?: boolean | undefined;
+  Revoked: boolean;
   RevokedAt?: Date | undefined;
 }
 export type ResourceType = string;
@@ -2647,7 +2647,7 @@ function __c11(j: number): any {
           Code: S.String,
           Details: S.optional(__S(376, __c11, 24)),
           LimitName: S.optional(S.String),
-          LimitValue: S.optional(S.Number),
+          LimitValue: S.optional(S.Number).pipe(T.Default(0)),
           Message: S.String,
           ResourceId: S.optional(S.String),
           ResourceType: S.optional(S.String),
@@ -2687,13 +2687,13 @@ function __c13(j: number): any {
           Comment: S.optional(S.String),
           CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           DataSetId: S.optional(S.String),
-          Finalized: S.optional(S.Boolean),
+          Finalized: S.optional(S.Boolean).pipe(T.Default(false)),
           Id: S.optional(S.String),
           SourceId: S.optional(S.String),
           Tags: S.optional(__S(1632, __c51, 0)),
           UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           RevocationComment: S.optional(S.String),
-          Revoked: S.optional(S.Boolean),
+          Revoked: S.optional(S.Boolean).pipe(T.Default(false)),
           RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "CreateRevisionResponse" });
@@ -2837,7 +2837,7 @@ function __c19(j: number): any {
 function __c20(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Size: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ Size: S.Number.pipe(T.Default(0)) })).annotate({
         identifier: "S3SnapshotAsset",
       });
     case 1:
@@ -3078,12 +3078,12 @@ function __c28(j: number): any {
           Comment: S.optional(S.String),
           CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           DataSetId: S.String,
-          Finalized: S.optional(S.Boolean),
+          Finalized: S.optional(S.Boolean).pipe(T.Default(false)),
           Id: S.String,
           SourceId: S.optional(S.String),
           UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           RevocationComment: S.optional(S.String),
-          Revoked: S.optional(S.Boolean),
+          Revoked: S.optional(S.Boolean).pipe(T.Default(false)),
           RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "RevisionEntry" });
@@ -3340,12 +3340,12 @@ function __c36(j: number): any {
           Comment: S.optional(S.String),
           CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           DataSetId: S.optional(S.String),
-          Finalized: S.optional(S.Boolean),
+          Finalized: S.optional(S.Boolean).pipe(T.Default(false)),
           Id: S.optional(S.String),
           SourceId: S.optional(S.String),
           UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           RevocationComment: S.optional(S.String),
-          Revoked: S.optional(S.Boolean),
+          Revoked: S.optional(S.Boolean).pipe(T.Default(false)),
           RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "RevokeRevisionResponse" });

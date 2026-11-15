@@ -804,8 +804,8 @@ export interface DeliveryOptions {
 }
 export type LastFreshStart = Date;
 export interface ReputationOptions {
-  SendingEnabled?: boolean | undefined;
-  ReputationMetricsEnabled?: boolean | undefined;
+  SendingEnabled: boolean;
+  ReputationMetricsEnabled: boolean;
   LastFreshStart?: Date | undefined;
 }
 export interface DescribeConfigurationSetResponse {
@@ -831,7 +831,7 @@ export interface DescribeReceiptRuleSetResponse {
 }
 export interface GetAccountSendingEnabledRequest {}
 export interface GetAccountSendingEnabledResponse {
-  Enabled?: boolean | undefined;
+  Enabled: boolean;
 }
 export interface GetCustomVerificationEmailTemplateRequest {
   TemplateName: string;
@@ -897,9 +897,9 @@ export interface IdentityNotificationAttributes {
   ComplaintTopic: string;
   DeliveryTopic: string;
   ForwardingEnabled: boolean;
-  HeadersInBounceNotificationsEnabled?: boolean | undefined;
-  HeadersInComplaintNotificationsEnabled?: boolean | undefined;
-  HeadersInDeliveryNotificationsEnabled?: boolean | undefined;
+  HeadersInBounceNotificationsEnabled: boolean;
+  HeadersInComplaintNotificationsEnabled: boolean;
+  HeadersInDeliveryNotificationsEnabled: boolean;
 }
 export type NotificationAttributes = { [key: string]: IdentityNotificationAttributes | undefined };
 export interface GetIdentityNotificationAttributesResponse {
@@ -931,18 +931,18 @@ export type Max24HourSend = number;
 export type MaxSendRate = number;
 export type SentLast24Hours = number;
 export interface GetSendQuotaResponse {
-  Max24HourSend?: number | undefined;
-  MaxSendRate?: number | undefined;
-  SentLast24Hours?: number | undefined;
+  Max24HourSend: number;
+  MaxSendRate: number;
+  SentLast24Hours: number;
 }
 export interface GetSendStatisticsRequest {}
 export type Counter = number;
 export interface SendDataPoint {
   Timestamp?: Date | undefined;
-  DeliveryAttempts?: number | undefined;
-  Bounces?: number | undefined;
-  Complaints?: number | undefined;
-  Rejects?: number | undefined;
+  DeliveryAttempts: number;
+  Bounces: number;
+  Complaints: number;
+  Rejects: number;
 }
 export type SendDataPointList = SendDataPoint[];
 export interface GetSendStatisticsResponse {
@@ -3848,7 +3848,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           MatchingEventTypes: __S(192, __c12, 0),
           KinesisFirehoseDestination: S.optional(__S(193, __c12, 1)),
           CloudWatchDestination: S.optional(__S(196, __c12, 4)),
@@ -4011,11 +4011,11 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           TlsPolicy: S.optional(S.String),
           Recipients: S.optional(__S(304, __c19, 0)),
           Actions: S.optional(__S(314, __c19, 10)),
-          ScanEnabled: S.optional(S.Boolean),
+          ScanEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ReceiptRule" });
   }
@@ -4265,8 +4265,8 @@ function __c37(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          SendingEnabled: S.optional(S.Boolean),
-          ReputationMetricsEnabled: S.optional(S.Boolean),
+          SendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          ReputationMetricsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           LastFreshStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "ReputationOptions" });
@@ -4330,9 +4330,9 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "GetAccountSendingEnabledRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) }).pipe(ns)).annotate({
-        identifier: "GetAccountSendingEnabledResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ Enabled: S.optional(S.Boolean).pipe(T.Default(false)) }).pipe(ns),
+      ).annotate({ identifier: "GetAccountSendingEnabledResponse" });
   }
 }
 function __c42(j: number): any {
@@ -4367,7 +4367,7 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DkimEnabled: S.Boolean,
+          DkimEnabled: S.Boolean.pipe(T.Default(false)),
           DkimVerificationStatus: S.String,
           DkimTokens: S.optional(__S(704, __c44, 0)),
         }),
@@ -4430,10 +4430,10 @@ function __c47(j: number): any {
           BounceTopic: S.String,
           ComplaintTopic: S.String,
           DeliveryTopic: S.String,
-          ForwardingEnabled: S.Boolean,
-          HeadersInBounceNotificationsEnabled: S.optional(S.Boolean),
-          HeadersInComplaintNotificationsEnabled: S.optional(S.Boolean),
-          HeadersInDeliveryNotificationsEnabled: S.optional(S.Boolean),
+          ForwardingEnabled: S.Boolean.pipe(T.Default(false)),
+          HeadersInBounceNotificationsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          HeadersInComplaintNotificationsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          HeadersInDeliveryNotificationsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "IdentityNotificationAttributes" });
     case 2:
@@ -4497,9 +4497,9 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Max24HourSend: S.optional(S.Number),
-          MaxSendRate: S.optional(S.Number),
-          SentLast24Hours: S.optional(S.Number),
+          Max24HourSend: S.optional(S.Number).pipe(T.Default(0)),
+          MaxSendRate: S.optional(S.Number).pipe(T.Default(0)),
+          SentLast24Hours: S.optional(S.Number).pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetSendQuotaResponse" });
   }
@@ -4516,10 +4516,10 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          DeliveryAttempts: S.optional(S.Number),
-          Bounces: S.optional(S.Number),
-          Complaints: S.optional(S.Number),
-          Rejects: S.optional(S.Number),
+          DeliveryAttempts: S.optional(S.Number).pipe(T.Default(0)),
+          Bounces: S.optional(S.Number).pipe(T.Default(0)),
+          Complaints: S.optional(S.Number).pipe(T.Default(0)),
+          Rejects: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SendDataPoint" });
     case 2:

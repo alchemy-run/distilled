@@ -445,7 +445,7 @@ export interface CheckIfPhoneNumberIsOptedOutInput {
   phoneNumber: string | redacted.Redacted<string>;
 }
 export interface CheckIfPhoneNumberIsOptedOutResponse {
-  isOptedOut?: boolean | undefined;
+  isOptedOut: boolean;
 }
 export type Token = string;
 export type AuthenticateOnUnsubscribe = string;
@@ -2756,9 +2756,9 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "CheckIfPhoneNumberIsOptedOutInput" });
     case 1:
-      return S.suspend(() => S.Struct({ isOptedOut: S.optional(S.Boolean) }).pipe(ns)).annotate({
-        identifier: "CheckIfPhoneNumberIsOptedOutResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ isOptedOut: S.optional(S.Boolean).pipe(T.Default(false)) }).pipe(ns),
+      ).annotate({ identifier: "CheckIfPhoneNumberIsOptedOutResponse" });
   }
 }
 function __c3(j: number): any {
@@ -2976,9 +2976,9 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "GetSMSSandboxAccountStatusInput" });
     case 1:
-      return S.suspend(() => S.Struct({ IsInSandbox: S.Boolean }).pipe(ns)).annotate({
-        identifier: "GetSMSSandboxAccountStatusResult",
-      });
+      return S.suspend(() =>
+        S.Struct({ IsInSandbox: S.Boolean.pipe(T.Default(false)) }).pipe(ns),
+      ).annotate({ identifier: "GetSMSSandboxAccountStatusResult" });
   }
 }
 function __c19(j: number): any {
@@ -3313,7 +3313,7 @@ function __c35(j: number): any {
           Id: S.String,
           Code: S.String,
           Message: S.optional(S.String),
-          SenderFault: S.Boolean,
+          SenderFault: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "BatchResultErrorEntry" });
     case 6:

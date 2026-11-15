@@ -4138,7 +4138,7 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          licenseConfigurationArns: S.optional(__S(192, __c12, 0)),
+          licenseConfigurationArns: S.optional(__S(192, __c12, 0)).pipe(T.Default([])),
           licenseAssetGroupArns: S.optional(__S(192, __c12, 0)),
           reportStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           reportEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4650,9 +4650,9 @@ function __c55(j: number): any {
 function __c56(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ EnableIntegration: S.Boolean })).annotate({
-        identifier: "OrganizationConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ EnableIntegration: S.Boolean.pipe(T.Default(false)) }),
+      ).annotate({ identifier: "OrganizationConfiguration" });
   }
 }
 function __c57(j: number): any {

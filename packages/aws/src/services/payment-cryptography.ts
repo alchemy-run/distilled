@@ -2614,7 +2614,7 @@ function __c15(j: number): any {
         S.Struct({
           CertificateAuthorityPublicKeyIdentifier: S.String,
           WrappingKeyCertificate: S.String,
-          ExportToken: S.optional(S.String),
+          ExportToken: S.optional(S.String).pipe(T.Default("")),
           SigningKeyIdentifier: S.optional(S.String),
           SigningKeyCertificate: S.optional(S.String),
           KeyBlockFormat: S.String,
@@ -2863,7 +2863,7 @@ function __c27(j: number): any {
         S.Struct({
           CertificateAuthorityPublicKeyIdentifier: S.String,
           SigningKeyCertificate: S.String,
-          ImportToken: S.optional(S.String),
+          ImportToken: S.optional(S.String).pipe(T.Default("")),
           WrappingKeyIdentifier: S.optional(S.String),
           WrappingKeyCertificate: S.optional(S.String),
           WrappedKeyBlock: SensitiveString,
@@ -3101,15 +3101,15 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Encrypt: S.optional(S.Boolean),
-          Decrypt: S.optional(S.Boolean),
-          Wrap: S.optional(S.Boolean),
-          Unwrap: S.optional(S.Boolean),
-          Generate: S.optional(S.Boolean),
-          Sign: S.optional(S.Boolean),
-          Verify: S.optional(S.Boolean),
-          DeriveKey: S.optional(S.Boolean),
-          NoRestrictions: S.optional(S.Boolean),
+          Encrypt: S.optional(S.Boolean).pipe(T.Default(false)),
+          Decrypt: S.optional(S.Boolean).pipe(T.Default(false)),
+          Wrap: S.optional(S.Boolean).pipe(T.Default(false)),
+          Unwrap: S.optional(S.Boolean).pipe(T.Default(false)),
+          Generate: S.optional(S.Boolean).pipe(T.Default(false)),
+          Sign: S.optional(S.Boolean).pipe(T.Default(false)),
+          Verify: S.optional(S.Boolean).pipe(T.Default(false)),
+          DeriveKey: S.optional(S.Boolean).pipe(T.Default(false)),
+          NoRestrictions: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "KeyModesOfUse" });
   }

@@ -337,7 +337,7 @@ export interface DescribeOrganizationConfigurationRequest {
   GraphArn: string;
 }
 export interface DescribeOrganizationConfigurationResponse {
-  AutoEnable?: boolean | undefined;
+  AutoEnable: boolean;
 }
 export interface DisableOrganizationAdminAccountRequest {}
 export interface DisableOrganizationAdminAccountResponse {}
@@ -442,8 +442,8 @@ export interface TTPsObservedDetail {
   Procedure?: string | undefined;
   IpAddress?: string | undefined;
   APIName?: string | undefined;
-  APISuccessCount?: number | undefined;
-  APIFailureCount?: number | undefined;
+  APISuccessCount: number;
+  APIFailureCount: number;
 }
 export type Location = string;
 export type HourlyTimeDelta = number;
@@ -463,17 +463,17 @@ export type IsNewForEntireAccount = boolean;
 export interface NewGeolocationDetail {
   Location?: string | undefined;
   IpAddress?: string | undefined;
-  IsNewForEntireAccount?: boolean | undefined;
+  IsNewForEntireAccount: boolean;
 }
 export type Aso = string;
 export interface NewAsoDetail {
   Aso?: string | undefined;
-  IsNewForEntireAccount?: boolean | undefined;
+  IsNewForEntireAccount: boolean;
 }
 export type UserAgent = string;
 export interface NewUserAgentDetail {
   UserAgent?: string | undefined;
-  IsNewForEntireAccount?: boolean | undefined;
+  IsNewForEntireAccount: boolean;
 }
 export type Type = string;
 export interface RelatedFindingDetail {
@@ -1833,9 +1833,9 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "DescribeOrganizationConfigurationRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ AutoEnable: S.optional(S.Boolean) })).annotate({
-        identifier: "DescribeOrganizationConfigurationResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ AutoEnable: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "DescribeOrganizationConfigurationResponse" });
   }
 }
 function __c7(j: number): any {
@@ -2034,8 +2034,8 @@ function __c14(j: number): any {
           Procedure: S.optional(S.String),
           IpAddress: S.optional(S.String),
           APIName: S.optional(S.String),
-          APISuccessCount: S.optional(S.Number),
-          APIFailureCount: S.optional(S.Number),
+          APISuccessCount: S.optional(S.Number).pipe(T.Default(0)),
+          APIFailureCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TTPsObservedDetail" });
     case 2:
@@ -2057,16 +2057,22 @@ function __c14(j: number): any {
         S.Struct({
           Location: S.optional(S.String),
           IpAddress: S.optional(S.String),
-          IsNewForEntireAccount: S.optional(S.Boolean),
+          IsNewForEntireAccount: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "NewGeolocationDetail" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ Aso: S.optional(S.String), IsNewForEntireAccount: S.optional(S.Boolean) }),
+        S.Struct({
+          Aso: S.optional(S.String),
+          IsNewForEntireAccount: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "NewAsoDetail" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ UserAgent: S.optional(S.String), IsNewForEntireAccount: S.optional(S.Boolean) }),
+        S.Struct({
+          UserAgent: S.optional(S.String),
+          IsNewForEntireAccount: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "NewUserAgentDetail" });
     case 7:
       return S.suspend(() =>

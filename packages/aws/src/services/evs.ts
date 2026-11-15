@@ -1853,7 +1853,7 @@ function __c37(j: number): any {
           hcx: __S(592, __c37, 0),
           expansionVlan1: __S(592, __c37, 0),
           expansionVlan2: __S(592, __c37, 0),
-          isHcxPublic: S.optional(S.Boolean),
+          isHcxPublic: S.optional(S.Boolean).pipe(T.Default(false)),
           hcxNetworkAclId: S.optional(S.String),
         }),
       ).annotate({ identifier: "InitialVlans" });

@@ -1765,7 +1765,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Protocol: S.String,
-          LoadBalancerPort: S.Number,
+          LoadBalancerPort: S.Number.pipe(T.Default(0)),
           InstanceProtocol: S.optional(S.String),
           InstancePort: S.Number,
           SSLCertificateId: S.optional(S.String),
@@ -1948,13 +1948,13 @@ function __c24(j: number): any {
 function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Enabled: S.Boolean })).annotate({
+      return S.suspend(() => S.Struct({ Enabled: S.Boolean.pipe(T.Default(false)) })).annotate({
         identifier: "CrossZoneLoadBalancing",
       });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Enabled: S.Boolean,
+          Enabled: S.Boolean.pipe(T.Default(false)),
           S3BucketName: S.optional(S.String),
           EmitInterval: S.optional(S.Number),
           S3BucketPrefix: S.optional(S.String),
@@ -1962,7 +1962,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "AccessLog" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Enabled: S.Boolean, Timeout: S.optional(S.Number) }),
+        S.Struct({ Enabled: S.Boolean.pipe(T.Default(false)), Timeout: S.optional(S.Number) }),
       ).annotate({ identifier: "ConnectionDraining" });
     case 3:
       return S.suspend(() => S.Struct({ IdleTimeout: S.Number })).annotate({

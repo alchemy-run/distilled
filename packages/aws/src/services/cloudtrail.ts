@@ -1844,7 +1844,7 @@ export interface SearchSampleQueriesSearchResult {
   Name?: string | undefined;
   Description?: string | undefined;
   SQL?: string | undefined;
-  Relevance?: number | undefined;
+  Relevance: number;
 }
 export type SearchSampleQueriesSearchResults = SearchSampleQueriesSearchResult[];
 export interface SearchSampleQueriesResponse {
@@ -5923,7 +5923,7 @@ function __c43(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           SQL: S.optional(S.String),
-          Relevance: S.optional(S.Number),
+          Relevance: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SearchSampleQueriesSearchResult" });
     case 2:

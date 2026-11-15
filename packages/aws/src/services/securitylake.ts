@@ -2482,7 +2482,7 @@ function __c36(j: number): any {
           accounts: S.optional(__S(592, __c37, 0)),
           regions: __S(592, __c37, 0),
           sourceName: S.String,
-          sourceVersion: S.optional(S.String),
+          sourceVersion: S.optional(S.String).pipe(T.Default("latest")),
         }),
       ).annotate({ identifier: "AwsLogSourceConfiguration" });
     case 1:

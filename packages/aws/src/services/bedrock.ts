@@ -3226,7 +3226,7 @@ export interface EvaluationSummary {
   creationTime: Date;
   jobType: EvaluationJobType;
   evaluationTaskTypes: EvaluationTaskType[];
-  modelIdentifiers?: string[] | undefined;
+  modelIdentifiers: string[];
   ragIdentifiers?: string[] | undefined;
   evaluatorModelIdentifiers?: string[] | undefined;
   customMetricsEvaluatorModelIdentifiers?: string[] | undefined;
@@ -8342,7 +8342,7 @@ function __c32(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
+          version: S.optional(S.String).pipe(T.Default("1")),
           types: S.optional(__S(1025, __c32, 1)),
           rules: S.optional(__S(1027, __c32, 3)),
           variables: S.optional(__S(1028, __c32, 4)),
@@ -8615,7 +8615,7 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           modelIdentifier: S.String,
-          inferenceParams: S.optional(SensitiveString),
+          inferenceParams: S.optional(SensitiveString).pipe(T.Default("{}")),
           performanceConfig: S.optional(__S(1364, __c42, 20)),
         }),
       ).annotate({ identifier: "EvaluationBedrockModel" });
@@ -9253,7 +9253,7 @@ function __c57(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          usePromptResponse: S.optional(S.Boolean),
+          usePromptResponse: S.optional(S.Boolean).pipe(T.Default(false)),
           invocationLogSource: __S(1312, __c41, 0),
           requestMetadataFilters: S.optional(__S(1827, __c57, 3)),
         }),
@@ -11689,7 +11689,7 @@ function __c133(j: number): any {
           creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           jobType: S.String,
           evaluationTaskTypes: __S(1504, __c47, 0),
-          modelIdentifiers: S.optional(__S(32, __c1, 0)),
+          modelIdentifiers: S.optional(__S(32, __c1, 0)).pipe(T.Default([])),
           ragIdentifiers: S.optional(__S(32, __c1, 0)),
           evaluatorModelIdentifiers: S.optional(__S(32, __c1, 0)),
           customMetricsEvaluatorModelIdentifiers: S.optional(__S(32, __c1, 0)),

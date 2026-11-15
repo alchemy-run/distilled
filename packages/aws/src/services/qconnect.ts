@@ -1698,8 +1698,8 @@ export interface ContentReference {
 }
 export type HighlightOffset = number;
 export interface Highlight {
-  beginOffsetInclusive?: number | undefined;
-  endOffsetExclusive?: number | undefined;
+  beginOffsetInclusive: number;
+  endOffsetExclusive: number;
 }
 export type Highlights = Highlight[];
 export interface DocumentText {
@@ -1743,7 +1743,7 @@ export interface TextData {
   excerpt?: DocumentText | undefined;
 }
 export interface RankingData {
-  relevanceScore?: number | undefined;
+  relevanceScore: number;
   relevanceLevel?: string | undefined;
 }
 export interface ContentDataDetails {
@@ -2007,7 +2007,7 @@ export interface DataSummary {
 export interface RecommendationData {
   recommendationId: string;
   document?: Document | undefined;
-  relevanceScore?: number | undefined;
+  relevanceScore: number;
   relevanceLevel?: string | undefined;
   type?: string | undefined;
   data?: DataSummary | undefined;
@@ -2636,7 +2636,7 @@ export type QueryResultType = string;
 export interface ResultData {
   resultId: string;
   document?: Document | undefined;
-  relevanceScore?: number | undefined;
+  relevanceScore: number;
   data?: DataSummary | undefined;
   type?: string | undefined;
 }
@@ -7136,9 +7136,9 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "AIGuardrailSensitiveInformationPolicyConfig" });
     case 15:
-      return S.suspend(() => S.Struct({ type: SensitiveString, threshold: S.Number })).annotate({
-        identifier: "GuardrailContextualGroundingFilterConfig",
-      });
+      return S.suspend(() =>
+        S.Struct({ type: SensitiveString, threshold: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "GuardrailContextualGroundingFilterConfig" });
     case 16:
       return S.Array(__S(719, __c22, 15));
     case 17:
@@ -7942,7 +7942,10 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ProfileCatalogItem" });
     case 16:
       return S.suspend(() =>
-        S.Struct({ score: S.optional(S.Number), catalogItem: S.optional(__S(1711, __c53, 15)) }),
+        S.Struct({
+          score: S.optional(S.Number).pipe(T.Default(0)),
+          catalogItem: S.optional(__S(1711, __c53, 15)),
+        }),
       ).annotate({ identifier: "ProfileRecommendation" });
     case 17:
       return S.Array(__S(1712, __c53, 16));
@@ -9012,8 +9015,8 @@ function __c99(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          beginOffsetInclusive: S.optional(S.Number),
-          endOffsetExclusive: S.optional(S.Number),
+          beginOffsetInclusive: S.optional(S.Number).pipe(T.Default(0)),
+          endOffsetExclusive: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CitationSpan" });
   }
@@ -9132,7 +9135,7 @@ function __c104(j: number): any {
         S.Struct({
           recommendationId: S.String,
           document: S.optional(__S(3363, __c105, 3)),
-          relevanceScore: S.optional(S.Number),
+          relevanceScore: S.optional(S.Number).pipe(T.Default(0)),
           relevanceLevel: S.optional(S.String),
           type: S.optional(S.String),
           data: S.optional(__S(3380, __c105, 20)),
@@ -9220,7 +9223,10 @@ function __c105(j: number): any {
       ).annotate({ identifier: "TextData" });
     case 8:
       return S.suspend(() =>
-        S.Struct({ relevanceScore: S.optional(S.Number), relevanceLevel: S.optional(S.String) }),
+        S.Struct({
+          relevanceScore: S.optional(S.Number).pipe(T.Default(0)),
+          relevanceLevel: S.optional(S.String),
+        }),
       ).annotate({ identifier: "RankingData" });
     case 9:
       return S.suspend(() =>
@@ -10373,7 +10379,7 @@ function __c132(j: number): any {
         S.Struct({
           resultId: S.String,
           document: S.optional(__S(3363, __c105, 3)),
-          relevanceScore: S.optional(S.Number),
+          relevanceScore: S.optional(S.Number).pipe(T.Default(0)),
           data: S.optional(__S(3380, __c105, 20)),
           type: S.optional(S.String),
         }),
@@ -10826,7 +10832,7 @@ function __c145(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          turnNumber: S.optional(S.Number),
+          turnNumber: S.optional(S.Number).pipe(T.Default(0)),
           inputTranscript: S.optional(SensitiveString),
           botResponse: S.optional(SensitiveString),
           timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

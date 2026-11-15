@@ -301,7 +301,7 @@ export type ResourceName = string;
 export interface Database {
   Arn?: string | undefined;
   DatabaseName?: string | undefined;
-  TableCount?: number | undefined;
+  TableCount: number;
   KmsKeyId?: string | undefined;
   CreationTime?: Date | undefined;
   LastUpdatedTime?: Date | undefined;
@@ -375,12 +375,12 @@ export interface DescribeBatchLoadTaskRequest {
   TaskId: string;
 }
 export interface BatchLoadProgressReport {
-  RecordsProcessed?: number | undefined;
-  RecordsIngested?: number | undefined;
-  ParseFailures?: number | undefined;
-  RecordIngestionFailures?: number | undefined;
-  FileFailures?: number | undefined;
-  BytesMetered?: number | undefined;
+  RecordsProcessed: number;
+  RecordsIngested: number;
+  ParseFailures: number;
+  RecordIngestionFailures: number;
+  FileFailures: number;
+  BytesMetered: number;
 }
 export type BatchLoadStatus =
   | "CREATED"
@@ -400,7 +400,7 @@ export interface BatchLoadTaskDescription {
   TargetDatabaseName?: string | undefined;
   TargetTableName?: string | undefined;
   TaskStatus?: BatchLoadStatus | undefined;
-  RecordVersion?: number | undefined;
+  RecordVersion: number;
   CreationTime?: Date | undefined;
   LastUpdatedTime?: Date | undefined;
   ResumableUntil?: Date | undefined;
@@ -542,9 +542,9 @@ export interface WriteRecordsRequest {
   Records: Record[];
 }
 export interface RecordsIngested {
-  Total?: number | undefined;
-  MemoryStore?: number | undefined;
-  MagneticStore?: number | undefined;
+  Total: number;
+  MemoryStore: number;
+  MagneticStore: number;
 }
 export interface WriteRecordsResponse {
   RecordsIngested?: RecordsIngested | undefined;
@@ -552,7 +552,7 @@ export interface WriteRecordsResponse {
 export type ErrorMessage = string;
 export type RecordIndex = number;
 export interface RejectedRecord {
-  RecordIndex?: number | undefined;
+  RecordIndex: number;
   Reason?: string | undefined;
   ExistingVersion?: number | undefined;
 }
@@ -1364,7 +1364,7 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Address: S.String, CachePeriodInMinutes: S.Number }),
+        S.Struct({ Address: S.String, CachePeriodInMinutes: S.Number.pipe(T.Default(0)) }),
       ).annotate({ identifier: "Endpoint" });
   }
 }
@@ -1493,7 +1493,7 @@ function __c5(j: number): any {
         S.Struct({
           Arn: S.optional(S.String),
           DatabaseName: S.optional(S.String),
-          TableCount: S.optional(S.Number),
+          TableCount: S.optional(S.Number).pipe(T.Default(0)),
           KmsKeyId: S.optional(S.String),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1628,12 +1628,12 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          RecordsProcessed: S.optional(S.Number),
-          RecordsIngested: S.optional(S.Number),
-          ParseFailures: S.optional(S.Number),
-          RecordIngestionFailures: S.optional(S.Number),
-          FileFailures: S.optional(S.Number),
-          BytesMetered: S.optional(S.Number),
+          RecordsProcessed: S.optional(S.Number).pipe(T.Default(0)),
+          RecordsIngested: S.optional(S.Number).pipe(T.Default(0)),
+          ParseFailures: S.optional(S.Number).pipe(T.Default(0)),
+          RecordIngestionFailures: S.optional(S.Number).pipe(T.Default(0)),
+          FileFailures: S.optional(S.Number).pipe(T.Default(0)),
+          BytesMetered: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "BatchLoadProgressReport" });
     case 2:
@@ -1648,7 +1648,7 @@ function __c13(j: number): any {
           TargetDatabaseName: S.optional(S.String),
           TargetTableName: S.optional(S.String),
           TaskStatus: S.optional(S.String),
-          RecordVersion: S.optional(S.Number),
+          RecordVersion: S.optional(S.Number).pipe(T.Default(0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ResumableUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1874,9 +1874,9 @@ function __c26(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          Total: S.optional(S.Number),
-          MemoryStore: S.optional(S.Number),
-          MagneticStore: S.optional(S.Number),
+          Total: S.optional(S.Number).pipe(T.Default(0)),
+          MemoryStore: S.optional(S.Number).pipe(T.Default(0)),
+          MagneticStore: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RecordsIngested" });
     case 8:
@@ -1890,7 +1890,7 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          RecordIndex: S.optional(S.Number),
+          RecordIndex: S.optional(S.Number).pipe(T.Default(0)),
           Reason: S.optional(S.String),
           ExistingVersion: S.optional(S.Number),
         }),

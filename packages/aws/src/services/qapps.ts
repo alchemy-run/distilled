@@ -741,7 +741,7 @@ export interface UserAppItem {
   createdAt: Date;
   canEdit?: boolean | undefined;
   status?: string | undefined;
-  isVerified?: boolean | undefined;
+  isVerified: boolean;
 }
 export type UserAppsList = UserAppItem[];
 export interface ListQAppsOutput {
@@ -2420,7 +2420,7 @@ function __c11(j: number): any {
         S.Struct({
           title: S.String,
           id: S.String,
-          type: S.String,
+          type: S.String.pipe(T.Default("text-input")),
           placeholder: S.optional(S.String),
           defaultValue: S.optional(S.String),
         }),
@@ -2430,9 +2430,9 @@ function __c11(j: number): any {
         S.Struct({
           title: S.String,
           id: S.String,
-          type: S.String,
+          type: S.String.pipe(T.Default("q-query")),
           prompt: S.String,
-          outputSource: S.optional(S.String),
+          outputSource: S.optional(S.String).pipe(T.Default("approved-sources")),
           attributeFilter: S.optional(__S(147, __c9, 3)),
         }),
       ).annotate({ identifier: "QQueryCardInput" });
@@ -2441,7 +2441,7 @@ function __c11(j: number): any {
         S.Struct({
           title: S.String,
           id: S.String,
-          type: S.String,
+          type: S.String.pipe(T.Default("q-plugin")),
           prompt: S.String,
           pluginId: S.String,
           actionIdentifier: S.optional(S.String),
@@ -2452,7 +2452,7 @@ function __c11(j: number): any {
         S.Struct({
           title: S.String,
           id: S.String,
-          type: S.String,
+          type: S.String.pipe(T.Default("file-upload")),
           filename: S.optional(S.String),
           fileId: S.optional(S.String),
           allowOverride: S.optional(S.Boolean),
@@ -2463,7 +2463,7 @@ function __c11(j: number): any {
         S.Struct({
           title: S.String,
           id: S.String,
-          type: S.String,
+          type: S.String.pipe(T.Default("form-input")),
           metadata: __S(148, __c9, 4),
           computeMode: S.optional(S.String),
         }),
@@ -2984,7 +2984,7 @@ function __c30(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           canEdit: S.optional(S.Boolean),
           status: S.optional(S.String),
-          isVerified: S.optional(S.Boolean),
+          isVerified: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "UserAppItem" });
     case 2:

@@ -369,8 +369,8 @@ export interface AssessmentControl {
   response?: ControlResponse | undefined;
   comments?: ControlComment[] | undefined;
   evidenceSources?: string[] | undefined;
-  evidenceCount?: number | undefined;
-  assessmentReportEvidenceCount?: number | undefined;
+  evidenceCount: number;
+  assessmentReportEvidenceCount: number;
 }
 export type AssessmentControls = AssessmentControl[];
 export interface AssessmentControlSet {
@@ -380,8 +380,8 @@ export interface AssessmentControlSet {
   roles?: Role[] | undefined;
   controls?: AssessmentControl[] | undefined;
   delegations?: Delegation[] | undefined;
-  systemEvidenceCount?: number | undefined;
-  manualEvidenceCount?: number | undefined;
+  systemEvidenceCount: number;
+  manualEvidenceCount: number;
 }
 export type AssessmentControlSets = AssessmentControlSet[];
 export interface AssessmentFramework {
@@ -751,16 +751,16 @@ export interface AssessmentEvidenceFolder {
   id?: string | undefined;
   dataSource?: string | undefined;
   author?: string | undefined;
-  totalEvidence?: number | undefined;
-  assessmentReportSelectionCount?: number | undefined;
+  totalEvidence: number;
+  assessmentReportSelectionCount: number;
   controlName?: string | undefined;
-  evidenceResourcesIncludedCount?: number | undefined;
-  evidenceByTypeConfigurationDataCount?: number | undefined;
-  evidenceByTypeManualCount?: number | undefined;
-  evidenceByTypeComplianceCheckCount?: number | undefined;
-  evidenceByTypeComplianceCheckIssuesCount?: number | undefined;
-  evidenceByTypeUserActivityCount?: number | undefined;
-  evidenceAwsServiceSourceCount?: number | undefined;
+  evidenceResourcesIncludedCount: number;
+  evidenceByTypeConfigurationDataCount: number;
+  evidenceByTypeManualCount: number;
+  evidenceByTypeComplianceCheckCount: number;
+  evidenceByTypeComplianceCheckIssuesCount: number;
+  evidenceByTypeUserActivityCount: number;
+  evidenceAwsServiceSourceCount: number;
 }
 export interface GetEvidenceFolderResponse {
   evidenceFolder?: AssessmentEvidenceFolder | undefined;
@@ -924,8 +924,8 @@ export interface AssessmentFrameworkMetadata {
   description?: string | undefined;
   logo?: string | undefined;
   complianceType?: string | redacted.Redacted<string> | undefined;
-  controlsCount?: number | undefined;
-  controlSetsCount?: number | undefined;
+  controlsCount: number;
+  controlSetsCount: number;
   createdAt?: Date | undefined;
   lastUpdatedAt?: Date | undefined;
 }
@@ -3530,8 +3530,8 @@ function __c8(j: number): any {
           response: S.optional(S.String),
           comments: S.optional(__S(129, __c8, 1)),
           evidenceSources: S.optional(__S(1344, __c84, 0)),
-          evidenceCount: S.optional(S.Number),
-          assessmentReportEvidenceCount: S.optional(S.Number),
+          evidenceCount: S.optional(S.Number).pipe(T.Default(0)),
+          assessmentReportEvidenceCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AssessmentControl" });
   }
@@ -3549,8 +3549,8 @@ function __c9(j: number): any {
           roles: S.optional(__S(97, __c6, 1)),
           controls: S.optional(__S(144, __c9, 0)),
           delegations: S.optional(__S(1393, __c87, 1)),
-          systemEvidenceCount: S.optional(S.Number),
-          manualEvidenceCount: S.optional(S.Number),
+          systemEvidenceCount: S.optional(S.Number).pipe(T.Default(0)),
+          manualEvidenceCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AssessmentControlSet" });
   }
@@ -4321,16 +4321,16 @@ function __c40(j: number): any {
           id: S.optional(S.String),
           dataSource: S.optional(S.String),
           author: S.optional(S.String),
-          totalEvidence: S.optional(S.Number),
-          assessmentReportSelectionCount: S.optional(S.Number),
+          totalEvidence: S.optional(S.Number).pipe(T.Default(0)),
+          assessmentReportSelectionCount: S.optional(S.Number).pipe(T.Default(0)),
           controlName: S.optional(S.String),
-          evidenceResourcesIncludedCount: S.optional(S.Number),
-          evidenceByTypeConfigurationDataCount: S.optional(S.Number),
-          evidenceByTypeManualCount: S.optional(S.Number),
-          evidenceByTypeComplianceCheckCount: S.optional(S.Number),
-          evidenceByTypeComplianceCheckIssuesCount: S.optional(S.Number),
-          evidenceByTypeUserActivityCount: S.optional(S.Number),
-          evidenceAwsServiceSourceCount: S.optional(S.Number),
+          evidenceResourcesIncludedCount: S.optional(S.Number).pipe(T.Default(0)),
+          evidenceByTypeConfigurationDataCount: S.optional(S.Number).pipe(T.Default(0)),
+          evidenceByTypeManualCount: S.optional(S.Number).pipe(T.Default(0)),
+          evidenceByTypeComplianceCheckCount: S.optional(S.Number).pipe(T.Default(0)),
+          evidenceByTypeComplianceCheckIssuesCount: S.optional(S.Number).pipe(T.Default(0)),
+          evidenceByTypeUserActivityCount: S.optional(S.Number).pipe(T.Default(0)),
+          evidenceAwsServiceSourceCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AssessmentEvidenceFolder" });
   }
@@ -4636,8 +4636,8 @@ function __c53(j: number): any {
           description: S.optional(S.String),
           logo: S.optional(S.String),
           complianceType: S.optional(SensitiveString),
-          controlsCount: S.optional(S.Number),
-          controlSetsCount: S.optional(S.Number),
+          controlsCount: S.optional(S.Number).pipe(T.Default(0)),
+          controlSetsCount: S.optional(S.Number).pipe(T.Default(0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),

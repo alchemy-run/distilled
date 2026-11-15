@@ -964,7 +964,7 @@ export interface SnapshotInfoDetails {
   SnapshotStatus: SnapshotStatus;
   SnapshotCreationTimestamp: Date;
   RuntimeEnvironment?: RuntimeEnvironment | undefined;
-  SnapshotSizeInBytes?: number | undefined;
+  SnapshotSizeInBytes: number;
   SnapshotEncryptionConfigurationDescription?: SnapshotEncryptionConfiguration | undefined;
   SnapshotInitiator: SnapshotInitiator;
   SnapshotInitiatorOperation: SnapshotInitiatorOperation;
@@ -3922,7 +3922,7 @@ function __c51(j: number): any {
           SnapshotStatus: S.String,
           SnapshotCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           RuntimeEnvironment: S.optional(S.String),
-          SnapshotSizeInBytes: S.optional(S.Number),
+          SnapshotSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
           SnapshotEncryptionConfigurationDescription: S.optional(__S(864, __c27, 0)),
           SnapshotInitiator: S.String,
           SnapshotInitiatorOperation: S.String,

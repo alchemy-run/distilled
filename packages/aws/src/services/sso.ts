@@ -134,7 +134,7 @@ export interface RoleCredentials {
   accessKeyId?: string | undefined;
   secretAccessKey?: string | redacted.Redacted<string> | undefined;
   sessionToken?: string | redacted.Redacted<string> | undefined;
-  expiration?: number | undefined;
+  expiration: number;
 }
 export interface GetRoleCredentialsResponse {
   roleCredentials?: RoleCredentials | undefined;
@@ -348,7 +348,7 @@ function __c0(j: number): any {
           accessKeyId: S.optional(S.String),
           secretAccessKey: S.optional(SensitiveString),
           sessionToken: S.optional(SensitiveString),
-          expiration: S.optional(S.Number),
+          expiration: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RoleCredentials" });
     case 2:

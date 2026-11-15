@@ -1407,7 +1407,7 @@ function __c8(j: number): any {
           ExcludedPages: S.optional(__S(40, __c5, 0)),
           IncludedPages: S.optional(__S(40, __c5, 0)),
           FavoritePages: S.optional(__S(40, __c5, 0)),
-          SessionSampleRate: S.optional(S.Number),
+          SessionSampleRate: S.optional(S.Number).pipe(T.Default(0)),
           GuestRoleArn: S.optional(S.String),
           AllowCookies: S.optional(S.Boolean),
           Telemetries: S.optional(__S(40, __c5, 0)),
@@ -1539,9 +1539,12 @@ function __c13(j: number): any {
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ After: S.Number, Before: S.optional(S.Number) })).annotate({
-        identifier: "TimeRange",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          After: S.Number.pipe(T.Default(0)),
+          Before: S.optional(S.Number).pipe(T.Default(0)),
+        }),
+      ).annotate({ identifier: "TimeRange" });
     case 1:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(40, __c5, 0)) }),

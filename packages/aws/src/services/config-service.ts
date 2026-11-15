@@ -1168,8 +1168,8 @@ export interface DescribeAggregateComplianceByConfigRulesRequest {
   NextToken?: string | undefined;
 }
 export interface ComplianceContributorCount {
-  CappedCount?: number | undefined;
-  CapExceeded?: boolean | undefined;
+  CappedCount: number;
+  CapExceeded: boolean;
 }
 export interface Compliance {
   ComplianceType?: ComplianceType | undefined;
@@ -1206,9 +1206,9 @@ export interface DescribeAggregateComplianceByConformancePacksRequest {
 }
 export interface AggregateConformancePackCompliance {
   ComplianceType?: ConformancePackComplianceType | undefined;
-  CompliantRuleCount?: number | undefined;
-  NonCompliantRuleCount?: number | undefined;
-  TotalRuleCount?: number | undefined;
+  CompliantRuleCount: number;
+  NonCompliantRuleCount: number;
+  TotalRuleCount: number;
 }
 export interface AggregateComplianceByConformancePack {
   ConformancePackName?: string | undefined;
@@ -1288,7 +1288,7 @@ export interface ConfigRuleEvaluationStatus {
   LastDeactivatedTime?: Date | undefined;
   LastErrorCode?: string | undefined;
   LastErrorMessage?: string | undefined;
-  FirstEvaluationStarted?: boolean | undefined;
+  FirstEvaluationStarted: boolean;
   LastDebugLogDeliveryStatus?: string | undefined;
   LastDebugLogDeliveryStatusReason?: string | undefined;
   LastDebugLogDeliveryTime?: Date | undefined;
@@ -1479,7 +1479,7 @@ export interface ConfigurationRecorderStatus {
   name?: string | undefined;
   lastStartTime?: Date | undefined;
   lastStopTime?: Date | undefined;
-  recording?: boolean | undefined;
+  recording: boolean;
   lastStatus?: RecorderStatus | undefined;
   lastErrorCode?: string | undefined;
   lastErrorMessage?: string | undefined;
@@ -1994,8 +1994,8 @@ export interface GetAggregateConformancePackComplianceSummaryRequest {
   NextToken?: string | undefined;
 }
 export interface AggregateConformancePackComplianceCount {
-  CompliantConformancePackCount?: number | undefined;
-  NonCompliantConformancePackCount?: number | undefined;
+  CompliantConformancePackCount: number;
+  NonCompliantConformancePackCount: number;
 }
 export interface AggregateConformancePackComplianceSummary {
   ComplianceSummary?: AggregateConformancePackComplianceCount | undefined;
@@ -2210,11 +2210,11 @@ export interface GetDiscoveredResourceCountsRequest {
 }
 export interface ResourceCount {
   resourceType?: ResourceType | undefined;
-  count?: number | undefined;
+  count: number;
 }
 export type ResourceCounts = ResourceCount[];
 export interface GetDiscoveredResourceCountsResponse {
-  totalDiscoveredResources?: number | undefined;
+  totalDiscoveredResources: number;
   resourceCounts?: ResourceCount[] | undefined;
   nextToken?: string | undefined;
 }
@@ -6819,8 +6819,8 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CompliantConformancePackCount: S.optional(S.Number),
-          NonCompliantConformancePackCount: S.optional(S.Number),
+          CompliantConformancePackCount: S.optional(S.Number).pipe(T.Default(0)),
+          NonCompliantConformancePackCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AggregateConformancePackComplianceCount" });
     case 2:
@@ -6863,15 +6863,15 @@ function __c12(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetAggregateDiscoveredResourceCountsRequest" });
     case 2:
-      return S.suspend(() => S.Struct({ GroupName: S.String, ResourceCount: S.Number })).annotate({
-        identifier: "GroupedResourceCount",
-      });
+      return S.suspend(() =>
+        S.Struct({ GroupName: S.String, ResourceCount: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "GroupedResourceCount" });
     case 3:
       return S.Array(__S(98, __c12, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          TotalDiscoveredResources: S.Number,
+          TotalDiscoveredResources: S.Number.pipe(T.Default(0)),
           GroupByKey: S.optional(S.String),
           GroupedResourceCounts: S.optional(__S(99, __c12, 3)),
           NextToken: S.optional(S.String),
@@ -7164,14 +7164,17 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetDiscoveredResourceCountsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ resourceType: S.optional(S.String), count: S.optional(S.Number) }),
+        S.Struct({
+          resourceType: S.optional(S.String),
+          count: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "ResourceCount" });
     case 2:
       return S.Array(__S(209, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          totalDiscoveredResources: S.optional(S.Number),
+          totalDiscoveredResources: S.optional(S.Number).pipe(T.Default(0)),
           resourceCounts: S.optional(__S(210, __c26, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
@@ -8131,8 +8134,8 @@ function __c77(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allSupported: S.optional(S.Boolean),
-          includeGlobalResourceTypes: S.optional(S.Boolean),
+          allSupported: S.optional(S.Boolean).pipe(T.Default(false)),
+          includeGlobalResourceTypes: S.optional(S.Boolean).pipe(T.Default(false)),
           resourceTypes: S.optional(__S(600, __c75, 0)),
           exclusionByResourceTypes: S.optional(__S(616, __c77, 0)),
           recordingStrategy: S.optional(__S(617, __c77, 1)),
@@ -8178,7 +8181,7 @@ function __c78(j: number): any {
         S.Struct({
           scopeType: S.String,
           scopeValues: S.optional(__S(608, __c76, 0)),
-          allRegions: S.Boolean,
+          allRegions: S.Boolean.pipe(T.Default(false)),
           includedRegions: S.optional(__S(608, __c76, 0)),
         }),
       ).annotate({ identifier: "ScopeConfiguration" });
@@ -8562,7 +8565,10 @@ function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ CappedCount: S.optional(S.Number), CapExceeded: S.optional(S.Boolean) }),
+        S.Struct({
+          CappedCount: S.optional(S.Number).pipe(T.Default(0)),
+          CapExceeded: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "ComplianceContributorCount" });
   }
 }
@@ -8590,9 +8596,9 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ComplianceType: S.optional(S.String),
-          CompliantRuleCount: S.optional(S.Number),
-          NonCompliantRuleCount: S.optional(S.Number),
-          TotalRuleCount: S.optional(S.Number),
+          CompliantRuleCount: S.optional(S.Number).pipe(T.Default(0)),
+          NonCompliantRuleCount: S.optional(S.Number).pipe(T.Default(0)),
+          TotalRuleCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AggregateConformancePackCompliance" });
     case 3:
@@ -8730,7 +8736,7 @@ function __c115(j: number): any {
           LastDeactivatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastErrorCode: S.optional(S.String),
           LastErrorMessage: S.optional(S.String),
-          FirstEvaluationStarted: S.optional(S.Boolean),
+          FirstEvaluationStarted: S.optional(S.Boolean).pipe(T.Default(false)),
           LastDebugLogDeliveryStatus: S.optional(S.String),
           LastDebugLogDeliveryStatusReason: S.optional(S.String),
           LastDebugLogDeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -8802,7 +8808,7 @@ function __c117(j: number): any {
         S.Struct({
           PolicyRuntime: S.String,
           PolicyText: S.String,
-          EnableDebugLogDelivery: S.optional(S.Boolean),
+          EnableDebugLogDelivery: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "CustomPolicyDetails" });
     case 4:
@@ -8866,7 +8872,7 @@ function __c119(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AccountIds: __S(608, __c76, 0),
-          AllAwsRegions: S.optional(S.Boolean),
+          AllAwsRegions: S.optional(S.Boolean).pipe(T.Default(false)),
           AwsRegions: S.optional(__S(608, __c76, 0)),
         }),
       ).annotate({ identifier: "AccountAggregationSource" });
@@ -8877,7 +8883,7 @@ function __c119(j: number): any {
         S.Struct({
           RoleArn: S.String,
           AwsRegions: S.optional(__S(608, __c76, 0)),
-          AllAwsRegions: S.optional(S.Boolean),
+          AllAwsRegions: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "OrganizationAggregationSource" });
     case 3:
@@ -8975,7 +8981,7 @@ function __c122(j: number): any {
           name: S.optional(S.String),
           lastStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastStopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          recording: S.optional(S.Boolean),
+          recording: S.optional(S.Boolean).pipe(T.Default(false)),
           lastStatus: S.optional(S.String),
           lastErrorCode: S.optional(S.String),
           lastErrorMessage: S.optional(S.String),
@@ -9449,7 +9455,7 @@ function __c138(j: number): any {
           TargetVersion: S.optional(S.String),
           Parameters: S.optional(__S(1107, __c138, 3)),
           ResourceType: S.optional(S.String),
-          Automatic: S.optional(S.Boolean),
+          Automatic: S.optional(S.Boolean).pipe(T.Default(false)),
           ExecutionControls: S.optional(__S(1109, __c138, 5)),
           MaximumAutomaticAttempts: S.optional(S.Number),
           RetryAttemptSeconds: S.optional(S.Number),

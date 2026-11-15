@@ -351,7 +351,7 @@ export interface PolicyComplianceDetail {
   PolicyId?: string | undefined;
   MemberAccount?: string | undefined;
   Violators?: ComplianceViolator[] | undefined;
-  EvaluationLimitExceeded?: boolean | undefined;
+  EvaluationLimitExceeded: boolean;
   ExpiredAt?: Date | undefined;
   IssueInfoMap?: { [key: string]: string | undefined } | undefined;
 }
@@ -551,7 +551,7 @@ export interface SecurityGroupRemediationAction {
   RemediationActionType?: RemediationActionType | undefined;
   Description?: string | undefined;
   RemediationResult?: SecurityGroupRuleDescription | undefined;
-  IsDefaultAction?: boolean | undefined;
+  IsDefaultAction: boolean;
 }
 export type SecurityGroupRemediationActions = SecurityGroupRemediationAction[];
 export interface AwsVPCSecurityGroupViolation {
@@ -666,7 +666,7 @@ export interface NetworkFirewallInternetTrafficNotInspectedViolation {
   SubnetAvailabilityZone?: string | undefined;
   RouteTableId?: string | undefined;
   ViolatingRoutes?: Route[] | undefined;
-  IsRouteTableUsedInDifferentAZ?: boolean | undefined;
+  IsRouteTableUsedInDifferentAZ: boolean;
   CurrentFirewallSubnetRouteTable?: string | undefined;
   ExpectedFirewallEndpoint?: string | undefined;
   FirewallSubnetId?: string | undefined;
@@ -681,7 +681,7 @@ export interface NetworkFirewallInternetTrafficNotInspectedViolation {
 export interface NetworkFirewallInvalidRouteConfigurationViolation {
   AffectedSubnets?: string[] | undefined;
   RouteTableId?: string | undefined;
-  IsRouteTableUsedInDifferentAZ?: boolean | undefined;
+  IsRouteTableUsedInDifferentAZ: boolean;
   ViolatingRoute?: Route | undefined;
   CurrentFirewallSubnetRouteTable?: string | undefined;
   ExpectedFirewallEndpoint?: string | undefined;
@@ -725,7 +725,7 @@ export type DnsRuleGroupPriorities = number[];
 export interface DnsRuleGroupPriorityConflictViolation {
   ViolationTarget?: string | undefined;
   ViolationTargetDescription?: string | undefined;
-  ConflictingPriority?: number | undefined;
+  ConflictingPriority: number;
   ConflictingPolicyId?: string | undefined;
   UnavailablePriorities?: number[] | undefined;
 }
@@ -737,7 +737,7 @@ export type BasicInteger = number;
 export interface DnsRuleGroupLimitExceededViolation {
   ViolationTarget?: string | undefined;
   ViolationTargetDescription?: string | undefined;
-  NumberOfRuleGroupsAlreadyAssociated?: number | undefined;
+  NumberOfRuleGroupsAlreadyAssociated: number;
 }
 export interface FirewallSubnetIsOutOfScopeViolation {
   FirewallSubnetId?: string | undefined;
@@ -793,7 +793,7 @@ export type EntryType =
   | (string & {});
 export interface EntryDescription {
   EntryDetail?: NetworkAclEntry | undefined;
-  EntryRuleNumber?: number | undefined;
+  EntryRuleNumber: number;
   EntryType?: EntryType | undefined;
 }
 export type EntriesWithConflicts = EntryDescription[];
@@ -874,26 +874,26 @@ export interface FMSPolicyUpdateFirewallCreationConfigAction {
 export interface CreateNetworkAclAction {
   Description?: string | undefined;
   Vpc?: ActionTarget | undefined;
-  FMSCanRemediate?: boolean | undefined;
+  FMSCanRemediate: boolean;
 }
 export interface ReplaceNetworkAclAssociationAction {
   Description?: string | undefined;
   AssociationId?: ActionTarget | undefined;
   NetworkAclId?: ActionTarget | undefined;
-  FMSCanRemediate?: boolean | undefined;
+  FMSCanRemediate: boolean;
 }
 export type EntriesDescription = EntryDescription[];
 export interface CreateNetworkAclEntriesAction {
   Description?: string | undefined;
   NetworkAclId?: ActionTarget | undefined;
   NetworkAclEntriesToBeCreated?: EntryDescription[] | undefined;
-  FMSCanRemediate?: boolean | undefined;
+  FMSCanRemediate: boolean;
 }
 export interface DeleteNetworkAclEntriesAction {
   Description?: string | undefined;
   NetworkAclId?: ActionTarget | undefined;
   NetworkAclEntriesToBeDeleted?: EntryDescription[] | undefined;
-  FMSCanRemediate?: boolean | undefined;
+  FMSCanRemediate: boolean;
 }
 export interface RemediationAction {
   Description?: string | undefined;
@@ -914,13 +914,13 @@ export interface RemediationAction {
 }
 export interface RemediationActionWithOrder {
   RemediationAction?: RemediationAction | undefined;
-  Order?: number | undefined;
+  Order: number;
 }
 export type OrderedRemediationActions = RemediationActionWithOrder[];
 export interface PossibleRemediationAction {
   Description?: string | undefined;
   OrderedRemediationActions: RemediationActionWithOrder[];
-  IsDefaultAction?: boolean | undefined;
+  IsDefaultAction: boolean;
 }
 export type PossibleRemediationActionList = PossibleRemediationAction[];
 export interface PossibleRemediationActions {
@@ -1008,7 +1008,7 @@ export interface ListAdminAccountsForOrganizationRequest {
 }
 export interface AdminAccountSummary {
   AdminAccount?: string | undefined;
-  DefaultAdmin?: boolean | undefined;
+  DefaultAdmin: boolean;
   Status?: OrganizationStatus | undefined;
 }
 export type AdminAccountSummaryList = AdminAccountSummary[];
@@ -1049,8 +1049,8 @@ export type PolicyComplianceStatusType = "COMPLIANT" | "NON_COMPLIANT" | (string
 export type ResourceCount = number;
 export interface EvaluationResult {
   ComplianceStatus?: PolicyComplianceStatusType | undefined;
-  ViolatorCount?: number | undefined;
-  EvaluationLimitExceeded?: boolean | undefined;
+  ViolatorCount: number;
+  EvaluationLimitExceeded: boolean;
 }
 export type EvaluationResults = EvaluationResult[];
 export interface PolicyComplianceStatus {
@@ -1104,8 +1104,8 @@ export interface PolicySummary {
   PolicyName?: string | undefined;
   ResourceType?: string | undefined;
   SecurityServiceType?: SecurityServiceType | undefined;
-  RemediationEnabled?: boolean | undefined;
-  DeleteUnusedFMManagedResources?: boolean | undefined;
+  RemediationEnabled: boolean;
+  DeleteUnusedFMManagedResources: boolean;
   PolicyStatus?: CustomerPolicyStatus | undefined;
 }
 export type PolicySummaryList = PolicySummary[];
@@ -2639,30 +2639,30 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Accounts: S.optional(__S(1792, __c56, 0)),
-          AllAccountsEnabled: S.optional(S.Boolean),
-          ExcludeSpecifiedAccounts: S.optional(S.Boolean),
+          AllAccountsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          ExcludeSpecifiedAccounts: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AccountScope" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           OrganizationalUnits: S.optional(__S(1792, __c56, 0)),
-          AllOrganizationalUnitsEnabled: S.optional(S.Boolean),
-          ExcludeSpecifiedOrganizationalUnits: S.optional(S.Boolean),
+          AllOrganizationalUnitsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          ExcludeSpecifiedOrganizationalUnits: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "OrganizationalUnitScope" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           Regions: S.optional(__S(1792, __c56, 0)),
-          AllRegionsEnabled: S.optional(S.Boolean),
+          AllRegionsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "RegionScope" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           PolicyTypes: S.optional(__S(288, __c9, 0)),
-          AllPolicyTypesEnabled: S.optional(S.Boolean),
+          AllPolicyTypesEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PolicyTypeScope" });
     case 4:
@@ -2746,7 +2746,7 @@ function __c14(j: number): any {
           PolicyId: S.optional(S.String),
           MemberAccount: S.optional(S.String),
           Violators: S.optional(__S(451, __c14, 3)),
-          EvaluationLimitExceeded: S.optional(S.Boolean),
+          EvaluationLimitExceeded: S.optional(S.Boolean).pipe(T.Default(false)),
           ExpiredAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           IssueInfoMap: S.optional(__S(480, __c15, 0)),
         }),
@@ -2866,9 +2866,9 @@ function __c19(j: number): any {
           ResourceType: S.String,
           ResourceTypeList: S.optional(__S(1792, __c56, 0)),
           ResourceTags: S.optional(__S(615, __c19, 7)),
-          ExcludeResourceTags: S.Boolean,
-          RemediationEnabled: S.Boolean,
-          DeleteUnusedFMManagedResources: S.optional(S.Boolean),
+          ExcludeResourceTags: S.Boolean.pipe(T.Default(false)),
+          RemediationEnabled: S.Boolean.pipe(T.Default(false)),
+          DeleteUnusedFMManagedResources: S.optional(S.Boolean).pipe(T.Default(false)),
           IncludeMap: S.optional(__S(616, __c19, 8)),
           ExcludeMap: S.optional(__S(616, __c19, 8)),
           ResourceSetIds: S.optional(__S(1792, __c56, 0)),
@@ -3026,7 +3026,7 @@ function __c26(j: number): any {
           RemediationActionType: S.optional(S.String),
           Description: S.optional(S.String),
           RemediationResult: S.optional(__S(835, __c26, 3)),
-          IsDefaultAction: S.optional(S.Boolean),
+          IsDefaultAction: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "SecurityGroupRemediationAction" });
     case 5:
@@ -3155,7 +3155,7 @@ function __c26(j: number): any {
           SubnetAvailabilityZone: S.optional(S.String),
           RouteTableId: S.optional(S.String),
           ViolatingRoutes: S.optional(__S(853, __c26, 21)),
-          IsRouteTableUsedInDifferentAZ: S.optional(S.Boolean),
+          IsRouteTableUsedInDifferentAZ: S.optional(S.Boolean).pipe(T.Default(false)),
           CurrentFirewallSubnetRouteTable: S.optional(S.String),
           ExpectedFirewallEndpoint: S.optional(S.String),
           FirewallSubnetId: S.optional(S.String),
@@ -3173,7 +3173,7 @@ function __c26(j: number): any {
         S.Struct({
           AffectedSubnets: S.optional(__S(1792, __c56, 0)),
           RouteTableId: S.optional(S.String),
-          IsRouteTableUsedInDifferentAZ: S.optional(S.Boolean),
+          IsRouteTableUsedInDifferentAZ: S.optional(S.Boolean).pipe(T.Default(false)),
           ViolatingRoute: S.optional(__S(852, __c26, 20)),
           CurrentFirewallSubnetRouteTable: S.optional(S.String),
           ExpectedFirewallEndpoint: S.optional(S.String),
@@ -3232,7 +3232,7 @@ function __c26(j: number): any {
         S.Struct({
           ViolationTarget: S.optional(S.String),
           ViolationTargetDescription: S.optional(S.String),
-          ConflictingPriority: S.optional(S.Number),
+          ConflictingPriority: S.optional(S.Number).pipe(T.Default(0)),
           ConflictingPolicyId: S.optional(S.String),
           UnavailablePriorities: S.optional(__S(862, __c26, 30)),
         }),
@@ -3253,7 +3253,7 @@ function __c27(j: number): any {
         S.Struct({
           ViolationTarget: S.optional(S.String),
           ViolationTargetDescription: S.optional(S.String),
-          NumberOfRuleGroupsAlreadyAssociated: S.optional(S.Number),
+          NumberOfRuleGroupsAlreadyAssociated: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DnsRuleGroupLimitExceededViolation" });
     case 2:
@@ -3296,7 +3296,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EntryDetail: S.optional(__S(578, __c18, 2)),
-          EntryRuleNumber: S.optional(S.Number),
+          EntryRuleNumber: S.optional(S.Number).pipe(T.Default(0)),
           EntryType: S.optional(S.String),
         }),
       ).annotate({ identifier: "EntryDescription" });
@@ -3403,7 +3403,7 @@ function __c27(j: number): any {
         S.Struct({
           Description: S.optional(S.String),
           Vpc: S.optional(__S(874, __c27, 10)),
-          FMSCanRemediate: S.optional(S.Boolean),
+          FMSCanRemediate: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "CreateNetworkAclAction" });
     case 20:
@@ -3412,7 +3412,7 @@ function __c27(j: number): any {
           Description: S.optional(S.String),
           AssociationId: S.optional(__S(874, __c27, 10)),
           NetworkAclId: S.optional(__S(874, __c27, 10)),
-          FMSCanRemediate: S.optional(S.Boolean),
+          FMSCanRemediate: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ReplaceNetworkAclAssociationAction" });
     case 21:
@@ -3421,7 +3421,7 @@ function __c27(j: number): any {
           Description: S.optional(S.String),
           NetworkAclId: S.optional(__S(874, __c27, 10)),
           NetworkAclEntriesToBeCreated: S.optional(__S(870, __c27, 6)),
-          FMSCanRemediate: S.optional(S.Boolean),
+          FMSCanRemediate: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "CreateNetworkAclEntriesAction" });
     case 22:
@@ -3430,7 +3430,7 @@ function __c27(j: number): any {
           Description: S.optional(S.String),
           NetworkAclId: S.optional(__S(874, __c27, 10)),
           NetworkAclEntriesToBeDeleted: S.optional(__S(870, __c27, 6)),
-          FMSCanRemediate: S.optional(S.Boolean),
+          FMSCanRemediate: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DeleteNetworkAclEntriesAction" });
     case 23:
@@ -3455,7 +3455,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RemediationAction: S.optional(__S(887, __c27, 23)),
-          Order: S.optional(S.Number),
+          Order: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RemediationActionWithOrder" });
     case 25:
@@ -3465,7 +3465,7 @@ function __c27(j: number): any {
         S.Struct({
           Description: S.optional(S.String),
           OrderedRemediationActions: __S(889, __c27, 25),
-          IsDefaultAction: S.optional(S.Boolean),
+          IsDefaultAction: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PossibleRemediationAction" });
     case 27:
@@ -3562,7 +3562,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AdminAccount: S.optional(S.String),
-          DefaultAdmin: S.optional(S.Boolean),
+          DefaultAdmin: S.optional(S.Boolean).pipe(T.Default(false)),
           Status: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdminAccountSummary" });
@@ -3635,8 +3635,8 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ComplianceStatus: S.optional(S.String),
-          ViolatorCount: S.optional(S.Number),
-          EvaluationLimitExceeded: S.optional(S.Boolean),
+          ViolatorCount: S.optional(S.Number).pipe(T.Default(0)),
+          EvaluationLimitExceeded: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "EvaluationResult" });
     case 2:
@@ -3725,8 +3725,8 @@ function __c36(j: number): any {
           PolicyName: S.optional(S.String),
           ResourceType: S.optional(S.String),
           SecurityServiceType: S.optional(S.String),
-          RemediationEnabled: S.optional(S.Boolean),
-          DeleteUnusedFMManagedResources: S.optional(S.Boolean),
+          RemediationEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          DeleteUnusedFMManagedResources: S.optional(S.Boolean).pipe(T.Default(false)),
           PolicyStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicySummary" });

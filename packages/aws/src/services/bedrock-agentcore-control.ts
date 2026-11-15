@@ -1239,7 +1239,7 @@ export interface CreateGatewayResponse {
   name: string;
   description?: string | redacted.Redacted<string> | undefined;
   roleArn?: string | undefined;
-  protocolType?: GatewayProtocolType | undefined;
+  protocolType: GatewayProtocolType;
   protocolConfiguration?: GatewayProtocolConfiguration | undefined;
   authorizerType: AuthorizerType;
   authorizerConfiguration?: AuthorizerConfiguration | undefined;
@@ -3483,7 +3483,7 @@ export interface CreatePolicyResponse {
   updatedAt: Date;
   policyArn: string;
   status: PolicyStatus;
-  enforcementMode?: EnforcementMode | undefined;
+  enforcementMode: EnforcementMode;
   definition: PolicyDefinition;
   description?: string | redacted.Redacted<string> | undefined;
   statusReasons: string[];
@@ -3880,7 +3880,7 @@ export interface DeletePolicyResponse {
   updatedAt: Date;
   policyArn: string;
   status: PolicyStatus;
-  enforcementMode?: EnforcementMode | undefined;
+  enforcementMode: EnforcementMode;
   definition: PolicyDefinition;
   description?: string | redacted.Redacted<string> | undefined;
   statusReasons: string[];
@@ -4195,7 +4195,7 @@ export interface GetGatewayResponse {
   name: string;
   description?: string | redacted.Redacted<string> | undefined;
   roleArn?: string | undefined;
-  protocolType?: GatewayProtocolType | undefined;
+  protocolType: GatewayProtocolType;
   protocolConfiguration?: GatewayProtocolConfiguration | undefined;
   authorizerType: AuthorizerType;
   authorizerConfiguration?: AuthorizerConfiguration | undefined;
@@ -4311,7 +4311,7 @@ export interface GetOnlineEvaluationConfigResponse {
   description?: string | redacted.Redacted<string> | undefined;
   rule: Rule;
   dataSourceConfig: DataSourceConfig;
-  evaluators?: EvaluatorReference[] | undefined;
+  evaluators: EvaluatorReference[];
   insights?: Insight[] | undefined;
   clusteringConfig?: ClusteringConfig | undefined;
   outputConfig?: OutputConfig | undefined;
@@ -4381,7 +4381,7 @@ export interface GetPolicyResponse {
   updatedAt: Date;
   policyArn: string;
   status: PolicyStatus;
-  enforcementMode?: EnforcementMode | undefined;
+  enforcementMode: EnforcementMode;
   definition: PolicyDefinition;
   description?: string | redacted.Redacted<string> | undefined;
   statusReasons: string[];
@@ -4464,7 +4464,7 @@ export interface GetPolicySummaryResponse {
   updatedAt: Date;
   policyArn: string;
   status: PolicyStatus;
-  enforcementMode?: EnforcementMode | undefined;
+  enforcementMode: EnforcementMode;
 }
 export interface GetRegistryRequest {
   registryId: string;
@@ -4873,7 +4873,7 @@ export interface GatewaySummary {
   createdAt: Date;
   updatedAt: Date;
   authorizerType: AuthorizerType;
-  protocolType?: GatewayProtocolType | undefined;
+  protocolType: GatewayProtocolType;
 }
 export type GatewaySummaries = GatewaySummary[];
 export interface ListGatewaysResponse {
@@ -5089,7 +5089,7 @@ export interface Policy {
   updatedAt: Date;
   policyArn: string;
   status: PolicyStatus;
-  enforcementMode?: EnforcementMode | undefined;
+  enforcementMode: EnforcementMode;
   definition: PolicyDefinition;
   description?: string | redacted.Redacted<string> | undefined;
   statusReasons: string[];
@@ -5226,7 +5226,7 @@ export interface PolicySummary {
   updatedAt: Date;
   policyArn: string;
   status: PolicyStatus;
-  enforcementMode?: EnforcementMode | undefined;
+  enforcementMode: EnforcementMode;
 }
 export type PolicySummaryList = PolicySummary[];
 export interface ListPolicySummariesResponse {
@@ -5590,7 +5590,7 @@ export interface UpdateGatewayResponse {
   name: string;
   description?: string | redacted.Redacted<string> | undefined;
   roleArn?: string | undefined;
-  protocolType?: GatewayProtocolType | undefined;
+  protocolType: GatewayProtocolType;
   protocolConfiguration?: GatewayProtocolConfiguration | undefined;
   authorizerType: AuthorizerType;
   authorizerConfiguration?: AuthorizerConfiguration | undefined;
@@ -5925,7 +5925,7 @@ export interface UpdatePolicyResponse {
   updatedAt: Date;
   policyArn: string;
   status: PolicyStatus;
-  enforcementMode?: EnforcementMode | undefined;
+  enforcementMode: EnforcementMode;
   definition: PolicyDefinition;
   description?: string | redacted.Redacted<string> | undefined;
   statusReasons: string[];
@@ -6426,8 +6426,8 @@ export const createConfigurationBundle: API.OperationMethod<
   CreateConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<CreateConfigurationBundleRequest>,
-  output: __S(4161, __c130, 1) as any as S.Schema<CreateConfigurationBundleResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<CreateConfigurationBundleRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<CreateConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6462,8 +6462,8 @@ export const createConsentPortal: API.OperationMethod<
   CreateConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<CreateConsentPortalRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<CreateConsentPortalResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<CreateConsentPortalRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<CreateConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6498,8 +6498,8 @@ export const createDataset: API.OperationMethod<
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<CreateDatasetRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<CreateDatasetResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<CreateDatasetRequest>,
+  output: __S(4385, __c137, 1) as any as S.Schema<CreateDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6533,8 +6533,8 @@ export const createDatasetVersion: API.OperationMethod<
   CreateDatasetVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<CreateDatasetVersionRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<CreateDatasetVersionResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<CreateDatasetVersionRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<CreateDatasetVersionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6568,8 +6568,8 @@ export const createEvaluator: API.OperationMethod<
   CreateEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<CreateEvaluatorRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<CreateEvaluatorResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<CreateEvaluatorRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<CreateEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6604,8 +6604,8 @@ export const createGateway: API.OperationMethod<
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<CreateGatewayRequest>,
-  output: __S(4560, __c142, 16) as any as S.Schema<CreateGatewayResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<CreateGatewayRequest>,
+  output: __S(4592, __c143, 16) as any as S.Schema<CreateGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6639,7 +6639,7 @@ export const createGatewayRateLimit: API.OperationMethod<
   CreateGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<CreateGatewayRateLimitRequest>,
+  input: __S(4608, __c144, 0) as any as S.Schema<CreateGatewayRateLimitRequest>,
   output: __S(2884, __c90, 4) as any as S.Schema<CreateGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
@@ -6675,8 +6675,8 @@ export const createGatewayRule: API.OperationMethod<
   CreateGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<CreateGatewayRuleRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<CreateGatewayRuleResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<CreateGatewayRuleRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<CreateGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6711,8 +6711,8 @@ export const createGatewayTarget: API.OperationMethod<
   CreateGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<CreateGatewayTargetRequest>,
-  output: __S(4846, __c151, 14) as any as S.Schema<CreateGatewayTargetResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<CreateGatewayTargetRequest>,
+  output: __S(4878, __c152, 14) as any as S.Schema<CreateGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6746,8 +6746,8 @@ export const createHarness: API.OperationMethod<
   CreateHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<CreateHarnessRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<CreateHarnessResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<CreateHarnessRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<CreateHarnessResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6781,8 +6781,8 @@ export const createHarnessEndpoint: API.OperationMethod<
   CreateHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<CreateHarnessEndpointRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<CreateHarnessEndpointResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<CreateHarnessEndpointRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<CreateHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6817,8 +6817,8 @@ export const createMemory: API.OperationMethod<
   CreateMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<CreateMemoryInput>,
-  output: __S(5195, __c162, 11) as any as S.Schema<CreateMemoryOutput>,
+  input: __S(5184, __c162, 0) as any as S.Schema<CreateMemoryInput>,
+  output: __S(5232, __c163, 16) as any as S.Schema<CreateMemoryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6857,8 +6857,8 @@ export const createOauth2CredentialProvider: API.OperationMethod<
   CreateOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<CreateOauth2CredentialProviderRequest>,
-  output: __S(5281, __c165, 1) as any as S.Schema<CreateOauth2CredentialProviderResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<CreateOauth2CredentialProviderRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<CreateOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6896,8 +6896,8 @@ export const createOnlineEvaluationConfig: API.OperationMethod<
   CreateOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<CreateOnlineEvaluationConfigRequest>,
-  output: __S(5377, __c168, 1) as any as S.Schema<CreateOnlineEvaluationConfigResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<CreateOnlineEvaluationConfigRequest>,
+  output: __S(5409, __c169, 1) as any as S.Schema<CreateOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6932,8 +6932,8 @@ export const createPaymentConnector: API.OperationMethod<
   CreatePaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<CreatePaymentConnectorRequest>,
-  output: __S(5473, __c171, 1) as any as S.Schema<CreatePaymentConnectorResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<CreatePaymentConnectorRequest>,
+  output: __S(5505, __c172, 1) as any as S.Schema<CreatePaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6973,8 +6973,8 @@ export const createPaymentCredentialProvider: API.OperationMethod<
   CreatePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<CreatePaymentCredentialProviderRequest>,
-  output: __S(5537, __c173, 1) as any as S.Schema<CreatePaymentCredentialProviderResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<CreatePaymentCredentialProviderRequest>,
+  output: __S(5569, __c174, 1) as any as S.Schema<CreatePaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7014,8 +7014,8 @@ export const createPaymentManager: API.OperationMethod<
   CreatePaymentManagerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<CreatePaymentManagerRequest>,
-  output: __S(5633, __c176, 1) as any as S.Schema<CreatePaymentManagerResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<CreatePaymentManagerRequest>,
+  output: __S(5665, __c177, 1) as any as S.Schema<CreatePaymentManagerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7051,8 +7051,8 @@ export const createPolicy: API.OperationMethod<
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<CreatePolicyRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<CreatePolicyResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<CreatePolicyRequest>,
+  output: __S(5760, __c180, 0) as any as S.Schema<CreatePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7086,8 +7086,8 @@ export const createPolicyEngine: API.OperationMethod<
   CreatePolicyEngineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<CreatePolicyEngineRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<CreatePolicyEngineResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<CreatePolicyEngineRequest>,
+  output: __S(5824, __c182, 0) as any as S.Schema<CreatePolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7122,8 +7122,8 @@ export const createRegistry: API.OperationMethod<
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<CreateRegistryRequest>,
-  output: __S(5825, __c182, 1) as any as S.Schema<CreateRegistryResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<CreateRegistryRequest>,
+  output: __S(5857, __c183, 1) as any as S.Schema<CreateRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7159,8 +7159,8 @@ export const createRegistryRecord: API.OperationMethod<
   CreateRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<CreateRegistryRecordRequest>,
-  output: __S(5889, __c184, 1) as any as S.Schema<CreateRegistryRecordResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<CreateRegistryRecordRequest>,
+  output: __S(5921, __c185, 1) as any as S.Schema<CreateRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7195,8 +7195,8 @@ export const createWorkloadIdentity: API.OperationMethod<
   CreateWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<CreateWorkloadIdentityRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<CreateWorkloadIdentityResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<CreateWorkloadIdentityRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<CreateWorkloadIdentityResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7229,8 +7229,8 @@ export const deleteAgentRuntime: API.OperationMethod<
   DeleteAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<DeleteAgentRuntimeRequest>,
-  output: __S(5985, __c187, 1) as any as S.Schema<DeleteAgentRuntimeResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<DeleteAgentRuntimeRequest>,
+  output: __S(6017, __c188, 1) as any as S.Schema<DeleteAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7261,8 +7261,8 @@ export const deleteAgentRuntimeEndpoint: API.OperationMethod<
   DeleteAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<DeleteAgentRuntimeEndpointRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<DeleteAgentRuntimeEndpointResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<DeleteAgentRuntimeEndpointRequest>,
+  output: __S(6049, __c189, 1) as any as S.Schema<DeleteAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7294,8 +7294,8 @@ export const deleteApiKeyCredentialProvider: API.OperationMethod<
   DeleteApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<DeleteApiKeyCredentialProviderRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteApiKeyCredentialProviderResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<DeleteApiKeyCredentialProviderRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<DeleteApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -7329,8 +7329,8 @@ export const deleteBrowser: API.OperationMethod<
   DeleteBrowserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<DeleteBrowserRequest>,
-  output: __S(6081, __c190, 1) as any as S.Schema<DeleteBrowserResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<DeleteBrowserRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<DeleteBrowserResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7364,8 +7364,8 @@ export const deleteBrowserProfile: API.OperationMethod<
   DeleteBrowserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<DeleteBrowserProfileRequest>,
-  output: __S(6113, __c191, 1) as any as S.Schema<DeleteBrowserProfileResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<DeleteBrowserProfileRequest>,
+  output: __S(6145, __c192, 1) as any as S.Schema<DeleteBrowserProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7399,8 +7399,8 @@ export const deleteCapacityProvider: API.OperationMethod<
   DeleteCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<DeleteCapacityProviderInput>,
-  output: __S(6145, __c192, 1) as any as S.Schema<DeleteCapacityProviderOutput>,
+  input: __S(6176, __c193, 0) as any as S.Schema<DeleteCapacityProviderInput>,
+  output: __S(6177, __c193, 1) as any as S.Schema<DeleteCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7435,8 +7435,8 @@ export const deleteCodeInterpreter: API.OperationMethod<
   DeleteCodeInterpreterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<DeleteCodeInterpreterRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<DeleteCodeInterpreterResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<DeleteCodeInterpreterRequest>,
+  output: __S(6209, __c194, 1) as any as S.Schema<DeleteCodeInterpreterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7470,8 +7470,8 @@ export const deleteConfigurationBundle: API.OperationMethod<
   DeleteConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<DeleteConfigurationBundleRequest>,
-  output: __S(6209, __c194, 1) as any as S.Schema<DeleteConfigurationBundleResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<DeleteConfigurationBundleRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<DeleteConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7505,8 +7505,8 @@ export const deleteConsentPortal: API.OperationMethod<
   DeleteConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<DeleteConsentPortalRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteConsentPortalResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<DeleteConsentPortalRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<DeleteConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7540,8 +7540,8 @@ export const deleteDataset: API.OperationMethod<
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<DeleteDatasetRequest>,
-  output: __S(6273, __c196, 1) as any as S.Schema<DeleteDatasetResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<DeleteDatasetRequest>,
+  output: __S(6305, __c197, 1) as any as S.Schema<DeleteDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7574,8 +7574,8 @@ export const deleteDatasetExamples: API.OperationMethod<
   DeleteDatasetExamplesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<DeleteDatasetExamplesRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<DeleteDatasetExamplesResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<DeleteDatasetExamplesRequest>,
+  output: __S(6337, __c198, 1) as any as S.Schema<DeleteDatasetExamplesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7608,8 +7608,8 @@ export const deleteEvaluator: API.OperationMethod<
   DeleteEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<DeleteEvaluatorRequest>,
-  output: __S(6337, __c198, 1) as any as S.Schema<DeleteEvaluatorResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<DeleteEvaluatorRequest>,
+  output: __S(6369, __c199, 1) as any as S.Schema<DeleteEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7642,8 +7642,8 @@ export const deleteGateway: API.OperationMethod<
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<DeleteGatewayRequest>,
-  output: __S(6369, __c199, 1) as any as S.Schema<DeleteGatewayResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<DeleteGatewayRequest>,
+  output: __S(6401, __c200, 1) as any as S.Schema<DeleteGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7676,8 +7676,8 @@ export const deleteGatewayRateLimit: API.OperationMethod<
   DeleteGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<DeleteGatewayRateLimitRequest>,
-  output: __S(6401, __c200, 1) as any as S.Schema<DeleteGatewayRateLimitResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<DeleteGatewayRateLimitRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<DeleteGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7710,8 +7710,8 @@ export const deleteGatewayRule: API.OperationMethod<
   DeleteGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<DeleteGatewayRuleRequest>,
-  output: __S(6433, __c201, 1) as any as S.Schema<DeleteGatewayRuleResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<DeleteGatewayRuleRequest>,
+  output: __S(6465, __c202, 1) as any as S.Schema<DeleteGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7746,8 +7746,8 @@ export const deleteGatewayTarget: API.OperationMethod<
   DeleteGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<DeleteGatewayTargetRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<DeleteGatewayTargetResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<DeleteGatewayTargetRequest>,
+  output: __S(6497, __c203, 1) as any as S.Schema<DeleteGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7780,8 +7780,8 @@ export const deleteHarness: API.OperationMethod<
   DeleteHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<DeleteHarnessRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<DeleteHarnessResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<DeleteHarnessRequest>,
+  output: __S(6529, __c204, 1) as any as S.Schema<DeleteHarnessResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7814,8 +7814,8 @@ export const deleteHarnessEndpoint: API.OperationMethod<
   DeleteHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<DeleteHarnessEndpointRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<DeleteHarnessEndpointResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<DeleteHarnessEndpointRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<DeleteHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7848,8 +7848,8 @@ export const deleteMemory: API.OperationMethod<
   DeleteMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<DeleteMemoryInput>,
-  output: __S(6561, __c205, 1) as any as S.Schema<DeleteMemoryOutput>,
+  input: __S(6592, __c206, 0) as any as S.Schema<DeleteMemoryInput>,
+  output: __S(6593, __c206, 1) as any as S.Schema<DeleteMemoryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7883,8 +7883,8 @@ export const deleteOauth2CredentialProvider: API.OperationMethod<
   DeleteOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<DeleteOauth2CredentialProviderRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteOauth2CredentialProviderResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<DeleteOauth2CredentialProviderRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<DeleteOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7918,8 +7918,8 @@ export const deleteOnlineEvaluationConfig: API.OperationMethod<
   DeleteOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<DeleteOnlineEvaluationConfigRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<DeleteOnlineEvaluationConfigResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<DeleteOnlineEvaluationConfigRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<DeleteOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7951,8 +7951,8 @@ export const deletePaymentConnector: API.OperationMethod<
   DeletePaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<DeletePaymentConnectorRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<DeletePaymentConnectorResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<DeletePaymentConnectorRequest>,
+  output: __S(6689, __c209, 1) as any as S.Schema<DeletePaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7984,8 +7984,8 @@ export const deletePaymentCredentialProvider: API.OperationMethod<
   DeletePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<DeletePaymentCredentialProviderRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeletePaymentCredentialProviderResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<DeletePaymentCredentialProviderRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<DeletePaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8017,8 +8017,8 @@ export const deletePaymentManager: API.OperationMethod<
   DeletePaymentManagerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<DeletePaymentManagerRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<DeletePaymentManagerResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<DeletePaymentManagerRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<DeletePaymentManagerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8050,8 +8050,8 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<DeletePolicyResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(5760, __c180, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8084,8 +8084,8 @@ export const deletePolicyEngine: API.OperationMethod<
   DeletePolicyEngineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<DeletePolicyEngineRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<DeletePolicyEngineResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<DeletePolicyEngineRequest>,
+  output: __S(5824, __c182, 0) as any as S.Schema<DeletePolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8118,8 +8118,8 @@ export const deleteRegistry: API.OperationMethod<
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<DeleteRegistryRequest>,
-  output: __S(6817, __c213, 1) as any as S.Schema<DeleteRegistryResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<DeleteRegistryRequest>,
+  output: __S(6849, __c214, 1) as any as S.Schema<DeleteRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8152,8 +8152,8 @@ export const deleteRegistryRecord: API.OperationMethod<
   DeleteRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<DeleteRegistryRecordRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryRecordResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<DeleteRegistryRecordRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<DeleteRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8187,8 +8187,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8220,8 +8220,8 @@ export const deleteWorkloadIdentity: API.OperationMethod<
   DeleteWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<DeleteWorkloadIdentityRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteWorkloadIdentityResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<DeleteWorkloadIdentityRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<DeleteWorkloadIdentityResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8253,8 +8253,8 @@ export const getAgentRuntime: API.OperationMethod<
   GetAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<GetAgentRuntimeRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<GetAgentRuntimeResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<GetAgentRuntimeRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<GetAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8285,8 +8285,8 @@ export const getAgentRuntimeEndpoint: API.OperationMethod<
   GetAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<GetAgentRuntimeEndpointRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<GetAgentRuntimeEndpointResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<GetAgentRuntimeEndpointRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<GetAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8319,8 +8319,8 @@ export const getApiKeyCredentialProvider: API.OperationMethod<
   GetApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<GetApiKeyCredentialProviderRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<GetApiKeyCredentialProviderResponse>,
+  input: __S(7072, __c221, 0) as any as S.Schema<GetApiKeyCredentialProviderRequest>,
+  output: __S(7104, __c222, 0) as any as S.Schema<GetApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     DecryptionFailure,
@@ -8353,8 +8353,8 @@ export const getBrowser: API.OperationMethod<
   GetBrowserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<GetBrowserRequest>,
-  output: __S(7105, __c222, 1) as any as S.Schema<GetBrowserResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<GetBrowserRequest>,
+  output: __S(7137, __c223, 1) as any as S.Schema<GetBrowserResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8385,8 +8385,8 @@ export const getBrowserProfile: API.OperationMethod<
   GetBrowserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<GetBrowserProfileRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GetBrowserProfileResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<GetBrowserProfileRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<GetBrowserProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8417,8 +8417,8 @@ export const getCapacityProvider: API.OperationMethod<
   GetCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<GetCapacityProviderInput>,
-  output: __S(7201, __c225, 1) as any as S.Schema<GetCapacityProviderOutput>,
+  input: __S(7232, __c226, 0) as any as S.Schema<GetCapacityProviderInput>,
+  output: __S(7233, __c226, 1) as any as S.Schema<GetCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8449,8 +8449,8 @@ export const getCodeInterpreter: API.OperationMethod<
   GetCodeInterpreterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<GetCodeInterpreterRequest>,
-  output: __S(7233, __c226, 1) as any as S.Schema<GetCodeInterpreterResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<GetCodeInterpreterRequest>,
+  output: __S(7265, __c227, 1) as any as S.Schema<GetCodeInterpreterResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8481,8 +8481,8 @@ export const getConfigurationBundle: API.OperationMethod<
   GetConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<GetConfigurationBundleRequest>,
-  output: __S(7265, __c227, 1) as any as S.Schema<GetConfigurationBundleResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<GetConfigurationBundleRequest>,
+  output: __S(7297, __c228, 1) as any as S.Schema<GetConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8513,8 +8513,8 @@ export const getConfigurationBundleVersion: API.OperationMethod<
   GetConfigurationBundleVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<GetConfigurationBundleVersionRequest>,
-  output: __S(7329, __c229, 1) as any as S.Schema<GetConfigurationBundleVersionResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<GetConfigurationBundleVersionRequest>,
+  output: __S(7361, __c230, 1) as any as S.Schema<GetConfigurationBundleVersionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8546,8 +8546,8 @@ export const getConsentPortal: API.OperationMethod<
   GetConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<GetConsentPortalRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<GetConsentPortalResponse>,
+  input: __S(7392, __c231, 0) as any as S.Schema<GetConsentPortalRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<GetConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8580,8 +8580,8 @@ export const getDataset: API.OperationMethod<
   GetDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<GetDatasetRequest>,
-  output: __S(7393, __c231, 1) as any as S.Schema<GetDatasetResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<GetDatasetRequest>,
+  output: __S(7425, __c232, 1) as any as S.Schema<GetDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8613,8 +8613,8 @@ export const getEvaluator: API.OperationMethod<
   GetEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<GetEvaluatorRequest>,
-  output: __S(7425, __c232, 1) as any as S.Schema<GetEvaluatorResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<GetEvaluatorRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<GetEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8645,8 +8645,8 @@ export const getGateway: API.OperationMethod<
   GetGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetGatewayRequest>,
-  output: __S(4560, __c142, 16) as any as S.Schema<GetGatewayResponse>,
+  input: __S(7488, __c234, 0) as any as S.Schema<GetGatewayRequest>,
+  output: __S(4592, __c143, 16) as any as S.Schema<GetGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8677,7 +8677,7 @@ export const getGatewayRateLimit: API.OperationMethod<
   GetGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<GetGatewayRateLimitRequest>,
+  input: __S(7520, __c235, 0) as any as S.Schema<GetGatewayRateLimitRequest>,
   output: __S(2884, __c90, 4) as any as S.Schema<GetGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
@@ -8709,8 +8709,8 @@ export const getGatewayRule: API.OperationMethod<
   GetGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<GetGatewayRuleRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<GetGatewayRuleResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<GetGatewayRuleRequest>,
+  output: __S(7584, __c237, 0) as any as S.Schema<GetGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8741,8 +8741,8 @@ export const getGatewayTarget: API.OperationMethod<
   GetGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<GetGatewayTargetRequest>,
-  output: __S(4846, __c151, 14) as any as S.Schema<GetGatewayTargetResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<GetGatewayTargetRequest>,
+  output: __S(4878, __c152, 14) as any as S.Schema<GetGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8773,8 +8773,8 @@ export const getHarness: API.OperationMethod<
   GetHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<GetHarnessRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<GetHarnessResponse>,
+  input: __S(7648, __c239, 0) as any as S.Schema<GetHarnessRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<GetHarnessResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8805,8 +8805,8 @@ export const getHarnessEndpoint: API.OperationMethod<
   GetHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<GetHarnessEndpointRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<GetHarnessEndpointResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<GetHarnessEndpointRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<GetHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8837,8 +8837,8 @@ export const getMemory: API.OperationMethod<
   GetMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<GetMemoryInput>,
-  output: __S(7681, __c240, 1) as any as S.Schema<GetMemoryOutput>,
+  input: __S(7712, __c241, 0) as any as S.Schema<GetMemoryInput>,
+  output: __S(7713, __c241, 1) as any as S.Schema<GetMemoryOutput>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -8871,8 +8871,8 @@ export const getOauth2CredentialProvider: API.OperationMethod<
   GetOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<GetOauth2CredentialProviderRequest>,
-  output: __S(7713, __c241, 1) as any as S.Schema<GetOauth2CredentialProviderResponse>,
+  input: __S(7744, __c242, 0) as any as S.Schema<GetOauth2CredentialProviderRequest>,
+  output: __S(7745, __c242, 1) as any as S.Schema<GetOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     DecryptionFailure,
@@ -8905,8 +8905,8 @@ export const getOnlineEvaluationConfig: API.OperationMethod<
   GetOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetOnlineEvaluationConfigRequest>,
-  output: __S(7745, __c242, 1) as any as S.Schema<GetOnlineEvaluationConfigResponse>,
+  input: __S(7776, __c243, 0) as any as S.Schema<GetOnlineEvaluationConfigRequest>,
+  output: __S(7777, __c243, 1) as any as S.Schema<GetOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8937,8 +8937,8 @@ export const getPaymentConnector: API.OperationMethod<
   GetPaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetPaymentConnectorRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<GetPaymentConnectorResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<GetPaymentConnectorRequest>,
+  output: __S(7809, __c244, 1) as any as S.Schema<GetPaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8971,8 +8971,8 @@ export const getPaymentCredentialProvider: API.OperationMethod<
   GetPaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetPaymentCredentialProviderRequest>,
-  output: __S(7809, __c244, 1) as any as S.Schema<GetPaymentCredentialProviderResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<GetPaymentCredentialProviderRequest>,
+  output: __S(7841, __c245, 1) as any as S.Schema<GetPaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     DecryptionFailure,
@@ -9038,7 +9038,7 @@ export const getPolicy: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<GetPolicyResponse>,
+  output: __S(5760, __c180, 0) as any as S.Schema<GetPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9070,7 +9070,7 @@ export const getPolicyEngine: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetPolicyEngineRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<GetPolicyEngineResponse>,
+  output: __S(5824, __c182, 0) as any as S.Schema<GetPolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -11194,7 +11194,7 @@ export const tagResource: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<TagResourceResponse>,
+  output: __S(4960, __c155, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -11229,7 +11229,7 @@ export const untagResource: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<UntagResourceResponse>,
+  output: __S(4960, __c155, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -11338,7 +11338,7 @@ export const updateApiKeyCredentialProvider: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<UpdateApiKeyCredentialProviderRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<UpdateApiKeyCredentialProviderResponse>,
+  output: __S(7104, __c222, 0) as any as S.Schema<UpdateApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11447,7 +11447,7 @@ export const updateConsentPortal: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<UpdateConsentPortalRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<UpdateConsentPortalResponse>,
+  output: __S(4353, __c136, 1) as any as S.Schema<UpdateConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11591,7 +11591,7 @@ export const updateGateway: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<UpdateGatewayRequest>,
-  output: __S(4560, __c142, 16) as any as S.Schema<UpdateGatewayResponse>,
+  output: __S(4592, __c143, 16) as any as S.Schema<UpdateGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11660,7 +11660,7 @@ export const updateGatewayRule: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<UpdateGatewayRuleRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<UpdateGatewayRuleResponse>,
+  output: __S(7584, __c237, 0) as any as S.Schema<UpdateGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11697,7 +11697,7 @@ export const updateGatewayTarget: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<UpdateGatewayTargetRequest>,
-  output: __S(4846, __c151, 14) as any as S.Schema<UpdateGatewayTargetResponse>,
+  output: __S(4878, __c152, 14) as any as S.Schema<UpdateGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11733,7 +11733,7 @@ export const updateHarness: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3042, __c95, 2) as any as S.Schema<UpdateHarnessRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<UpdateHarnessResponse>,
+  output: __S(5056, __c158, 0) as any as S.Schema<UpdateHarnessResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11769,7 +11769,7 @@ export const updateHarnessEndpoint: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<UpdateHarnessEndpointRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<UpdateHarnessEndpointResponse>,
+  output: __S(5152, __c161, 0) as any as S.Schema<UpdateHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11805,7 +11805,7 @@ export const updateMemory: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3145, __c98, 9) as any as S.Schema<UpdateMemoryInput>,
-  output: __S(5195, __c162, 11) as any as S.Schema<UpdateMemoryOutput>,
+  output: __S(5232, __c163, 16) as any as S.Schema<UpdateMemoryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12037,7 +12037,7 @@ export const updatePolicy: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<UpdatePolicyRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<UpdatePolicyResponse>,
+  output: __S(5760, __c180, 0) as any as S.Schema<UpdatePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12072,7 +12072,7 @@ export const updatePolicyEngine: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<UpdatePolicyEngineRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<UpdatePolicyEngineResponse>,
+  output: __S(5824, __c182, 0) as any as S.Schema<UpdatePolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12458,7 +12458,7 @@ function __c11(j: number): any {
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           policyArn: S.String,
           status: S.String,
-          enforcementMode: S.optional(S.String),
+          enforcementMode: S.optional(S.String).pipe(T.Default("ACTIVE")),
         }),
       ).annotate({ identifier: "GetPolicySummaryResponse" });
   }
@@ -12491,7 +12491,7 @@ function __c13(j: number): any {
           registryArn: S.String,
           authorizerType: S.optional(S.String),
           authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
-          approvalConfiguration: S.optional(__S(5856, __c183, 0)),
+          approvalConfiguration: S.optional(__S(5888, __c184, 0)),
           status: S.String,
           statusReason: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -12531,14 +12531,14 @@ function __c15(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           descriptorType: S.String,
-          descriptors: __S(5926, __c185, 6),
+          descriptors: __S(5958, __c186, 6),
           recordVersion: S.optional(S.String),
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           statusReason: S.optional(S.String),
           synchronizationType: S.optional(S.String),
-          synchronizationConfiguration: S.optional(__S(5933, __c185, 13)),
+          synchronizationConfiguration: S.optional(__S(5965, __c186, 13)),
         }),
       ).annotate({ identifier: "GetRegistryRecordResponse" });
   }
@@ -12803,7 +12803,7 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListBrowserProfilesRequest" });
     case 1:
-      return S.Array(__S(7168, __c224, 0));
+      return S.Array(__S(7200, __c225, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ profileSummaries: __S(865, __c27, 1), nextToken: S.optional(S.String) }),
@@ -12985,7 +12985,7 @@ function __c32(j: number): any {
           bundleArn: S.String,
           bundleId: S.String,
           versionId: S.String,
-          lineageMetadata: S.optional(__S(7296, __c228, 0)),
+          lineageMetadata: S.optional(__S(7328, __c229, 0)),
           versionCreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "ConfigurationBundleVersionSummary" });
@@ -13015,7 +13015,7 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sources: __S(4289, __c134, 1),
+          sources: __S(4321, __c135, 1),
           consentPortalArn: S.String,
           consentPortalId: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -13214,7 +13214,7 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewayRulesRequest" });
     case 1:
-      return S.Array(__S(7552, __c236, 0));
+      return S.Array(__S(7584, __c237, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ gatewayRules: __S(1249, __c39, 1), nextToken: S.optional(S.String) }),
@@ -13240,7 +13240,7 @@ function __c40(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           authorizerType: S.String,
-          protocolType: S.optional(S.String),
+          protocolType: S.optional(S.String).pipe(T.Default("MCP")),
         }),
       ).annotate({ identifier: "GatewaySummary" });
     case 2:
@@ -13281,7 +13281,7 @@ function __c41(j: number): any {
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           resourcePriority: S.optional(S.Number),
           lastSynchronizedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          authorizationData: S.optional(__S(4769, __c149, 1)),
+          authorizationData: S.optional(__S(4801, __c150, 1)),
           targetType: S.optional(S.String),
           listingMode: S.optional(S.String),
         }),
@@ -13314,7 +13314,7 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListHarnessEndpointsRequest" });
     case 1:
-      return S.Array(__S(5088, __c159, 0));
+      return S.Array(__S(5120, __c160, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ endpoints: __S(1345, __c42, 1), nextToken: S.optional(S.String) }),
@@ -13484,8 +13484,8 @@ function __c48(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           failureReason: S.optional(S.String),
-          insights: S.optional(__S(5409, __c169, 1)),
-          clusteringConfig: S.optional(__S(5410, __c169, 2)),
+          insights: S.optional(__S(5441, __c170, 1)),
+          clusteringConfig: S.optional(__S(5442, __c170, 2)),
         }),
       ).annotate({ identifier: "OnlineEvaluationConfigSummary" });
     case 2:
@@ -13616,7 +13616,7 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "ListPoliciesRequest" });
     case 1:
-      return S.Array(__S(5728, __c179, 0));
+      return S.Array(__S(5760, __c180, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ policies: __S(1665, __c52, 1), nextToken: S.optional(S.String) }),
@@ -13635,7 +13635,7 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListPolicyEnginesRequest" });
     case 1:
-      return S.Array(__S(5792, __c181, 0));
+      return S.Array(__S(5824, __c182, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ policyEngines: __S(1697, __c53, 1), nextToken: S.optional(S.String) }),
@@ -13701,7 +13701,7 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           policyGenerationAssetId: S.String,
-          definition: S.optional(__S(5698, __c178, 2)),
+          definition: S.optional(__S(5730, __c179, 2)),
           rawTextFragment: S.String,
           findings: __S(1762, __c55, 2),
         }),
@@ -13979,7 +13979,7 @@ function __c65(j: number): any {
 function __c66(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ secrets: __S(4512, __c141, 0) })).annotate({
+      return S.suspend(() => S.Struct({ secrets: __S(4544, __c142, 0) })).annotate({
         identifier: "CoinbaseCdpRotationTargets",
       });
     case 1:
@@ -14110,7 +14110,7 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "SynchronizeGatewayTargetsRequest" });
     case 1:
-      return S.Array(__S(4846, __c151, 14));
+      return S.Array(__S(4878, __c152, 14));
     case 2:
       return S.suspend(() => S.Struct({ targets: S.optional(__S(2241, __c70, 1)) })).annotate({
         identifier: "SynchronizeGatewayTargetsResponse",
@@ -14231,7 +14231,7 @@ function __c77(j: number): any {
           protocolConfiguration: S.optional(__S(3555, __c111, 3)),
           lifecycleConfiguration: S.optional(__S(3522, __c110, 2)),
           hooksConfiguration: S.optional(__S(3560, __c111, 8)),
-          metadataConfiguration: S.optional(__S(6976, __c218, 0)),
+          metadataConfiguration: S.optional(__S(7008, __c219, 0)),
           environmentVariables: S.optional(__S(2848, __c89, 0)),
           filesystemConfigurations: S.optional(__S(3527, __c110, 7)),
           capacityProviderConfiguration: S.optional(__S(3561, __c111, 9)),
@@ -14373,11 +14373,11 @@ function __c82(j: number): any {
           bundleId: S.String.pipe(T.HttpLabel("bundleId")),
           bundleName: S.optional(S.String),
           description: S.optional(SensitiveString),
-          components: S.optional(__S(4225, __c132, 1)),
+          components: S.optional(__S(4257, __c133, 1)),
           parentVersionIds: __S(2336, __c73, 0),
           branchName: S.optional(S.String),
           commitMessage: S.String,
-          createdBy: S.optional(__S(4192, __c131, 0)),
+          createdBy: S.optional(__S(4224, __c132, 0)),
           kmsKeyArn: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14408,7 +14408,7 @@ function __c83(j: number): any {
         S.Struct({
           consentPortalIdentifier: S.String,
           executionRoleArn: S.optional(S.String),
-          idpConfig: S.optional(__S(4320, __c135, 0)),
+          idpConfig: S.optional(__S(4352, __c136, 0)),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14491,7 +14491,7 @@ function __c86(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           evaluatorId: S.String.pipe(T.HttpLabel("evaluatorId")),
           description: S.optional(SensitiveString),
-          evaluatorConfig: S.optional(__S(4465, __c139, 17)),
+          evaluatorConfig: S.optional(__S(4497, __c140, 17)),
           level: S.optional(S.String),
           kmsKeyArn: S.optional(S.String),
         }).pipe(
@@ -14608,16 +14608,16 @@ function __c91(j: number): any {
           description: S.optional(SensitiveString),
           roleArn: S.String,
           protocolType: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(4547, __c142, 3)),
+          protocolConfiguration: S.optional(__S(4579, __c143, 3)),
           authorizerType: S.String,
           authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
           kmsKeyArn: S.optional(S.String),
-          customTransformConfiguration: S.optional(__S(4558, __c142, 14)),
-          interceptorConfigurations: S.optional(__S(4554, __c142, 10)),
-          policyEngineConfiguration: S.optional(__S(4555, __c142, 11)),
+          customTransformConfiguration: S.optional(__S(4590, __c143, 14)),
+          interceptorConfigurations: S.optional(__S(4586, __c143, 10)),
+          policyEngineConfiguration: S.optional(__S(4587, __c143, 11)),
           exceptionLevel: S.optional(S.String),
-          wafConfiguration: S.optional(__S(4559, __c142, 15)),
-          domainOverride: S.optional(__S(4556, __c142, 12)),
+          wafConfiguration: S.optional(__S(4591, __c143, 15)),
+          domainOverride: S.optional(__S(4588, __c143, 12)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/" }),
@@ -14664,8 +14664,8 @@ function __c93(j: number): any {
           gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
           ruleId: S.String.pipe(T.HttpLabel("ruleId")),
           priority: S.optional(S.Number),
-          conditions: S.optional(__S(4649, __c145, 9)),
-          actions: S.optional(__S(4666, __c145, 26)),
+          conditions: S.optional(__S(4681, __c146, 9)),
+          actions: S.optional(__S(4698, __c146, 26)),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14689,9 +14689,9 @@ function __c94(j: number): any {
           targetId: S.String.pipe(T.HttpLabel("targetId")),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
-          targetConfiguration: __S(4838, __c151, 6),
-          credentialProviderConfigurations: S.optional(__S(4842, __c151, 10)),
-          metadataConfiguration: S.optional(__S(4843, __c151, 11)),
+          targetConfiguration: __S(4870, __c152, 6),
+          credentialProviderConfigurations: S.optional(__S(4874, __c152, 10)),
+          metadataConfiguration: S.optional(__S(4875, __c152, 11)),
           privateEndpoint: S.optional(__S(3394, __c106, 2)),
           certificateConfigurations: S.optional(__S(3397, __c106, 5)),
         }).pipe(
@@ -14711,11 +14711,11 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(4960, __c155, 0)) }),
+        S.Struct({ optionalValue: S.optional(__S(4992, __c156, 0)) }),
       ).annotate({ identifier: "UpdatedHarnessEnvironmentArtifact" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(4988, __c155, 28)) }),
+        S.Struct({ optionalValue: S.optional(__S(5020, __c156, 28)) }),
       ).annotate({ identifier: "UpdatedHarnessMemoryConfiguration" });
     case 2:
       return S.suspend(() =>
@@ -14723,18 +14723,18 @@ function __c95(j: number): any {
           harnessId: S.String.pipe(T.HttpLabel("harnessId")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.optional(S.String),
-          environment: S.optional(__S(4897, __c153, 1)),
+          environment: S.optional(__S(4929, __c154, 1)),
           environmentArtifact: S.optional(__S(3040, __c95, 0)),
           environmentVariables: S.optional(__S(2848, __c89, 0)),
           authorizerConfiguration: S.optional(__S(3072, __c96, 0)),
-          model: S.optional(__S(4965, __c155, 5)),
-          systemPrompt: S.optional(__S(4967, __c155, 7)),
-          tools: S.optional(__S(4977, __c155, 17)),
-          skills: S.optional(__S(4983, __c155, 23)),
+          model: S.optional(__S(4997, __c156, 5)),
+          systemPrompt: S.optional(__S(4999, __c156, 7)),
+          tools: S.optional(__S(5009, __c156, 17)),
+          skills: S.optional(__S(5015, __c156, 23)),
           allowedTools: S.optional(__S(2336, __c73, 0)),
           memory: S.optional(__S(3041, __c95, 1)),
-          truncation: S.optional(__S(4992, __c156, 0)),
-          hooks: S.optional(__S(4997, __c156, 5)),
+          truncation: S.optional(__S(5024, __c157, 0)),
+          hooks: S.optional(__S(5029, __c157, 5)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
@@ -14786,8 +14786,8 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5233, __c163, 17) }),
-        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5249, __c164, 1) }),
+        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5260, __c164, 12) }),
+        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5276, __c164, 28) }),
       ]);
     case 1:
       return S.suspend(() =>
@@ -14799,7 +14799,7 @@ function __c98(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          triggerConditions: S.optional(__S(5231, __c163, 15)),
+          triggerConditions: S.optional(__S(5225, __c163, 9)),
           invocationConfiguration: S.optional(__S(3137, __c98, 1)),
           historicalContextWindowSize: S.optional(S.Number),
         }),
@@ -14807,8 +14807,8 @@ function __c98(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(5246, __c163, 30)),
-          consolidation: S.optional(__S(5248, __c164, 0)),
+          extraction: S.optional(__S(5273, __c164, 25)),
+          consolidation: S.optional(__S(5275, __c164, 27)),
           reflection: S.optional(__S(3136, __c98, 0)),
           selfManagedConfiguration: S.optional(__S(3138, __c98, 2)),
         }),
@@ -14821,8 +14821,8 @@ function __c98(j: number): any {
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
           configuration: S.optional(__S(3139, __c98, 3)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
-          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
+          memoryRecordSchema: S.optional(__S(5256, __c164, 8)),
+          recordExpirySpecification: S.optional(__S(5216, __c163, 0)),
         }),
       ).annotate({ identifier: "ModifyMemoryStrategyInput" });
     case 5:
@@ -14836,7 +14836,7 @@ function __c98(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          addMemoryStrategies: S.optional(__S(5194, __c162, 10)),
+          addMemoryStrategies: S.optional(__S(5231, __c163, 15)),
           modifyMemoryStrategies: S.optional(__S(3141, __c98, 5)),
           deleteMemoryStrategies: S.optional(__S(3143, __c98, 7)),
         }),
@@ -14850,9 +14850,9 @@ function __c98(j: number): any {
           eventExpiryDuration: S.optional(S.Number),
           memoryExecutionRoleArn: S.optional(S.String),
           memoryStrategies: S.optional(__S(3144, __c98, 8)),
-          addIndexedKeys: S.optional(__S(5235, __c163, 19)),
-          namespaceKeys: S.optional(__S(5238, __c163, 22)),
-          streamDeliveryResources: S.optional(__S(5244, __c163, 28)),
+          addIndexedKeys: S.optional(__S(5262, __c164, 14)),
+          namespaceKeys: S.optional(__S(5265, __c164, 17)),
+          streamDeliveryResources: S.optional(__S(5271, __c164, 23)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/memories/{memoryId}/update" }),
@@ -14873,7 +14873,7 @@ function __c99(j: number): any {
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          oauth2ProviderConfigInput: __S(5316, __c166, 4),
+          oauth2ProviderConfigInput: __S(5348, __c167, 4),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/UpdateOauth2CredentialProvider" }),
@@ -14895,7 +14895,7 @@ function __c99(j: number): any {
           credentialProviderVendor: S.String,
           credentialProviderArn: S.String,
           callbackUrl: S.optional(S.String),
-          oauth2ProviderConfigOutput: __S(5354, __c167, 10),
+          oauth2ProviderConfigOutput: __S(5386, __c168, 10),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           status: S.optional(S.String),
@@ -14911,12 +14911,12 @@ function __c100(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           onlineEvaluationConfigId: S.String.pipe(T.HttpLabel("onlineEvaluationConfigId")),
           description: S.optional(SensitiveString),
-          rule: S.optional(__S(5445, __c170, 5)),
-          dataSourceConfig: S.optional(__S(5447, __c170, 7)),
-          evaluators: S.optional(__S(5449, __c170, 9)),
-          insights: S.optional(__S(5409, __c169, 1)),
-          clusteringConfig: S.optional(__S(5410, __c169, 2)),
-          outputConfig: S.optional(__S(5451, __c170, 11)),
+          rule: S.optional(__S(5477, __c171, 5)),
+          dataSourceConfig: S.optional(__S(5479, __c171, 7)),
+          evaluators: S.optional(__S(5481, __c171, 9)),
+          insights: S.optional(__S(5441, __c170, 1)),
+          clusteringConfig: S.optional(__S(5442, __c170, 2)),
+          outputConfig: S.optional(__S(5483, __c171, 11)),
           evaluationExecutionRoleArn: S.optional(S.String),
           executionStatus: S.optional(S.String),
         }).pipe(
@@ -14952,7 +14952,7 @@ function __c101(j: number): any {
           paymentConnectorId: S.String.pipe(T.HttpLabel("paymentConnectorId")),
           description: S.optional(S.String),
           type: S.optional(S.String),
-          credentialProviderConfigurations: S.optional(__S(5506, __c172, 2)),
+          credentialProviderConfigurations: S.optional(__S(5538, __c173, 2)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -14975,7 +14975,7 @@ function __c101(j: number): any {
           paymentManagerId: S.String,
           name: S.String,
           type: S.String,
-          credentialProviderConfigurations: __S(5506, __c172, 2),
+          credentialProviderConfigurations: __S(5538, __c173, 2),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
           authorizationUrl: S.optional(S.String),
@@ -15268,7 +15268,7 @@ function __c112(j: number): any {
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          providerConfigurationInput: __S(5570, __c174, 2),
+          providerConfigurationInput: __S(5602, __c175, 2),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/UpdatePaymentCredentialProvider" }),
@@ -15286,7 +15286,7 @@ function __c112(j: number): any {
           name: S.String,
           credentialProviderVendor: S.String,
           credentialProviderArn: S.String,
-          providerConfigurationOutput: __S(5602, __c175, 2),
+          providerConfigurationOutput: __S(5634, __c176, 2),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
@@ -15340,7 +15340,7 @@ function __c114(j: number): any {
           policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
           policyId: S.String.pipe(T.HttpLabel("policyId")),
           description: S.optional(__S(2592, __c81, 0)),
-          definition: S.optional(__S(5698, __c178, 2)),
+          definition: S.optional(__S(5730, __c179, 2)),
           validationMode: S.optional(S.String),
           enforcementMode: S.optional(S.String),
         }).pipe(
@@ -15383,7 +15383,7 @@ function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5856, __c183, 0)) }),
+        S.Struct({ optionalValue: S.optional(__S(5888, __c184, 0)) }),
       ).annotate({ identifier: "UpdatedApprovalConfiguration" });
     case 1:
       return S.suspend(() =>
@@ -15410,11 +15410,11 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5920, __c185, 0)) }),
+        S.Struct({ optionalValue: S.optional(__S(5952, __c186, 0)) }),
       ).annotate({ identifier: "UpdatedServerDefinition" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5921, __c185, 1)) }),
+        S.Struct({ optionalValue: S.optional(__S(5953, __c186, 1)) }),
       ).annotate({ identifier: "UpdatedToolsDefinition" });
     case 2:
       return S.suspend(() =>
@@ -15429,11 +15429,11 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdatedMcpDescriptor" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5923, __c185, 3)) }),
+        S.Struct({ optionalValue: S.optional(__S(5955, __c186, 3)) }),
       ).annotate({ identifier: "UpdatedA2aDescriptor" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5924, __c185, 4)) }),
+        S.Struct({ optionalValue: S.optional(__S(5956, __c186, 4)) }),
       ).annotate({ identifier: "UpdatedCustomDescriptor" });
     case 6:
       return S.suspend(() =>
@@ -15465,7 +15465,7 @@ function __c117(j: number): any {
       });
     case 11:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5933, __c185, 13)) }),
+        S.Struct({ optionalValue: S.optional(__S(5965, __c186, 13)) }),
       ).annotate({ identifier: "UpdatedSynchronizationConfiguration" });
     case 12:
       return S.suspend(() =>
@@ -15631,12 +15631,12 @@ function __c123(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3968, __c124, 0),
-          recording: S.optional(__S(4000, __c125, 0)),
-          browserSigning: S.optional(__S(4001, __c125, 1)),
-          enterprisePolicies: S.optional(__S(4003, __c125, 3)),
-          certificates: S.optional(__S(3971, __c124, 3)),
-          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
+          networkConfiguration: __S(4000, __c125, 0),
+          recording: S.optional(__S(4001, __c125, 1)),
+          browserSigning: S.optional(__S(4002, __c125, 2)),
+          enterprisePolicies: S.optional(__S(4004, __c125, 4)),
+          certificates: S.optional(__S(3970, __c124, 2)),
+          filesystemConfigurations: S.optional(__S(3973, __c124, 5)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(T.all(T.Http({ method: "PUT", uri: "/browsers" }), svc, auth, proto, ver, rules)),
@@ -15655,46 +15655,52 @@ function __c123(j: number): any {
 function __c124(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ networkMode: S.String, vpcConfig: S.optional(__S(3328, __c104, 0)) }),
-      ).annotate({ identifier: "BrowserNetworkConfiguration" });
-    case 1:
       return S.Union([/*@__PURE__*/ S.Struct({ secretsManager: __S(3296, __c103, 0) })]);
-    case 2:
-      return S.suspend(() => S.Struct({ location: __S(3969, __c124, 1) })).annotate({
+    case 1:
+      return S.suspend(() => S.Struct({ location: __S(3968, __c124, 0) })).annotate({
         identifier: "Certificate",
       });
+    case 2:
+      return S.Array(__S(3969, __c124, 1));
     case 3:
-      return S.Array(__S(3970, __c124, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({ accessPointArn: S.String, mountPath: S.String, fileSystemArn: S.String }),
       ).annotate({ identifier: "S3FilesConfiguration" });
-    case 5:
+    case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3FilesConfiguration: __S(3972, __c124, 4) }),
-        /*@__PURE__*/ S.Struct({ efsConfiguration: __S(3972, __c124, 4) }),
+        /*@__PURE__*/ S.Struct({ s3FilesConfiguration: __S(3971, __c124, 3) }),
+        /*@__PURE__*/ S.Struct({ efsConfiguration: __S(3971, __c124, 3) }),
       ]);
-    case 6:
-      return S.Array(__S(3973, __c124, 5));
+    case 5:
+      return S.Array(__S(3972, __c124, 4));
   }
 }
 function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ enabled: S.optional(S.Boolean), s3Location: S.optional(__S(3360, __c105, 0)) }),
-      ).annotate({ identifier: "RecordingConfig" });
+        S.Struct({
+          networkMode: S.String.pipe(T.Default("PUBLIC")),
+          vpcConfig: S.optional(__S(3328, __c104, 0)),
+        }),
+      ).annotate({ identifier: "BrowserNetworkConfiguration" });
     case 1:
-      return S.suspend(() => S.Struct({ enabled: S.Boolean })).annotate({
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          s3Location: S.optional(__S(3360, __c105, 0)),
+        }),
+      ).annotate({ identifier: "RecordingConfig" });
+    case 2:
+      return S.suspend(() => S.Struct({ enabled: S.Boolean.pipe(T.Default(false)) })).annotate({
         identifier: "BrowserSigningConfigInput",
       });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({ location: __S(3361, __c105, 1), type: S.optional(S.String) }),
       ).annotate({ identifier: "BrowserEnterprisePolicy" });
-    case 3:
-      return S.Array(__S(4002, __c125, 2));
+    case 4:
+      return S.Array(__S(4003, __c125, 3));
   }
 }
 function __c126(j: number): any {
@@ -15767,7 +15773,7 @@ function __c128(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          volumeType: S.optional(S.String),
+          volumeType: S.optional(S.String).pipe(T.Default("gp3")),
           iops: S.optional(S.Number),
           throughput: S.optional(S.Number),
           encrypted: S.optional(S.Boolean),
@@ -15833,7 +15839,7 @@ function __c128(j: number): any {
         S.Struct({
           name: S.String,
           sizeGiB: S.Number,
-          volumeType: S.optional(S.String),
+          volumeType: S.optional(S.String).pipe(T.Default("gp3")),
           iops: S.optional(S.Number),
           throughput: S.optional(S.Number),
           encrypted: S.optional(S.Boolean),
@@ -15852,7 +15858,7 @@ function __c128(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          volumeType: S.optional(S.String),
+          volumeType: S.optional(S.String).pipe(T.Default("gp3")),
           iops: S.optional(S.Number),
           throughput: S.optional(S.Number),
           encrypted: S.optional(S.Boolean),
@@ -15882,9 +15888,9 @@ function __c129(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3968, __c124, 0),
-          certificates: S.optional(__S(3971, __c124, 3)),
-          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
+          networkConfiguration: __S(4160, __c130, 0),
+          certificates: S.optional(__S(3970, __c124, 2)),
+          filesystemConfigurations: S.optional(__S(3973, __c124, 5)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
@@ -15907,13 +15913,24 @@ function __c130(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          networkMode: S.String.pipe(T.Default("SANDBOX")),
+          vpcConfig: S.optional(__S(3328, __c104, 0)),
+        }),
+      ).annotate({ identifier: "CodeInterpreterNetworkConfiguration" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           bundleName: S.String,
           description: S.optional(SensitiveString),
-          components: __S(4225, __c132, 1),
+          components: __S(4257, __c133, 1),
           branchName: S.optional(S.String),
           commitMessage: S.optional(S.String),
-          createdBy: S.optional(__S(4192, __c131, 0)),
+          createdBy: S.optional(__S(4224, __c132, 0)),
           kmsKeyArn: S.optional(S.String),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
@@ -15938,7 +15955,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "CreateConfigurationBundleResponse" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, arn: S.optional(S.String) })).annotate({
@@ -15946,25 +15963,25 @@ function __c131(j: number): any {
       });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ configuration: S.Any })).annotate({
         identifier: "ComponentConfiguration",
       });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(4224, __c132, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4256, __c133, 0).pipe(S.optional));
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           executionRoleArn: S.String,
-          idpConfig: __S(4320, __c135, 0),
+          idpConfig: __S(4352, __c136, 0),
           name: S.String,
-          sources: __S(4289, __c134, 1),
+          sources: __S(4321, __c135, 1),
           description: S.optional(S.String),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
@@ -15980,17 +15997,17 @@ function __c133(j: number): any {
       ).annotate({ identifier: "CreateConsentPortalRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ identifier: S.String, type: S.String })).annotate({
         identifier: "ConsentPortalSource",
       });
     case 1:
-      return S.Array(__S(4288, __c134, 0));
+      return S.Array(__S(4320, __c135, 0));
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16003,13 +16020,13 @@ function __c135(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sources: __S(4289, __c134, 1),
+          sources: __S(4321, __c135, 1),
           consentPortalArn: S.String,
           consentPortalId: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           description: S.optional(S.String),
           executionRoleArn: S.String,
-          idpConfig: __S(4320, __c135, 0),
+          idpConfig: __S(4352, __c136, 0),
           name: S.String,
           portalUrl: S.optional(S.String),
           status: S.String,
@@ -16019,7 +16036,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "CreateConsentPortalResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16044,7 +16061,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "CreateDatasetResponse" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16074,7 +16091,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "CreateDatasetVersionResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16082,7 +16099,7 @@ function __c138(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           evaluatorName: S.String,
           description: S.optional(SensitiveString),
-          evaluatorConfig: __S(4465, __c139, 17),
+          evaluatorConfig: __S(4497, __c140, 17),
           level: S.String,
           kmsKeyArn: S.optional(S.String),
           tags: S.optional(__S(2848, __c89, 0)),
@@ -16108,40 +16125,40 @@ function __c138(j: number): any {
       ).annotate({ identifier: "CreateEvaluatorResponse" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ definition: S.String, value: S.Number, label: S.String }),
       ).annotate({ identifier: "NumericalScaleDefinition" });
     case 1:
-      return S.Array(__S(4448, __c139, 0));
+      return S.Array(__S(4480, __c140, 0));
     case 2:
       return S.suspend(() => S.Struct({ definition: S.String, label: S.String })).annotate({
         identifier: "CategoricalScaleDefinition",
       });
     case 3:
-      return S.Array(__S(4450, __c139, 2));
+      return S.Array(__S(4482, __c140, 2));
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ numerical: __S(4449, __c139, 1) }),
-        /*@__PURE__*/ S.Struct({ categorical: __S(4451, __c139, 3) }),
+        /*@__PURE__*/ S.Struct({ numerical: __S(4481, __c140, 1) }),
+        /*@__PURE__*/ S.Struct({ categorical: __S(4483, __c140, 3) }),
       ]);
     case 5:
       return S.suspend(() =>
         S.Struct({
           dimensionName: S.String,
           dimensionInstruction: SensitiveString,
-          dimensionRatingScale: __S(4452, __c139, 4),
+          dimensionRatingScale: __S(4484, __c140, 4),
         }),
       ).annotate({ identifier: "EvaluationDimension" });
     case 6:
-      return S.Array(__S(4453, __c139, 5));
+      return S.Array(__S(4485, __c140, 5));
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ numerical: __S(4449, __c139, 1) }),
-        /*@__PURE__*/ S.Struct({ categorical: __S(4451, __c139, 3) }),
-        /*@__PURE__*/ S.Struct({ multiDimensional: __S(4454, __c139, 6) }),
+        /*@__PURE__*/ S.Struct({ numerical: __S(4481, __c140, 1) }),
+        /*@__PURE__*/ S.Struct({ categorical: __S(4483, __c140, 3) }),
+        /*@__PURE__*/ S.Struct({ multiDimensional: __S(4486, __c140, 6) }),
       ]);
     case 8:
       return S.suspend(() =>
@@ -16156,7 +16173,7 @@ function __c139(j: number): any {
       return S.suspend(() =>
         S.Struct({
           modelId: S.String,
-          inferenceConfig: S.optional(__S(4456, __c139, 8)),
+          inferenceConfig: S.optional(__S(4488, __c140, 8)),
           additionalModelRequestFields: S.optional(S.Any),
         }),
       ).annotate({ identifier: "BedrockEvaluatorModelConfig" });
@@ -16171,20 +16188,20 @@ function __c139(j: number): any {
           maxOutputTokens: S.optional(S.Number),
           temperature: S.optional(S.Number),
           topP: S.optional(S.Number),
-          reasoning: S.optional(__S(4458, __c139, 10)),
+          reasoning: S.optional(__S(4490, __c140, 10)),
         }),
       ).annotate({ identifier: "OpenResponsesEvaluatorModelConfig" });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ bedrockEvaluatorModelConfig: __S(4457, __c139, 9) }),
-        /*@__PURE__*/ S.Struct({ responsesEvaluatorModelConfig: __S(4459, __c139, 11) }),
+        /*@__PURE__*/ S.Struct({ bedrockEvaluatorModelConfig: __S(4489, __c140, 9) }),
+        /*@__PURE__*/ S.Struct({ responsesEvaluatorModelConfig: __S(4491, __c140, 11) }),
       ]);
     case 13:
       return S.suspend(() =>
         S.Struct({
           instructions: SensitiveString,
-          ratingScale: __S(4455, __c139, 7),
-          modelConfig: __S(4460, __c139, 12),
+          ratingScale: __S(4487, __c140, 7),
+          modelConfig: __S(4492, __c140, 12),
         }),
       ).annotate({ identifier: "LlmAsAJudgeEvaluatorConfig" });
     case 14:
@@ -16192,20 +16209,20 @@ function __c139(j: number): any {
         S.Struct({ lambdaArn: S.String, lambdaTimeoutInSeconds: S.optional(S.Number) }),
       ).annotate({ identifier: "LambdaEvaluatorConfig" });
     case 15:
-      return S.Union([/*@__PURE__*/ S.Struct({ lambdaConfig: __S(4462, __c139, 14) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ lambdaConfig: __S(4494, __c140, 14) })]);
     case 16:
       return S.suspend(() =>
-        S.Struct({ baseEvaluatorId: S.String, modelConfig: __S(4460, __c139, 12) }),
+        S.Struct({ baseEvaluatorId: S.String, modelConfig: __S(4492, __c140, 12) }),
       ).annotate({ identifier: "DerivedEvaluatorConfig" });
     case 17:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ llmAsAJudge: __S(4461, __c139, 13) }),
-        /*@__PURE__*/ S.Struct({ codeBased: __S(4463, __c139, 15) }),
-        /*@__PURE__*/ S.Struct({ derived: __S(4464, __c139, 16) }),
+        /*@__PURE__*/ S.Struct({ llmAsAJudge: __S(4493, __c140, 13) }),
+        /*@__PURE__*/ S.Struct({ codeBased: __S(4495, __c140, 15) }),
+        /*@__PURE__*/ S.Struct({ derived: __S(4496, __c140, 16) }),
       ]);
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16215,26 +16232,26 @@ function __c140(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           roleArn: S.String,
           protocolType: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(4547, __c142, 3)),
+          protocolConfiguration: S.optional(__S(4579, __c143, 3)),
           authorizerType: S.String,
           authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
           kmsKeyArn: S.optional(S.String),
-          interceptorConfigurations: S.optional(__S(4554, __c142, 10)),
-          policyEngineConfiguration: S.optional(__S(4555, __c142, 11)),
+          interceptorConfigurations: S.optional(__S(4586, __c143, 10)),
+          policyEngineConfiguration: S.optional(__S(4587, __c143, 11)),
           exceptionLevel: S.optional(S.String),
           tags: S.optional(__S(2848, __c89, 0)),
-          domainOverride: S.optional(__S(4556, __c142, 12)),
+          domainOverride: S.optional(__S(4588, __c143, 12)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/gateways/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateGatewayRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ sessionTimeoutInSeconds: S.optional(S.Number) })).annotate({
@@ -16250,40 +16267,40 @@ function __c142(j: number): any {
           supportedVersions: S.optional(__S(2336, __c73, 0)),
           instructions: S.optional(SensitiveString),
           searchType: S.optional(S.String),
-          sessionConfiguration: S.optional(__S(4544, __c142, 0)),
-          streamingConfiguration: S.optional(__S(4545, __c142, 1)),
+          sessionConfiguration: S.optional(__S(4576, __c143, 0)),
+          streamingConfiguration: S.optional(__S(4577, __c143, 1)),
           disableMcpListToolsPagination: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MCPGatewayConfiguration" });
     case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ mcp: __S(4546, __c142, 2) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ mcp: __S(4578, __c143, 2) })]);
     case 4:
       return S.Union([/*@__PURE__*/ S.Struct({ lambda: __S(3460, __c108, 4) })]);
     case 5:
       return S.Union([/*@__PURE__*/ S.Struct({ field: S.String })]);
     case 6:
-      return S.Array(__S(4549, __c142, 5));
+      return S.Array(__S(4581, __c143, 5));
     case 7:
-      return S.suspend(() => S.Struct({ exclude: __S(4550, __c142, 6) })).annotate({
+      return S.suspend(() => S.Struct({ exclude: __S(4582, __c143, 6) })).annotate({
         identifier: "InterceptorPayloadFilter",
       });
     case 8:
       return S.suspend(() =>
         S.Struct({
           passRequestHeaders: S.Boolean,
-          payloadFilter: S.optional(__S(4551, __c142, 7)),
+          payloadFilter: S.optional(__S(4583, __c143, 7)),
         }),
       ).annotate({ identifier: "InterceptorInputConfiguration" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          interceptor: __S(4548, __c142, 4),
-          interceptionPoints: __S(4512, __c141, 0),
-          inputConfiguration: S.optional(__S(4552, __c142, 8)),
+          interceptor: __S(4580, __c143, 4),
+          interceptionPoints: __S(4544, __c142, 0),
+          inputConfiguration: S.optional(__S(4584, __c143, 8)),
         }),
       ).annotate({ identifier: "GatewayInterceptorConfiguration" });
     case 10:
-      return S.Array(__S(4553, __c142, 9));
+      return S.Array(__S(4585, __c143, 9));
     case 11:
       return S.suspend(() => S.Struct({ arn: S.String, mode: S.String })).annotate({
         identifier: "GatewayPolicyEngineConfiguration",
@@ -16300,7 +16317,7 @@ function __c142(j: number): any {
         identifier: "LambdaTransformConfiguration",
       });
     case 14:
-      return S.suspend(() => S.Struct({ lambda: S.optional(__S(4557, __c142, 13)) })).annotate({
+      return S.suspend(() => S.Struct({ lambda: S.optional(__S(4589, __c143, 13)) })).annotate({
         identifier: "CustomTransformConfiguration",
       });
     case 15:
@@ -16320,24 +16337,24 @@ function __c142(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           roleArn: S.optional(S.String),
-          protocolType: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(4547, __c142, 3)),
+          protocolType: S.optional(S.String).pipe(T.Default("MCP")),
+          protocolConfiguration: S.optional(__S(4579, __c143, 3)),
           authorizerType: S.String,
           authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
           kmsKeyArn: S.optional(S.String),
-          customTransformConfiguration: S.optional(__S(4558, __c142, 14)),
-          interceptorConfigurations: S.optional(__S(4554, __c142, 10)),
-          policyEngineConfiguration: S.optional(__S(4555, __c142, 11)),
+          customTransformConfiguration: S.optional(__S(4590, __c143, 14)),
+          interceptorConfigurations: S.optional(__S(4586, __c143, 10)),
+          policyEngineConfiguration: S.optional(__S(4587, __c143, 11)),
           workloadIdentityDetails: S.optional(__S(3488, __c109, 0)),
           exceptionLevel: S.optional(S.String),
           webAclArn: S.optional(S.String),
-          wafConfiguration: S.optional(__S(4559, __c142, 15)),
-          domainOverride: S.optional(__S(4556, __c142, 12)),
+          wafConfiguration: S.optional(__S(4591, __c143, 15)),
+          domainOverride: S.optional(__S(4588, __c143, 12)),
         }),
       ).annotate({ identifier: "CreateGatewayResponse" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16361,7 +16378,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "CreateGatewayRateLimitRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16369,8 +16386,8 @@ function __c144(j: number): any {
           gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           priority: S.Number,
-          conditions: S.optional(__S(4649, __c145, 9)),
-          actions: __S(4666, __c145, 26),
+          conditions: S.optional(__S(4681, __c146, 9)),
+          actions: __S(4698, __c146, 26),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -16389,28 +16406,28 @@ function __c144(j: number): any {
           ruleId: S.String,
           gatewayArn: S.String,
           priority: S.Number,
-          conditions: S.optional(__S(4649, __c145, 9)),
-          actions: __S(4666, __c145, 26),
+          conditions: S.optional(__S(4681, __c146, 9)),
+          actions: __S(4698, __c146, 26),
           description: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          system: S.optional(__S(4667, __c145, 27)),
+          system: S.optional(__S(4699, __c146, 27)),
         }),
       ).annotate({ identifier: "CreateGatewayRuleResponse" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ arn: S.String, operator: S.optional(S.String) })).annotate({
         identifier: "IamPrincipal",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ iamPrincipal: __S(4640, __c145, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ iamPrincipal: __S(4672, __c146, 0) })]);
     case 2:
-      return S.Array(__S(4641, __c145, 1));
+      return S.Array(__S(4673, __c146, 1));
     case 3:
-      return S.suspend(() => S.Struct({ anyOf: __S(4642, __c145, 2) })).annotate({
+      return S.suspend(() => S.Struct({ anyOf: __S(4674, __c146, 2) })).annotate({
         identifier: "MatchPrincipals",
       });
     case 4:
@@ -16419,22 +16436,22 @@ function __c145(j: number): any {
       });
     case 5:
       return S.suspend(() =>
-        S.Struct({ value: S.String, operator: S.optional(S.String) }),
+        S.Struct({ value: S.String, operator: S.optional(S.String).pipe(T.Default("StringLike")) }),
       ).annotate({ identifier: "MatchModelEntry" });
     case 6:
-      return S.Array(__S(4645, __c145, 5));
+      return S.Array(__S(4677, __c146, 5));
     case 7:
-      return S.suspend(() => S.Struct({ anyOf: __S(4646, __c145, 6) })).annotate({
+      return S.suspend(() => S.Struct({ anyOf: __S(4678, __c146, 6) })).annotate({
         identifier: "MatchModels",
       });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ matchPrincipals: __S(4643, __c145, 3) }),
-        /*@__PURE__*/ S.Struct({ matchPaths: __S(4644, __c145, 4) }),
-        /*@__PURE__*/ S.Struct({ matchModels: __S(4647, __c145, 7) }),
+        /*@__PURE__*/ S.Struct({ matchPrincipals: __S(4675, __c146, 3) }),
+        /*@__PURE__*/ S.Struct({ matchPaths: __S(4676, __c146, 4) }),
+        /*@__PURE__*/ S.Struct({ matchModels: __S(4679, __c146, 7) }),
       ]);
     case 9:
-      return S.Array(__S(4648, __c145, 8));
+      return S.Array(__S(4680, __c146, 8));
     case 10:
       return S.suspend(() => S.Struct({ bundleArn: S.String, bundleVersion: S.String })).annotate({
         identifier: "StaticOverride",
@@ -16444,51 +16461,51 @@ function __c145(j: number): any {
         S.Struct({
           name: S.String,
           weight: S.Number,
-          configurationBundle: __S(4650, __c145, 10),
+          configurationBundle: __S(4682, __c146, 10),
           description: S.optional(S.String),
           metadata: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "TrafficSplitEntry" });
     case 12:
-      return S.Array(__S(4651, __c145, 11));
+      return S.Array(__S(4683, __c146, 11));
     case 13:
-      return S.suspend(() => S.Struct({ trafficSplit: __S(4652, __c145, 12) })).annotate({
+      return S.suspend(() => S.Struct({ trafficSplit: __S(4684, __c146, 12) })).annotate({
         identifier: "WeightedOverride",
       });
     case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ staticOverride: __S(4650, __c145, 10) }),
-        /*@__PURE__*/ S.Struct({ weightedOverride: __S(4653, __c145, 13) }),
+        /*@__PURE__*/ S.Struct({ staticOverride: __S(4682, __c146, 10) }),
+        /*@__PURE__*/ S.Struct({ weightedOverride: __S(4685, __c146, 13) }),
       ]);
     case 15:
       return S.suspend(() =>
         S.Struct({
           statusCodes: S.optional(__S(2336, __c73, 0)),
-          errors: S.optional(__S(4512, __c141, 0)),
+          errors: S.optional(__S(4544, __c142, 0)),
         }),
       ).annotate({ identifier: "FallbackTriggers" });
     case 16:
-      return S.suspend(() => S.Struct({ mode: S.optional(S.String) })).annotate({
-        identifier: "CircuitBreakerConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ mode: S.optional(S.String).pipe(T.Default("ENABLED")) }),
+      ).annotate({ identifier: "CircuitBreakerConfiguration" });
     case 17:
       return S.suspend(() =>
         S.Struct({
           targetName: SensitiveString,
           model: S.optional(S.String),
-          triggerOn: S.optional(__S(4655, __c145, 15)),
+          triggerOn: S.optional(__S(4687, __c146, 15)),
           firstByteTimeoutMilliseconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FallbackTarget" });
     case 18:
-      return S.Array(__S(4657, __c145, 17));
+      return S.Array(__S(4689, __c146, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          triggerOn: S.optional(__S(4655, __c145, 15)),
+          triggerOn: S.optional(__S(4687, __c146, 15)),
           firstByteTimeoutMilliseconds: S.optional(S.Number),
-          circuitBreaker: S.optional(__S(4656, __c145, 16)),
-          targetFallback: __S(4658, __c145, 18),
+          circuitBreaker: S.optional(__S(4688, __c146, 16)),
+          targetFallback: __S(4690, __c146, 18),
         }),
       ).annotate({ identifier: "Fallback" });
     case 20:
@@ -16496,7 +16513,7 @@ function __c145(j: number): any {
         S.Struct({
           targetName: SensitiveString,
           model: S.optional(S.String),
-          fallback: S.optional(__S(4659, __c145, 19)),
+          fallback: S.optional(__S(4691, __c146, 19)),
         }),
       ).annotate({ identifier: "StaticRoute" });
     case 21:
@@ -16504,7 +16521,7 @@ function __c145(j: number): any {
         S.Struct({
           targetName: SensitiveString,
           model: S.optional(S.String),
-          fallback: S.optional(__S(4659, __c145, 19)),
+          fallback: S.optional(__S(4691, __c146, 19)),
           name: S.String,
           weight: S.Number,
           description: S.optional(S.String),
@@ -16512,30 +16529,30 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "TargetTrafficSplitEntry" });
     case 22:
-      return S.Array(__S(4661, __c145, 21));
+      return S.Array(__S(4693, __c146, 21));
     case 23:
-      return S.suspend(() => S.Struct({ trafficSplit: __S(4662, __c145, 22) })).annotate({
+      return S.suspend(() => S.Struct({ trafficSplit: __S(4694, __c146, 22) })).annotate({
         identifier: "WeightedRoute",
       });
     case 24:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ staticRoute: __S(4660, __c145, 20) }),
-        /*@__PURE__*/ S.Struct({ weightedRoute: __S(4663, __c145, 23) }),
+        /*@__PURE__*/ S.Struct({ staticRoute: __S(4692, __c146, 20) }),
+        /*@__PURE__*/ S.Struct({ weightedRoute: __S(4695, __c146, 23) }),
       ]);
     case 25:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ configurationBundle: __S(4654, __c145, 14) }),
-        /*@__PURE__*/ S.Struct({ routeToTarget: __S(4664, __c145, 24) }),
+        /*@__PURE__*/ S.Struct({ configurationBundle: __S(4686, __c146, 14) }),
+        /*@__PURE__*/ S.Struct({ routeToTarget: __S(4696, __c146, 24) }),
       ]);
     case 26:
-      return S.Array(__S(4665, __c145, 25));
+      return S.Array(__S(4697, __c146, 25));
     case 27:
       return S.suspend(() => S.Struct({ managedBy: S.String })).annotate({
         identifier: "SystemManagedBlock",
       });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16544,9 +16561,9 @@ function __c146(j: number): any {
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          targetConfiguration: __S(4838, __c151, 6),
-          credentialProviderConfigurations: S.optional(__S(4842, __c151, 10)),
-          metadataConfiguration: S.optional(__S(4843, __c151, 11)),
+          targetConfiguration: __S(4870, __c152, 6),
+          credentialProviderConfigurations: S.optional(__S(4874, __c152, 10)),
+          metadataConfiguration: S.optional(__S(4875, __c152, 11)),
           privateEndpoint: S.optional(__S(3394, __c106, 2)),
           certificateConfigurations: S.optional(__S(3397, __c106, 5)),
         }).pipe(
@@ -16562,21 +16579,21 @@ function __c146(j: number): any {
       ).annotate({ identifier: "CreateGatewayTargetRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           providerArn: S.String,
           scopes: __S(2336, __c73, 0),
-          customParameters: S.optional(__S(4704, __c147, 0)),
-          grantType: S.optional(S.String),
+          customParameters: S.optional(__S(4736, __c148, 0)),
+          grantType: S.optional(S.String).pipe(T.Default("CLIENT_CREDENTIALS")),
           defaultReturnUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "OAuthCredentialProvider" });
@@ -16586,17 +16603,17 @@ function __c148(j: number): any {
       ).annotate({ identifier: "IamCredentialProvider" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ authorizationUrl: S.String, userId: S.optional(S.String) }),
       ).annotate({ identifier: "OAuth2AuthorizationData" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ oauth2: __S(4768, __c149, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ oauth2: __S(4800, __c150, 0) })]);
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16604,13 +16621,13 @@ function __c150(j: number): any {
       ).annotate({ identifier: "S3Configuration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(4800, __c150, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(4832, __c151, 0) }),
         /*@__PURE__*/ S.Struct({ inlinePayload: SensitiveString }),
       ]);
     case 2:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend((): S.Schema<SchemaDefinition> => __S(4803, __c150, 3))
+        /*@__PURE__*/ S.suspend((): S.Schema<SchemaDefinition> => __S(4835, __c151, 3))
           .annotate({ identifier: "SchemaDefinition" })
           .pipe(S.optional),
       );
@@ -16619,11 +16636,11 @@ function __c150(j: number): any {
         S.Struct({
           type: S.String,
           properties: S.optional(
-            S.suspend(() => __S(4802, __c150, 2)).annotate({ identifier: "SchemaProperties" }),
+            S.suspend(() => __S(4834, __c151, 2)).annotate({ identifier: "SchemaProperties" }),
           ),
           required: S.optional(__S(2336, __c73, 0)),
           items: S.optional(
-            S.suspend((): S.Schema<SchemaDefinition> => __S(4803, __c150, 3)).annotate({
+            S.suspend((): S.Schema<SchemaDefinition> => __S(4835, __c151, 3)).annotate({
               identifier: "SchemaDefinition",
             }),
           ),
@@ -16635,26 +16652,26 @@ function __c150(j: number): any {
         S.Struct({
           name: S.String,
           description: S.String,
-          inputSchema: __S(4803, __c150, 3),
-          outputSchema: S.optional(__S(4803, __c150, 3)),
+          inputSchema: __S(4835, __c151, 3),
+          outputSchema: S.optional(__S(4835, __c151, 3)),
         }),
       ).annotate({ identifier: "ToolDefinition" });
     case 5:
-      return S.Array(__S(4804, __c150, 4));
+      return S.Array(__S(4836, __c151, 4));
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(4800, __c150, 0) }),
-        /*@__PURE__*/ S.Struct({ inlinePayload: __S(4805, __c150, 5) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(4832, __c151, 0) }),
+        /*@__PURE__*/ S.Struct({ inlinePayload: __S(4837, __c151, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
-        S.Struct({ lambdaArn: S.String, toolSchema: __S(4806, __c150, 6) }),
+        S.Struct({ lambdaArn: S.String, toolSchema: __S(4838, __c151, 6) }),
       ).annotate({ identifier: "McpLambdaTargetConfiguration" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          mcpToolSchema: S.optional(__S(4801, __c150, 1)),
+          mcpToolSchema: S.optional(__S(4833, __c151, 1)),
           listingMode: S.optional(S.String),
           resourcePriority: S.optional(S.Number),
         }),
@@ -16669,18 +16686,18 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "ApiGatewayToolOverride" });
     case 10:
-      return S.Array(__S(4809, __c150, 9));
+      return S.Array(__S(4841, __c151, 9));
     case 11:
       return S.suspend(() =>
-        S.Struct({ filterPath: S.String, methods: __S(4512, __c141, 0) }),
+        S.Struct({ filterPath: S.String, methods: __S(4544, __c142, 0) }),
       ).annotate({ identifier: "ApiGatewayToolFilter" });
     case 12:
-      return S.Array(__S(4811, __c150, 11));
+      return S.Array(__S(4843, __c151, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          toolOverrides: S.optional(__S(4810, __c150, 10)),
-          toolFilters: __S(4812, __c150, 12),
+          toolOverrides: S.optional(__S(4842, __c151, 10)),
+          toolFilters: __S(4844, __c151, 12),
         }),
       ).annotate({ identifier: "ApiGatewayToolConfiguration" });
     case 14:
@@ -16688,7 +16705,7 @@ function __c150(j: number): any {
         S.Struct({
           restApiId: S.String,
           stage: S.String,
-          apiGatewayToolConfiguration: __S(4813, __c150, 13),
+          apiGatewayToolConfiguration: __S(4845, __c151, 13),
         }),
       ).annotate({ identifier: "ApiGatewayTargetConfiguration" });
     case 15:
@@ -16704,37 +16721,37 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "ConnectorParameterOverride" });
     case 17:
-      return S.Array(__S(4816, __c150, 16));
+      return S.Array(__S(4848, __c151, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
           parameterValues: S.optional(S.Any),
-          parameterOverrides: S.optional(__S(4817, __c150, 17)),
+          parameterOverrides: S.optional(__S(4849, __c151, 17)),
         }),
       ).annotate({ identifier: "ConnectorConfiguration" });
     case 19:
-      return S.Array(__S(4818, __c150, 18));
+      return S.Array(__S(4850, __c151, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          source: __S(4815, __c150, 15),
+          source: __S(4847, __c151, 15),
           enabled: S.optional(__S(2336, __c73, 0)),
-          configurations: S.optional(__S(4819, __c150, 19)),
+          configurations: S.optional(__S(4851, __c151, 19)),
         }),
       ).annotate({ identifier: "ConnectorTargetConfiguration" });
     case 21:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ openApiSchema: __S(4801, __c150, 1) }),
-        /*@__PURE__*/ S.Struct({ smithyModel: __S(4801, __c150, 1) }),
-        /*@__PURE__*/ S.Struct({ lambda: __S(4807, __c150, 7) }),
-        /*@__PURE__*/ S.Struct({ mcpServer: __S(4808, __c150, 8) }),
-        /*@__PURE__*/ S.Struct({ apiGateway: __S(4814, __c150, 14) }),
-        /*@__PURE__*/ S.Struct({ connector: __S(4820, __c150, 20) }),
+        /*@__PURE__*/ S.Struct({ openApiSchema: __S(4833, __c151, 1) }),
+        /*@__PURE__*/ S.Struct({ smithyModel: __S(4833, __c151, 1) }),
+        /*@__PURE__*/ S.Struct({ lambda: __S(4839, __c151, 7) }),
+        /*@__PURE__*/ S.Struct({ mcpServer: __S(4840, __c151, 8) }),
+        /*@__PURE__*/ S.Struct({ apiGateway: __S(4846, __c151, 14) }),
+        /*@__PURE__*/ S.Struct({ connector: __S(4852, __c151, 20) }),
       ]);
     case 22:
-      return S.suspend(() => S.Struct({ source: __S(4801, __c150, 1) })).annotate({
+      return S.suspend(() => S.Struct({ source: __S(4833, __c151, 1) })).annotate({
         identifier: "HttpApiSchemaConfiguration",
       });
     case 23:
@@ -16742,7 +16759,7 @@ function __c150(j: number): any {
         S.Struct({
           arn: S.String,
           qualifier: S.optional(S.String),
-          schema: S.optional(__S(4822, __c150, 22)),
+          schema: S.optional(__S(4854, __c151, 22)),
         }),
       ).annotate({ identifier: "RuntimeTargetConfiguration" });
     case 24:
@@ -16758,9 +16775,9 @@ function __c150(j: number): any {
         S.Struct({
           endpoint: S.String,
           protocolType: S.String,
-          schema: S.optional(__S(4822, __c150, 22)),
-          stickinessConfiguration: S.optional(__S(4824, __c150, 24)),
-          staticQueryParameters: S.optional(__S(4704, __c147, 0)),
+          schema: S.optional(__S(4854, __c151, 22)),
+          stickinessConfiguration: S.optional(__S(4856, __c151, 24)),
+          staticQueryParameters: S.optional(__S(4736, __c148, 0)),
           staticQueryParameterConflictResolution: S.optional(S.String),
         }),
       ).annotate({ identifier: "PassthroughTargetConfiguration" });
@@ -16770,62 +16787,65 @@ function __c150(j: number): any {
       });
     case 27:
       return S.suspend(() =>
-        S.Struct({ source: __S(4826, __c150, 26), parameters: S.optional(__S(2848, __c89, 0)) }),
+        S.Struct({ source: __S(4858, __c151, 26), parameters: S.optional(__S(2848, __c89, 0)) }),
       ).annotate({ identifier: "HttpConnectorTargetConfiguration" });
     case 28:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentcoreRuntime: __S(4823, __c150, 23) }),
-        /*@__PURE__*/ S.Struct({ passthrough: __S(4825, __c150, 25) }),
-        /*@__PURE__*/ S.Struct({ connector: __S(4827, __c150, 27) }),
+        /*@__PURE__*/ S.Struct({ agentcoreRuntime: __S(4855, __c151, 23) }),
+        /*@__PURE__*/ S.Struct({ passthrough: __S(4857, __c151, 25) }),
+        /*@__PURE__*/ S.Struct({ connector: __S(4859, __c151, 27) }),
       ]);
     case 29:
-      return S.suspend(() => S.Struct({ source: __S(4826, __c150, 26) })).annotate({
+      return S.suspend(() => S.Struct({ source: __S(4858, __c151, 26) })).annotate({
         identifier: "InferenceConnectorTargetConfiguration",
       });
     case 30:
       return S.suspend(() =>
-        S.Struct({ strip: S.optional(S.Boolean), separator: S.optional(S.String) }),
+        S.Struct({
+          strip: S.optional(S.Boolean).pipe(T.Default(false)),
+          separator: S.optional(S.String).pipe(T.Default(".")),
+        }),
       ).annotate({ identifier: "ProviderPrefix" });
     case 31:
       return S.suspend(() =>
-        S.Struct({ providerPrefix: S.optional(__S(4830, __c150, 30)) }),
+        S.Struct({ providerPrefix: S.optional(__S(4862, __c151, 30)) }),
       ).annotate({ identifier: "ModelMapping" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ model: S.String })).annotate({ identifier: "ModelEntry" });
     case 1:
-      return S.Array(__S(4832, __c151, 0));
+      return S.Array(__S(4864, __c152, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
           providerPath: S.optional(S.String),
-          models: S.optional(__S(4833, __c151, 1)),
+          models: S.optional(__S(4865, __c152, 1)),
         }),
       ).annotate({ identifier: "InferenceOperationConfiguration" });
     case 3:
-      return S.Array(__S(4834, __c151, 2));
+      return S.Array(__S(4866, __c152, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          modelMapping: S.optional(__S(4831, __c150, 31)),
-          operations: S.optional(__S(4835, __c151, 3)),
+          modelMapping: S.optional(__S(4863, __c151, 31)),
+          operations: S.optional(__S(4867, __c152, 3)),
         }),
       ).annotate({ identifier: "InferenceProviderTargetConfiguration" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ connector: __S(4829, __c150, 29) }),
-        /*@__PURE__*/ S.Struct({ provider: __S(4836, __c151, 4) }),
+        /*@__PURE__*/ S.Struct({ connector: __S(4861, __c151, 29) }),
+        /*@__PURE__*/ S.Struct({ provider: __S(4868, __c152, 4) }),
       ]);
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ mcp: __S(4821, __c150, 21) }),
-        /*@__PURE__*/ S.Struct({ http: __S(4828, __c150, 28) }),
-        /*@__PURE__*/ S.Struct({ inference: __S(4837, __c151, 5) }),
+        /*@__PURE__*/ S.Struct({ mcp: __S(4853, __c151, 21) }),
+        /*@__PURE__*/ S.Struct({ http: __S(4860, __c151, 28) }),
+        /*@__PURE__*/ S.Struct({ inference: __S(4869, __c152, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
@@ -16838,19 +16858,19 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GatewayApiKeyCredentialProvider" });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(4736, __c148, 0) }),
-        /*@__PURE__*/ S.Struct({ apiKeyCredentialProvider: __S(4839, __c151, 7) }),
-        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(4768, __c149, 0) }),
+        /*@__PURE__*/ S.Struct({ apiKeyCredentialProvider: __S(4871, __c152, 7) }),
+        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(4769, __c149, 1) }),
       ]);
     case 9:
       return S.suspend(() =>
         S.Struct({
           credentialProviderType: S.String,
-          credentialProvider: S.optional(__S(4840, __c151, 8)),
+          credentialProvider: S.optional(__S(4872, __c152, 8)),
         }),
       ).annotate({ identifier: "CredentialProviderConfiguration" });
     case 10:
-      return S.Array(__S(4841, __c151, 9));
+      return S.Array(__S(4873, __c152, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -16868,7 +16888,7 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "ManagedResourceDetails" });
     case 13:
-      return S.Array(__S(4844, __c151, 12));
+      return S.Array(__S(4876, __c152, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -16880,20 +16900,20 @@ function __c151(j: number): any {
           statusReasons: S.optional(__S(2336, __c73, 0)),
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          targetConfiguration: __S(4838, __c151, 6),
-          credentialProviderConfigurations: __S(4842, __c151, 10),
+          targetConfiguration: __S(4870, __c152, 6),
+          credentialProviderConfigurations: __S(4874, __c152, 10),
           lastSynchronizedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          metadataConfiguration: S.optional(__S(4843, __c151, 11)),
+          metadataConfiguration: S.optional(__S(4875, __c152, 11)),
           privateEndpoint: S.optional(__S(3394, __c106, 2)),
-          privateEndpointManagedResources: S.optional(__S(4845, __c151, 13)),
-          authorizationData: S.optional(__S(4769, __c149, 1)),
+          privateEndpointManagedResources: S.optional(__S(4877, __c152, 13)),
+          authorizationData: S.optional(__S(4801, __c150, 1)),
           protocolType: S.optional(S.String),
           certificateConfigurations: S.optional(__S(3397, __c106, 5)),
         }),
       ).annotate({ identifier: "CreateGatewayTargetResponse" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16901,18 +16921,18 @@ function __c152(j: number): any {
           harnessName: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.String,
-          environment: S.optional(__S(4897, __c153, 1)),
-          environmentArtifact: S.optional(__S(4960, __c155, 0)),
+          environment: S.optional(__S(4929, __c154, 1)),
+          environmentArtifact: S.optional(__S(4992, __c156, 0)),
           environmentVariables: S.optional(__S(2848, __c89, 0)),
           authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
-          model: S.optional(__S(4965, __c155, 5)),
-          systemPrompt: S.optional(__S(4967, __c155, 7)),
-          tools: S.optional(__S(4977, __c155, 17)),
-          skills: S.optional(__S(4983, __c155, 23)),
+          model: S.optional(__S(4997, __c156, 5)),
+          systemPrompt: S.optional(__S(4999, __c156, 7)),
+          tools: S.optional(__S(5009, __c156, 17)),
+          skills: S.optional(__S(5015, __c156, 23)),
           allowedTools: S.optional(__S(2336, __c73, 0)),
-          memory: S.optional(__S(4988, __c155, 28)),
-          truncation: S.optional(__S(4992, __c156, 0)),
-          hooks: S.optional(__S(4997, __c156, 5)),
+          memory: S.optional(__S(5020, __c156, 28)),
+          truncation: S.optional(__S(5024, __c157, 0)),
+          hooks: S.optional(__S(5029, __c157, 5)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
@@ -16921,7 +16941,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "CreateHarnessRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16933,11 +16953,11 @@ function __c153(j: number): any {
       ).annotate({ identifier: "HarnessAgentCoreRuntimeEnvironmentRequest" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(4896, __c153, 0) }),
+        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(4928, __c154, 0) }),
       ]);
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -16945,7 +16965,7 @@ function __c154(j: number): any {
       });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ containerConfiguration: __S(3520, __c110, 0) })]);
@@ -16999,18 +17019,18 @@ function __c155(j: number): any {
       ).annotate({ identifier: "HarnessLiteLlmModelConfig" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ bedrockModelConfig: __S(4961, __c155, 1) }),
-        /*@__PURE__*/ S.Struct({ openAiModelConfig: __S(4962, __c155, 2) }),
-        /*@__PURE__*/ S.Struct({ geminiModelConfig: __S(4963, __c155, 3) }),
-        /*@__PURE__*/ S.Struct({ liteLlmModelConfig: __S(4964, __c155, 4) }),
+        /*@__PURE__*/ S.Struct({ bedrockModelConfig: __S(4993, __c156, 1) }),
+        /*@__PURE__*/ S.Struct({ openAiModelConfig: __S(4994, __c156, 2) }),
+        /*@__PURE__*/ S.Struct({ geminiModelConfig: __S(4995, __c156, 3) }),
+        /*@__PURE__*/ S.Struct({ liteLlmModelConfig: __S(4996, __c156, 4) }),
       ]);
     case 6:
       return S.Union([/*@__PURE__*/ S.Struct({ text: SensitiveString })]);
     case 7:
-      return S.Array(__S(4966, __c155, 6));
+      return S.Array(__S(4998, __c156, 6));
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ awsIam: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ awsIam: __S(4769, __c149, 1) }),
         /*@__PURE__*/ S.Struct({ none: /*@__PURE__*/ S.Struct({}) }),
       ]);
     case 9:
@@ -17018,7 +17038,7 @@ function __c155(j: number): any {
         S.Struct({
           url: SensitiveString,
           headers: S.optional(__S(2848, __c89, 0)),
-          outboundAuth: S.optional(__S(4968, __c155, 8)),
+          outboundAuth: S.optional(__S(5000, __c156, 8)),
         }),
       ).annotate({ identifier: "HarnessRemoteMcpConfig" });
     case 10:
@@ -17029,11 +17049,11 @@ function __c155(j: number): any {
       return S.Union([
         /*@__PURE__*/ S.Struct({ awsIam: /*@__PURE__*/ S.Struct({}) }),
         /*@__PURE__*/ S.Struct({ none: /*@__PURE__*/ S.Struct({}) }),
-        /*@__PURE__*/ S.Struct({ oauth: __S(4736, __c148, 0) }),
+        /*@__PURE__*/ S.Struct({ oauth: __S(4768, __c149, 0) }),
       ]);
     case 12:
       return S.suspend(() =>
-        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(4971, __c155, 11)) }),
+        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(5003, __c156, 11)) }),
       ).annotate({ identifier: "HarnessAgentCoreGatewayConfig" });
     case 13:
       return S.suspend(() =>
@@ -17045,22 +17065,22 @@ function __c155(j: number): any {
       });
     case 15:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ remoteMcp: __S(4969, __c155, 9) }),
-        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(4970, __c155, 10) }),
-        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(4972, __c155, 12) }),
-        /*@__PURE__*/ S.Struct({ inlineFunction: __S(4973, __c155, 13) }),
-        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(4974, __c155, 14) }),
+        /*@__PURE__*/ S.Struct({ remoteMcp: __S(5001, __c156, 9) }),
+        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(5002, __c156, 10) }),
+        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(5004, __c156, 12) }),
+        /*@__PURE__*/ S.Struct({ inlineFunction: __S(5005, __c156, 13) }),
+        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(5006, __c156, 14) }),
       ]);
     case 16:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.optional(S.String),
-          config: S.optional(__S(4975, __c155, 15)),
+          config: S.optional(__S(5007, __c156, 15)),
         }),
       ).annotate({ identifier: "HarnessTool" });
     case 17:
-      return S.Array(__S(4976, __c155, 16));
+      return S.Array(__S(5008, __c156, 16));
     case 18:
       return S.suspend(() => S.Struct({ uri: S.String })).annotate({
         identifier: "HarnessSkillS3Source",
@@ -17074,7 +17094,7 @@ function __c155(j: number): any {
         S.Struct({
           url: S.String,
           path: S.optional(S.String),
-          auth: S.optional(__S(4979, __c155, 19)),
+          auth: S.optional(__S(5011, __c156, 19)),
         }),
       ).annotate({ identifier: "HarnessSkillGitSource" });
     case 21:
@@ -17084,12 +17104,12 @@ function __c155(j: number): any {
     case 22:
       return S.Union([
         /*@__PURE__*/ S.Struct({ path: S.String }),
-        /*@__PURE__*/ S.Struct({ s3: __S(4978, __c155, 18) }),
-        /*@__PURE__*/ S.Struct({ git: __S(4980, __c155, 20) }),
-        /*@__PURE__*/ S.Struct({ awsSkills: __S(4981, __c155, 21) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(5010, __c156, 18) }),
+        /*@__PURE__*/ S.Struct({ git: __S(5012, __c156, 20) }),
+        /*@__PURE__*/ S.Struct({ awsSkills: __S(5013, __c156, 21) }),
       ]);
     case 23:
-      return S.Array(__S(4982, __c155, 22));
+      return S.Array(__S(5014, __c156, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -17099,30 +17119,30 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "HarnessAgentCoreMemoryRetrievalConfig" });
     case 25:
-      return S.Record(S.String, /*@__PURE__*/ __S(4984, __c155, 24).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(5016, __c156, 24).pipe(S.optional));
     case 26:
       return S.suspend(() =>
         S.Struct({
           arn: S.String,
           actorId: S.optional(S.String),
           messagesCount: S.optional(S.Number),
-          retrievalConfig: S.optional(__S(4985, __c155, 25)),
+          retrievalConfig: S.optional(__S(5017, __c156, 25)),
         }),
       ).annotate({ identifier: "HarnessAgentCoreMemoryConfiguration" });
     case 27:
       return S.suspend(() =>
         S.Struct({
           arn: S.optional(S.String),
-          strategies: S.optional(__S(4512, __c141, 0)),
+          strategies: S.optional(__S(4544, __c142, 0)),
           eventExpiryDuration: S.optional(S.Number),
           encryptionKeyArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "HarnessManagedMemoryConfiguration" });
     case 28:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentCoreMemoryConfiguration: __S(4986, __c155, 26) }),
-        /*@__PURE__*/ S.Struct({ managedMemoryConfiguration: __S(4987, __c155, 27) }),
-        /*@__PURE__*/ S.Struct({ disabled: __S(4928, __c154, 0) }),
+        /*@__PURE__*/ S.Struct({ agentCoreMemoryConfiguration: __S(5018, __c156, 26) }),
+        /*@__PURE__*/ S.Struct({ managedMemoryConfiguration: __S(5019, __c156, 27) }),
+        /*@__PURE__*/ S.Struct({ disabled: __S(4960, __c155, 0) }),
       ]);
     case 29:
       return S.suspend(() => S.Struct({ messagesCount: S.optional(S.Number) })).annotate({
@@ -17138,44 +17158,44 @@ function __c155(j: number): any {
       ).annotate({ identifier: "HarnessSummarizationConfiguration" });
     case 31:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ slidingWindow: __S(4989, __c155, 29) }),
-        /*@__PURE__*/ S.Struct({ summarization: __S(4990, __c155, 30) }),
+        /*@__PURE__*/ S.Struct({ slidingWindow: __S(5021, __c156, 29) }),
+        /*@__PURE__*/ S.Struct({ summarization: __S(5022, __c156, 30) }),
       ]);
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ strategy: S.String, config: S.optional(__S(4991, __c155, 31)) }),
+        S.Struct({ strategy: S.String, config: S.optional(__S(5023, __c156, 31)) }),
       ).annotate({ identifier: "HarnessTruncationConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           arn: S.String,
-          timeoutSeconds: S.optional(S.Number),
-          failureMode: S.optional(S.String),
+          timeoutSeconds: S.optional(S.Number).pipe(T.Default(60)),
+          failureMode: S.optional(S.String).pipe(T.Default("deny")),
         }),
       ).annotate({ identifier: "HarnessHookLambdaTarget" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ lambda: __S(4993, __c156, 1) }),
+        /*@__PURE__*/ S.Struct({ lambda: __S(5025, __c157, 1) }),
         /*@__PURE__*/ S.Struct({ sns: __S(3460, __c108, 4) }),
         /*@__PURE__*/ S.Struct({ eventBridge: __S(3460, __c108, 4) }),
       ]);
     case 3:
-      return S.suspend(() => S.Struct({ name: S.String, target: __S(4994, __c156, 2) })).annotate({
+      return S.suspend(() => S.Struct({ name: S.String, target: __S(5026, __c157, 2) })).annotate({
         identifier: "HarnessBeforeInvocationHook",
       });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ beforeInvocation: __S(4995, __c156, 3) }),
-        /*@__PURE__*/ S.Struct({ afterInvocation: __S(4995, __c156, 3) }),
-        /*@__PURE__*/ S.Struct({ beforeToolCall: __S(4995, __c156, 3) }),
-        /*@__PURE__*/ S.Struct({ afterToolCall: __S(4995, __c156, 3) }),
+        /*@__PURE__*/ S.Struct({ beforeInvocation: __S(5027, __c157, 3) }),
+        /*@__PURE__*/ S.Struct({ afterInvocation: __S(5027, __c157, 3) }),
+        /*@__PURE__*/ S.Struct({ beforeToolCall: __S(5027, __c157, 3) }),
+        /*@__PURE__*/ S.Struct({ afterToolCall: __S(5027, __c157, 3) }),
       ]);
     case 5:
-      return S.Array(__S(4996, __c156, 4));
+      return S.Array(__S(5028, __c157, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -17189,7 +17209,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "HarnessAgentCoreRuntimeEnvironment" });
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(4998, __c156, 6) }),
+        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(5030, __c157, 6) }),
       ]);
     case 8:
       return S.suspend(() =>
@@ -17202,18 +17222,18 @@ function __c156(j: number): any {
           executionRoleArn: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          model: __S(4965, __c155, 5),
-          systemPrompt: __S(4967, __c155, 7),
-          tools: __S(4977, __c155, 17),
-          skills: __S(4983, __c155, 23),
+          model: __S(4997, __c156, 5),
+          systemPrompt: __S(4999, __c156, 7),
+          tools: __S(5009, __c156, 17),
+          skills: __S(5015, __c156, 23),
           allowedTools: __S(2336, __c73, 0),
-          truncation: __S(4992, __c156, 0),
-          environment: __S(4999, __c156, 7),
-          environmentArtifact: S.optional(__S(4960, __c155, 0)),
+          truncation: __S(5024, __c157, 0),
+          environment: __S(5031, __c157, 7),
+          environmentArtifact: S.optional(__S(4992, __c156, 0)),
           environmentVariables: S.optional(__S(2848, __c89, 0)),
           authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
-          memory: S.optional(__S(4988, __c155, 28)),
-          hooks: S.optional(__S(4997, __c156, 5)),
+          memory: S.optional(__S(5020, __c156, 28)),
+          hooks: S.optional(__S(5029, __c157, 5)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
@@ -17222,15 +17242,15 @@ function __c156(j: number): any {
       ).annotate({ identifier: "Harness" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ harness: __S(5000, __c156, 8) })).annotate({
+      return S.suspend(() => S.Struct({ harness: __S(5032, __c157, 8) })).annotate({
         identifier: "CreateHarnessResponse",
       });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17254,7 +17274,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "CreateHarnessEndpointRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17274,15 +17294,15 @@ function __c159(j: number): any {
       ).annotate({ identifier: "HarnessEndpoint" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ endpoint: __S(5088, __c159, 0) })).annotate({
+      return S.suspend(() => S.Struct({ endpoint: __S(5120, __c160, 0) })).annotate({
         identifier: "CreateHarnessEndpointResponse",
       });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17293,10 +17313,10 @@ function __c161(j: number): any {
           encryptionKeyArn: S.optional(S.String),
           memoryExecutionRoleArn: S.optional(S.String),
           eventExpiryDuration: S.Number,
-          memoryStrategies: S.optional(__S(5194, __c162, 10)),
-          indexedKeys: S.optional(__S(5235, __c163, 19)),
-          namespaceKeys: S.optional(__S(5238, __c163, 22)),
-          streamDeliveryResources: S.optional(__S(5244, __c163, 28)),
+          memoryStrategies: S.optional(__S(5231, __c163, 15)),
+          indexedKeys: S.optional(__S(5262, __c164, 14)),
+          namespaceKeys: S.optional(__S(5265, __c164, 17)),
+          streamDeliveryResources: S.optional(__S(5271, __c164, 23)),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/memories/create" }), svc, auth, proto, ver, rules),
@@ -17304,7 +17324,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "CreateMemoryInput" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
@@ -17318,86 +17338,106 @@ function __c162(j: number): any {
           description: S.optional(SensitiveString),
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
-          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
+          memoryRecordSchema: S.optional(__S(5256, __c164, 8)),
+          recordExpirySpecification: S.optional(__S(5216, __c163, 0)),
         }),
       ).annotate({ identifier: "SemanticMemoryStrategyInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(5225, __c163, 9)),
-          consolidation: S.optional(__S(5225, __c163, 9)),
+          extraction: S.optional(__S(5257, __c164, 9)),
+          consolidation: S.optional(__S(5257, __c164, 9)),
         }),
       ).annotate({ identifier: "SemanticOverrideConfigurationInput" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ consolidation: S.optional(__S(5225, __c163, 9)) }),
+        S.Struct({ consolidation: S.optional(__S(5257, __c164, 9)) }),
       ).annotate({ identifier: "SummaryOverrideConfigurationInput" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(5225, __c163, 9)),
-          consolidation: S.optional(__S(5225, __c163, 9)),
-          reflection: S.optional(__S(5226, __c163, 10)),
+          extraction: S.optional(__S(5257, __c164, 9)),
+          consolidation: S.optional(__S(5257, __c164, 9)),
+          reflection: S.optional(__S(5258, __c164, 10)),
         }),
       ).annotate({ identifier: "EpisodicOverrideConfigurationInput" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          triggerConditions: S.optional(__S(5231, __c163, 15)),
-          invocationConfiguration: __S(5232, __c163, 16),
-          historicalContextWindowSize: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SelfManagedConfigurationInput" });
+        S.Struct({ messageCount: S.optional(S.Number).pipe(T.Default(6)) }),
+      ).annotate({ identifier: "MessageBasedTriggerInput" });
     case 6:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticOverride: __S(5186, __c162, 2) }),
-        /*@__PURE__*/ S.Struct({ summaryOverride: __S(5187, __c162, 3) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceOverride: __S(5186, __c162, 2) }),
-        /*@__PURE__*/ S.Struct({ episodicOverride: __S(5188, __c162, 4) }),
-        /*@__PURE__*/ S.Struct({ selfManagedConfiguration: __S(5189, __c162, 5) }),
-      ]);
+      return S.suspend(() =>
+        S.Struct({ tokenCount: S.optional(S.Number).pipe(T.Default(5000)) }),
+      ).annotate({ identifier: "TokenBasedTriggerInput" });
     case 7:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(SensitiveString),
-          namespaces: S.optional(__S(2336, __c73, 0)),
-          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          configuration: S.optional(__S(5190, __c162, 6)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
-          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
-        }),
-      ).annotate({ identifier: "CustomMemoryStrategyInput" });
+        S.Struct({ idleSessionTimeout: S.optional(S.Number).pipe(T.Default(20)) }),
+      ).annotate({ identifier: "TimeBasedTriggerInput" });
     case 8:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ messageBasedTrigger: __S(5221, __c163, 5) }),
+        /*@__PURE__*/ S.Struct({ tokenBasedTrigger: __S(5222, __c163, 6) }),
+        /*@__PURE__*/ S.Struct({ timeBasedTrigger: __S(5223, __c163, 7) }),
+      ]);
+    case 9:
+      return S.Array(__S(5224, __c163, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          triggerConditions: S.optional(__S(5225, __c163, 9)),
+          invocationConfiguration: __S(5259, __c164, 11),
+          historicalContextWindowSize: S.optional(S.Number).pipe(T.Default(4)),
+        }),
+      ).annotate({ identifier: "SelfManagedConfigurationInput" });
+    case 11:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ semanticOverride: __S(5218, __c163, 2) }),
+        /*@__PURE__*/ S.Struct({ summaryOverride: __S(5219, __c163, 3) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceOverride: __S(5218, __c163, 2) }),
+        /*@__PURE__*/ S.Struct({ episodicOverride: __S(5220, __c163, 4) }),
+        /*@__PURE__*/ S.Struct({ selfManagedConfiguration: __S(5226, __c163, 10) }),
+      ]);
+    case 12:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(SensitiveString),
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          reflectionConfiguration: S.optional(__S(5233, __c163, 17)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
-          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
+          configuration: S.optional(__S(5227, __c163, 11)),
+          memoryRecordSchema: S.optional(__S(5256, __c164, 8)),
+          recordExpirySpecification: S.optional(__S(5216, __c163, 0)),
+        }),
+      ).annotate({ identifier: "CustomMemoryStrategyInput" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(SensitiveString),
+          namespaces: S.optional(__S(2336, __c73, 0)),
+          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
+          reflectionConfiguration: S.optional(__S(5260, __c164, 12)),
+          memoryRecordSchema: S.optional(__S(5256, __c164, 8)),
+          recordExpirySpecification: S.optional(__S(5216, __c163, 0)),
         }),
       ).annotate({ identifier: "EpisodicMemoryStrategyInput" });
-    case 9:
+    case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticMemoryStrategy: __S(5185, __c162, 1) }),
-        /*@__PURE__*/ S.Struct({ summaryMemoryStrategy: __S(5185, __c162, 1) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceMemoryStrategy: __S(5185, __c162, 1) }),
-        /*@__PURE__*/ S.Struct({ customMemoryStrategy: __S(5191, __c162, 7) }),
-        /*@__PURE__*/ S.Struct({ episodicMemoryStrategy: __S(5192, __c162, 8) }),
+        /*@__PURE__*/ S.Struct({ semanticMemoryStrategy: __S(5217, __c163, 1) }),
+        /*@__PURE__*/ S.Struct({ summaryMemoryStrategy: __S(5217, __c163, 1) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceMemoryStrategy: __S(5217, __c163, 1) }),
+        /*@__PURE__*/ S.Struct({ customMemoryStrategy: __S(5228, __c163, 12) }),
+        /*@__PURE__*/ S.Struct({ episodicMemoryStrategy: __S(5229, __c163, 13) }),
       ]);
-    case 10:
-      return S.Array(__S(5193, __c162, 9));
-    case 11:
-      return S.suspend(() => S.Struct({ memory: S.optional(__S(5255, __c164, 7)) })).annotate({
+    case 15:
+      return S.Array(__S(5230, __c163, 14));
+    case 16:
+      return S.suspend(() => S.Struct({ memory: S.optional(__S(5287, __c165, 7)) })).annotate({
         identifier: "CreateMemoryOutput",
       });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ allowedValues: __S(2336, __c73, 0) })).annotate({
@@ -17416,34 +17456,34 @@ function __c163(j: number): any {
       ).annotate({ identifier: "NumberValidation" });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ stringValidation: __S(5216, __c163, 0) }),
-        /*@__PURE__*/ S.Struct({ stringListValidation: __S(5217, __c163, 1) }),
-        /*@__PURE__*/ S.Struct({ numberValidation: __S(5218, __c163, 2) }),
+        /*@__PURE__*/ S.Struct({ stringValidation: __S(5248, __c164, 0) }),
+        /*@__PURE__*/ S.Struct({ stringListValidation: __S(5249, __c164, 1) }),
+        /*@__PURE__*/ S.Struct({ numberValidation: __S(5250, __c164, 2) }),
       ]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           llmExtractionInstruction: S.optional(SensitiveString),
           definition: SensitiveString,
-          validation: S.optional(__S(5219, __c163, 3)),
+          validation: S.optional(__S(5251, __c164, 3)),
         }),
       ).annotate({ identifier: "LlmExtractionConfig" });
     case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ llmExtractionConfig: __S(5220, __c163, 4) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ llmExtractionConfig: __S(5252, __c164, 4) })]);
     case 6:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           type: S.optional(S.String),
           extractionType: S.optional(S.String),
-          extractionConfig: S.optional(__S(5221, __c163, 5)),
+          extractionConfig: S.optional(__S(5253, __c164, 5)),
         }),
       ).annotate({ identifier: "MetadataSchemaEntry" });
     case 7:
-      return S.Array(__S(5222, __c163, 6));
+      return S.Array(__S(5254, __c164, 6));
     case 8:
       return S.suspend(() =>
-        S.Struct({ metadataSchema: S.optional(__S(5223, __c163, 7)) }),
+        S.Struct({ metadataSchema: S.optional(__S(5255, __c164, 7)) }),
       ).annotate({ identifier: "MemoryRecordSchema" });
     case 9:
       return S.suspend(() =>
@@ -17456,117 +17496,117 @@ function __c163(j: number): any {
           modelId: S.String,
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          memoryRecordSchema: S.optional(__S(5256, __c164, 8)),
         }),
       ).annotate({ identifier: "EpisodicOverrideReflectionConfigurationInput" });
     case 11:
-      return S.suspend(() => S.Struct({ messageCount: S.optional(S.Number) })).annotate({
-        identifier: "MessageBasedTriggerInput",
-      });
-    case 12:
-      return S.suspend(() => S.Struct({ tokenCount: S.optional(S.Number) })).annotate({
-        identifier: "TokenBasedTriggerInput",
-      });
-    case 13:
-      return S.suspend(() => S.Struct({ idleSessionTimeout: S.optional(S.Number) })).annotate({
-        identifier: "TimeBasedTriggerInput",
-      });
-    case 14:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ messageBasedTrigger: __S(5227, __c163, 11) }),
-        /*@__PURE__*/ S.Struct({ tokenBasedTrigger: __S(5228, __c163, 12) }),
-        /*@__PURE__*/ S.Struct({ timeBasedTrigger: __S(5229, __c163, 13) }),
-      ]);
-    case 15:
-      return S.Array(__S(5230, __c163, 14));
-    case 16:
       return S.suspend(() =>
         S.Struct({ topicArn: S.String, payloadDeliveryBucketName: S.String }),
       ).annotate({ identifier: "InvocationConfigurationInput" });
-    case 17:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          memoryRecordSchema: S.optional(__S(5256, __c164, 8)),
         }),
       ).annotate({ identifier: "EpisodicReflectionConfigurationInput" });
-    case 18:
+    case 13:
       return S.suspend(() => S.Struct({ key: S.String, type: S.String })).annotate({
         identifier: "IndexedKey",
       });
-    case 19:
-      return S.Array(__S(5234, __c163, 18));
-    case 20:
+    case 14:
+      return S.Array(__S(5261, __c164, 13));
+    case 15:
       return S.suspend(() =>
         S.Struct({
           allowedValues: S.optional(__S(2336, __c73, 0)),
           regexPattern: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamespaceKeyValidation" });
-    case 21:
+    case 16:
       return S.suspend(() =>
-        S.Struct({ key: S.String, validation: S.optional(__S(5236, __c163, 20)) }),
+        S.Struct({ key: S.String, validation: S.optional(__S(5263, __c164, 15)) }),
       ).annotate({ identifier: "NamespaceKeyEntry" });
-    case 22:
-      return S.Array(__S(5237, __c163, 21));
-    case 23:
-      return S.suspend(() => S.Struct({ type: S.String, level: S.optional(S.String) })).annotate({
-        identifier: "ContentConfiguration",
-      });
-    case 24:
-      return S.Array(__S(5239, __c163, 23));
-    case 25:
+    case 17:
+      return S.Array(__S(5264, __c164, 16));
+    case 18:
       return S.suspend(() =>
-        S.Struct({ dataStreamArn: S.String, contentConfigurations: __S(5240, __c163, 24) }),
+        S.Struct({ type: S.String, level: S.optional(S.String).pipe(T.Default("METADATA_ONLY")) }),
+      ).annotate({ identifier: "ContentConfiguration" });
+    case 19:
+      return S.Array(__S(5266, __c164, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({ dataStreamArn: S.String, contentConfigurations: __S(5267, __c164, 19) }),
       ).annotate({ identifier: "KinesisResource" });
-    case 26:
-      return S.Union([/*@__PURE__*/ S.Struct({ kinesis: __S(5241, __c163, 25) })]);
-    case 27:
-      return S.Array(__S(5242, __c163, 26));
-    case 28:
-      return S.suspend(() => S.Struct({ resources: __S(5243, __c163, 27) })).annotate({
+    case 21:
+      return S.Union([/*@__PURE__*/ S.Struct({ kinesis: __S(5268, __c164, 20) })]);
+    case 22:
+      return S.Array(__S(5269, __c164, 21));
+    case 23:
+      return S.suspend(() => S.Struct({ resources: __S(5270, __c164, 22) })).annotate({
         identifier: "StreamDeliveryResources",
       });
+    case 24:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ semanticExtractionOverride: __S(5257, __c164, 9) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceExtractionOverride: __S(5257, __c164, 9) }),
+        /*@__PURE__*/ S.Struct({ episodicExtractionOverride: __S(5257, __c164, 9) }),
+      ]);
+    case 25:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ customExtractionConfiguration: __S(5272, __c164, 24) }),
+      ]);
+    case 26:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ semanticConsolidationOverride: __S(5257, __c164, 9) }),
+        /*@__PURE__*/ S.Struct({ summaryConsolidationOverride: __S(5257, __c164, 9) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceConsolidationOverride: __S(5257, __c164, 9) }),
+        /*@__PURE__*/ S.Struct({ episodicConsolidationOverride: __S(5257, __c164, 9) }),
+      ]);
+    case 27:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ customConsolidationConfiguration: __S(5274, __c164, 26) }),
+      ]);
+    case 28:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ episodicReflectionOverride: __S(5258, __c164, 10) }),
+      ]);
     case 29:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticExtractionOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceExtractionOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ episodicExtractionOverride: __S(5225, __c163, 9) }),
+        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5276, __c164, 28) }),
+        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5260, __c164, 12) }),
       ]);
     case 30:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ customExtractionConfiguration: __S(5245, __c163, 29) }),
-      ]);
+      return S.suspend(() => S.Struct({ messageCount: S.optional(S.Number) })).annotate({
+        identifier: "MessageBasedTrigger",
+      });
     case 31:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticConsolidationOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ summaryConsolidationOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceConsolidationOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ episodicConsolidationOverride: __S(5225, __c163, 9) }),
-      ]);
+      return S.suspend(() => S.Struct({ tokenCount: S.optional(S.Number) })).annotate({
+        identifier: "TokenBasedTrigger",
+      });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ customConsolidationConfiguration: __S(5247, __c163, 31) }),
-      ]);
+      return S.suspend(() => S.Struct({ idleSessionTimeout: S.optional(S.Number) })).annotate({
+        identifier: "TimeBasedTrigger",
+      });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ episodicReflectionOverride: __S(5226, __c163, 10) }),
+        /*@__PURE__*/ S.Struct({ messageBasedTrigger: __S(5278, __c164, 30) }),
+        /*@__PURE__*/ S.Struct({ tokenBasedTrigger: __S(5279, __c164, 31) }),
+        /*@__PURE__*/ S.Struct({ timeBasedTrigger: __S(5280, __c165, 0) }),
       ]);
     case 2:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5249, __c164, 1) }),
-        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5233, __c163, 17) }),
-      ]);
+      return S.Array(__S(5281, __c165, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          triggerConditions: __S(5231, __c163, 15),
-          invocationConfiguration: __S(5232, __c163, 16),
+          triggerConditions: __S(5282, __c165, 2),
+          invocationConfiguration: __S(5259, __c164, 11),
           historicalContextWindowSize: S.Number,
         }),
       ).annotate({ identifier: "SelfManagedConfiguration" });
@@ -17574,10 +17614,10 @@ function __c164(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          extraction: S.optional(__S(5246, __c163, 30)),
-          consolidation: S.optional(__S(5248, __c164, 0)),
-          reflection: S.optional(__S(5250, __c164, 2)),
-          selfManagedConfiguration: S.optional(__S(5251, __c164, 3)),
+          extraction: S.optional(__S(5273, __c164, 25)),
+          consolidation: S.optional(__S(5275, __c164, 27)),
+          reflection: S.optional(__S(5277, __c164, 29)),
+          selfManagedConfiguration: S.optional(__S(5283, __c165, 3)),
         }),
       ).annotate({ identifier: "StrategyConfiguration" });
     case 5:
@@ -17586,19 +17626,19 @@ function __c164(j: number): any {
           strategyId: S.String,
           name: S.String,
           description: S.optional(SensitiveString),
-          configuration: S.optional(__S(5252, __c164, 4)),
+          configuration: S.optional(__S(5284, __c165, 4)),
           type: S.String,
           namespaces: __S(2336, __c73, 0),
           namespaceTemplates: __S(2336, __c73, 0),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           status: S.optional(S.String),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          memoryRecordSchema: S.optional(__S(5256, __c164, 8)),
           recordExpiryDurationDays: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MemoryStrategy" });
     case 6:
-      return S.Array(__S(5253, __c164, 5));
+      return S.Array(__S(5285, __c165, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -17613,23 +17653,23 @@ function __c164(j: number): any {
           failureReason: S.optional(S.String),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          strategies: S.optional(__S(5254, __c164, 6)),
-          indexedKeys: S.optional(__S(5235, __c163, 19)),
-          namespaceKeys: S.optional(__S(5238, __c163, 22)),
-          streamDeliveryResources: S.optional(__S(5244, __c163, 28)),
+          strategies: S.optional(__S(5286, __c165, 6)),
+          indexedKeys: S.optional(__S(5262, __c164, 14)),
+          namespaceKeys: S.optional(__S(5265, __c164, 17)),
+          streamDeliveryResources: S.optional(__S(5271, __c164, 23)),
           managedByResourceArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Memory" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          oauth2ProviderConfigInput: __S(5316, __c166, 4),
+          oauth2ProviderConfigInput: __S(5348, __c167, 4),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
           T.all(
@@ -17651,25 +17691,25 @@ function __c165(j: number): any {
           name: S.String,
           credentialProviderArn: S.String,
           callbackUrl: S.optional(S.String),
-          oauth2ProviderConfigOutput: S.optional(__S(5354, __c167, 10)),
+          oauth2ProviderConfigOutput: S.optional(__S(5386, __c168, 10)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateOauth2CredentialProviderResponse" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          oauthDiscovery: __S(5345, __c167, 1),
-          clientId: S.optional(S.String),
-          clientSecret: S.optional(SensitiveString),
+          oauthDiscovery: __S(5377, __c168, 1),
+          clientId: S.optional(S.String).pipe(T.Default("")),
+          clientSecret: S.optional(SensitiveString).pipe(T.Default("")),
           clientSecretConfig: S.optional(__S(3904, __c122, 0)),
           clientSecretSource: S.optional(S.String),
-          onBehalfOfTokenExchangeConfig: S.optional(__S(5348, __c167, 4)),
+          onBehalfOfTokenExchangeConfig: S.optional(__S(5380, __c168, 4)),
           clientAuthenticationMethod: S.optional(S.String),
-          privateKeyJwtConfig: S.optional(__S(5351, __c167, 7)),
+          privateKeyJwtConfig: S.optional(__S(5383, __c168, 7)),
           privateEndpoint: S.optional(__S(3394, __c106, 2)),
           privateEndpointOverrides: S.optional(__S(3425, __c107, 1)),
           certificateConfigurations: S.optional(__S(3397, __c106, 5)),
@@ -17679,7 +17719,7 @@ function __c166(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientId: S.String,
-          clientSecret: S.optional(SensitiveString),
+          clientSecret: S.optional(SensitiveString).pipe(T.Default("")),
           clientSecretConfig: S.optional(__S(3904, __c122, 0)),
           clientSecretSource: S.optional(S.String),
         }),
@@ -17688,7 +17728,7 @@ function __c166(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientId: S.String,
-          clientSecret: S.optional(SensitiveString),
+          clientSecret: S.optional(SensitiveString).pipe(T.Default("")),
           clientSecretConfig: S.optional(__S(3904, __c122, 0)),
           clientSecretSource: S.optional(S.String),
           tenantId: S.optional(S.String),
@@ -17698,7 +17738,7 @@ function __c166(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clientId: S.String,
-          clientSecret: S.optional(SensitiveString),
+          clientSecret: S.optional(SensitiveString).pipe(T.Default("")),
           clientSecretConfig: S.optional(__S(3904, __c122, 0)),
           clientSecretSource: S.optional(S.String),
           issuer: S.optional(S.String),
@@ -17708,19 +17748,19 @@ function __c166(j: number): any {
       ).annotate({ identifier: "IncludedOauth2ProviderConfigInput" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5312, __c166, 0) }),
-        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5314, __c166, 2) }),
-        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5315, __c166, 3) }),
+        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5344, __c167, 0) }),
+        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5345, __c167, 1) }),
+        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5345, __c167, 1) }),
+        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5345, __c167, 1) }),
+        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5345, __c167, 1) }),
+        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5346, __c167, 2) }),
+        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5345, __c167, 1) }),
+        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5345, __c167, 1) }),
+        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5347, __c167, 3) }),
       ]);
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17735,7 +17775,7 @@ function __c167(j: number): any {
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({ discoveryUrl: S.String }),
-        /*@__PURE__*/ S.Struct({ authorizationServerMetadata: __S(5344, __c167, 0) }),
+        /*@__PURE__*/ S.Struct({ authorizationServerMetadata: __S(5376, __c168, 0) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -17752,8 +17792,8 @@ function __c167(j: number): any {
       return S.suspend(() =>
         S.Struct({
           grantType: S.String,
-          tokenExchangeGrantTypeConfig: S.optional(__S(5346, __c167, 2)),
-          onBehalfOfAuthenticationConfig: S.optional(__S(5347, __c167, 3)),
+          tokenExchangeGrantTypeConfig: S.optional(__S(5378, __c168, 2)),
+          onBehalfOfAuthenticationConfig: S.optional(__S(5379, __c168, 3)),
         }),
       ).annotate({ identifier: "OnBehalfOfTokenExchangeConfigType" });
     case 5:
@@ -17761,48 +17801,48 @@ function __c167(j: number): any {
         identifier: "KmsKeySourceType",
       });
     case 6:
-      return S.Union([/*@__PURE__*/ S.Struct({ kmsKeySource: __S(5349, __c167, 5) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ kmsKeySource: __S(5381, __c168, 5) })]);
     case 7:
       return S.suspend(() =>
         S.Struct({
-          privateKeySource: S.optional(__S(5350, __c167, 6)),
+          privateKeySource: S.optional(__S(5382, __c168, 6)),
           signingAlgorithm: S.optional(S.String),
-          additionalHeaderClaims: S.optional(__S(4704, __c147, 0)),
-          additionalPayloadClaims: S.optional(__S(4704, __c147, 0)),
+          additionalHeaderClaims: S.optional(__S(4736, __c148, 0)),
+          additionalPayloadClaims: S.optional(__S(4736, __c148, 0)),
         }),
       ).annotate({ identifier: "PrivateKeyJwtConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          oauthDiscovery: __S(5345, __c167, 1),
+          oauthDiscovery: __S(5377, __c168, 1),
           clientId: S.optional(S.String),
-          onBehalfOfTokenExchangeConfig: S.optional(__S(5348, __c167, 4)),
+          onBehalfOfTokenExchangeConfig: S.optional(__S(5380, __c168, 4)),
           clientAuthenticationMethod: S.optional(S.String),
           privateEndpoint: S.optional(__S(3394, __c106, 2)),
           privateEndpointOverrides: S.optional(__S(3425, __c107, 1)),
           certificateConfigurations: S.optional(__S(3397, __c106, 5)),
-          privateKeyJwtConfig: S.optional(__S(5351, __c167, 7)),
+          privateKeyJwtConfig: S.optional(__S(5383, __c168, 7)),
         }),
       ).annotate({ identifier: "CustomOauth2ProviderConfigOutput" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ oauthDiscovery: __S(5345, __c167, 1), clientId: S.optional(S.String) }),
+        S.Struct({ oauthDiscovery: __S(5377, __c168, 1), clientId: S.optional(S.String) }),
       ).annotate({ identifier: "GoogleOauth2ProviderConfigOutput" });
     case 10:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5352, __c167, 8) }),
-        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5384, __c168, 8) }),
+        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5385, __c168, 9) }),
+        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5385, __c168, 9) }),
+        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5385, __c168, 9) }),
+        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5385, __c168, 9) }),
+        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5385, __c168, 9) }),
+        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5385, __c168, 9) }),
+        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5385, __c168, 9) }),
+        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5385, __c168, 9) }),
       ]);
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17810,12 +17850,12 @@ function __c168(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           onlineEvaluationConfigName: S.String,
           description: S.optional(SensitiveString),
-          rule: __S(5445, __c170, 5),
-          dataSourceConfig: __S(5447, __c170, 7),
-          evaluators: S.optional(__S(5449, __c170, 9)),
-          insights: S.optional(__S(5409, __c169, 1)),
-          clusteringConfig: S.optional(__S(5410, __c169, 2)),
-          outputConfig: S.optional(__S(5451, __c170, 11)),
+          rule: __S(5477, __c171, 5),
+          dataSourceConfig: __S(5479, __c171, 7),
+          evaluators: S.optional(__S(5481, __c171, 9)),
+          insights: S.optional(__S(5441, __c170, 1)),
+          clusteringConfig: S.optional(__S(5442, __c170, 2)),
+          outputConfig: S.optional(__S(5483, __c171, 11)),
           evaluationExecutionRoleArn: S.String,
           enableOnCreate: S.Boolean,
           tags: S.optional(__S(2848, __c89, 0)),
@@ -17836,7 +17876,7 @@ function __c168(j: number): any {
           onlineEvaluationConfigArn: S.String,
           onlineEvaluationConfigId: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          outputConfig: S.optional(__S(5451, __c170, 11)),
+          outputConfig: S.optional(__S(5483, __c171, 11)),
           status: S.String,
           executionStatus: S.String,
           failureReason: S.optional(S.String),
@@ -17844,19 +17884,19 @@ function __c168(j: number): any {
       ).annotate({ identifier: "CreateOnlineEvaluationConfigResponse" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ insightId: S.String })).annotate({ identifier: "Insight" });
     case 1:
-      return S.Array(__S(5408, __c169, 0));
+      return S.Array(__S(5440, __c170, 0));
     case 2:
-      return S.suspend(() => S.Struct({ frequencies: __S(4512, __c141, 0) })).annotate({
+      return S.suspend(() => S.Struct({ frequencies: __S(4544, __c142, 0) })).annotate({
         identifier: "ClusteringConfig",
       });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ samplingPercentage: S.Number })).annotate({
@@ -17870,10 +17910,10 @@ function __c170(j: number): any {
       ]);
     case 2:
       return S.suspend(() =>
-        S.Struct({ key: S.String, operator: S.String, value: __S(5441, __c170, 1) }),
+        S.Struct({ key: S.String, operator: S.String, value: __S(5473, __c171, 1) }),
       ).annotate({ identifier: "Filter" });
     case 3:
-      return S.Array(__S(5442, __c170, 2));
+      return S.Array(__S(5474, __c171, 2));
     case 4:
       return S.suspend(() => S.Struct({ sessionTimeoutMinutes: S.Number })).annotate({
         identifier: "SessionConfig",
@@ -17881,40 +17921,40 @@ function __c170(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          samplingConfig: __S(5440, __c170, 0),
-          filters: S.optional(__S(5443, __c170, 3)),
-          sessionConfig: S.optional(__S(5444, __c170, 4)),
+          samplingConfig: __S(5472, __c171, 0),
+          filters: S.optional(__S(5475, __c171, 3)),
+          sessionConfig: S.optional(__S(5476, __c171, 4)),
         }),
       ).annotate({ identifier: "Rule" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          logGroupNames: S.optional(__S(2336, __c73, 0)),
+          logGroupNames: S.optional(__S(2336, __c73, 0)).pipe(T.Default([])),
           logGroupNamePrefixes: S.optional(__S(2336, __c73, 0)),
           serviceNames: __S(2336, __c73, 0),
         }),
       ).annotate({ identifier: "CloudWatchLogsInputConfig" });
     case 7:
-      return S.Union([/*@__PURE__*/ S.Struct({ cloudWatchLogs: __S(5446, __c170, 6) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ cloudWatchLogs: __S(5478, __c171, 6) })]);
     case 8:
       return S.Union([/*@__PURE__*/ S.Struct({ evaluatorId: S.String })]);
     case 9:
-      return S.Array(__S(5448, __c170, 8));
+      return S.Array(__S(5480, __c171, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          logGroupName: S.optional(S.String),
+          logGroupName: S.optional(S.String).pipe(T.Default("")),
           metricsNamespace: S.optional(S.String),
-          resultDestination: S.optional(S.String),
+          resultDestination: S.optional(S.String).pipe(T.Default("DEDICATED_LOG_GROUP")),
         }),
       ).annotate({ identifier: "CloudWatchOutputConfig" });
     case 11:
-      return S.suspend(() => S.Struct({ cloudWatchConfig: __S(5450, __c170, 10) })).annotate({
+      return S.suspend(() => S.Struct({ cloudWatchConfig: __S(5482, __c171, 10) })).annotate({
         identifier: "OutputConfig",
       });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17923,7 +17963,7 @@ function __c171(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           type: S.String,
-          credentialProviderConfigurations: __S(5506, __c172, 2),
+          credentialProviderConfigurations: __S(5538, __c173, 2),
           provisionMode: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -17944,7 +17984,7 @@ function __c171(j: number): any {
           paymentManagerId: S.String,
           name: S.String,
           type: S.String,
-          credentialProviderConfigurations: __S(5506, __c172, 2),
+          credentialProviderConfigurations: __S(5538, __c173, 2),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
           authorizationUrl: S.optional(S.String),
@@ -17952,7 +17992,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "CreatePaymentConnectorResponse" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ credentialProviderArn: S.String })).annotate({
@@ -17960,21 +18000,21 @@ function __c172(j: number): any {
       });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCDP: __S(5504, __c172, 0) }),
-        /*@__PURE__*/ S.Struct({ stripePrivy: __S(5504, __c172, 0) }),
+        /*@__PURE__*/ S.Struct({ coinbaseCDP: __S(5536, __c173, 0) }),
+        /*@__PURE__*/ S.Struct({ stripePrivy: __S(5536, __c173, 0) }),
       ]);
     case 2:
-      return S.Array(__S(5505, __c172, 1));
+      return S.Array(__S(5537, __c173, 1));
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          providerConfigurationInput: __S(5570, __c174, 2),
+          providerConfigurationInput: __S(5602, __c175, 2),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
           T.all(
@@ -17993,21 +18033,21 @@ function __c173(j: number): any {
           name: S.String,
           credentialProviderVendor: S.String,
           credentialProviderArn: S.String,
-          providerConfigurationOutput: __S(5602, __c175, 2),
+          providerConfigurationOutput: __S(5634, __c176, 2),
         }),
       ).annotate({ identifier: "CreatePaymentCredentialProviderResponse" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiKeyId: S.String,
-          apiKeySecret: S.optional(SensitiveString),
+          apiKeySecret: S.optional(SensitiveString).pipe(T.Default("")),
           apiKeySecretSource: S.optional(S.String),
           apiKeySecretConfig: S.optional(__S(3904, __c122, 0)),
-          walletSecret: S.optional(SensitiveString),
+          walletSecret: S.optional(SensitiveString).pipe(T.Default("")),
           walletSecretSource: S.optional(S.String),
           walletSecretConfig: S.optional(__S(3904, __c122, 0)),
         }),
@@ -18016,10 +18056,10 @@ function __c174(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appId: S.String,
-          appSecret: S.optional(SensitiveString),
+          appSecret: S.optional(SensitiveString).pipe(T.Default("")),
           appSecretSource: S.optional(S.String),
           appSecretConfig: S.optional(__S(3904, __c122, 0)),
-          authorizationPrivateKey: S.optional(SensitiveString),
+          authorizationPrivateKey: S.optional(SensitiveString).pipe(T.Default("")),
           authorizationPrivateKeySource: S.optional(S.String),
           authorizationPrivateKeyConfig: S.optional(__S(3904, __c122, 0)),
           authorizationId: S.String,
@@ -18027,12 +18067,12 @@ function __c174(j: number): any {
       ).annotate({ identifier: "StripePrivyConfigurationInput" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5568, __c174, 0) }),
-        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5569, __c174, 1) }),
+        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5600, __c175, 0) }),
+        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5601, __c175, 1) }),
       ]);
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18061,12 +18101,12 @@ function __c175(j: number): any {
       ).annotate({ identifier: "StripePrivyConfigurationOutput" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5600, __c175, 0) }),
-        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5601, __c175, 1) }),
+        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5632, __c176, 0) }),
+        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5633, __c176, 1) }),
       ]);
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18108,13 +18148,13 @@ function __c176(j: number): any {
       ).annotate({ identifier: "CreatePaymentManagerResponse" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          definition: __S(5698, __c178, 2),
+          definition: __S(5730, __c179, 2),
           description: S.optional(SensitiveString),
           validationMode: S.optional(S.String),
           enforcementMode: S.optional(S.String),
@@ -18133,7 +18173,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "CreatePolicyRequest" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ statement: S.String })).annotate({
@@ -18145,13 +18185,13 @@ function __c178(j: number): any {
       ).annotate({ identifier: "PolicyGenerationDetails" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cedar: __S(5696, __c178, 0) }),
-        /*@__PURE__*/ S.Struct({ policyGeneration: __S(5697, __c178, 1) }),
-        /*@__PURE__*/ S.Struct({ policy: __S(5696, __c178, 0) }),
+        /*@__PURE__*/ S.Struct({ cedar: __S(5728, __c179, 0) }),
+        /*@__PURE__*/ S.Struct({ policyGeneration: __S(5729, __c179, 1) }),
+        /*@__PURE__*/ S.Struct({ policy: __S(5728, __c179, 0) }),
       ]);
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18163,15 +18203,15 @@ function __c179(j: number): any {
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           policyArn: S.String,
           status: S.String,
-          enforcementMode: S.optional(S.String),
-          definition: __S(5698, __c178, 2),
+          enforcementMode: S.optional(S.String).pipe(T.Default("ACTIVE")),
+          definition: __S(5730, __c179, 2),
           description: S.optional(SensitiveString),
           statusReasons: __S(2336, __c73, 0),
         }),
       ).annotate({ identifier: "CreatePolicyResponse" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18187,7 +18227,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "CreatePolicyEngineRequest" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18205,7 +18245,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "CreatePolicyEngineResponse" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18215,7 +18255,7 @@ function __c182(j: number): any {
           authorizerType: S.optional(S.String),
           authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          approvalConfiguration: S.optional(__S(5856, __c183, 0)),
+          approvalConfiguration: S.optional(__S(5888, __c184, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/registries" }), svc, auth, proto, ver, rules),
         ),
@@ -18226,15 +18266,15 @@ function __c182(j: number): any {
       });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ autoApproval: S.optional(S.Boolean) })).annotate({
-        identifier: "ApprovalConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ autoApproval: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "ApprovalConfiguration" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18243,10 +18283,10 @@ function __c184(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           descriptorType: S.String,
-          descriptors: S.optional(__S(5926, __c185, 6)),
+          descriptors: S.optional(__S(5958, __c186, 6)),
           recordVersion: S.optional(S.String),
           synchronizationType: S.optional(S.String),
-          synchronizationConfiguration: S.optional(__S(5933, __c185, 13)),
+          synchronizationConfiguration: S.optional(__S(5965, __c186, 13)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -18265,7 +18305,7 @@ function __c184(j: number): any {
       });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18278,12 +18318,12 @@ function __c185(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          server: S.optional(__S(5920, __c185, 0)),
-          tools: S.optional(__S(5921, __c185, 1)),
+          server: S.optional(__S(5952, __c186, 0)),
+          tools: S.optional(__S(5953, __c186, 1)),
         }),
       ).annotate({ identifier: "McpDescriptor" });
     case 3:
-      return S.suspend(() => S.Struct({ agentCard: S.optional(__S(5920, __c185, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ agentCard: S.optional(__S(5952, __c186, 0)) })).annotate({
         identifier: "A2aDescriptor",
       });
     case 4:
@@ -18293,17 +18333,17 @@ function __c185(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          skillMd: S.optional(__S(5924, __c185, 4)),
-          skillDefinition: S.optional(__S(5920, __c185, 0)),
+          skillMd: S.optional(__S(5956, __c186, 4)),
+          skillDefinition: S.optional(__S(5952, __c186, 0)),
         }),
       ).annotate({ identifier: "AgentSkillsDescriptor" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          mcp: S.optional(__S(5922, __c185, 2)),
-          a2a: S.optional(__S(5923, __c185, 3)),
-          custom: S.optional(__S(5924, __c185, 4)),
-          agentSkills: S.optional(__S(5925, __c185, 5)),
+          mcp: S.optional(__S(5954, __c186, 2)),
+          a2a: S.optional(__S(5955, __c186, 3)),
+          custom: S.optional(__S(5956, __c186, 4)),
+          agentSkills: S.optional(__S(5957, __c186, 5)),
         }),
       ).annotate({ identifier: "Descriptors" });
     case 7:
@@ -18325,29 +18365,29 @@ function __c185(j: number): any {
       ).annotate({ identifier: "RegistryRecordIamCredentialProvider" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(5927, __c185, 7) }),
-        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(5928, __c185, 8) }),
+        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(5959, __c186, 7) }),
+        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(5960, __c186, 8) }),
       ]);
     case 10:
       return S.suspend(() =>
-        S.Struct({ credentialProviderType: S.String, credentialProvider: __S(5929, __c185, 9) }),
+        S.Struct({ credentialProviderType: S.String, credentialProvider: __S(5961, __c186, 9) }),
       ).annotate({ identifier: "RegistryRecordCredentialProviderConfiguration" });
     case 11:
-      return S.Array(__S(5930, __c185, 10));
+      return S.Array(__S(5962, __c186, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          credentialProviderConfigurations: S.optional(__S(5931, __c185, 11)),
+          credentialProviderConfigurations: S.optional(__S(5963, __c186, 11)),
         }),
       ).annotate({ identifier: "FromUrlSynchronizationConfiguration" });
     case 13:
-      return S.suspend(() => S.Struct({ fromUrl: S.optional(__S(5932, __c185, 12)) })).annotate({
+      return S.suspend(() => S.Struct({ fromUrl: S.optional(__S(5964, __c186, 12)) })).annotate({
         identifier: "SynchronizationConfiguration",
       });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18376,7 +18416,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "CreateWorkloadIdentityResponse" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18405,7 +18445,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "DeleteAgentRuntimeResponse" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18437,7 +18477,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "DeleteAgentRuntimeEndpointResponse" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18454,7 +18494,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyCredentialProviderRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18482,7 +18522,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "DeleteBrowserResponse" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18512,7 +18552,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "DeleteBrowserProfileResponse" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18536,7 +18576,7 @@ function __c192(j: number): any {
       );
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18564,7 +18604,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "DeleteCodeInterpreterResponse" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18585,7 +18625,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "DeleteConfigurationBundleResponse" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18602,7 +18642,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "DeleteConsentPortalRequest" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18632,7 +18672,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "DeleteDatasetResponse" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18663,7 +18703,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "DeleteDatasetExamplesResponse" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18684,7 +18724,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "DeleteEvaluatorResponse" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18709,7 +18749,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "DeleteGatewayResponse" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18736,7 +18776,7 @@ function __c200(j: number): any {
       });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18760,7 +18800,7 @@ function __c201(j: number): any {
       });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18789,7 +18829,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "DeleteGatewayTargetResponse" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18809,12 +18849,12 @@ function __c203(j: number): any {
         ),
       ).annotate({ identifier: "DeleteHarnessRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ harness: S.optional(__S(5000, __c156, 8)) })).annotate({
+      return S.suspend(() => S.Struct({ harness: S.optional(__S(5032, __c157, 8)) })).annotate({
         identifier: "DeleteHarnessResponse",
       });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18835,7 +18875,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "DeleteHarnessEndpointRequest" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18859,7 +18899,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "DeleteMemoryOutput" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18876,7 +18916,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "DeleteOauth2CredentialProviderRequest" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18906,7 +18946,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "DeleteOnlineEvaluationConfigResponse" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18934,7 +18974,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "DeletePaymentConnectorResponse" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18951,7 +18991,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "DeletePaymentCredentialProviderRequest" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18975,7 +19015,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "DeletePaymentManagerResponse" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18998,7 +19038,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "DeletePolicyRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19015,7 +19055,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "DeletePolicyEngineRequest" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19036,7 +19076,7 @@ function __c213(j: number): any {
       });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19056,7 +19096,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "DeleteRegistryRecordRequest" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19073,7 +19113,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyRequest" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19090,7 +19130,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "DeleteWorkloadIdentityRequest" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19130,7 +19170,7 @@ function __c217(j: number): any {
           environmentVariables: S.optional(__S(2848, __c89, 0)),
           authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
           requestHeaderConfiguration: S.optional(__S(3554, __c111, 2)),
-          metadataConfiguration: S.optional(__S(6976, __c218, 0)),
+          metadataConfiguration: S.optional(__S(7008, __c219, 0)),
           filesystemConfigurations: S.optional(__S(3527, __c110, 7)),
           capacityProviderConfiguration: S.optional(__S(3561, __c111, 9)),
           platformVersion: S.optional(S.String),
@@ -19140,7 +19180,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "GetAgentRuntimeResponse" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ requireMMDSV2: S.Boolean })).annotate({
@@ -19148,7 +19188,7 @@ function __c218(j: number): any {
       });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19187,7 +19227,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetAgentRuntimeEndpointResponse" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19204,7 +19244,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GetApiKeyCredentialProviderRequest" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19220,7 +19260,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "GetApiKeyCredentialProviderResponse" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19243,12 +19283,12 @@ function __c222(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3968, __c124, 0),
-          recording: S.optional(__S(4000, __c125, 0)),
-          browserSigning: S.optional(__S(4001, __c125, 1)),
-          enterprisePolicies: S.optional(__S(4003, __c125, 3)),
-          certificates: S.optional(__S(3971, __c124, 3)),
-          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
+          networkConfiguration: __S(4000, __c125, 0),
+          recording: S.optional(__S(4001, __c125, 1)),
+          browserSigning: S.optional(__S(4002, __c125, 2)),
+          enterprisePolicies: S.optional(__S(4004, __c125, 4)),
+          certificates: S.optional(__S(3970, __c124, 2)),
+          filesystemConfigurations: S.optional(__S(3973, __c124, 5)),
           status: S.String,
           failureReason: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -19257,7 +19297,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "GetBrowserResponse" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19274,7 +19314,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetBrowserProfileRequest" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19293,7 +19333,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetBrowserProfileResponse" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19326,7 +19366,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "GetCapacityProviderOutput" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19349,10 +19389,10 @@ function __c226(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3968, __c124, 0),
+          networkConfiguration: __S(4160, __c130, 0),
           status: S.String,
-          certificates: S.optional(__S(3971, __c124, 3)),
-          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
+          certificates: S.optional(__S(3970, __c124, 2)),
+          filesystemConfigurations: S.optional(__S(3973, __c124, 5)),
           failureReason: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -19360,7 +19400,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "GetCodeInterpreterResponse" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19386,8 +19426,8 @@ function __c227(j: number): any {
           bundleName: S.String,
           description: S.optional(SensitiveString),
           versionId: S.String,
-          components: __S(4225, __c132, 1),
-          lineageMetadata: S.optional(__S(7296, __c228, 0)),
+          components: __S(4257, __c133, 1),
+          lineageMetadata: S.optional(__S(7328, __c229, 0)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           kmsKeyArn: S.optional(S.String),
@@ -19395,20 +19435,20 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetConfigurationBundleResponse" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parentVersionIds: S.optional(__S(2336, __c73, 0)),
           branchName: S.optional(S.String),
-          createdBy: S.optional(__S(4192, __c131, 0)),
+          createdBy: S.optional(__S(4224, __c132, 0)),
           commitMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "VersionLineageMetadata" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19437,8 +19477,8 @@ function __c229(j: number): any {
           bundleName: S.String,
           description: S.optional(SensitiveString),
           versionId: S.String,
-          components: __S(4225, __c132, 1),
-          lineageMetadata: S.optional(__S(7296, __c228, 0)),
+          components: __S(4257, __c133, 1),
+          lineageMetadata: S.optional(__S(7328, __c229, 0)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           versionCreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           kmsKeyArn: S.optional(S.String),
@@ -19446,7 +19486,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "GetConfigurationBundleVersionResponse" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19463,7 +19503,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "GetConsentPortalRequest" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19504,7 +19544,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GetDatasetResponse" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19529,7 +19569,7 @@ function __c232(j: number): any {
           evaluatorId: S.String,
           evaluatorName: S.String,
           description: S.optional(SensitiveString),
-          evaluatorConfig: __S(4465, __c139, 17),
+          evaluatorConfig: __S(4497, __c140, 17),
           evaluatorType: S.optional(S.String),
           provider: S.optional(S.String),
           level: S.String,
@@ -19542,7 +19582,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetEvaluatorResponse" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19559,7 +19599,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetGatewayRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19582,7 +19622,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GetGatewayRateLimitRequest" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19602,7 +19642,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "GetGatewayRuleRequest" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19610,18 +19650,18 @@ function __c236(j: number): any {
           ruleId: S.String,
           gatewayArn: S.String,
           priority: S.Number,
-          conditions: S.optional(__S(4649, __c145, 9)),
-          actions: __S(4666, __c145, 26),
+          conditions: S.optional(__S(4681, __c146, 9)),
+          actions: __S(4698, __c146, 26),
           description: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          system: S.optional(__S(4667, __c145, 27)),
+          system: S.optional(__S(4699, __c146, 27)),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "GetGatewayRuleResponse" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19641,7 +19681,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetGatewayTargetRequest" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19661,7 +19701,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetHarnessRequest" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19681,7 +19721,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "GetHarnessEndpointRequest" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19700,12 +19740,12 @@ function __c240(j: number): any {
         ),
       ).annotate({ identifier: "GetMemoryInput" });
     case 1:
-      return S.suspend(() => S.Struct({ memory: __S(5255, __c164, 7) })).annotate({
+      return S.suspend(() => S.Struct({ memory: __S(5287, __c165, 7) })).annotate({
         identifier: "GetMemoryOutput",
       });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19730,7 +19770,7 @@ function __c241(j: number): any {
           credentialProviderArn: S.String,
           credentialProviderVendor: S.String,
           callbackUrl: S.optional(S.String),
-          oauth2ProviderConfigOutput: __S(5354, __c167, 10),
+          oauth2ProviderConfigOutput: __S(5386, __c168, 10),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           status: S.optional(S.String),
@@ -19739,7 +19779,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetOauth2CredentialProviderResponse" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19763,12 +19803,12 @@ function __c242(j: number): any {
           onlineEvaluationConfigId: S.String,
           onlineEvaluationConfigName: S.String,
           description: S.optional(SensitiveString),
-          rule: __S(5445, __c170, 5),
-          dataSourceConfig: __S(5447, __c170, 7),
-          evaluators: S.optional(__S(5449, __c170, 9)),
-          insights: S.optional(__S(5409, __c169, 1)),
-          clusteringConfig: S.optional(__S(5410, __c169, 2)),
-          outputConfig: S.optional(__S(5451, __c170, 11)),
+          rule: __S(5477, __c171, 5),
+          dataSourceConfig: __S(5479, __c171, 7),
+          evaluators: S.optional(__S(5481, __c171, 9)).pipe(T.Default([])),
+          insights: S.optional(__S(5441, __c170, 1)),
+          clusteringConfig: S.optional(__S(5442, __c170, 2)),
+          outputConfig: S.optional(__S(5483, __c171, 11)),
           evaluationExecutionRoleArn: S.optional(S.String),
           status: S.String,
           executionStatus: S.String,
@@ -19779,7 +19819,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "GetOnlineEvaluationConfigResponse" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19808,7 +19848,7 @@ function __c243(j: number): any {
           description: S.optional(S.String),
           type: S.String,
           provisionMode: S.optional(S.String),
-          credentialProviderConfigurations: __S(5506, __c172, 2),
+          credentialProviderConfigurations: __S(5538, __c173, 2),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
@@ -19818,7 +19858,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "GetPaymentConnectorResponse" });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19839,7 +19879,7 @@ function __c244(j: number): any {
           name: S.String,
           credentialProviderArn: S.String,
           credentialProviderVendor: S.String,
-          providerConfigurationOutput: __S(5602, __c175, 2),
+          providerConfigurationOutput: __S(5634, __c176, 2),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           tags: S.optional(__S(2848, __c89, 0)),

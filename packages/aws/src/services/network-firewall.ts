@@ -326,9 +326,9 @@ export interface Firewall {
   FirewallPolicyArn: string;
   VpcId: string;
   SubnetMappings: SubnetMapping[];
-  DeleteProtection?: boolean | undefined;
-  SubnetChangeProtection?: boolean | undefined;
-  FirewallPolicyChangeProtection?: boolean | undefined;
+  DeleteProtection: boolean;
+  SubnetChangeProtection: boolean;
+  FirewallPolicyChangeProtection: boolean;
   Description?: string | undefined;
   FirewallId: string;
   Tags?: Tag[] | undefined;
@@ -338,7 +338,7 @@ export interface Firewall {
   TransitGatewayId?: string | undefined;
   TransitGatewayOwnerAccountId?: string | undefined;
   AvailabilityZoneMappings?: AvailabilityZoneMapping[] | undefined;
-  AvailabilityZoneChangeProtection?: boolean | undefined;
+  AvailabilityZoneChangeProtection: boolean;
   NatGatewayCreateMappings?: NatGatewayCreateMapping[] | undefined;
   ProxySettings?: ProxySettings | undefined;
   VpcEndpoint?: VpcEndpoint | undefined;
@@ -1587,10 +1587,10 @@ export type LastAccessed = Date;
 export type Domain = string;
 export type Count = number;
 export interface Hits {
-  Count?: number | undefined;
+  Count: number;
 }
 export interface UniqueSources {
-  Count?: number | undefined;
+  Count: number;
 }
 export interface AnalysisTypeReportResult {
   Protocol?: string | undefined;
@@ -1703,7 +1703,7 @@ export interface Flow {
   Protocol?: string | undefined;
   Age?: number | undefined;
   PacketCount?: number | undefined;
-  ByteCount?: number | undefined;
+  ByteCount: number;
 }
 export type Flows = Flow[];
 export interface ListFlowOperationResultsResponse {
@@ -1871,7 +1871,7 @@ export interface UpdateAvailabilityZoneChangeProtectionResponse {
   UpdateToken?: string | undefined;
   FirewallArn?: string | undefined;
   FirewallName?: string | undefined;
-  AvailabilityZoneChangeProtection?: boolean | undefined;
+  AvailabilityZoneChangeProtection: boolean;
 }
 export interface UpdateContainerAssociationRequest {
   ContainerAssociationName?: string | undefined;
@@ -1913,7 +1913,7 @@ export interface UpdateFirewallDeleteProtectionRequest {
 export interface UpdateFirewallDeleteProtectionResponse {
   FirewallArn?: string | undefined;
   FirewallName?: string | undefined;
-  DeleteProtection?: boolean | undefined;
+  DeleteProtection: boolean;
   UpdateToken?: string | undefined;
 }
 export interface UpdateFirewallDescriptionRequest {
@@ -1963,7 +1963,7 @@ export interface UpdateFirewallPolicyChangeProtectionResponse {
   UpdateToken?: string | undefined;
   FirewallArn?: string | undefined;
   FirewallName?: string | undefined;
-  FirewallPolicyChangeProtection?: boolean | undefined;
+  FirewallPolicyChangeProtection: boolean;
 }
 export interface UpdateFirewallPolicyV2Request {
   UpdateToken: string;
@@ -2032,7 +2032,7 @@ export interface UpdateSubnetChangeProtectionResponse {
   UpdateToken?: string | undefined;
   FirewallArn?: string | undefined;
   FirewallName?: string | undefined;
-  SubnetChangeProtection?: boolean | undefined;
+  SubnetChangeProtection: boolean;
 }
 export interface UpdateTLSInspectionConfigurationRequest {
   TLSInspectionConfigurationArn?: string | undefined;
@@ -4834,9 +4834,9 @@ function __c21(j: number): any {
           FirewallPolicyArn: S.String,
           VpcId: S.String,
           SubnetMappings: __S(160, __c10, 0),
-          DeleteProtection: S.optional(S.Boolean),
-          SubnetChangeProtection: S.optional(S.Boolean),
-          FirewallPolicyChangeProtection: S.optional(S.Boolean),
+          DeleteProtection: S.optional(S.Boolean).pipe(T.Default(false)),
+          SubnetChangeProtection: S.optional(S.Boolean).pipe(T.Default(false)),
+          FirewallPolicyChangeProtection: S.optional(S.Boolean).pipe(T.Default(false)),
           Description: S.optional(S.String),
           FirewallId: S.String,
           Tags: S.optional(__S(209, __c13, 1)),
@@ -4846,7 +4846,7 @@ function __c21(j: number): any {
           TransitGatewayId: S.optional(S.String),
           TransitGatewayOwnerAccountId: S.optional(S.String),
           AvailabilityZoneMappings: S.optional(__S(49, __c3, 1)),
-          AvailabilityZoneChangeProtection: S.optional(S.Boolean),
+          AvailabilityZoneChangeProtection: S.optional(S.Boolean).pipe(T.Default(false)),
           NatGatewayCreateMappings: S.optional(__S(145, __c9, 1)),
           ProxySettings: S.optional(__S(368, __c23, 0)),
           VpcEndpoint: S.optional(__S(336, __c21, 0)),
@@ -5322,9 +5322,9 @@ function __c39(j: number): any {
 function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ FromPort: S.Number, ToPort: S.Number })).annotate({
-        identifier: "PortRange",
-      });
+      return S.suspend(() =>
+        S.Struct({ FromPort: S.Number.pipe(T.Default(0)), ToPort: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "PortRange" });
     case 1:
       return S.Array(__S(640, __c40, 0));
     case 2:
@@ -6172,9 +6172,9 @@ function __c80(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetAnalysisReportResultsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Count: S.optional(S.Number) })).annotate({
-        identifier: "Hits",
-      });
+      return S.suspend(() => S.Struct({ Count: S.optional(S.Number).pipe(T.Default(0)) })).annotate(
+        { identifier: "Hits" },
+      );
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6348,7 +6348,7 @@ function __c87(j: number): any {
           Protocol: S.optional(S.String),
           Age: S.optional(S.Number),
           PacketCount: S.optional(S.Number),
-          ByteCount: S.optional(S.Number),
+          ByteCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Flow" });
     case 2:
@@ -6610,7 +6610,7 @@ function __c101(j: number): any {
           UpdateToken: S.optional(S.String),
           FirewallArn: S.optional(S.String),
           FirewallName: S.optional(S.String),
-          AvailabilityZoneChangeProtection: S.optional(S.Boolean),
+          AvailabilityZoneChangeProtection: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "UpdateAvailabilityZoneChangeProtectionResponse" });
   }
@@ -6669,7 +6669,7 @@ function __c104(j: number): any {
         S.Struct({
           FirewallArn: S.optional(S.String),
           FirewallName: S.optional(S.String),
-          DeleteProtection: S.optional(S.Boolean),
+          DeleteProtection: S.optional(S.Boolean).pipe(T.Default(false)),
           UpdateToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateFirewallDeleteProtectionResponse" });
@@ -6752,7 +6752,7 @@ function __c108(j: number): any {
           UpdateToken: S.optional(S.String),
           FirewallArn: S.optional(S.String),
           FirewallName: S.optional(S.String),
-          FirewallPolicyChangeProtection: S.optional(S.Boolean),
+          FirewallPolicyChangeProtection: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "UpdateFirewallPolicyChangeProtectionResponse" });
   }
@@ -6857,7 +6857,7 @@ function __c113(j: number): any {
           UpdateToken: S.optional(S.String),
           FirewallArn: S.optional(S.String),
           FirewallName: S.optional(S.String),
-          SubnetChangeProtection: S.optional(S.Boolean),
+          SubnetChangeProtection: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "UpdateSubnetChangeProtectionResponse" });
   }

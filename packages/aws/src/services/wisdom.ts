@@ -496,8 +496,8 @@ export interface ContentReference {
 export type SensitiveString = string | redacted.Redacted<string>;
 export type HighlightOffset = number;
 export interface Highlight {
-  beginOffsetInclusive?: number | undefined;
-  endOffsetExclusive?: number | undefined;
+  beginOffsetInclusive: number;
+  endOffsetExclusive: number;
 }
 export type Highlights = Highlight[];
 export interface DocumentText {
@@ -515,7 +515,7 @@ export type RecommendationType = string;
 export interface RecommendationData {
   recommendationId: string;
   document: Document;
-  relevanceScore?: number | undefined;
+  relevanceScore: number;
   relevanceLevel?: string | undefined;
   type?: string | undefined;
 }
@@ -696,7 +696,7 @@ export interface QueryAssistantRequest {
 export interface ResultData {
   resultId: string;
   document: Document;
-  relevanceScore?: number | undefined;
+  relevanceScore: number;
 }
 export type QueryResultsList = ResultData[];
 export interface QueryAssistantResponse {
@@ -2663,7 +2663,7 @@ function __c29(j: number): any {
         S.Struct({
           recommendationId: S.String,
           document: __S(484, __c30, 4),
-          relevanceScore: S.optional(S.Number),
+          relevanceScore: S.optional(S.Number).pipe(T.Default(0)),
           relevanceLevel: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -2708,8 +2708,8 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          beginOffsetInclusive: S.optional(S.Number),
-          endOffsetExclusive: S.optional(S.Number),
+          beginOffsetInclusive: S.optional(S.Number).pipe(T.Default(0)),
+          endOffsetExclusive: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Highlight" });
     case 2:
@@ -3031,7 +3031,7 @@ function __c41(j: number): any {
         S.Struct({
           resultId: S.String,
           document: __S(484, __c30, 4),
-          relevanceScore: S.optional(S.Number),
+          relevanceScore: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ResultData" });
     case 2:

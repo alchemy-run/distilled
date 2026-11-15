@@ -998,7 +998,7 @@ export interface GetPlaybackConfigurationResponse {
     | undefined;
   DashConfiguration?: DashConfiguration | undefined;
   HlsConfiguration?: HlsConfiguration | undefined;
-  InsertionMode?: InsertionMode | undefined;
+  InsertionMode: InsertionMode;
   LivePreRollConfiguration?: LivePreRollConfiguration | undefined;
   LogConfiguration?:
     | (LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies })
@@ -1142,7 +1142,7 @@ export interface PlaybackConfiguration {
     | undefined;
   DashConfiguration?: DashConfiguration | undefined;
   HlsConfiguration?: HlsConfiguration | undefined;
-  InsertionMode?: InsertionMode | undefined;
+  InsertionMode: InsertionMode;
   LivePreRollConfiguration?: LivePreRollConfiguration | undefined;
   LogConfiguration?: LogConfiguration | undefined;
   ManifestProcessingRules?: ManifestProcessingRules | undefined;
@@ -1325,7 +1325,7 @@ export interface PutPlaybackConfigurationResponse {
     | undefined;
   DashConfiguration?: DashConfiguration | undefined;
   HlsConfiguration?: HlsConfiguration | undefined;
-  InsertionMode?: InsertionMode | undefined;
+  InsertionMode: InsertionMode;
   LivePreRollConfiguration?: LivePreRollConfiguration | undefined;
   LogConfiguration?:
     | (LogConfiguration & { EnabledLoggingStrategies: __listOfLoggingStrategies })
@@ -2606,7 +2606,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           MessageType: S.optional(S.String),
-          OffsetMillis: S.Number,
+          OffsetMillis: S.Number.pipe(T.Default(0)),
           Slate: S.optional(__S(1824, __c57, 0)),
           SpliceInsertMessage: S.optional(__S(64, __c2, 0)),
           TimeSignalMessage: S.optional(__S(67, __c2, 3)),
@@ -2618,7 +2618,7 @@ function __c2(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          EndOffsetMillis: S.optional(S.Number),
+          EndOffsetMillis: S.optional(S.Number).pipe(T.Default(0)),
           StartOffsetMillis: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ClipRange" });
@@ -3072,7 +3072,7 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "DescribeVodSourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ OffsetMillis: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ OffsetMillis: S.Number.pipe(T.Default(0)) })).annotate({
         identifier: "AdBreakOpportunity",
       });
     case 2:
@@ -3360,16 +3360,16 @@ function __c29(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          PercentEnabled: S.Number,
+          PercentEnabled: S.Number.pipe(T.Default(0)),
           EnabledLoggingStrategies: S.optional(__listOfLoggingStrategies),
           AdsInteractionLog: S.optional(__S(1760, __c55, 0)),
           ManifestServiceInteractionLog: S.optional(__S(1760, __c55, 0)),
         }),
       ).annotate({ identifier: "LogConfiguration" });
     case 10:
-      return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) })).annotate({
-        identifier: "AdMarkerPassthrough",
-      });
+      return S.suspend(() =>
+        S.Struct({ Enabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "AdMarkerPassthrough" });
     case 11:
       return S.suspend(() =>
         S.Struct({ AdMarkerPassthrough: S.optional(__S(938, __c29, 10)) }),
@@ -3443,7 +3443,7 @@ function __c29(j: number): any {
           ConfigurationAliases: S.optional(__S(931, __c29, 3)),
           DashConfiguration: S.optional(__S(932, __c29, 4)),
           HlsConfiguration: S.optional(__S(933, __c29, 5)),
-          InsertionMode: S.optional(S.String),
+          InsertionMode: S.optional(S.String).pipe(T.Default("STITCHED_ONLY")),
           LivePreRollConfiguration: S.optional(__S(936, __c29, 8)),
           LogConfiguration: S.optional(__S(937, __c29, 9)),
           ManifestProcessingRules: S.optional(__S(939, __c29, 11)),
@@ -4154,7 +4154,7 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          PercentEnabled: S.Number,
+          PercentEnabled: S.Number.pipe(T.Default(0)),
           PlaybackConfigurationName: S.optional(S.String),
           EnabledLoggingStrategies: S.optional(__listOfLoggingStrategies),
           AdsInteractionLog: S.optional(__S(1760, __c55, 0)),

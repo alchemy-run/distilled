@@ -2318,7 +2318,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Value: S.Number,
+          Value: S.Number.pipe(T.Default(0)),
           Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ValueInIA: S.optional(S.Number),
           ValueInStandard: S.optional(S.Number),
@@ -2335,7 +2335,7 @@ function __c4(j: number): any {
           CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           LifeCycleState: S.String,
           Name: S.optional(S.String),
-          NumberOfMountTargets: S.Number,
+          NumberOfMountTargets: S.Number.pipe(T.Default(0)),
           SizeInBytes: __S(32, __c4, 0),
           PerformanceMode: S.String,
           Encrypted: S.optional(S.Boolean),

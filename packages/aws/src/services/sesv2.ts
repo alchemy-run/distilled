@@ -635,7 +635,7 @@ export type DnsToken = string;
 export type DnsTokenList = string[];
 export type HostedZone = string;
 export interface DkimAttributes {
-  SigningEnabled?: boolean | undefined;
+  SigningEnabled: boolean;
   Status?: DkimStatus | undefined;
   Tokens?: string[] | undefined;
   SigningHostedZone?: string | undefined;
@@ -646,7 +646,7 @@ export interface DkimAttributes {
 }
 export interface CreateEmailIdentityResponse {
   IdentityType?: IdentityType | undefined;
-  VerifiedForSendingStatus?: boolean | undefined;
+  VerifiedForSendingStatus: boolean;
   DkimAttributes?: DkimAttributes | undefined;
 }
 export type PolicyName = string;
@@ -870,9 +870,9 @@ export type Max24HourSend = number;
 export type MaxSendRate = number;
 export type SentLast24Hours = number;
 export interface SendQuota {
-  Max24HourSend?: number | undefined;
-  MaxSendRate?: number | undefined;
-  SentLast24Hours?: number | undefined;
+  Max24HourSend: number;
+  MaxSendRate: number;
+  SentLast24Hours: number;
 }
 export interface SuppressionValidationAttributes {
   ConditionThreshold: SuppressionConditionThreshold;
@@ -918,11 +918,11 @@ export interface PricingAttributes {
   NextPlan?: PricingPlan | undefined;
 }
 export interface GetAccountResponse {
-  DedicatedIpAutoWarmupEnabled?: boolean | undefined;
+  DedicatedIpAutoWarmupEnabled: boolean;
   EnforcementStatus?: string | undefined;
-  ProductionAccessEnabled?: boolean | undefined;
+  ProductionAccessEnabled: boolean;
   SendQuota?: SendQuota | undefined;
-  SendingEnabled?: boolean | undefined;
+  SendingEnabled: boolean;
   SuppressionAttributes?: SuppressionAttributes | undefined;
   Details?: AccountDetails | undefined;
   VdmAttributes?: VdmAttributes | undefined;
@@ -965,7 +965,7 @@ export interface GetConfigurationSetEventDestinationsRequest {
 }
 export interface EventDestination {
   Name: string;
-  Enabled?: boolean | undefined;
+  Enabled: boolean;
   MatchingEventTypes: EventType[];
   KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
   CloudWatchDestination?: CloudWatchDestination | undefined;
@@ -986,7 +986,7 @@ export interface GetContactResponse {
   EmailAddress?: string | undefined;
   TopicPreferences?: TopicPreference[] | undefined;
   TopicDefaultPreferences?: TopicPreference[] | undefined;
-  UnsubscribeAll?: boolean | undefined;
+  UnsubscribeAll: boolean;
   AttributesData?: string | undefined;
   CreatedTimestamp?: Date | undefined;
   LastUpdatedTimestamp?: Date | undefined;
@@ -1237,7 +1237,7 @@ export type SerialNumber = number;
 export interface SOARecord {
   PrimaryNameServer?: string | undefined;
   AdminEmail?: string | undefined;
-  SerialNumber?: number | undefined;
+  SerialNumber: number;
 }
 export interface VerificationInfo {
   LastCheckedTimestamp?: Date | undefined;
@@ -1247,8 +1247,8 @@ export interface VerificationInfo {
 }
 export interface GetEmailIdentityResponse {
   IdentityType?: IdentityType | undefined;
-  FeedbackForwardingStatus?: boolean | undefined;
-  VerifiedForSendingStatus?: boolean | undefined;
+  FeedbackForwardingStatus: boolean;
+  VerifiedForSendingStatus: boolean;
   DkimAttributes?: DkimAttributes | undefined;
   MailFromAttributes?: MailFromAttributes | undefined;
   Policies?: { [key: string]: string | undefined } | undefined;
@@ -1487,7 +1487,7 @@ export interface Contact {
   EmailAddress?: string | undefined;
   TopicPreferences?: TopicPreference[] | undefined;
   TopicDefaultPreferences?: TopicPreference[] | undefined;
-  UnsubscribeAll?: boolean | undefined;
+  UnsubscribeAll: boolean;
   LastUpdatedTimestamp?: Date | undefined;
 }
 export type ListOfContacts = Contact[];
@@ -1556,7 +1556,7 @@ export interface ListEmailIdentitiesRequest {
 export interface IdentityInfo {
   IdentityType?: IdentityType | undefined;
   IdentityName?: string | undefined;
-  SendingEnabled?: boolean | undefined;
+  SendingEnabled: boolean;
   VerificationStatus?: VerificationStatus | undefined;
 }
 export type IdentityInfoList = IdentityInfo[];
@@ -6547,14 +6547,14 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ReputationMetricsEnabled: S.optional(S.Boolean),
+          ReputationMetricsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           LastFreshStart: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ReputationOptions" });
     case 3:
-      return S.suspend(() => S.Struct({ SendingEnabled: S.optional(S.Boolean) })).annotate({
-        identifier: "SendingOptions",
-      });
+      return S.suspend(() =>
+        S.Struct({ SendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "SendingOptions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6626,7 +6626,7 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           MatchingEventTypes: S.optional(__S(592, __c37, 0)),
           KinesisFirehoseDestination: S.optional(__S(736, __c46, 0)),
           CloudWatchDestination: S.optional(__S(739, __c46, 3)),
@@ -6919,7 +6919,7 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IdentityType: S.optional(S.String),
-          VerifiedForSendingStatus: S.optional(S.Boolean),
+          VerifiedForSendingStatus: S.optional(S.Boolean).pipe(T.Default(false)),
           DkimAttributes: S.optional(__S(976, __c61, 0)),
         }),
       ).annotate({ identifier: "CreateEmailIdentityResponse" });
@@ -6949,7 +6949,7 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SigningEnabled: S.optional(S.Boolean),
+          SigningEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           Status: S.optional(S.String),
           Tokens: S.optional(__S(960, __c60, 0)),
           SigningHostedZone: S.optional(S.String),
@@ -7515,9 +7515,9 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Max24HourSend: S.optional(S.Number),
-          MaxSendRate: S.optional(S.Number),
-          SentLast24Hours: S.optional(S.Number),
+          Max24HourSend: S.optional(S.Number).pipe(T.Default(0)),
+          MaxSendRate: S.optional(S.Number).pipe(T.Default(0)),
+          SentLast24Hours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SendQuota" });
     case 2:
@@ -7549,11 +7549,11 @@ function __c90(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          DedicatedIpAutoWarmupEnabled: S.optional(S.Boolean),
+          DedicatedIpAutoWarmupEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           EnforcementStatus: S.optional(S.String),
-          ProductionAccessEnabled: S.optional(S.Boolean),
+          ProductionAccessEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           SendQuota: S.optional(__S(1441, __c90, 1)),
-          SendingEnabled: S.optional(S.Boolean),
+          SendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           SuppressionAttributes: S.optional(__S(1442, __c90, 2)),
           Details: S.optional(__S(1444, __c90, 4)),
           VdmAttributes: S.optional(__S(1456, __c91, 0)),
@@ -7663,7 +7663,7 @@ function __c94(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           MatchingEventTypes: __S(592, __c37, 0),
           KinesisFirehoseDestination: S.optional(__S(736, __c46, 0)),
           CloudWatchDestination: S.optional(__S(739, __c46, 3)),
@@ -7708,7 +7708,7 @@ function __c95(j: number): any {
           EmailAddress: S.optional(S.String),
           TopicPreferences: S.optional(__S(769, __c48, 1)),
           TopicDefaultPreferences: S.optional(__S(769, __c48, 1)),
-          UnsubscribeAll: S.optional(S.Boolean),
+          UnsubscribeAll: S.optional(S.Boolean).pipe(T.Default(false)),
           AttributesData: S.optional(S.String),
           CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -7883,7 +7883,7 @@ function __c102(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DashboardEnabled: S.Boolean,
+          DashboardEnabled: S.Boolean.pipe(T.Default(false)),
           SubscriptionExpiryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           AccountStatus: S.optional(S.String),
           ActiveSubscribedDomains: S.optional(__S(1650, __c103, 2)),
@@ -7896,7 +7896,10 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Global: S.optional(S.Boolean), TrackedIsps: S.optional(__S(960, __c60, 0)) }),
+        S.Struct({
+          Global: S.optional(S.Boolean).pipe(T.Default(false)),
+          TrackedIsps: S.optional(__S(960, __c60, 0)),
+        }),
       ).annotate({ identifier: "InboxPlacementTrackingOption" });
     case 1:
       return S.suspend(() =>
@@ -8163,7 +8166,7 @@ function __c110(j: number): any {
         S.Struct({
           PrimaryNameServer: S.optional(S.String),
           AdminEmail: S.optional(S.String),
-          SerialNumber: S.optional(S.Number),
+          SerialNumber: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SOARecord" });
     case 3:
@@ -8179,8 +8182,8 @@ function __c110(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IdentityType: S.optional(S.String),
-          FeedbackForwardingStatus: S.optional(S.Boolean),
-          VerifiedForSendingStatus: S.optional(S.Boolean),
+          FeedbackForwardingStatus: S.optional(S.Boolean).pipe(T.Default(false)),
+          VerifiedForSendingStatus: S.optional(S.Boolean).pipe(T.Default(false)),
           DkimAttributes: S.optional(__S(976, __c61, 0)),
           MailFromAttributes: S.optional(__S(1761, __c110, 1)),
           Policies: S.optional(__S(1776, __c111, 0)),
@@ -8598,7 +8601,7 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TopicName: S.optional(S.String),
-          UseDefaultIfPreferenceUnavailable: S.optional(S.Boolean),
+          UseDefaultIfPreferenceUnavailable: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "TopicFilter" });
     case 1:
@@ -8635,7 +8638,7 @@ function __c125(j: number): any {
           EmailAddress: S.optional(S.String),
           TopicPreferences: S.optional(__S(769, __c48, 1)),
           TopicDefaultPreferences: S.optional(__S(769, __c48, 1)),
-          UnsubscribeAll: S.optional(S.Boolean),
+          UnsubscribeAll: S.optional(S.Boolean).pipe(T.Default(false)),
           LastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "Contact" });
@@ -8805,7 +8808,7 @@ function __c130(j: number): any {
         S.Struct({
           IdentityType: S.optional(S.String),
           IdentityName: S.optional(S.String),
-          SendingEnabled: S.optional(S.Boolean),
+          SendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           VerificationStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "IdentityInfo" });

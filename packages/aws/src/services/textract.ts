@@ -292,14 +292,14 @@ export type BlockType =
 export type Percent = number;
 export type TextType = "HANDWRITING" | "PRINTED" | (string & {});
 export interface BoundingBox {
-  Width?: number | undefined;
-  Height?: number | undefined;
-  Left?: number | undefined;
-  Top?: number | undefined;
+  Width: number;
+  Height: number;
+  Left: number;
+  Top: number;
 }
 export interface Point {
-  X?: number | undefined;
-  Y?: number | undefined;
+  X: number;
+  Y: number;
 }
 export type Polygon = Point[];
 export type Angle = number;
@@ -533,9 +533,9 @@ export type AdapterVersionStatus =
   | (string & {});
 export type AdapterVersionStatusMessage = string;
 export interface EvaluationMetric {
-  F1Score?: number | undefined;
-  Precision?: number | undefined;
-  Recall?: number | undefined;
+  F1Score: number;
+  Precision: number;
+  Recall: number;
 }
 export interface AdapterVersionEvaluationMetric {
   Baseline?: EvaluationMetric | undefined;
@@ -2192,15 +2192,18 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Width: S.optional(S.Number),
-          Height: S.optional(S.Number),
-          Left: S.optional(S.Number),
-          Top: S.optional(S.Number),
+          Width: S.optional(S.Number).pipe(T.Default(0)),
+          Height: S.optional(S.Number).pipe(T.Default(0)),
+          Left: S.optional(S.Number).pipe(T.Default(0)),
+          Top: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "BoundingBox" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ X: S.optional(S.Number), Y: S.optional(S.Number) }),
+        S.Struct({
+          X: S.optional(S.Number).pipe(T.Default(0)),
+          Y: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "Point" });
     case 2:
       return S.Array(__S(65, __c4, 1));
@@ -2566,9 +2569,9 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          F1Score: S.optional(S.Number),
-          Precision: S.optional(S.Number),
-          Recall: S.optional(S.Number),
+          F1Score: S.optional(S.Number).pipe(T.Default(0)),
+          Precision: S.optional(S.Number).pipe(T.Default(0)),
+          Recall: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "EvaluationMetric" });
     case 2:

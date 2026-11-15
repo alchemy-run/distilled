@@ -316,7 +316,7 @@ export interface PostTextRequest {
   activeContexts?: ActiveContext[] | undefined;
 }
 export interface IntentConfidence {
-  score?: number | undefined;
+  score: number;
 }
 export interface PredictedIntent {
   intentName?: string | undefined;
@@ -914,9 +914,9 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "PostTextRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ score: S.optional(S.Number) })).annotate({
-        identifier: "IntentConfidence",
-      });
+      return S.suspend(() => S.Struct({ score: S.optional(S.Number).pipe(T.Default(0)) })).annotate(
+        { identifier: "IntentConfidence" },
+      );
     case 2:
       return S.suspend(() =>
         S.Struct({

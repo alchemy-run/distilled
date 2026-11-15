@@ -2783,8 +2783,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(96, __c3, 0)),
-          resources: S.optional(__S(96, __c3, 0)),
+          actions: S.optional(__S(96, __c3, 0)).pipe(T.Default([])),
+          resources: S.optional(__S(96, __c3, 0)).pipe(T.Default([])),
         }),
       ).annotate({ identifier: "Access" });
     case 1:

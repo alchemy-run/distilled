@@ -507,8 +507,8 @@ export interface EdgeStatistics {
   TotalResponseTime?: number | undefined;
 }
 export interface HistogramEntry {
-  Value?: number | undefined;
-  Count?: number | undefined;
+  Value: number;
+  Count: number;
 }
 export type Histogram = HistogramEntry[];
 export type AliasNames = string[];
@@ -581,9 +581,9 @@ export interface GetSamplingStatisticSummariesRequest {
 export interface SamplingStatisticSummary {
   RuleName?: string | undefined;
   Timestamp?: Date | undefined;
-  RequestCount?: number | undefined;
-  BorrowCount?: number | undefined;
-  SampledCount?: number | undefined;
+  RequestCount: number;
+  BorrowCount: number;
+  SampledCount: number;
 }
 export type SamplingStatisticSummaryList = SamplingStatisticSummary[];
 export interface GetSamplingStatisticSummariesResult {
@@ -625,7 +625,7 @@ export interface SamplingBoost {
 }
 export interface SamplingTargetDocument {
   RuleName?: string | undefined;
-  FixedRate?: number | undefined;
+  FixedRate: number;
   ReservoirQuota?: number | undefined;
   ReservoirQuotaTTL?: Date | undefined;
   Interval?: number | undefined;
@@ -656,7 +656,7 @@ export interface GetServiceGraphResult {
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
   Services?: Service[] | undefined;
-  ContainsOldGroupVersions?: boolean | undefined;
+  ContainsOldGroupVersions: boolean;
   NextToken?: string | undefined;
 }
 export type EntitySelectorExpression = string;
@@ -684,7 +684,7 @@ export interface TimeSeriesServiceStatistics {
 export type TimeSeriesServiceStatisticsList = TimeSeriesServiceStatistics[];
 export interface GetTimeSeriesServiceStatisticsResult {
   TimeSeriesServiceStatistics?: TimeSeriesServiceStatistics[] | undefined;
-  ContainsOldGroupVersions?: boolean | undefined;
+  ContainsOldGroupVersions: boolean;
   NextToken?: string | undefined;
 }
 export interface GetTraceGraphRequest {
@@ -838,7 +838,7 @@ export interface TraceSummary {
   FaultRootCauses?: FaultRootCause[] | undefined;
   ErrorRootCauses?: ErrorRootCause[] | undefined;
   ResponseTimeRootCauses?: ResponseTimeRootCause[] | undefined;
-  Revision?: number | undefined;
+  Revision: number;
   MatchedEventTime?: Date | undefined;
 }
 export type TraceSummaryList = TraceSummary[];
@@ -2209,7 +2209,10 @@ function __c10(j: number): any {
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
     case 1:
       return S.suspend(() =>
-        S.Struct({ MaxRate: S.Number, CooldownWindowMinutes: S.Number }),
+        S.Struct({
+          MaxRate: S.Number.pipe(T.Default(0)),
+          CooldownWindowMinutes: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "SamplingRateBoost" });
     case 2:
       return S.suspend(() =>
@@ -2218,8 +2221,8 @@ function __c10(j: number): any {
           RuleARN: S.optional(S.String),
           ResourceARN: S.String,
           Priority: S.Number,
-          FixedRate: S.Number,
-          ReservoirSize: S.Number,
+          FixedRate: S.Number.pipe(T.Default(0)),
+          ReservoirSize: S.Number.pipe(T.Default(0)),
           ServiceName: S.String,
           ServiceType: S.String,
           Host: S.String,
@@ -2653,7 +2656,10 @@ function __c29(j: number): any {
       ).annotate({ identifier: "EdgeStatistics" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ Value: S.optional(S.Number), Count: S.optional(S.Number) }),
+        S.Struct({
+          Value: S.optional(S.Number).pipe(T.Default(0)),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "HistogramEntry" });
     case 4:
       return S.Array(__S(931, __c29, 3));
@@ -2745,9 +2751,9 @@ function __c32(j: number): any {
         S.Struct({
           RuleName: S.optional(S.String),
           Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          RequestCount: S.optional(S.Number),
-          BorrowCount: S.optional(S.Number),
-          SampledCount: S.optional(S.Number),
+          RequestCount: S.optional(S.Number).pipe(T.Default(0)),
+          BorrowCount: S.optional(S.Number).pipe(T.Default(0)),
+          SampledCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SamplingStatisticSummary" });
     case 2:
@@ -2769,9 +2775,9 @@ function __c33(j: number): any {
           RuleName: S.String,
           ClientID: S.String,
           Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          RequestCount: S.Number,
-          SampledCount: S.Number,
-          BorrowCount: S.optional(S.Number),
+          RequestCount: S.Number.pipe(T.Default(0)),
+          SampledCount: S.Number.pipe(T.Default(0)),
+          BorrowCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SamplingStatisticsDocument" });
     case 1:
@@ -2782,9 +2788,9 @@ function __c33(j: number): any {
           RuleName: S.String,
           ServiceName: S.String,
           Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          AnomalyCount: S.Number,
-          TotalCount: S.Number,
-          SampledAnomalyCount: S.Number,
+          AnomalyCount: S.Number.pipe(T.Default(0)),
+          TotalCount: S.Number.pipe(T.Default(0)),
+          SampledAnomalyCount: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SamplingBoostStatisticsDocument" });
     case 3:
@@ -2801,7 +2807,7 @@ function __c33(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          BoostRate: S.Number,
+          BoostRate: S.Number.pipe(T.Default(0)),
           BoostRateTTL: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "SamplingBoost" });
@@ -2809,7 +2815,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RuleName: S.optional(S.String),
-          FixedRate: S.optional(S.Number),
+          FixedRate: S.optional(S.Number).pipe(T.Default(0)),
           ReservoirQuota: S.optional(S.Number),
           ReservoirQuotaTTL: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Interval: S.optional(S.Number),
@@ -2859,7 +2865,7 @@ function __c34(j: number): any {
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Services: S.optional(__S(1120, __c35, 0)),
-          ContainsOldGroupVersions: S.optional(S.Boolean),
+          ContainsOldGroupVersions: S.optional(S.Boolean).pipe(T.Default(false)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetServiceGraphResult" });
@@ -2915,7 +2921,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TimeSeriesServiceStatistics: S.optional(__S(1155, __c36, 3)),
-          ContainsOldGroupVersions: S.optional(S.Boolean),
+          ContainsOldGroupVersions: S.optional(S.Boolean).pipe(T.Default(false)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTimeSeriesServiceStatisticsResult" });
@@ -3125,7 +3131,7 @@ function __c40(j: number): any {
           FaultRootCauses: S.optional(__S(1303, __c40, 23)),
           ErrorRootCauses: S.optional(__S(1303, __c40, 23)),
           ResponseTimeRootCauses: S.optional(__S(1309, __c40, 29)),
-          Revision: S.optional(S.Number),
+          Revision: S.optional(S.Number).pipe(T.Default(0)),
           MatchedEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "TraceSummary" });

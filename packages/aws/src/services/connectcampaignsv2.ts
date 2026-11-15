@@ -2385,7 +2385,7 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.Boolean,
+          enabled: S.Boolean.pipe(T.Default(false)),
           encryptionType: S.optional(S.String),
           keyArn: S.optional(S.String),
         }),

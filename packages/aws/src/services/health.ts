@@ -264,7 +264,7 @@ export type Count = number;
 export type EntityStatuses = { [key in EntityStatusCode]?: number | undefined };
 export interface EntityAggregate {
   eventArn?: string | undefined;
-  count?: number | undefined;
+  count: number;
   statuses?: { [key: string]: number | undefined } | undefined;
 }
 export type EntityAggregateList = EntityAggregate[];
@@ -279,13 +279,13 @@ export interface DescribeEntityAggregatesForOrganizationRequest {
 }
 export interface AccountEntityAggregate {
   accountId?: string | undefined;
-  count?: number | undefined;
+  count: number;
   statuses?: { [key: string]: number | undefined } | undefined;
 }
 export type AccountEntityAggregatesList = AccountEntityAggregate[];
 export interface OrganizationEntityAggregate {
   eventArn?: string | undefined;
-  count?: number | undefined;
+  count: number;
   statuses?: { [key: string]: number | undefined } | undefined;
   accounts?: AccountEntityAggregate[] | undefined;
 }
@@ -345,7 +345,7 @@ export interface DescribeEventAggregatesRequest {
 export type AggregateValue = string;
 export interface EventAggregate {
   aggregateValue?: string | undefined;
-  count?: number | undefined;
+  count: number;
 }
 export type EventAggregateList = EventAggregate[];
 export interface DescribeEventAggregatesResponse {
@@ -1466,7 +1466,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           eventArn: S.optional(S.String),
-          count: S.optional(S.Number),
+          count: S.optional(S.Number).pipe(T.Default(0)),
           statuses: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "EntityAggregate" });
@@ -1497,7 +1497,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.optional(S.String),
-          count: S.optional(S.Number),
+          count: S.optional(S.Number).pipe(T.Default(0)),
           statuses: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "AccountEntityAggregate" });
@@ -1507,7 +1507,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           eventArn: S.optional(S.String),
-          count: S.optional(S.Number),
+          count: S.optional(S.Number).pipe(T.Default(0)),
           statuses: S.optional(__S(160, __c20, 0)),
           accounts: S.optional(__S(170, __c21, 2)),
         }),
@@ -1533,7 +1533,10 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DescribeEventAggregatesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ aggregateValue: S.optional(S.String), count: S.optional(S.Number) }),
+        S.Struct({
+          aggregateValue: S.optional(S.String),
+          count: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "EventAggregate" });
     case 2:
       return S.Array(__S(177, __c22, 1));

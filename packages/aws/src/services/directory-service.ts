@@ -932,7 +932,7 @@ export interface DirectoryDescription {
   RadiusSettings?: RadiusSettings | undefined;
   RadiusStatus?: RadiusStatus | undefined;
   StageReason?: string | undefined;
-  SsoEnabled?: boolean | undefined;
+  SsoEnabled: boolean;
   DesiredNumberOfDomainControllers?: number | undefined;
   OwnerDirectoryDescription?: OwnerDirectoryDescription | undefined;
   RegionsInfo?: RegionsInfo | undefined;
@@ -1298,13 +1298,13 @@ export type ConnectedDirectoriesLimitReached = boolean;
 export interface DirectoryLimits {
   CloudOnlyDirectoriesLimit?: number | undefined;
   CloudOnlyDirectoriesCurrentCount?: number | undefined;
-  CloudOnlyDirectoriesLimitReached?: boolean | undefined;
+  CloudOnlyDirectoriesLimitReached: boolean;
   CloudOnlyMicrosoftADLimit?: number | undefined;
   CloudOnlyMicrosoftADCurrentCount?: number | undefined;
-  CloudOnlyMicrosoftADLimitReached?: boolean | undefined;
+  CloudOnlyMicrosoftADLimitReached: boolean;
   ConnectedDirectoriesLimit?: number | undefined;
   ConnectedDirectoriesCurrentCount?: number | undefined;
-  ConnectedDirectoriesLimitReached?: boolean | undefined;
+  ConnectedDirectoriesLimitReached: boolean;
 }
 export interface GetDirectoryLimitsResult {
   DirectoryLimits?: DirectoryLimits | undefined;
@@ -1316,7 +1316,7 @@ export type ManualSnapshotsLimitReached = boolean;
 export interface SnapshotLimits {
   ManualSnapshotsLimit?: number | undefined;
   ManualSnapshotsCurrentCount?: number | undefined;
-  ManualSnapshotsLimitReached?: boolean | undefined;
+  ManualSnapshotsLimitReached: boolean;
 }
 export interface GetSnapshotLimitsResult {
   SnapshotLimits?: SnapshotLimits | undefined;
@@ -5015,7 +5015,7 @@ function __c33(j: number): any {
         S.Struct({
           VpcId: S.String,
           SubnetIds: __S(448, __c28, 0),
-          CustomerDnsIps: S.optional(__S(448, __c28, 0)),
+          CustomerDnsIps: S.optional(__S(448, __c28, 0)).pipe(T.Default([])),
           CustomerDnsIpsV6: S.optional(__S(448, __c28, 0)),
           CustomerUserName: S.String,
         }),
@@ -5543,7 +5543,7 @@ function __c61(j: number): any {
           RadiusSettings: S.optional(__S(992, __c62, 0)),
           RadiusStatus: S.optional(S.String),
           StageReason: S.optional(S.String),
-          SsoEnabled: S.optional(S.Boolean),
+          SsoEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           DesiredNumberOfDomainControllers: S.optional(S.Number),
           OwnerDirectoryDescription: S.optional(__S(979, __c61, 3)),
           RegionsInfo: S.optional(__S(980, __c61, 4)),
@@ -5572,11 +5572,11 @@ function __c62(j: number): any {
           RadiusServersIpv6: S.optional(__S(448, __c28, 0)),
           RadiusPort: S.optional(S.Number),
           RadiusTimeout: S.optional(S.Number),
-          RadiusRetries: S.optional(S.Number),
+          RadiusRetries: S.optional(S.Number).pipe(T.Default(0)),
           SharedSecret: S.optional(SensitiveString),
           AuthenticationProtocol: S.optional(S.String),
           DisplayLabel: S.optional(S.String),
-          UseSameUsername: S.optional(S.Boolean),
+          UseSameUsername: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "RadiusSettings" });
   }
@@ -6089,13 +6089,13 @@ function __c87(j: number): any {
         S.Struct({
           CloudOnlyDirectoriesLimit: S.optional(S.Number),
           CloudOnlyDirectoriesCurrentCount: S.optional(S.Number),
-          CloudOnlyDirectoriesLimitReached: S.optional(S.Boolean),
+          CloudOnlyDirectoriesLimitReached: S.optional(S.Boolean).pipe(T.Default(false)),
           CloudOnlyMicrosoftADLimit: S.optional(S.Number),
           CloudOnlyMicrosoftADCurrentCount: S.optional(S.Number),
-          CloudOnlyMicrosoftADLimitReached: S.optional(S.Boolean),
+          CloudOnlyMicrosoftADLimitReached: S.optional(S.Boolean).pipe(T.Default(false)),
           ConnectedDirectoriesLimit: S.optional(S.Number),
           ConnectedDirectoriesCurrentCount: S.optional(S.Number),
-          ConnectedDirectoriesLimitReached: S.optional(S.Boolean),
+          ConnectedDirectoriesLimitReached: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DirectoryLimits" });
     case 2:
@@ -6117,7 +6117,7 @@ function __c88(j: number): any {
         S.Struct({
           ManualSnapshotsLimit: S.optional(S.Number),
           ManualSnapshotsCurrentCount: S.optional(S.Number),
-          ManualSnapshotsLimitReached: S.optional(S.Boolean),
+          ManualSnapshotsLimitReached: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "SnapshotLimits" });
     case 2:

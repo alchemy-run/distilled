@@ -316,7 +316,7 @@ export interface Pattern {
   description?: string | undefined;
   resolutionSteps?: string | undefined;
   targetFrames?: string[][] | undefined;
-  thresholdPercent?: number | undefined;
+  thresholdPercent: number;
   countersToAggregate?: string[] | undefined;
 }
 export interface Match {
@@ -1461,7 +1461,7 @@ function __c9(j: number): any {
           description: S.optional(S.String),
           resolutionSteps: S.optional(S.String),
           targetFrames: S.optional(__S(145, __c9, 1)),
-          thresholdPercent: S.optional(S.Number),
+          thresholdPercent: S.optional(S.Number).pipe(T.Default(0)),
           countersToAggregate: S.optional(__S(400, __c25, 0)),
         }),
       ).annotate({ identifier: "Pattern" });

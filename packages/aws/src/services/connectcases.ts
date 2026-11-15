@@ -398,7 +398,7 @@ export interface GetCaseRuleResponse {
   caseRuleArn: string;
   rule: CaseRuleDetails;
   description?: string | undefined;
-  deleted?: boolean | undefined;
+  deleted: boolean;
   createdTime?: Date | undefined;
   lastModifiedTime?: Date | undefined;
   tags?: { [key: string]: string | null | undefined } | undefined;
@@ -441,7 +441,7 @@ export interface GetFieldResponse {
   type: string;
   namespace: string;
   tags?: { [key: string]: string | null | undefined } | undefined;
-  deleted?: boolean | undefined;
+  deleted: boolean;
   createdTime?: Date | undefined;
   lastModifiedTime?: Date | undefined;
   attributes?: FieldAttributes | undefined;
@@ -811,7 +811,7 @@ export interface GetLayoutResponse {
   name: string;
   content: LayoutContent;
   tags?: { [key: string]: string | null | undefined } | undefined;
-  deleted?: boolean | undefined;
+  deleted: boolean;
   createdTime?: Date | undefined;
   lastModifiedTime?: Date | undefined;
 }
@@ -839,7 +839,7 @@ export interface GetTemplateResponse {
   requiredFields?: RequiredField[] | undefined;
   tags?: { [key: string]: string | null | undefined } | undefined;
   status: string;
-  deleted?: boolean | undefined;
+  deleted: boolean;
   createdTime?: Date | undefined;
   lastModifiedTime?: Date | undefined;
   rules?: TemplateRule[] | undefined;
@@ -1244,7 +1244,7 @@ export type TotalCount = number;
 export interface SearchCasesResponse {
   nextToken?: string | undefined;
   cases: (SearchCasesResponseItem | null)[];
-  totalCount?: number | undefined;
+  totalCount: number;
 }
 export interface SearchRelatedItemsRequest {
   domainId: string;
@@ -3612,7 +3612,7 @@ function __c13(j: number): any {
       return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ caseRuleId: S.String, fieldId: S.optional(S.String) }),
+        S.Struct({ caseRuleId: S.String, fieldId: S.optional(S.String).pipe(T.Default("NULL")) }),
       ).annotate({ identifier: "TemplateRule" });
     case 4:
       return S.Array(__S(211, __c13, 3));
@@ -3946,7 +3946,7 @@ function __c26(j: number): any {
           name: S.String,
           content: __S(149, __c9, 5),
           tags: S.optional(__S(1056, __c66, 0)),
-          deleted: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean).pipe(T.Default(false)),
           createdTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
@@ -4010,7 +4010,7 @@ function __c28(j: number): any {
           requiredFields: S.optional(__S(210, __c13, 2)),
           tags: S.optional(__S(1056, __c66, 0)),
           status: S.String,
-          deleted: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean).pipe(T.Default(false)),
           createdTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           rules: S.optional(__S(212, __c13, 4)),
@@ -4511,7 +4511,7 @@ function __c42(j: number): any {
         S.Struct({
           nextToken: S.optional(S.String),
           cases: __S(680, __c42, 8),
-          totalCount: S.optional(S.Number),
+          totalCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SearchCasesResponse" });
   }
@@ -4966,7 +4966,7 @@ function __c61(j: number): any {
           caseRuleArn: S.String,
           rule: __S(1018, __c63, 10),
           description: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean).pipe(T.Default(false)),
           createdTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           tags: S.optional(__S(1056, __c66, 0)),
@@ -5120,7 +5120,7 @@ function __c67(j: number): any {
           type: S.String,
           namespace: S.String,
           tags: S.optional(__S(1056, __c66, 0)),
-          deleted: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean).pipe(T.Default(false)),
           createdTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           attributes: S.optional(__S(1089, __c68, 1)),

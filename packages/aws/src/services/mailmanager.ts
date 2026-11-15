@@ -3199,7 +3199,7 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ IpType: S.String })).annotate({
+      return S.suspend(() => S.Struct({ IpType: S.String.pipe(T.Default("IPV4")) })).annotate({
         identifier: "PublicNetworkConfiguration",
       });
     case 1:
@@ -3430,8 +3430,8 @@ function __c13(j: number): any {
           ActionFailurePolicy: S.optional(S.String),
           TopicArn: S.String,
           RoleArn: S.String,
-          Encoding: S.optional(S.String),
-          PayloadType: S.optional(S.String),
+          Encoding: S.optional(S.String).pipe(T.Default("UTF-8")),
+          PayloadType: S.optional(S.String).pipe(T.Default("CONTENT")),
         }),
       ).annotate({ identifier: "SnsAction" });
     case 20:

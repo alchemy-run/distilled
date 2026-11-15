@@ -1717,7 +1717,7 @@ function __c8(j: number): any {
           assertionAttributes: S.optional(__S(65, __c8, 1)),
           roleValues: S.optional(__S(66, __c8, 2)),
           allowedOrganizations: S.optional(__S(216, __c27, 0)),
-          loginValidityDuration: S.optional(S.Number),
+          loginValidityDuration: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SamlConfiguration" });
     case 4:

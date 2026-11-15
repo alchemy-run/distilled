@@ -950,7 +950,7 @@ export interface MonotonicValues {
 export interface SensorStatisticsSummary {
   ComponentName?: string | undefined;
   SensorName?: string | undefined;
-  DataExists?: boolean | undefined;
+  DataExists: boolean;
   MissingValues?: CountPercent | undefined;
   InvalidValues?: CountPercent | undefined;
   InvalidDateEntries?: CountPercent | undefined;
@@ -3780,9 +3780,9 @@ function __c39(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListSensorStatisticsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Count: S.Number, Percentage: S.Number })).annotate({
-        identifier: "CountPercent",
-      });
+      return S.suspend(() =>
+        S.Struct({ Count: S.Number, Percentage: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "CountPercent" });
     case 2:
       return S.suspend(() =>
         S.Struct({ Status: S.String, NumberOfCategory: S.optional(S.Number) }),
@@ -3808,7 +3808,7 @@ function __c39(j: number): any {
         S.Struct({
           ComponentName: S.optional(S.String),
           SensorName: S.optional(S.String),
-          DataExists: S.optional(S.Boolean),
+          DataExists: S.optional(S.Boolean).pipe(T.Default(false)),
           MissingValues: S.optional(__S(625, __c39, 1)),
           InvalidValues: S.optional(__S(625, __c39, 1)),
           InvalidDateEntries: S.optional(__S(625, __c39, 1)),

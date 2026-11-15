@@ -5709,7 +5709,7 @@ function __c50(j: number): any {
           Errors: S.optional(__S(784, __c49, 0)),
           ApplicationSettings: S.optional(__S(802, __c50, 2)),
           TimeoutSettings: S.optional(__S(800, __c50, 0)),
-          RunningMode: S.String,
+          RunningMode: S.String.pipe(T.Default("AUTO_STOP")),
         }),
       ).annotate({ identifier: "WorkspacesPool" });
   }

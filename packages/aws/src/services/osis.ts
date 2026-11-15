@@ -233,8 +233,8 @@ export type PipelineDestinationList = PipelineDestination[];
 export interface Pipeline {
   PipelineName?: string | undefined;
   PipelineArn?: string | undefined;
-  MinUnits?: number | undefined;
-  MaxUnits?: number | undefined;
+  MinUnits: number;
+  MaxUnits: number;
   Status?: PipelineStatus | undefined;
   StatusReason?: PipelineStatusReason | undefined;
   PipelineConfigurationBody?: string | undefined;
@@ -338,7 +338,7 @@ export type ChangeProgressStageList = ChangeProgressStage[];
 export interface ChangeProgressStatus {
   StartTime?: Date | undefined;
   Status?: ChangeProgressStatuses | undefined;
-  TotalNumberOfStages?: number | undefined;
+  TotalNumberOfStages: number;
   ChangeProgressStages?: ChangeProgressStage[] | undefined;
 }
 export type ChangeProgressStatusList = ChangeProgressStatus[];
@@ -1450,7 +1450,7 @@ function __c8(j: number): any {
         S.Struct({
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Status: S.optional(S.String),
-          TotalNumberOfStages: S.optional(S.Number),
+          TotalNumberOfStages: S.optional(S.Number).pipe(T.Default(0)),
           ChangeProgressStages: S.optional(__S(130, __c8, 2)),
         }),
       ).annotate({ identifier: "ChangeProgressStatus" });
@@ -1952,8 +1952,8 @@ function __c28(j: number): any {
         S.Struct({
           PipelineName: S.optional(S.String),
           PipelineArn: S.optional(S.String),
-          MinUnits: S.optional(S.Number),
-          MaxUnits: S.optional(S.Number),
+          MinUnits: S.optional(S.Number).pipe(T.Default(0)),
+          MaxUnits: S.optional(S.Number).pipe(T.Default(0)),
           Status: S.optional(S.String),
           StatusReason: S.optional(__S(432, __c27, 0)),
           PipelineConfigurationBody: S.optional(S.String),

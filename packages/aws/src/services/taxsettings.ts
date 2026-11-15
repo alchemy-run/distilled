@@ -2126,11 +2126,11 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          addressLine1: S.optional(S.String),
+          addressLine1: S.optional(S.String).pipe(T.Default("Unknown")),
           addressLine2: S.optional(S.String),
           addressLine3: S.optional(S.String),
           districtOrCounty: S.optional(S.String),
-          city: S.optional(S.String),
+          city: S.optional(S.String).pipe(T.Default("Unknown")),
           stateOrRegion: S.optional(S.String),
           postalCode: S.String,
           countryCode: S.String,
@@ -2145,7 +2145,7 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          serviceTaxCodes: S.optional(__S(800, __c25, 0)),
+          serviceTaxCodes: S.optional(__S(800, __c25, 0)).pipe(T.Default([])),
           taxInformationNumber: S.optional(S.String),
           businessRegistrationNumber: S.optional(S.String),
         }),

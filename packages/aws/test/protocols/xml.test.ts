@@ -467,7 +467,13 @@ describe("AwsProtocol REST-XML empty values", () => {
     assert.equal(output.Name, "example-access-point");
     assert.equal(output.Endpoints, undefined);
     assert.equal(String(output.CreationDate), "");
-    assert.deepEqual(output.PublicAccessBlockConfiguration, {});
+    // An empty structure, its members at their `@default`.
+    assert.deepEqual(output.PublicAccessBlockConfiguration, {
+      BlockPublicAcls: false,
+      IgnorePublicAcls: false,
+      BlockPublicPolicy: false,
+      RestrictPublicBuckets: false,
+    });
   });
 });
 

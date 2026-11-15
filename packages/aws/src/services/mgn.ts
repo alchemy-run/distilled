@@ -118,9 +118,9 @@ export class InternalServerException
     "InternalServerException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -203,7 +203,7 @@ export interface ApplicationAggregatedStatus {
   lastUpdateDateTime?: string | undefined;
   healthStatus?: string | undefined;
   progressStatus?: string | undefined;
-  totalSourceServers?: number | undefined;
+  totalSourceServers: number;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -234,7 +234,7 @@ export interface WaveAggregatedStatus {
   replicationStartedDateTime?: string | undefined;
   healthStatus?: string | undefined;
   progressStatus?: string | undefined;
-  totalApplications?: number | undefined;
+  totalApplications: number;
 }
 export interface Wave {
   waveID?: string | undefined;
@@ -295,10 +295,10 @@ export interface LaunchedInstance {
 export type ISO8601DurationString = string;
 export interface DataReplicationInfoReplicatedDisk {
   deviceName?: string | undefined;
-  totalStorageBytes?: number | undefined;
-  replicatedStorageBytes?: number | undefined;
-  rescannedStorageBytes?: number | undefined;
-  backloggedStorageBytes?: number | undefined;
+  totalStorageBytes: number;
+  replicatedStorageBytes: number;
+  rescannedStorageBytes: number;
+  backloggedStorageBytes: number;
 }
 export type DataReplicationInfoReplicatedDisks = DataReplicationInfoReplicatedDisk[];
 export type DataReplicationState = string;
@@ -388,11 +388,11 @@ export interface NetworkInterface {
 export type NetworkInterfaces = NetworkInterface[];
 export interface Disk {
   deviceName?: string | undefined;
-  bytes?: number | undefined;
+  bytes: number;
 }
 export type Disks = Disk[];
 export interface CPU {
-  cores?: number | undefined;
+  cores: number;
   modelName?: string | undefined;
 }
 export type Cpus = CPU[];
@@ -406,7 +406,7 @@ export interface SourceProperties {
   networkInterfaces?: NetworkInterface[] | undefined;
   disks?: Disk[] | undefined;
   cpus?: CPU[] | undefined;
-  ramBytes?: number | undefined;
+  ramBytes: number;
   os?: OS | undefined;
 }
 export type ReplicationType = string;
@@ -550,7 +550,7 @@ export interface LaunchConfigurationTemplate {
   copyTags?: boolean | undefined;
   licensing?: Licensing | undefined;
   bootMode?: string | undefined;
-  smallVolumeMaxSize?: number | undefined;
+  smallVolumeMaxSize: number;
   smallVolumeConf?: LaunchTemplateDiskConf | undefined;
   largeVolumeConf?: LaunchTemplateDiskConf | undefined;
   enableParametersEncryption?: boolean | undefined;
@@ -672,7 +672,7 @@ export interface ReplicationConfigurationTemplate {
   defaultLargeStagingDiskType?: string | undefined;
   ebsEncryption?: string | undefined;
   ebsEncryptionKeyArn?: string | undefined;
-  bandwidthThrottling?: number | undefined;
+  bandwidthThrottling: number;
   dataPlaneRouting?: string | undefined;
   createPublicIP?: boolean | undefined;
   stagingAreaTags?: { [key: string]: string | undefined } | undefined;
@@ -969,7 +969,7 @@ export interface ReplicationConfiguration {
   replicatedDisks?: ReplicationConfigurationReplicatedDisk[] | undefined;
   ebsEncryption?: string | undefined;
   ebsEncryptionKeyArn?: string | undefined;
-  bandwidthThrottling?: number | undefined;
+  bandwidthThrottling: number;
   dataPlaneRouting?: string | undefined;
   createPublicIP?: boolean | undefined;
   stagingAreaTags?: { [key: string]: string | undefined } | undefined;
@@ -1042,9 +1042,9 @@ export interface ListExportsRequest {
 export type S3Key = string;
 export type ExportStatus = string;
 export interface ExportTaskSummary {
-  serversCount?: number | undefined;
-  applicationsCount?: number | undefined;
-  wavesCount?: number | undefined;
+  serversCount: number;
+  applicationsCount: number;
+  wavesCount: number;
 }
 export interface ExportTask {
   exportID?: string | undefined;
@@ -1076,7 +1076,7 @@ export interface ImportErrorData {
   applicationID?: string | undefined;
   waveID?: string | undefined;
   ec2LaunchTemplateID?: string | undefined;
-  rowNumber?: number | undefined;
+  rowNumber: number;
   rawError?: string | undefined;
   accountID?: string | undefined;
 }
@@ -1142,16 +1142,16 @@ export interface S3BucketSource {
 }
 export type ImportStatus = string;
 export interface ImportTaskSummaryWaves {
-  createdCount?: number | undefined;
-  modifiedCount?: number | undefined;
+  createdCount: number;
+  modifiedCount: number;
 }
 export interface ImportTaskSummaryApplications {
-  createdCount?: number | undefined;
-  modifiedCount?: number | undefined;
+  createdCount: number;
+  modifiedCount: number;
 }
 export interface ImportTaskSummaryServers {
-  createdCount?: number | undefined;
-  modifiedCount?: number | undefined;
+  createdCount: number;
+  modifiedCount: number;
 }
 export interface ImportTaskSummary {
   waves?: ImportTaskSummaryWaves | undefined;
@@ -4902,10 +4902,10 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deviceName: S.optional(S.String),
-          totalStorageBytes: S.optional(S.Number),
-          replicatedStorageBytes: S.optional(S.Number),
-          rescannedStorageBytes: S.optional(S.Number),
-          backloggedStorageBytes: S.optional(S.Number),
+          totalStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
+          replicatedStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
+          rescannedStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
+          backloggedStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DataReplicationInfoReplicatedDisk" });
     case 4:
@@ -4991,13 +4991,19 @@ function __c9(j: number): any {
       return S.Array(__S(303, __c9, 15));
     case 17:
       return S.suspend(() =>
-        S.Struct({ deviceName: S.optional(S.String), bytes: S.optional(S.Number) }),
+        S.Struct({
+          deviceName: S.optional(S.String),
+          bytes: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "Disk" });
     case 18:
       return S.Array(__S(305, __c9, 17));
     case 19:
       return S.suspend(() =>
-        S.Struct({ cores: S.optional(S.Number), modelName: S.optional(S.String) }),
+        S.Struct({
+          cores: S.optional(S.Number).pipe(T.Default(0)),
+          modelName: S.optional(S.String),
+        }),
       ).annotate({ identifier: "CPU" });
     case 20:
       return S.Array(__S(307, __c9, 19));
@@ -5014,7 +5020,7 @@ function __c9(j: number): any {
           networkInterfaces: S.optional(__S(304, __c9, 16)),
           disks: S.optional(__S(306, __c9, 18)),
           cpus: S.optional(__S(308, __c9, 20)),
-          ramBytes: S.optional(S.Number),
+          ramBytes: S.optional(S.Number).pipe(T.Default(0)),
           os: S.optional(__S(309, __c9, 21)),
         }),
       ).annotate({ identifier: "SourceProperties" });
@@ -5221,7 +5227,7 @@ function __c17(j: number): any {
           copyTags: S.optional(S.Boolean),
           licensing: S.optional(__S(514, __c16, 2)),
           bootMode: S.optional(S.String),
-          smallVolumeMaxSize: S.optional(S.Number),
+          smallVolumeMaxSize: S.optional(S.Number).pipe(T.Default(0)),
           smallVolumeConf: S.optional(__S(544, __c17, 0)),
           largeVolumeConf: S.optional(__S(544, __c17, 0)),
           enableParametersEncryption: S.optional(S.Boolean),
@@ -5377,7 +5383,7 @@ function __c23(j: number): any {
           defaultLargeStagingDiskType: S.optional(S.String),
           ebsEncryption: S.optional(S.String),
           ebsEncryptionKeyArn: S.optional(S.String),
-          bandwidthThrottling: S.optional(S.Number),
+          bandwidthThrottling: S.optional(S.Number).pipe(T.Default(0)),
           dataPlaneRouting: S.optional(S.String),
           createPublicIP: S.optional(S.Boolean),
           stagingAreaTags: S.optional(__S(3392, __c106, 0)),
@@ -5988,8 +5994,8 @@ function __c51(j: number): any {
           deviceName: S.optional(S.String),
           isBootDisk: S.optional(S.Boolean),
           stagingDiskType: S.optional(S.String),
-          iops: S.optional(S.Number),
-          throughput: S.optional(S.Number),
+          iops: S.optional(S.Number).pipe(T.Default(0)),
+          throughput: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ReplicationConfigurationReplicatedDisk" });
     case 1:
@@ -6008,7 +6014,7 @@ function __c51(j: number): any {
           replicatedDisks: S.optional(__S(1633, __c51, 1)),
           ebsEncryption: S.optional(S.String),
           ebsEncryptionKeyArn: S.optional(S.String),
-          bandwidthThrottling: S.optional(S.Number),
+          bandwidthThrottling: S.optional(S.Number).pipe(T.Default(0)),
           dataPlaneRouting: S.optional(S.String),
           createPublicIP: S.optional(S.Boolean),
           stagingAreaTags: S.optional(__S(3392, __c106, 0)),
@@ -6150,9 +6156,9 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          serversCount: S.optional(S.Number),
-          applicationsCount: S.optional(S.Number),
-          wavesCount: S.optional(S.Number),
+          serversCount: S.optional(S.Number).pipe(T.Default(0)),
+          applicationsCount: S.optional(S.Number).pipe(T.Default(0)),
+          wavesCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ExportTaskSummary" });
     case 1:
@@ -6192,7 +6198,7 @@ function __c58(j: number): any {
           applicationID: S.optional(S.String),
           waveID: S.optional(S.String),
           ec2LaunchTemplateID: S.optional(S.String),
-          rowNumber: S.optional(S.Number),
+          rowNumber: S.optional(S.Number).pipe(T.Default(0)),
           rawError: S.optional(S.String),
           accountID: S.optional(S.String),
         }),
@@ -6300,7 +6306,10 @@ function __c63(j: number): any {
       ).annotate({ identifier: "S3BucketSource" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ createdCount: S.optional(S.Number), modifiedCount: S.optional(S.Number) }),
+        S.Struct({
+          createdCount: S.optional(S.Number).pipe(T.Default(0)),
+          modifiedCount: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "ImportTaskSummaryWaves" });
     case 2:
       return S.suspend(() =>
@@ -7345,7 +7354,7 @@ function __c105(j: number): any {
           lastUpdateDateTime: S.optional(S.String),
           healthStatus: S.optional(S.String),
           progressStatus: S.optional(S.String),
-          totalSourceServers: S.optional(S.Number),
+          totalSourceServers: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ApplicationAggregatedStatus" });
     case 1:
@@ -7626,7 +7635,7 @@ function __c118(j: number): any {
           replicationStartedDateTime: S.optional(S.String),
           healthStatus: S.optional(S.String),
           progressStatus: S.optional(S.String),
-          totalApplications: S.optional(S.Number),
+          totalApplications: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WaveAggregatedStatus" });
     case 1:

@@ -234,18 +234,18 @@ export type DisconnectReason = string;
 export type SessionExpiry = number;
 export type VpcEndpointId = string;
 export interface GetConnectionResponse {
-  connected?: boolean | undefined;
+  connected: boolean;
   thingName?: string | undefined;
-  cleanSession?: boolean | undefined;
+  cleanSession: boolean;
   sourceIp?: string | undefined;
-  sourcePort?: number | undefined;
+  sourcePort: number;
   targetIp?: string | undefined;
-  targetPort?: number | undefined;
-  keepAliveDuration?: number | undefined;
-  connectedSince?: number | undefined;
-  disconnectedSince?: number | undefined;
+  targetPort: number;
+  keepAliveDuration: number;
+  connectedSince: number;
+  disconnectedSince: number;
   disconnectReason?: string | undefined;
-  sessionExpiry?: number | undefined;
+  sessionExpiry: number;
   clientId?: string | undefined;
   vpcEndpointId?: string | undefined;
 }
@@ -259,8 +259,8 @@ export type UserPropertiesBlob = Uint8Array;
 export interface GetRetainedMessageResponse {
   topic?: string | undefined;
   payload?: Uint8Array | undefined;
-  qos?: number | undefined;
-  lastModifiedTime?: number | undefined;
+  qos: number;
+  lastModifiedTime: number;
   userProperties?: Uint8Array | undefined;
 }
 export interface GetThingShadowRequest {
@@ -281,7 +281,7 @@ export type NamedShadowList = string[];
 export interface ListNamedShadowsForThingResponse {
   results?: string[] | undefined;
   nextToken?: string | undefined;
-  timestamp?: number | undefined;
+  timestamp: number;
 }
 export type MaxResults = number;
 export interface ListRetainedMessagesRequest {
@@ -291,9 +291,9 @@ export interface ListRetainedMessagesRequest {
 export type PayloadSize = number;
 export interface RetainedMessageSummary {
   topic?: string | undefined;
-  payloadSize?: number | undefined;
-  qos?: number | undefined;
-  lastModifiedTime?: number | undefined;
+  payloadSize: number;
+  qos: number;
+  lastModifiedTime: number;
 }
 export type RetainedMessageList = RetainedMessageSummary[];
 export interface ListRetainedMessagesResponse {
@@ -916,18 +916,18 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connected: S.optional(S.Boolean),
+          connected: S.optional(S.Boolean).pipe(T.Default(false)),
           thingName: S.optional(S.String),
-          cleanSession: S.optional(S.Boolean),
+          cleanSession: S.optional(S.Boolean).pipe(T.Default(false)),
           sourceIp: S.optional(S.String),
-          sourcePort: S.optional(S.Number),
+          sourcePort: S.optional(S.Number).pipe(T.Default(0)),
           targetIp: S.optional(S.String),
-          targetPort: S.optional(S.Number),
-          keepAliveDuration: S.optional(S.Number),
-          connectedSince: S.optional(S.Number),
-          disconnectedSince: S.optional(S.Number),
+          targetPort: S.optional(S.Number).pipe(T.Default(0)),
+          keepAliveDuration: S.optional(S.Number).pipe(T.Default(0)),
+          connectedSince: S.optional(S.Number).pipe(T.Default(0)),
+          disconnectedSince: S.optional(S.Number).pipe(T.Default(0)),
           disconnectReason: S.optional(S.String),
-          sessionExpiry: S.optional(S.Number),
+          sessionExpiry: S.optional(S.Number).pipe(T.Default(0)),
           clientId: S.optional(S.String),
           vpcEndpointId: S.optional(S.String),
         }),
@@ -954,8 +954,8 @@ function __c4(j: number): any {
         S.Struct({
           topic: S.optional(S.String),
           payload: S.optional(T.Blob),
-          qos: S.optional(S.Number),
-          lastModifiedTime: S.optional(S.Number),
+          qos: S.optional(S.Number).pipe(T.Default(0)),
+          lastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
           userProperties: S.optional(T.Blob),
         }),
       ).annotate({ identifier: "GetRetainedMessageResponse" });
@@ -1018,7 +1018,7 @@ function __c7(j: number): any {
         S.Struct({
           results: S.optional(__S(29, __c7, 1)),
           nextToken: S.optional(S.String),
-          timestamp: S.optional(S.Number),
+          timestamp: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListNamedShadowsForThingResponse" });
   }
@@ -1038,9 +1038,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           topic: S.optional(S.String),
-          payloadSize: S.optional(S.Number),
-          qos: S.optional(S.Number),
-          lastModifiedTime: S.optional(S.Number),
+          payloadSize: S.optional(S.Number).pipe(T.Default(0)),
+          qos: S.optional(S.Number).pipe(T.Default(0)),
+          lastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RetainedMessageSummary" });
     case 2:
@@ -1071,9 +1071,9 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ topicFilter: S.String, qos: S.Number })).annotate({
-        identifier: "SubscriptionSummary",
-      });
+      return S.suspend(() =>
+        S.Struct({ topicFilter: S.String, qos: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "SubscriptionSummary" });
     case 2:
       return S.Array(__S(37, __c9, 1));
     case 3:

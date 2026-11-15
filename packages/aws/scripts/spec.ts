@@ -756,6 +756,34 @@ function collectSoftRequiredMembers(
 }
 
 /**
+ * The shapes an operation input reaches. Their types are input types too,
+ * so a `@default` does not make a member of theirs required.
+ */
+function collectInputShapes(model: SmithyModel): Set<string> {
+  const seen = new Set<string>();
+  const visit = (id: string | undefined) => {
+    if (id === undefined || seen.has(id)) return;
+    const shape = model.shapes[id] as any;
+    if (!shape) return;
+    seen.add(id);
+    for (const member of Object.values((shape.members ?? {}) as Record<string, { target: string }>))
+      visit(member.target);
+    visit(shape.member?.target);
+    visit(shape.value?.target);
+  };
+  for (const shape of Object.values(model.shapes) as any[])
+    if (shape.type === "operation") visit(shape.input?.target);
+  return seen;
+}
+
+/**
+ * Whether a member has a `@default` a client applies: a value other than
+ * null (which removes an inherited default), and no `@clientOptional`.
+ */
+const hasDefault = (traits: Record<string, unknown> | undefined): boolean =>
+  traits?.["smithy.api#default"] != null && traits["smithy.api#clientOptional"] == null;
+
+/**
  * The output type for a shape including deep intersections for
  * soft-required members:
  * - Direct: `Api & { Name: string }`
@@ -1047,6 +1075,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
   const sensitiveShapeIds = collectSensitiveShapeIds(model);
   const operationErrorTypeNames = collectOperationErrorTypeNames(model);
   const softRequiredMembers = collectSoftRequiredMembers(model);
+  const inputShapes = collectInputShapes(model);
 
   // Blob shapes referenced from at least one generic context. Structure
   // members bound as httpPayload (and streaming members) use the
@@ -1329,6 +1358,8 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
     tsType: string;
     isOptional: boolean;
     isSoftRequired: boolean;
+    /** Has a `@default`, which a response fills in when missing. */
+    isDefaulted: boolean;
     jsonName: string | undefined;
   }
 
@@ -1514,6 +1545,14 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       allStructNames.has(memberTargetName) ? memberTargetName : undefined,
     );
 
+    // `@default`: the response decoder fills it in for a missing member. An
+    // operation input is never decoded. A stream's default ("") only says
+    // the stream may be empty: a missing one stays missing.
+    const isDefaulted = hasDefault(traits) && !isStreamingBlob && !isBlobPayload && !isEventStream;
+    if (isDefaulted && !ctx.isOperationInput) {
+      schema = `${schema}.pipe(T.Default(${JSON.stringify(traits["smithy.api#default"])}))`;
+    }
+
     const jsonName = honorsJsonName
       ? (traits["smithy.api#jsonName"] as string | undefined)
       : undefined;
@@ -1524,6 +1563,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       tsType,
       isOptional,
       isSoftRequired,
+      isDefaulted,
       jsonName: jsonName && jsonName !== memberName ? jsonName : undefined,
     };
   };
@@ -1914,10 +1954,15 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
             }),
           );
 
-          // In output context soft-required members are shown as required.
+          // In output context soft-required members are shown as required,
+          // and so are defaulted members of a structure no input reaches:
+          // the response decoder fills them in.
+          const outputOnly = isOperationOutput || (!isOperationInput && !inputShapes.has(id));
           const interfaceFields = members
             .map((m) => {
-              const showOptional = m.isOptional && !(isOperationOutput && m.isSoftRequired);
+              const showOptional =
+                m.isOptional &&
+                !((isOperationOutput && m.isSoftRequired) || (outputOnly && m.isDefaulted));
               return `${m.name}${showOptional ? "?" : ""}: ${m.tsType}${showOptional ? " | undefined" : ""}`;
             })
             .join("; ");

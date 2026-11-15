@@ -308,8 +308,8 @@ export interface CheckSummary {
   awsServices: string[];
   source: RecommendationSource;
   metadata: { [key: string]: string | undefined };
-  resourceArnQueryable?: boolean | undefined;
-  awsResourceTypes?: string[] | undefined;
+  resourceArnQueryable: boolean;
+  awsResourceTypes: string[];
   checkGranularity?: string | undefined;
   recommendationId?: string | undefined;
 }
@@ -360,7 +360,7 @@ export interface OrganizationRecommendationResourceSummary {
   status: ResourceStatus;
   metadata: { [key: string]: string | undefined };
   lastUpdatedAt: Date;
-  exclusionStatus?: ExclusionStatus | undefined;
+  exclusionStatus: ExclusionStatus;
   accountId?: string | undefined;
   recommendationArn: string;
 }
@@ -421,7 +421,7 @@ export interface RecommendationResourceSummary {
   status: ResourceStatus;
   metadata: { [key: string]: string | undefined };
   lastUpdatedAt: Date;
-  exclusionStatus?: ExclusionStatus | undefined;
+  exclusionStatus: ExclusionStatus;
   recommendationArn: string;
 }
 export type RecommendationResourceSummaryList = RecommendationResourceSummary[];
@@ -1026,7 +1026,7 @@ function __c1(j: number): any {
           status: S.String,
           metadata: __S(128, __c16, 0),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          exclusionStatus: S.optional(S.String),
+          exclusionStatus: S.optional(S.String).pipe(T.Default("included")),
           accountId: S.optional(S.String),
           recommendationArn: S.String,
         }),
@@ -1138,7 +1138,7 @@ function __c3(j: number): any {
           status: S.String,
           metadata: __S(128, __c16, 0),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          exclusionStatus: S.optional(S.String),
+          exclusionStatus: S.optional(S.String).pipe(T.Default("included")),
           recommendationArn: S.String,
         }),
       ).annotate({ identifier: "RecommendationResourceSummary" });
@@ -1518,8 +1518,8 @@ function __c15(j: number): any {
           awsServices: __S(96, __c12, 0),
           source: S.String,
           metadata: __S(128, __c16, 0),
-          resourceArnQueryable: S.optional(S.Boolean),
-          awsResourceTypes: S.optional(__S(96, __c12, 0)),
+          resourceArnQueryable: S.optional(S.Boolean).pipe(T.Default(false)),
+          awsResourceTypes: S.optional(__S(96, __c12, 0)).pipe(T.Default([])),
           checkGranularity: S.optional(S.String),
           recommendationId: S.optional(S.String),
         }),

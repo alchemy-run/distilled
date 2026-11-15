@@ -2418,7 +2418,7 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cloudMetricEnabled: S.optional(S.Boolean),
+          cloudMetricEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           metricRuleRoleArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricsConfiguration" });

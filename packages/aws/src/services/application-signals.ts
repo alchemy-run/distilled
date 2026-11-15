@@ -2013,8 +2013,8 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SliMetricConfig: __S(64, __c2, 0),
-          MetricThreshold: S.optional(S.Number),
-          ComparisonOperator: S.optional(S.String),
+          MetricThreshold: S.optional(S.Number).pipe(T.Default(0)),
+          ComparisonOperator: S.optional(S.String).pipe(T.Default("LessThan")),
         }),
       ).annotate({ identifier: "ServiceLevelIndicatorConfig" });
     case 2:

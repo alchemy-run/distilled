@@ -356,7 +356,7 @@ export interface CreateAgentProfileResponse {
   description?: string | redacted.Redacted<string> | undefined;
   businessOverview?: string | redacted.Redacted<string> | undefined;
   pillars: Pillar[];
-  deletionProtection?: boolean | undefined;
+  deletionProtection: boolean;
   executionRoleArn: string;
   aggregationConfiguration: AggregationConfiguration[];
   arn: string;
@@ -637,7 +637,7 @@ export interface GetAgentProfileResponse {
   description?: string | redacted.Redacted<string> | undefined;
   businessOverview?: string | redacted.Redacted<string> | undefined;
   pillars: Pillar[];
-  deletionProtection?: boolean | undefined;
+  deletionProtection: boolean;
   executionRoleArn: string;
   aggregationConfiguration: AggregationConfiguration[];
   arn: string;
@@ -1348,7 +1348,7 @@ export interface AgentProfileSummary {
   description?: string | redacted.Redacted<string> | undefined;
   businessOverview?: string | redacted.Redacted<string> | undefined;
   pillars: Pillar[];
-  deletionProtection?: boolean | undefined;
+  deletionProtection: boolean;
   executionRoleArn: string;
   aggregationConfiguration: AggregationConfiguration[];
   arn: string;
@@ -2003,7 +2003,7 @@ export interface UpdateAgentProfileResponse {
   description?: string | redacted.Redacted<string> | undefined;
   businessOverview?: string | redacted.Redacted<string> | undefined;
   pillars: Pillar[];
-  deletionProtection?: boolean | undefined;
+  deletionProtection: boolean;
   executionRoleArn: string;
   aggregationConfiguration: AggregationConfiguration[];
   arn: string;
@@ -5739,7 +5739,7 @@ function __c8(j: number): any {
           description: S.optional(SensitiveString),
           businessOverview: S.optional(SensitiveString),
           pillars: __S(32, __c1, 0),
-          deletionProtection: S.optional(S.Boolean),
+          deletionProtection: S.optional(S.Boolean).pipe(T.Default(true)),
           executionRoleArn: S.String,
           aggregationConfiguration: __S(257, __c8, 1),
           arn: S.String,

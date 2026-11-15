@@ -132,7 +132,7 @@ export interface SearchRequest {
   stats?: string | undefined;
 }
 export interface SearchStatus {
-  timems?: number | undefined;
+  timems: number;
   rid?: string | undefined;
 }
 export type FieldValue = string[];
@@ -147,14 +147,14 @@ export interface Hit {
 }
 export type HitList = Hit[];
 export interface Hits {
-  found?: number | undefined;
-  start?: number | undefined;
+  found: number;
+  start: number;
   cursor?: string | undefined;
   hit?: Hit[] | undefined;
 }
 export interface Bucket {
   value?: string | undefined;
-  count?: number | undefined;
+  count: number;
 }
 export type BucketList = Bucket[];
 export interface BucketInfo {
@@ -164,12 +164,12 @@ export type Facets = { [key: string]: BucketInfo | undefined };
 export interface FieldStats {
   min?: string | undefined;
   max?: string | undefined;
-  count?: number | undefined;
-  missing?: number | undefined;
-  sum?: number | undefined;
-  sumOfSquares?: number | undefined;
+  count: number;
+  missing: number;
+  sum: number;
+  sumOfSquares: number;
   mean?: string | undefined;
-  stddev?: number | undefined;
+  stddev: number;
 }
 export type Stats = { [key: string]: FieldStats | undefined };
 export interface SearchResponse {
@@ -186,18 +186,18 @@ export interface SuggestRequest {
   size?: number | undefined;
 }
 export interface SuggestStatus {
-  timems?: number | undefined;
+  timems: number;
   rid?: string | undefined;
 }
 export interface SuggestionMatch {
   suggestion?: string | undefined;
-  score?: number | undefined;
+  score: number;
   id?: string | undefined;
 }
 export type Suggestions = SuggestionMatch[];
 export interface SuggestModel {
   query?: string | undefined;
-  found?: number | undefined;
+  found: number;
   suggestions?: SuggestionMatch[] | undefined;
 }
 export interface SuggestResponse {
@@ -217,8 +217,8 @@ export interface DocumentServiceWarning {
 export type DocumentServiceWarnings = DocumentServiceWarning[];
 export interface UploadDocumentsResponse {
   status?: string | undefined;
-  adds?: number | undefined;
-  deletes?: number | undefined;
+  adds: number;
+  deletes: number;
   warnings?: DocumentServiceWarning[] | undefined;
 }
 export type SearchError = SearchException | CommonErrors;
@@ -354,15 +354,15 @@ function __c0(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          found: S.optional(S.Number),
-          start: S.optional(S.Number),
+          found: S.optional(S.Number).pipe(T.Default(0)),
+          start: S.optional(S.Number).pipe(T.Default(0)),
           cursor: S.optional(S.String),
           hit: S.optional(__S(5, __c0, 5)),
         }),
       ).annotate({ identifier: "Hits" });
     case 7:
       return S.suspend(() =>
-        S.Struct({ value: S.optional(S.String), count: S.optional(S.Number) }),
+        S.Struct({ value: S.optional(S.String), count: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "Bucket" });
     case 8:
       return S.Array(__S(7, __c0, 7));
@@ -377,12 +377,12 @@ function __c0(j: number): any {
         S.Struct({
           min: S.optional(S.String),
           max: S.optional(S.String),
-          count: S.optional(S.Number),
-          missing: S.optional(S.Number),
-          sum: S.optional(S.Number),
-          sumOfSquares: S.optional(S.Number),
+          count: S.optional(S.Number).pipe(T.Default(0)),
+          missing: S.optional(S.Number).pipe(T.Default(0)),
+          sum: S.optional(S.Number).pipe(T.Default(0)),
+          sumOfSquares: S.optional(S.Number).pipe(T.Default(0)),
           mean: S.optional(S.String),
-          stddev: S.optional(S.Number),
+          stddev: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "FieldStats" });
     case 12:
@@ -402,7 +402,7 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ timems: S.optional(S.Number), rid: S.optional(S.String) }),
+        S.Struct({ timems: S.optional(S.Number).pipe(T.Default(0)), rid: S.optional(S.String) }),
       ).annotate({ identifier: "SearchStatus" });
   }
 }
@@ -430,7 +430,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           suggestion: S.optional(S.String),
-          score: S.optional(S.Number),
+          score: S.optional(S.Number).pipe(T.Default(0)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "SuggestionMatch" });
@@ -440,7 +440,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String),
-          found: S.optional(S.Number),
+          found: S.optional(S.Number).pipe(T.Default(0)),
           suggestions: S.optional(__S(34, __c2, 2)),
         }),
       ).annotate({ identifier: "SuggestModel" });
@@ -482,8 +482,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          adds: S.optional(S.Number),
-          deletes: S.optional(S.Number),
+          adds: S.optional(S.Number).pipe(T.Default(0)),
+          deletes: S.optional(S.Number).pipe(T.Default(0)),
           warnings: S.optional(__S(50, __c3, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "UploadDocumentsResponse" });

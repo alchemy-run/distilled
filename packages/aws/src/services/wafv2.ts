@@ -1000,7 +1000,7 @@ export interface CheckCapacityRequest {
 }
 export type ConsumedCapacity = number;
 export interface CheckCapacityResponse {
-  Capacity?: number | undefined;
+  Capacity: number;
 }
 export type TokenDomain = string;
 export type APIKeyTokenDomains = string[];
@@ -1299,8 +1299,8 @@ export interface ManagedProductDescriptor {
   ProductTitle?: string | undefined;
   ProductDescription?: string | undefined;
   SnsTopicArn?: string | undefined;
-  IsVersioningSupported?: boolean | undefined;
-  IsAdvancedManagedRuleSet?: boolean | undefined;
+  IsVersioningSupported: boolean;
+  IsAdvancedManagedRuleSet: boolean;
 }
 export type ManagedProductDescriptors = ManagedProductDescriptor[];
 export interface DescribeAllManagedProductsResponse {
@@ -1559,7 +1559,7 @@ export interface SourceStatistics {
   SourceCategory?: string | undefined;
   Intent?: string | undefined;
   Organization?: string | undefined;
-  Verified?: boolean | undefined;
+  Verified: boolean;
   GroupByValue?: string | undefined;
 }
 export type SourceStatisticsList = SourceStatistics[];
@@ -1587,8 +1587,8 @@ export interface RevenueBreakdown {
   VerifiedAmount?: string | undefined;
   UnverifiedAmount?: string | undefined;
   Currency?: Currency | undefined;
-  TotalSettled?: number | undefined;
-  TotalMonetizeServed?: number | undefined;
+  TotalSettled: number;
+  TotalMonetizeServed: number;
 }
 export interface GetRevenueStatisticsSummaryResponse {
   RevenueBreakdown?: RevenueBreakdown | undefined;
@@ -1609,8 +1609,8 @@ export interface GetRevenueStatisticsTimeSeriesRequest {
 }
 export interface DataPointEntry {
   Date?: Date | undefined;
-  MonetizeServedCount?: number | undefined;
-  SettledCount?: number | undefined;
+  MonetizeServedCount: number;
+  SettledCount: number;
   TotalAmount?: string | undefined;
   Category?: string | undefined;
   Intent?: string | undefined;
@@ -1710,7 +1710,7 @@ export type SampledHTTPRequests = SampledHTTPRequest[];
 export type PopulationSize = number;
 export interface GetSampledRequestsResponse {
   SampledRequests?: SampledHTTPRequest[] | undefined;
-  PopulationSize?: number | undefined;
+  PopulationSize: number;
   TimeWindow?: TimeWindow | undefined;
 }
 export type UriPathPrefixString = string;
@@ -1779,17 +1779,17 @@ export interface WebACL {
   Rules?: Rule[] | undefined;
   VisibilityConfig: VisibilityConfig;
   DataProtectionConfig?: DataProtectionConfig | undefined;
-  Capacity?: number | undefined;
+  Capacity: number;
   PreProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroup[] | undefined;
   PostProcessFirewallManagerRuleGroups?: FirewallManagerRuleGroup[] | undefined;
-  ManagedByFirewallManager?: boolean | undefined;
+  ManagedByFirewallManager: boolean;
   LabelNamespace?: string | undefined;
   CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined } | undefined;
   CaptchaConfig?: CaptchaConfig | undefined;
   ChallengeConfig?: ChallengeConfig | undefined;
   TokenDomains?: string[] | undefined;
   AssociationConfig?: AssociationConfig | undefined;
-  RetrofittedByFirewallManager?: boolean | undefined;
+  RetrofittedByFirewallManager: boolean;
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
   ApplicationConfig?: ApplicationConfig | undefined;
   MonetizationConfig?: MonetizationConfig | undefined;
@@ -1817,7 +1817,7 @@ export interface APIKeySummary {
   TokenDomains?: string[] | undefined;
   APIKey?: string | undefined;
   CreationTimestamp?: Date | undefined;
-  Version?: number | undefined;
+  Version: number;
 }
 export type APIKeySummaries = APIKeySummary[];
 export interface ListAPIKeysResponse {
@@ -1833,7 +1833,7 @@ export interface ListAvailableManagedRuleGroupsRequest {
 export interface ManagedRuleGroupSummary {
   VendorName?: string | undefined;
   Name?: string | undefined;
-  VersioningSupported?: boolean | undefined;
+  VersioningSupported: boolean;
   Description?: string | undefined;
 }
 export type ManagedRuleGroupSummaries = ManagedRuleGroupSummary[];
@@ -1985,7 +1985,7 @@ export interface SettlementRecord {
   Organization?: string | undefined;
   SourceCategory?: string | undefined;
   Intent?: string | undefined;
-  Verified?: boolean | undefined;
+  Verified: boolean;
   ContentPath?: string | undefined;
   WebAclArn?: string | undefined;
   RequestTimestamp?: Date | undefined;
@@ -4488,9 +4488,9 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "CheckCapacityRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Capacity: S.optional(S.Number) }).pipe(ns)).annotate({
-        identifier: "CheckCapacityResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ Capacity: S.optional(S.Number).pipe(T.Default(0)) }).pipe(ns),
+      ).annotate({ identifier: "CheckCapacityResponse" });
   }
 }
 function __c3(j: number): any {
@@ -4658,9 +4658,9 @@ function __c8(j: number): any {
 function __c9(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Priority: S.Number, Type: S.String })).annotate({
-        identifier: "TextTransformation",
-      });
+      return S.suspend(() =>
+        S.Struct({ Priority: S.Number.pipe(T.Default(0)), Type: S.String }),
+      ).annotate({ identifier: "TextTransformation" });
     case 1:
       return S.Array(__S(288, __c9, 0));
     case 2:
@@ -4695,7 +4695,7 @@ function __c9(j: number): any {
         S.Struct({
           FieldToMatch: __S(235, __c7, 11),
           ComparisonOperator: S.String,
-          Size: S.Number,
+          Size: S.Number.pipe(T.Default(0)),
           TextTransformations: __S(289, __c9, 1),
           PreParseTextTransformations: S.optional(__S(289, __c9, 1)),
         }),
@@ -4779,7 +4779,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Limit: S.Number,
-          EvaluationWindowSec: S.optional(S.Number),
+          EvaluationWindowSec: S.optional(S.Number).pipe(T.Default(0)),
           AggregateKeyType: S.String,
           ScopeDownStatement: S.optional(
             S.suspend((): S.Schema<Statement> => __S(334, __c10, 14)).annotate({
@@ -4816,7 +4816,10 @@ function __c9(j: number): any {
       });
     case 25:
       return S.suspend(() =>
-        S.Struct({ InspectionLevel: S.String, EnableMachineLearning: S.optional(S.Boolean) }),
+        S.Struct({
+          InspectionLevel: S.String,
+          EnableMachineLearning: S.optional(S.Boolean).pipe(T.Default(true)),
+        }),
       ).annotate({ identifier: "AWSManagedRulesBotControlRuleSet" });
     case 26:
       return S.suspend(() =>
@@ -4871,7 +4874,7 @@ function __c10(j: number): any {
           LoginPath: S.String,
           RequestInspection: S.optional(__S(314, __c9, 26)),
           ResponseInspection: S.optional(__S(320, __c10, 0)),
-          EnableRegexInPath: S.optional(S.Boolean),
+          EnableRegexInPath: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AWSManagedRulesATPRuleSet" });
     case 2:
@@ -4894,7 +4897,7 @@ function __c10(j: number): any {
           RegistrationPagePath: S.String,
           RequestInspection: __S(323, __c10, 3),
           ResponseInspection: S.optional(__S(320, __c10, 0)),
-          EnableRegexInPath: S.optional(S.Boolean),
+          EnableRegexInPath: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AWSManagedRulesACFPRuleSet" });
     case 5:
@@ -5012,8 +5015,8 @@ function __c10(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          SampledRequestsEnabled: S.Boolean,
-          CloudWatchMetricsEnabled: S.Boolean,
+          SampledRequestsEnabled: S.Boolean.pipe(T.Default(false)),
+          CloudWatchMetricsEnabled: S.Boolean.pipe(T.Default(false)),
           MetricName: S.String,
         }),
       ).annotate({ identifier: "VisibilityConfig" });
@@ -5029,7 +5032,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Priority: S.Number,
+          Priority: S.Number.pipe(T.Default(0)),
           Statement: __S(334, __c10, 14),
           Action: S.optional(__S(167, __c5, 7)),
           OverrideAction: S.optional(__S(335, __c10, 15)),
@@ -5222,8 +5225,8 @@ function __c20(j: number): any {
         S.Struct({
           Field: __S(641, __c20, 1),
           Action: S.String,
-          ExcludeRuleMatchDetails: S.optional(S.Boolean),
-          ExcludeRateBasedDetails: S.optional(S.Boolean),
+          ExcludeRuleMatchDetails: S.optional(S.Boolean).pipe(T.Default(false)),
+          ExcludeRateBasedDetails: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DataProtection" });
     case 3:
@@ -5371,8 +5374,8 @@ function __c30(j: number): any {
           ProductTitle: S.optional(S.String),
           ProductDescription: S.optional(S.String),
           SnsTopicArn: S.optional(S.String),
-          IsVersioningSupported: S.optional(S.Boolean),
-          IsAdvancedManagedRuleSet: S.optional(S.Boolean),
+          IsVersioningSupported: S.optional(S.Boolean).pipe(T.Default(false)),
+          IsAdvancedManagedRuleSet: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ManagedProductDescriptor" });
     case 1:
@@ -5561,7 +5564,7 @@ function __c40(j: number): any {
           ResourceArn: S.String,
           LogDestinationConfigs: __S(96, __c3, 0),
           RedactedFields: S.optional(__S(1280, __c40, 0)),
-          ManagedByFirewallManager: S.optional(S.Boolean),
+          ManagedByFirewallManager: S.optional(S.Boolean).pipe(T.Default(false)),
           LoggingFilter: S.optional(__S(1287, __c40, 7)),
           LogType: S.optional(S.String),
           LogScope: S.optional(S.String),
@@ -5732,13 +5735,13 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SourceName: S.String,
-          Percentage: S.Number,
+          Percentage: S.Number.pipe(T.Default(0)),
           Amount: S.String,
-          RequestCount: S.Number,
+          RequestCount: S.Number.pipe(T.Default(0)),
           SourceCategory: S.optional(S.String),
           Intent: S.optional(S.String),
           Organization: S.optional(S.String),
-          Verified: S.optional(S.Boolean),
+          Verified: S.optional(S.Boolean).pipe(T.Default(false)),
           GroupByValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceStatistics" });
@@ -5748,9 +5751,9 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Path: S.String,
-          Percentage: S.Number,
+          Percentage: S.Number.pipe(T.Default(0)),
           Amount: S.String,
-          RequestCount: S.Number,
+          RequestCount: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RevenuePathStatistics" });
     case 4:
@@ -5804,8 +5807,8 @@ function __c50(j: number): any {
           VerifiedAmount: S.optional(S.String),
           UnverifiedAmount: S.optional(S.String),
           Currency: S.optional(S.String),
-          TotalSettled: S.optional(S.Number),
-          TotalMonetizeServed: S.optional(S.Number),
+          TotalSettled: S.optional(S.Number).pipe(T.Default(0)),
+          TotalMonetizeServed: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RevenueBreakdown" });
     case 2:
@@ -5834,8 +5837,8 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          MonetizeServedCount: S.optional(S.Number),
-          SettledCount: S.optional(S.Number),
+          MonetizeServedCount: S.optional(S.Number).pipe(T.Default(0)),
+          SettledCount: S.optional(S.Number).pipe(T.Default(0)),
           TotalAmount: S.optional(S.String),
           Category: S.optional(S.String),
           Intent: S.optional(S.String),
@@ -5931,7 +5934,7 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Request: __S(1699, __c53, 3),
-          Weight: S.Number,
+          Weight: S.Number.pipe(T.Default(0)),
           Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Action: S.optional(S.String),
           RuleNameWithinRuleGroup: S.optional(S.String),
@@ -5949,7 +5952,7 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SampledRequests: S.optional(__S(1702, __c53, 6)),
-          PopulationSize: S.optional(S.Number),
+          PopulationSize: S.optional(S.Number).pipe(T.Default(0)),
           TimeWindow: S.optional(__S(1536, __c48, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetSampledRequestsResponse" });
@@ -5982,7 +5985,11 @@ function __c54(j: number): any {
       ).annotate({ identifier: "FilterSource" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ BotName: S.String, RequestCount: S.Number, Percentage: S.Number }),
+        S.Struct({
+          BotName: S.String,
+          RequestCount: S.Number.pipe(T.Default(0)),
+          Percentage: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "BotStatistics" });
     case 3:
       return S.Array(__S(1730, __c54, 2));
@@ -5991,8 +5998,8 @@ function __c54(j: number): any {
         S.Struct({
           Source: S.optional(__S(1729, __c54, 1)),
           Path: S.String,
-          RequestCount: S.Number,
-          Percentage: S.Number,
+          RequestCount: S.Number.pipe(T.Default(0)),
+          Percentage: S.Number.pipe(T.Default(0)),
           TopBots: S.optional(__S(1731, __c54, 3)),
         }),
       ).annotate({ identifier: "PathStatistics" });
@@ -6002,7 +6009,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PathStatistics: __S(1733, __c54, 5),
-          TotalRequestCount: S.Number,
+          TotalRequestCount: S.Number.pipe(T.Default(0)),
           NextMarker: S.optional(S.String),
           TopCategories: S.optional(__S(1733, __c54, 5)),
         }).pipe(ns),
@@ -6043,7 +6050,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Priority: S.Number,
+          Priority: S.Number.pipe(T.Default(0)),
           FirewallManagerStatement: __S(1792, __c56, 0),
           OverrideAction: __S(335, __c10, 15),
           VisibilityConfig: __S(336, __c10, 16),
@@ -6062,17 +6069,17 @@ function __c56(j: number): any {
           Rules: S.optional(__S(340, __c10, 20)),
           VisibilityConfig: __S(336, __c10, 16),
           DataProtectionConfig: S.optional(__S(644, __c20, 4)),
-          Capacity: S.optional(S.Number),
+          Capacity: S.optional(S.Number).pipe(T.Default(0)),
           PreProcessFirewallManagerRuleGroups: S.optional(__S(1794, __c56, 2)),
           PostProcessFirewallManagerRuleGroups: S.optional(__S(1794, __c56, 2)),
-          ManagedByFirewallManager: S.optional(S.Boolean),
+          ManagedByFirewallManager: S.optional(S.Boolean).pipe(T.Default(false)),
           LabelNamespace: S.optional(S.String),
           CustomResponseBodies: S.optional(__S(577, __c18, 1)),
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
           AssociationConfig: S.optional(__S(648, __c20, 8)),
-          RetrofittedByFirewallManager: S.optional(S.Boolean),
+          RetrofittedByFirewallManager: S.optional(S.Boolean).pipe(T.Default(false)),
           OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
           ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(587, __c18, 11)),
@@ -6110,7 +6117,7 @@ function __c58(j: number): any {
           TokenDomains: S.optional(__S(96, __c3, 0)),
           APIKey: S.optional(S.String),
           CreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "APIKeySummary" });
     case 2:
@@ -6140,7 +6147,7 @@ function __c59(j: number): any {
         S.Struct({
           VendorName: S.optional(S.String),
           Name: S.optional(S.String),
-          VersioningSupported: S.optional(S.Boolean),
+          VersioningSupported: S.optional(S.Boolean).pipe(T.Default(false)),
           Description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedRuleGroupSummary" });
@@ -6376,7 +6383,7 @@ function __c69(j: number): any {
           Organization: S.optional(S.String),
           SourceCategory: S.optional(S.String),
           Intent: S.optional(S.String),
-          Verified: S.optional(S.Boolean),
+          Verified: S.optional(S.Boolean).pipe(T.Default(false)),
           ContentPath: S.optional(S.String),
           WebAclArn: S.optional(S.String),
           RequestTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

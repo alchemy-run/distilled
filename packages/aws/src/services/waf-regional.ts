@@ -1003,7 +1003,7 @@ export type SampledHTTPRequests = SampledHTTPRequest[];
 export type PopulationSize = number;
 export interface GetSampledRequestsResponse {
   SampledRequests?: SampledHTTPRequest[] | undefined;
-  PopulationSize?: number | undefined;
+  PopulationSize: number;
   TimeWindow?: TimeWindow | undefined;
 }
 export interface GetSizeConstraintSetRequest {
@@ -5767,7 +5767,7 @@ function __c30(j: number): any {
           FieldToMatch: __S(32, __c4, 0),
           TextTransformation: S.String,
           ComparisonOperator: S.String,
-          Size: S.Number,
+          Size: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SizeConstraint" });
   }
@@ -6321,7 +6321,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Request: __S(588, __c73, 4),
-          Weight: S.Number,
+          Weight: S.Number.pipe(T.Default(0)),
           Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Action: S.optional(S.String),
           RuleWithinRuleGroup: S.optional(S.String),
@@ -6333,7 +6333,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SampledRequests: S.optional(__S(590, __c73, 6)),
-          PopulationSize: S.optional(S.Number),
+          PopulationSize: S.optional(S.Number).pipe(T.Default(0)),
           TimeWindow: S.optional(__S(584, __c73, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetSampledRequestsResponse" });

@@ -134,8 +134,8 @@ export class PayloadTooLargeException
       Measure: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.suspend(() => S.String).annotate({ identifier: "BytesMeasure" }),
       ),
-      Limit: /*@__PURE__*/ S.optional(S.Number),
-      Size: /*@__PURE__*/ S.optional(S.Number),
+      Limit: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
+      Size: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(413),
   ).pipe(C.withBadRequestError) {}
@@ -225,10 +225,10 @@ export interface DeploymentStrategy {
   Id?: string | undefined;
   Name?: string | undefined;
   Description?: string | undefined;
-  DeploymentDurationInMinutes?: number | undefined;
+  DeploymentDurationInMinutes: number;
   GrowthType?: GrowthType | undefined;
   GrowthFactor?: number | undefined;
-  FinalBakeTimeInMinutes?: number | undefined;
+  FinalBakeTimeInMinutes: number;
   ReplicateTo?: ReplicateTo | undefined;
 }
 export type StringWithLengthBetween1And2048 = string;
@@ -393,7 +393,7 @@ export interface CreateExtensionRequest {
 export interface Extension {
   Id?: string | undefined;
   Name?: string | undefined;
-  VersionNumber?: number | undefined;
+  VersionNumber: number;
   Arn?: string | undefined;
   Description?: string | undefined;
   Actions?: { [key: string]: Action[] | undefined } | undefined;
@@ -413,7 +413,7 @@ export interface ExtensionAssociation {
   ResourceArn?: string | undefined;
   Arn?: string | undefined;
   Parameters?: { [key: string]: string | undefined } | undefined;
-  ExtensionVersionNumber?: number | undefined;
+  ExtensionVersionNumber: number;
 }
 export type StringWithLengthBetween1And255 = string;
 export type VersionLabel = string;
@@ -429,7 +429,7 @@ export interface CreateHostedConfigurationVersionRequest {
 export interface HostedConfigurationVersion {
   ApplicationId?: string | undefined;
   ConfigurationProfileId?: string | undefined;
-  VersionNumber?: number | undefined;
+  VersionNumber: number;
   Description?: string | undefined;
   Content?: T.StreamingOutputBody | undefined;
   ContentType?: string | undefined;
@@ -564,7 +564,7 @@ export type DeploymentEvents = DeploymentEvent[];
 export interface AppliedExtension {
   ExtensionId?: string | undefined;
   ExtensionAssociationId?: string | undefined;
-  VersionNumber?: number | undefined;
+  VersionNumber: number;
   Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type AppliedExtensions = AppliedExtension[];
@@ -573,15 +573,15 @@ export interface Deployment {
   EnvironmentId?: string | undefined;
   DeploymentStrategyId?: string | undefined;
   ConfigurationProfileId?: string | undefined;
-  DeploymentNumber?: number | undefined;
+  DeploymentNumber: number;
   ConfigurationName?: string | undefined;
   ConfigurationLocationUri?: string | undefined;
   ConfigurationVersion?: string | undefined;
   Description?: string | undefined;
-  DeploymentDurationInMinutes?: number | undefined;
+  DeploymentDurationInMinutes: number;
   GrowthType?: GrowthType | undefined;
   GrowthFactor?: number | undefined;
-  FinalBakeTimeInMinutes?: number | undefined;
+  FinalBakeTimeInMinutes: number;
   State?: DeploymentState | undefined;
   EventLog?: DeploymentEvent[] | undefined;
   PercentageComplete?: number | undefined;
@@ -636,7 +636,7 @@ export interface ExperimentDefinitionSnapshot {
 export interface ExperimentRun {
   ApplicationId?: string | undefined;
   ExperimentDefinitionId?: string | undefined;
-  Run?: number | undefined;
+  Run: number;
   Description?: string | undefined;
   Status?: ExperimentRunStatus | undefined;
   ExposurePercentage?: number | undefined;
@@ -698,14 +698,14 @@ export interface ListDeploymentsRequest {
 }
 export type DeploymentType = "USER" | "MANAGED" | (string & {});
 export interface DeploymentSummary {
-  DeploymentNumber?: number | undefined;
+  DeploymentNumber: number;
   ConfigurationProfileId?: string | undefined;
   ConfigurationName?: string | undefined;
   ConfigurationVersion?: string | undefined;
-  DeploymentDurationInMinutes?: number | undefined;
+  DeploymentDurationInMinutes: number;
   GrowthType?: GrowthType | undefined;
   GrowthFactor?: number | undefined;
-  FinalBakeTimeInMinutes?: number | undefined;
+  FinalBakeTimeInMinutes: number;
   State?: DeploymentState | undefined;
   PercentageComplete?: number | undefined;
   StartedAt?: Date | undefined;
@@ -798,7 +798,7 @@ export interface ListExperimentRunsRequest {
 }
 export interface ExperimentRunSummary {
   ExperimentDefinitionId?: string | undefined;
-  Run?: number | undefined;
+  Run: number;
   Description?: string | undefined;
   Status?: ExperimentRunStatus | undefined;
   StartedAt?: Date | undefined;
@@ -836,7 +836,7 @@ export interface ListExtensionsRequest {
 export interface ExtensionSummary {
   Id?: string | undefined;
   Name?: string | undefined;
-  VersionNumber?: number | undefined;
+  VersionNumber: number;
   Arn?: string | undefined;
   Description?: string | undefined;
 }
@@ -855,7 +855,7 @@ export interface ListHostedConfigurationVersionsRequest {
 export interface HostedConfigurationVersionSummary {
   ApplicationId?: string | undefined;
   ConfigurationProfileId?: string | undefined;
-  VersionNumber?: number | undefined;
+  VersionNumber: number;
   Description?: string | undefined;
   ContentType?: string | undefined;
   VersionLabel?: string | undefined;
@@ -2706,13 +2706,16 @@ function __c3(j: number): any {
       return S.Record(S.String, /*@__PURE__*/ __S(25, __c3, 1).pipe(S.optional));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Enabled: S.Boolean, AttributeValues: S.optional(__S(26, __c3, 2)) }),
+        S.Struct({
+          Enabled: S.Boolean.pipe(T.Default(false)),
+          AttributeValues: S.optional(__S(26, __c3, 2)),
+        }),
       ).annotate({ identifier: "FlagValue" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           Key: S.optional(S.String),
-          Weight: S.Number,
+          Weight: S.Number.pipe(T.Default(0)),
           Description: S.optional(S.String),
           FlagValue: __S(27, __c3, 3),
         }),
@@ -2751,7 +2754,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Weight: S.Number,
+          Weight: S.Number.pipe(T.Default(0)),
           Description: S.optional(S.String),
           FlagValue: __S(27, __c3, 3),
         }),
@@ -2796,8 +2799,8 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(S.String),
-          Required: S.optional(S.Boolean),
-          Dynamic: S.optional(S.Boolean),
+          Required: S.optional(S.Boolean).pipe(T.Default(false)),
+          Dynamic: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "Parameter" });
     case 4:
@@ -2807,7 +2810,7 @@ function __c7(j: number): any {
         S.Struct({
           Id: S.optional(S.String),
           Name: S.optional(S.String),
-          VersionNumber: S.optional(S.Number),
+          VersionNumber: S.optional(S.Number).pipe(T.Default(0)),
           Arn: S.optional(S.String),
           Description: S.optional(S.String),
           Actions: S.optional(__S(58, __c7, 2)),
@@ -2849,7 +2852,7 @@ function __c9(j: number): any {
           ResourceArn: S.optional(S.String),
           Arn: S.optional(S.String),
           Parameters: S.optional(__S(528, __c66, 0)),
-          ExtensionVersionNumber: S.optional(S.Number),
+          ExtensionVersionNumber: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ExtensionAssociation" });
   }
@@ -2891,7 +2894,9 @@ function __c11(j: number): any {
           ConfigurationProfileId: S.optional(S.String).pipe(
             T.HttpHeader("Configuration-Profile-Id"),
           ),
-          VersionNumber: S.optional(S.Number).pipe(T.HttpHeader("Version-Number")),
+          VersionNumber: S.optional(S.Number)
+            .pipe(T.HttpHeader("Version-Number"))
+            .pipe(T.Default(0)),
           Description: S.optional(S.String).pipe(T.HttpHeader("Description")),
           Content: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
           ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -3247,7 +3252,7 @@ function __c27(j: number): any {
         S.Struct({
           ExtensionId: S.optional(S.String),
           ExtensionAssociationId: S.optional(S.String),
-          VersionNumber: S.optional(S.Number),
+          VersionNumber: S.optional(S.Number).pipe(T.Default(0)),
           Parameters: S.optional(__S(528, __c66, 0)),
         }),
       ).annotate({ identifier: "AppliedExtension" });
@@ -3260,15 +3265,15 @@ function __c27(j: number): any {
           EnvironmentId: S.optional(S.String),
           DeploymentStrategyId: S.optional(S.String),
           ConfigurationProfileId: S.optional(S.String),
-          DeploymentNumber: S.optional(S.Number),
+          DeploymentNumber: S.optional(S.Number).pipe(T.Default(0)),
           ConfigurationName: S.optional(S.String),
           ConfigurationLocationUri: S.optional(S.String),
           ConfigurationVersion: S.optional(S.String),
           Description: S.optional(S.String),
-          DeploymentDurationInMinutes: S.optional(S.Number),
+          DeploymentDurationInMinutes: S.optional(S.Number).pipe(T.Default(0)),
           GrowthType: S.optional(S.String),
           GrowthFactor: S.optional(S.Number),
-          FinalBakeTimeInMinutes: S.optional(S.Number),
+          FinalBakeTimeInMinutes: S.optional(S.Number).pipe(T.Default(0)),
           State: S.optional(S.String),
           EventLog: S.optional(__S(219, __c27, 3)),
           PercentageComplete: S.optional(S.Number),
@@ -3411,7 +3416,7 @@ function __c33(j: number): any {
         S.Struct({
           ApplicationId: S.optional(S.String),
           ExperimentDefinitionId: S.optional(S.String),
-          Run: S.optional(S.Number),
+          Run: S.optional(S.Number).pipe(T.Default(0)),
           Description: S.optional(S.String),
           Status: S.optional(S.String),
           ExposurePercentage: S.optional(S.Number),
@@ -3574,14 +3579,14 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DeploymentNumber: S.optional(S.Number),
+          DeploymentNumber: S.optional(S.Number).pipe(T.Default(0)),
           ConfigurationProfileId: S.optional(S.String),
           ConfigurationName: S.optional(S.String),
           ConfigurationVersion: S.optional(S.String),
-          DeploymentDurationInMinutes: S.optional(S.Number),
+          DeploymentDurationInMinutes: S.optional(S.Number).pipe(T.Default(0)),
           GrowthType: S.optional(S.String),
           GrowthFactor: S.optional(S.Number),
-          FinalBakeTimeInMinutes: S.optional(S.Number),
+          FinalBakeTimeInMinutes: S.optional(S.Number).pipe(T.Default(0)),
           State: S.optional(S.String),
           PercentageComplete: S.optional(S.Number),
           StartedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -3774,7 +3779,7 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ExperimentDefinitionId: S.optional(S.String),
-          Run: S.optional(S.Number),
+          Run: S.optional(S.Number).pipe(T.Default(0)),
           Description: S.optional(S.String),
           Status: S.optional(S.String),
           StartedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -3844,7 +3849,7 @@ function __c46(j: number): any {
         S.Struct({
           Id: S.optional(S.String),
           Name: S.optional(S.String),
-          VersionNumber: S.optional(S.Number),
+          VersionNumber: S.optional(S.Number).pipe(T.Default(0)),
           Arn: S.optional(S.String),
           Description: S.optional(S.String),
         }),
@@ -3886,7 +3891,7 @@ function __c47(j: number): any {
         S.Struct({
           ApplicationId: S.optional(S.String),
           ConfigurationProfileId: S.optional(S.String),
-          VersionNumber: S.optional(S.Number),
+          VersionNumber: S.optional(S.Number).pipe(T.Default(0)),
           Description: S.optional(S.String),
           ContentType: S.optional(S.String),
           VersionLabel: S.optional(S.String),
@@ -4443,10 +4448,10 @@ function __c72(j: number): any {
           Id: S.optional(S.String),
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          DeploymentDurationInMinutes: S.optional(S.Number),
+          DeploymentDurationInMinutes: S.optional(S.Number).pipe(T.Default(0)),
           GrowthType: S.optional(S.String),
           GrowthFactor: S.optional(S.Number),
-          FinalBakeTimeInMinutes: S.optional(S.Number),
+          FinalBakeTimeInMinutes: S.optional(S.Number).pipe(T.Default(0)),
           ReplicateTo: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentStrategy" });

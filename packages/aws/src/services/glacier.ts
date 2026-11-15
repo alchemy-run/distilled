@@ -349,7 +349,7 @@ export interface GlacierJobDescription {
   ArchiveId?: string | undefined;
   VaultARN?: string | undefined;
   CreationDate?: string | undefined;
-  Completed?: boolean | undefined;
+  Completed: boolean;
   StatusCode?: StatusCode | undefined;
   StatusMessage?: string | undefined;
   ArchiveSizeInBytes?: number | undefined;
@@ -374,8 +374,8 @@ export interface DescribeVaultOutput {
   VaultName?: string | undefined;
   CreationDate?: string | undefined;
   LastInventoryDate?: string | undefined;
-  NumberOfArchives?: number | undefined;
-  SizeInBytes?: number | undefined;
+  NumberOfArchives: number;
+  SizeInBytes: number;
 }
 export interface GetDataRetrievalPolicyInput {
   accountId: string;
@@ -401,7 +401,7 @@ export type Httpstatus = number;
 export interface GetJobOutputOutput {
   body?: T.StreamingOutputBody | undefined;
   checksum?: string | undefined;
-  status?: number | undefined;
+  status: number;
   contentRange?: string | undefined;
   acceptRanges?: string | undefined;
   contentType?: string | undefined;
@@ -511,7 +511,7 @@ export interface UploadListElement {
   MultipartUploadId?: string | undefined;
   VaultARN?: string | undefined;
   ArchiveDescription?: string | undefined;
-  PartSizeInBytes?: number | undefined;
+  PartSizeInBytes: number;
   CreationDate?: string | undefined;
 }
 export type UploadsList = UploadListElement[];
@@ -535,7 +535,7 @@ export interface ListPartsOutput {
   MultipartUploadId?: string | undefined;
   VaultARN?: string | undefined;
   ArchiveDescription?: string | undefined;
-  PartSizeInBytes?: number | undefined;
+  PartSizeInBytes: number;
   CreationDate?: string | undefined;
   Parts?: PartListElement[] | undefined;
   Marker?: string | undefined;
@@ -2639,7 +2639,7 @@ function __c13(j: number): any {
           ArchiveId: S.optional(S.String),
           VaultARN: S.optional(S.String),
           CreationDate: S.optional(S.String),
-          Completed: S.optional(S.Boolean),
+          Completed: S.optional(S.Boolean).pipe(T.Default(false)),
           StatusCode: S.optional(S.String),
           StatusMessage: S.optional(S.String),
           ArchiveSizeInBytes: S.optional(S.Number),
@@ -2688,8 +2688,8 @@ function __c15(j: number): any {
           VaultName: S.optional(S.String),
           CreationDate: S.optional(S.String),
           LastInventoryDate: S.optional(S.String),
-          NumberOfArchives: S.optional(S.Number),
-          SizeInBytes: S.optional(S.Number),
+          NumberOfArchives: S.optional(S.Number).pipe(T.Default(0)),
+          SizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeVaultOutput" });
   }
@@ -2756,7 +2756,7 @@ function __c18(j: number): any {
         S.Struct({
           body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
           checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
-          status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           contentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
           acceptRanges: S.optional(S.String).pipe(T.HttpHeader("Accept-Ranges")),
           contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -3052,7 +3052,7 @@ function __c29(j: number): any {
           MultipartUploadId: S.optional(S.String),
           VaultARN: S.optional(S.String),
           ArchiveDescription: S.optional(S.String),
-          PartSizeInBytes: S.optional(S.Number),
+          PartSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
           CreationDate: S.optional(S.String),
         }),
       ).annotate({ identifier: "UploadListElement" });
@@ -3104,7 +3104,7 @@ function __c30(j: number): any {
           MultipartUploadId: S.optional(S.String),
           VaultARN: S.optional(S.String),
           ArchiveDescription: S.optional(S.String),
-          PartSizeInBytes: S.optional(S.Number),
+          PartSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
           CreationDate: S.optional(S.String),
           Parts: S.optional(__S(482, __c30, 2)),
           Marker: S.optional(S.String),

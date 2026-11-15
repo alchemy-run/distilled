@@ -860,7 +860,7 @@ export interface ContextDetails {
 }
 export type AttemptCount = number;
 export interface StepDetails {
-  Attempt?: number | undefined;
+  Attempt: number;
   NextAttemptTimestamp?: Date | undefined;
   Result?: string | redacted.Redacted<string> | undefined;
   Error?: ErrorObject | undefined;
@@ -1461,7 +1461,7 @@ export interface TracingConfigResponse {
 }
 export interface Layer {
   Arn?: string | undefined;
-  CodeSize?: number | undefined;
+  CodeSize: number;
   SigningProfileVersionArn?: string | undefined;
   SigningJobArn?: string | undefined;
 }
@@ -1588,7 +1588,7 @@ export interface FunctionConfiguration {
   Runtime?: Runtime | undefined;
   Role?: string | undefined;
   Handler?: string | undefined;
-  CodeSize?: number | undefined;
+  CodeSize: number;
   Description?: string | undefined;
   Timeout?: number | undefined;
   MemorySize?: number | undefined;
@@ -1683,7 +1683,7 @@ export interface DeleteFunctionRequest {
   Qualifier?: string | undefined;
 }
 export interface DeleteFunctionResponse {
-  StatusCode?: number | undefined;
+  StatusCode: number;
 }
 export interface DeleteFunctionCodeSigningConfigRequest {
   FunctionName: string;
@@ -1724,15 +1724,15 @@ export interface DeleteResourcePolicyResponse {}
 export interface GetAccountSettingsRequest {}
 export type UnreservedConcurrentExecutions = number;
 export interface AccountLimit {
-  TotalCodeSize?: number | undefined;
-  CodeSizeUnzipped?: number | undefined;
-  CodeSizeZipped?: number | undefined;
-  ConcurrentExecutions?: number | undefined;
+  TotalCodeSize: number;
+  CodeSizeUnzipped: number;
+  CodeSizeZipped: number;
+  ConcurrentExecutions: number;
   UnreservedConcurrentExecutions?: number | undefined;
 }
 export interface AccountUsage {
-  TotalCodeSize?: number | undefined;
-  FunctionCount?: number | undefined;
+  TotalCodeSize: number;
+  FunctionCount: number;
 }
 export interface GetAccountSettingsResponse {
   AccountLimit?: AccountLimit | undefined;
@@ -1871,7 +1871,7 @@ export interface WaitCancelledDetails {
 }
 export interface StepStartedDetails {}
 export interface RetryDetails {
-  CurrentAttempt?: number | undefined;
+  CurrentAttempt: number;
   NextAttemptDelaySeconds?: number | undefined;
 }
 export interface StepSucceededDetails {
@@ -1924,7 +1924,7 @@ export interface InvocationCompletedDetails {
 export interface Event {
   EventType?: EventType | undefined;
   SubType?: string | undefined;
-  EventId?: number | undefined;
+  EventId: number;
   Id?: string | undefined;
   Name?: string | undefined;
   EventTimestamp?: Date | undefined;
@@ -2085,7 +2085,7 @@ export interface GetLayerVersionRequest {
 export interface LayerVersionContentOutput {
   Location?: string | undefined;
   CodeSha256?: string | undefined;
-  CodeSize?: number | undefined;
+  CodeSize: number;
   SigningProfileVersionArn?: string | undefined;
   SigningJobArn?: string | undefined;
   ResolvedS3Object?: ResolvedS3Object | undefined;
@@ -2100,7 +2100,7 @@ export interface GetLayerVersionResponse {
   LayerVersionArn?: string | undefined;
   Description?: string | undefined;
   CreatedDate?: string | undefined;
-  Version?: number | undefined;
+  Version: number;
   CompatibleArchitectures?: Architecture[] | undefined;
   CompatibleRuntimes?: Runtime[] | undefined;
   LicenseInfo?: string | undefined;
@@ -2170,7 +2170,7 @@ export interface InvocationRequest {
   TenantId?: string | undefined;
 }
 export interface InvocationResponse {
-  StatusCode?: number | undefined;
+  StatusCode: number;
   FunctionError?: string | undefined;
   LogResult?: string | undefined;
   Payload?: T.StreamingOutputBody | undefined;
@@ -2183,7 +2183,7 @@ export interface InvokeAsyncRequest {
 }
 export type HttpStatus = number;
 export interface InvokeAsyncResponse {
-  Status?: number | undefined;
+  Status: number;
 }
 export type ResponseStreamingInvocationType = "RequestResponse" | "DryRun" | (string & {});
 export interface InvokeWithResponseStreamRequest {
@@ -2207,7 +2207,7 @@ export type InvokeWithResponseStreamResponseEvent =
   | { PayloadChunk: InvokeResponseStreamUpdate; InvokeComplete?: undefined }
   | { PayloadChunk?: undefined; InvokeComplete: InvokeWithResponseStreamCompleteEvent };
 export interface InvokeWithResponseStreamResponse {
-  StatusCode?: number | undefined;
+  StatusCode: number;
   ExecutedVersion?: string | undefined;
   EventStream?: stream.Stream<InvokeWithResponseStreamResponseEvent, Error, never> | undefined;
   ResponseStreamContentType?: string | undefined;
@@ -2360,7 +2360,7 @@ export interface ListLayersRequest {
 export type LayerName = string;
 export interface LayerVersionsListItem {
   LayerVersionArn?: string | undefined;
-  Version?: number | undefined;
+  Version: number;
   Description?: string | undefined;
   CreatedDate?: string | undefined;
   CompatibleArchitectures?: Architecture[] | undefined;
@@ -2446,7 +2446,7 @@ export interface PublishLayerVersionResponse {
   LayerVersionArn?: string | undefined;
   Description?: string | undefined;
   CreatedDate?: string | undefined;
-  Version?: number | undefined;
+  Version: number;
   CompatibleArchitectures?: Architecture[] | undefined;
   CompatibleRuntimes?: Runtime[] | undefined;
   LicenseInfo?: string | undefined;
@@ -6449,7 +6449,7 @@ function __c9(j: number): any {
         S.Struct({
           Location: S.optional(S.String),
           CodeSha256: S.optional(S.String),
-          CodeSize: S.optional(S.Number),
+          CodeSize: S.optional(S.Number).pipe(T.Default(0)),
           SigningProfileVersionArn: S.optional(S.String),
           SigningJobArn: S.optional(S.String),
           ResolvedS3Object: S.optional(__S(3520, __c110, 0)),
@@ -6463,7 +6463,7 @@ function __c9(j: number): any {
           LayerVersionArn: S.optional(S.String),
           Description: S.optional(S.String),
           CreatedDate: S.optional(S.String),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           CompatibleArchitectures: S.optional(__S(2336, __c73, 0)),
           CompatibleRuntimes: S.optional(__S(2336, __c73, 0)),
           LicenseInfo: S.optional(S.String),
@@ -6650,7 +6650,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           FunctionError: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Function-Error")),
           LogResult: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Log-Result")),
           Payload: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
@@ -6682,7 +6682,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "InvokeAsyncRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Status: S.optional(S.Number).pipe(T.HttpResponseCode()) }),
+        S.Struct({ Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)) }),
       ).annotate({ identifier: "InvokeAsyncResponse" });
   }
 }
@@ -6734,7 +6734,7 @@ function __c19(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           ExecutedVersion: S.optional(S.String).pipe(T.HttpHeader("X-Amz-Executed-Version")),
           EventStream: S.optional(__S(611, __c19, 3)).pipe(T.HttpPayload()),
           ResponseStreamContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
@@ -7120,7 +7120,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           LayerVersionArn: S.optional(S.String),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           Description: S.optional(S.String),
           CreatedDate: S.optional(S.String),
           CompatibleArchitectures: S.optional(__S(2336, __c73, 0)),
@@ -8019,8 +8019,8 @@ function __c65(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TimeoutSeconds: S.optional(S.Number),
-          HeartbeatTimeoutSeconds: S.optional(S.Number),
+          TimeoutSeconds: S.optional(S.Number).pipe(T.Default(0)),
+          HeartbeatTimeoutSeconds: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CallbackOptions" });
     case 4:
@@ -8114,7 +8114,7 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Attempt: S.optional(S.Number),
+          Attempt: S.optional(S.Number).pipe(T.Default(0)),
           NextAttemptTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Result: S.optional(SensitiveString),
           Error: S.optional(__S(2113, __c66, 1)),
@@ -8741,7 +8741,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Arn: S.optional(S.String),
-          CodeSize: S.optional(S.Number),
+          CodeSize: S.optional(S.Number).pipe(T.Default(0)),
           SigningProfileVersionArn: S.optional(S.String),
           SigningJobArn: S.optional(S.String),
         }),
@@ -8774,7 +8774,7 @@ function __c85(j: number): any {
           Runtime: S.optional(S.String),
           Role: S.optional(S.String),
           Handler: S.optional(S.String),
-          CodeSize: S.optional(S.Number),
+          CodeSize: S.optional(S.Number).pipe(T.Default(0)),
           Description: S.optional(S.String),
           Timeout: S.optional(S.Number),
           MemorySize: S.optional(S.Number),
@@ -8969,7 +8969,9 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeleteFunctionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }),
+        S.Struct({
+          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "DeleteFunctionResponse" });
   }
 }
@@ -9137,16 +9139,19 @@ function __c101(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TotalCodeSize: S.optional(S.Number),
-          CodeSizeUnzipped: S.optional(S.Number),
-          CodeSizeZipped: S.optional(S.Number),
-          ConcurrentExecutions: S.optional(S.Number),
+          TotalCodeSize: S.optional(S.Number).pipe(T.Default(0)),
+          CodeSizeUnzipped: S.optional(S.Number).pipe(T.Default(0)),
+          CodeSizeZipped: S.optional(S.Number).pipe(T.Default(0)),
+          ConcurrentExecutions: S.optional(S.Number).pipe(T.Default(0)),
           UnreservedConcurrentExecutions: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AccountLimit" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ TotalCodeSize: S.optional(S.Number), FunctionCount: S.optional(S.Number) }),
+        S.Struct({
+          TotalCodeSize: S.optional(S.Number).pipe(T.Default(0)),
+          FunctionCount: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "AccountUsage" });
     case 3:
       return S.suspend(() =>
@@ -9318,7 +9323,7 @@ function __c106(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          CurrentAttempt: S.optional(S.Number),
+          CurrentAttempt: S.optional(S.Number).pipe(T.Default(0)),
           NextAttemptDelaySeconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RetryDetails" });
@@ -9362,7 +9367,7 @@ function __c106(j: number): any {
         S.Struct({
           EventType: S.optional(S.String),
           SubType: S.optional(S.String),
-          EventId: S.optional(S.Number),
+          EventId: S.optional(S.Number).pipe(T.Default(1)),
           Id: S.optional(S.String),
           Name: S.optional(S.String),
           EventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

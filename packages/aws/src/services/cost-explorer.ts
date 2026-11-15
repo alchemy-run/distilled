@@ -598,7 +598,7 @@ export interface AnomalyScore {
 }
 export interface Impact {
   MaxImpact: number;
-  TotalImpact?: number | undefined;
+  TotalImpact: number;
   TotalActualSpend?: number | undefined;
   TotalExpectedSpend?: number | undefined;
   TotalImpactPercentage?: number | undefined;
@@ -656,7 +656,7 @@ export interface DateInterval {
 }
 export interface GetApproximateUsageRecordsResponse {
   Services?: { [key: string]: number | undefined } | undefined;
-  TotalRecords?: number | undefined;
+  TotalRecords: number;
   LookbackPeriod?: DateInterval | undefined;
 }
 export type AnalysisId = string;
@@ -807,7 +807,7 @@ export interface ResultByTime {
   TimePeriod?: DateInterval | undefined;
   Total?: { [key: string]: MetricValue | undefined } | undefined;
   Groups?: Group[] | undefined;
-  Estimated?: boolean | undefined;
+  Estimated: boolean;
 }
 export type ResultsByTime = ResultByTime[];
 export type AttributeType = string;
@@ -1059,8 +1059,8 @@ export interface EC2InstanceDetails {
   AvailabilityZone?: string | undefined;
   Platform?: string | undefined;
   Tenancy?: string | undefined;
-  CurrentGeneration?: boolean | undefined;
-  SizeFlexEligible?: boolean | undefined;
+  CurrentGeneration: boolean;
+  SizeFlexEligible: boolean;
 }
 export interface RDSInstanceDetails {
   Family?: string | undefined;
@@ -1070,38 +1070,38 @@ export interface RDSInstanceDetails {
   DatabaseEdition?: string | undefined;
   DeploymentOption?: string | undefined;
   LicenseModel?: string | undefined;
-  CurrentGeneration?: boolean | undefined;
-  SizeFlexEligible?: boolean | undefined;
+  CurrentGeneration: boolean;
+  SizeFlexEligible: boolean;
   DeploymentModel?: string | undefined;
 }
 export interface RedshiftInstanceDetails {
   Family?: string | undefined;
   NodeType?: string | undefined;
   Region?: string | undefined;
-  CurrentGeneration?: boolean | undefined;
-  SizeFlexEligible?: boolean | undefined;
+  CurrentGeneration: boolean;
+  SizeFlexEligible: boolean;
 }
 export interface ElastiCacheInstanceDetails {
   Family?: string | undefined;
   NodeType?: string | undefined;
   Region?: string | undefined;
   ProductDescription?: string | undefined;
-  CurrentGeneration?: boolean | undefined;
-  SizeFlexEligible?: boolean | undefined;
+  CurrentGeneration: boolean;
+  SizeFlexEligible: boolean;
 }
 export interface ESInstanceDetails {
   InstanceClass?: string | undefined;
   InstanceSize?: string | undefined;
   Region?: string | undefined;
-  CurrentGeneration?: boolean | undefined;
-  SizeFlexEligible?: boolean | undefined;
+  CurrentGeneration: boolean;
+  SizeFlexEligible: boolean;
 }
 export interface MemoryDBInstanceDetails {
   Family?: string | undefined;
   NodeType?: string | undefined;
   Region?: string | undefined;
-  CurrentGeneration?: boolean | undefined;
-  SizeFlexEligible?: boolean | undefined;
+  CurrentGeneration: boolean;
+  SizeFlexEligible: boolean;
 }
 export interface InstanceDetails {
   EC2InstanceDetails?: EC2InstanceDetails | undefined;
@@ -1324,7 +1324,7 @@ export interface TargetInstance {
   EstimatedMonthlyCost?: string | undefined;
   EstimatedMonthlySavings?: string | undefined;
   CurrencyCode?: string | undefined;
-  DefaultTargetInstance?: boolean | undefined;
+  DefaultTargetInstance: boolean;
   ResourceDetails?: ResourceDetails | undefined;
   ExpectedResourceUtilization?: ResourceUtilization | undefined;
   PlatformDifferences?: PlatformDifference[] | undefined;
@@ -1681,7 +1681,7 @@ export interface CostCategoryReference {
   Name?: string | undefined;
   EffectiveStart?: string | undefined;
   EffectiveEnd?: string | undefined;
-  NumberOfRules?: number | undefined;
+  NumberOfRules: number;
   ProcessingStatus?: CostCategoryProcessingStatus[] | undefined;
   Values?: string[] | undefined;
   DefaultValue?: string | undefined;
@@ -3410,7 +3410,7 @@ function __c4(j: number): any {
           MonitorType: S.String,
           MonitorDimension: S.optional(S.String),
           MonitorSpecification: S.optional(__S(69, __c2, 5)),
-          DimensionalValueCount: S.optional(S.Number),
+          DimensionalValueCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AnomalyMonitor" });
   }
@@ -3621,8 +3621,8 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NumericOperator: S.String,
-          StartValue: S.Number,
-          EndValue: S.optional(S.Number),
+          StartValue: S.Number.pipe(T.Default(0)),
+          EndValue: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TotalImpactFilter" });
     case 2:
@@ -3637,7 +3637,7 @@ function __c19(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetAnomaliesRequest" });
     case 3:
-      return S.suspend(() => S.Struct({ Contribution: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ Contribution: S.Number.pipe(T.Default(0)) })).annotate({
         identifier: "RootCauseImpact",
       });
     case 4:
@@ -3654,14 +3654,17 @@ function __c19(j: number): any {
     case 5:
       return S.Array(__S(612, __c19, 4));
     case 6:
-      return S.suspend(() => S.Struct({ MaxScore: S.Number, CurrentScore: S.Number })).annotate({
-        identifier: "AnomalyScore",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          MaxScore: S.Number.pipe(T.Default(0)),
+          CurrentScore: S.Number.pipe(T.Default(0)),
+        }),
+      ).annotate({ identifier: "AnomalyScore" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          MaxImpact: S.Number,
-          TotalImpact: S.optional(S.Number),
+          MaxImpact: S.Number.pipe(T.Default(0)),
+          TotalImpact: S.optional(S.Number).pipe(T.Default(0)),
           TotalActualSpend: S.optional(S.Number),
           TotalExpectedSpend: S.optional(S.Number),
           TotalImpactPercentage: S.optional(S.Number),
@@ -3742,7 +3745,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Services: S.optional(__S(705, __c22, 1)),
-          TotalRecords: S.optional(S.Number),
+          TotalRecords: S.optional(S.Number).pipe(T.Default(0)),
           LookbackPeriod: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "GetApproximateUsageRecordsResponse" });
@@ -3902,7 +3905,7 @@ function __c29(j: number): any {
           TimePeriod: S.optional(__S(736, __c23, 0)),
           Total: S.optional(__S(928, __c29, 0)),
           Groups: S.optional(__S(930, __c29, 2)),
-          Estimated: S.optional(S.Boolean),
+          Estimated: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ResultByTime" });
     case 4:
@@ -4265,8 +4268,8 @@ function __c44(j: number): any {
           AvailabilityZone: S.optional(S.String),
           Platform: S.optional(S.String),
           Tenancy: S.optional(S.String),
-          CurrentGeneration: S.optional(S.Boolean),
-          SizeFlexEligible: S.optional(S.Boolean),
+          CurrentGeneration: S.optional(S.Boolean).pipe(T.Default(false)),
+          SizeFlexEligible: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "EC2InstanceDetails" });
     case 4:
@@ -4279,8 +4282,8 @@ function __c44(j: number): any {
           DatabaseEdition: S.optional(S.String),
           DeploymentOption: S.optional(S.String),
           LicenseModel: S.optional(S.String),
-          CurrentGeneration: S.optional(S.Boolean),
-          SizeFlexEligible: S.optional(S.Boolean),
+          CurrentGeneration: S.optional(S.Boolean).pipe(T.Default(false)),
+          SizeFlexEligible: S.optional(S.Boolean).pipe(T.Default(false)),
           DeploymentModel: S.optional(S.String),
         }),
       ).annotate({ identifier: "RDSInstanceDetails" });
@@ -4290,8 +4293,8 @@ function __c44(j: number): any {
           Family: S.optional(S.String),
           NodeType: S.optional(S.String),
           Region: S.optional(S.String),
-          CurrentGeneration: S.optional(S.Boolean),
-          SizeFlexEligible: S.optional(S.Boolean),
+          CurrentGeneration: S.optional(S.Boolean).pipe(T.Default(false)),
+          SizeFlexEligible: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "RedshiftInstanceDetails" });
     case 6:
@@ -4301,8 +4304,8 @@ function __c44(j: number): any {
           NodeType: S.optional(S.String),
           Region: S.optional(S.String),
           ProductDescription: S.optional(S.String),
-          CurrentGeneration: S.optional(S.Boolean),
-          SizeFlexEligible: S.optional(S.Boolean),
+          CurrentGeneration: S.optional(S.Boolean).pipe(T.Default(false)),
+          SizeFlexEligible: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ElastiCacheInstanceDetails" });
     case 7:
@@ -4311,8 +4314,8 @@ function __c44(j: number): any {
           InstanceClass: S.optional(S.String),
           InstanceSize: S.optional(S.String),
           Region: S.optional(S.String),
-          CurrentGeneration: S.optional(S.Boolean),
-          SizeFlexEligible: S.optional(S.Boolean),
+          CurrentGeneration: S.optional(S.Boolean).pipe(T.Default(false)),
+          SizeFlexEligible: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ESInstanceDetails" });
     case 8:
@@ -4480,7 +4483,10 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RecommendationTarget: S.String, BenefitsConsidered: S.Boolean }),
+        S.Struct({
+          RecommendationTarget: S.String,
+          BenefitsConsidered: S.Boolean.pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "RightsizingRecommendationConfiguration" });
     case 1:
       return S.suspend(() =>
@@ -4594,7 +4600,7 @@ function __c47(j: number): any {
           EstimatedMonthlyCost: S.optional(S.String),
           EstimatedMonthlySavings: S.optional(S.String),
           CurrencyCode: S.optional(S.String),
-          DefaultTargetInstance: S.optional(S.Boolean),
+          DefaultTargetInstance: S.optional(S.Boolean).pipe(T.Default(false)),
           ResourceDetails: S.optional(__S(1510, __c47, 6)),
           ExpectedResourceUtilization: S.optional(__S(1515, __c47, 11)),
           PlatformDifferences: S.optional(__S(65, __c2, 1)),
@@ -5076,7 +5082,7 @@ function __c60(j: number): any {
           Name: S.optional(S.String),
           EffectiveStart: S.optional(S.String),
           EffectiveEnd: S.optional(S.String),
-          NumberOfRules: S.optional(S.Number),
+          NumberOfRules: S.optional(S.Number).pipe(T.Default(0)),
           ProcessingStatus: S.optional(__S(577, __c18, 1)),
           Values: S.optional(__S(32, __c1, 0)),
           DefaultValue: S.optional(S.String),

@@ -1803,7 +1803,7 @@ export interface ListCoverageStatisticsRequest {
 }
 export type AggCounts = number;
 export interface Counts {
-  count?: number | undefined;
+  count: number;
   groupKey?: string | undefined;
 }
 export type CountsList = Counts[];
@@ -2923,7 +2923,7 @@ export interface VulnerablePackage {
   name: string;
   version: string;
   sourceLayerHash?: string | undefined;
-  epoch?: number | undefined;
+  epoch: number;
   release?: string | undefined;
   arch?: string | undefined;
   packageManager?: string | undefined;
@@ -2980,7 +2980,7 @@ export interface CodeVulnerabilityDetails {
 }
 export type EpssScoreValue = number;
 export interface EpssDetails {
-  score?: number | undefined;
+  score: number;
 }
 export interface Finding {
   findingArn: string;
@@ -3064,8 +3064,8 @@ export type MonthlyCostEstimate = number;
 export type Currency = string;
 export interface Usage {
   type?: string | undefined;
-  total?: number | undefined;
-  estimatedMonthlyCost?: number | undefined;
+  total: number;
+  estimatedMonthlyCost: number;
   currency?: string | undefined;
   cloudProvider?: string | undefined;
 }
@@ -3107,17 +3107,17 @@ export type VendorSeverity = string;
 export type CvssBaseScore = number;
 export type CvssScoringVector = string;
 export interface Cvss4 {
-  baseScore?: number | undefined;
+  baseScore: number;
   scoringVector?: string | undefined;
 }
 export interface Cvss3 {
-  baseScore?: number | undefined;
+  baseScore: number;
   scoringVector?: string | undefined;
 }
 export type RelatedVulnerability = string;
 export type RelatedVulnerabilities = string[];
 export interface Cvss2 {
-  baseScore?: number | undefined;
+  baseScore: number;
   scoringVector?: string | undefined;
 }
 export type VendorCreatedAt = Date;
@@ -3126,7 +3126,7 @@ export type VulnerabilitySourceUrl = string;
 export type DetectionPlatforms = string[];
 export type EpssScore = number;
 export interface Epss {
-  score?: number | undefined;
+  score: number;
 }
 export interface Vulnerability {
   id: string;
@@ -6744,7 +6744,7 @@ function __c27(j: number): any {
           awsConfigConnectorArn: S.String,
           scopeConfiguration: __S(897, __c28, 1),
           azureRegions: __S(64, __c2, 0),
-          autoInstallVMScanner: S.optional(S.Boolean),
+          autoInstallVMScanner: S.optional(S.Boolean).pipe(T.Default(true)),
         }),
       ).annotate({ identifier: "AzureProviderDetailCreate" });
     case 1:
@@ -8537,7 +8537,10 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ListCoverageStatisticsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ count: S.optional(S.Number), groupKey: S.optional(S.String) }),
+        S.Struct({
+          count: S.optional(S.Number).pipe(T.Default(0)),
+          groupKey: S.optional(S.String),
+        }),
       ).annotate({ identifier: "Counts" });
     case 2:
       return S.Array(__S(2881, __c90, 1));
@@ -9307,7 +9310,7 @@ function __c95(j: number): any {
           name: S.String,
           version: S.String,
           sourceLayerHash: S.optional(S.String),
-          epoch: S.optional(S.Number),
+          epoch: S.optional(S.Number).pipe(T.Default(0)),
           release: S.optional(S.String),
           arch: S.optional(S.String),
           packageManager: S.optional(S.String),
@@ -9414,9 +9417,9 @@ function __c96(j: number): any {
 function __c97(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ score: S.optional(S.Number) })).annotate({
-        identifier: "EpssDetails",
-      });
+      return S.suspend(() => S.Struct({ score: S.optional(S.Number).pipe(T.Default(0)) })).annotate(
+        { identifier: "EpssDetails" },
+      );
   }
 }
 function __c98(j: number): any {
@@ -9507,8 +9510,8 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          total: S.optional(S.Number),
-          estimatedMonthlyCost: S.optional(S.Number),
+          total: S.optional(S.Number).pipe(T.Default(0)),
+          estimatedMonthlyCost: S.optional(S.Number).pipe(T.Default(0)),
           currency: S.optional(S.String),
           cloudProvider: S.optional(S.String),
         }),
@@ -9574,7 +9577,10 @@ function __c104(j: number): any {
       ).annotate({ identifier: "AtigData" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ baseScore: S.optional(S.Number), scoringVector: S.optional(S.String) }),
+        S.Struct({
+          baseScore: S.optional(S.Number).pipe(T.Default(0)),
+          scoringVector: S.optional(S.String),
+        }),
       ).annotate({ identifier: "Cvss4" });
     case 4:
       return S.suspend(() =>
@@ -9712,14 +9718,14 @@ function __c110(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          totalChecks: S.optional(S.Number),
-          successfulChecks: S.optional(S.Number),
-          failedChecks: S.optional(S.Number),
-          notEvaluatedChecks: S.optional(S.Number),
-          unknownChecks: S.optional(S.Number),
-          notApplicableChecks: S.optional(S.Number),
-          informationalChecks: S.optional(S.Number),
-          errorChecks: S.optional(S.Number),
+          totalChecks: S.optional(S.Number).pipe(T.Default(0)),
+          successfulChecks: S.optional(S.Number).pipe(T.Default(0)),
+          failedChecks: S.optional(S.Number).pipe(T.Default(0)),
+          notEvaluatedChecks: S.optional(S.Number).pipe(T.Default(0)),
+          unknownChecks: S.optional(S.Number).pipe(T.Default(0)),
+          notApplicableChecks: S.optional(S.Number).pipe(T.Default(0)),
+          informationalChecks: S.optional(S.Number).pipe(T.Default(0)),
+          errorChecks: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "StopCisMessageProgress" });
     case 1:

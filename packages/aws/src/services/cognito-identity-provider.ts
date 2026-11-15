@@ -565,7 +565,7 @@ export interface UserType {
   Attributes?: AttributeType[] | undefined;
   UserCreateDate?: Date | undefined;
   UserLastModifiedDate?: Date | undefined;
-  Enabled?: boolean | undefined;
+  Enabled: boolean;
   UserStatus?: UserStatusType | undefined;
   MFAOptions?: MFAOptionType[] | undefined;
 }
@@ -642,7 +642,7 @@ export interface AdminGetUserResponse {
   UserAttributes?: AttributeType[] | undefined;
   UserCreateDate?: Date | undefined;
   UserLastModifiedDate?: Date | undefined;
-  Enabled?: boolean | undefined;
+  Enabled: boolean;
   UserStatus?: UserStatusType | undefined;
   MFAOptions?: MFAOptionType[] | undefined;
   PreferredMfaSetting?: string | undefined;
@@ -730,7 +730,7 @@ export interface NewDeviceMetadataType {
 }
 export interface AuthenticationResultType {
   AccessToken?: string | redacted.Redacted<string> | undefined;
-  ExpiresIn?: number | undefined;
+  ExpiresIn: number;
   TokenType?: string | undefined;
   RefreshToken?: string | redacted.Redacted<string> | undefined;
   IdToken?: string | redacted.Redacted<string> | undefined;
@@ -1012,7 +1012,7 @@ export interface ConfirmDeviceRequest {
   DeviceName?: string | undefined;
 }
 export interface ConfirmDeviceResponse {
-  UserConfirmationNecessary?: boolean | undefined;
+  UserConfirmationNecessary: boolean;
 }
 export type SecretHashType = string | redacted.Redacted<string>;
 export type ConfirmationCodeType = string;
@@ -1135,7 +1135,7 @@ export type ManagedLoginBrandingIdType = string;
 export interface ManagedLoginBrandingType {
   ManagedLoginBrandingId?: string | undefined;
   UserPoolId?: string | undefined;
-  UseCognitoProvidedValues?: boolean | undefined;
+  UseCognitoProvidedValues: boolean;
   Settings?: any | undefined;
   Assets?: AssetType[] | undefined;
   CreationDate?: Date | undefined;
@@ -1236,9 +1236,9 @@ export interface UserImportJobType {
   CompletionDate?: Date | undefined;
   Status?: UserImportJobStatusType | undefined;
   CloudWatchLogsRoleArn?: string | undefined;
-  ImportedUsers?: number | undefined;
-  SkippedUsers?: number | undefined;
-  FailedUsers?: number | undefined;
+  ImportedUsers: number;
+  SkippedUsers: number;
+  FailedUsers: number;
   CompletionMessage?: string | undefined;
   PasswordHashingAlgorithm?: PasswordHashingAlgorithmType | undefined;
 }
@@ -1483,7 +1483,7 @@ export interface UserPoolType {
   UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType | undefined;
   MfaConfiguration?: UserPoolMfaType | undefined;
   DeviceConfiguration?: DeviceConfigurationType | undefined;
-  EstimatedNumberOfUsers?: number | undefined;
+  EstimatedNumberOfUsers: number;
   EmailConfiguration?: EmailConfigurationType | undefined;
   SmsConfiguration?: SmsConfigurationType | undefined;
   UserPoolTags?: { [key: string]: string | undefined } | undefined;
@@ -1584,7 +1584,7 @@ export interface UserPoolClientType {
   ClientSecret?: string | redacted.Redacted<string> | undefined;
   LastModifiedDate?: Date | undefined;
   CreationDate?: Date | undefined;
-  RefreshTokenValidity?: number | undefined;
+  RefreshTokenValidity: number;
   AccessTokenValidity?: number | undefined;
   IdTokenValidity?: number | undefined;
   TokenValidityUnits?: TokenValidityUnitsType | undefined;
@@ -1906,7 +1906,7 @@ export interface GetClientTokenRequest {
 }
 export interface ClientAuthenticationResultType {
   AccessToken?: string | redacted.Redacted<string> | undefined;
-  ExpiresIn?: number | undefined;
+  ExpiresIn: number;
   TokenType?: string | undefined;
 }
 export interface GetClientTokenResponse {
@@ -10222,9 +10222,9 @@ function __c6(j: number): any {
           CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Status: S.optional(S.String),
           CloudWatchLogsRoleArn: S.optional(S.String),
-          ImportedUsers: S.optional(S.Number),
-          SkippedUsers: S.optional(S.Number),
-          FailedUsers: S.optional(S.Number),
+          ImportedUsers: S.optional(S.Number).pipe(T.Default(0)),
+          SkippedUsers: S.optional(S.Number).pipe(T.Default(0)),
+          FailedUsers: S.optional(S.Number).pipe(T.Default(0)),
           CompletionMessage: S.optional(S.String),
           PasswordHashingAlgorithm: S.optional(S.String),
         }),
@@ -10305,7 +10305,7 @@ function __c9(j: number): any {
           UserAttributeUpdateSettings: S.optional(__S(388, __c12, 4)),
           MfaConfiguration: S.optional(S.String),
           DeviceConfiguration: S.optional(__S(389, __c12, 5)),
-          EstimatedNumberOfUsers: S.optional(S.Number),
+          EstimatedNumberOfUsers: S.optional(S.Number).pipe(T.Default(0)),
           EmailConfiguration: S.optional(__S(390, __c12, 6)),
           SmsConfiguration: S.optional(__S(321, __c10, 1)),
           UserPoolTags: S.optional(__S(4160, __c130, 0)),
@@ -10348,7 +10348,7 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          SnsCallerArn: S.optional(S.String),
+          SnsCallerArn: S.optional(S.String).pipe(T.Default("")),
           ExternalId: S.optional(S.String),
           SnsRegion: S.optional(S.String),
           EumsSms: S.optional(__S(320, __c10, 0)),
@@ -10390,12 +10390,12 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           MinimumLength: S.optional(S.Number),
-          RequireUppercase: S.optional(S.Boolean),
-          RequireLowercase: S.optional(S.Boolean),
-          RequireNumbers: S.optional(S.Boolean),
-          RequireSymbols: S.optional(S.Boolean),
+          RequireUppercase: S.optional(S.Boolean).pipe(T.Default(false)),
+          RequireLowercase: S.optional(S.Boolean).pipe(T.Default(false)),
+          RequireNumbers: S.optional(S.Boolean).pipe(T.Default(false)),
+          RequireSymbols: S.optional(S.Boolean).pipe(T.Default(false)),
           PasswordHistorySize: S.optional(S.Number),
-          TemporaryPasswordValidityDays: S.optional(S.Number),
+          TemporaryPasswordValidityDays: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "PasswordPolicyType" });
     case 1:
@@ -10427,8 +10427,8 @@ function __c12(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ChallengeRequiredOnNewDevice: S.optional(S.Boolean),
-          DeviceOnlyRememberedOnUserPrompt: S.optional(S.Boolean),
+          ChallengeRequiredOnNewDevice: S.optional(S.Boolean).pipe(T.Default(false)),
+          DeviceOnlyRememberedOnUserPrompt: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DeviceConfigurationType" });
     case 6:
@@ -10452,8 +10452,8 @@ function __c12(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          AllowAdminCreateUserOnly: S.optional(S.Boolean),
-          UnusedAccountValidityDays: S.optional(S.Number),
+          AllowAdminCreateUserOnly: S.optional(S.Boolean).pipe(T.Default(false)),
+          UnusedAccountValidityDays: S.optional(S.Number).pipe(T.Default(0)),
           InviteMessageTemplate: S.optional(__S(391, __c12, 7)),
         }),
       ).annotate({ identifier: "AdminCreateUserConfigType" });
@@ -10472,7 +10472,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EnableStatus: S.optional(S.String),
-          OpenDcrEnabled: S.optional(S.Boolean),
+          OpenDcrEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           AuthenticatedGrantTypes: S.optional(__S(4320, __c135, 0)),
           OpenDcrGrantTypes: S.optional(__S(4320, __c135, 0)),
           AllowedScopes: S.optional(__S(4448, __c139, 0)),
@@ -10554,7 +10554,7 @@ function __c14(j: number): any {
           ApplicationArn: S.optional(S.String),
           RoleArn: S.optional(S.String),
           ExternalId: S.optional(S.String),
-          UserDataShared: S.optional(S.Boolean),
+          UserDataShared: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AnalyticsConfigurationType" });
     case 2:
@@ -10570,7 +10570,7 @@ function __c14(j: number): any {
           ClientSecret: S.optional(SensitiveString),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          RefreshTokenValidity: S.optional(S.Number),
+          RefreshTokenValidity: S.optional(S.Number).pipe(T.Default(0)),
           AccessTokenValidity: S.optional(S.Number),
           IdTokenValidity: S.optional(S.Number),
           TokenValidityUnits: S.optional(__S(448, __c14, 0)),
@@ -10890,9 +10890,9 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "NotifyConfigurationType" });
     case 4:
-      return S.suspend(() => S.Struct({ Notify: S.Boolean, EventAction: S.String })).annotate({
-        identifier: "AccountTakeoverActionType",
-      });
+      return S.suspend(() =>
+        S.Struct({ Notify: S.Boolean.pipe(T.Default(false)), EventAction: S.String }),
+      ).annotate({ identifier: "AccountTakeoverActionType" });
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -11071,7 +11071,7 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AccessToken: S.optional(SensitiveString),
-          ExpiresIn: S.optional(S.Number),
+          ExpiresIn: S.optional(S.Number).pipe(T.Default(0)),
           TokenType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClientAuthenticationResultType" });
@@ -11194,8 +11194,8 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           LimitDefinition: __S(1856, __c58, 0),
-          ProvisionedLimitValue: S.Number,
-          FreeLimitValue: S.Number,
+          ProvisionedLimitValue: S.Number.pipe(T.Default(0)),
+          FreeLimitValue: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "LimitType" });
     case 2:
@@ -11924,7 +11924,7 @@ function __c102(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          UserConfirmed: S.Boolean,
+          UserConfirmed: S.Boolean.pipe(T.Default(false)),
           CodeDeliveryDetails: S.optional(__S(1568, __c49, 0)),
           UserSub: S.String,
           Session: S.optional(SensitiveString),
@@ -12359,7 +12359,7 @@ function __c132(j: number): any {
           Attributes: S.optional(__S(4257, __c133, 1)),
           UserCreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UserLastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           UserStatus: S.optional(S.String),
           MFAOptions: S.optional(__S(4289, __c134, 1)),
         }),
@@ -12529,7 +12529,7 @@ function __c148(j: number): any {
           UserAttributes: S.optional(__S(4257, __c133, 1)),
           UserCreateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UserLastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           UserStatus: S.optional(S.String),
           MFAOptions: S.optional(__S(4289, __c134, 1)),
           PreferredMfaSetting: S.optional(S.String),
@@ -12608,7 +12608,7 @@ function __c153(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AccessToken: S.optional(SensitiveString),
-          ExpiresIn: S.optional(S.Number),
+          ExpiresIn: S.optional(S.Number).pipe(T.Default(0)),
           TokenType: S.optional(S.String),
           RefreshToken: S.optional(SensitiveString),
           IdToken: S.optional(SensitiveString),
@@ -12900,16 +12900,19 @@ function __c169(j: number): any {
 function __c170(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) })).annotate({
-        identifier: "WebAuthnMfaSettingsType",
-      });
+      return S.suspend(() =>
+        S.Struct({ Enabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "WebAuthnMfaSettingsType" });
   }
 }
 function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Enabled: S.optional(S.Boolean), PreferredMfa: S.optional(S.Boolean) }),
+        S.Struct({
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          PreferredMfa: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "SMSMfaSettingsType" });
   }
 }
@@ -13044,7 +13047,9 @@ function __c181(j: number): any {
       ).annotate({ identifier: "ConfirmDeviceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ UserConfirmationNecessary: S.optional(S.Boolean) }).pipe(ns),
+        S.Struct({ UserConfirmationNecessary: S.optional(S.Boolean).pipe(T.Default(false)) }).pipe(
+          ns,
+        ),
       ).annotate({ identifier: "ConfirmDeviceResponse" });
   }
 }
@@ -13188,7 +13193,7 @@ function __c190(j: number): any {
         S.Struct({
           ManagedLoginBrandingId: S.optional(S.String),
           UserPoolId: S.optional(S.String),
-          UseCognitoProvidedValues: S.optional(S.Boolean),
+          UseCognitoProvidedValues: S.optional(S.Boolean).pipe(T.Default(false)),
           Settings: S.optional(S.Any),
           Assets: S.optional(__S(6081, __c190, 1)),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

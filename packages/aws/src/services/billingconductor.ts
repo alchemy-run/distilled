@@ -153,9 +153,9 @@ export class InternalServerException
     "InternalServerException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -186,9 +186,9 @@ export class ThrottlingException
     "ThrottlingException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
@@ -594,9 +594,9 @@ export interface BillingGroupListElement {
   Description?: string | redacted.Redacted<string> | undefined;
   PrimaryAccountId?: string | undefined;
   ComputationPreference?: ComputationPreference | undefined;
-  Size?: number | undefined;
-  CreationTime?: number | undefined;
-  LastModifiedTime?: number | undefined;
+  Size: number;
+  CreationTime: number;
+  LastModifiedTime: number;
   Status?: BillingGroupStatus | undefined;
   StatusReason?: string | undefined;
   AccountGrouping?: ListBillingGroupAccountGrouping | undefined;
@@ -645,9 +645,9 @@ export interface CustomLineItemListElement {
   Description?: string | redacted.Redacted<string> | undefined;
   ProductCode?: string | undefined;
   BillingGroupArn?: string | undefined;
-  CreationTime?: number | undefined;
-  LastModifiedTime?: number | undefined;
-  AssociationSize?: number | undefined;
+  CreationTime: number;
+  LastModifiedTime: number;
+  AssociationSize: number;
   AccountId?: string | undefined;
   ComputationRule?: ComputationRuleEnum | undefined;
   PresentationDetails?: PresentationObject | undefined;
@@ -677,13 +677,13 @@ export interface CustomLineItemVersionListElement {
   Description?: string | redacted.Redacted<string> | undefined;
   ProductCode?: string | undefined;
   BillingGroupArn?: string | undefined;
-  CreationTime?: number | undefined;
-  LastModifiedTime?: number | undefined;
-  AssociationSize?: number | undefined;
+  CreationTime: number;
+  LastModifiedTime: number;
+  AssociationSize: number;
   StartBillingPeriod?: string | undefined;
   EndBillingPeriod?: string | undefined;
   Arn?: string | undefined;
-  StartTime?: number | undefined;
+  StartTime: number;
   AccountId?: string | undefined;
   ComputationRule?: ComputationRuleEnum | undefined;
   PresentationDetails?: PresentationObject | undefined;
@@ -709,9 +709,9 @@ export interface PricingPlanListElement {
   Name?: string | redacted.Redacted<string> | undefined;
   Arn?: string | undefined;
   Description?: string | redacted.Redacted<string> | undefined;
-  Size?: number | undefined;
-  CreationTime?: number | undefined;
-  LastModifiedTime?: number | undefined;
+  Size: number;
+  CreationTime: number;
+  LastModifiedTime: number;
 }
 export type PricingPlanList = PricingPlanListElement[];
 export interface ListPricingPlansOutput {
@@ -758,9 +758,9 @@ export interface PricingRuleListElement {
   Type?: PricingRuleType | undefined;
   ModifierPercentage?: number | undefined;
   Service?: string | undefined;
-  AssociatedPricingPlanCount?: number | undefined;
-  CreationTime?: number | undefined;
-  LastModifiedTime?: number | undefined;
+  AssociatedPricingPlanCount: number;
+  CreationTime: number;
+  LastModifiedTime: number;
   BillingEntity?: string | undefined;
   Tiering?: Tiering | undefined;
   UsageType?: string | undefined;
@@ -843,8 +843,8 @@ export interface UpdateBillingGroupOutput {
   Description?: string | redacted.Redacted<string> | undefined;
   PrimaryAccountId?: string | undefined;
   PricingPlanArn?: string | undefined;
-  Size?: number | undefined;
-  LastModifiedTime?: number | undefined;
+  Size: number;
+  LastModifiedTime: number;
   Status?: BillingGroupStatus | undefined;
   StatusReason?: string | undefined;
   AccountGrouping?: UpdateBillingGroupAccountGrouping | undefined;
@@ -884,8 +884,8 @@ export interface UpdateCustomLineItemOutput {
   Name?: string | redacted.Redacted<string> | undefined;
   Description?: string | redacted.Redacted<string> | undefined;
   ChargeDetails?: ListCustomLineItemChargeDetails | undefined;
-  LastModifiedTime?: number | undefined;
-  AssociationSize?: number | undefined;
+  LastModifiedTime: number;
+  AssociationSize: number;
 }
 export interface UpdatePricingPlanInput {
   Arn: string;
@@ -896,8 +896,8 @@ export interface UpdatePricingPlanOutput {
   Arn?: string | undefined;
   Name?: string | redacted.Redacted<string> | undefined;
   Description?: string | redacted.Redacted<string> | undefined;
-  Size?: number | undefined;
-  LastModifiedTime?: number | undefined;
+  Size: number;
+  LastModifiedTime: number;
 }
 export interface UpdateFreeTierConfig {
   Activated: boolean;
@@ -922,8 +922,8 @@ export interface UpdatePricingRuleOutput {
   Type?: PricingRuleType | undefined;
   ModifierPercentage?: number | undefined;
   Service?: string | undefined;
-  AssociatedPricingPlanCount?: number | undefined;
-  LastModifiedTime?: number | undefined;
+  AssociatedPricingPlanCount: number;
+  LastModifiedTime: number;
   BillingEntity?: string | undefined;
   Tiering?: UpdateTieringInput | undefined;
   UsageType?: string | undefined;
@@ -2241,7 +2241,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          LinkedAccountIds: S.optional(__S(360, __c45, 0)),
+          LinkedAccountIds: S.optional(__S(360, __c45, 0)).pipe(T.Default([])),
           AutoAssociate: S.optional(S.Boolean),
           ResponsibilityTransferArn: S.optional(S.String),
         }),
@@ -2355,7 +2355,7 @@ function __c7(j: number): any {
         S.Struct({
           Attribute: S.String,
           MatchOption: S.String,
-          Values: S.optional(__S(40, __c5, 0)),
+          Values: S.optional(__S(40, __c5, 0)).pipe(T.Default([])),
           AttributeValues: S.optional(__S(360, __c45, 0)),
         }),
       ).annotate({ identifier: "LineItemFilter" });
@@ -2776,9 +2776,9 @@ function __c22(j: number): any {
           Description: S.optional(SensitiveString),
           PrimaryAccountId: S.optional(S.String),
           ComputationPreference: S.optional(__S(24, __c3, 0)),
-          Size: S.optional(S.Number),
-          CreationTime: S.optional(S.Number),
-          LastModifiedTime: S.optional(S.Number),
+          Size: S.optional(S.Number).pipe(T.Default(0)),
+          CreationTime: S.optional(S.Number).pipe(T.Default(0)),
+          LastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
           Status: S.optional(S.String),
           StatusReason: S.optional(S.String),
           AccountGrouping: S.optional(__S(184, __c23, 0)),
@@ -2848,9 +2848,9 @@ function __c24(j: number): any {
           Description: S.optional(SensitiveString),
           ProductCode: S.optional(S.String),
           BillingGroupArn: S.optional(S.String),
-          CreationTime: S.optional(S.Number),
-          LastModifiedTime: S.optional(S.Number),
-          AssociationSize: S.optional(S.Number),
+          CreationTime: S.optional(S.Number).pipe(T.Default(0)),
+          LastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
+          AssociationSize: S.optional(S.Number).pipe(T.Default(0)),
           AccountId: S.optional(S.String),
           ComputationRule: S.optional(S.String),
           PresentationDetails: S.optional(__S(48, __c6, 0)),
@@ -2924,13 +2924,13 @@ function __c26(j: number): any {
           Description: S.optional(SensitiveString),
           ProductCode: S.optional(S.String),
           BillingGroupArn: S.optional(S.String),
-          CreationTime: S.optional(S.Number),
-          LastModifiedTime: S.optional(S.Number),
-          AssociationSize: S.optional(S.Number),
+          CreationTime: S.optional(S.Number).pipe(T.Default(0)),
+          LastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
+          AssociationSize: S.optional(S.Number).pipe(T.Default(0)),
           StartBillingPeriod: S.optional(S.String),
           EndBillingPeriod: S.optional(S.String),
           Arn: S.optional(S.String),
-          StartTime: S.optional(S.Number),
+          StartTime: S.optional(S.Number).pipe(T.Default(0)),
           AccountId: S.optional(S.String),
           ComputationRule: S.optional(S.String),
           PresentationDetails: S.optional(__S(48, __c6, 0)),
@@ -2973,9 +2973,9 @@ function __c27(j: number): any {
           Name: S.optional(SensitiveString),
           Arn: S.optional(S.String),
           Description: S.optional(SensitiveString),
-          Size: S.optional(S.Number),
-          CreationTime: S.optional(S.Number),
-          LastModifiedTime: S.optional(S.Number),
+          Size: S.optional(S.Number).pipe(T.Default(0)),
+          CreationTime: S.optional(S.Number).pipe(T.Default(0)),
+          LastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "PricingPlanListElement" });
     case 2:
@@ -3059,9 +3059,9 @@ function __c30(j: number): any {
           Type: S.optional(S.String),
           ModifierPercentage: S.optional(S.Number),
           Service: S.optional(S.String),
-          AssociatedPricingPlanCount: S.optional(S.Number),
-          CreationTime: S.optional(S.Number),
-          LastModifiedTime: S.optional(S.Number),
+          AssociatedPricingPlanCount: S.optional(S.Number).pipe(T.Default(0)),
+          CreationTime: S.optional(S.Number).pipe(T.Default(0)),
+          LastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
           BillingEntity: S.optional(S.String),
           Tiering: S.optional(__S(83, __c10, 3)),
           UsageType: S.optional(S.String),
@@ -3253,8 +3253,8 @@ function __c37(j: number): any {
           Description: S.optional(SensitiveString),
           PrimaryAccountId: S.optional(S.String),
           PricingPlanArn: S.optional(S.String),
-          Size: S.optional(S.Number),
-          LastModifiedTime: S.optional(S.Number),
+          Size: S.optional(S.Number).pipe(T.Default(0)),
+          LastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
           Status: S.optional(S.String),
           StatusReason: S.optional(S.String),
           AccountGrouping: S.optional(__S(184, __c23, 0)),
@@ -3289,7 +3289,7 @@ function __c38(j: number): any {
         S.Struct({
           ResponsibilityTransferArn: S.String,
           AutoBillingTransferBillingGroupCreation: __S(152, __c19, 0),
-          LastModifiedTime: S.Number,
+          LastModifiedTime: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateBillingTransferPreferenceOutput" });
   }
@@ -3331,8 +3331,8 @@ function __c39(j: number): any {
           Name: S.optional(SensitiveString),
           Description: S.optional(SensitiveString),
           ChargeDetails: S.optional(__S(201, __c25, 1)),
-          LastModifiedTime: S.optional(S.Number),
-          AssociationSize: S.optional(S.Number),
+          LastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
+          AssociationSize: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateCustomLineItemOutput" });
   }
@@ -3362,8 +3362,8 @@ function __c40(j: number): any {
           Arn: S.optional(S.String),
           Name: S.optional(SensitiveString),
           Description: S.optional(SensitiveString),
-          Size: S.optional(S.Number),
-          LastModifiedTime: S.optional(S.Number),
+          Size: S.optional(S.Number).pipe(T.Default(0)),
+          LastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdatePricingPlanOutput" });
   }
@@ -3400,8 +3400,8 @@ function __c41(j: number): any {
           Type: S.optional(S.String),
           ModifierPercentage: S.optional(S.Number),
           Service: S.optional(S.String),
-          AssociatedPricingPlanCount: S.optional(S.Number),
-          LastModifiedTime: S.optional(S.Number),
+          AssociatedPricingPlanCount: S.optional(S.Number).pipe(T.Default(0)),
+          LastModifiedTime: S.optional(S.Number).pipe(T.Default(0)),
           BillingEntity: S.optional(S.String),
           Tiering: S.optional(__S(83, __c10, 3)),
           UsageType: S.optional(S.String),

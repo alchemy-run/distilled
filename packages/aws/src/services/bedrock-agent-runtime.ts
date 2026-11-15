@@ -1339,7 +1339,7 @@ export interface RetrievalResultContentColumn {
 export type RetrievalResultContentRow = RetrievalResultContentColumn[];
 export interface RetrievalResultContent {
   type?: RetrievalResultContentType | undefined;
-  text?: string | undefined;
+  text: string;
   byteContent?: string | undefined;
   video?: VideoSegment | undefined;
   audio?: AudioSegment | undefined;
@@ -5203,11 +5203,11 @@ function __c0(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          foundationModelType: S.optional(S.String),
+          foundationModelType: S.optional(S.String).pipe(T.Default("MANAGED")),
           foundationModelConfiguration: S.optional(__S(11, __c0, 11)),
           rerankingModelType: S.optional(S.String),
           rerankingConfiguration: S.optional(__S(12, __c0, 12)),
-          maxAgentIteration: S.optional(S.Number),
+          maxAgentIteration: S.optional(S.Number).pipe(T.Default(5)),
         }),
       ).annotate({ identifier: "AgenticRetrieveConfiguration" });
     case 14:
@@ -6725,7 +6725,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          text: S.optional(S.String),
+          text: S.optional(S.String).pipe(T.Default("")),
           byteContent: S.optional(S.String),
           video: S.optional(__S(1024, __c32, 0)),
           audio: S.optional(__S(1025, __c32, 1)),
@@ -6783,9 +6783,9 @@ function __c33(j: number): any {
 function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ latency: S.optional(S.String) })).annotate({
-        identifier: "PerformanceConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ latency: S.optional(S.String).pipe(T.Default("standard")) }),
+      ).annotate({ identifier: "PerformanceConfiguration" });
   }
 }
 function __c35(j: number): any {
@@ -6850,7 +6850,7 @@ function __c37(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          streamFinalResponse: S.optional(S.Boolean),
+          streamFinalResponse: S.optional(S.Boolean).pipe(T.Default(false)),
           applyGuardrailInterval: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StreamingConfigurations" });
@@ -6858,7 +6858,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           previousConversationTurnsToInclude: S.optional(S.Number),
-          excludePreviousThinkingSteps: S.optional(S.Boolean),
+          excludePreviousThinkingSteps: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PromptCreationConfigurations" });
     case 11:
@@ -6947,7 +6947,7 @@ function __c39(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          numberOfResults: S.optional(S.Number),
+          numberOfResults: S.optional(S.Number).pipe(T.Default(5)),
           overrideSearchType: S.optional(S.String),
           filter: S.optional(__S(194, __c6, 2)),
           rerankingConfiguration: S.optional(__S(1253, __c39, 5)),
@@ -7900,8 +7900,8 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          text: S.optional(S.String),
+          type: S.optional(S.String).pipe(T.Default("TEXT")),
+          text: S.optional(S.String).pipe(T.Default("")),
           image: S.optional(__S(1824, __c57, 0)),
         }),
       ).annotate({ identifier: "KnowledgeBaseQuery" });

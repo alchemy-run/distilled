@@ -130,9 +130,9 @@ export class InternalServerException
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
       RequestId: /*@__PURE__*/ S.optional(S.String),
-      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -169,9 +169,9 @@ export class ThrottlingException
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
       RequestId: /*@__PURE__*/ S.optional(S.String),
-      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
       Reason: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.suspend(() => S.String).annotate({
           identifier: "ThrottlingExceptionReason",
@@ -458,7 +458,7 @@ export interface IsMemberInGroupsRequest {
 export interface GroupMembershipExistenceResult {
   GroupId?: string | undefined;
   MemberId?: MemberId | undefined;
-  MembershipExists?: boolean | undefined;
+  MembershipExists: boolean;
 }
 export type GroupMembershipExistenceResults = GroupMembershipExistenceResult[];
 export interface IsMemberInGroupsResponse {
@@ -1700,7 +1700,7 @@ function __c18(j: number): any {
         S.Struct({
           GroupId: S.optional(S.String),
           MemberId: S.optional(__S(272, __c34, 0)),
-          MembershipExists: S.optional(S.Boolean),
+          MembershipExists: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "GroupMembershipExistenceResult" });
     case 2:
@@ -1978,7 +1978,7 @@ function __c37(j: number): any {
         S.Struct({
           Value: S.optional(SensitiveString),
           Type: S.optional(SensitiveString),
-          Primary: S.optional(S.Boolean),
+          Primary: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "Email" });
     case 2:
@@ -1993,7 +1993,7 @@ function __c37(j: number): any {
           Country: S.optional(SensitiveString),
           Formatted: S.optional(SensitiveString),
           Type: S.optional(SensitiveString),
-          Primary: S.optional(S.Boolean),
+          Primary: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "Address" });
     case 4:
@@ -2004,7 +2004,7 @@ function __c37(j: number): any {
           Value: SensitiveString,
           Type: S.optional(SensitiveString),
           Display: S.optional(SensitiveString),
-          Primary: S.optional(S.Boolean),
+          Primary: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "Photo" });
     case 6:

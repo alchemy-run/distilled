@@ -612,8 +612,8 @@ export interface DescribeJobResponse {
   LastModifiedBy?: string | undefined;
   LastModifiedDate?: Date | undefined;
   LogSubscription?: LogSubscription | undefined;
-  MaxCapacity?: number | undefined;
-  MaxRetries?: number | undefined;
+  MaxCapacity: number;
+  MaxRetries: number;
   Outputs?: Output[] | undefined;
   DataCatalogOutputs?: DataCatalogOutput[] | undefined;
   DatabaseOutputs?: DatabaseOutput[] | undefined;
@@ -624,7 +624,7 @@ export interface DescribeJobResponse {
   ResourceArn?: string | undefined;
   RoleArn?: string | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
-  Timeout?: number | undefined;
+  Timeout: number;
   JobSample?: JobSample | undefined;
 }
 export type JobRunId = string;
@@ -647,11 +647,11 @@ export type JobRunState =
 export type LogGroupName = string;
 export type StartedBy = string;
 export interface DescribeJobRunResponse {
-  Attempt?: number | undefined;
+  Attempt: number;
   CompletedOn?: Date | undefined;
   DatasetName?: string | undefined;
   ErrorMessage?: string | undefined;
-  ExecutionTime?: number | undefined;
+  ExecutionTime: number;
   JobName: string;
   ProfileConfiguration?: ProfileConfiguration | undefined;
   ValidationConfigurations?: ValidationConfiguration[] | undefined;
@@ -781,11 +781,11 @@ export interface ListJobRunsRequest {
   NextToken?: string | undefined;
 }
 export interface JobRun {
-  Attempt?: number | undefined;
+  Attempt: number;
   CompletedOn?: Date | undefined;
   DatasetName?: string | undefined;
   ErrorMessage?: string | undefined;
-  ExecutionTime?: number | undefined;
+  ExecutionTime: number;
   JobName?: string | undefined;
   RunId?: string | undefined;
   State?: JobRunState | undefined;
@@ -823,8 +823,8 @@ export interface Job {
   LastModifiedBy?: string | undefined;
   LastModifiedDate?: Date | undefined;
   LogSubscription?: LogSubscription | undefined;
-  MaxCapacity?: number | undefined;
-  MaxRetries?: number | undefined;
+  MaxCapacity: number;
+  MaxRetries: number;
   Outputs?: Output[] | undefined;
   DataCatalogOutputs?: DataCatalogOutput[] | undefined;
   DatabaseOutputs?: DatabaseOutput[] | undefined;
@@ -832,7 +832,7 @@ export interface Job {
   RecipeReference?: RecipeReference | undefined;
   ResourceArn?: string | undefined;
   RoleArn?: string | undefined;
-  Timeout?: number | undefined;
+  Timeout: number;
   Tags?: { [key: string]: string | undefined } | undefined;
   JobSample?: JobSample | undefined;
   ValidationConfigurations?: ValidationConfiguration[] | undefined;
@@ -916,7 +916,7 @@ export interface RulesetItem {
   LastModifiedDate?: Date | undefined;
   Name: string;
   ResourceArn?: string | undefined;
-  RuleCount?: number | undefined;
+  RuleCount: number;
   Tags?: { [key: string]: string | undefined } | undefined;
   TargetArn: string;
 }
@@ -2608,7 +2608,7 @@ function __c11(j: number): any {
           Format: S.optional(S.String),
           PartitionColumns: S.optional(__S(880, __c55, 0)),
           Location: __S(944, __c59, 0),
-          Overwrite: S.optional(S.Boolean),
+          Overwrite: S.optional(S.Boolean).pipe(T.Default(false)),
           FormatOptions: S.optional(__S(177, __c11, 1)),
           MaxOutputFiles: S.optional(S.Number),
         }),
@@ -2631,7 +2631,7 @@ function __c11(j: number): any {
           TableName: S.String,
           S3Options: S.optional(__S(180, __c11, 4)),
           DatabaseOptions: S.optional(__S(181, __c11, 5)),
-          Overwrite: S.optional(S.Boolean),
+          Overwrite: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DataCatalogOutput" });
     case 7:
@@ -2666,13 +2666,17 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Value: S.Number, Type: S.optional(S.String), Unit: S.optional(S.String) }),
+        S.Struct({
+          Value: S.Number.pipe(T.Default(0)),
+          Type: S.optional(S.String),
+          Unit: S.optional(S.String),
+        }),
       ).annotate({ identifier: "Threshold" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Disabled: S.optional(S.Boolean),
+          Disabled: S.optional(S.Boolean).pipe(T.Default(false)),
           CheckExpression: S.String,
           SubstitutionMap: S.optional(__S(928, __c58, 0)),
           Threshold: S.optional(__S(208, __c13, 0)),
@@ -2846,8 +2850,8 @@ function __c22(j: number): any {
           LastModifiedBy: S.optional(S.String),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LogSubscription: S.optional(S.String),
-          MaxCapacity: S.optional(S.Number),
-          MaxRetries: S.optional(S.Number),
+          MaxCapacity: S.optional(S.Number).pipe(T.Default(0)),
+          MaxRetries: S.optional(S.Number).pipe(T.Default(0)),
           Outputs: S.optional(__S(179, __c11, 3)),
           DataCatalogOutputs: S.optional(__S(183, __c11, 7)),
           DatabaseOutputs: S.optional(__S(185, __c11, 9)),
@@ -2858,7 +2862,7 @@ function __c22(j: number): any {
           ResourceArn: S.optional(S.String),
           RoleArn: S.optional(S.String),
           Tags: S.optional(__S(928, __c58, 0)),
-          Timeout: S.optional(S.Number),
+          Timeout: S.optional(S.Number).pipe(T.Default(0)),
           JobSample: S.optional(__S(34, __c2, 2)),
         }),
       ).annotate({ identifier: "DescribeJobResponse" });
@@ -2885,11 +2889,11 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Attempt: S.optional(S.Number),
+          Attempt: S.optional(S.Number).pipe(T.Default(0)),
           CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DatasetName: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
-          ExecutionTime: S.optional(S.Number),
+          ExecutionTime: S.optional(S.Number).pipe(T.Default(0)),
           JobName: S.String,
           ProfileConfiguration: S.optional(__S(56, __c3, 8)),
           ValidationConfigurations: S.optional(__S(33, __c2, 1)),
@@ -3074,11 +3078,11 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Attempt: S.optional(S.Number),
+          Attempt: S.optional(S.Number).pipe(T.Default(0)),
           CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DatasetName: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
-          ExecutionTime: S.optional(S.Number),
+          ExecutionTime: S.optional(S.Number).pipe(T.Default(0)),
           JobName: S.optional(S.String),
           RunId: S.optional(S.String),
           State: S.optional(S.String),
@@ -3127,8 +3131,8 @@ function __c30(j: number): any {
           LastModifiedBy: S.optional(S.String),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LogSubscription: S.optional(S.String),
-          MaxCapacity: S.optional(S.Number),
-          MaxRetries: S.optional(S.Number),
+          MaxCapacity: S.optional(S.Number).pipe(T.Default(0)),
+          MaxRetries: S.optional(S.Number).pipe(T.Default(0)),
           Outputs: S.optional(__S(179, __c11, 3)),
           DataCatalogOutputs: S.optional(__S(183, __c11, 7)),
           DatabaseOutputs: S.optional(__S(185, __c11, 9)),
@@ -3136,7 +3140,7 @@ function __c30(j: number): any {
           RecipeReference: S.optional(__S(160, __c10, 0)),
           ResourceArn: S.optional(S.String),
           RoleArn: S.optional(S.String),
-          Timeout: S.optional(S.Number),
+          Timeout: S.optional(S.Number).pipe(T.Default(0)),
           Tags: S.optional(__S(928, __c58, 0)),
           JobSample: S.optional(__S(34, __c2, 2)),
           ValidationConfigurations: S.optional(__S(33, __c2, 1)),
@@ -3265,7 +3269,7 @@ function __c35(j: number): any {
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Name: S.String,
           ResourceArn: S.optional(S.String),
-          RuleCount: S.optional(S.Number),
+          RuleCount: S.optional(S.Number).pipe(T.Default(0)),
           Tags: S.optional(__S(928, __c58, 0)),
           TargetArn: S.String,
         }),
@@ -3721,9 +3725,9 @@ function __c59(j: number): any {
 function __c60(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ MultiLine: S.optional(S.Boolean) })).annotate({
-        identifier: "JsonOptions",
-      });
+      return S.suspend(() =>
+        S.Struct({ MultiLine: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "JsonOptions" });
     case 1:
       return S.Array(S.Number);
     case 2:
@@ -3803,7 +3807,7 @@ function __c60(j: number): any {
           Name: S.String,
           Type: S.String,
           DatetimeOptions: S.optional(__S(971, __c60, 11)),
-          CreateColumn: S.optional(S.Boolean),
+          CreateColumn: S.optional(S.Boolean).pipe(T.Default(false)),
           Filter: S.optional(__S(969, __c60, 9)),
         }),
       ).annotate({ identifier: "DatasetParameter" });

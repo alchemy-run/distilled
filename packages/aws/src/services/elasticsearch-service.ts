@@ -862,7 +862,7 @@ export interface ChangeProgressStatusDetails {
   Status?: OverallChangeStatus | undefined;
   PendingProperties?: string[] | undefined;
   CompletedProperties?: string[] | undefined;
-  TotalNumberOfStages?: number | undefined;
+  TotalNumberOfStages: number;
   ChangeProgressStages?: ChangeProgressStage[] | undefined;
   ConfigChangeStatus?: ConfigChangeStatus | undefined;
   LastUpdatedTime?: Date | undefined;
@@ -886,7 +886,7 @@ export type OptionState = "RequiresIndexDocuments" | "Processing" | "Active" | (
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number | undefined;
+  UpdateVersion: number;
   State: OptionState;
   PendingDeletion?: boolean | undefined;
 }
@@ -951,7 +951,7 @@ export interface AutoTuneOptions {
 export interface AutoTuneStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number | undefined;
+  UpdateVersion: number;
   State: AutoTuneState;
   ErrorMessage?: string | undefined;
   PendingDeletion?: boolean | undefined;
@@ -1034,8 +1034,8 @@ export type StorageTypeList = StorageType[];
 export type MinimumInstanceCount = number;
 export type MaximumInstanceCount = number;
 export interface InstanceCountLimits {
-  MinimumInstanceCount?: number | undefined;
-  MaximumInstanceCount?: number | undefined;
+  MinimumInstanceCount: number;
+  MaximumInstanceCount: number;
 }
 export interface InstanceLimits {
   InstanceCountLimits?: InstanceCountLimits | undefined;
@@ -1121,7 +1121,7 @@ export type RecurringChargeList = RecurringCharge[];
 export interface ReservedElasticsearchInstanceOffering {
   ReservedElasticsearchInstanceOfferingId?: string | undefined;
   ElasticsearchInstanceType?: ESPartitionInstanceType | undefined;
-  Duration?: number | undefined;
+  Duration: number;
   FixedPrice?: number | undefined;
   UsagePrice?: number | undefined;
   CurrencyCode?: string | undefined;
@@ -1145,11 +1145,11 @@ export interface ReservedElasticsearchInstance {
   ReservedElasticsearchInstanceOfferingId?: string | undefined;
   ElasticsearchInstanceType?: ESPartitionInstanceType | undefined;
   StartTime?: Date | undefined;
-  Duration?: number | undefined;
+  Duration: number;
   FixedPrice?: number | undefined;
   UsagePrice?: number | undefined;
   CurrencyCode?: string | undefined;
-  ElasticsearchInstanceCount?: number | undefined;
+  ElasticsearchInstanceCount: number;
   State?: string | undefined;
   PaymentOption?: ReservedElasticsearchInstancePaymentOption | undefined;
   RecurringCharges?: RecurringCharge[] | undefined;
@@ -4075,7 +4075,7 @@ function __c44(j: number): any {
           Status: S.optional(S.String),
           PendingProperties: S.optional(__S(448, __c14, 0)),
           CompletedProperties: S.optional(__S(448, __c14, 0)),
-          TotalNumberOfStages: S.optional(S.Number),
+          TotalNumberOfStages: S.optional(S.Number).pipe(T.Default(0)),
           ChangeProgressStages: S.optional(__S(1410, __c44, 2)),
           ConfigChangeStatus: S.optional(S.String),
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -4093,7 +4093,10 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ PrimaryReadTrafficPercent: S.Number, CloneReadTrafficPercent: S.Number }),
+        S.Struct({
+          PrimaryReadTrafficPercent: S.Number.pipe(T.Default(0)),
+          CloneReadTrafficPercent: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "TrafficPercents" });
   }
 }
@@ -4148,7 +4151,7 @@ function __c48(j: number): any {
         S.Struct({
           CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           UpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          UpdateVersion: S.optional(S.Number),
+          UpdateVersion: S.optional(S.Number).pipe(T.Default(0)),
           State: S.String,
           PendingDeletion: S.optional(S.Boolean),
         }),
@@ -4217,7 +4220,7 @@ function __c48(j: number): any {
         S.Struct({
           CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           UpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          UpdateVersion: S.optional(S.Number),
+          UpdateVersion: S.optional(S.Number).pipe(T.Default(0)),
           State: S.String,
           ErrorMessage: S.optional(S.String),
           PendingDeletion: S.optional(S.Boolean),
@@ -4335,8 +4338,8 @@ function __c50(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          MinimumInstanceCount: S.optional(S.Number),
-          MaximumInstanceCount: S.optional(S.Number),
+          MinimumInstanceCount: S.optional(S.Number).pipe(T.Default(0)),
+          MaximumInstanceCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "InstanceCountLimits" });
     case 6:
@@ -4495,7 +4498,7 @@ function __c55(j: number): any {
         S.Struct({
           ReservedElasticsearchInstanceOfferingId: S.optional(S.String),
           ElasticsearchInstanceType: S.optional(S.String),
-          Duration: S.optional(S.Number),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
           FixedPrice: S.optional(S.Number),
           UsagePrice: S.optional(S.Number),
           CurrencyCode: S.optional(S.String),
@@ -4563,11 +4566,11 @@ function __c57(j: number): any {
           ReservedElasticsearchInstanceOfferingId: S.optional(S.String),
           ElasticsearchInstanceType: S.optional(S.String),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Duration: S.optional(S.Number),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
           FixedPrice: S.optional(S.Number),
           UsagePrice: S.optional(S.Number),
           CurrencyCode: S.optional(S.String),
-          ElasticsearchInstanceCount: S.optional(S.Number),
+          ElasticsearchInstanceCount: S.optional(S.Number).pipe(T.Default(0)),
           State: S.optional(S.String),
           PaymentOption: S.optional(S.String),
           RecurringCharges: S.optional(__S(1793, __c56, 1)),
@@ -5154,7 +5157,7 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Strategy: S.String, CloneReadTrafficPercent: S.Number }),
+        S.Struct({ Strategy: S.String, CloneReadTrafficPercent: S.Number.pipe(T.Default(0)) }),
       ).annotate({ identifier: "TrafficSplitRequestOptions" });
     case 1:
       return S.suspend(() => S.Struct({ Target: S.String })).annotate({

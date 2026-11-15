@@ -1625,8 +1625,8 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           capacityProvider: SensitiveString,
-          weight: S.optional(S.Number),
-          base: S.optional(S.Number),
+          weight: S.optional(S.Number).pipe(T.Default(0)),
+          base: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CapacityProviderStrategyItem" });
     case 17:
@@ -1712,8 +1712,8 @@ function __c15(j: number): any {
           PlatformVersion: S.optional(S.String),
           Group: S.optional(S.String),
           CapacityProviderStrategy: S.optional(__S(465, __c14, 17)),
-          EnableECSManagedTags: S.optional(S.Boolean),
-          EnableExecuteCommand: S.optional(S.Boolean),
+          EnableECSManagedTags: S.optional(S.Boolean).pipe(T.Default(false)),
+          EnableExecuteCommand: S.optional(S.Boolean).pipe(T.Default(false)),
           PlacementConstraints: S.optional(__S(467, __c14, 19)),
           PlacementStrategy: S.optional(__S(469, __c14, 21)),
           PropagateTags: S.optional(S.String),
@@ -1785,7 +1785,7 @@ function __c15(j: number): any {
           Database: SensitiveString,
           DbUser: S.optional(SensitiveString),
           StatementName: S.optional(SensitiveString),
-          WithEvent: S.optional(S.Boolean),
+          WithEvent: S.optional(S.Boolean).pipe(T.Default(false)),
           Sqls: __S(455, __c14, 7),
         }),
       ).annotate({ identifier: "PipeTargetRedshiftDataParameters" });

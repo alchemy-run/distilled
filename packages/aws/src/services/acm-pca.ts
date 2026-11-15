@@ -1598,15 +1598,15 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DigitalSignature: S.optional(S.Boolean),
-          NonRepudiation: S.optional(S.Boolean),
-          KeyEncipherment: S.optional(S.Boolean),
-          DataEncipherment: S.optional(S.Boolean),
-          KeyAgreement: S.optional(S.Boolean),
-          KeyCertSign: S.optional(S.Boolean),
-          CRLSign: S.optional(S.Boolean),
-          EncipherOnly: S.optional(S.Boolean),
-          DecipherOnly: S.optional(S.Boolean),
+          DigitalSignature: S.optional(S.Boolean).pipe(T.Default(false)),
+          NonRepudiation: S.optional(S.Boolean).pipe(T.Default(false)),
+          KeyEncipherment: S.optional(S.Boolean).pipe(T.Default(false)),
+          DataEncipherment: S.optional(S.Boolean).pipe(T.Default(false)),
+          KeyAgreement: S.optional(S.Boolean).pipe(T.Default(false)),
+          KeyCertSign: S.optional(S.Boolean).pipe(T.Default(false)),
+          CRLSign: S.optional(S.Boolean).pipe(T.Default(false)),
+          EncipherOnly: S.optional(S.Boolean).pipe(T.Default(false)),
+          DecipherOnly: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "KeyUsage" });
     case 4:

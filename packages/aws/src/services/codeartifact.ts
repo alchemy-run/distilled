@@ -285,8 +285,8 @@ export interface DomainDescription {
   status?: DomainStatus | undefined;
   createdTime?: Date | undefined;
   encryptionKey?: string | undefined;
-  repositoryCount?: number | undefined;
-  assetSizeBytes?: number | undefined;
+  repositoryCount: number;
+  assetSizeBytes: number;
   s3BucketArn?: string | undefined;
 }
 export interface CreateDomainResult {
@@ -4291,8 +4291,8 @@ function __c64(j: number): any {
           status: S.optional(S.String),
           createdTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           encryptionKey: S.optional(S.String),
-          repositoryCount: S.optional(S.Number),
-          assetSizeBytes: S.optional(S.Number),
+          repositoryCount: S.optional(S.Number).pipe(T.Default(0)),
+          assetSizeBytes: S.optional(S.Number).pipe(T.Default(0)),
           s3BucketArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainDescription" });

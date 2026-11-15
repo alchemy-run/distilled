@@ -603,7 +603,7 @@ export interface ChannelMessage {
   LastEditedTimestamp?: Date | undefined;
   LastUpdatedTimestamp?: Date | undefined;
   Sender?: Identity | undefined;
-  Redacted?: boolean | undefined;
+  Redacted: boolean;
   Persistence?: ChannelMessagePersistenceType | undefined;
   Status?: ChannelMessageStatusStructure | undefined;
   MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
@@ -727,7 +727,7 @@ export interface ChannelMessageSummary {
   LastUpdatedTimestamp?: Date | undefined;
   LastEditedTimestamp?: Date | undefined;
   Sender?: Identity | undefined;
-  Redacted?: boolean | undefined;
+  Redacted: boolean;
   Status?: ChannelMessageStatusStructure | undefined;
   MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
   ContentType?: string | redacted.Redacted<string> | undefined;
@@ -3963,7 +3963,7 @@ function __c38(j: number): any {
           LastEditedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Sender: S.optional(__S(16, __c2, 0)),
-          Redacted: S.optional(S.Boolean),
+          Redacted: S.optional(S.Boolean).pipe(T.Default(false)),
           Persistence: S.optional(S.String),
           Status: S.optional(__S(312, __c39, 0)),
           MessageAttributes: S.optional(__S(33, __c4, 1)),
@@ -4257,7 +4257,7 @@ function __c50(j: number): any {
           LastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastEditedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Sender: S.optional(__S(16, __c2, 0)),
-          Redacted: S.optional(S.Boolean),
+          Redacted: S.optional(S.Boolean).pipe(T.Default(false)),
           Status: S.optional(__S(312, __c39, 0)),
           MessageAttributes: S.optional(__S(33, __c4, 1)),
           ContentType: S.optional(SensitiveString),

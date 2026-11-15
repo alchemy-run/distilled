@@ -9847,7 +9847,7 @@ function __c9(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OriginAccessIdentity: S.optional(S.String),
+          OriginAccessIdentity: S.optional(S.String).pipe(T.Default("")),
           OriginReadTimeout: S.optional(S.Number),
         }),
       ).annotate({ identifier: "S3OriginConfig" });
@@ -10142,7 +10142,10 @@ function __c10(j: number): any {
       ).annotate({ identifier: "TrustStoreConfig" });
     case 15:
       return S.suspend(() =>
-        S.Struct({ Mode: S.optional(S.String), TrustStoreConfig: S.optional(__S(334, __c10, 14)) }),
+        S.Struct({
+          Mode: S.optional(S.String).pipe(T.Default("required")),
+          TrustStoreConfig: S.optional(__S(334, __c10, 14)),
+        }),
       ).annotate({ identifier: "ViewerMtlsConfig" });
     case 16:
       return S.suspend(() => S.Struct({ Id: S.String })).annotate({
@@ -10155,10 +10158,10 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Enabled: S.optional(S.Boolean),
-          IncludeCookies: S.optional(S.Boolean),
-          Bucket: S.optional(S.String),
-          Prefix: S.optional(S.String),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          IncludeCookies: S.optional(S.Boolean).pipe(T.Default(false)),
+          Bucket: S.optional(S.String).pipe(T.Default("")),
+          Prefix: S.optional(S.String).pipe(T.Default("")),
         }),
       ).annotate({ identifier: "LoggingConfig" });
     case 1:

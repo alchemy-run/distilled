@@ -1028,7 +1028,7 @@ export interface SidewalkAccountInfoWithFingerprint {
 export type AccountLinked = boolean;
 export interface GetPartnerAccountResponse {
   Sidewalk?: SidewalkAccountInfoWithFingerprint | undefined;
-  AccountLinked?: boolean | undefined;
+  AccountLinked: boolean;
 }
 export type PositionResourceIdentifier = string;
 export type PositionResourceType = "WirelessDevice" | "WirelessGateway" | (string & {});
@@ -1395,18 +1395,18 @@ export interface LoRaWANGetServiceProfileInfo {
   DlRate?: number | undefined;
   DlBucketSize?: number | undefined;
   DlRatePolicy?: string | undefined;
-  AddGwMetadata?: boolean | undefined;
+  AddGwMetadata: boolean;
   DevStatusReqFreq?: number | undefined;
-  ReportDevStatusBattery?: boolean | undefined;
-  ReportDevStatusMargin?: boolean | undefined;
-  DrMin?: number | undefined;
-  DrMax?: number | undefined;
+  ReportDevStatusBattery: boolean;
+  ReportDevStatusMargin: boolean;
+  DrMin: number;
+  DrMax: number;
   ChannelMask?: string | undefined;
-  PrAllowed?: boolean | undefined;
-  HrAllowed?: boolean | undefined;
-  RaAllowed?: boolean | undefined;
-  NwkGeoLoc?: boolean | undefined;
-  TargetPer?: number | undefined;
+  PrAllowed: boolean;
+  HrAllowed: boolean;
+  RaAllowed: boolean;
+  NwkGeoLoc: boolean;
+  TargetPer: number;
   MinGwDiversity?: number | undefined;
   TxPowerIndexMin?: number | undefined;
   TxPowerIndexMax?: number | undefined;
@@ -1613,7 +1613,7 @@ export interface GetWirelessGatewayTaskDefinitionRequest {
   Id: string;
 }
 export interface GetWirelessGatewayTaskDefinitionResponse {
-  AutoCreateTasks?: boolean | undefined;
+  AutoCreateTasks: boolean;
   Name?: string | undefined;
   Update?: UpdateWirelessGatewayTaskCreate | undefined;
   Arn?: string | undefined;
@@ -6625,12 +6625,12 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SupportsClassB: S.optional(S.Boolean),
+          SupportsClassB: S.optional(S.Boolean).pipe(T.Default(false)),
           ClassBTimeout: S.optional(S.Number),
           PingSlotPeriod: S.optional(S.Number),
           PingSlotDr: S.optional(S.Number),
           PingSlotFreq: S.optional(S.Number),
-          SupportsClassC: S.optional(S.Boolean),
+          SupportsClassC: S.optional(S.Boolean).pipe(T.Default(false)),
           ClassCTimeout: S.optional(S.Number),
           MacVersion: S.optional(S.String),
           RegParamsRevision: S.optional(S.String),
@@ -6643,7 +6643,7 @@ function __c29(j: number): any {
           MaxDutyCycle: S.optional(S.Number),
           RfRegion: S.optional(S.String),
           SupportsJoin: S.optional(S.Boolean),
-          Supports32BitFCnt: S.optional(S.Boolean),
+          Supports32BitFCnt: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "LoRaWANDeviceProfile" });
   }
@@ -6771,11 +6771,11 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AddGwMetadata: S.optional(S.Boolean),
+          AddGwMetadata: S.optional(S.Boolean).pipe(T.Default(false)),
           DrMin: S.optional(S.Number),
           DrMax: S.optional(S.Number),
-          PrAllowed: S.optional(S.Boolean),
-          RaAllowed: S.optional(S.Boolean),
+          PrAllowed: S.optional(S.Boolean).pipe(T.Default(false)),
+          RaAllowed: S.optional(S.Boolean).pipe(T.Default(false)),
           TxPowerIndexMin: S.optional(S.Number),
           TxPowerIndexMax: S.optional(S.Number),
           NbTransMin: S.optional(S.Number),
@@ -7854,7 +7854,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Sidewalk: S.optional(__S(2752, __c86, 0)),
-          AccountLinked: S.optional(S.Boolean),
+          AccountLinked: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "GetPartnerAccountResponse" });
   }
@@ -8064,7 +8064,7 @@ function __c90(j: number): any {
         S.Struct({
           Pci: S.Number,
           Earfcn: S.Number,
-          EutranCid: S.optional(S.Number),
+          EutranCid: S.optional(S.Number).pipe(T.Default(0)),
           Rsrp: S.optional(S.Number),
           Rsrq: S.optional(S.Number),
         }),
@@ -8082,7 +8082,7 @@ function __c90(j: number): any {
           LteTimingAdvance: S.optional(S.Number),
           Rsrp: S.optional(S.Number),
           Rsrq: S.optional(S.Number),
-          NrCapable: S.optional(S.Boolean),
+          NrCapable: S.optional(S.Boolean).pipe(T.Default(false)),
           LteNmr: S.optional(__S(2900, __c90, 20)),
         }),
       ).annotate({ identifier: "LteObj" });
@@ -8139,7 +8139,7 @@ function __c90(j: number): any {
           CaptureTimeAccuracy: S.optional(S.Number),
           AssistPosition: S.optional(__S(896, __c28, 0)),
           AssistAltitude: S.optional(S.Number),
-          Use2DSolver: S.optional(S.Boolean),
+          Use2DSolver: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "Gnss" });
     case 31:
@@ -8159,13 +8159,13 @@ function __c91(j: number): any {
           CaptureTimeAccuracy: S.optional(S.Number),
           AssistPosition: S.optional(__S(896, __c28, 0)),
           AssistAltitude: S.optional(S.Number),
-          Use2DSolver: S.optional(S.Boolean),
+          Use2DSolver: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "GnssMultiFrame" });
     case 2:
-      return S.suspend(() => S.Struct({ ConfidencePercent: S.optional(S.Number) })).annotate({
-        identifier: "WiFiCellular",
-      });
+      return S.suspend(() =>
+        S.Struct({ ConfidencePercent: S.optional(S.Number).pipe(T.Default(68)) }),
+      ).annotate({ identifier: "WiFiCellular" });
     case 3:
       return S.suspend(() => S.Struct({ WiFiCellular: S.optional(__S(2914, __c91, 2)) })).annotate({
         identifier: "AdvancedConfiguration",
@@ -8359,18 +8359,18 @@ function __c99(j: number): any {
           DlRate: S.optional(S.Number),
           DlBucketSize: S.optional(S.Number),
           DlRatePolicy: S.optional(S.String),
-          AddGwMetadata: S.optional(S.Boolean),
+          AddGwMetadata: S.optional(S.Boolean).pipe(T.Default(false)),
           DevStatusReqFreq: S.optional(S.Number),
-          ReportDevStatusBattery: S.optional(S.Boolean),
-          ReportDevStatusMargin: S.optional(S.Boolean),
-          DrMin: S.optional(S.Number),
-          DrMax: S.optional(S.Number),
+          ReportDevStatusBattery: S.optional(S.Boolean).pipe(T.Default(false)),
+          ReportDevStatusMargin: S.optional(S.Boolean).pipe(T.Default(false)),
+          DrMin: S.optional(S.Number).pipe(T.Default(0)),
+          DrMax: S.optional(S.Number).pipe(T.Default(0)),
           ChannelMask: S.optional(S.String),
-          PrAllowed: S.optional(S.Boolean),
-          HrAllowed: S.optional(S.Boolean),
-          RaAllowed: S.optional(S.Boolean),
-          NwkGeoLoc: S.optional(S.Boolean),
-          TargetPer: S.optional(S.Number),
+          PrAllowed: S.optional(S.Boolean).pipe(T.Default(false)),
+          HrAllowed: S.optional(S.Boolean).pipe(T.Default(false)),
+          RaAllowed: S.optional(S.Boolean).pipe(T.Default(false)),
+          NwkGeoLoc: S.optional(S.Boolean).pipe(T.Default(false)),
+          TargetPer: S.optional(S.Number).pipe(T.Default(0)),
           MinGwDiversity: S.optional(S.Number),
           TxPowerIndexMin: S.optional(S.Number),
           TxPowerIndexMax: S.optional(S.Number),
@@ -8751,7 +8751,7 @@ function __c112(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AutoCreateTasks: S.optional(S.Boolean),
+          AutoCreateTasks: S.optional(S.Boolean).pipe(T.Default(false)),
           Name: S.optional(S.String),
           Update: S.optional(__S(1601, __c50, 1)),
           Arn: S.optional(S.String),

@@ -1871,7 +1871,7 @@ function __c6(j: number): any {
         S.Struct({
           NotificationType: S.String,
           ComparisonOperator: S.String,
-          Threshold: S.Number,
+          Threshold: S.Number.pipe(T.Default(0)),
           ThresholdType: S.optional(S.String),
           NotificationState: S.optional(S.String),
         }),
@@ -2050,7 +2050,10 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ActionThresholdValue: S.Number, ActionThresholdType: S.String }),
+        S.Struct({
+          ActionThresholdValue: S.Number.pipe(T.Default(0)),
+          ActionThresholdType: S.String,
+        }),
       ).annotate({ identifier: "ActionThreshold" });
     case 1:
       return S.suspend(() =>

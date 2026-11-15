@@ -256,9 +256,9 @@ export interface FreeTierUsage {
   operation?: string | undefined;
   usageType?: string | undefined;
   region?: string | undefined;
-  actualUsageAmount?: number | undefined;
-  forecastedUsageAmount?: number | undefined;
-  limit?: number | undefined;
+  actualUsageAmount: number;
+  forecastedUsageAmount: number;
+  limit: number;
   unit?: string | undefined;
   description?: string | undefined;
   freeTierType?: string | undefined;
@@ -479,9 +479,9 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ amount: S.Number, unit: S.String })).annotate({
-        identifier: "MonetaryAmount",
-      });
+      return S.suspend(() =>
+        S.Struct({ amount: S.Number.pipe(T.Default(0)), unit: S.String }),
+      ).annotate({ identifier: "MonetaryAmount" });
   }
 }
 function __c2(j: number): any {
@@ -556,9 +556,9 @@ function __c4(j: number): any {
           operation: S.optional(S.String),
           usageType: S.optional(S.String),
           region: S.optional(S.String),
-          actualUsageAmount: S.optional(S.Number),
-          forecastedUsageAmount: S.optional(S.Number),
-          limit: S.optional(S.Number),
+          actualUsageAmount: S.optional(S.Number).pipe(T.Default(0)),
+          forecastedUsageAmount: S.optional(S.Number).pipe(T.Default(0)),
+          limit: S.optional(S.Number).pipe(T.Default(0)),
           unit: S.optional(S.String),
           description: S.optional(S.String),
           freeTierType: S.optional(S.String),

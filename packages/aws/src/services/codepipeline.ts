@@ -869,7 +869,7 @@ export type Enabled = boolean;
 export type LastChangedBy = string;
 export type LastChangedAt = Date;
 export interface TransitionState {
-  enabled?: boolean | undefined;
+  enabled: boolean;
   lastChangedBy?: string | undefined;
   lastChangedAt?: Date | undefined;
   disabledReason?: string | undefined;
@@ -1270,7 +1270,7 @@ export interface RuleConfigurationProperty {
   required: boolean;
   key: boolean;
   secret: boolean;
-  queryable?: boolean | undefined;
+  queryable: boolean;
   description?: string | undefined;
   type?: RuleConfigurationPropertyType | undefined;
 }
@@ -1386,7 +1386,7 @@ export interface PutActionRevisionInput {
   actionRevision: ActionRevision;
 }
 export interface PutActionRevisionOutput {
-  newRevision?: boolean | undefined;
+  newRevision: boolean;
   pipelineExecutionId?: string | undefined;
 }
 export type ApprovalSummary = string;
@@ -2988,9 +2988,12 @@ function __c5(j: number): any {
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ minimumCount: S.Number, maximumCount: S.Number })).annotate(
-        { identifier: "ArtifactDetails" },
-      );
+      return S.suspend(() =>
+        S.Struct({
+          minimumCount: S.Number.pipe(T.Default(0)),
+          maximumCount: S.Number.pipe(T.Default(0)),
+        }),
+      ).annotate({ identifier: "ArtifactDetails" });
   }
 }
 function __c7(j: number): any {
@@ -3022,10 +3025,10 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          required: S.Boolean,
-          key: S.Boolean,
-          secret: S.Boolean,
-          queryable: S.optional(S.Boolean),
+          required: S.Boolean.pipe(T.Default(false)),
+          key: S.Boolean.pipe(T.Default(false)),
+          secret: S.Boolean.pipe(T.Default(false)),
+          queryable: S.optional(S.Boolean).pipe(T.Default(false)),
           description: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -3393,10 +3396,10 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          optional: S.Boolean,
-          key: S.Boolean,
-          noEcho: S.Boolean,
-          queryable: S.optional(S.Boolean),
+          optional: S.Boolean.pipe(T.Default(false)),
+          key: S.Boolean.pipe(T.Default(false)),
+          noEcho: S.Boolean.pipe(T.Default(false)),
+          queryable: S.optional(S.Boolean).pipe(T.Default(false)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionTypeProperty" });
@@ -3617,7 +3620,7 @@ function __c30(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
+          enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           lastChangedBy: S.optional(S.String),
           lastChangedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           disabledReason: S.optional(S.String),
@@ -4279,7 +4282,7 @@ function __c48(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          newRevision: S.optional(S.Boolean),
+          newRevision: S.optional(S.Boolean).pipe(T.Default(false)),
           pipelineExecutionId: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "PutActionRevisionOutput" });

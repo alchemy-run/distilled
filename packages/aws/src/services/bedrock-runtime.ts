@@ -2843,9 +2843,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          guardrailIdentifier: S.optional(S.String),
-          guardrailVersion: S.optional(S.String),
-          trace: S.optional(S.String),
+          guardrailIdentifier: S.optional(S.String).pipe(T.Default("")),
+          guardrailVersion: S.optional(S.String).pipe(T.Default("")),
+          trace: S.optional(S.String).pipe(T.Default("disabled")),
         }),
       ).annotate({ identifier: "GuardrailConfiguration" });
     case 1:
@@ -2910,9 +2910,9 @@ function __c6(j: number): any {
     case 3:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
     case 4:
-      return S.suspend(() => S.Struct({ latency: S.optional(S.String) })).annotate({
-        identifier: "PerformanceConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ latency: S.optional(S.String).pipe(T.Default("standard")) }),
+      ).annotate({ identifier: "PerformanceConfiguration" });
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3019,7 +3019,7 @@ function __c7(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          format: S.optional(S.String),
+          format: S.optional(S.String).pipe(T.Default("txt")),
           name: S.String,
           source: __S(230, __c7, 6),
           context: S.optional(S.String),
@@ -3221,10 +3221,10 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          guardrailIdentifier: S.optional(S.String),
-          guardrailVersion: S.optional(S.String),
-          trace: S.optional(S.String),
-          streamProcessingMode: S.optional(S.String),
+          guardrailIdentifier: S.optional(S.String).pipe(T.Default("")),
+          guardrailVersion: S.optional(S.String).pipe(T.Default("")),
+          trace: S.optional(S.String).pipe(T.Default("disabled")),
+          streamProcessingMode: S.optional(S.String).pipe(T.Default("sync")),
         }),
       ).annotate({ identifier: "GuardrailStreamConfiguration" });
     case 1:

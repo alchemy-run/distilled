@@ -648,7 +648,7 @@ export interface BatchCreateTopicReviewedAnswerResponse {
   TopicArn?: string | undefined;
   SucceededAnswers?: SucceededTopicReviewedAnswer[] | undefined;
   InvalidAnswers?: InvalidTopicReviewedAnswer[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type KbAwsAccountId = string;
@@ -688,7 +688,7 @@ export interface BatchDeleteTopicReviewedAnswerResponse {
   SucceededAnswers?: SucceededTopicReviewedAnswer[] | undefined;
   InvalidAnswers?: InvalidTopicReviewedAnswer[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UserLimitsEntry {
   userName: string;
@@ -748,7 +748,7 @@ export interface CancelIngestionResponse {
   Arn?: string | undefined;
   IngestionId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type Namespace = string;
 export interface AccountCustomization {
@@ -774,7 +774,7 @@ export interface CreateAccountCustomizationResponse {
   Namespace?: string | undefined;
   AccountCustomization?: AccountCustomization | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type Edition = "STANDARD" | "ENTERPRISE" | "ENTERPRISE_AND_Q" | (string & {});
 export type AuthenticationMethodOption =
@@ -807,14 +807,14 @@ export interface CreateAccountSubscriptionRequest {
   IAMIdentityCenterInstanceArn?: string | undefined;
 }
 export interface SignupResponse {
-  IAMUser?: boolean | undefined;
+  IAMUser: boolean;
   userLoginName?: string | undefined;
   accountName?: string | undefined;
   directoryType?: string | undefined;
 }
 export interface CreateAccountSubscriptionResponse {
   SignupResponse?: SignupResponse | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type ShortRestrictiveResourceId = string;
@@ -996,7 +996,7 @@ export interface CreateActionConnectorResponse {
   CreationStatus?: ResourceStatus | undefined;
   ActionConnectorId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type CreateAgentRequestSpacesList = string[];
 export type CreateAgentRequestActionConnectorsList = string[];
@@ -4849,7 +4849,7 @@ export interface CreateAnalysisResponse {
   Arn?: string | undefined;
   AnalysisId?: string | undefined;
   CreationStatus?: ResourceStatus | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type PolicyId = string;
@@ -5595,7 +5595,7 @@ export interface CreateCustomPermissionsRequest {
   Tags?: Tag[] | undefined;
 }
 export interface CreateCustomPermissionsResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   RequestId?: string | undefined;
 }
@@ -5712,7 +5712,7 @@ export interface CreateDashboardResponse {
   VersionArn?: string | undefined;
   DashboardId?: string | undefined;
   CreationStatus?: ResourceStatus | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type ResourceId = string;
@@ -6476,7 +6476,7 @@ export interface CreateDataSetResponse {
   IngestionArn?: string | undefined;
   IngestionId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type DataSourceType =
   | "ADOBE_ANALYTICS"
@@ -8288,7 +8288,7 @@ export interface CreateDataSourceResponse {
   DataSourceId?: string | undefined;
   CreationStatus?: ResourceStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type DlpSettingId = string;
 export type DlpSettingName = string;
@@ -8353,7 +8353,7 @@ export interface CreateFlowResponse {
   Arn: string;
   FlowId: string;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type RestrictiveResourceId = string;
 export type FolderName = string;
@@ -8370,7 +8370,7 @@ export interface CreateFolderRequest {
   SharingModel?: SharingModel | undefined;
 }
 export interface CreateFolderResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   FolderId?: string | undefined;
   RequestId?: string | undefined;
@@ -8393,7 +8393,7 @@ export interface FolderMember {
   MemberType?: MemberType | undefined;
 }
 export interface CreateFolderMembershipResponse {
-  Status?: number | undefined;
+  Status: number;
   FolderMember?: FolderMember | undefined;
   RequestId?: string | undefined;
 }
@@ -8414,7 +8414,7 @@ export interface Group {
 export interface CreateGroupResponse {
   Group?: Group | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type GroupMemberName = string;
 export interface CreateGroupMembershipRequest {
@@ -8430,7 +8430,7 @@ export interface GroupMember {
 export interface CreateGroupMembershipResponse {
   GroupMember?: GroupMember | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type IAMPolicyAssignmentName = string;
 export type AssignmentStatus = "ENABLED" | "DRAFT" | "DISABLED" | (string & {});
@@ -8452,7 +8452,7 @@ export interface CreateIAMPolicyAssignmentResponse {
   PolicyArn?: string | undefined;
   Identities?: { [key: string]: string[] | undefined } | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type IngestionType = "INCREMENTAL_REFRESH" | "FULL_REFRESH" | (string & {});
 export interface CreateIngestionRequest {
@@ -8474,7 +8474,7 @@ export interface CreateIngestionResponse {
   IngestionId?: string | undefined;
   IngestionStatus?: IngestionStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type KnowledgeBaseName = string;
 export type DataSourceArn = string;
@@ -8582,7 +8582,7 @@ export interface CreateNamespaceResponse {
   CreationStatus?: NamespaceStatus | undefined;
   IdentityStore?: IdentityStore | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type OAuthClientApplicationId = string;
 export type OAuthClientAuthenticationType = "TOKEN" | (string & {});
@@ -8608,7 +8608,7 @@ export interface CreateOAuthClientApplicationResponse {
   OAuthClientApplicationId?: string | undefined;
   CreationStatus?: ResourceStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type RefreshInterval =
   | "MINUTE15"
@@ -8651,7 +8651,7 @@ export interface CreateRefreshScheduleRequest {
   Schedule: RefreshSchedule;
 }
 export interface CreateRefreshScheduleResponse {
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
   ScheduleId?: string | undefined;
   Arn?: string | undefined;
@@ -8672,7 +8672,7 @@ export interface CreateRoleMembershipRequest {
 }
 export interface CreateRoleMembershipResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type PublicSpaceId = string;
 export type SpaceName = string;
@@ -8762,7 +8762,7 @@ export interface CreateTemplateResponse {
   VersionArn?: string | undefined;
   TemplateId?: string | undefined;
   CreationStatus?: ResourceStatus | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type AliasName = string;
@@ -8780,7 +8780,7 @@ export interface TemplateAlias {
 }
 export interface CreateTemplateAliasResponse {
   TemplateAlias?: TemplateAlias | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type ThemeName = string;
@@ -8890,7 +8890,7 @@ export interface CreateThemeResponse {
   VersionArn?: string | undefined;
   ThemeId?: string | undefined;
   CreationStatus?: ResourceStatus | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface CreateThemeAliasRequest {
@@ -8906,7 +8906,7 @@ export interface ThemeAlias {
 }
 export interface CreateThemeAliasResponse {
   ThemeAlias?: ThemeAlias | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type TopicUserExperienceVersion = "LEGACY" | "NEW_READER_EXPERIENCE" | (string & {});
@@ -9216,7 +9216,7 @@ export interface CreateTopicResponse {
   TopicId?: string | undefined;
   RefreshArn?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type TopicScheduleType = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | (string & {});
 export interface TopicRefreshSchedule {
@@ -9238,7 +9238,7 @@ export interface CreateTopicRefreshScheduleResponse {
   TopicId?: string | undefined;
   TopicArn?: string | undefined;
   DatasetArn?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface TopicV2DataSetReference {
@@ -9274,7 +9274,7 @@ export interface CreateTopicV2Response {
   Arn?: string | undefined;
   TopicId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type VPCConnectionResourceIdRestricted = string;
 export type SubnetId = string;
@@ -9315,7 +9315,7 @@ export interface CreateVPCConnectionResponse {
   CreationStatus?: VPCConnectionResourceStatus | undefined;
   AvailabilityStatus?: VPCConnectionAvailabilityStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteAccountCustomizationRequest {
   AwsAccountId: string;
@@ -9323,21 +9323,21 @@ export interface DeleteAccountCustomizationRequest {
 }
 export interface DeleteAccountCustomizationResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteAccountCustomPermissionRequest {
   AwsAccountId: string;
 }
 export interface DeleteAccountCustomPermissionResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteAccountSubscriptionRequest {
   AwsAccountId: string;
 }
 export interface DeleteAccountSubscriptionResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteActionConnectorRequest {
   AwsAccountId: string;
@@ -9347,7 +9347,7 @@ export interface DeleteActionConnectorResponse {
   Arn?: string | undefined;
   ActionConnectorId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteAgentRequest {
   AgentId: string;
@@ -9364,7 +9364,7 @@ export interface DeleteAnalysisRequest {
   ForceDeleteWithoutRecovery?: boolean | undefined;
 }
 export interface DeleteAnalysisResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   AnalysisId?: string | undefined;
   DeletionTime?: Date | undefined;
@@ -9400,7 +9400,7 @@ export interface DeleteCustomPermissionsRequest {
   CustomPermissionsName: string;
 }
 export interface DeleteCustomPermissionsResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   RequestId?: string | undefined;
 }
@@ -9410,7 +9410,7 @@ export interface DeleteDashboardRequest {
   VersionNumber?: number | undefined;
 }
 export interface DeleteDashboardResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   DashboardId?: string | undefined;
   RequestId?: string | undefined;
@@ -9423,7 +9423,7 @@ export interface DeleteDataSetResponse {
   Arn?: string | undefined;
   DataSetId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteDataSetRefreshPropertiesRequest {
   AwsAccountId: string;
@@ -9431,7 +9431,7 @@ export interface DeleteDataSetRefreshPropertiesRequest {
 }
 export interface DeleteDataSetRefreshPropertiesResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteDataSourceRequest {
   AwsAccountId: string;
@@ -9441,7 +9441,7 @@ export interface DeleteDataSourceResponse {
   Arn?: string | undefined;
   DataSourceId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteDefaultQBusinessApplicationRequest {
   AwsAccountId: string;
@@ -9449,7 +9449,7 @@ export interface DeleteDefaultQBusinessApplicationRequest {
 }
 export interface DeleteDefaultQBusinessApplicationResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteDlpSettingRequest {
   AwsAccountId: string;
@@ -9466,14 +9466,14 @@ export interface DeleteFlowRequest {
 }
 export interface DeleteFlowResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteFolderRequest {
   AwsAccountId: string;
   FolderId: string;
 }
 export interface DeleteFolderResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   FolderId?: string | undefined;
   RequestId?: string | undefined;
@@ -9485,7 +9485,7 @@ export interface DeleteFolderMembershipRequest {
   MemberType: MemberType;
 }
 export interface DeleteFolderMembershipResponse {
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DeleteGroupRequest {
@@ -9495,7 +9495,7 @@ export interface DeleteGroupRequest {
 }
 export interface DeleteGroupResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteGroupMembershipRequest {
   MemberName: string;
@@ -9505,7 +9505,7 @@ export interface DeleteGroupMembershipRequest {
 }
 export interface DeleteGroupMembershipResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteIAMPolicyAssignmentRequest {
   AwsAccountId: string;
@@ -9515,7 +9515,7 @@ export interface DeleteIAMPolicyAssignmentRequest {
 export interface DeleteIAMPolicyAssignmentResponse {
   AssignmentName?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type ServiceType = "REDSHIFT" | "QBUSINESS" | "ATHENA" | "GLUE_DATA_CATALOG" | (string & {});
 export interface DeleteIdentityPropagationConfigRequest {
@@ -9524,7 +9524,7 @@ export interface DeleteIdentityPropagationConfigRequest {
 }
 export interface DeleteIdentityPropagationConfigResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteKnowledgeBaseRequest {
   AwsAccountId: string;
@@ -9549,7 +9549,7 @@ export interface DeleteNamespaceRequest {
 }
 export interface DeleteNamespaceResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteOAuthClientApplicationRequest {
   AwsAccountId: string;
@@ -9559,7 +9559,7 @@ export interface DeleteOAuthClientApplicationResponse {
   Arn?: string | undefined;
   OAuthClientApplicationId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteRefreshScheduleRequest {
   DataSetId: string;
@@ -9567,7 +9567,7 @@ export interface DeleteRefreshScheduleRequest {
   ScheduleId: string;
 }
 export interface DeleteRefreshScheduleResponse {
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
   ScheduleId?: string | undefined;
   Arn?: string | undefined;
@@ -9579,7 +9579,7 @@ export interface DeleteRoleCustomPermissionRequest {
 }
 export interface DeleteRoleCustomPermissionResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteRoleMembershipRequest {
   MemberName: string;
@@ -9589,7 +9589,7 @@ export interface DeleteRoleMembershipRequest {
 }
 export interface DeleteRoleMembershipResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteSpaceRequest {
   AwsAccountId: string;
@@ -9609,7 +9609,7 @@ export interface DeleteTemplateResponse {
   RequestId?: string | undefined;
   Arn?: string | undefined;
   TemplateId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteTemplateAliasRequest {
   AwsAccountId: string;
@@ -9617,7 +9617,7 @@ export interface DeleteTemplateAliasRequest {
   AliasName: string;
 }
 export interface DeleteTemplateAliasResponse {
-  Status?: number | undefined;
+  Status: number;
   TemplateId?: string | undefined;
   AliasName?: string | undefined;
   Arn?: string | undefined;
@@ -9631,7 +9631,7 @@ export interface DeleteThemeRequest {
 export interface DeleteThemeResponse {
   Arn?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   ThemeId?: string | undefined;
 }
 export interface DeleteThemeAliasRequest {
@@ -9643,7 +9643,7 @@ export interface DeleteThemeAliasResponse {
   AliasName?: string | undefined;
   Arn?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   ThemeId?: string | undefined;
 }
 export interface DeleteTopicRequest {
@@ -9654,7 +9654,7 @@ export interface DeleteTopicResponse {
   Arn?: string | undefined;
   TopicId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteTopicRefreshScheduleRequest {
   AwsAccountId: string;
@@ -9665,7 +9665,7 @@ export interface DeleteTopicRefreshScheduleResponse {
   TopicId?: string | undefined;
   TopicArn?: string | undefined;
   DatasetArn?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DeleteTopicV2Request {
@@ -9676,7 +9676,7 @@ export interface DeleteTopicV2Response {
   Arn?: string | undefined;
   TopicId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type UserName = string;
 export interface DeleteUserRequest {
@@ -9686,7 +9686,7 @@ export interface DeleteUserRequest {
 }
 export interface DeleteUserResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteUserByPrincipalIdRequest {
   PrincipalId: string;
@@ -9695,7 +9695,7 @@ export interface DeleteUserByPrincipalIdRequest {
 }
 export interface DeleteUserByPrincipalIdResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DeleteUserCustomPermissionRequest {
   UserName: string;
@@ -9704,7 +9704,7 @@ export interface DeleteUserCustomPermissionRequest {
 }
 export interface DeleteUserCustomPermissionResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type VPCConnectionResourceIdUnrestricted = string;
 export interface DeleteVPCConnectionRequest {
@@ -9717,7 +9717,7 @@ export interface DeleteVPCConnectionResponse {
   DeletionStatus?: VPCConnectionResourceStatus | undefined;
   AvailabilityStatus?: VPCConnectionAvailabilityStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeAccountCustomizationRequest {
   AwsAccountId: string;
@@ -9730,7 +9730,7 @@ export interface DescribeAccountCustomizationResponse {
   Namespace?: string | undefined;
   AccountCustomization?: AccountCustomization | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeAccountCustomPermissionRequest {
   AwsAccountId: string;
@@ -9738,7 +9738,7 @@ export interface DescribeAccountCustomPermissionRequest {
 export interface DescribeAccountCustomPermissionResponse {
   CustomPermissionsName?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeAccountSettingsRequest {
   AwsAccountId: string;
@@ -9748,13 +9748,13 @@ export interface AccountSettings {
   Edition?: Edition | undefined;
   DefaultNamespace?: string | undefined;
   NotificationEmail?: string | undefined;
-  PublicSharingEnabled?: boolean | undefined;
-  TerminationProtectionEnabled?: boolean | undefined;
+  PublicSharingEnabled: boolean;
+  TerminationProtectionEnabled: boolean;
 }
 export interface DescribeAccountSettingsResponse {
   AccountSettings?: AccountSettings | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeAccountSubscriptionRequest {
   AwsAccountId: string;
@@ -9769,7 +9769,7 @@ export interface AccountInfo {
 }
 export interface DescribeAccountSubscriptionResponse {
   AccountInfo?: AccountInfo | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeActionConnectorRequest {
@@ -9896,7 +9896,7 @@ export interface ActionConnector {
 export interface DescribeActionConnectorResponse {
   ActionConnector?: ActionConnector | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeActionConnectorPermissionsRequest {
   AwsAccountId: string;
@@ -9907,7 +9907,7 @@ export interface DescribeActionConnectorPermissionsResponse {
   ActionConnectorId?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeAgentRequest {
   AgentId: string;
@@ -10007,7 +10007,7 @@ export interface Analysis {
 }
 export interface DescribeAnalysisResponse {
   Analysis?: Analysis | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeAnalysisDefinitionRequest {
@@ -10021,7 +10021,7 @@ export interface DescribeAnalysisDefinitionResponse {
   ResourceStatus?: ResourceStatus | undefined;
   ThemeArn?: string | undefined;
   Definition?: AnalysisDefinition | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeAnalysisPermissionsRequest {
@@ -10033,7 +10033,7 @@ export interface DescribeAnalysisPermissionsResponse {
   AnalysisId?: string | undefined;
   AnalysisArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeAppRequest {
@@ -10234,18 +10234,18 @@ export interface DescribeAssetBundleExportJobResponse {
   AssetBundleExportJobId?: string | undefined;
   AwsAccountId?: string | undefined;
   ResourceArns?: string[] | undefined;
-  IncludeAllDependencies?: boolean | undefined;
+  IncludeAllDependencies: boolean;
   ExportFormat?: AssetBundleExportFormat | undefined;
   CloudFormationOverridePropertyConfiguration?:
     | AssetBundleCloudFormationOverridePropertyConfiguration
     | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
-  IncludePermissions?: boolean | undefined;
-  IncludeTags?: boolean | undefined;
+  Status: number;
+  IncludePermissions: boolean;
+  IncludeTags: boolean;
   ValidationStrategy?: AssetBundleExportJobValidationStrategy | undefined;
   Warnings?: AssetBundleExportJobWarning[] | undefined;
-  IncludeFolderMemberships?: boolean | undefined;
+  IncludeFolderMemberships: boolean;
   IncludeFolderMembers?: IncludeFolderMembers | undefined;
 }
 export interface DescribeAssetBundleImportJobRequest {
@@ -10523,7 +10523,7 @@ export interface DescribeAssetBundleImportJobResponse {
   OverrideParameters?: AssetBundleImportJobOverrideParameters | undefined;
   FailureAction?: AssetBundleImportFailureAction | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   OverridePermissions?: AssetBundleImportJobOverridePermissions | undefined;
   OverrideTags?: AssetBundleImportJobOverrideTags | undefined;
   OverrideValidationStrategy?: AssetBundleImportJobOverrideValidationStrategy | undefined;
@@ -10593,7 +10593,7 @@ export interface CustomPermissions {
   Governance?: Governance | undefined;
 }
 export interface DescribeCustomPermissionsResponse {
-  Status?: number | undefined;
+  Status: number;
   CustomPermissions?: CustomPermissions | undefined;
   RequestId?: string | undefined;
 }
@@ -10646,7 +10646,7 @@ export interface Dashboard {
 }
 export interface DescribeDashboardResponse {
   Dashboard?: Dashboard | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeDashboardDefinitionRequest {
@@ -10662,7 +10662,7 @@ export interface DescribeDashboardDefinitionResponse {
   ResourceStatus?: ResourceStatus | undefined;
   ThemeArn?: string | undefined;
   Definition?: DashboardVersionDefinition | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
   DashboardPublishOptions?: DashboardPublishOptions | undefined;
 }
@@ -10674,7 +10674,7 @@ export interface DescribeDashboardPermissionsResponse {
   DashboardId?: string | undefined;
   DashboardArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
   LinkSharingConfiguration?: LinkSharingConfiguration | undefined;
 }
@@ -10738,7 +10738,7 @@ export interface DescribeDashboardSnapshotJobResponse {
   CreatedTime?: Date | undefined;
   LastUpdatedTime?: Date | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeDashboardSnapshotJobResultRequest {
   AwsAccountId: string;
@@ -10785,7 +10785,7 @@ export interface DescribeDashboardSnapshotJobResultResponse {
   Result?: SnapshotJobResult | undefined;
   ErrorInfo?: SnapshotJobErrorInfo | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeDashboardsQAConfigurationRequest {
   AwsAccountId: string;
@@ -10794,7 +10794,7 @@ export type DashboardsQAStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface DescribeDashboardsQAConfigurationResponse {
   DashboardsQAStatus?: DashboardsQAStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeDataSetRequest {
   AwsAccountId: string;
@@ -10818,7 +10818,7 @@ export interface DataSet {
   LogicalTableMap?: { [key: string]: LogicalTable | undefined } | undefined;
   OutputColumns?: OutputColumn[] | undefined;
   ImportMode?: DataSetImportMode | undefined;
-  ConsumedSpiceCapacityInBytes?: number | undefined;
+  ConsumedSpiceCapacityInBytes: number;
   ColumnGroups?: ColumnGroup[] | undefined;
   FieldFolders?: { [key: string]: FieldFolder | undefined } | undefined;
   RowLevelPermissionDataSet?: RowLevelPermissionDataSet | undefined;
@@ -10834,7 +10834,7 @@ export interface DataSet {
 export interface DescribeDataSetResponse {
   DataSet?: DataSet | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeDataSetPermissionsRequest {
   AwsAccountId: string;
@@ -10845,7 +10845,7 @@ export interface DescribeDataSetPermissionsResponse {
   DataSetId?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeDataSetRefreshPropertiesRequest {
   AwsAccountId: string;
@@ -10853,7 +10853,7 @@ export interface DescribeDataSetRefreshPropertiesRequest {
 }
 export interface DescribeDataSetRefreshPropertiesResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   DataSetRefreshProperties?: DataSetRefreshProperties | undefined;
 }
 export interface DescribeDataSourceRequest {
@@ -10895,7 +10895,7 @@ export interface DataSource {
 export interface DescribeDataSourceResponse {
   DataSource?: DataSource | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeDataSourcePermissionsRequest {
   AwsAccountId: string;
@@ -10906,7 +10906,7 @@ export interface DescribeDataSourcePermissionsResponse {
   DataSourceId?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeDefaultQBusinessApplicationRequest {
   AwsAccountId: string;
@@ -10914,7 +10914,7 @@ export interface DescribeDefaultQBusinessApplicationRequest {
 }
 export interface DescribeDefaultQBusinessApplicationResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   ApplicationId?: string | undefined;
 }
 export interface DescribeDlpSettingRequest {
@@ -10967,7 +10967,7 @@ export interface FlowDetail {
 export interface DescribeFlowResponse {
   Flow: FlowDetail;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeFolderRequest {
   AwsAccountId: string;
@@ -10985,7 +10985,7 @@ export interface Folder {
   SharingModel?: SharingModel | undefined;
 }
 export interface DescribeFolderResponse {
-  Status?: number | undefined;
+  Status: number;
   Folder?: Folder | undefined;
   RequestId?: string | undefined;
 }
@@ -10998,7 +10998,7 @@ export interface DescribeFolderPermissionsRequest {
   NextToken?: string | undefined;
 }
 export interface DescribeFolderPermissionsResponse {
-  Status?: number | undefined;
+  Status: number;
   FolderId?: string | undefined;
   Arn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
@@ -11013,7 +11013,7 @@ export interface DescribeFolderResolvedPermissionsRequest {
   NextToken?: string | undefined;
 }
 export interface DescribeFolderResolvedPermissionsResponse {
-  Status?: number | undefined;
+  Status: number;
   FolderId?: string | undefined;
   Arn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
@@ -11028,7 +11028,7 @@ export interface DescribeGroupRequest {
 export interface DescribeGroupResponse {
   Group?: Group | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeGroupMembershipRequest {
   MemberName: string;
@@ -11039,7 +11039,7 @@ export interface DescribeGroupMembershipRequest {
 export interface DescribeGroupMembershipResponse {
   GroupMember?: GroupMember | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeIAMPolicyAssignmentRequest {
   AwsAccountId: string;
@@ -11057,7 +11057,7 @@ export interface IAMPolicyAssignment {
 export interface DescribeIAMPolicyAssignmentResponse {
   IAMPolicyAssignment?: IAMPolicyAssignment | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeIngestionRequest {
   AwsAccountId: string;
@@ -11147,7 +11147,7 @@ export interface Ingestion {
 export interface DescribeIngestionResponse {
   Ingestion?: Ingestion | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeIpRestrictionRequest {
   AwsAccountId: string;
@@ -11168,7 +11168,7 @@ export interface DescribeIpRestrictionResponse {
   VpcEndpointIdRestrictionRuleMap?: { [key: string]: string | undefined } | undefined;
   Enabled?: boolean | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeKeyRegistrationRequest {
   AwsAccountId: string;
@@ -11189,7 +11189,7 @@ export interface DescribeKeyRegistrationResponse {
   KeyRegistration?: RegisteredCustomerManagedKey[] | undefined;
   QDataKey?: QDataKey | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeKnowledgeBaseRequest {
   AwsAccountId: string;
@@ -11290,7 +11290,7 @@ export interface NamespaceInfoV2 {
 export interface DescribeNamespaceResponse {
   Namespace?: NamespaceInfoV2 | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeOAuthClientApplicationRequest {
   AwsAccountId: string;
@@ -11312,7 +11312,7 @@ export interface OAuthClientApplication {
 export interface DescribeOAuthClientApplicationResponse {
   OAuthClientApplication?: OAuthClientApplication | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeQPersonalizationConfigurationRequest {
   AwsAccountId: string;
@@ -11321,7 +11321,7 @@ export type PersonalizationMode = "ENABLED" | "DISABLED" | (string & {});
 export interface DescribeQPersonalizationConfigurationResponse {
   PersonalizationMode?: PersonalizationMode | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeQuickSightQSearchConfigurationRequest {
   AwsAccountId: string;
@@ -11330,7 +11330,7 @@ export type QSearchStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface DescribeQuickSightQSearchConfigurationResponse {
   QSearchStatus?: QSearchStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeRefreshScheduleRequest {
   AwsAccountId: string;
@@ -11339,7 +11339,7 @@ export interface DescribeRefreshScheduleRequest {
 }
 export interface DescribeRefreshScheduleResponse {
   RefreshSchedule?: RefreshSchedule | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
   Arn?: string | undefined;
 }
@@ -11351,7 +11351,7 @@ export interface DescribeResourcePermissionsResponse {
   RoleType?: ServiceRoleType | undefined;
   CustomerManagedRoleArn?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeRoleCustomPermissionRequest {
   Role: Role;
@@ -11362,7 +11362,7 @@ export type RoleName = string;
 export interface DescribeRoleCustomPermissionResponse {
   CustomPermissionsName?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeSelfUpgradeConfigurationRequest {
   AwsAccountId: string;
@@ -11375,7 +11375,7 @@ export interface SelfUpgradeConfiguration {
 export interface DescribeSelfUpgradeConfigurationResponse {
   SelfUpgradeConfiguration?: SelfUpgradeConfiguration | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type MaxContributors = number;
 export interface DescribeSpaceRequest {
@@ -11470,7 +11470,7 @@ export interface Template {
 }
 export interface DescribeTemplateResponse {
   Template?: Template | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeTemplateAliasRequest {
@@ -11480,7 +11480,7 @@ export interface DescribeTemplateAliasRequest {
 }
 export interface DescribeTemplateAliasResponse {
   TemplateAlias?: TemplateAlias | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeTemplateDefinitionRequest {
@@ -11496,7 +11496,7 @@ export interface DescribeTemplateDefinitionResponse {
   ResourceStatus?: ResourceStatus | undefined;
   ThemeArn?: string | undefined;
   Definition?: TemplateVersionDefinition | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeTemplatePermissionsRequest {
@@ -11508,7 +11508,7 @@ export interface DescribeTemplatePermissionsResponse {
   TemplateArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type AwsAndAccountId = string;
 export interface DescribeThemeRequest {
@@ -11545,7 +11545,7 @@ export interface Theme {
 }
 export interface DescribeThemeResponse {
   Theme?: Theme | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeThemeAliasRequest {
@@ -11555,7 +11555,7 @@ export interface DescribeThemeAliasRequest {
 }
 export interface DescribeThemeAliasResponse {
   ThemeAlias?: ThemeAlias | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeThemePermissionsRequest {
@@ -11567,7 +11567,7 @@ export interface DescribeThemePermissionsResponse {
   ThemeArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeTopicRequest {
   AwsAccountId: string;
@@ -11578,7 +11578,7 @@ export interface DescribeTopicResponse {
   TopicId?: string | undefined;
   Topic?: TopicDetails | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   CustomInstructions?: CustomInstructions | undefined;
 }
 export interface DescribeTopicPermissionsRequest {
@@ -11589,7 +11589,7 @@ export interface DescribeTopicPermissionsResponse {
   TopicId?: string | undefined;
   TopicArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeTopicPermissionsV2Request {
@@ -11600,7 +11600,7 @@ export interface DescribeTopicPermissionsV2Response {
   TopicId?: string | undefined;
   TopicArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeTopicRefreshRequest {
@@ -11623,7 +11623,7 @@ export interface TopicRefreshDetails {
 export interface DescribeTopicRefreshResponse {
   RefreshDetails?: TopicRefreshDetails | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeTopicRefreshScheduleRequest {
   AwsAccountId: string;
@@ -11635,7 +11635,7 @@ export interface DescribeTopicRefreshScheduleResponse {
   TopicArn?: string | undefined;
   DatasetArn?: string | undefined;
   RefreshSchedule?: TopicRefreshSchedule | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeTopicV2Request {
@@ -11647,7 +11647,7 @@ export interface DescribeTopicV2Response {
   TopicId?: string | undefined;
   Topic?: TopicV2Details | undefined;
   CustomInstructions?: CustomInstructions | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface DescribeUserRequest {
@@ -11672,7 +11672,7 @@ export interface User {
   Email?: string | undefined;
   Role?: UserRole | undefined;
   IdentityType?: IdentityType | undefined;
-  Active?: boolean | undefined;
+  Active: boolean;
   PrincipalId?: string | undefined;
   CustomPermissionsName?: string | undefined;
   ExternalLoginFederationProviderType?: string | undefined;
@@ -11682,7 +11682,7 @@ export interface User {
 export interface DescribeUserResponse {
   User?: User | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface DescribeVPCConnectionRequest {
   AwsAccountId: string;
@@ -11726,7 +11726,7 @@ export interface VPCConnection {
 export interface DescribeVPCConnectionResponse {
   VPCConnection?: VPCConnection | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type SessionLifetimeInMinutes = number;
 export interface SessionTag {
@@ -11917,7 +11917,7 @@ export interface GetDashboardEmbedUrlRequest {
 }
 export interface GetDashboardEmbedUrlResponse {
   EmbedUrl?: string | redacted.Redacted<string> | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface GetFlowMetadataInput {
@@ -11930,12 +11930,12 @@ export interface GetFlowMetadataOutput {
   Name: string;
   Description?: string | undefined;
   PublishState?: FlowPublishState | undefined;
-  UserCount?: number | undefined;
-  RunCount?: number | undefined;
+  UserCount: number;
+  RunCount: number;
   CreatedTime: Date;
   LastUpdatedTime?: Date | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface GetFlowPermissionsInput {
   AwsAccountId: string;
@@ -11946,7 +11946,7 @@ export interface GetFlowPermissionsOutput {
   FlowId: string;
   Permissions: Permission[];
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type UserIdentifier =
   | { UserName: string | redacted.Redacted<string>; Email?: undefined; UserArn?: undefined }
@@ -11975,7 +11975,7 @@ export interface GetSessionEmbedUrlRequest {
 }
 export interface GetSessionEmbedUrlResponse {
   EmbedUrl?: string | redacted.Redacted<string> | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListActionConnectorsRequest {
@@ -11998,7 +11998,7 @@ export interface ListActionConnectorsResponse {
   ActionConnectorSummaries: ActionConnectorSummary[];
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type ListAgentsRequestMaxResultsInteger = number;
 export interface ListAgentsRequest {
@@ -12038,7 +12038,7 @@ export type AnalysisSummaryList = AnalysisSummary[];
 export interface ListAnalysesResponse {
   AnalysisSummaryList?: AnalysisSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type PaginationToken = string;
@@ -12073,17 +12073,17 @@ export interface AssetBundleExportJobSummary {
   Arn?: string | undefined;
   CreatedTime?: Date | undefined;
   AssetBundleExportJobId?: string | undefined;
-  IncludeAllDependencies?: boolean | undefined;
+  IncludeAllDependencies: boolean;
   ExportFormat?: AssetBundleExportFormat | undefined;
-  IncludePermissions?: boolean | undefined;
-  IncludeTags?: boolean | undefined;
+  IncludePermissions: boolean;
+  IncludeTags: boolean;
 }
 export type AssetBundleExportJobSummaryList = AssetBundleExportJobSummary[];
 export interface ListAssetBundleExportJobsResponse {
   AssetBundleExportJobSummaryList?: AssetBundleExportJobSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListAssetBundleImportJobsRequest {
   AwsAccountId: string;
@@ -12102,7 +12102,7 @@ export interface ListAssetBundleImportJobsResponse {
   AssetBundleImportJobSummaryList?: AssetBundleImportJobSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListBrandsRequest {
   AwsAccountId: string;
@@ -12130,7 +12130,7 @@ export interface ListCustomPermissionsRequest {
 }
 export type CustomPermissionsList = CustomPermissions[];
 export interface ListCustomPermissionsResponse {
-  Status?: number | undefined;
+  Status: number;
   CustomPermissionsList?: CustomPermissions[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
@@ -12153,7 +12153,7 @@ export type DashboardSummaryList = DashboardSummary[];
 export interface ListDashboardsResponse {
   DashboardSummaryList?: DashboardSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListDashboardVersionsRequest {
@@ -12174,7 +12174,7 @@ export type DashboardVersionSummaryList = DashboardVersionSummary[];
 export interface ListDashboardVersionsResponse {
   DashboardVersionSummaryList?: DashboardVersionSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListDataSetsRequest {
@@ -12194,8 +12194,8 @@ export interface DataSetSummary {
   RowLevelPermissionDataSetMap?:
     | { [key: string]: RowLevelPermissionDataSet | undefined }
     | undefined;
-  RowLevelPermissionTagConfigurationApplied?: boolean | undefined;
-  ColumnLevelPermissionRulesApplied?: boolean | undefined;
+  RowLevelPermissionTagConfigurationApplied: boolean;
+  ColumnLevelPermissionRulesApplied: boolean;
   UseAs?: DataSetUseAs | undefined;
 }
 export type DataSetSummaryList = DataSetSummary[];
@@ -12203,7 +12203,7 @@ export interface ListDataSetsResponse {
   DataSetSummaries?: DataSetSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListDataSourcesRequest {
   AwsAccountId: string;
@@ -12215,7 +12215,7 @@ export interface ListDataSourcesResponse {
   DataSources?: DataSource[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListDlpSettingsRequest {
   AwsAccountId: string;
@@ -12253,8 +12253,8 @@ export interface FlowSummary {
   LastUpdatedTime?: Date | undefined;
   LastUpdatedBy?: string | undefined;
   PublishState?: FlowPublishState | undefined;
-  RunCount?: number | undefined;
-  UserCount?: number | undefined;
+  RunCount: number;
+  UserCount: number;
   LastPublishedBy?: string | undefined;
   LastPublishedAt?: Date | undefined;
 }
@@ -12263,7 +12263,7 @@ export interface ListFlowsOutput {
   FlowSummaryList?: FlowSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListFolderMembersRequest {
   AwsAccountId: string;
@@ -12277,7 +12277,7 @@ export interface MemberIdArnPair {
 }
 export type FolderMemberList = MemberIdArnPair[];
 export interface ListFolderMembersResponse {
-  Status?: number | undefined;
+  Status: number;
   FolderMemberList?: MemberIdArnPair[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
@@ -12298,7 +12298,7 @@ export interface FolderSummary {
 }
 export type FolderSummaryList = FolderSummary[];
 export interface ListFoldersResponse {
-  Status?: number | undefined;
+  Status: number;
   FolderSummaryList?: FolderSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
@@ -12311,7 +12311,7 @@ export interface ListFoldersForResourceRequest {
 }
 export type FoldersForResourceArnList = string[];
 export interface ListFoldersForResourceResponse {
-  Status?: number | undefined;
+  Status: number;
   Folders?: string[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
@@ -12328,7 +12328,7 @@ export interface ListGroupMembershipsResponse {
   GroupMemberList?: GroupMember[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListGroupsRequest {
   AwsAccountId: string;
@@ -12341,7 +12341,7 @@ export interface ListGroupsResponse {
   GroupList?: Group[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListIAMPolicyAssignmentsRequest {
   AwsAccountId: string;
@@ -12359,7 +12359,7 @@ export interface ListIAMPolicyAssignmentsResponse {
   IAMPolicyAssignments?: IAMPolicyAssignmentSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListIAMPolicyAssignmentsForUserRequest {
   AwsAccountId: string;
@@ -12377,7 +12377,7 @@ export interface ListIAMPolicyAssignmentsForUserResponse {
   ActiveAssignments?: ActiveIAMPolicyAssignment[] | undefined;
   RequestId?: string | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type ListIdentityPropagationMaxResults = number;
 export interface ListIdentityPropagationConfigsRequest {
@@ -12394,7 +12394,7 @@ export type AuthorizedTargetsByServices = AuthorizedTargetsByService[];
 export interface ListIdentityPropagationConfigsResponse {
   Services?: AuthorizedTargetsByService[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type IngestionMaxResults = number;
@@ -12409,7 +12409,7 @@ export interface ListIngestionsResponse {
   Ingestions?: Ingestion[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListKnowledgeBasesRequest {
   AwsAccountId: string;
@@ -12459,7 +12459,7 @@ export interface ListNamespacesResponse {
   Namespaces?: NamespaceInfoV2[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListOAuthClientApplicationsRequest {
   AwsAccountId: string;
@@ -12481,7 +12481,7 @@ export interface ListOAuthClientApplicationsResponse {
   OAuthClientApplications?: OAuthClientApplicationSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListRefreshSchedulesRequest {
   AwsAccountId: string;
@@ -12490,7 +12490,7 @@ export interface ListRefreshSchedulesRequest {
 export type RefreshSchedules = RefreshSchedule[];
 export interface ListRefreshSchedulesResponse {
   RefreshSchedules?: RefreshSchedule[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListRoleMembershipsRequest {
@@ -12504,7 +12504,7 @@ export interface ListRoleMembershipsResponse {
   MembersList?: string[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListSelfUpgradesRequest {
   AwsAccountId: string;
@@ -12525,9 +12525,9 @@ export interface SelfUpgradeRequestDetail {
   OriginalRole?: UserRole | undefined;
   RequestedRole?: UserRole | undefined;
   RequestNote?: string | undefined;
-  CreationTime?: number | undefined;
+  CreationTime: number;
   RequestStatus?: SelfUpgradeRequestStatus | undefined;
-  lastUpdateAttemptTime?: number | undefined;
+  lastUpdateAttemptTime: number;
   lastUpdateFailureReason?: string | undefined;
 }
 export type SelfUpgradeRequestDetailList = SelfUpgradeRequestDetail[];
@@ -12535,7 +12535,7 @@ export interface ListSelfUpgradesResponse {
   SelfUpgradeRequestDetails?: SelfUpgradeRequestDetail[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListSpaceResourcesRequest {
   AwsAccountId: string;
@@ -12587,7 +12587,7 @@ export interface ListTagsForResourceRequest {
 export interface ListTagsForResourceResponse {
   Tags?: Tag[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListTemplateAliasesRequest {
   AwsAccountId: string;
@@ -12598,7 +12598,7 @@ export interface ListTemplateAliasesRequest {
 export type TemplateAliasList = TemplateAlias[];
 export interface ListTemplateAliasesResponse {
   TemplateAliasList?: TemplateAlias[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
   NextToken?: string | undefined;
 }
@@ -12619,7 +12619,7 @@ export type TemplateSummaryList = TemplateSummary[];
 export interface ListTemplatesResponse {
   TemplateSummaryList?: TemplateSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListTemplateVersionsRequest {
@@ -12639,7 +12639,7 @@ export type TemplateVersionSummaryList = TemplateVersionSummary[];
 export interface ListTemplateVersionsResponse {
   TemplateVersionSummaryList?: TemplateVersionSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListThemeAliasesRequest {
@@ -12651,7 +12651,7 @@ export interface ListThemeAliasesRequest {
 export type ThemeAliasList = ThemeAlias[];
 export interface ListThemeAliasesResponse {
   ThemeAliasList?: ThemeAlias[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
   NextToken?: string | undefined;
 }
@@ -12673,7 +12673,7 @@ export type ThemeSummaryList = ThemeSummary[];
 export interface ListThemesResponse {
   ThemeSummaryList?: ThemeSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListThemeVersionsRequest {
@@ -12693,7 +12693,7 @@ export type ThemeVersionSummaryList = ThemeVersionSummary[];
 export interface ListThemeVersionsResponse {
   ThemeVersionSummaryList?: ThemeVersionSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListTopicRefreshSchedulesRequest {
@@ -12711,7 +12711,7 @@ export interface ListTopicRefreshSchedulesResponse {
   TopicId?: string | undefined;
   TopicArn?: string | undefined;
   RefreshSchedules?: TopicRefreshScheduleSummary[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListTopicReviewedAnswersRequest {
@@ -12732,7 +12732,7 @@ export interface ListTopicReviewedAnswersResponse {
   TopicId?: string | undefined;
   TopicArn?: string | undefined;
   Answers?: TopicReviewedAnswer[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface ListTopicsRequest {
@@ -12751,7 +12751,7 @@ export interface ListTopicsResponse {
   TopicsSummaries?: TopicSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListTopicsV2Request {
   AwsAccountId: string;
@@ -12768,7 +12768,7 @@ export interface ListTopicsV2Response {
   TopicSummaryList?: TopicV2Summary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListUserGroupsRequest {
   UserName: string;
@@ -12781,7 +12781,7 @@ export interface ListUserGroupsResponse {
   GroupList?: Group[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface ListUsersRequest {
   AwsAccountId: string;
@@ -12794,7 +12794,7 @@ export interface ListUsersResponse {
   UserList?: User[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type FilterValue = string;
 export interface UserNameOrEmailFilter {
@@ -12865,7 +12865,7 @@ export interface ListVPCConnectionsResponse {
   VPCConnectionSummaries?: VPCConnectionSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type QAQueryText = string | redacted.Redacted<string>;
 export type IncludeQuickSightQIndex = "INCLUDE" | "EXCLUDE" | (string & {});
@@ -12918,7 +12918,7 @@ export interface PredictQAResultsResponse {
   PrimaryResult?: QAResult | undefined;
   AdditionalResults?: QAResult[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface PutDataSetRefreshPropertiesRequest {
   AwsAccountId: string;
@@ -12927,7 +12927,7 @@ export interface PutDataSetRefreshPropertiesRequest {
 }
 export interface PutDataSetRefreshPropertiesResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type RoleSessionName = string;
 export interface RegisterUserRequest {
@@ -12949,7 +12949,7 @@ export interface RegisterUserResponse {
   User?: User | undefined;
   UserInvitationUrl?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface RestoreAnalysisRequest {
   AwsAccountId: string;
@@ -12957,7 +12957,7 @@ export interface RestoreAnalysisRequest {
   RestoreToFolders?: boolean | undefined;
 }
 export interface RestoreAnalysisResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   AnalysisId?: string | undefined;
   RequestId?: string | undefined;
@@ -12989,7 +12989,7 @@ export interface SearchActionConnectorsRequest {
 export interface SearchActionConnectorsResponse {
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   ActionConnectorSummaries?: ActionConnectorSummary[] | undefined;
 }
 export type AgentOwnershipFilterAttribute =
@@ -13042,7 +13042,7 @@ export interface SearchAnalysesRequest {
 export interface SearchAnalysesResponse {
   AnalysisSummaryList?: AnalysisSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type SearchAppsFilterName =
@@ -13093,7 +13093,7 @@ export interface SearchDashboardsRequest {
 export interface SearchDashboardsResponse {
   DashboardSummaryList?: DashboardSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type DataSetFilterAttribute =
@@ -13119,7 +13119,7 @@ export interface SearchDataSetsRequest {
 export interface SearchDataSetsResponse {
   DataSetSummaries?: DataSetSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type DataSourceFilterAttribute =
@@ -13152,7 +13152,7 @@ export type DataSourceSummaryList = DataSourceSummary[];
 export interface SearchDataSourcesResponse {
   DataSourceSummaries?: DataSourceSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type FieldName =
@@ -13179,7 +13179,7 @@ export interface SearchFlowsOutput {
   FlowSummaryList: FlowSummary[];
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type FolderFilterAttribute =
   | "PARENT_FOLDER_ARN"
@@ -13203,7 +13203,7 @@ export interface SearchFoldersRequest {
   MaxResults?: number | undefined;
 }
 export interface SearchFoldersResponse {
-  Status?: number | undefined;
+  Status: number;
   FolderSummaryList?: FolderSummary[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
@@ -13227,7 +13227,7 @@ export interface SearchGroupsResponse {
   GroupList?: Group[] | undefined;
   NextToken?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type KnowledgeBaseSearchFilterName =
   | "KNOWLEDGE_BASE_ID"
@@ -13325,7 +13325,7 @@ export interface SearchTopicsRequest {
 export interface SearchTopicsResponse {
   TopicSummaryList?: TopicSummary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface SearchTopicsV2Request {
@@ -13337,7 +13337,7 @@ export interface SearchTopicsV2Request {
 export interface SearchTopicsV2Response {
   TopicSummaryList?: TopicV2Summary[] | undefined;
   NextToken?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface StartAssetBundleExportJobRequest {
@@ -13359,7 +13359,7 @@ export interface StartAssetBundleExportJobResponse {
   Arn?: string | undefined;
   AssetBundleExportJobId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type AssetBundleImportBodyBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface AssetBundleImportSource {
@@ -13380,7 +13380,7 @@ export interface StartAssetBundleImportJobResponse {
   Arn?: string | undefined;
   AssetBundleImportJobId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface StartAutomationJobRequest {
   AwsAccountId: string;
@@ -13391,7 +13391,7 @@ export interface StartAutomationJobRequest {
 export interface StartAutomationJobResponse {
   Arn: string;
   JobId: string;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface SnapshotAnonymousUser {
@@ -13412,7 +13412,7 @@ export interface StartDashboardSnapshotJobResponse {
   Arn?: string | undefined;
   SnapshotJobId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface StartDashboardSnapshotJobScheduleRequest {
   AwsAccountId: string;
@@ -13421,7 +13421,7 @@ export interface StartDashboardSnapshotJobScheduleRequest {
 }
 export interface StartDashboardSnapshotJobScheduleResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -13429,7 +13429,7 @@ export interface TagResourceRequest {
 }
 export interface TagResourceResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -13438,7 +13438,7 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateAccountCustomizationRequest {
   AwsAccountId: string;
@@ -13451,7 +13451,7 @@ export interface UpdateAccountCustomizationResponse {
   Namespace?: string | undefined;
   AccountCustomization?: AccountCustomization | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateAccountCustomPermissionRequest {
   CustomPermissionsName: string;
@@ -13459,7 +13459,7 @@ export interface UpdateAccountCustomPermissionRequest {
 }
 export interface UpdateAccountCustomPermissionResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateAccountSettingsRequest {
   AwsAccountId: string;
@@ -13469,7 +13469,7 @@ export interface UpdateAccountSettingsRequest {
 }
 export interface UpdateAccountSettingsResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateActionConnectorRequest {
   AwsAccountId: string;
@@ -13484,7 +13484,7 @@ export interface UpdateActionConnectorResponse {
   ActionConnectorId?: string | undefined;
   RequestId?: string | undefined;
   UpdateStatus?: ResourceStatus | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateActionConnectorPermissionsRequest {
   AwsAccountId: string;
@@ -13496,7 +13496,7 @@ export interface UpdateActionConnectorPermissionsResponse {
   Arn?: string | undefined;
   ActionConnectorId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   Permissions?: ResourcePermission[] | undefined;
 }
 export type UpdateAgentRequestSpacesToAddList = string[];
@@ -13561,7 +13561,7 @@ export interface UpdateAnalysisResponse {
   Arn?: string | undefined;
   AnalysisId?: string | undefined;
   UpdateStatus?: ResourceStatus | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateAnalysisPermissionsRequest {
@@ -13575,14 +13575,14 @@ export interface UpdateAnalysisPermissionsResponse {
   AnalysisId?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateApplicationWithTokenExchangeGrantRequest {
   AwsAccountId: string;
   Namespace: string;
 }
 export interface UpdateApplicationWithTokenExchangeGrantResponse {
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateAppPermissionsRequest {
@@ -13645,7 +13645,7 @@ export interface UpdateCustomPermissionsRequest {
   Governance?: Governance | undefined;
 }
 export interface UpdateCustomPermissionsResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   RequestId?: string | undefined;
 }
@@ -13666,7 +13666,7 @@ export interface UpdateDashboardResponse {
   VersionArn?: string | undefined;
   DashboardId?: string | undefined;
   CreationStatus?: ResourceStatus | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateDashboardLinksRequest {
@@ -13676,7 +13676,7 @@ export interface UpdateDashboardLinksRequest {
 }
 export interface UpdateDashboardLinksResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   DashboardArn?: string | undefined;
   LinkEntities?: string[] | undefined;
 }
@@ -13694,7 +13694,7 @@ export interface UpdateDashboardPermissionsResponse {
   DashboardId?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   LinkSharingConfiguration?: LinkSharingConfiguration | undefined;
 }
 export interface UpdateDashboardPublishedVersionRequest {
@@ -13705,7 +13705,7 @@ export interface UpdateDashboardPublishedVersionRequest {
 export interface UpdateDashboardPublishedVersionResponse {
   DashboardId?: string | undefined;
   DashboardArn?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateDashboardsQAConfigurationRequest {
@@ -13715,7 +13715,7 @@ export interface UpdateDashboardsQAConfigurationRequest {
 export interface UpdateDashboardsQAConfigurationResponse {
   DashboardsQAStatus?: DashboardsQAStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateDataSetRequest {
   AwsAccountId: string;
@@ -13741,7 +13741,7 @@ export interface UpdateDataSetResponse {
   IngestionArn?: string | undefined;
   IngestionId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateDataSetPermissionsRequest {
   AwsAccountId: string;
@@ -13753,7 +13753,7 @@ export interface UpdateDataSetPermissionsResponse {
   DataSetArn?: string | undefined;
   DataSetId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateDataSourceRequest {
   AwsAccountId: string;
@@ -13769,7 +13769,7 @@ export interface UpdateDataSourceResponse {
   DataSourceId?: string | undefined;
   UpdateStatus?: ResourceStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateDataSourcePermissionsRequest {
   AwsAccountId: string;
@@ -13781,7 +13781,7 @@ export interface UpdateDataSourcePermissionsResponse {
   DataSourceArn?: string | undefined;
   DataSourceId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateDefaultQBusinessApplicationRequest {
   AwsAccountId: string;
@@ -13790,7 +13790,7 @@ export interface UpdateDefaultQBusinessApplicationRequest {
 }
 export interface UpdateDefaultQBusinessApplicationResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateDlpSettingRequest {
   AwsAccountId: string;
@@ -13819,7 +13819,7 @@ export interface UpdateFlowResponse {
   Arn: string;
   FlowId: string;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type UpdateFlowPermissionsInputGrantPermissionsList = Permission[];
 export type UpdateFlowPermissionsInputRevokePermissionsList = Permission[];
@@ -13830,7 +13830,7 @@ export interface UpdateFlowPermissionsInput {
   RevokePermissions?: Permission[] | undefined;
 }
 export interface UpdateFlowPermissionsOutput {
-  Status?: number | undefined;
+  Status: number;
   Arn: string;
   Permissions: Permission[];
   RequestId: string;
@@ -13842,7 +13842,7 @@ export interface UpdateFolderRequest {
   Name: string;
 }
 export interface UpdateFolderResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   FolderId?: string | undefined;
   RequestId?: string | undefined;
@@ -13854,7 +13854,7 @@ export interface UpdateFolderPermissionsRequest {
   RevokePermissions?: ResourcePermission[] | undefined;
 }
 export interface UpdateFolderPermissionsResponse {
-  Status?: number | undefined;
+  Status: number;
   Arn?: string | undefined;
   FolderId?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
@@ -13869,7 +13869,7 @@ export interface UpdateGroupRequest {
 export interface UpdateGroupResponse {
   Group?: Group | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateIAMPolicyAssignmentRequest {
   AwsAccountId: string;
@@ -13886,7 +13886,7 @@ export interface UpdateIAMPolicyAssignmentResponse {
   Identities?: { [key: string]: string[] | undefined } | undefined;
   AssignmentStatus?: AssignmentStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateIdentityPropagationConfigRequest {
   AwsAccountId: string;
@@ -13895,7 +13895,7 @@ export interface UpdateIdentityPropagationConfigRequest {
 }
 export interface UpdateIdentityPropagationConfigResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateIpRestrictionRequest {
   AwsAccountId: string;
@@ -13907,7 +13907,7 @@ export interface UpdateIpRestrictionRequest {
 export interface UpdateIpRestrictionResponse {
   AwsAccountId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateKeyRegistrationRequest {
   AwsAccountId: string;
@@ -13986,7 +13986,7 @@ export interface UpdateOAuthClientApplicationResponse {
   OAuthClientApplicationId?: string | undefined;
   UpdateStatus?: ResourceStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdatePublicSharingSettingsRequest {
   AwsAccountId: string;
@@ -13994,7 +13994,7 @@ export interface UpdatePublicSharingSettingsRequest {
 }
 export interface UpdatePublicSharingSettingsResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateQPersonalizationConfigurationRequest {
   AwsAccountId: string;
@@ -14003,7 +14003,7 @@ export interface UpdateQPersonalizationConfigurationRequest {
 export interface UpdateQPersonalizationConfigurationResponse {
   PersonalizationMode?: PersonalizationMode | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateQuickSightQSearchConfigurationRequest {
   AwsAccountId: string;
@@ -14012,7 +14012,7 @@ export interface UpdateQuickSightQSearchConfigurationRequest {
 export interface UpdateQuickSightQSearchConfigurationResponse {
   QSearchStatus?: QSearchStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateRefreshScheduleRequest {
   DataSetId: string;
@@ -14020,7 +14020,7 @@ export interface UpdateRefreshScheduleRequest {
   Schedule: RefreshSchedule;
 }
 export interface UpdateRefreshScheduleResponse {
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
   ScheduleId?: string | undefined;
   Arn?: string | undefined;
@@ -14034,7 +14034,7 @@ export interface UpdateResourcePermissionsResponse {
   RoleType?: ServiceRoleType | undefined;
   CustomerManagedRoleArn?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateRoleCustomPermissionRequest {
   CustomPermissionsName: string;
@@ -14044,7 +14044,7 @@ export interface UpdateRoleCustomPermissionRequest {
 }
 export interface UpdateRoleCustomPermissionResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type SelfUpgradeAdminAction = "APPROVE" | "DENY" | "VERIFY" | (string & {});
 export interface UpdateSelfUpgradeRequest {
@@ -14056,7 +14056,7 @@ export interface UpdateSelfUpgradeRequest {
 export interface UpdateSelfUpgradeResponse {
   SelfUpgradeRequestDetail?: SelfUpgradeRequestDetail | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateSelfUpgradeConfigurationRequest {
   AwsAccountId: string;
@@ -14065,7 +14065,7 @@ export interface UpdateSelfUpgradeConfigurationRequest {
 }
 export interface UpdateSelfUpgradeConfigurationResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateSpaceRequest {
   AwsAccountId: string;
@@ -14120,7 +14120,7 @@ export interface UpdateSPICECapacityConfigurationRequest {
 }
 export interface UpdateSPICECapacityConfigurationResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateTemplateRequest {
   AwsAccountId: string;
@@ -14136,7 +14136,7 @@ export interface UpdateTemplateResponse {
   Arn?: string | undefined;
   VersionArn?: string | undefined;
   CreationStatus?: ResourceStatus | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateTemplateAliasRequest {
@@ -14147,7 +14147,7 @@ export interface UpdateTemplateAliasRequest {
 }
 export interface UpdateTemplateAliasResponse {
   TemplateAlias?: TemplateAlias | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateTemplatePermissionsRequest {
@@ -14161,7 +14161,7 @@ export interface UpdateTemplatePermissionsResponse {
   TemplateArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateThemeRequest {
   AwsAccountId: string;
@@ -14176,7 +14176,7 @@ export interface UpdateThemeResponse {
   Arn?: string | undefined;
   VersionArn?: string | undefined;
   CreationStatus?: ResourceStatus | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateThemeAliasRequest {
@@ -14187,7 +14187,7 @@ export interface UpdateThemeAliasRequest {
 }
 export interface UpdateThemeAliasResponse {
   ThemeAlias?: ThemeAlias | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateThemePermissionsRequest {
@@ -14201,7 +14201,7 @@ export interface UpdateThemePermissionsResponse {
   ThemeArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateTopicRequest {
   AwsAccountId: string;
@@ -14214,7 +14214,7 @@ export interface UpdateTopicResponse {
   Arn?: string | undefined;
   RefreshArn?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateTopicPermissionsRequest {
   AwsAccountId: string;
@@ -14226,7 +14226,7 @@ export interface UpdateTopicPermissionsResponse {
   TopicId?: string | undefined;
   TopicArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateTopicPermissionsV2Request {
@@ -14239,7 +14239,7 @@ export interface UpdateTopicPermissionsV2Response {
   TopicId?: string | undefined;
   TopicArn?: string | undefined;
   Permissions?: ResourcePermission[] | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export interface UpdateTopicRefreshScheduleRequest {
@@ -14252,7 +14252,7 @@ export interface UpdateTopicRefreshScheduleResponse {
   TopicId?: string | undefined;
   TopicArn?: string | undefined;
   DatasetArn?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
   RequestId?: string | undefined;
 }
 export type TopicV2PublishOption = "DRAFT" | "PUBLISH" | (string & {});
@@ -14267,7 +14267,7 @@ export interface UpdateTopicV2Response {
   Arn?: string | undefined;
   TopicId?: string | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateUserRequest {
   UserName: string;
@@ -14284,7 +14284,7 @@ export interface UpdateUserRequest {
 export interface UpdateUserResponse {
   User?: User | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateUserCustomPermissionRequest {
   UserName: string;
@@ -14294,7 +14294,7 @@ export interface UpdateUserCustomPermissionRequest {
 }
 export interface UpdateUserCustomPermissionResponse {
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export interface UpdateVPCConnectionRequest {
   AwsAccountId: string;
@@ -14311,7 +14311,7 @@ export interface UpdateVPCConnectionResponse {
   UpdateStatus?: VPCConnectionResourceStatus | undefined;
   AvailabilityStatus?: VPCConnectionAvailabilityStatus | undefined;
   RequestId?: string | undefined;
-  Status?: number | undefined;
+  Status: number;
 }
 export type ExceptionResourceType =
   | "USER"
@@ -26052,7 +26052,7 @@ function __c5(j: number): any {
           DeletionStatus: S.optional(S.String),
           AvailabilityStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeleteVPCConnectionResponse" });
   }
@@ -26102,7 +26102,7 @@ function __c8(j: number): any {
         S.Struct({
           CustomPermissionsName: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeAccountCustomPermissionResponse" });
   }
@@ -26129,8 +26129,8 @@ function __c9(j: number): any {
           Edition: S.optional(S.String),
           DefaultNamespace: S.optional(S.String),
           NotificationEmail: S.optional(S.String),
-          PublicSharingEnabled: S.optional(S.Boolean),
-          TerminationProtectionEnabled: S.optional(S.Boolean),
+          PublicSharingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          TerminationProtectionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AccountSettings" });
     case 2:
@@ -26138,7 +26138,7 @@ function __c9(j: number): any {
         S.Struct({
           AccountSettings: S.optional(__S(289, __c9, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeAccountSettingsResponse" });
   }
@@ -26173,7 +26173,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AccountInfo: S.optional(__S(321, __c10, 1)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAccountSubscriptionResponse" });
@@ -26280,7 +26280,7 @@ function __c11(j: number): any {
         S.Struct({
           ActionConnector: S.optional(__S(364, __c11, 12)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeActionConnectorResponse" });
   }
@@ -26321,7 +26321,7 @@ function __c13(j: number): any {
           ActionConnectorId: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeActionConnectorPermissionsResponse" });
   }
@@ -26452,7 +26452,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Analysis: S.optional(__S(513, __c16, 1)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAnalysisResponse" });
@@ -26522,7 +26522,7 @@ function __c19(j: number): any {
           ResourceStatus: S.optional(S.String),
           ThemeArn: S.optional(S.String),
           Definition: S.optional(__S(9728, __c304, 0)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAnalysisDefinitionResponse" });
@@ -26555,7 +26555,7 @@ function __c20(j: number): any {
           AnalysisId: S.optional(S.String),
           AnalysisArn: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAnalysisPermissionsResponse" });
@@ -26678,16 +26678,16 @@ function __c25(j: number): any {
           AssetBundleExportJobId: S.optional(S.String),
           AwsAccountId: S.optional(S.String),
           ResourceArns: S.optional(__S(6784, __c212, 0)),
-          IncludeAllDependencies: S.optional(S.Boolean),
+          IncludeAllDependencies: S.optional(S.Boolean).pipe(T.Default(false)),
           ExportFormat: S.optional(S.String),
           CloudFormationOverridePropertyConfiguration: S.optional(__S(899, __c28, 3)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
-          IncludePermissions: S.optional(S.Boolean),
-          IncludeTags: S.optional(S.Boolean),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
+          IncludePermissions: S.optional(S.Boolean).pipe(T.Default(false)),
+          IncludeTags: S.optional(S.Boolean).pipe(T.Default(false)),
           ValidationStrategy: S.optional(__S(864, __c27, 0)),
           Warnings: S.optional(__S(835, __c26, 3)),
-          IncludeFolderMemberships: S.optional(S.Boolean),
+          IncludeFolderMemberships: S.optional(S.Boolean).pipe(T.Default(false)),
           IncludeFolderMembers: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAssetBundleExportJobResponse" });
@@ -26717,16 +26717,16 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ StrictModeForAllResources: S.optional(S.Boolean) }),
+        S.Struct({ StrictModeForAllResources: S.optional(S.Boolean).pipe(T.Default(false)) }),
       ).annotate({ identifier: "AssetBundleExportJobValidationStrategy" });
   }
 }
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ PrefixForAllResources: S.optional(S.Boolean) })).annotate({
-        identifier: "AssetBundleExportJobResourceIdOverrideConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ PrefixForAllResources: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "AssetBundleExportJobResourceIdOverrideConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({ Arn: S.String, Properties: __S(7552, __c236, 0) }),
@@ -26789,7 +26789,7 @@ function __c29(j: number): any {
           OverrideParameters: S.optional(__S(1013, __c31, 21)),
           FailureAction: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           OverridePermissions: S.optional(__S(1030, __c32, 6)),
           OverrideTags: S.optional(__S(1047, __c32, 23)),
           OverrideValidationStrategy: S.optional(__S(864, __c27, 0)),
@@ -27214,7 +27214,7 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
           CustomPermissions: S.optional(__S(1248, __c39, 0)),
           RequestId: S.optional(S.String),
         }),
@@ -27287,7 +27287,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Dashboard: S.optional(__S(1282, __c40, 2)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDashboardResponse" });
@@ -27325,7 +27325,7 @@ function __c41(j: number): any {
           ResourceStatus: S.optional(S.String),
           ThemeArn: S.optional(S.String),
           Definition: S.optional(__S(10979, __c343, 3)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
           DashboardPublishOptions: S.optional(__S(10978, __c343, 2)),
         }),
@@ -27359,7 +27359,7 @@ function __c42(j: number): any {
           DashboardId: S.optional(S.String),
           DashboardArn: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
           LinkSharingConfiguration: S.optional(__S(11008, __c344, 0)),
         }),
@@ -27411,7 +27411,7 @@ function __c43(j: number): any {
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeDashboardSnapshotJobResponse" });
   }
@@ -27538,7 +27538,7 @@ function __c46(j: number): any {
           Result: S.optional(__S(1481, __c46, 9)),
           ErrorInfo: S.optional(__S(1473, __c46, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeDashboardSnapshotJobResultResponse" });
   }
@@ -27567,7 +27567,7 @@ function __c48(j: number): any {
         S.Struct({
           DashboardsQAStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeDashboardsQAConfigurationResponse" });
   }
@@ -27614,7 +27614,7 @@ function __c49(j: number): any {
           LogicalTableMap: S.optional(__S(11152, __c348, 16)),
           OutputColumns: S.optional(__S(1570, __c49, 2)),
           ImportMode: S.optional(S.String),
-          ConsumedSpiceCapacityInBytes: S.optional(S.Number),
+          ConsumedSpiceCapacityInBytes: S.optional(S.Number).pipe(T.Default(0)),
           ColumnGroups: S.optional(__S(11155, __c348, 19)),
           FieldFolders: S.optional(__S(11157, __c348, 21)),
           RowLevelPermissionDataSet: S.optional(__S(11072, __c346, 0)),
@@ -27633,7 +27633,7 @@ function __c49(j: number): any {
         S.Struct({
           DataSet: S.optional(__S(1571, __c49, 3)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeDataSetResponse" });
   }
@@ -27666,7 +27666,7 @@ function __c50(j: number): any {
           DataSetId: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeDataSetPermissionsResponse" });
   }
@@ -27696,7 +27696,7 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           DataSetRefreshProperties: S.optional(__S(965, __c30, 5)),
         }),
       ).annotate({ identifier: "DescribeDataSetRefreshPropertiesResponse" });
@@ -27725,7 +27725,7 @@ function __c52(j: number): any {
         S.Struct({
           DataSource: S.optional(__S(1728, __c54, 0)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeDataSourceResponse" });
   }
@@ -27790,7 +27790,7 @@ function __c55(j: number): any {
           DataSourceId: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeDataSourcePermissionsResponse" });
   }
@@ -27820,7 +27820,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           ApplicationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeDefaultQBusinessApplicationResponse" });
@@ -27913,7 +27913,7 @@ function __c58(j: number): any {
         S.Struct({
           Flow: __S(1859, __c58, 3),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeFlowResponse" });
   }
@@ -27952,7 +27952,7 @@ function __c59(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           Folder: S.optional(__S(1889, __c59, 1)),
           RequestId: S.optional(S.String),
         }),
@@ -27990,7 +27990,7 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           FolderId: S.optional(S.String),
           Arn: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
@@ -28113,7 +28113,7 @@ function __c65(j: number): any {
         S.Struct({
           IAMPolicyAssignment: S.optional(__S(2081, __c65, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeIAMPolicyAssignmentResponse" });
   }
@@ -28145,7 +28145,7 @@ function __c66(j: number): any {
         S.Struct({
           Ingestion: S.optional(__S(2146, __c67, 2)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeIngestionResponse" });
   }
@@ -28206,7 +28206,7 @@ function __c68(j: number): any {
           VpcEndpointIdRestrictionRuleMap: S.optional(__S(6272, __c196, 0)),
           Enabled: S.optional(S.Boolean),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeIpRestrictionResponse" });
   }
@@ -28240,7 +28240,7 @@ function __c69(j: number): any {
           KeyRegistration: S.optional(__S(2241, __c70, 1)),
           QDataKey: S.optional(__S(2209, __c69, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeKeyRegistrationResponse" });
   }
@@ -28249,7 +28249,10 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ KeyArn: S.optional(S.String), DefaultKey: S.optional(S.Boolean) }),
+        S.Struct({
+          KeyArn: S.optional(S.String),
+          DefaultKey: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "RegisteredCustomerManagedKey" });
     case 1:
       return S.Array(__S(2240, __c70, 0));
@@ -28424,7 +28427,7 @@ function __c76(j: number): any {
         S.Struct({
           Namespace: S.optional(__S(2464, __c77, 0)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeNamespaceResponse" });
   }
@@ -28488,7 +28491,7 @@ function __c78(j: number): any {
         S.Struct({
           OAuthClientApplication: S.optional(__S(2497, __c78, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeOAuthClientApplicationResponse" });
   }
@@ -28520,7 +28523,7 @@ function __c80(j: number): any {
         S.Struct({
           PersonalizationMode: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeQPersonalizationConfigurationResponse" });
   }
@@ -28552,7 +28555,7 @@ function __c82(j: number): any {
         S.Struct({
           QSearchStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeQuickSightQSearchConfigurationResponse" });
   }
@@ -28583,7 +28586,7 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RefreshSchedule: S.optional(__S(12290, __c384, 2)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
           Arn: S.optional(S.String),
         }),
@@ -28615,7 +28618,7 @@ function __c85(j: number): any {
           RoleType: S.optional(S.String),
           CustomerManagedRoleArn: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeResourcePermissionsResponse" });
   }
@@ -28674,7 +28677,7 @@ function __c87(j: number): any {
         S.Struct({
           SelfUpgradeConfiguration: S.optional(__S(2785, __c87, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeSelfUpgradeConfigurationResponse" });
   }
@@ -28828,7 +28831,7 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Template: S.optional(__S(2914, __c91, 2)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTemplateResponse" });
@@ -28890,7 +28893,7 @@ function __c93(j: number): any {
           ResourceStatus: S.optional(S.String),
           ThemeArn: S.optional(S.String),
           Definition: S.optional(__S(12544, __c392, 0)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTemplateDefinitionResponse" });
@@ -28928,7 +28931,7 @@ function __c95(j: number): any {
           TemplateArn: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeTemplatePermissionsResponse" });
   }
@@ -28984,7 +28987,7 @@ function __c96(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Theme: S.optional(__S(3075, __c96, 3)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeThemeResponse" });
@@ -29043,7 +29046,7 @@ function __c99(j: number): any {
           ThemeArn: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeThemePermissionsResponse" });
   }
@@ -29073,7 +29076,7 @@ function __c100(j: number): any {
           TopicId: S.optional(S.String),
           Topic: S.optional(__S(12930, __c404, 2)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           CustomInstructions: S.optional(__S(12960, __c405, 0)),
         }),
       ).annotate({ identifier: "DescribeTopicResponse" });
@@ -29107,7 +29110,7 @@ function __c102(j: number): any {
           TopicId: S.optional(S.String),
           TopicArn: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTopicPermissionsResponse" });
@@ -29171,7 +29174,7 @@ function __c104(j: number): any {
         S.Struct({
           RefreshDetails: S.optional(__S(3329, __c104, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeTopicRefreshResponse" });
   }
@@ -29205,7 +29208,7 @@ function __c105(j: number): any {
           TopicArn: S.optional(S.String),
           DatasetArn: S.optional(S.String),
           RefreshSchedule: S.optional(__S(13056, __c408, 0)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTopicRefreshScheduleResponse" });
@@ -29236,7 +29239,7 @@ function __c106(j: number): any {
           TopicId: S.optional(S.String),
           Topic: S.optional(__S(13125, __c410, 5)),
           CustomInstructions: S.optional(__S(12960, __c405, 0)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeTopicV2Response" });
@@ -29276,7 +29279,7 @@ function __c108(j: number): any {
           Email: S.optional(S.String),
           Role: S.optional(S.String),
           IdentityType: S.optional(S.String),
-          Active: S.optional(S.Boolean),
+          Active: S.optional(S.Boolean).pipe(T.Default(false)),
           PrincipalId: S.optional(S.String),
           CustomPermissionsName: S.optional(S.String),
           ExternalLoginFederationProviderType: S.optional(S.String),
@@ -29293,7 +29296,7 @@ function __c109(j: number): any {
         S.Struct({
           User: S.optional(__S(3456, __c108, 0)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeUserResponse" });
   }
@@ -29324,7 +29327,7 @@ function __c110(j: number): any {
         S.Struct({
           VPCConnection: S.optional(__S(3554, __c111, 2)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeVPCConnectionResponse" });
   }
@@ -29415,7 +29418,7 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EmbedUrl: SensitiveString,
-          Status: S.Number.pipe(T.HttpResponseCode()),
+          Status: S.Number.pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.String,
           AnonymousUserArn: S.String,
         }),
@@ -29425,7 +29428,7 @@ function __c112(j: number): any {
 function __c113(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Enabled: S.Boolean })).annotate({
+      return S.suspend(() => S.Struct({ Enabled: S.Boolean.pipe(T.Default(false)) })).annotate({
         identifier: "SharedViewConfigurations",
       });
     case 1:
@@ -29544,7 +29547,7 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EmbedUrl: SensitiveString,
-          Status: S.Number.pipe(T.HttpResponseCode()),
+          Status: S.Number.pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.String,
         }),
       ).annotate({ identifier: "GenerateEmbedUrlForRegisteredUserResponse" });
@@ -29616,7 +29619,7 @@ function __c119(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EmbedUrl: S.optional(SensitiveString),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDashboardEmbedUrlResponse" });
@@ -29648,12 +29651,12 @@ function __c120(j: number): any {
           Name: S.String,
           Description: S.optional(S.String),
           PublishState: S.optional(S.String),
-          UserCount: S.optional(S.Number),
-          RunCount: S.optional(S.Number),
+          UserCount: S.optional(S.Number).pipe(T.Default(0)),
+          RunCount: S.optional(S.Number).pipe(T.Default(0)),
           CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "GetFlowMetadataOutput" });
   }
@@ -29683,7 +29686,7 @@ function __c121(j: number): any {
           FlowId: S.String,
           Permissions: __S(11617, __c363, 1),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "GetFlowPermissionsOutput" });
   }
@@ -29772,7 +29775,7 @@ function __c124(j: number): any {
           ActionConnectorSummaries: __S(4001, __c125, 1),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListActionConnectorsResponse" });
   }
@@ -29884,7 +29887,7 @@ function __c129(j: number): any {
         S.Struct({
           AnalysisSummaryList: S.optional(__S(4129, __c129, 1)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAnalysesResponse" });
@@ -29977,10 +29980,10 @@ function __c133(j: number): any {
           Arn: S.optional(S.String),
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           AssetBundleExportJobId: S.optional(S.String),
-          IncludeAllDependencies: S.optional(S.Boolean),
+          IncludeAllDependencies: S.optional(S.Boolean).pipe(T.Default(false)),
           ExportFormat: S.optional(S.String),
-          IncludePermissions: S.optional(S.Boolean),
-          IncludeTags: S.optional(S.Boolean),
+          IncludePermissions: S.optional(S.Boolean).pipe(T.Default(false)),
+          IncludeTags: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AssetBundleExportJobSummary" });
     case 2:
@@ -29991,7 +29994,7 @@ function __c133(j: number): any {
           AssetBundleExportJobSummaryList: S.optional(__S(4258, __c133, 2)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListAssetBundleExportJobsResponse" });
   }
@@ -30033,7 +30036,7 @@ function __c134(j: number): any {
           AssetBundleImportJobSummaryList: S.optional(__S(4290, __c134, 2)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListAssetBundleImportJobsResponse" });
   }
@@ -30101,7 +30104,7 @@ function __c136(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           CustomPermissionsList: S.optional(__S(4353, __c136, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -30151,7 +30154,7 @@ function __c138(j: number): any {
         S.Struct({
           DashboardSummaryList: S.optional(__S(4417, __c138, 1)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDashboardsResponse" });
@@ -30198,7 +30201,7 @@ function __c139(j: number): any {
         S.Struct({
           DashboardVersionSummaryList: S.optional(__S(4450, __c139, 2)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDashboardVersionsResponse" });
@@ -30229,7 +30232,7 @@ function __c140(j: number): any {
           DataSetSummaries: S.optional(__S(4514, __c141, 2)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListDataSetsResponse" });
   }
@@ -30249,8 +30252,8 @@ function __c141(j: number): any {
           ImportMode: S.optional(S.String),
           RowLevelPermissionDataSet: S.optional(__S(11072, __c346, 0)),
           RowLevelPermissionDataSetMap: S.optional(__S(4512, __c141, 0)),
-          RowLevelPermissionTagConfigurationApplied: S.optional(S.Boolean),
-          ColumnLevelPermissionRulesApplied: S.optional(S.Boolean),
+          RowLevelPermissionTagConfigurationApplied: S.optional(S.Boolean).pipe(T.Default(false)),
+          ColumnLevelPermissionRulesApplied: S.optional(S.Boolean).pipe(T.Default(false)),
           UseAs: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSetSummary" });
@@ -30285,7 +30288,7 @@ function __c142(j: number): any {
           DataSources: S.optional(__S(4545, __c142, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListDataSourcesResponse" });
   }
@@ -30361,7 +30364,7 @@ function __c144(j: number): any {
           FlowSummaryList: S.optional(__S(4641, __c145, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListFlowsOutput" });
   }
@@ -30380,8 +30383,8 @@ function __c145(j: number): any {
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdatedBy: S.optional(S.String),
           PublishState: S.optional(S.String),
-          RunCount: S.optional(S.Number),
-          UserCount: S.optional(S.Number),
+          RunCount: S.optional(S.Number).pipe(T.Default(0)),
+          UserCount: S.optional(S.Number).pipe(T.Default(0)),
           LastPublishedBy: S.optional(S.String),
           LastPublishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -30419,7 +30422,7 @@ function __c146(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           FolderMemberList: S.optional(__S(4674, __c146, 2)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -30467,7 +30470,7 @@ function __c148(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           FolderSummaryList: S.optional(__S(4737, __c148, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -30501,7 +30504,7 @@ function __c149(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           Folders: S.optional(__S(6784, __c212, 0)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -30541,7 +30544,7 @@ function __c150(j: number): any {
           GroupMemberList: S.optional(__S(4801, __c150, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListGroupMembershipsResponse" });
   }
@@ -30581,7 +30584,7 @@ function __c152(j: number): any {
           GroupList: S.optional(__S(4864, __c152, 0)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });
   }
@@ -30622,7 +30625,7 @@ function __c153(j: number): any {
           IAMPolicyAssignments: S.optional(__S(4898, __c153, 2)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListIAMPolicyAssignmentsResponse" });
   }
@@ -30663,7 +30666,7 @@ function __c154(j: number): any {
           ActiveAssignments: S.optional(__S(4930, __c154, 2)),
           RequestId: S.optional(S.String),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListIAMPolicyAssignmentsForUserResponse" });
   }
@@ -30701,7 +30704,7 @@ function __c155(j: number): any {
         S.Struct({
           Services: S.optional(__S(4962, __c155, 2)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListIdentityPropagationConfigsResponse" });
@@ -30738,7 +30741,7 @@ function __c156(j: number): any {
           Ingestions: S.optional(__S(4993, __c156, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListIngestionsResponse" });
   }
@@ -30851,7 +30854,7 @@ function __c160(j: number): any {
           Namespaces: S.optional(__S(5121, __c160, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListNamespacesResponse" });
   }
@@ -30896,7 +30899,7 @@ function __c161(j: number): any {
           OAuthClientApplications: S.optional(__S(5154, __c161, 2)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListOAuthClientApplicationsResponse" });
   }
@@ -30928,7 +30931,7 @@ function __c162(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RefreshSchedules: S.optional(__S(5185, __c162, 1)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRefreshSchedulesResponse" });
@@ -30964,7 +30967,7 @@ function __c163(j: number): any {
           MembersList: S.optional(__S(6784, __c212, 0)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListRoleMembershipsResponse" });
   }
@@ -31000,7 +31003,7 @@ function __c164(j: number): any {
           SelfUpgradeRequestDetails: S.optional(__S(5249, __c164, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListSelfUpgradesResponse" });
   }
@@ -31015,9 +31018,9 @@ function __c165(j: number): any {
           OriginalRole: S.optional(S.String),
           RequestedRole: S.optional(S.String),
           RequestNote: S.optional(S.String),
-          CreationTime: S.optional(S.Number),
+          CreationTime: S.optional(S.Number).pipe(T.Default(0)),
           RequestStatus: S.optional(S.String),
-          lastUpdateAttemptTime: S.optional(S.Number),
+          lastUpdateAttemptTime: S.optional(S.Number).pipe(T.Default(0)),
           lastUpdateFailureReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "SelfUpgradeRequestDetail" });
@@ -31139,7 +31142,7 @@ function __c169(j: number): any {
         S.Struct({
           Tags: S.optional(__S(8321, __c260, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListTagsForResourceResponse" });
   }
@@ -31173,7 +31176,7 @@ function __c170(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TemplateAliasList: S.optional(__S(5441, __c170, 1)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
           NextToken: S.optional(S.String),
         }),
@@ -31217,7 +31220,7 @@ function __c171(j: number): any {
         S.Struct({
           TemplateSummaryList: S.optional(__S(5474, __c171, 2)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTemplatesResponse" });
@@ -31263,7 +31266,7 @@ function __c172(j: number): any {
         S.Struct({
           TemplateVersionSummaryList: S.optional(__S(5506, __c172, 2)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTemplateVersionsResponse" });
@@ -31295,7 +31298,7 @@ function __c173(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ThemeAliasList: S.optional(__S(5537, __c173, 1)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
           NextToken: S.optional(S.String),
         }),
@@ -31340,7 +31343,7 @@ function __c174(j: number): any {
         S.Struct({
           ThemeSummaryList: S.optional(__S(5570, __c174, 2)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListThemesResponse" });
@@ -31383,7 +31386,7 @@ function __c175(j: number): any {
         S.Struct({
           ThemeVersionSummaryList: S.optional(__S(5602, __c175, 2)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListThemeVersionsResponse" });
@@ -31424,7 +31427,7 @@ function __c176(j: number): any {
           TopicId: S.optional(S.String),
           TopicArn: S.optional(S.String),
           RefreshSchedules: S.optional(__S(5634, __c176, 2)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTopicRefreshSchedulesResponse" });
@@ -31471,7 +31474,7 @@ function __c177(j: number): any {
           TopicId: S.optional(S.String),
           TopicArn: S.optional(S.String),
           Answers: S.optional(__S(5666, __c177, 2)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTopicReviewedAnswersResponse" });
@@ -31502,7 +31505,7 @@ function __c178(j: number): any {
           TopicsSummaries: S.optional(__S(5729, __c179, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListTopicsResponse" });
   }
@@ -31547,7 +31550,7 @@ function __c180(j: number): any {
           TopicSummaryList: S.optional(__S(5793, __c181, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListTopicsV2Response" });
   }
@@ -31620,7 +31623,7 @@ function __c183(j: number): any {
           UserList: S.optional(__S(5857, __c183, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
@@ -31716,7 +31719,7 @@ function __c185(j: number): any {
           VPCConnectionSummaries: S.optional(__S(5921, __c185, 1)),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListVPCConnectionsResponse" });
   }
@@ -31784,7 +31787,7 @@ function __c186(j: number): any {
           PrimaryResult: S.optional(__S(5955, __c186, 3)),
           AdditionalResults: S.optional(__S(5956, __c186, 4)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "PredictQAResultsResponse" });
   }
@@ -31851,7 +31854,7 @@ function __c188(j: number): any {
           User: S.optional(__S(3456, __c108, 0)),
           UserInvitationUrl: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RegisterUserResponse" });
   }
@@ -31881,7 +31884,7 @@ function __c189(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           Arn: S.optional(S.String),
           AnalysisId: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -31915,7 +31918,7 @@ function __c190(j: number): any {
         S.Struct({
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           ActionConnectorSummaries: S.optional(__S(4001, __c125, 1)),
         }),
       ).annotate({ identifier: "SearchActionConnectorsResponse" });
@@ -32013,7 +32016,7 @@ function __c193(j: number): any {
           TopicArn: S.optional(S.String),
           SucceededAnswers: S.optional(__S(6241, __c195, 1)),
           InvalidAnswers: S.optional(__S(6243, __c195, 3)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchCreateTopicReviewedAnswerResponse" });
@@ -32041,7 +32044,7 @@ function __c194(j: number): any {
         S.Struct({
           Type: S.optional(S.String),
           Period: S.optional(S.String),
-          WindowSize: S.optional(S.Number),
+          WindowSize: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TopicIRComparisonMethod" });
     case 4:
@@ -32121,7 +32124,7 @@ function __c194(j: number): any {
         S.Struct({
           AnchorType: S.optional(S.String),
           TimeGranularity: S.optional(S.String),
-          Offset: S.optional(S.Number),
+          Offset: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Anchor" });
     case 18:
@@ -32132,13 +32135,13 @@ function __c194(j: number): any {
           OperandField: S.optional(__S(6208, __c194, 0)),
           Function: S.optional(S.String),
           Constant: S.optional(__S(6220, __c194, 12)),
-          Inverse: S.optional(S.Boolean),
+          Inverse: S.optional(S.Boolean).pipe(T.Default(false)),
           NullFilter: S.optional(S.String),
           Aggregation: S.optional(S.String),
           AggregationFunctionParameters: S.optional(__S(6272, __c196, 0)),
           AggregationPartitionBy: S.optional(__S(6222, __c194, 14)),
           Range: S.optional(__S(6220, __c194, 12)),
-          Inclusive: S.optional(S.Boolean),
+          Inclusive: S.optional(S.Boolean).pipe(T.Default(false)),
           TimeGranularity: S.optional(S.String),
           LastNextOffset: S.optional(__S(6220, __c194, 12)),
           AggMetrics: S.optional(__S(6224, __c194, 16)),
@@ -32248,13 +32251,13 @@ function __c197(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          UseBlankCellFormat: S.optional(S.Boolean),
+          UseBlankCellFormat: S.optional(S.Boolean).pipe(T.Default(false)),
           BlankCellFormat: S.optional(S.String),
           DateFormat: S.optional(S.String),
           DecimalSeparator: S.optional(S.String),
           GroupingSeparator: S.optional(S.String),
-          UseGrouping: S.optional(S.Boolean),
-          FractionDigits: S.optional(S.Number),
+          UseGrouping: S.optional(S.Boolean).pipe(T.Default(false)),
+          FractionDigits: S.optional(S.Number).pipe(T.Default(0)),
           Prefix: S.optional(S.String),
           Suffix: S.optional(S.String),
           UnitScaler: S.optional(S.String),
@@ -32375,7 +32378,7 @@ function __c202(j: number): any {
         S.Struct({
           DataSetSummaries: S.optional(__S(4514, __c141, 2)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchDataSetsResponse" });
@@ -32429,7 +32432,7 @@ function __c204(j: number): any {
         S.Struct({
           DataSourceSummaries: S.optional(__S(6530, __c204, 2)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchDataSourcesResponse" });
@@ -32461,7 +32464,7 @@ function __c205(j: number): any {
           FlowSummaryList: __S(4641, __c145, 1),
           NextToken: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SearchFlowsOutput" });
   }
@@ -32648,7 +32651,7 @@ function __c213(j: number): any {
         S.Struct({
           TopicSummaryList: S.optional(__S(5729, __c179, 1)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchTopicsResponse" });
@@ -32689,7 +32692,7 @@ function __c215(j: number): any {
         S.Struct({
           TopicSummaryList: S.optional(__S(5793, __c181, 1)),
           NextToken: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchTopicsV2Response" });
@@ -32731,7 +32734,7 @@ function __c216(j: number): any {
           Arn: S.optional(S.String),
           AssetBundleExportJobId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "StartAssetBundleExportJobResponse" });
   }
@@ -32773,7 +32776,7 @@ function __c217(j: number): any {
           Arn: S.optional(S.String),
           AssetBundleImportJobId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "StartAssetBundleImportJobResponse" });
   }
@@ -32806,7 +32809,7 @@ function __c218(j: number): any {
         S.Struct({
           Arn: S.String,
           JobId: S.String,
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartAutomationJobResponse" });
@@ -32852,7 +32855,7 @@ function __c219(j: number): any {
           Arn: S.optional(S.String),
           SnapshotJobId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "StartDashboardSnapshotJobResponse" });
   }
@@ -32972,7 +32975,7 @@ function __c224(j: number): any {
           SucceededAnswers: S.optional(__S(6241, __c195, 1)),
           InvalidAnswers: S.optional(__S(6243, __c195, 3)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "BatchDeleteTopicReviewedAnswerResponse" });
   }
@@ -33051,7 +33054,7 @@ function __c227(j: number): any {
           ActionConnectorId: S.optional(S.String),
           RequestId: S.optional(S.String),
           UpdateStatus: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateActionConnectorResponse" });
   }
@@ -33085,7 +33088,7 @@ function __c228(j: number): any {
           Arn: S.optional(S.String),
           ActionConnectorId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           Permissions: S.optional(__S(9121, __c285, 1)),
         }),
       ).annotate({ identifier: "UpdateActionConnectorPermissionsResponse" });
@@ -33205,7 +33208,7 @@ function __c231(j: number): any {
           Arn: S.optional(S.String),
           AnalysisId: S.optional(S.String),
           UpdateStatus: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateAnalysisResponse" });
@@ -33241,7 +33244,7 @@ function __c232(j: number): any {
           AnalysisId: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateAnalysisPermissionsResponse" });
   }
@@ -33270,7 +33273,7 @@ function __c233(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateApplicationWithTokenExchangeGrantResponse" });
@@ -33532,7 +33535,7 @@ function __c242(j: number): any {
           VersionArn: S.optional(S.String),
           DashboardId: S.optional(S.String),
           CreationStatus: S.optional(S.String),
-          Status: S.optional(S.Number),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateDashboardResponse" });
@@ -33564,7 +33567,7 @@ function __c243(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           DashboardArn: S.optional(S.String),
           LinkEntities: S.optional(__S(6784, __c212, 0)),
         }),
@@ -33603,7 +33606,7 @@ function __c244(j: number): any {
           DashboardId: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           LinkSharingConfiguration: S.optional(__S(11008, __c344, 0)),
         }),
       ).annotate({ identifier: "UpdateDashboardPermissionsResponse" });
@@ -33636,7 +33639,7 @@ function __c245(j: number): any {
         S.Struct({
           DashboardId: S.optional(S.String),
           DashboardArn: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateDashboardPublishedVersionResponse" });
@@ -33690,7 +33693,7 @@ function __c247(j: number): any {
           Arn: S.optional(S.String),
           IngestionId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CancelIngestionResponse" });
   }
@@ -33758,7 +33761,7 @@ function __c249(j: number): any {
           DataSetArn: S.optional(S.String),
           DataSetId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateDataSetPermissionsResponse" });
   }
@@ -33793,7 +33796,7 @@ function __c250(j: number): any {
           DataSourceId: S.optional(S.String),
           UpdateStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateDataSourceResponse" });
   }
@@ -33827,7 +33830,7 @@ function __c251(j: number): any {
           DataSourceArn: S.optional(S.String),
           DataSourceId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateDataSourcePermissionsResponse" });
   }
@@ -33931,7 +33934,7 @@ function __c255(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           Arn: S.String,
           Permissions: __S(11617, __c363, 1),
           RequestId: S.String,
@@ -33987,7 +33990,7 @@ function __c257(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
           Arn: S.optional(S.String),
           FolderId: S.optional(S.String),
           Permissions: S.optional(__S(9121, __c285, 1)),
@@ -34035,7 +34038,7 @@ function __c259(j: number): any {
           Namespace: S.optional(S.String),
           AccountCustomization: S.optional(__S(8288, __c259, 0)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateAccountCustomizationResponse" });
   }
@@ -34109,7 +34112,7 @@ function __c262(j: number): any {
           Identities: S.optional(__S(12000, __c375, 0)),
           AssignmentStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateIAMPolicyAssignmentResponse" });
   }
@@ -34164,7 +34167,7 @@ function __c264(j: number): any {
         S.Struct({
           AwsAccountId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateIpRestrictionResponse" });
   }
@@ -34192,16 +34195,16 @@ function __c265(j: number): any {
         S.Struct({
           KeyArn: S.optional(S.String),
           Message: S.String,
-          StatusCode: S.Number,
-          SenderFault: S.Boolean,
+          StatusCode: S.Number.pipe(T.Default(0)),
+          SenderFault: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "FailedKeyRegistrationEntry" });
     case 2:
       return S.Array(__S(8481, __c265, 1));
     case 3:
-      return S.suspend(() => S.Struct({ KeyArn: S.String, StatusCode: S.Number })).annotate({
-        identifier: "SuccessfulKeyRegistrationEntry",
-      });
+      return S.suspend(() =>
+        S.Struct({ KeyArn: S.String, StatusCode: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "SuccessfulKeyRegistrationEntry" });
     case 4:
       return S.Array(__S(8483, __c265, 3));
     case 5:
@@ -34330,7 +34333,7 @@ function __c269(j: number): any {
           OAuthClientApplicationId: S.optional(S.String),
           UpdateStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateOAuthClientApplicationResponse" });
   }
@@ -34393,7 +34396,7 @@ function __c271(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          IAMUser: S.optional(S.Boolean),
+          IAMUser: S.optional(S.Boolean).pipe(T.Default(false)),
           userLoginName: S.optional(S.String),
           accountName: S.optional(S.String),
           directoryType: S.optional(S.String),
@@ -34403,7 +34406,7 @@ function __c271(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SignupResponse: S.optional(__S(8673, __c271, 1)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateAccountSubscriptionResponse" });
@@ -34553,7 +34556,7 @@ function __c277(j: number): any {
         S.Struct({
           SelfUpgradeRequestDetail: S.optional(__S(5280, __c165, 0)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateSelfUpgradeResponse" });
   }
@@ -34720,7 +34723,7 @@ function __c282(j: number): any {
           CreationStatus: S.optional(S.String),
           ActionConnectorId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateActionConnectorResponse" });
   }
@@ -34867,7 +34870,7 @@ function __c287(j: number): any {
           Arn: S.optional(S.String),
           VersionArn: S.optional(S.String),
           CreationStatus: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateTemplateResponse" });
@@ -34952,7 +34955,7 @@ function __c290(j: number): any {
           Arn: S.optional(S.String),
           VersionArn: S.optional(S.String),
           CreationStatus: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateThemeResponse" });
@@ -35032,7 +35035,7 @@ function __c293(j: number): any {
           Arn: S.optional(S.String),
           RefreshArn: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateTopicResponse" });
   }
@@ -35284,7 +35287,7 @@ function __c302(j: number): any {
           UpdateStatus: S.optional(S.String),
           AvailabilityStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UpdateVPCConnectionResponse" });
   }
@@ -35322,7 +35325,7 @@ function __c303(j: number): any {
           Arn: S.optional(S.String),
           AnalysisId: S.optional(S.String),
           CreationStatus: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateAnalysisResponse" });
@@ -35431,7 +35434,7 @@ function __c310(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DataSetIdentifier: S.optional(S.String),
+          DataSetIdentifier: S.optional(S.String).pipe(T.Default("")),
           TopicIdentifier: S.optional(S.String),
           ColumnName: S.String,
         }),
@@ -35582,7 +35585,7 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ParameterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceParameterName: S.String,
           DisplayOptions: S.optional(__S(9954, __c311, 2)),
           ControlTitleFormatText: S.optional(__S(9955, __c311, 3)),
@@ -35673,7 +35676,7 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ParameterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceParameterName: S.String,
           DisplayOptions: S.optional(__S(9958, __c311, 6)),
           Type: S.optional(S.String),
@@ -35695,7 +35698,7 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ParameterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceParameterName: S.String,
           DisplayOptions: S.optional(__S(9972, __c311, 20)),
           Type: S.optional(S.String),
@@ -35718,7 +35721,7 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ParameterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceParameterName: S.String,
           DisplayOptions: S.optional(__S(9974, __c311, 22)),
           ControlTitleFormatText: S.optional(__S(9955, __c311, 3)),
@@ -35728,7 +35731,7 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ParameterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceParameterName: S.String,
           Delimiter: S.optional(S.String),
           DisplayOptions: S.optional(__S(9974, __c311, 22)),
@@ -35746,12 +35749,12 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ParameterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceParameterName: S.String,
           DisplayOptions: S.optional(__S(9977, __c311, 25)),
-          MaximumValue: S.Number,
-          MinimumValue: S.Number,
-          StepSize: S.Number,
+          MaximumValue: S.Number.pipe(T.Default(0)),
+          MinimumValue: S.Number.pipe(T.Default(0)),
+          StepSize: S.Number.pipe(T.Default(0)),
           ControlTitleFormatText: S.optional(__S(9955, __c311, 3)),
         }),
       ).annotate({ identifier: "ParameterSliderControl" });
@@ -35772,7 +35775,7 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FilterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceFilterId: S.String,
           DisplayOptions: S.optional(__S(9954, __c311, 2)),
           Type: S.optional(S.String),
@@ -35788,7 +35791,7 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FilterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceFilterId: S.String,
           DisplayOptions: S.optional(__S(9958, __c311, 6)),
           Type: S.optional(S.String),
@@ -35806,7 +35809,7 @@ function __c312(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FilterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceFilterId: S.String,
           DisplayOptions: S.optional(__S(9972, __c311, 20)),
           Type: S.optional(S.String),
@@ -35821,7 +35824,7 @@ function __c312(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FilterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceFilterId: S.String,
           DisplayOptions: S.optional(__S(9974, __c311, 22)),
           ControlTitleFormatText: S.optional(__S(9955, __c311, 3)),
@@ -35831,7 +35834,7 @@ function __c312(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FilterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceFilterId: S.String,
           Delimiter: S.optional(S.String),
           DisplayOptions: S.optional(__S(9974, __c311, 22)),
@@ -35842,13 +35845,13 @@ function __c312(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FilterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceFilterId: S.String,
           DisplayOptions: S.optional(__S(9977, __c311, 25)),
           Type: S.optional(S.String),
-          MaximumValue: S.Number,
-          MinimumValue: S.Number,
-          StepSize: S.Number,
+          MaximumValue: S.Number.pipe(T.Default(0)),
+          MinimumValue: S.Number.pipe(T.Default(0)),
+          StepSize: S.Number.pipe(T.Default(0)),
           ControlTitleFormatText: S.optional(__S(9955, __c311, 3)),
         }),
       ).annotate({ identifier: "FilterSliderControl" });
@@ -35864,7 +35867,7 @@ function __c312(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FilterControlId: S.String,
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           SourceFilterId: S.String,
           DisplayOptions: S.optional(__S(9988, __c312, 4)),
           CommitMode: S.optional(S.String),
@@ -36467,7 +36470,7 @@ function __c314(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          GradientOffset: S.Number,
+          GradientOffset: S.Number.pipe(T.Default(0)),
           DataValue: S.optional(S.Number),
           Color: S.optional(S.String),
         }),
@@ -37104,7 +37107,7 @@ function __c317(j: number): any {
         }),
       ).annotate({ identifier: "DataLabelOptions" });
     case 31:
-      return S.suspend(() => S.Struct({ Value: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ Value: S.Number.pipe(T.Default(0)) })).annotate({
         identifier: "ReferenceLineStaticDataConfiguration",
       });
   }
@@ -37196,9 +37199,9 @@ function __c318(j: number): any {
         }),
       ).annotate({ identifier: "BarChartConfiguration" });
     case 11:
-      return S.suspend(() => S.Struct({ Column: __S(9920, __c310, 0), Value: S.Number })).annotate({
-        identifier: "NumericEqualityDrillDownFilter",
-      });
+      return S.suspend(() =>
+        S.Struct({ Column: __S(9920, __c310, 0), Value: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "NumericEqualityDrillDownFilter" });
     case 12:
       return S.suspend(() =>
         S.Struct({ Column: __S(9920, __c310, 0), CategoryValues: __S(6784, __c212, 0) }),
@@ -37443,7 +37446,10 @@ function __c319(j: number): any {
       ).annotate({ identifier: "ArcAxisDisplayRange" });
     case 14:
       return S.suspend(() =>
-        S.Struct({ Range: S.optional(__S(10221, __c319, 13)), ReserveRange: S.optional(S.Number) }),
+        S.Struct({
+          Range: S.optional(__S(10221, __c319, 13)),
+          ReserveRange: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "ArcAxisConfiguration" });
     case 15:
       return S.suspend(() =>
@@ -37527,14 +37533,17 @@ function __c319(j: number): any {
       ).annotate({ identifier: "TimeBasedForecastProperties" });
     case 26:
       return S.suspend(() =>
-        S.Struct({ Date: S.Date.pipe(T.TimestampFormat("epoch-seconds")), Value: S.Number }),
+        S.Struct({
+          Date: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          Value: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "WhatIfPointScenario" });
     case 27:
       return S.suspend(() =>
         S.Struct({
           StartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           EndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          Value: S.Number,
+          Value: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WhatIfRangeScenario" });
     case 28:
@@ -37950,9 +37959,9 @@ function __c321(j: number): any {
         identifier: "GeospatialSolidColor",
       });
     case 25:
-      return S.suspend(() => S.Struct({ Color: S.String, DataValue: S.Number })).annotate({
-        identifier: "GeospatialGradientStepColor",
-      });
+      return S.suspend(() =>
+        S.Struct({ Color: S.String, DataValue: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "GeospatialGradientStepColor" });
     case 26:
       return S.Array(__S(10297, __c321, 25));
     case 27:
@@ -38130,7 +38139,7 @@ function __c322(j: number): any {
           Title: S.optional(__S(9996, __c312, 12)),
           Subtitle: S.optional(__S(9996, __c312, 12)),
           ChartConfiguration: S.optional(__S(10324, __c322, 20)),
-          DataSetIdentifier: S.optional(S.String),
+          DataSetIdentifier: S.optional(S.String).pipe(T.Default("")),
           TopicIdentifier: S.optional(S.String),
           VisualContentAltText: S.optional(S.String),
         }),
@@ -38705,7 +38714,7 @@ function __c324(j: number): any {
           Subtitle: S.optional(__S(9996, __c312, 12)),
           InsightConfiguration: S.optional(__S(10388, __c324, 20)),
           Actions: S.optional(__S(10097, __c315, 17)),
-          DataSetIdentifier: S.optional(S.String),
+          DataSetIdentifier: S.optional(S.String).pipe(T.Default("")),
           TopicIdentifier: S.optional(S.String),
           VisualContentAltText: S.optional(S.String),
         }),
@@ -38767,7 +38776,7 @@ function __c324(j: number): any {
           Subtitle: S.optional(__S(9996, __c312, 12)),
           ChartConfiguration: S.optional(__S(10395, __c324, 27)),
           Actions: S.optional(__S(10097, __c315, 17)),
-          DataSetIdentifier: S.optional(S.String),
+          DataSetIdentifier: S.optional(S.String).pipe(T.Default("")),
           TopicIdentifier: S.optional(S.String),
           VisualContentAltText: S.optional(S.String),
         }),
@@ -38776,7 +38785,7 @@ function __c324(j: number): any {
       return S.suspend(() =>
         S.Struct({
           VisualId: S.String,
-          DataSetIdentifier: S.optional(S.String),
+          DataSetIdentifier: S.optional(S.String).pipe(T.Default("")),
           TopicIdentifier: S.optional(S.String),
           Actions: S.optional(__S(10097, __c315, 17)),
         }),
@@ -39216,7 +39225,7 @@ function __c327(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataSetIdentifier: S.optional(S.String),
+          DataSetIdentifier: S.optional(S.String).pipe(T.Default("")),
           TopicIdentifier: S.optional(S.String),
           Name: S.String,
           Expression: SensitiveString,
@@ -39402,9 +39411,9 @@ function __c327(j: number): any {
         S.Struct({
           DisplayOptions: S.optional(__S(9977, __c311, 25)),
           Type: S.optional(S.String),
-          MaximumValue: S.Number,
-          MinimumValue: S.Number,
-          StepSize: S.Number,
+          MaximumValue: S.Number.pipe(T.Default(0)),
+          MinimumValue: S.Number.pipe(T.Default(0)),
+          StepSize: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DefaultSliderControlOptions" });
     case 30:
@@ -39455,7 +39464,7 @@ function __c328(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Title: S.optional(S.String),
+          Title: S.optional(S.String).pipe(T.Default("")),
           ControlOptions: __S(10497, __c328, 1),
           ControlTitleFormatText: S.optional(__S(9955, __c311, 3)),
         }),
@@ -39592,7 +39601,7 @@ function __c328(j: number): any {
         S.Struct({
           FilterId: S.String,
           Column: __S(9920, __c310, 0),
-          IncludeInnerSet: S.Boolean,
+          IncludeInnerSet: S.Boolean.pipe(T.Default(false)),
           InnerFilter: __S(10512, __c328, 16),
         }),
       ).annotate({ identifier: "NestedFilter" });
@@ -39756,7 +39765,7 @@ function __c329(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           Title: S.optional(S.String),
           TitleVisibility: S.optional(S.String),
           Description: S.optional(S.String),
@@ -40689,7 +40698,7 @@ function __c341(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
           Arn: S.optional(S.String),
           RequestId: S.optional(S.String),
         }),
@@ -40734,7 +40743,7 @@ function __c342(j: number): any {
           VersionArn: S.optional(S.String),
           DashboardId: S.optional(S.String),
           CreationStatus: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDashboardResponse" });
@@ -40918,7 +40927,7 @@ function __c347(j: number): any {
         S.Struct({
           DataSourceArn: S.String,
           UploadSettings: S.optional(__S(11108, __c347, 4)),
-          SheetIndex: S.Number,
+          SheetIndex: S.Number.pipe(T.Default(0)),
           InputColumns: __S(11105, __c347, 1),
         }),
       ).annotate({ identifier: "FileSource" });
@@ -41204,8 +41213,8 @@ function __c348(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          DisableUseAsDirectQuerySource: S.optional(S.Boolean),
-          DisableUseAsImportedSource: S.optional(S.Boolean),
+          DisableUseAsDirectQuerySource: S.optional(S.Boolean).pipe(T.Default(false)),
+          DisableUseAsImportedSource: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DataSetUsageConfiguration" });
     case 29:
@@ -41355,7 +41364,7 @@ function __c349(j: number): any {
         S.Struct({
           InputColumnName: S.optional(S.String),
           Separator: S.String,
-          Distinct: S.Boolean,
+          Distinct: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DataPrepListAggregationFunction" });
     case 25:
@@ -41571,7 +41580,7 @@ function __c351(j: number): any {
           IngestionArn: S.optional(S.String),
           IngestionId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateDataSetResponse" });
   }
@@ -41618,7 +41627,7 @@ function __c353(j: number): any {
           DataSourceId: S.optional(S.String),
           CreationStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateDataSourceResponse" });
   }
@@ -41660,7 +41669,7 @@ function __c354(j: number): any {
           Host: S.String,
           Port: S.Number,
           Database: S.String,
-          UseServiceName: S.optional(S.Boolean),
+          UseServiceName: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "OracleParameters" });
     case 7:
@@ -41677,14 +41686,14 @@ function __c354(j: number): any {
           RoleArn: S.String,
           DatabaseUser: S.optional(S.String),
           DatabaseGroups: S.optional(__S(6784, __c212, 0)),
-          AutoCreateDatabaseUser: S.optional(S.Boolean),
+          AutoCreateDatabaseUser: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "RedshiftIAMParameters" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           Host: S.optional(S.String),
-          Port: S.optional(S.Number),
+          Port: S.optional(S.Number).pipe(T.Default(0)),
           Database: S.String,
           ClusterId: S.optional(S.String),
           IAMParameters: S.optional(__S(11337, __c354, 9)),
@@ -41789,7 +41798,7 @@ function __c354(j: number): any {
           PasswordButtonXpath: S.optional(S.String),
           LoginPageUrl: S.optional(S.String),
           WebProxyHostName: S.optional(S.String),
-          WebProxyPortNumber: S.optional(S.Number),
+          WebProxyPortNumber: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WebCrawlerParameters" });
     case 25:
@@ -41873,9 +41882,9 @@ function __c354(j: number): any {
 function __c355(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ DisableSsl: S.optional(S.Boolean) })).annotate({
-        identifier: "SslProperties",
-      });
+      return S.suspend(() =>
+        S.Struct({ DisableSsl: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "SslProperties" });
   }
 }
 function __c356(j: number): any {
@@ -42053,7 +42062,7 @@ function __c364(j: number): any {
           Arn: S.String,
           FlowId: S.String,
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateFlowResponse" });
   }
@@ -42089,7 +42098,7 @@ function __c366(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           Arn: S.optional(S.String),
           FolderId: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -42127,7 +42136,7 @@ function __c367(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
           FolderMember: S.optional(__S(11745, __c367, 1)),
           RequestId: S.optional(S.String),
         }),
@@ -42179,7 +42188,7 @@ function __c370(j: number): any {
         S.Struct({
           Group: S.optional(__S(11808, __c369, 0)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateGroupResponse" });
   }
@@ -42216,7 +42225,7 @@ function __c372(j: number): any {
         S.Struct({
           GroupMember: S.optional(__S(11936, __c373, 0)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateGroupMembershipResponse" });
   }
@@ -42263,7 +42272,7 @@ function __c374(j: number): any {
           PolicyArn: S.optional(S.String),
           Identities: S.optional(__S(12000, __c375, 0)),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateIAMPolicyAssignmentResponse" });
   }
@@ -42304,7 +42313,7 @@ function __c376(j: number): any {
           IngestionId: S.optional(S.String),
           IngestionStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateIngestionResponse" });
   }
@@ -42450,7 +42459,7 @@ function __c381(j: number): any {
           CreationStatus: S.optional(S.String),
           IdentityStore: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateNamespaceResponse" });
   }
@@ -42490,7 +42499,7 @@ function __c382(j: number): any {
           OAuthClientApplicationId: S.optional(S.String),
           CreationStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateOAuthClientApplicationResponse" });
   }
@@ -42551,7 +42560,7 @@ function __c385(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
           ScheduleId: S.optional(S.String),
           Arn: S.optional(S.String),
@@ -42590,7 +42599,7 @@ function __c387(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateRoleMembershipResponse" });
   }
@@ -42661,7 +42670,7 @@ function __c390(j: number): any {
           VersionArn: S.optional(S.String),
           TemplateId: S.optional(S.String),
           CreationStatus: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateTemplateResponse" });
@@ -42793,7 +42802,7 @@ function __c396(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TemplateAlias: S.optional(__S(12640, __c395, 0)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateTemplateAliasResponse" });
@@ -42830,7 +42839,7 @@ function __c397(j: number): any {
           VersionArn: S.optional(S.String),
           ThemeId: S.optional(S.String),
           CreationStatus: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateThemeResponse" });
@@ -42996,7 +43005,7 @@ function __c401(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ThemeAlias: S.optional(__S(12800, __c400, 0)),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateThemeAliasResponse" });
@@ -43031,7 +43040,7 @@ function __c402(j: number): any {
           TopicId: S.optional(S.String),
           RefreshArn: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateTopicResponse" });
   }
@@ -43063,7 +43072,7 @@ function __c403(j: number): any {
           CategoryFilterFunction: S.optional(S.String),
           CategoryFilterType: S.optional(S.String),
           Constant: S.optional(__S(12898, __c403, 2)),
-          Inverse: S.optional(S.Boolean),
+          Inverse: S.optional(S.Boolean).pipe(T.Default(false)),
           NullFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopicCategoryFilter" });
@@ -43079,7 +43088,7 @@ function __c403(j: number): any {
         S.Struct({
           Constant: S.optional(__S(12900, __c403, 4)),
           Aggregation: S.optional(S.String),
-          Inverse: S.optional(S.Boolean),
+          Inverse: S.optional(S.Boolean).pipe(T.Default(false)),
           NullFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopicNumericEqualityFilter" });
@@ -43097,17 +43106,17 @@ function __c403(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Inclusive: S.optional(S.Boolean),
+          Inclusive: S.optional(S.Boolean).pipe(T.Default(false)),
           Constant: S.optional(__S(12903, __c403, 7)),
           Aggregation: S.optional(S.String),
-          Inverse: S.optional(S.Boolean),
+          Inverse: S.optional(S.Boolean).pipe(T.Default(false)),
           NullFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopicNumericRangeFilter" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          Inclusive: S.optional(S.Boolean),
+          Inclusive: S.optional(S.Boolean).pipe(T.Default(false)),
           Constant: S.optional(__S(12903, __c403, 7)),
           NullFilter: S.optional(S.String),
         }),
@@ -43126,7 +43135,7 @@ function __c403(j: number): any {
         S.Struct({
           NullFilterType: S.optional(S.String),
           Constant: S.optional(__S(12900, __c403, 4)),
-          Inverse: S.optional(S.Boolean),
+          Inverse: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "TopicNullFilter" });
     case 12:
@@ -43193,7 +43202,7 @@ function __c403(j: number): any {
           ColumnSynonyms: S.optional(__S(9888, __c309, 0)),
           ColumnDataRole: S.optional(S.String),
           Aggregation: S.optional(S.String),
-          IsIncludedInTopic: S.optional(S.Boolean),
+          IsIncludedInTopic: S.optional(S.Boolean).pipe(T.Default(false)),
           DisableIndexing: S.optional(S.Boolean),
           ComparativeOrder: S.optional(__S(12910, __c403, 14)),
           SemanticType: S.optional(__S(12911, __c403, 15)),
@@ -43201,7 +43210,7 @@ function __c403(j: number): any {
           AllowedAggregations: S.optional(__S(7552, __c236, 0)),
           NotAllowedAggregations: S.optional(__S(7552, __c236, 0)),
           DefaultFormatting: S.optional(__S(12912, __c403, 16)),
-          NeverAggregateInFilter: S.optional(S.Boolean),
+          NeverAggregateInFilter: S.optional(S.Boolean).pipe(T.Default(false)),
           CellValueSynonyms: S.optional(__S(12914, __c403, 18)),
           NonAdditive: S.optional(S.Boolean),
         }),
@@ -43215,7 +43224,7 @@ function __c403(j: number): any {
           CalculatedFieldDescription: S.optional(SensitiveString),
           Expression: SensitiveString,
           CalculatedFieldSynonyms: S.optional(__S(9888, __c309, 0)),
-          IsIncludedInTopic: S.optional(S.Boolean),
+          IsIncludedInTopic: S.optional(S.Boolean).pipe(T.Default(false)),
           DisableIndexing: S.optional(S.Boolean),
           ColumnDataRole: S.optional(S.String),
           TimeGranularity: S.optional(S.String),
@@ -43225,7 +43234,7 @@ function __c403(j: number): any {
           SemanticType: S.optional(__S(12911, __c403, 15)),
           AllowedAggregations: S.optional(__S(7552, __c236, 0)),
           NotAllowedAggregations: S.optional(__S(7552, __c236, 0)),
-          NeverAggregateInFilter: S.optional(S.Boolean),
+          NeverAggregateInFilter: S.optional(S.Boolean).pipe(T.Default(false)),
           CellValueSynonyms: S.optional(__S(12914, __c403, 18)),
           NonAdditive: S.optional(S.Boolean),
         }),
@@ -43357,7 +43366,7 @@ function __c407(j: number): any {
           TopicId: S.optional(S.String),
           TopicArn: S.optional(S.String),
           DatasetArn: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateTopicRefreshScheduleResponse" });
@@ -43369,7 +43378,7 @@ function __c408(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IsEnabled: S.Boolean,
-          BasedOnSpiceSchedule: S.Boolean,
+          BasedOnSpiceSchedule: S.Boolean.pipe(T.Default(false)),
           StartingAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Timezone: S.optional(S.String),
           RepeatAt: S.optional(S.String),
@@ -43439,7 +43448,7 @@ function __c411(j: number): any {
           Arn: S.optional(S.String),
           TopicId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateTopicV2Response" });
   }
@@ -43476,7 +43485,7 @@ function __c412(j: number): any {
           CreationStatus: S.optional(S.String),
           AvailabilityStatus: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateVPCConnectionResponse" });
   }
@@ -43522,7 +43531,10 @@ function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RequestId: S.optional(S.String), Status: S.optional(S.Number) }),
+        S.Struct({
+          RequestId: S.optional(S.String),
+          Status: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "DeleteAccountCustomPermissionResponse" });
   }
 }
@@ -43570,7 +43582,7 @@ function __c417(j: number): any {
           Arn: S.optional(S.String),
           ActionConnectorId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeleteActionConnectorResponse" });
   }
@@ -43628,7 +43640,7 @@ function __c420(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           Arn: S.optional(S.String),
           AnalysisId: S.optional(S.String),
           DeletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -43756,7 +43768,7 @@ function __c426(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           Arn: S.optional(S.String),
           DashboardId: S.optional(S.String),
           RequestId: S.optional(S.String),
@@ -43788,7 +43800,7 @@ function __c427(j: number): any {
           Arn: S.optional(S.String),
           DataSetId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeleteDataSetResponse" });
   }
@@ -43843,7 +43855,7 @@ function __c429(j: number): any {
           Arn: S.optional(S.String),
           DataSourceId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeleteDataSourceResponse" });
   }
@@ -43959,7 +43971,10 @@ function __c434(j: number): any {
       ).annotate({ identifier: "DeleteFolderMembershipRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Status: S.optional(S.Number), RequestId: S.optional(S.String) }),
+        S.Struct({
+          Status: S.optional(S.Number).pipe(T.Default(0)),
+          RequestId: S.optional(S.String),
+        }),
       ).annotate({ identifier: "DeleteFolderMembershipResponse" });
   }
 }
@@ -44039,7 +44054,7 @@ function __c437(j: number): any {
         S.Struct({
           AssignmentName: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeleteIAMPolicyAssignmentResponse" });
   }
@@ -44181,7 +44196,7 @@ function __c444(j: number): any {
           Arn: S.optional(S.String),
           OAuthClientApplicationId: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeleteOAuthClientApplicationResponse" });
   }
@@ -44304,7 +44319,7 @@ function __c449(j: number): any {
           RequestId: S.optional(S.String),
           Arn: S.optional(S.String),
           TemplateId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeleteTemplateResponse" });
   }
@@ -44334,7 +44349,7 @@ function __c450(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           TemplateId: S.optional(S.String),
           AliasName: S.optional(S.String),
           Arn: S.optional(S.String),
@@ -44367,7 +44382,7 @@ function __c451(j: number): any {
         S.Struct({
           Arn: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           ThemeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteThemeResponse" });
@@ -44401,7 +44416,7 @@ function __c452(j: number): any {
           AliasName: S.optional(S.String),
           Arn: S.optional(S.String),
           RequestId: S.optional(S.String),
-          Status: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          Status: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
           ThemeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteThemeAliasResponse" });

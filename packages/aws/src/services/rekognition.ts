@@ -395,7 +395,7 @@ export interface Emotion {
 }
 export type Emotions = Emotion[];
 export interface Smile {
-  Value?: boolean | undefined;
+  Value: boolean;
   Confidence?: number | undefined;
 }
 export interface ComparedFace {
@@ -908,11 +908,11 @@ export interface AgeRange {
   High?: number | undefined;
 }
 export interface Eyeglasses {
-  Value?: boolean | undefined;
+  Value: boolean;
   Confidence?: number | undefined;
 }
 export interface Sunglasses {
-  Value?: boolean | undefined;
+  Value: boolean;
   Confidence?: number | undefined;
 }
 export type GenderType = "Male" | "Female" | (string & {});
@@ -921,23 +921,23 @@ export interface Gender {
   Confidence?: number | undefined;
 }
 export interface Beard {
-  Value?: boolean | undefined;
+  Value: boolean;
   Confidence?: number | undefined;
 }
 export interface Mustache {
-  Value?: boolean | undefined;
+  Value: boolean;
   Confidence?: number | undefined;
 }
 export interface EyeOpen {
-  Value?: boolean | undefined;
+  Value: boolean;
   Confidence?: number | undefined;
 }
 export interface MouthOpen {
-  Value?: boolean | undefined;
+  Value: boolean;
   Confidence?: number | undefined;
 }
 export interface FaceOccluded {
-  Value?: boolean | undefined;
+  Value: boolean;
   Confidence?: number | undefined;
 }
 export interface EyeDirection {
@@ -1119,7 +1119,7 @@ export interface DetectProtectiveEquipmentRequest {
 export type BodyPart = "FACE" | "HEAD" | "LEFT_HAND" | "RIGHT_HAND" | (string & {});
 export interface CoversBodyPart {
   Confidence?: number | undefined;
-  Value?: boolean | undefined;
+  Value: boolean;
 }
 export interface EquipmentDetection {
   BoundingBox?: BoundingBox | undefined;
@@ -1261,7 +1261,7 @@ export interface CelebrityDetail {
   KnownGender?: KnownGender | undefined;
 }
 export interface CelebrityRecognition {
-  Timestamp?: number | undefined;
+  Timestamp: number;
   Celebrity?: CelebrityDetail | undefined;
 }
 export type CelebrityRecognitions = CelebrityRecognition[];
@@ -1289,7 +1289,7 @@ export interface GetContentModerationRequest {
   AggregateBy?: ContentModerationAggregateBy | undefined;
 }
 export interface ContentModerationDetection {
-  Timestamp?: number | undefined;
+  Timestamp: number;
   ModerationLabel?: ModerationLabel | undefined;
   StartTimestampMillis?: number | undefined;
   EndTimestampMillis?: number | undefined;
@@ -1319,7 +1319,7 @@ export interface GetFaceDetectionRequest {
   NextToken?: string | undefined;
 }
 export interface FaceDetection {
-  Timestamp?: number | undefined;
+  Timestamp: number;
   Face?: FaceDetail | undefined;
 }
 export type FaceDetections = FaceDetection[];
@@ -1392,7 +1392,7 @@ export interface GetFaceSearchRequest {
 }
 export type PersonIndex = number;
 export interface PersonDetail {
-  Index?: number | undefined;
+  Index: number;
   BoundingBox?: BoundingBox | undefined;
   Face?: FaceDetail | undefined;
 }
@@ -1414,7 +1414,7 @@ export interface FaceMatch {
 }
 export type FaceMatchList = FaceMatch[];
 export interface PersonMatch {
-  Timestamp?: number | undefined;
+  Timestamp: number;
   Person?: PersonDetail | undefined;
   FaceMatches?: FaceMatch[] | undefined;
 }
@@ -1439,7 +1439,7 @@ export interface GetLabelDetectionRequest {
   AggregateBy?: LabelDetectionAggregateBy | undefined;
 }
 export interface LabelDetection {
-  Timestamp?: number | undefined;
+  Timestamp: number;
   Label?: Label | undefined;
   StartTimestampMillis?: number | undefined;
   EndTimestampMillis?: number | undefined;
@@ -1536,7 +1536,7 @@ export interface GetPersonTrackingRequest {
   SortBy?: PersonTrackingSortBy | undefined;
 }
 export interface PersonDetection {
-  Timestamp?: number | undefined;
+  Timestamp: number;
   Person?: PersonDetail | undefined;
 }
 export type PersonDetections = PersonDetection[];
@@ -1585,8 +1585,8 @@ export interface ShotSegment {
 }
 export interface SegmentDetection {
   Type?: SegmentType | undefined;
-  StartTimestampMillis?: number | undefined;
-  EndTimestampMillis?: number | undefined;
+  StartTimestampMillis: number;
+  EndTimestampMillis: number;
   DurationMillis?: number | undefined;
   StartTimecodeSMPTE?: string | undefined;
   EndTimecodeSMPTE?: string | undefined;
@@ -1621,7 +1621,7 @@ export interface GetTextDetectionRequest {
   NextToken?: string | undefined;
 }
 export interface TextDetectionResult {
-  Timestamp?: number | undefined;
+  Timestamp: number;
   TextDetection?: TextDetection | undefined;
 }
 export type TextDetectionResults = TextDetectionResult[];
@@ -6543,7 +6543,10 @@ function __c10(j: number): any {
       return S.Array(__S(144, __c9, 0));
     case 5:
       return S.suspend(() =>
-        S.Struct({ Value: S.optional(S.Boolean), Confidence: S.optional(S.Number) }),
+        S.Struct({
+          Value: S.optional(S.Boolean).pipe(T.Default(false)),
+          Confidence: S.optional(S.Number),
+        }),
       ).annotate({ identifier: "Smile" });
   }
 }
@@ -6744,7 +6747,10 @@ function __c23(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({ Assets: S.optional(__S(369, __c23, 1)), AutoCreate: S.optional(S.Boolean) }),
+        S.Struct({
+          Assets: S.optional(__S(369, __c23, 1)),
+          AutoCreate: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "TestingData" });
     case 4:
       return S.suspend(() => S.Struct({ ConfidenceThreshold: S.optional(S.Number) })).annotate({
@@ -6847,7 +6853,7 @@ function __c27(j: number): any {
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ OptIn: S.Boolean })).annotate({
+      return S.suspend(() => S.Struct({ OptIn: S.Boolean.pipe(T.Default(false)) })).annotate({
         identifier: "StreamProcessorDataSharingPreference",
       });
   }
@@ -7273,9 +7279,9 @@ function __c48(j: number): any {
 function __c49(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ MaxDominantColors: S.optional(S.Number) })).annotate({
-        identifier: "DetectLabelsImagePropertiesSettings",
-      });
+      return S.suspend(() =>
+        S.Struct({ MaxDominantColors: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "DetectLabelsImagePropertiesSettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -7467,7 +7473,10 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DetectProtectiveEquipmentRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Confidence: S.optional(S.Number), Value: S.optional(S.Boolean) }),
+        S.Struct({
+          Confidence: S.optional(S.Number),
+          Value: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "CoversBodyPart" });
     case 3:
       return S.suspend(() =>
@@ -7662,7 +7671,10 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CelebrityDetail" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Timestamp: S.optional(S.Number), Celebrity: S.optional(__S(993, __c62, 1)) }),
+        S.Struct({
+          Timestamp: S.optional(S.Number).pipe(T.Default(0)),
+          Celebrity: S.optional(__S(993, __c62, 1)),
+        }),
       ).annotate({ identifier: "CelebrityRecognition" });
     case 3:
       return S.Array(__S(994, __c62, 2));
@@ -7712,7 +7724,7 @@ function __c64(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Timestamp: S.optional(S.Number),
+          Timestamp: S.optional(S.Number).pipe(T.Default(0)),
           ModerationLabel: S.optional(__S(848, __c53, 0)),
           StartTimestampMillis: S.optional(S.Number),
           EndTimestampMillis: S.optional(S.Number),
@@ -7759,7 +7771,10 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetFaceDetectionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Timestamp: S.optional(S.Number), Face: S.optional(__S(771, __c48, 3)) }),
+        S.Struct({
+          Timestamp: S.optional(S.Number).pipe(T.Default(0)),
+          Face: S.optional(__S(771, __c48, 3)),
+        }),
       ).annotate({ identifier: "FaceDetection" });
     case 2:
       return S.Array(__S(1057, __c66, 1));
@@ -7839,7 +7854,7 @@ function __c68(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Timestamp: S.optional(S.Number),
+          Timestamp: S.optional(S.Number).pipe(T.Default(0)),
           Person: S.optional(__S(1104, __c69, 0)),
           FaceMatches: S.optional(__S(1137, __c71, 1)),
         }),
@@ -7866,7 +7881,7 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Index: S.optional(S.Number),
+          Index: S.optional(S.Number).pipe(T.Default(0)),
           BoundingBox: S.optional(__S(112, __c7, 0)),
           Face: S.optional(__S(771, __c48, 3)),
         }),
@@ -7914,7 +7929,7 @@ function __c72(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Timestamp: S.optional(S.Number),
+          Timestamp: S.optional(S.Number).pipe(T.Default(0)),
           Label: S.optional(__S(806, __c50, 6)),
           StartTimestampMillis: S.optional(S.Number),
           EndTimestampMillis: S.optional(S.Number),
@@ -8015,7 +8030,10 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetPersonTrackingRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Timestamp: S.optional(S.Number), Person: S.optional(__S(1104, __c69, 0)) }),
+        S.Struct({
+          Timestamp: S.optional(S.Number).pipe(T.Default(0)),
+          Person: S.optional(__S(1104, __c69, 0)),
+        }),
       ).annotate({ identifier: "PersonDetection" });
     case 2:
       return S.Array(__S(1217, __c76, 1));
@@ -8065,8 +8083,8 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Type: S.optional(S.String),
-          StartTimestampMillis: S.optional(S.Number),
-          EndTimestampMillis: S.optional(S.Number),
+          StartTimestampMillis: S.optional(S.Number).pipe(T.Default(0)),
+          EndTimestampMillis: S.optional(S.Number).pipe(T.Default(0)),
           DurationMillis: S.optional(S.Number),
           StartTimecodeSMPTE: S.optional(S.String),
           EndTimecodeSMPTE: S.optional(S.String),
@@ -8116,7 +8134,7 @@ function __c78(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Timestamp: S.optional(S.Number),
+          Timestamp: S.optional(S.Number).pipe(T.Default(0)),
           TextDetection: S.optional(__S(896, __c56, 0)),
         }),
       ).annotate({ identifier: "TextDetectionResult" });

@@ -677,7 +677,7 @@ export type ScanningRepositoryFilterList = ScanningRepositoryFilter[];
 export interface RepositoryScanningConfiguration {
   repositoryArn?: string | undefined;
   repositoryName?: string | undefined;
-  scanOnPush?: boolean | undefined;
+  scanOnPush: boolean;
   scanFrequency?: ScanFrequency | undefined;
   appliedScanFilters?: ScanningRepositoryFilter[] | undefined;
 }
@@ -1049,7 +1049,7 @@ export type ScoringVector = string;
 export type Source = string;
 export type Version = string;
 export interface CvssScore {
-  baseScore?: number | undefined;
+  baseScore: number;
   scoringVector?: string | undefined;
   source?: string | undefined;
   version?: string | undefined;
@@ -1139,7 +1139,7 @@ export interface CvssScoreAdjustment {
 export type CvssScoreAdjustmentList = CvssScoreAdjustment[];
 export interface CvssScoreDetails {
   adjustments?: CvssScoreAdjustment[] | undefined;
-  score?: number | undefined;
+  score: number;
   scoreSource?: string | undefined;
   scoringVector?: string | undefined;
   version?: string | undefined;
@@ -1160,7 +1160,7 @@ export interface EnhancedImageScanFinding {
   packageVulnerabilityDetails?: PackageVulnerabilityDetails | undefined;
   remediation?: Remediation | undefined;
   resources?: Resource[] | undefined;
-  score?: number | undefined;
+  score: number;
   scoreDetails?: ScoreDetails | undefined;
   severity?: string | undefined;
   status?: string | undefined;
@@ -1772,7 +1772,7 @@ export interface ValidatePullThroughCacheRuleResponse {
   credentialArn?: string | undefined;
   customRoleArn?: string | undefined;
   upstreamRepositoryPrefix?: string | undefined;
-  isValid?: boolean | undefined;
+  isValid: boolean;
   failure?: string | undefined;
 }
 export type ExceptionMessage = string;
@@ -4089,7 +4089,7 @@ function __c12(j: number): any {
           credentialArn: S.optional(S.String),
           customRoleArn: S.optional(S.String),
           upstreamRepositoryPrefix: S.optional(S.String),
-          isValid: S.optional(S.Boolean),
+          isValid: S.optional(S.Boolean).pipe(T.Default(false)),
           failure: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ValidatePullThroughCacheRuleResponse" });
@@ -4237,7 +4237,7 @@ function __c21(j: number): any {
         S.Struct({
           repositoryArn: S.optional(S.String),
           repositoryName: S.optional(S.String),
-          scanOnPush: S.optional(S.Boolean),
+          scanOnPush: S.optional(S.Boolean).pipe(T.Default(false)),
           scanFrequency: S.optional(S.String),
           appliedScanFilters: S.optional(__S(705, __c22, 1)),
         }),
@@ -4397,9 +4397,9 @@ function __c30(j: number): any {
 function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ scanOnPush: S.optional(S.Boolean) })).annotate({
-        identifier: "ImageScanningConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ scanOnPush: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "ImageScanningConfiguration" });
   }
 }
 function __c32(j: number): any {
@@ -4752,7 +4752,7 @@ function __c53(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          baseScore: S.optional(S.Number),
+          baseScore: S.optional(S.Number).pipe(T.Default(0)),
           scoringVector: S.optional(S.String),
           source: S.optional(S.String),
           version: S.optional(S.String),
@@ -4839,7 +4839,7 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adjustments: S.optional(__S(1713, __c53, 17)),
-          score: S.optional(S.Number),
+          score: S.optional(S.Number).pipe(T.Default(0)),
           scoreSource: S.optional(S.String),
           scoringVector: S.optional(S.String),
           version: S.optional(S.String),
@@ -4860,7 +4860,7 @@ function __c53(j: number): any {
           packageVulnerabilityDetails: S.optional(__S(1705, __c53, 9)),
           remediation: S.optional(__S(1707, __c53, 11)),
           resources: S.optional(__S(1711, __c53, 15)),
-          score: S.optional(S.Number),
+          score: S.optional(S.Number).pipe(T.Default(0)),
           scoreDetails: S.optional(__S(1715, __c53, 19)),
           severity: S.optional(S.String),
           status: S.optional(S.String),

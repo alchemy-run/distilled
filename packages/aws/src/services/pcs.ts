@@ -414,7 +414,7 @@ export interface ComputeNodeGroupSlurmConfiguration {
 }
 export interface NodeLifecycleActions {
   stages: NodeLifecycleStages;
-  scriptCachingPolicy?: ScriptCachingPolicy | undefined;
+  scriptCachingPolicy: ScriptCachingPolicy;
 }
 export interface ComputeNodeGroup {
   amiId?: string | undefined;
@@ -429,7 +429,7 @@ export interface ComputeNodeGroup {
   status: ComputeNodeGroupStatus;
   subnetIds: string[];
   purchaseOption?: PurchaseOption | undefined;
-  launchTemplateMode?: LaunchTemplateMode | undefined;
+  launchTemplateMode: LaunchTemplateMode;
   customLaunchTemplate?: CustomLaunchTemplate | undefined;
   iamInstanceProfileArn: string;
   scalingConfiguration: ScalingConfiguration;
@@ -1807,8 +1807,8 @@ function __c27(j: number): any {
           name: S.String,
           scriptSource: __S(432, __c27, 0),
           arguments: S.optional(__S(352, __c22, 0)),
-          onError: S.optional(S.String),
-          executionPolicy: S.optional(S.String),
+          onError: S.optional(S.String).pipe(T.Default("TERMINATE")),
+          executionPolicy: S.optional(S.String).pipe(T.Default("FIRST_BOOT_ONLY")),
         }),
       ).annotate({ identifier: "NodeLifecycleScript" });
     case 2:
@@ -1822,7 +1822,10 @@ function __c27(j: number): any {
       ).annotate({ identifier: "NodeLifecycleStages" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ stages: __S(435, __c27, 3), scriptCachingPolicy: S.optional(S.String) }),
+        S.Struct({
+          stages: __S(435, __c27, 3),
+          scriptCachingPolicy: S.optional(S.String).pipe(T.Default("CACHE_ONCE")),
+        }),
       ).annotate({ identifier: "NodeLifecycleActionsRequest" });
   }
 }
@@ -1834,7 +1837,10 @@ function __c28(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ minInstanceCount: S.Number, maxInstanceCount: S.Number }),
+        S.Struct({
+          minInstanceCount: S.Number.pipe(T.Default(0)),
+          maxInstanceCount: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "ScalingConfigurationRequest" });
     case 2:
       return S.suspend(() => S.Struct({ instanceType: S.optional(S.String) })).annotate({
@@ -1871,7 +1877,7 @@ function __c28(j: number): any {
           status: S.String,
           subnetIds: __S(352, __c22, 0),
           purchaseOption: S.optional(S.String),
-          launchTemplateMode: S.optional(S.String),
+          launchTemplateMode: S.optional(S.String).pipe(T.Default("CUSTOM")),
           customLaunchTemplate: S.optional(__S(448, __c28, 0)),
           iamInstanceProfileArn: S.String,
           scalingConfiguration: __S(449, __c28, 1),

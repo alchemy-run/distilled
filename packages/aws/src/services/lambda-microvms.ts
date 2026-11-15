@@ -1752,23 +1752,23 @@ function __c9(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          run: S.optional(S.String),
-          runTimeoutInSeconds: S.optional(S.Number),
-          resume: S.optional(S.String),
-          resumeTimeoutInSeconds: S.optional(S.Number),
-          suspend: S.optional(S.String),
-          suspendTimeoutInSeconds: S.optional(S.Number),
-          terminate: S.optional(S.String),
-          terminateTimeoutInSeconds: S.optional(S.Number),
+          run: S.optional(S.String).pipe(T.Default("DISABLED")),
+          runTimeoutInSeconds: S.optional(S.Number).pipe(T.Default(1)),
+          resume: S.optional(S.String).pipe(T.Default("DISABLED")),
+          resumeTimeoutInSeconds: S.optional(S.Number).pipe(T.Default(1)),
+          suspend: S.optional(S.String).pipe(T.Default("DISABLED")),
+          suspendTimeoutInSeconds: S.optional(S.Number).pipe(T.Default(1)),
+          terminate: S.optional(S.String).pipe(T.Default("DISABLED")),
+          terminateTimeoutInSeconds: S.optional(S.Number).pipe(T.Default(1)),
         }),
       ).annotate({ identifier: "MicrovmHooks" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ready: S.optional(S.String),
-          readyTimeoutInSeconds: S.optional(S.Number),
-          validate: S.optional(S.String),
-          validateTimeoutInSeconds: S.optional(S.Number),
+          ready: S.optional(S.String).pipe(T.Default("DISABLED")),
+          readyTimeoutInSeconds: S.optional(S.Number).pipe(T.Default(30)),
+          validate: S.optional(S.String).pipe(T.Default("DISABLED")),
+          validateTimeoutInSeconds: S.optional(S.Number).pipe(T.Default(30)),
         }),
       ).annotate({ identifier: "MicrovmImageHooks" });
     case 6:

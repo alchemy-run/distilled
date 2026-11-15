@@ -224,7 +224,7 @@ export type RequestId = string;
 export type Success = boolean;
 export interface SendSerialConsoleSSHPublicKeyResponse {
   RequestId?: string | undefined;
-  Success?: boolean | undefined;
+  Success: boolean;
 }
 export type InstanceOSUser = string;
 export type AvailabilityZone = string;
@@ -236,7 +236,7 @@ export interface SendSSHPublicKeyRequest {
 }
 export interface SendSSHPublicKeyResponse {
   RequestId?: string | undefined;
-  Success?: boolean | undefined;
+  Success: boolean;
 }
 export type SendSerialConsoleSSHPublicKeyError =
   | AuthException
@@ -343,7 +343,10 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RequestId: S.optional(S.String), Success: S.optional(S.Boolean) }),
+        S.Struct({
+          RequestId: S.optional(S.String),
+          Success: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "SendSerialConsoleSSHPublicKeyResponse" });
   }
 }

@@ -2362,7 +2362,7 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ChannelId: S.Number, ParticipantRole: S.optional(S.String) }),
+        S.Struct({ ChannelId: S.Number.pipe(T.Default(0)), ParticipantRole: S.optional(S.String) }),
       ).annotate({ identifier: "ChannelDefinition" });
     case 1:
       return S.Array(__S(96, __c3, 0));
@@ -2469,7 +2469,7 @@ function __c5(j: number): any {
         S.Struct({
           RuleName: S.String,
           Keywords: __S(1376, __c43, 0),
-          Negate: S.optional(S.Boolean),
+          Negate: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "KeywordMatchConfiguration" });
     case 1:
@@ -2493,7 +2493,10 @@ function __c5(j: number): any {
       return S.Array(__S(163, __c5, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ Disabled: S.optional(S.Boolean), Rules: S.optional(__S(164, __c5, 4)) }),
+        S.Struct({
+          Disabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          Rules: S.optional(__S(164, __c5, 4)),
+        }),
       ).annotate({ identifier: "RealTimeAlertConfiguration" });
     case 6:
       return S.suspend(() =>
@@ -2512,12 +2515,12 @@ function __c5(j: number): any {
           VocabularyFilterName: S.optional(S.String),
           VocabularyFilterMethod: S.optional(S.String),
           LanguageModelName: S.optional(S.String),
-          EnablePartialResultsStabilization: S.optional(S.Boolean),
+          EnablePartialResultsStabilization: S.optional(S.Boolean).pipe(T.Default(false)),
           PartialResultsStability: S.optional(S.String),
           ContentIdentificationType: S.optional(S.String),
           ContentRedactionType: S.optional(S.String),
           PiiEntityTypes: S.optional(S.String),
-          FilterPartialResults: S.optional(S.Boolean),
+          FilterPartialResults: S.optional(S.Boolean).pipe(T.Default(false)),
           PostCallAnalyticsSettings: S.optional(__S(166, __c5, 6)),
           CallAnalyticsStreamCategories: S.optional(__S(1376, __c43, 0)),
         }),
@@ -2529,16 +2532,16 @@ function __c5(j: number): any {
           VocabularyName: S.optional(S.String),
           VocabularyFilterName: S.optional(S.String),
           VocabularyFilterMethod: S.optional(S.String),
-          ShowSpeakerLabel: S.optional(S.Boolean),
-          EnablePartialResultsStabilization: S.optional(S.Boolean),
+          ShowSpeakerLabel: S.optional(S.Boolean).pipe(T.Default(false)),
+          EnablePartialResultsStabilization: S.optional(S.Boolean).pipe(T.Default(false)),
           PartialResultsStability: S.optional(S.String),
           ContentIdentificationType: S.optional(S.String),
           ContentRedactionType: S.optional(S.String),
           PiiEntityTypes: S.optional(S.String),
           LanguageModelName: S.optional(S.String),
-          FilterPartialResults: S.optional(S.Boolean),
-          IdentifyLanguage: S.optional(S.Boolean),
-          IdentifyMultipleLanguages: S.optional(S.Boolean),
+          FilterPartialResults: S.optional(S.Boolean).pipe(T.Default(false)),
+          IdentifyLanguage: S.optional(S.Boolean).pipe(T.Default(false)),
+          IdentifyMultipleLanguages: S.optional(S.Boolean).pipe(T.Default(false)),
           LanguageOptions: S.optional(S.String),
           PreferredLanguage: S.optional(S.String),
           VocabularyNames: S.optional(S.String),
@@ -2564,9 +2567,9 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "VoiceAnalyticsProcessorConfiguration" });
     case 12:
-      return S.suspend(() => S.Struct({ Disabled: S.optional(S.Boolean) })).annotate({
-        identifier: "VoiceEnhancementSinkConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ Disabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "VoiceEnhancementSinkConfiguration" });
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -3213,7 +3216,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           StreamArn: S.String,
-          ChannelId: S.Number,
+          ChannelId: S.Number.pipe(T.Default(0)),
           FragmentNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "KinesisVideoStreamSourceTaskConfiguration" });

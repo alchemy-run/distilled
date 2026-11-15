@@ -583,8 +583,8 @@ export interface DICOMTags {
   DICOMStudyInstanceUID?: string | redacted.Redacted<string> | undefined;
   DICOMStudyId?: string | redacted.Redacted<string> | undefined;
   DICOMStudyDescription?: string | redacted.Redacted<string> | undefined;
-  DICOMNumberOfStudyRelatedSeries?: number | undefined;
-  DICOMNumberOfStudyRelatedInstances?: number | undefined;
+  DICOMNumberOfStudyRelatedSeries: number;
+  DICOMNumberOfStudyRelatedInstances: number;
   DICOMAccessionNumber?: string | redacted.Redacted<string> | undefined;
   DICOMSeriesInstanceUID?: string | redacted.Redacted<string> | undefined;
   DICOMSeriesModality?: string | redacted.Redacted<string> | undefined;
@@ -1826,8 +1826,8 @@ function __c16(j: number): any {
           DICOMStudyInstanceUID: S.optional(SensitiveString),
           DICOMStudyId: S.optional(SensitiveString),
           DICOMStudyDescription: S.optional(SensitiveString),
-          DICOMNumberOfStudyRelatedSeries: S.optional(S.Number),
-          DICOMNumberOfStudyRelatedInstances: S.optional(S.Number),
+          DICOMNumberOfStudyRelatedSeries: S.optional(S.Number).pipe(T.Default(0)),
+          DICOMNumberOfStudyRelatedInstances: S.optional(S.Number).pipe(T.Default(0)),
           DICOMAccessionNumber: S.optional(SensitiveString),
           DICOMSeriesInstanceUID: S.optional(SensitiveString),
           DICOMSeriesModality: S.optional(SensitiveString),

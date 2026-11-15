@@ -121,9 +121,9 @@ export class ThrottlingException
     "ThrottlingException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}

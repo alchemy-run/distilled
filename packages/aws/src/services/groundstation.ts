@@ -910,7 +910,7 @@ export interface EphemerisMetaData {
 export interface GetSatelliteResponse {
   satelliteId?: string | undefined;
   satelliteArn?: string | undefined;
-  noradSatelliteID?: number | undefined;
+  noradSatelliteID: number;
   groundStations?: string[] | undefined;
   currentEphemeris?: EphemerisMetaData | undefined;
 }
@@ -1105,7 +1105,7 @@ export interface ListSatellitesRequest {
 export interface SatelliteListItem {
   satelliteId?: string | undefined;
   satelliteArn?: string | undefined;
-  noradSatelliteID?: number | undefined;
+  noradSatelliteID: number;
   groundStations?: string[] | undefined;
   currentEphemeris?: EphemerisMetaData | undefined;
 }
@@ -2939,7 +2939,7 @@ function __c24(j: number): any {
         S.Struct({
           satelliteId: S.optional(S.String),
           satelliteArn: S.optional(S.String),
-          noradSatelliteID: S.optional(S.Number),
+          noradSatelliteID: S.optional(S.Number).pipe(T.Default(0)),
           groundStations: S.optional(__S(848, __c53, 0)),
           currentEphemeris: S.optional(__S(384, __c24, 0)),
         }),

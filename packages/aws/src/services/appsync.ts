@@ -306,7 +306,7 @@ export interface Api {
   dns?: { [key: string]: string | undefined } | undefined;
   apiArn?: string | undefined;
   created?: Date | undefined;
-  xrayEnabled?: boolean | undefined;
+  xrayEnabled: boolean;
   wafWebAclArn?: string | undefined;
   eventConfig?: EventConfig | undefined;
 }
@@ -353,10 +353,10 @@ export type ApiCacheStatus =
   | "FAILED"
   | (string & {});
 export interface ApiCache {
-  ttl?: number | undefined;
+  ttl: number;
   apiCachingBehavior?: ApiCachingBehavior | undefined;
-  transitEncryptionEnabled?: boolean | undefined;
-  atRestEncryptionEnabled?: boolean | undefined;
+  transitEncryptionEnabled: boolean;
+  atRestEncryptionEnabled: boolean;
   type?: ApiCacheType | undefined;
   status?: ApiCacheStatus | undefined;
   healthMetricsConfig?: CacheHealthMetricsConfig | undefined;
@@ -372,8 +372,8 @@ export interface CreateApiKeyRequest {
 export interface ApiKey {
   id?: string | undefined;
   description?: string | undefined;
-  expires?: number | undefined;
-  deletes?: number | undefined;
+  expires: number;
+  deletes: number;
 }
 export interface CreateApiKeyResponse {
   apiKey?: ApiKey | undefined;
@@ -583,7 +583,7 @@ export interface FunctionConfiguration {
   responseMappingTemplate?: string | undefined;
   functionVersion?: string | undefined;
   syncConfig?: SyncConfig | undefined;
-  maxBatchSize?: number | undefined;
+  maxBatchSize: number;
   runtime?: AppSyncRuntime | undefined;
   code?: string | undefined;
 }
@@ -664,7 +664,7 @@ export interface GraphqlApi {
   uris?: { [key: string]: string | undefined } | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   additionalAuthenticationProviders?: AdditionalAuthenticationProvider[] | undefined;
-  xrayEnabled?: boolean | undefined;
+  xrayEnabled: boolean;
   wafWebAclArn?: string | undefined;
   lambdaAuthorizerConfig?: LambdaAuthorizerConfig | undefined;
   dns?: { [key: string]: string | undefined } | undefined;
@@ -674,8 +674,8 @@ export interface GraphqlApi {
   owner?: string | undefined;
   ownerContact?: string | undefined;
   introspectionConfig?: GraphQLApiIntrospectionConfig | undefined;
-  queryDepthLimit?: number | undefined;
-  resolverCountLimit?: number | undefined;
+  queryDepthLimit: number;
+  resolverCountLimit: number;
   enhancedMetricsConfig?: EnhancedMetricsConfig | undefined;
 }
 export interface CreateGraphqlApiResponse {
@@ -719,7 +719,7 @@ export interface Resolver {
   pipelineConfig?: PipelineConfig | undefined;
   syncConfig?: SyncConfig | undefined;
   cachingConfig?: CachingConfig | undefined;
-  maxBatchSize?: number | undefined;
+  maxBatchSize: number;
   runtime?: AppSyncRuntime | undefined;
   code?: string | undefined;
   metricsConfig?: ResolverLevelMetricsConfig | undefined;
@@ -821,9 +821,9 @@ export type CodeErrorLine = number;
 export type CodeErrorColumn = number;
 export type CodeErrorSpan = number;
 export interface CodeErrorLocation {
-  line?: number | undefined;
-  column?: number | undefined;
-  span?: number | undefined;
+  line: number;
+  column: number;
+  span: number;
 }
 export interface CodeError {
   errorType?: string | undefined;
@@ -915,7 +915,7 @@ export interface DataSourceIntrospectionModelFieldType {
 export interface DataSourceIntrospectionModelField {
   name?: string | undefined;
   type?: DataSourceIntrospectionModelFieldType | undefined;
-  length?: number | undefined;
+  length: number;
 }
 export type DataSourceIntrospectionModelFields = DataSourceIntrospectionModelField[];
 export type DataSourceIntrospectionModelIndexFields = string[];
@@ -3902,14 +3902,14 @@ function __c8(j: number): any {
         S.Struct({
           issuer: S.String,
           clientId: S.optional(S.String),
-          iatTTL: S.optional(S.Number),
-          authTTL: S.optional(S.Number),
+          iatTTL: S.optional(S.Number).pipe(T.Default(0)),
+          authTTL: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "OpenIDConnectConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          authorizerResultTtlInSeconds: S.optional(S.Number),
+          authorizerResultTtlInSeconds: S.optional(S.Number).pipe(T.Default(0)),
           authorizerUri: S.String,
           identityValidationExpression: S.optional(S.String),
         }),
@@ -3953,7 +3953,7 @@ function __c9(j: number): any {
           dns: S.optional(__S(96, __c6, 0)),
           apiArn: S.optional(S.String),
           created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          xrayEnabled: S.optional(S.Boolean),
+          xrayEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           wafWebAclArn: S.optional(S.String),
           eventConfig: S.optional(__S(147, __c9, 3)),
         }),
@@ -3999,10 +3999,10 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ttl: S.optional(S.Number),
+          ttl: S.optional(S.Number).pipe(T.Default(0)),
           apiCachingBehavior: S.optional(S.String),
-          transitEncryptionEnabled: S.optional(S.Boolean),
-          atRestEncryptionEnabled: S.optional(S.Boolean),
+          transitEncryptionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          atRestEncryptionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           type: S.optional(S.String),
           status: S.optional(S.String),
           healthMetricsConfig: S.optional(S.String),
@@ -4043,8 +4043,8 @@ function __c14(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           description: S.optional(S.String),
-          expires: S.optional(S.Number),
-          deletes: S.optional(S.Number),
+          expires: S.optional(S.Number).pipe(T.Default(0)),
+          deletes: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ApiKey" });
   }
@@ -4166,9 +4166,9 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          baseTableTTL: S.optional(S.Number),
+          baseTableTTL: S.optional(S.Number).pipe(T.Default(0)),
           deltaSyncTableName: S.optional(S.String),
-          deltaSyncTableTTL: S.optional(S.Number),
+          deltaSyncTableTTL: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeltaSyncConfig" });
     case 1:
@@ -4176,9 +4176,9 @@ function __c20(j: number): any {
         S.Struct({
           tableName: S.String,
           awsRegion: S.String,
-          useCallerCredentials: S.optional(S.Boolean),
+          useCallerCredentials: S.optional(S.Boolean).pipe(T.Default(false)),
           deltaSyncConfig: S.optional(__S(320, __c20, 0)),
-          versioned: S.optional(S.Boolean),
+          versioned: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DynamodbDataSourceConfig" });
     case 2:
@@ -4368,7 +4368,7 @@ function __c28(j: number): any {
           responseMappingTemplate: S.optional(S.String),
           functionVersion: S.optional(S.String),
           syncConfig: S.optional(__S(433, __c27, 1)),
-          maxBatchSize: S.optional(S.Number),
+          maxBatchSize: S.optional(S.Number).pipe(T.Default(0)),
           runtime: S.optional(__S(416, __c26, 0)),
           code: S.optional(S.String),
         }),
@@ -4418,7 +4418,7 @@ function __c31(j: number): any {
         S.Struct({
           fieldLogLevel: S.String,
           cloudWatchLogsRoleArn: S.String,
-          excludeVerboseContent: S.optional(S.Boolean),
+          excludeVerboseContent: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "LogConfig" });
     case 1:
@@ -4462,7 +4462,7 @@ function __c31(j: number): any {
           uris: S.optional(__S(96, __c6, 0)),
           tags: S.optional(__S(96, __c6, 0)),
           additionalAuthenticationProviders: S.optional(__S(499, __c31, 3)),
-          xrayEnabled: S.optional(S.Boolean),
+          xrayEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           wafWebAclArn: S.optional(S.String),
           lambdaAuthorizerConfig: S.optional(__S(130, __c8, 2)),
           dns: S.optional(__S(96, __c6, 0)),
@@ -4472,8 +4472,8 @@ function __c31(j: number): any {
           owner: S.optional(S.String),
           ownerContact: S.optional(S.String),
           introspectionConfig: S.optional(S.String),
-          queryDepthLimit: S.optional(S.Number),
-          resolverCountLimit: S.optional(S.Number),
+          queryDepthLimit: S.optional(S.Number).pipe(T.Default(0)),
+          resolverCountLimit: S.optional(S.Number).pipe(T.Default(0)),
           enhancedMetricsConfig: S.optional(__S(500, __c31, 4)),
         }),
       ).annotate({ identifier: "GraphqlApi" });
@@ -4534,7 +4534,7 @@ function __c35(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ttl: S.Number, cachingKeys: S.optional(__S(544, __c34, 0)) }),
+        S.Struct({ ttl: S.Number.pipe(T.Default(0)), cachingKeys: S.optional(__S(544, __c34, 0)) }),
       ).annotate({ identifier: "CachingConfig" });
     case 2:
       return S.suspend(() =>
@@ -4549,7 +4549,7 @@ function __c35(j: number): any {
           pipelineConfig: S.optional(__S(560, __c35, 0)),
           syncConfig: S.optional(__S(433, __c27, 1)),
           cachingConfig: S.optional(__S(561, __c35, 1)),
-          maxBatchSize: S.optional(S.Number),
+          maxBatchSize: S.optional(S.Number).pipe(T.Default(0)),
           runtime: S.optional(__S(416, __c26, 0)),
           code: S.optional(S.String),
           metricsConfig: S.optional(S.String),
@@ -4933,9 +4933,9 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          line: S.optional(S.Number),
-          column: S.optional(S.Number),
-          span: S.optional(S.Number),
+          line: S.optional(S.Number).pipe(T.Default(0)),
+          column: S.optional(S.Number).pipe(T.Default(0)),
+          span: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CodeErrorLocation" });
     case 1:
@@ -5139,7 +5139,7 @@ function __c64(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           type: S.optional(__S(1025, __c64, 1)),
-          length: S.optional(S.Number),
+          length: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DataSourceIntrospectionModelField" });
     case 3:

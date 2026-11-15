@@ -103,7 +103,7 @@ export class AccessDeniedException
   ).pipe(C.withAuthError) {}
 export class BatchWriteException
   extends /*@__PURE__*/ S.TaggedError<BatchWriteException>()("BatchWriteException", {
-    Index: /*@__PURE__*/ S.optional(S.Number),
+    Index: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
     Type: /*@__PURE__*/ S.optional(
       /*@__PURE__*/ S.suspend(() => S.String).annotate({ identifier: "BatchWriteExceptionType" }),
     ),
@@ -4922,7 +4922,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OrderedIndexedAttributeList: __S(1184, __c37, 0),
-          IsUnique: S.Boolean,
+          IsUnique: S.Boolean.pipe(T.Default(false)),
           ParentReference: S.optional(__S(64, __c2, 0)),
           LinkName: S.optional(S.String),
           BatchReferenceName: S.optional(S.String),
@@ -5160,7 +5160,7 @@ function __c46(j: number): any {
         S.Struct({
           Type: S.String,
           DefaultValue: S.optional(__S(128, __c4, 0)),
-          IsImmutable: S.optional(S.Boolean),
+          IsImmutable: S.optional(S.Boolean).pipe(T.Default(false)),
           Rules: S.optional(__S(1409, __c44, 1)),
         }),
       ).annotate({ identifier: "FacetAttributeDefinition" });
@@ -5295,7 +5295,7 @@ function __c53(j: number): any {
           Name: S.String,
           Type: S.String,
           DefaultValue: S.optional(__S(128, __c4, 0)),
-          IsImmutable: S.optional(S.Boolean),
+          IsImmutable: S.optional(S.Boolean).pipe(T.Default(false)),
           Rules: S.optional(__S(1409, __c44, 1)),
           RequiredBehavior: S.String,
         }),

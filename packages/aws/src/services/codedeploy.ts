@@ -714,7 +714,7 @@ export interface ApplicationInfo {
   applicationId?: string | undefined;
   applicationName?: string | undefined;
   createTime?: Date | undefined;
-  linkedToGitHub?: boolean | undefined;
+  linkedToGitHub: boolean;
   gitHubAccountName?: string | undefined;
   computePlatform?: ComputePlatform | undefined;
 }
@@ -914,7 +914,7 @@ export interface DeploymentGroupInfo {
   computePlatform?: ComputePlatform | undefined;
   ecsServices?: ECSService[] | undefined;
   ec2DeploymentOptions?: EC2DeploymentOptions | undefined;
-  terminationHookEnabled?: boolean | undefined;
+  terminationHookEnabled: boolean;
 }
 export type DeploymentGroupInfoList = DeploymentGroupInfo[];
 export interface BatchGetDeploymentGroupsOutput {
@@ -1030,12 +1030,12 @@ export interface ErrorInformation {
 }
 export type InstanceCount = number;
 export interface DeploymentOverview {
-  Pending?: number | undefined;
-  InProgress?: number | undefined;
-  Succeeded?: number | undefined;
-  Failed?: number | undefined;
-  Skipped?: number | undefined;
-  Ready?: number | undefined;
+  Pending: number;
+  InProgress: number;
+  Succeeded: number;
+  Failed: number;
+  Skipped: number;
+  Ready: number;
 }
 export type DeploymentCreator =
   | "user"
@@ -1082,13 +1082,13 @@ export interface DeploymentInfo {
   deploymentOverview?: DeploymentOverview | undefined;
   description?: string | undefined;
   creator?: DeploymentCreator | undefined;
-  ignoreApplicationStopFailures?: boolean | undefined;
+  ignoreApplicationStopFailures: boolean;
   autoRollbackConfiguration?: AutoRollbackConfiguration | undefined;
-  updateOutdatedInstancesOnly?: boolean | undefined;
+  updateOutdatedInstancesOnly: boolean;
   rollbackInfo?: RollbackInfo | undefined;
   deploymentStyle?: DeploymentStyle | undefined;
   targetInstances?: TargetInstances | undefined;
-  instanceTerminationWaitTimeStarted?: boolean | undefined;
+  instanceTerminationWaitTimeStarted: boolean;
   blueGreenDeploymentConfiguration?: BlueGreenDeploymentConfiguration | undefined;
   loadBalancerInfo?: LoadBalancerInfo | undefined;
   additionalDeploymentStatusInfo?: string | undefined;
@@ -1146,7 +1146,7 @@ export interface LambdaFunctionInfo {
   functionAlias?: string | undefined;
   currentVersion?: string | undefined;
   targetVersion?: string | undefined;
-  targetVersionWeight?: number | undefined;
+  targetVersionWeight: number;
 }
 export interface LambdaTarget {
   deploymentId?: string | undefined;
@@ -1162,11 +1162,11 @@ export type ECSTaskSetCount = number;
 export type ECSTaskSetStatus = string;
 export interface ECSTaskSet {
   identifer?: string | undefined;
-  desiredCount?: number | undefined;
-  pendingCount?: number | undefined;
-  runningCount?: number | undefined;
+  desiredCount: number;
+  pendingCount: number;
+  runningCount: number;
   status?: string | undefined;
-  trafficWeight?: number | undefined;
+  trafficWeight: number;
   targetGroup?: TargetGroupInfo | undefined;
   taskSetLabel?: TargetLabel | undefined;
 }
@@ -1188,7 +1188,7 @@ export interface CloudFormationTarget {
   lifecycleEvents?: LifecycleEvent[] | undefined;
   status?: TargetStatus | undefined;
   resourceType?: string | undefined;
-  targetVersionWeight?: number | undefined;
+  targetVersionWeight: number;
 }
 export interface DeploymentTarget {
   deploymentTargetType?: DeploymentTargetType | undefined;
@@ -3547,7 +3547,7 @@ function __c9(j: number): any {
           applicationId: S.optional(S.String),
           applicationName: S.optional(S.String),
           createTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          linkedToGitHub: S.optional(S.Boolean),
+          linkedToGitHub: S.optional(S.Boolean).pipe(T.Default(false)),
           gitHubAccountName: S.optional(S.String),
           computePlatform: S.optional(S.String),
         }),
@@ -3608,14 +3608,17 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-          ignorePollAlarmFailure: S.optional(S.Boolean),
+          enabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          ignorePollAlarmFailure: S.optional(S.Boolean).pipe(T.Default(false)),
           alarms: S.optional(__S(224, __c14, 0)),
         }),
       ).annotate({ identifier: "AlarmConfiguration" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ enabled: S.optional(S.Boolean), events: S.optional(__S(192, __c12, 0)) }),
+        S.Struct({
+          enabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          events: S.optional(__S(192, __c12, 0)),
+        }),
       ).annotate({ identifier: "AutoRollbackConfiguration" });
     case 3:
       return S.Array(__S(209, __c13, 1));
@@ -3639,14 +3642,14 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.String),
-          terminationWaitTimeInMinutes: S.optional(S.Number),
+          terminationWaitTimeInMinutes: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "BlueInstanceTerminationOption" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           actionOnTimeout: S.optional(S.String),
-          waitTimeInMinutes: S.optional(S.Number),
+          waitTimeInMinutes: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeploymentReadyOption" });
     case 3:
@@ -3760,7 +3763,7 @@ function __c18(j: number): any {
           computePlatform: S.optional(S.String),
           ecsServices: S.optional(__S(260, __c16, 4)),
           ec2DeploymentOptions: S.optional(__S(229, __c14, 5)),
-          terminationHookEnabled: S.optional(S.Boolean),
+          terminationHookEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DeploymentGroupInfo" });
   }
@@ -3861,12 +3864,12 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Pending: S.optional(S.Number),
-          InProgress: S.optional(S.Number),
-          Succeeded: S.optional(S.Number),
-          Failed: S.optional(S.Number),
-          Skipped: S.optional(S.Number),
-          Ready: S.optional(S.Number),
+          Pending: S.optional(S.Number).pipe(T.Default(0)),
+          InProgress: S.optional(S.Number).pipe(T.Default(0)),
+          Succeeded: S.optional(S.Number).pipe(T.Default(0)),
+          Failed: S.optional(S.Number).pipe(T.Default(0)),
+          Skipped: S.optional(S.Number).pipe(T.Default(0)),
+          Ready: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DeploymentOverview" });
     case 2:
@@ -3901,13 +3904,13 @@ function __c24(j: number): any {
           deploymentOverview: S.optional(__S(385, __c24, 1)),
           description: S.optional(S.String),
           creator: S.optional(S.String),
-          ignoreApplicationStopFailures: S.optional(S.Boolean),
+          ignoreApplicationStopFailures: S.optional(S.Boolean).pipe(T.Default(false)),
           autoRollbackConfiguration: S.optional(__S(226, __c14, 2)),
-          updateOutdatedInstancesOnly: S.optional(S.Boolean),
+          updateOutdatedInstancesOnly: S.optional(S.Boolean).pipe(T.Default(false)),
           rollbackInfo: S.optional(__S(386, __c24, 2)),
           deploymentStyle: S.optional(__S(240, __c15, 0)),
           targetInstances: S.optional(__S(368, __c23, 0)),
-          instanceTerminationWaitTimeStarted: S.optional(S.Boolean),
+          instanceTerminationWaitTimeStarted: S.optional(S.Boolean).pipe(T.Default(false)),
           blueGreenDeploymentConfiguration: S.optional(__S(244, __c15, 4)),
           loadBalancerInfo: S.optional(__S(248, __c15, 8)),
           additionalDeploymentStatusInfo: S.optional(S.String),
@@ -3960,7 +3963,7 @@ function __c26(j: number): any {
           functionAlias: S.optional(S.String),
           currentVersion: S.optional(S.String),
           targetVersion: S.optional(S.String),
-          targetVersionWeight: S.optional(S.Number),
+          targetVersionWeight: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "LambdaFunctionInfo" });
     case 2:
@@ -3979,11 +3982,11 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           identifer: S.optional(S.String),
-          desiredCount: S.optional(S.Number),
-          pendingCount: S.optional(S.Number),
-          runningCount: S.optional(S.Number),
+          desiredCount: S.optional(S.Number).pipe(T.Default(0)),
+          pendingCount: S.optional(S.Number).pipe(T.Default(0)),
+          runningCount: S.optional(S.Number).pipe(T.Default(0)),
           status: S.optional(S.String),
-          trafficWeight: S.optional(S.Number),
+          trafficWeight: S.optional(S.Number).pipe(T.Default(0)),
           targetGroup: S.optional(__S(176, __c11, 0)),
           taskSetLabel: S.optional(S.String),
         }),
@@ -4011,7 +4014,7 @@ function __c26(j: number): any {
           lifecycleEvents: S.optional(__S(322, __c20, 2)),
           status: S.optional(S.String),
           resourceType: S.optional(S.String),
-          targetVersionWeight: S.optional(S.Number),
+          targetVersionWeight: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CloudFormationTarget" });
     case 7:
@@ -4133,15 +4136,21 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ type: S.optional(S.String), value: S.optional(S.Number) }),
+        S.Struct({ type: S.optional(S.String), value: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "MinimumHealthyHosts" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ canaryPercentage: S.optional(S.Number), canaryInterval: S.optional(S.Number) }),
+        S.Struct({
+          canaryPercentage: S.optional(S.Number).pipe(T.Default(0)),
+          canaryInterval: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "TimeBasedCanary" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ linearPercentage: S.optional(S.Number), linearInterval: S.optional(S.Number) }),
+        S.Struct({
+          linearPercentage: S.optional(S.Number).pipe(T.Default(0)),
+          linearInterval: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "TimeBasedLinear" });
     case 3:
       return S.suspend(() =>

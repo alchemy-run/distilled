@@ -2121,7 +2121,10 @@ function __c28(j: number): any {
       ).annotate({ identifier: "WorkerResourceConfig" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ workerCount: S.Number, workerConfiguration: S.optional(__S(224, __c28, 0)) }),
+        S.Struct({
+          workerCount: S.Number.pipe(T.Default(0)),
+          workerConfiguration: S.optional(__S(224, __c28, 0)),
+        }),
       ).annotate({ identifier: "InitialCapacityConfig" });
     case 2:
       return S.Record(S.String, /*@__PURE__*/ __S(225, __c28, 1).pipe(S.optional));

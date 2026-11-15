@@ -981,7 +981,7 @@ export interface BillingRecord {
   Operation?: OperationType | undefined;
   InvoiceId?: string | undefined;
   BillDate?: Date | undefined;
-  Price?: number | undefined;
+  Price: number;
 }
 export type BillingRecords = BillingRecord[];
 export interface ViewBillingResponse {
@@ -2253,7 +2253,11 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Price: S.Number, Currency: S.String, PriceType: S.optional(S.String) }),
+        S.Struct({
+          Price: S.Number.pipe(T.Default(0)),
+          Currency: S.String,
+          PriceType: S.optional(S.String),
+        }),
       ).annotate({ identifier: "PriceWithCurrency" });
   }
 }
@@ -2709,9 +2713,9 @@ function __c28(j: number): any {
 function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ MaxPrice: S.Number, Currency: S.String })).annotate({
-        identifier: "Consent",
-      });
+      return S.suspend(() =>
+        S.Struct({ MaxPrice: S.Number.pipe(T.Default(0)), Currency: S.String }),
+      ).annotate({ identifier: "Consent" });
   }
 }
 function __c30(j: number): any {
@@ -2898,7 +2902,7 @@ function __c42(j: number): any {
           Operation: S.optional(S.String),
           InvoiceId: S.optional(S.String),
           BillDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Price: S.optional(S.Number),
+          Price: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "BillingRecord" });
     case 2:

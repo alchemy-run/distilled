@@ -2587,7 +2587,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AuthorizationStrategy: S.String,
-          FineGrainedAuthorizationEnabled: S.optional(S.Boolean),
+          FineGrainedAuthorizationEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           Metadata: S.optional(S.String),
           IdpLambdaArn: S.optional(S.String),
         }),
@@ -2614,7 +2614,7 @@ function __c40(j: number): any {
           Status: S.optional(S.String),
           BackupType: S.optional(S.String),
           RetentionPeriodInDays: S.optional(S.Number),
-          BackupTagsEnabled: S.optional(S.Boolean),
+          BackupTagsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "BackupConfiguration" });
   }

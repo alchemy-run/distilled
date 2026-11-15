@@ -300,7 +300,7 @@ export type ErrorStatusCode = number;
 export type ErrorMessage = string;
 export interface FailedConfiguration {
   configurationId?: string | undefined;
-  errorStatusCode?: number | undefined;
+  errorStatusCode: number;
   errorMessage?: string | undefined;
 }
 export type FailedConfigurationList = FailedConfiguration[];
@@ -308,7 +308,7 @@ export type WarningCode = number;
 export type WarningText = string;
 export interface DeletionWarning {
   configurationId?: string | undefined;
-  warningCode?: number | undefined;
+  warningCode: number;
   warningText?: string | undefined;
 }
 export type DeletionWarningsList = DeletionWarning[];
@@ -387,7 +387,7 @@ export interface ExportInfo {
   statusMessage: string;
   configurationsDownloadUrl?: string | undefined;
   exportRequestTime: Date;
-  isTruncated?: boolean | undefined;
+  isTruncated: boolean;
   requestedStartTime?: Date | undefined;
   requestedEndTime?: Date | undefined;
 }
@@ -466,10 +466,10 @@ export interface ImportTask {
   importCompletionTime?: Date | undefined;
   importDeletedTime?: Date | undefined;
   fileClassification?: FileClassification | undefined;
-  serverImportSuccess?: number | undefined;
-  serverImportFailure?: number | undefined;
-  applicationImportSuccess?: number | undefined;
-  applicationImportFailure?: number | undefined;
+  serverImportSuccess: number;
+  serverImportFailure: number;
+  applicationImportSuccess: number;
+  applicationImportFailure: number;
   errorsAndFailedEntriesZip?: string | undefined;
 }
 export type ImportTaskList = ImportTask[];
@@ -552,10 +552,10 @@ export interface CustomerAgentlessCollectorInfo {
   unknownAgentlessCollectors: number;
 }
 export interface GetDiscoverySummaryResponse {
-  servers?: number | undefined;
-  applications?: number | undefined;
-  serversMappedToApplications?: number | undefined;
-  serversMappedtoTags?: number | undefined;
+  servers: number;
+  applications: number;
+  serversMappedToApplications: number;
+  serversMappedtoTags: number;
   agentSummary?: CustomerAgentInfo | undefined;
   connectorSummary?: CustomerConnectorInfo | undefined;
   meCollectorSummary?: CustomerMeCollectorInfo | undefined;
@@ -600,7 +600,7 @@ export type NeighborDetailsList = NeighborConnectionDetail[];
 export interface ListServerNeighborsResponse {
   neighbors: NeighborConnectionDetail[];
   nextToken?: string | undefined;
-  knownDependencyCount?: number | undefined;
+  knownDependencyCount: number;
 }
 export interface StartBatchDeleteConfigurationTaskRequest {
   configurationType: DeletionConfigurationItemType;
@@ -622,7 +622,7 @@ export interface StartDataCollectionByAgentIdsRequest {
 }
 export interface AgentConfigurationStatus {
   agentId?: string | undefined;
-  operationSucceeded?: boolean | undefined;
+  operationSucceeded: boolean;
   description?: string | undefined;
 }
 export type AgentConfigurationStatusList = AgentConfigurationStatus[];
@@ -1828,7 +1828,7 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ agentId: S.String, force: S.optional(S.Boolean) }),
+        S.Struct({ agentId: S.String, force: S.optional(S.Boolean).pipe(T.Default(false)) }),
       ).annotate({ identifier: "DeleteAgent" });
     case 1:
       return S.Array(__S(24, __c3, 0));
@@ -2005,7 +2005,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           configurationId: S.optional(S.String),
-          errorStatusCode: S.optional(S.Number),
+          errorStatusCode: S.optional(S.Number).pipe(T.Default(0)),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "FailedConfiguration" });
@@ -2015,7 +2015,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           configurationId: S.optional(S.String),
-          warningCode: S.optional(S.Number),
+          warningCode: S.optional(S.Number).pipe(T.Default(0)),
           warningText: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeletionWarning" });
@@ -2123,7 +2123,7 @@ function __c19(j: number): any {
           statusMessage: S.String,
           configurationsDownloadUrl: S.optional(S.String),
           exportRequestTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          isTruncated: S.optional(S.Boolean),
+          isTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           requestedStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           requestedEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -2192,10 +2192,10 @@ function __c22(j: number): any {
           importCompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           importDeletedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           fileClassification: S.optional(S.String),
-          serverImportSuccess: S.optional(S.Number),
-          serverImportFailure: S.optional(S.Number),
-          applicationImportSuccess: S.optional(S.Number),
-          applicationImportFailure: S.optional(S.Number),
+          serverImportSuccess: S.optional(S.Number).pipe(T.Default(0)),
+          serverImportFailure: S.optional(S.Number).pipe(T.Default(0)),
+          applicationImportSuccess: S.optional(S.Number).pipe(T.Default(0)),
+          applicationImportFailure: S.optional(S.Number).pipe(T.Default(0)),
           errorsAndFailedEntriesZip: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportTask" });
@@ -2280,58 +2280,58 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          activeAgents: S.Number,
-          healthyAgents: S.Number,
-          blackListedAgents: S.Number,
-          shutdownAgents: S.Number,
-          unhealthyAgents: S.Number,
-          totalAgents: S.Number,
-          unknownAgents: S.Number,
+          activeAgents: S.Number.pipe(T.Default(0)),
+          healthyAgents: S.Number.pipe(T.Default(0)),
+          blackListedAgents: S.Number.pipe(T.Default(0)),
+          shutdownAgents: S.Number.pipe(T.Default(0)),
+          unhealthyAgents: S.Number.pipe(T.Default(0)),
+          totalAgents: S.Number.pipe(T.Default(0)),
+          unknownAgents: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CustomerAgentInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          activeConnectors: S.Number,
-          healthyConnectors: S.Number,
-          blackListedConnectors: S.Number,
-          shutdownConnectors: S.Number,
-          unhealthyConnectors: S.Number,
-          totalConnectors: S.Number,
-          unknownConnectors: S.Number,
+          activeConnectors: S.Number.pipe(T.Default(0)),
+          healthyConnectors: S.Number.pipe(T.Default(0)),
+          blackListedConnectors: S.Number.pipe(T.Default(0)),
+          shutdownConnectors: S.Number.pipe(T.Default(0)),
+          unhealthyConnectors: S.Number.pipe(T.Default(0)),
+          totalConnectors: S.Number.pipe(T.Default(0)),
+          unknownConnectors: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CustomerConnectorInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          activeMeCollectors: S.Number,
-          healthyMeCollectors: S.Number,
-          denyListedMeCollectors: S.Number,
-          shutdownMeCollectors: S.Number,
-          unhealthyMeCollectors: S.Number,
-          totalMeCollectors: S.Number,
-          unknownMeCollectors: S.Number,
+          activeMeCollectors: S.Number.pipe(T.Default(0)),
+          healthyMeCollectors: S.Number.pipe(T.Default(0)),
+          denyListedMeCollectors: S.Number.pipe(T.Default(0)),
+          shutdownMeCollectors: S.Number.pipe(T.Default(0)),
+          unhealthyMeCollectors: S.Number.pipe(T.Default(0)),
+          totalMeCollectors: S.Number.pipe(T.Default(0)),
+          unknownMeCollectors: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CustomerMeCollectorInfo" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          activeAgentlessCollectors: S.Number,
-          healthyAgentlessCollectors: S.Number,
-          denyListedAgentlessCollectors: S.Number,
-          shutdownAgentlessCollectors: S.Number,
-          unhealthyAgentlessCollectors: S.Number,
-          totalAgentlessCollectors: S.Number,
-          unknownAgentlessCollectors: S.Number,
+          activeAgentlessCollectors: S.Number.pipe(T.Default(0)),
+          healthyAgentlessCollectors: S.Number.pipe(T.Default(0)),
+          denyListedAgentlessCollectors: S.Number.pipe(T.Default(0)),
+          shutdownAgentlessCollectors: S.Number.pipe(T.Default(0)),
+          unhealthyAgentlessCollectors: S.Number.pipe(T.Default(0)),
+          totalAgentlessCollectors: S.Number.pipe(T.Default(0)),
+          unknownAgentlessCollectors: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CustomerAgentlessCollectorInfo" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          servers: S.optional(S.Number),
-          applications: S.optional(S.Number),
-          serversMappedToApplications: S.optional(S.Number),
-          serversMappedtoTags: S.optional(S.Number),
+          servers: S.optional(S.Number).pipe(T.Default(0)),
+          applications: S.optional(S.Number).pipe(T.Default(0)),
+          serversMappedToApplications: S.optional(S.Number).pipe(T.Default(0)),
+          serversMappedtoTags: S.optional(S.Number).pipe(T.Default(0)),
           agentSummary: S.optional(__S(217, __c27, 1)),
           connectorSummary: S.optional(__S(218, __c27, 2)),
           meCollectorSummary: S.optional(__S(219, __c27, 3)),
@@ -2386,7 +2386,7 @@ function __c29(j: number): any {
           destinationServerId: S.String,
           destinationPort: S.optional(S.Number),
           transportProtocol: S.optional(S.String),
-          connectionsCount: S.Number,
+          connectionsCount: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "NeighborConnectionDetail" });
     case 2:
@@ -2396,7 +2396,7 @@ function __c29(j: number): any {
         S.Struct({
           neighbors: __S(234, __c29, 2),
           nextToken: S.optional(S.String),
-          knownDependencyCount: S.optional(S.Number),
+          knownDependencyCount: S.optional(S.Number).pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "ListServerNeighborsResponse" });
   }
@@ -2451,7 +2451,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           agentId: S.optional(S.String),
-          operationSucceeded: S.optional(S.Boolean),
+          operationSucceeded: S.optional(S.Boolean).pipe(T.Default(false)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentConfigurationStatus" });
@@ -2478,7 +2478,7 @@ function __c34(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
+          enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           cpuPerformanceMetricBasis: S.optional(__S(273, __c34, 1)),
           ramPerformanceMetricBasis: S.optional(__S(273, __c34, 1)),
           tenancy: S.optional(S.String),

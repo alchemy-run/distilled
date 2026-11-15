@@ -1180,12 +1180,12 @@ export type SigningKeyStatusMessage = string;
 export interface KeySigningKey {
   Name?: string | undefined;
   KmsArn?: string | undefined;
-  Flag?: number | undefined;
+  Flag: number;
   SigningAlgorithmMnemonic?: string | undefined;
-  SigningAlgorithmType?: number | undefined;
+  SigningAlgorithmType: number;
   DigestAlgorithmMnemonic?: string | undefined;
-  DigestAlgorithmType?: number | undefined;
-  KeyTag?: number | undefined;
+  DigestAlgorithmType: number;
+  KeyTag: number;
   DigestValue?: string | undefined;
   PublicKey?: string | undefined;
   DSRecord?: string | undefined;
@@ -4911,7 +4911,7 @@ function __c1(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Limit: __S(9, __c1, 1), Count: S.Number }).pipe(ns),
+        S.Struct({ Limit: __S(9, __c1, 1), Count: S.Number.pipe(T.Default(0)) }).pipe(ns),
       ).annotate({ identifier: "GetAccountLimitResponse" });
   }
 }
@@ -5226,7 +5226,7 @@ function __c15(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Limit: __S(121, __c15, 1), Count: S.Number }).pipe(ns),
+        S.Struct({ Limit: __S(121, __c15, 1), Count: S.Number.pipe(T.Default(0)) }).pipe(ns),
       ).annotate({ identifier: "GetHostedZoneLimitResponse" });
   }
 }
@@ -5302,7 +5302,7 @@ function __c18(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Limit: __S(145, __c18, 1), Count: S.Number }).pipe(ns),
+        S.Struct({ Limit: __S(145, __c18, 1), Count: S.Number.pipe(T.Default(0)) }).pipe(ns),
       ).annotate({ identifier: "GetReusableDelegationSetLimitResponse" });
   }
 }
@@ -5516,7 +5516,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           GeoLocationDetailsList: __S(201, __c25, 1),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           NextContinentCode: S.optional(S.String),
           NextCountryCode: S.optional(S.String),
           NextSubdivisionCode: S.optional(S.String),
@@ -5555,7 +5555,7 @@ function __c26(j: number): any {
         S.Struct({
           HealthChecks: S.optional(__S(209, __c26, 1)),
           Marker: S.optional(S.String),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
         }).pipe(ns),
@@ -5588,7 +5588,7 @@ function __c27(j: number): any {
         S.Struct({
           HostedZones: S.optional(__S(224, __c28, 0)),
           Marker: S.optional(S.String),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
         }).pipe(ns),
@@ -5631,7 +5631,7 @@ function __c29(j: number): any {
           HostedZones: S.optional(__S(224, __c28, 0)),
           DNSName: S.optional(S.String),
           HostedZoneId: S.optional(S.String),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           NextDNSName: S.optional(S.String),
           NextHostedZoneId: S.optional(S.String),
           MaxItems: S.Number,
@@ -5792,7 +5792,7 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ResourceRecordSets: S.optional(__S(265, __c33, 1)),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           NextRecordName: S.optional(S.String),
           NextRecordType: S.optional(S.String),
           NextRecordIdentifier: S.optional(S.String),
@@ -5831,7 +5831,7 @@ function __c34(j: number): any {
         S.Struct({
           DelegationSets: __S(273, __c34, 1),
           Marker: S.String,
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
         }).pipe(ns),
@@ -5947,7 +5947,7 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TrafficPolicySummaries: __S(306, __c38, 2),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           TrafficPolicyIdMarker: S.String,
           MaxItems: S.Number,
         }).pipe(ns),
@@ -5986,7 +5986,7 @@ function __c39(j: number): any {
           HostedZoneIdMarker: S.optional(S.String),
           TrafficPolicyInstanceNameMarker: S.optional(S.String),
           TrafficPolicyInstanceTypeMarker: S.optional(S.String),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           MaxItems: S.Number,
         }).pipe(ns),
       ).annotate({ identifier: "ListTrafficPolicyInstancesResponse" });
@@ -6033,7 +6033,7 @@ function __c41(j: number): any {
           TrafficPolicyInstances: __S(320, __c40, 0),
           TrafficPolicyInstanceNameMarker: S.optional(S.String),
           TrafficPolicyInstanceTypeMarker: S.optional(S.String),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           MaxItems: S.Number,
         }).pipe(ns),
       ).annotate({ identifier: "ListTrafficPolicyInstancesByHostedZoneResponse" });
@@ -6073,7 +6073,7 @@ function __c42(j: number): any {
           HostedZoneIdMarker: S.optional(S.String),
           TrafficPolicyInstanceNameMarker: S.optional(S.String),
           TrafficPolicyInstanceTypeMarker: S.optional(S.String),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           MaxItems: S.Number,
         }).pipe(ns),
       ).annotate({ identifier: "ListTrafficPolicyInstancesByPolicyResponse" });
@@ -6111,7 +6111,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TrafficPolicies: __S(345, __c43, 1),
-          IsTruncated: S.Boolean,
+          IsTruncated: S.Boolean.pipe(T.Default(false)),
           TrafficPolicyVersionMarker: S.String,
           MaxItems: S.Number,
         }).pipe(ns),
@@ -6521,7 +6521,11 @@ function __c59(j: number): any {
       );
     case 3:
       return S.suspend(() =>
-        S.Struct({ HostedZoneId: S.String, DNSName: S.String, EvaluateTargetHealth: S.Boolean }),
+        S.Struct({
+          HostedZoneId: S.String,
+          DNSName: S.String,
+          EvaluateTargetHealth: S.Boolean.pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "AliasTarget" });
     case 4:
       return S.suspend(() => S.Struct({ CollectionId: S.String, LocationName: S.String })).annotate(
@@ -6779,7 +6783,10 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Comment: S.optional(S.String), PrivateZone: S.optional(S.Boolean) }),
+        S.Struct({
+          Comment: S.optional(S.String),
+          PrivateZone: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "HostedZoneConfig" });
     case 1:
       return S.suspend(() => S.Struct({ AcceleratedRecovery: S.optional(S.String) })).annotate({
@@ -6859,12 +6866,12 @@ function __c70(j: number): any {
         S.Struct({
           Name: S.optional(S.String),
           KmsArn: S.optional(S.String),
-          Flag: S.optional(S.Number),
+          Flag: S.optional(S.Number).pipe(T.Default(0)),
           SigningAlgorithmMnemonic: S.optional(S.String),
-          SigningAlgorithmType: S.optional(S.Number),
+          SigningAlgorithmType: S.optional(S.Number).pipe(T.Default(0)),
           DigestAlgorithmMnemonic: S.optional(S.String),
-          DigestAlgorithmType: S.optional(S.Number),
-          KeyTag: S.optional(S.Number),
+          DigestAlgorithmType: S.optional(S.Number).pipe(T.Default(0)),
+          KeyTag: S.optional(S.Number).pipe(T.Default(0)),
           DigestValue: S.optional(S.String),
           PublicKey: S.optional(S.String),
           DSRecord: S.optional(S.String),

@@ -2774,7 +2774,7 @@ export interface View {
   Status?: ViewStatus | undefined;
   Type?: ViewType | undefined;
   Description?: string | undefined;
-  Version?: number | undefined;
+  Version: number;
   VersionDescription?: string | undefined;
   Content?: ViewContent | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
@@ -3214,7 +3214,7 @@ export interface AuthenticationProfile {
   Description?: string | undefined;
   AllowedIps?: string[] | undefined;
   BlockedIps?: string[] | undefined;
-  IsDefault?: boolean | undefined;
+  IsDefault: boolean;
   CreatedTime?: Date | undefined;
   LastModifiedTime?: Date | undefined;
   LastModifiedRegion?: string | undefined;
@@ -3286,7 +3286,7 @@ export type AiAgentVersionId = string;
 export interface AiAgentInfo {
   AiUseCase?: AiUseCase | undefined;
   AiAgentVersionId?: string | undefined;
-  AiAgentEscalated?: boolean | undefined;
+  AiAgentEscalated: boolean;
 }
 export type AiAgents = AiAgentInfo[];
 export interface WisdomInfo {
@@ -3386,7 +3386,7 @@ export type AudioQualityScore = number;
 export type PotentialAudioQualityIssue = string;
 export type PotentialAudioQualityIssues = string[];
 export interface AudioQualityMetricsInfo {
-  QualityScore?: number | undefined;
+  QualityScore: number;
   PotentialQualityIssues?: string[] | undefined;
 }
 export interface AgentQualityMetrics {
@@ -3620,12 +3620,12 @@ export interface DescribeContactEvaluationRequest {
   EvaluationId: string;
 }
 export interface EvaluationScore {
-  Percentage?: number | undefined;
-  NotApplicable?: boolean | undefined;
-  AutomaticFail?: boolean | undefined;
+  Percentage: number;
+  NotApplicable: boolean;
+  AutomaticFail: boolean;
   AppliedWeight?: number | undefined;
-  EarnedPoints?: number | undefined;
-  MaxBasePoint?: number | undefined;
+  EarnedPoints: number;
+  MaxBasePoint: number;
   PerformanceCategory?: PerformanceCategoryName | undefined;
 }
 export type AutoEvaluationStatus = "IN_PROGRESS" | "FAILED" | "SUCCEEDED" | (string & {});
@@ -3650,8 +3650,8 @@ export interface EvaluationReviewMetadata {
   ReviewId?: string | undefined;
   RequestedTime?: Date | undefined;
   RequestedBy?: string | undefined;
-  CreatedTime?: Date | undefined;
-  CreatedBy?: string | undefined;
+  CreatedTime: Date;
+  CreatedBy: string;
   ReviewRequestComments: EvaluationReviewRequestComment[];
 }
 export type ContactParticipantRole = "AGENT" | "SYSTEM" | "CUSTOM_BOT" | "CUSTOMER" | (string & {});
@@ -3927,7 +3927,7 @@ export interface DataTableAttribute {
   Description?: string | undefined;
   DataTableId?: string | undefined;
   DataTableArn?: string | undefined;
-  Primary?: boolean | undefined;
+  Primary: boolean;
   Version?: string | undefined;
   LockVersion?: DataTableLockVersion | undefined;
   LastModifiedTime?: Date | undefined;
@@ -4170,7 +4170,7 @@ export interface MetricDefinition {
   Groupings: string[];
   Filters: AvailableFilter[];
   EffectiveTime?: Date | undefined;
-  RefreshRate?: number | undefined;
+  RefreshRate: number;
   Category: string;
   SupportedStats?: string[] | undefined;
   DefaultStat?: string | undefined;
@@ -4487,8 +4487,8 @@ export interface DescribePredefinedAttributeRequest {
 }
 export type IsReadOnly = boolean;
 export interface PredefinedAttributeConfiguration {
-  EnableValueValidationOnAssociation?: boolean | undefined;
-  IsReadOnly?: boolean | undefined;
+  EnableValueValidationOnAssociation: boolean;
+  IsReadOnly: boolean;
 }
 export interface PredefinedAttribute {
   Name?: string | undefined;
@@ -4576,7 +4576,7 @@ export interface RoutingProfile {
   AgentAvailabilityTimer?: AgentAvailabilityTimer | undefined;
   LastModifiedTime?: Date | undefined;
   LastModifiedRegion?: string | undefined;
-  IsDefault?: boolean | undefined;
+  IsDefault: boolean;
   AssociatedQueueIds?: string[] | undefined;
   AssociatedManualAssignmentQueueIds?: string[] | undefined;
 }
@@ -4675,7 +4675,7 @@ export interface TrafficDistributionGroup {
   InstanceArn?: string | undefined;
   Status?: TrafficDistributionGroupStatus | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
-  IsDefault?: boolean | undefined;
+  IsDefault: boolean;
 }
 export interface DescribeTrafficDistributionGroupResponse {
   TrafficDistributionGroup?: TrafficDistributionGroup | undefined;
@@ -5664,7 +5664,7 @@ export interface AuthenticationProfileSummary {
   Id?: string | undefined;
   Arn?: string | undefined;
   Name?: string | undefined;
-  IsDefault?: boolean | undefined;
+  IsDefault: boolean;
   LastModifiedTime?: Date | undefined;
   LastModifiedRegion?: string | undefined;
 }
@@ -5719,7 +5719,7 @@ export interface EvaluationSummary {
   EvaluationFormId: string;
   CalibrationSessionId?: string | undefined;
   Status: EvaluationStatus;
-  AutoEvaluationEnabled?: boolean | undefined;
+  AutoEvaluationEnabled: boolean;
   AutoEvaluationStatus?: AutoEvaluationStatus | undefined;
   EvaluatorArn: string;
   Score?: EvaluationScore | undefined;
@@ -6492,7 +6492,7 @@ export interface ListQueueEmailAddressesRequest {
 export interface EmailAddressSummary {
   Id?: string | undefined;
   Arn?: string | undefined;
-  IsDefaultOutboundEmail?: boolean | undefined;
+  IsDefaultOutboundEmail: boolean;
 }
 export type EmailAddressMetadataList = EmailAddressSummary[];
 export interface ListQueueEmailAddressesResponse {
@@ -7109,7 +7109,7 @@ export interface TrafficDistributionGroupSummary {
   Name?: string | undefined;
   InstanceArn?: string | undefined;
   Status?: TrafficDistributionGroupStatus | undefined;
-  IsDefault?: boolean | undefined;
+  IsDefault: boolean;
 }
 export type TrafficDistributionGroupSummaryList = TrafficDistributionGroupSummary[];
 export interface ListTrafficDistributionGroupsResponse {
@@ -7241,7 +7241,7 @@ export interface ViewVersionSummary {
   Description?: string | undefined;
   Name?: string | redacted.Redacted<string> | undefined;
   Type?: ViewType | undefined;
-  Version?: number | undefined;
+  Version: number;
   VersionDescription?: string | undefined;
 }
 export type ViewVersionSummaryList = ViewVersionSummary[];
@@ -7504,10 +7504,10 @@ export interface EvaluationSearchMetadata {
   EvaluatorArn: string;
   ContactAgentId?: string | undefined;
   CalibrationSessionId?: string | undefined;
-  ScorePercentage?: number | undefined;
-  ScoreAutomaticFail?: boolean | undefined;
-  ScoreNotApplicable?: boolean | undefined;
-  AutoEvaluationEnabled?: boolean | undefined;
+  ScorePercentage: number;
+  ScoreAutomaticFail: boolean;
+  ScoreNotApplicable: boolean;
+  AutoEvaluationEnabled: boolean;
   AutoEvaluationStatus?: AutoEvaluationStatus | undefined;
   AcknowledgedTime?: Date | undefined;
   AcknowledgedBy?: string | undefined;
@@ -7892,7 +7892,7 @@ export interface EvaluationFormSearchSummary {
   LastActivatedBy?: string | undefined;
   LatestVersion: number;
   ActiveVersion?: number | undefined;
-  AutoEvaluationEnabled?: boolean | undefined;
+  AutoEvaluationEnabled: boolean;
   EvaluationFormLanguage?: EvaluationFormLanguageCode | undefined;
   ContactInteractionType?: ContactInteractionType | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
@@ -25451,7 +25451,7 @@ function __c3(j: number): any {
           Background: S.optional(S.String),
           Text: S.optional(S.String),
           TextHover: S.optional(S.String),
-          InvertActionsColors: S.optional(S.Boolean),
+          InvertActionsColors: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PaletteHeader" });
     case 1:
@@ -25463,7 +25463,7 @@ function __c3(j: number): any {
           Text: S.optional(S.String),
           TextHover: S.optional(S.String),
           TextActive: S.optional(S.String),
-          InvertActionsColors: S.optional(S.Boolean),
+          InvertActionsColors: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PaletteNavigation" });
     case 2:
@@ -26610,7 +26610,7 @@ function __c55(j: number): any {
           Description: S.optional(S.String),
           AllowedIps: S.optional(__S(13376, __c418, 0)),
           BlockedIps: S.optional(__S(13376, __c418, 0)),
-          IsDefault: S.optional(S.Boolean),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedRegion: S.optional(S.String),
@@ -26703,7 +26703,7 @@ function __c56(j: number): any {
         S.Struct({
           AiUseCase: S.optional(S.String),
           AiAgentVersionId: S.optional(S.String),
-          AiAgentEscalated: S.optional(S.Boolean),
+          AiAgentEscalated: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AiAgentInfo" });
     case 8:
@@ -26737,7 +26737,7 @@ function __c56(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          QualityScore: S.optional(S.Number),
+          QualityScore: S.optional(S.Number).pipe(T.Default(0)),
           PotentialQualityIssues: S.optional(__S(13376, __c418, 0)),
         }),
       ).annotate({ identifier: "AudioQualityMetricsInfo" });
@@ -27097,7 +27097,10 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DescribeContactEvaluationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ AutoEvaluationEnabled: S.Boolean, AutoEvaluationStatus: S.optional(S.String) }),
+        S.Struct({
+          AutoEvaluationEnabled: S.Boolean.pipe(T.Default(false)),
+          AutoEvaluationStatus: S.optional(S.String),
+        }),
       ).annotate({ identifier: "AutoEvaluationDetails" });
     case 2:
       return S.suspend(() =>
@@ -27123,8 +27126,10 @@ function __c60(j: number): any {
           ReviewId: S.optional(S.String),
           RequestedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           RequestedBy: S.optional(S.String),
-          CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          CreatedBy: S.optional(S.String),
+          CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+            T.Default(0),
+          ),
+          CreatedBy: S.optional(S.String).pipe(T.Default("n/a")),
           ReviewRequestComments: __S(1924, __c60, 4),
         }),
       ).annotate({ identifier: "EvaluationReviewMetadata" });
@@ -27148,9 +27153,9 @@ function __c60(j: number): any {
         identifier: "EvaluationQuestionInputDetails",
       });
     case 8:
-      return S.suspend(() => S.Struct({ BeginOffsetMillis: S.Number })).annotate({
-        identifier: "EvaluationSuggestedAnswerTranscriptMillisecondOffsets",
-      });
+      return S.suspend(() => S.Struct({ BeginOffsetMillis: S.Number.pipe(T.Default(0)) })).annotate(
+        { identifier: "EvaluationSuggestedAnswerTranscriptMillisecondOffsets" },
+      );
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -27229,7 +27234,7 @@ function __c60(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          EvaluationFormVersion: S.Number,
+          EvaluationFormVersion: S.Number.pipe(T.Default(0)),
           EvaluationFormId: S.String,
           EvaluationFormArn: S.String,
           Title: S.String,
@@ -27254,12 +27259,12 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Percentage: S.optional(S.Number),
-          NotApplicable: S.optional(S.Boolean),
-          AutomaticFail: S.optional(S.Boolean),
+          Percentage: S.optional(S.Number).pipe(T.Default(0)),
+          NotApplicable: S.optional(S.Boolean).pipe(T.Default(false)),
+          AutomaticFail: S.optional(S.Boolean).pipe(T.Default(false)),
           AppliedWeight: S.optional(S.Number),
-          EarnedPoints: S.optional(S.Number),
-          MaxBasePoint: S.optional(S.Number),
+          EarnedPoints: S.optional(S.Number).pipe(T.Default(0)),
+          MaxBasePoint: S.optional(S.Number).pipe(T.Default(0)),
           PerformanceCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "EvaluationScore" });
@@ -27554,7 +27559,7 @@ function __c72(j: number): any {
           Description: S.optional(S.String),
           DataTableId: S.optional(S.String),
           DataTableArn: S.optional(S.String),
-          Primary: S.optional(S.Boolean),
+          Primary: S.optional(S.Boolean).pipe(T.Default(false)),
           Version: S.optional(S.String),
           LockVersion: S.optional(__S(14112, __c441, 0)),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -27621,8 +27626,8 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EvaluationFormId: S.String,
-          EvaluationFormVersion: S.Number,
-          Locked: S.Boolean,
+          EvaluationFormVersion: S.Number.pipe(T.Default(0)),
+          Locked: S.Boolean.pipe(T.Default(false)),
           EvaluationFormArn: S.String,
           Title: S.String,
           Description: S.optional(S.String),
@@ -27961,12 +27966,12 @@ function __c86(j: number): any {
           Groupings: __S(13376, __c418, 0),
           Filters: __S(2753, __c86, 1),
           EffectiveTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          RefreshRate: S.optional(S.Number),
+          RefreshRate: S.optional(S.Number).pipe(T.Default(0)),
           Category: S.String,
           SupportedStats: S.optional(__S(13376, __c418, 0)),
           DefaultStat: S.optional(S.String),
-          SupportsPreaggregateCalculation: S.Boolean,
-          SupportsCustomCalculation: S.Boolean,
+          SupportsPreaggregateCalculation: S.Boolean.pipe(T.Default(false)),
+          SupportsCustomCalculation: S.Boolean.pipe(T.Default(false)),
           PrimaryEventSource: S.optional(S.String),
           PrimaryEventSourceEffectiveTimestampType: S.optional(S.String),
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -28092,8 +28097,8 @@ function __c91(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          EnableValueValidationOnAssociation: S.optional(S.Boolean),
-          IsReadOnly: S.optional(S.Boolean),
+          EnableValueValidationOnAssociation: S.optional(S.Boolean).pipe(T.Default(false)),
+          IsReadOnly: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PredefinedAttributeConfiguration" });
     case 1:
@@ -28278,7 +28283,7 @@ function __c99(j: number): any {
           AgentAvailabilityTimer: S.optional(S.String),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedRegion: S.optional(S.String),
-          IsDefault: S.optional(S.Boolean),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
           AssociatedQueueIds: S.optional(__S(13376, __c418, 0)),
           AssociatedManualAssignmentQueueIds: S.optional(__S(13376, __c418, 0)),
         }),
@@ -28446,7 +28451,7 @@ function __c104(j: number): any {
           InstanceArn: S.optional(S.String),
           Status: S.optional(S.String),
           Tags: S.optional(__S(14400, __c450, 0)),
-          IsDefault: S.optional(S.Boolean),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "TrafficDistributionGroup" });
     case 2:
@@ -29185,8 +29190,8 @@ function __c134(j: number): any {
           PrimaryValues: __S(14081, __c440, 1),
           AttributeName: S.String,
           ValueType: S.String,
-          Found: S.Boolean,
-          Error: S.Boolean,
+          Found: S.Boolean.pipe(T.Default(false)),
+          Error: S.Boolean.pipe(T.Default(false)),
           EvaluatedValue: S.String,
         }),
       ).annotate({ identifier: "DataTableEvaluatedValue" });
@@ -29623,7 +29628,7 @@ function __c143(j: number): any {
           Status: S.String,
           FailureReason: S.optional(S.String),
           EvaluationFormId: S.String,
-          EvaluationFormVersion: S.Number,
+          EvaluationFormVersion: S.Number.pipe(T.Default(0)),
           StartedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           Findings: S.optional(__S(4580, __c143, 4)),
         }),
@@ -29783,7 +29788,7 @@ function __c147(j: number): any {
         S.Struct({
           MetricFilterKey: S.optional(S.String),
           MetricFilterValues: S.optional(__S(13376, __c418, 0)),
-          Negate: S.optional(S.Boolean),
+          Negate: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "MetricFilterV2" });
     case 7:
@@ -29989,9 +29994,9 @@ function __c151(j: number): any {
 function __c152(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Region: S.String, Percentage: S.Number })).annotate({
-        identifier: "Distribution",
-      });
+      return S.suspend(() =>
+        S.Struct({ Region: S.String, Percentage: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "Distribution" });
     case 1:
       return S.Array(__S(4864, __c152, 0));
     case 2:
@@ -29999,9 +30004,9 @@ function __c152(j: number): any {
         identifier: "TelephonyConfig",
       });
     case 3:
-      return S.suspend(() => S.Struct({ Region: S.String, Enabled: S.Boolean })).annotate({
-        identifier: "SignInDistribution",
-      });
+      return S.suspend(() =>
+        S.Struct({ Region: S.String, Enabled: S.Boolean.pipe(T.Default(false)) }),
+      ).annotate({ identifier: "SignInDistribution" });
     case 4:
       return S.Array(__S(4867, __c152, 3));
     case 5:
@@ -30288,7 +30293,7 @@ function __c161(j: number): any {
           Id: S.optional(S.String),
           Arn: S.optional(S.String),
           Name: S.optional(S.String),
-          IsDefault: S.optional(S.Boolean),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedRegion: S.optional(S.String),
         }),
@@ -30409,7 +30414,7 @@ function __c164(j: number): any {
           EvaluationFormId: S.String,
           CalibrationSessionId: S.optional(S.String),
           Status: S.String,
-          AutoEvaluationEnabled: S.optional(S.Boolean),
+          AutoEvaluationEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           AutoEvaluationStatus: S.optional(S.String),
           EvaluatorArn: S.String,
           Score: S.optional(__S(1952, __c61, 0)),
@@ -31054,7 +31059,7 @@ function __c180(j: number): any {
           LastModifiedBy: S.String,
           LastActivatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastActivatedBy: S.optional(S.String),
-          LatestVersion: S.Number,
+          LatestVersion: S.Number.pipe(T.Default(0)),
           ActiveVersion: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EvaluationFormSummary" });
@@ -31097,8 +31102,8 @@ function __c181(j: number): any {
         S.Struct({
           EvaluationFormArn: S.String,
           EvaluationFormId: S.String,
-          EvaluationFormVersion: S.Number,
-          Locked: S.Boolean,
+          EvaluationFormVersion: S.Number.pipe(T.Default(0)),
+          Locked: S.Boolean.pipe(T.Default(false)),
           Status: S.String,
           CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           CreatedBy: S.String,
@@ -31717,7 +31722,7 @@ function __c201(j: number): any {
         S.Struct({
           Id: S.optional(S.String),
           Arn: S.optional(S.String),
-          IsDefaultOutboundEmail: S.optional(S.Boolean),
+          IsDefaultOutboundEmail: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "EmailAddressSummary" });
     case 2:
@@ -31894,7 +31899,10 @@ function __c206(j: number): any {
       ]);
     case 3:
       return S.suspend(() =>
-        S.Struct({ BeginOffsetChar: S.Number, EndOffsetChar: S.Number }),
+        S.Struct({
+          BeginOffsetChar: S.Number.pipe(T.Default(0)),
+          EndOffsetChar: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "RealTimeContactAnalysisCharacterInterval" });
     case 4:
       return S.Array(__S(6595, __c206, 3));
@@ -32198,7 +32206,7 @@ function __c211(j: number): any {
           QueueArn: S.String,
           QueueName: S.String,
           Priority: S.Number,
-          Delay: S.Number,
+          Delay: S.Number.pipe(T.Default(0)),
           Channel: S.String,
         }),
       ).annotate({ identifier: "RoutingProfileQueueConfigSummary" });
@@ -32735,7 +32743,7 @@ function __c226(j: number): any {
           Name: S.optional(S.String),
           InstanceArn: S.optional(S.String),
           Status: S.optional(S.String),
-          IsDefault: S.optional(S.Boolean),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "TrafficDistributionGroupSummary" });
     case 2:
@@ -32999,7 +33007,7 @@ function __c234(j: number): any {
         S.Struct({
           EvaluationFormId: S.String,
           EvaluationFormArn: S.String,
-          EvaluationFormVersion: S.Number,
+          EvaluationFormVersion: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ActivateEvaluationFormResponse" });
   }
@@ -33082,7 +33090,7 @@ function __c237(j: number): any {
           Description: S.optional(S.String),
           Name: S.optional(SensitiveString),
           Type: S.optional(S.String),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           VersionDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "ViewVersionSummary" });
@@ -33570,10 +33578,10 @@ function __c253(j: number): any {
           EvaluatorArn: S.String,
           ContactAgentId: S.optional(S.String),
           CalibrationSessionId: S.optional(S.String),
-          ScorePercentage: S.optional(S.Number),
-          ScoreAutomaticFail: S.optional(S.Boolean),
-          ScoreNotApplicable: S.optional(S.Boolean),
-          AutoEvaluationEnabled: S.optional(S.Boolean),
+          ScorePercentage: S.optional(S.Number).pipe(T.Default(0)),
+          ScoreAutomaticFail: S.optional(S.Boolean).pipe(T.Default(false)),
+          ScoreNotApplicable: S.optional(S.Boolean).pipe(T.Default(false)),
+          AutoEvaluationEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           AutoEvaluationStatus: S.optional(S.String),
           AcknowledgedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           AcknowledgedBy: S.optional(S.String),
@@ -34221,7 +34229,7 @@ function __c266(j: number): any {
           LastActivatedBy: S.optional(S.String),
           LatestVersion: S.Number,
           ActiveVersion: S.optional(S.Number),
-          AutoEvaluationEnabled: S.optional(S.Boolean),
+          AutoEvaluationEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           EvaluationFormLanguage: S.optional(S.String),
           ContactInteractionType: S.optional(S.String),
           Tags: S.optional(__S(14400, __c450, 0)),
@@ -36115,8 +36123,8 @@ function __c318(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          EnableAnswerMachineDetection: S.optional(S.Boolean),
-          AwaitAnswerMachinePrompt: S.optional(S.Boolean),
+          EnableAnswerMachineDetection: S.optional(S.Boolean).pipe(T.Default(false)),
+          AwaitAnswerMachinePrompt: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AnswerMachineDetectionConfig" });
     case 1:
@@ -37125,7 +37133,7 @@ function __c360(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Prefix: S.String,
-          RetentionPeriodHours: S.Number,
+          RetentionPeriodHours: S.Number.pipe(T.Default(0)),
           EncryptionConfig: __S(11520, __c360, 0),
         }),
       ).annotate({ identifier: "KinesisVideoStreamConfig" });
@@ -38762,7 +38770,11 @@ function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ AttributeName: S.String, AttributeValue: S.String, Level: S.Number }),
+        S.Struct({
+          AttributeName: S.String,
+          AttributeValue: S.String,
+          Level: S.Number.pipe(T.Default(1)),
+        }),
       ).annotate({ identifier: "UserProficiency" });
     case 1:
       return S.Array(__S(13824, __c432, 0));
@@ -39595,7 +39607,7 @@ function __c470(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Value: S.optional(S.String),
+          Value: S.optional(S.String).pipe(T.Default("")),
           Type: S.String,
           Status: S.optional(S.String),
           Arn: S.optional(S.String),
@@ -39695,9 +39707,9 @@ function __c473(j: number): any {
 function __c474(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) })).annotate({
-        identifier: "ExternalInvocationConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ Enabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "ExternalInvocationConfiguration" });
   }
 }
 function __c475(j: number): any {
@@ -39862,21 +39874,24 @@ function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Strict: S.optional(S.Boolean), Values: S.optional(__S(13376, __c418, 0)) }),
+        S.Struct({
+          Strict: S.optional(S.Boolean).pipe(T.Default(false)),
+          Values: S.optional(__S(13376, __c418, 0)),
+        }),
       ).annotate({ identifier: "ValidationEnum" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          MinLength: S.optional(S.Number),
-          MaxLength: S.optional(S.Number),
-          MinValues: S.optional(S.Number),
-          MaxValues: S.optional(S.Number),
-          IgnoreCase: S.optional(S.Boolean),
-          Minimum: S.optional(S.Number),
-          Maximum: S.optional(S.Number),
-          ExclusiveMinimum: S.optional(S.Number),
-          ExclusiveMaximum: S.optional(S.Number),
-          MultipleOf: S.optional(S.Number),
+          MinLength: S.optional(S.Number).pipe(T.Default(0)),
+          MaxLength: S.optional(S.Number).pipe(T.Default(0)),
+          MinValues: S.optional(S.Number).pipe(T.Default(0)),
+          MaxValues: S.optional(S.Number).pipe(T.Default(0)),
+          IgnoreCase: S.optional(S.Boolean).pipe(T.Default(false)),
+          Minimum: S.optional(S.Number).pipe(T.Default(0)),
+          Maximum: S.optional(S.Number).pipe(T.Default(0)),
+          ExclusiveMinimum: S.optional(S.Number).pipe(T.Default(0)),
+          ExclusiveMaximum: S.optional(S.Number).pipe(T.Default(0)),
+          MultipleOf: S.optional(S.Number).pipe(T.Default(0)),
           Enum: S.optional(__S(15392, __c481, 0)),
         }),
       ).annotate({ identifier: "Validation" });
@@ -39952,7 +39967,7 @@ function __c484(j: number): any {
 function __c485(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Enabled: S.Boolean })).annotate({
+      return S.suspend(() => S.Struct({ Enabled: S.Boolean.pipe(T.Default(false)) })).annotate({
         identifier: "EvaluationFormAutoEvaluationConfiguration",
       });
   }
@@ -39963,8 +39978,8 @@ function __c486(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PerformanceCategory: S.String,
-          MinScorePercentage: S.optional(S.Number),
-          MaxScorePercentage: S.optional(S.Number),
+          MinScorePercentage: S.optional(S.Number).pipe(T.Default(0)),
+          MaxScorePercentage: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "EvaluationFormScoreThreshold" });
     case 1:
@@ -39978,8 +39993,8 @@ function __c486(j: number): any {
           Items: S.suspend(() => __S(15590, __c487, 6)).annotate({
             identifier: "EvaluationFormItemsList",
           }),
-          Weight: S.optional(S.Number),
-          IsExcludedFromScoring: S.optional(S.Boolean),
+          Weight: S.optional(S.Number).pipe(T.Default(0)),
+          IsExcludedFromScoring: S.optional(S.Boolean).pipe(T.Default(false)),
           ScoreThresholds: S.optional(__S(15553, __c486, 1)),
         }),
       ).annotate({ identifier: "EvaluationFormSection" });
@@ -39989,15 +40004,18 @@ function __c486(j: number): any {
       });
     case 4:
       return S.suspend(() =>
-        S.Struct({ PointValue: S.Number, IsBonus: S.optional(S.Boolean) }),
+        S.Struct({
+          PointValue: S.Number.pipe(T.Default(0)),
+          IsBonus: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "QuestionOptionPointsConfiguration" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          MinValue: S.Number,
-          MaxValue: S.Number,
-          Score: S.optional(S.Number),
-          AutomaticFail: S.optional(S.Boolean),
+          MinValue: S.Number.pipe(T.Default(0)),
+          MaxValue: S.Number.pipe(T.Default(0)),
+          Score: S.optional(S.Number).pipe(T.Default(0)),
+          AutomaticFail: S.optional(S.Boolean).pipe(T.Default(false)),
           AutomaticFailConfiguration: S.optional(__S(15555, __c486, 3)),
           PointsConfiguration: S.optional(__S(15556, __c486, 4)),
         }),
@@ -40020,8 +40038,8 @@ function __c486(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          MinValue: S.Number,
-          MaxValue: S.Number,
+          MinValue: S.Number.pipe(T.Default(0)),
+          MaxValue: S.Number.pipe(T.Default(0)),
           Options: S.optional(__S(15558, __c486, 6)),
           Automation: S.optional(__S(15561, __c486, 9)),
         }),
@@ -40031,8 +40049,8 @@ function __c486(j: number): any {
         S.Struct({
           RefId: S.String,
           Text: S.String,
-          Score: S.optional(S.Number),
-          AutomaticFail: S.optional(S.Boolean),
+          Score: S.optional(S.Number).pipe(T.Default(0)),
+          AutomaticFail: S.optional(S.Boolean).pipe(T.Default(false)),
           AutomaticFailConfiguration: S.optional(__S(15555, __c486, 3)),
           PointsConfiguration: S.optional(__S(15556, __c486, 4)),
         }),
@@ -40050,7 +40068,7 @@ function __c486(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          Options: S.optional(__S(15567, __c486, 15)),
+          Options: S.optional(__S(15567, __c486, 15)).pipe(T.Default([])),
           DefaultOptionRefId: S.optional(S.String),
           AnswerSource: S.optional(__S(15560, __c486, 8)),
         }),
@@ -40155,16 +40173,16 @@ function __c487(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          MaxPointValue: S.optional(S.Number),
-          MinPointValue: S.optional(S.Number),
-          IsBonus: S.optional(S.Boolean),
+          MaxPointValue: S.optional(S.Number).pipe(T.Default(0)),
+          MinPointValue: S.optional(S.Number).pipe(T.Default(0)),
+          IsBonus: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "QuestionPointsConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           PointsConfiguration: S.optional(__S(15585, __c487, 1)),
-          IsExcludedFromScoring: S.optional(S.Boolean),
+          IsExcludedFromScoring: S.optional(S.Boolean).pipe(T.Default(false)),
           ScoreThresholds: S.optional(__S(15553, __c486, 1)),
         }),
       ).annotate({ identifier: "EvaluationFormQuestionScoringConfiguration" });
@@ -40178,11 +40196,11 @@ function __c487(j: number): any {
           Title: S.String,
           Instructions: S.optional(S.String),
           RefId: S.String,
-          NotApplicableEnabled: S.optional(S.Boolean),
+          NotApplicableEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           QuestionType: S.String,
           QuestionTypeProperties: S.optional(__S(15577, __c486, 25)),
           Enablement: S.optional(__S(15584, __c487, 0)),
-          Weight: S.optional(S.Number),
+          Weight: S.optional(S.Number).pipe(T.Default(0)),
           ScoringConfiguration: S.optional(__S(15586, __c487, 2)),
           MetricConfiguration: S.optional(__S(15587, __c487, 3)),
         }),
@@ -40220,7 +40238,7 @@ function __c487(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ReviewNotificationRecipients: __S(15593, __c487, 9),
-          EligibilityDays: S.optional(S.Number),
+          EligibilityDays: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "EvaluationReviewConfiguration" });
     case 11:
@@ -40496,7 +40514,7 @@ function __c499(j: number): any {
       return S.suspend(() =>
         S.Struct({
           MetricFilterKey: S.String,
-          Negate: S.optional(S.Boolean),
+          Negate: S.optional(S.Boolean).pipe(T.Default(false)),
           NumberCondition: S.optional(__S(15968, __c499, 0)),
           StringCondition: S.optional(__S(15969, __c499, 1)),
           BooleanCondition: S.optional(__S(15970, __c499, 2)),
@@ -40669,7 +40687,9 @@ function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ EnableValueValidationOnAssociation: S.optional(S.Boolean) }),
+        S.Struct({
+          EnableValueValidationOnAssociation: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "InputPredefinedAttributeConfiguration" });
   }
 }
@@ -40711,7 +40731,7 @@ function __c510(j: number): any {
         S.Struct({
           ContactId: S.String,
           ParticipantRole: S.optional(S.String),
-          IncludeRawMessage: S.optional(S.Boolean),
+          IncludeRawMessage: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ContactConfiguration" });
     case 1:
@@ -40907,7 +40927,7 @@ function __c517(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Channel: S.String,
-          Concurrency: S.optional(S.Number),
+          Concurrency: S.optional(S.Number).pipe(T.Default(0)),
           CrossChannelBehavior: S.optional(__S(16544, __c517, 0)),
           WorkloadTypeConcurrencies: S.optional(__S(16547, __c517, 3)),
         }),
@@ -41007,7 +41027,7 @@ function __c521(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          BooleanValue: S.optional(S.Boolean),
+          BooleanValue: S.optional(S.Boolean).pipe(T.Default(false)),
           DoubleValue: S.optional(S.Number),
           EmptyValue: S.optional(__S(8480, __c265, 0)),
           StringValue: S.optional(S.String),
@@ -41431,7 +41451,7 @@ function __c535(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Channel: S.String,
-          AutoAccept: S.Boolean,
+          AutoAccept: S.Boolean.pipe(T.Default(false)),
           AgentFirstCallbackAutoAccept: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AutoAcceptConfig" });
@@ -41439,7 +41459,7 @@ function __c535(j: number): any {
       return S.Array(__S(17120, __c535, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ AfterContactWorkTimeLimit: S.optional(S.Number) }),
+        S.Struct({ AfterContactWorkTimeLimit: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "AfterContactWorkConfig" });
     case 3:
       return S.suspend(() =>
@@ -41480,9 +41500,9 @@ function __c536(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          PhoneType: S.optional(S.String),
-          AutoAccept: S.optional(S.Boolean),
-          AfterContactWorkTimeLimit: S.optional(S.Number),
+          PhoneType: S.optional(S.String).pipe(T.Default("SOFT_PHONE")),
+          AutoAccept: S.optional(S.Boolean).pipe(T.Default(false)),
+          AfterContactWorkTimeLimit: S.optional(S.Number).pipe(T.Default(0)),
           DeskPhoneNumber: S.optional(SensitiveString),
           PersistentConnection: S.optional(S.Boolean),
         }),
@@ -41590,7 +41610,7 @@ function __c542(j: number): any {
           Status: S.optional(S.String),
           Type: S.optional(S.String),
           Description: S.optional(S.String),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           VersionDescription: S.optional(S.String),
           Content: S.optional(__S(17344, __c542, 0)),
           Tags: S.optional(__S(14400, __c450, 0)),

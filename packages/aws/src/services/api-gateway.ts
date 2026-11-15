@@ -174,7 +174,7 @@ export interface ApiKey {
   name?: string | undefined;
   customerId?: string | undefined;
   description?: string | undefined;
-  enabled?: boolean | undefined;
+  enabled: boolean;
   createdDate?: Date | undefined;
   lastUpdatedDate?: Date | undefined;
   stageKeys?: string[] | undefined;
@@ -247,7 +247,7 @@ export interface CreateDeploymentRequest {
 }
 export interface MethodSnapshot {
   authorizationType?: string | undefined;
-  apiKeyRequired?: boolean | undefined;
+  apiKeyRequired: boolean;
 }
 export type MapOfMethodSnapshot = { [key: string]: MethodSnapshot | undefined };
 export type PathToMapOfMethodSnapshot = {
@@ -431,8 +431,8 @@ export interface CreateRequestValidatorRequest {
 export interface RequestValidator {
   id?: string | undefined;
   name?: string | undefined;
-  validateRequestBody?: boolean | undefined;
-  validateRequestParameters?: boolean | undefined;
+  validateRequestBody: boolean;
+  validateRequestParameters: boolean;
 }
 export interface CreateResourceRequest {
   restApiId: string;
@@ -473,7 +473,7 @@ export interface Integration {
   requestTemplates?: { [key: string]: string | undefined } | undefined;
   passthroughBehavior?: string | undefined;
   contentHandling?: ContentHandlingStrategy | undefined;
-  timeoutInMillis?: number | undefined;
+  timeoutInMillis: number;
   cacheNamespace?: string | undefined;
   cacheKeyParameters?: string[] | undefined;
   integrationResponses?: { [key: string]: IntegrationResponse | undefined } | undefined;
@@ -532,7 +532,7 @@ export interface RestApi {
   endpointConfiguration?: EndpointConfiguration | undefined;
   policy?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
-  disableExecuteApiEndpoint?: boolean | undefined;
+  disableExecuteApiEndpoint: boolean;
   rootResourceId?: string | undefined;
   securityPolicy?: SecurityPolicy | undefined;
   endpointAccessMode?: EndpointAccessMode | undefined;
@@ -571,15 +571,15 @@ export type UnauthorizedCacheControlHeaderStrategy =
   | "SUCCEED_WITHOUT_RESPONSE_HEADER"
   | (string & {});
 export interface MethodSetting {
-  metricsEnabled?: boolean | undefined;
+  metricsEnabled: boolean;
   loggingLevel?: string | undefined;
-  dataTraceEnabled?: boolean | undefined;
-  throttlingBurstLimit?: number | undefined;
-  throttlingRateLimit?: number | undefined;
-  cachingEnabled?: boolean | undefined;
-  cacheTtlInSeconds?: number | undefined;
-  cacheDataEncrypted?: boolean | undefined;
-  requireAuthorizationForCacheControl?: boolean | undefined;
+  dataTraceEnabled: boolean;
+  throttlingBurstLimit: number;
+  throttlingRateLimit: number;
+  cachingEnabled: boolean;
+  cacheTtlInSeconds: number;
+  cacheDataEncrypted: boolean;
+  requireAuthorizationForCacheControl: boolean;
   unauthorizedCacheControlHeaderStrategy?: UnauthorizedCacheControlHeaderStrategy | undefined;
 }
 export type MapOfMethodSettings = { [key: string]: MethodSetting | undefined };
@@ -592,7 +592,7 @@ export interface Stage {
   clientCertificateId?: string | undefined;
   stageName?: string | undefined;
   description?: string | undefined;
-  cacheClusterEnabled?: boolean | undefined;
+  cacheClusterEnabled: boolean;
   cacheClusterSize?: CacheClusterSize | undefined;
   cacheClusterStatus?: CacheClusterStatus | undefined;
   methodSettings?: { [key: string]: MethodSetting | undefined } | undefined;
@@ -600,7 +600,7 @@ export interface Stage {
   documentationVersion?: string | undefined;
   accessLogSettings?: AccessLogSettings | undefined;
   canarySettings?: CanarySettings | undefined;
-  tracingEnabled?: boolean | undefined;
+  tracingEnabled: boolean;
   webAclArn?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   createdDate?: Date | undefined;
@@ -984,7 +984,7 @@ export interface GatewayResponse {
   statusCode?: string | undefined;
   responseParameters?: { [key: string]: string | undefined } | undefined;
   responseTemplates?: { [key: string]: string | undefined } | undefined;
-  defaultResponse?: boolean | undefined;
+  defaultResponse: boolean;
 }
 export interface GetGatewayResponsesRequest {
   restApiId: string;
@@ -1100,7 +1100,7 @@ export interface SdkConfigurationProperty {
   name?: string | undefined;
   friendlyName?: string | undefined;
   description?: string | undefined;
-  required?: boolean | undefined;
+  required: boolean;
   defaultValue?: string | undefined;
 }
 export type ListOfSdkConfigurationProperty = SdkConfigurationProperty[];
@@ -1310,9 +1310,9 @@ export interface TestInvokeAuthorizerRequest {
   additionalContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface TestInvokeAuthorizerResponse {
-  clientStatus?: number | undefined;
+  clientStatus: number;
   log?: string | undefined;
-  latency?: number | undefined;
+  latency: number;
   principalId?: string | undefined;
   policy?: string | undefined;
   authorization?: { [key: string]: string[] | undefined } | undefined;
@@ -1330,12 +1330,12 @@ export interface TestInvokeMethodRequest {
   stageVariables?: { [key: string]: string | undefined } | undefined;
 }
 export interface TestInvokeMethodResponse {
-  status?: number | undefined;
+  status: number;
   body?: string | undefined;
   headers?: { [key: string]: string | undefined } | undefined;
   multiValueHeaders?: { [key: string]: string[] | undefined } | undefined;
   log?: string | undefined;
-  latency?: number | undefined;
+  latency: number;
 }
 export interface UntagResourceRequest {
   resourceArn: string;
@@ -5318,9 +5318,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          percentTraffic: S.optional(S.Number),
+          percentTraffic: S.optional(S.Number).pipe(T.Default(0)),
           stageVariableOverrides: S.optional(__S(944, __c118, 0)),
-          useStageCache: S.optional(S.Boolean),
+          useStageCache: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DeploymentCanarySettings" });
     case 1:
@@ -5354,7 +5354,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           authorizationType: S.optional(S.String),
-          apiKeyRequired: S.optional(S.Boolean),
+          apiKeyRequired: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "MethodSnapshot" });
     case 1:
@@ -5552,9 +5552,9 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientStatus: S.optional(S.Number),
+          clientStatus: S.optional(S.Number).pipe(T.Default(0)),
           log: S.optional(S.String),
-          latency: S.optional(S.Number),
+          latency: S.optional(S.Number).pipe(T.Default(0)),
           principalId: S.optional(S.String),
           policy: S.optional(S.String),
           authorization: S.optional(__S(72, __c9, 0)),
@@ -5600,12 +5600,12 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.Number),
+          status: S.optional(S.Number).pipe(T.Default(0)),
           body: S.optional(S.String),
           headers: S.optional(__S(944, __c118, 0)),
           multiValueHeaders: S.optional(__S(72, __c9, 0)),
           log: S.optional(S.String),
-          latency: S.optional(S.Number),
+          latency: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TestInvokeMethodResponse" });
   }
@@ -6389,8 +6389,8 @@ function __c47(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          validateRequestBody: S.optional(S.Boolean),
-          validateRequestParameters: S.optional(S.Boolean),
+          validateRequestBody: S.optional(S.Boolean).pipe(T.Default(false)),
+          validateRequestParameters: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "RequestValidator" });
   }
@@ -6436,7 +6436,7 @@ function __c50(j: number): any {
       return S.Record(S.String, /*@__PURE__*/ __S(392, __c49, 0).pipe(S.optional));
     case 1:
       return S.suspend(() =>
-        S.Struct({ insecureSkipVerification: S.optional(S.Boolean) }),
+        S.Struct({ insecureSkipVerification: S.optional(S.Boolean).pipe(T.Default(false)) }),
       ).annotate({ identifier: "TlsConfig" });
     case 2:
       return S.suspend(() =>
@@ -6451,7 +6451,7 @@ function __c50(j: number): any {
           requestTemplates: S.optional(__S(944, __c118, 0)),
           passthroughBehavior: S.optional(S.String),
           contentHandling: S.optional(S.String),
-          timeoutInMillis: S.optional(S.Number),
+          timeoutInMillis: S.optional(S.Number).pipe(T.Default(0)),
           cacheNamespace: S.optional(S.String),
           cacheKeyParameters: S.optional(__S(960, __c120, 0)),
           integrationResponses: S.optional(__S(400, __c50, 0)),
@@ -6553,7 +6553,7 @@ function __c55(j: number): any {
           endpointConfiguration: S.optional(__S(313, __c39, 1)),
           policy: S.optional(S.String),
           tags: S.optional(__S(944, __c118, 0)),
-          disableExecuteApiEndpoint: S.optional(S.Boolean),
+          disableExecuteApiEndpoint: S.optional(S.Boolean).pipe(T.Default(false)),
           rootResourceId: S.optional(S.String),
           securityPolicy: S.optional(S.String),
           endpointAccessMode: S.optional(S.String),
@@ -6597,24 +6597,24 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          percentTraffic: S.optional(S.Number),
+          percentTraffic: S.optional(S.Number).pipe(T.Default(0)),
           deploymentId: S.optional(S.String),
           stageVariableOverrides: S.optional(__S(944, __c118, 0)),
-          useStageCache: S.optional(S.Boolean),
+          useStageCache: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "CanarySettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metricsEnabled: S.optional(S.Boolean),
+          metricsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           loggingLevel: S.optional(S.String),
-          dataTraceEnabled: S.optional(S.Boolean),
-          throttlingBurstLimit: S.optional(S.Number),
-          throttlingRateLimit: S.optional(S.Number),
-          cachingEnabled: S.optional(S.Boolean),
-          cacheTtlInSeconds: S.optional(S.Number),
-          cacheDataEncrypted: S.optional(S.Boolean),
-          requireAuthorizationForCacheControl: S.optional(S.Boolean),
+          dataTraceEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          throttlingBurstLimit: S.optional(S.Number).pipe(T.Default(0)),
+          throttlingRateLimit: S.optional(S.Number).pipe(T.Default(0)),
+          cachingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          cacheTtlInSeconds: S.optional(S.Number).pipe(T.Default(0)),
+          cacheDataEncrypted: S.optional(S.Boolean).pipe(T.Default(false)),
+          requireAuthorizationForCacheControl: S.optional(S.Boolean).pipe(T.Default(false)),
           unauthorizedCacheControlHeaderStrategy: S.optional(S.String),
         }),
       ).annotate({ identifier: "MethodSetting" });
@@ -6631,7 +6631,7 @@ function __c57(j: number): any {
           clientCertificateId: S.optional(S.String),
           stageName: S.optional(S.String),
           description: S.optional(S.String),
-          cacheClusterEnabled: S.optional(S.Boolean),
+          cacheClusterEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           cacheClusterSize: S.optional(S.String),
           cacheClusterStatus: S.optional(S.String),
           methodSettings: S.optional(__S(458, __c57, 2)),
@@ -6639,7 +6639,7 @@ function __c57(j: number): any {
           documentationVersion: S.optional(S.String),
           accessLogSettings: S.optional(__S(459, __c57, 3)),
           canarySettings: S.optional(__S(456, __c57, 0)),
-          tracingEnabled: S.optional(S.Boolean),
+          tracingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           webAclArn: S.optional(S.String),
           tags: S.optional(__S(944, __c118, 0)),
           createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -6669,7 +6669,10 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ burstLimit: S.optional(S.Number), rateLimit: S.optional(S.Number) }),
+        S.Struct({
+          burstLimit: S.optional(S.Number).pipe(T.Default(0)),
+          rateLimit: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "ThrottleSettings" });
   }
 }
@@ -6690,8 +6693,8 @@ function __c60(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          limit: S.optional(S.Number),
-          offset: S.optional(S.Number),
+          limit: S.optional(S.Number).pipe(T.Default(0)),
+          offset: S.optional(S.Number).pipe(T.Default(0)),
           period: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuotaSettings" });
@@ -7829,7 +7832,7 @@ function __c114(j: number): any {
           statusCode: S.optional(S.String),
           responseParameters: S.optional(__S(944, __c118, 0)),
           responseTemplates: S.optional(__S(944, __c118, 0)),
-          defaultResponse: S.optional(S.Boolean),
+          defaultResponse: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "GatewayResponse" });
   }
@@ -7927,7 +7930,7 @@ function __c119(j: number): any {
           name: S.optional(S.String),
           customerId: S.optional(S.String),
           description: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
+          enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           stageKeys: S.optional(__S(960, __c120, 0)),
@@ -8326,7 +8329,7 @@ function __c137(j: number): any {
           name: S.optional(S.String),
           friendlyName: S.optional(S.String),
           description: S.optional(S.String),
-          required: S.optional(S.Boolean),
+          required: S.optional(S.Boolean).pipe(T.Default(false)),
           defaultValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "SdkConfigurationProperty" });

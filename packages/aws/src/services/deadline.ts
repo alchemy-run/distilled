@@ -8637,7 +8637,10 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ParameterFilterExpression" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ searchTerm: S.String, matchType: S.optional(S.String) }),
+        S.Struct({
+          searchTerm: S.String,
+          matchType: S.optional(S.String).pipe(T.Default("FUZZY_MATCH")),
+        }),
       ).annotate({ identifier: "SearchTermFilterExpression" });
     case 3:
       return S.suspend(() =>
@@ -9731,7 +9734,10 @@ function __c52(j: number): any {
       return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ manifests: __S(1665, __c52, 1), fileSystem: S.optional(S.String) }),
+        S.Struct({
+          manifests: __S(1665, __c52, 1),
+          fileSystem: S.optional(S.String).pipe(T.Default("COPIED")),
+        }),
       ).annotate({ identifier: "Attachments" });
   }
 }
@@ -10695,7 +10701,10 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ scriptBody: SensitiveString, scriptTimeoutSeconds: S.optional(S.Number) }),
+        S.Struct({
+          scriptBody: SensitiveString,
+          scriptTimeoutSeconds: S.optional(S.Number).pipe(T.Default(300)),
+        }),
       ).annotate({ identifier: "HostConfiguration" });
   }
 }
@@ -10705,7 +10714,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           standbyWorkerCount: S.optional(S.Number),
-          workerIdleDurationSeconds: S.optional(S.Number),
+          workerIdleDurationSeconds: S.optional(S.Number).pipe(T.Default(300)),
           scaleOutWorkersPerMinute: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CustomerManagedAutoScalingConfiguration" });
@@ -10746,15 +10755,15 @@ function __c85(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          sizeGiB: S.optional(S.Number),
-          iops: S.optional(S.Number),
-          throughputMiB: S.optional(S.Number),
+          sizeGiB: S.optional(S.Number).pipe(T.Default(250)),
+          iops: S.optional(S.Number).pipe(T.Default(3000)),
+          throughputMiB: S.optional(S.Number).pipe(T.Default(125)),
         }),
       ).annotate({ identifier: "Ec2EbsVolume" });
     case 7:
-      return S.suspend(() => S.Struct({ name: S.String, runtime: S.optional(S.String) })).annotate({
-        identifier: "AcceleratorSelection",
-      });
+      return S.suspend(() =>
+        S.Struct({ name: S.String, runtime: S.optional(S.String).pipe(T.Default("latest")) }),
+      ).annotate({ identifier: "AcceleratorSelection" });
     case 8:
       return S.Array(__S(2727, __c85, 7));
     case 9:
@@ -10794,11 +10803,11 @@ function __c85(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          sizeGiB: S.optional(S.Number),
-          iops: S.optional(S.Number),
-          throughputMiB: S.optional(S.Number),
+          sizeGiB: S.optional(S.Number).pipe(T.Default(250)),
+          iops: S.optional(S.Number).pipe(T.Default(3000)),
+          throughputMiB: S.optional(S.Number).pipe(T.Default(125)),
           mountPath: S.String,
-          lastUsedTtlHours: S.optional(S.Number),
+          lastUsedTtlHours: S.optional(S.Number).pipe(T.Default(12)),
         }),
       ).annotate({ identifier: "PersistentVolumeConfiguration" });
     case 16:
@@ -11006,9 +11015,9 @@ function __c92(j: number): any {
 function __c93(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ renderingTaskBuffer: S.optional(S.Number) })).annotate({
-        identifier: "PriorityBalancedSchedulingConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ renderingTaskBuffer: S.optional(S.Number).pipe(T.Default(1)) }),
+      ).annotate({ identifier: "PriorityBalancedSchedulingConfiguration" });
     case 1:
       return S.Union([/*@__PURE__*/ S.Struct({ alwaysScheduleFirst: __S(5120, __c160, 0) })]);
     case 2:
@@ -11016,11 +11025,11 @@ function __c93(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          priorityWeight: S.optional(S.Number),
-          errorWeight: S.optional(S.Number),
-          submissionTimeWeight: S.optional(S.Number),
-          renderingTaskWeight: S.optional(S.Number),
-          renderingTaskBuffer: S.optional(S.Number),
+          priorityWeight: S.optional(S.Number).pipe(T.Default(100)),
+          errorWeight: S.optional(S.Number).pipe(T.Default(-10)),
+          submissionTimeWeight: S.optional(S.Number).pipe(T.Default(3)),
+          renderingTaskWeight: S.optional(S.Number).pipe(T.Default(-100)),
+          renderingTaskBuffer: S.optional(S.Number).pipe(T.Default(1)),
           maxPriorityOverride: S.optional(__S(2977, __c93, 1)),
           minPriorityOverride: S.optional(__S(2978, __c93, 2)),
         }),
@@ -11654,7 +11663,7 @@ function __c121(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
           description: S.optional(SensitiveString),
-          costScaleFactor: S.Number,
+          costScaleFactor: S.Number.pipe(T.Default(1)),
         }),
       ).annotate({ identifier: "GetFarmResponse" });
   }

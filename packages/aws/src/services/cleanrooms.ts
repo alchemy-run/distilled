@@ -7450,9 +7450,9 @@ function __c33(j: number): any {
 function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ allowUseAsDimensionColumn: S.Boolean })).annotate({
-        identifier: "IdMappingConfig",
-      });
+      return S.suspend(() =>
+        S.Struct({ allowUseAsDimensionColumn: S.Boolean.pipe(T.Default(false)) }),
+      ).annotate({ identifier: "IdMappingConfig" });
     case 1:
       return S.Array(S.Any);
     case 2:
@@ -10204,7 +10204,7 @@ function __c123(j: number): any {
           createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           type: S.String,
-          schemaStatusDetails: __S(3939, __c123, 3),
+          schemaStatusDetails: __S(3939, __c123, 3).pipe(T.Default([])),
           resourceArn: S.optional(S.String),
           schemaTypeProperties: S.optional(__S(3943, __c123, 7)),
         }),
@@ -10333,7 +10333,7 @@ function __c126(j: number): any {
           membershipArn: S.String,
           createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           status: S.String,
-          receiverConfigurations: __S(4067, __c127, 3),
+          receiverConfigurations: __S(4067, __c127, 3).pipe(T.Default([])),
           jobComputePayerAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProtectedJobSummary" });
@@ -10394,7 +10394,7 @@ function __c128(j: number): any {
           membershipArn: S.String,
           createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           status: S.String,
-          receiverConfigurations: __S(4067, __c127, 3),
+          receiverConfigurations: __S(4067, __c127, 3).pipe(T.Default([])),
           queryComputePayerAccountId: S.optional(S.String),
           intermediateTableConfiguration: S.optional(__S(2848, __c89, 0)),
         }),

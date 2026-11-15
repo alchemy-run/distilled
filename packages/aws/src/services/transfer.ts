@@ -4118,7 +4118,7 @@ function __c7(j: number): any {
         S.Struct({
           UserSecretId: S.optional(S.String),
           TrustedHostKeys: S.optional(__S(80, __c5, 0)),
-          MaxConcurrentConnections: S.optional(S.Number),
+          MaxConcurrentConnections: S.optional(S.Number).pipe(T.Default(1)),
           OrderedUserSecretVersionStages: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "SftpConnectorConfig" });
@@ -4672,9 +4672,9 @@ function __c39(j: number): any {
           ServiceManagedEgressIpAddresses: S.optional(__S(80, __c5, 0)),
           SecurityPolicyName: S.optional(S.String),
           EgressConfig: S.optional(__S(97, __c6, 1)),
-          EgressType: S.String,
+          EgressType: S.String.pipe(T.Default("SERVICE_MANAGED")),
           ErrorMessage: S.optional(S.String),
-          Status: S.String,
+          Status: S.String.pipe(T.Default("ACTIVE")),
           IpAddressType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribedConnector" });
@@ -5643,7 +5643,7 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Response: S.optional(S.String),
-          StatusCode: S.Number,
+          StatusCode: S.Number.pipe(T.Default(0)),
           Message: S.optional(S.String),
           Url: S.String,
         }),

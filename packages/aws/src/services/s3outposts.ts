@@ -213,7 +213,7 @@ export interface Outpost {
   S3OutpostArn?: string | undefined;
   OutpostId?: string | undefined;
   OwnerId?: string | undefined;
-  CapacityInBytes?: number | undefined;
+  CapacityInBytes: number;
 }
 export type Outposts = Outpost[];
 export interface ListOutpostsWithS3Result {
@@ -471,7 +471,7 @@ function __c0(j: number): any {
           S3OutpostArn: S.optional(S.String),
           OutpostId: S.optional(S.String),
           OwnerId: S.optional(S.String),
-          CapacityInBytes: S.optional(S.Number),
+          CapacityInBytes: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Outpost" });
     case 2:

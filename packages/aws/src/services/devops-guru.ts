@@ -113,9 +113,9 @@ export class InternalServerException
     "InternalServerException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -142,9 +142,9 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       QuotaCode: /*@__PURE__*/ S.optional(S.String),
       ServiceCode: /*@__PURE__*/ S.optional(S.String),
-      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
@@ -287,7 +287,7 @@ export interface CloudWatchMetricsDetail {
   Dimensions?: CloudWatchMetricsDimension[] | undefined;
   Stat?: CloudWatchMetricsStat | undefined;
   Unit?: string | undefined;
-  Period?: number | undefined;
+  Period: number;
   MetricDataSummary?: CloudWatchMetricsDataSummary | undefined;
 }
 export type CloudWatchMetricsDetails = CloudWatchMetricsDetail[];
@@ -520,8 +520,8 @@ export interface DescribeOrganizationResourceCollectionHealthRequest {
   MaxResults?: number | undefined;
 }
 export interface InsightHealth {
-  OpenProactiveInsights?: number | undefined;
-  OpenReactiveInsights?: number | undefined;
+  OpenProactiveInsights: number;
+  OpenReactiveInsights: number;
   MeanTimeToRecoverInMilliseconds?: number | undefined;
 }
 export interface CloudFormationHealth {
@@ -558,8 +558,8 @@ export type ServiceName =
   | "SWF"
   | (string & {});
 export interface ServiceInsightHealth {
-  OpenProactiveInsights?: number | undefined;
-  OpenReactiveInsights?: number | undefined;
+  OpenProactiveInsights: number;
+  OpenReactiveInsights: number;
 }
 export interface ServiceHealth {
   ServiceName?: ServiceName | undefined;
@@ -568,8 +568,8 @@ export interface ServiceHealth {
 }
 export type ServiceHealths = ServiceHealth[];
 export interface AccountInsightHealth {
-  OpenProactiveInsights?: number | undefined;
-  OpenReactiveInsights?: number | undefined;
+  OpenProactiveInsights: number;
+  OpenReactiveInsights: number;
 }
 export interface AccountHealth {
   AccountId?: string | undefined;
@@ -653,9 +653,9 @@ export type Cost = number;
 export interface ServiceResourceCost {
   Type?: string | undefined;
   State?: CostEstimationServiceResourceState | undefined;
-  Count?: number | undefined;
-  UnitCost?: number | undefined;
-  Cost?: number | undefined;
+  Count: number;
+  UnitCost: number;
+  Cost: number;
 }
 export type ServiceResourceCosts = ServiceResourceCost[];
 export interface CostEstimationTimeRange {
@@ -667,7 +667,7 @@ export interface GetCostEstimationResponse {
   Status?: CostEstimationStatus | undefined;
   Costs?: ServiceResourceCost[] | undefined;
   TimeRange?: CostEstimationTimeRange | undefined;
-  TotalCost?: number | undefined;
+  TotalCost: number;
   NextToken?: string | undefined;
 }
 export interface GetResourceCollectionRequest {
@@ -777,7 +777,7 @@ export interface LogAnomalyClass {
   LogAnomalyToken?: string | undefined;
   LogEventId?: string | undefined;
   Explanation?: string | undefined;
-  NumberOfLogLinesOccurrences?: number | undefined;
+  NumberOfLogLinesOccurrences: number;
   LogEventTimestamp?: Date | undefined;
 }
 export type LogAnomalyClasses = LogAnomalyClass[];
@@ -789,7 +789,7 @@ export interface AnomalousLogGroup {
   LogGroupName?: string | undefined;
   ImpactStartTime?: Date | undefined;
   ImpactEndTime?: Date | undefined;
-  NumberOfLogLinesScanned?: number | undefined;
+  NumberOfLogLinesScanned: number;
   LogAnomalyShowcases?: LogAnomalyShowcase[] | undefined;
 }
 export type AnomalousLogGroups = AnomalousLogGroup[];
@@ -2344,8 +2344,8 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ReactiveInsights: S.Number,
-          ProactiveInsights: S.Number,
+          ReactiveInsights: S.Number.pipe(T.Default(0)),
+          ProactiveInsights: S.Number.pipe(T.Default(0)),
           MeanTimeToRecoverInMilliseconds: S.Number,
         }),
       ).annotate({ identifier: "DescribeAccountOverviewResponse" });
@@ -2448,7 +2448,7 @@ function __c5(j: number): any {
           Dimensions: S.optional(__S(162, __c5, 2)),
           Stat: S.optional(S.String),
           Unit: S.optional(S.String),
-          Period: S.optional(S.Number),
+          Period: S.optional(S.Number).pipe(T.Default(0)),
           MetricDataSummary: S.optional(__S(165, __c5, 5)),
         }),
       ).annotate({ identifier: "CloudWatchMetricsDetail" });
@@ -2692,9 +2692,9 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OpenReactiveInsights: S.Number,
-          OpenProactiveInsights: S.Number,
-          MetricsAnalyzed: S.Number,
+          OpenReactiveInsights: S.Number.pipe(T.Default(0)),
+          OpenProactiveInsights: S.Number.pipe(T.Default(0)),
+          MetricsAnalyzed: S.Number.pipe(T.Default(0)),
           ResourceHours: S.Number,
         }),
       ).annotate({ identifier: "DescribeOrganizationHealthResponse" });
@@ -2722,7 +2722,10 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DescribeOrganizationOverviewRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ReactiveInsights: S.Number, ProactiveInsights: S.Number }),
+        S.Struct({
+          ReactiveInsights: S.Number.pipe(T.Default(0)),
+          ProactiveInsights: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "DescribeOrganizationOverviewResponse" });
   }
 }
@@ -2770,8 +2773,8 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          OpenProactiveInsights: S.optional(S.Number),
-          OpenReactiveInsights: S.optional(S.Number),
+          OpenProactiveInsights: S.optional(S.Number).pipe(T.Default(0)),
+          OpenReactiveInsights: S.optional(S.Number).pipe(T.Default(0)),
           MeanTimeToRecoverInMilliseconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InsightHealth" });
@@ -2788,8 +2791,8 @@ function __c15(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OpenProactiveInsights: S.optional(S.Number),
-          OpenReactiveInsights: S.optional(S.Number),
+          OpenProactiveInsights: S.optional(S.Number).pipe(T.Default(0)),
+          OpenReactiveInsights: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ServiceInsightHealth" });
     case 4:
@@ -2905,9 +2908,9 @@ function __c19(j: number): any {
         S.Struct({
           Type: S.optional(S.String),
           State: S.optional(S.String),
-          Count: S.optional(S.Number),
-          UnitCost: S.optional(S.Number),
-          Cost: S.optional(S.Number),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
+          UnitCost: S.optional(S.Number).pipe(T.Default(0)),
+          Cost: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ServiceResourceCost" });
     case 2:
@@ -2926,7 +2929,7 @@ function __c19(j: number): any {
           Status: S.optional(S.String),
           Costs: S.optional(__S(610, __c19, 2)),
           TimeRange: S.optional(__S(611, __c19, 3)),
-          TotalCost: S.optional(S.Number),
+          TotalCost: S.optional(S.Number).pipe(T.Default(0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCostEstimationResponse" });
@@ -3041,7 +3044,7 @@ function __c23(j: number): any {
           LogAnomalyToken: S.optional(S.String),
           LogEventId: S.optional(S.String),
           Explanation: S.optional(S.String),
-          NumberOfLogLinesOccurrences: S.optional(S.Number),
+          NumberOfLogLinesOccurrences: S.optional(S.Number).pipe(T.Default(0)),
           LogEventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "LogAnomalyClass" });
@@ -3059,7 +3062,7 @@ function __c23(j: number): any {
           LogGroupName: S.optional(S.String),
           ImpactStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ImpactEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          NumberOfLogLinesScanned: S.optional(S.Number),
+          NumberOfLogLinesScanned: S.optional(S.Number).pipe(T.Default(0)),
           LogAnomalyShowcases: S.optional(__S(740, __c23, 4)),
         }),
       ).annotate({ identifier: "AnomalousLogGroup" });
@@ -3612,9 +3615,9 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OpenReactiveInsights: S.Number,
-          OpenProactiveInsights: S.Number,
-          MetricsAnalyzed: S.Number,
+          OpenReactiveInsights: S.Number.pipe(T.Default(0)),
+          OpenProactiveInsights: S.Number.pipe(T.Default(0)),
+          MetricsAnalyzed: S.Number.pipe(T.Default(0)),
           ResourceHours: S.Number,
           AnalyzedResourceCount: S.optional(S.Number),
         }),

@@ -6,18 +6,14 @@
 # One case per line: the case id and its kind, (request), (response) or
 # (error), grouped by cause.
 
-# `@default` values are not filled in, and missing required members are not
-# set to their zero values.
-AwsJson10ClientErrorCorrectsWhenServerFailsToSerializeRequiredValues (response)
-AwsJson10ClientErrorCorrectsWithDefaultValuesWhenServerFailsToSerializeRequiredValues (response)
+# `@default` values are not sent for members left out of a nested input
+# structure. The AWS SDK for JavaScript skips these cases too ("JSv3 does not
+# populate default values on the client side"), and sending them would add
+# about 1,100 AWS input members to requests that leave them out today.
 AwsJson10ClientPopulatesDefaultValuesInInput (request)
-AwsJson10ClientPopulatesDefaultsValuesWhenMissingInResponse (response)
 AwsJson10ClientPopulatesNestedDefaultValuesWhenMissing (request)
-AwsJson10ClientPopulatesNestedDefaultsWhenMissingInResponseBody (response)
 RestJsonClientPopulatesDefaultValuesInInput (request)
-RestJsonClientPopulatesDefaultsValuesWhenMissingInResponse (response)
 RestJsonClientPopulatesNestedDefaultValuesWhenMissing (request)
-RestJsonClientPopulatesNestedDefaultsWhenMissingInResponseBody (response)
 
 # An empty list or map element reads as an absent member; Smithy expects an
 # empty list or map. packages/aws/test/protocols/xml.test.ts asserts the

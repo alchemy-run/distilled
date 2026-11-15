@@ -296,7 +296,7 @@ export interface CallAnalyticsItem {
   Type?: ItemType | undefined;
   Content?: string | undefined;
   Confidence?: number | undefined;
-  VocabularyFilterMatch?: boolean | undefined;
+  VocabularyFilterMatch: boolean;
   Stable?: boolean | undefined;
 }
 export type CallAnalyticsItemList = CallAnalyticsItem[];
@@ -320,12 +320,12 @@ export interface IssueDetected {
 export type IssuesDetected = IssueDetected[];
 export interface CallAnalyticsLanguageWithScore {
   LanguageCode?: CallAnalyticsLanguageCode | undefined;
-  Score?: number | undefined;
+  Score: number;
 }
 export type CallAnalyticsLanguageIdentification = CallAnalyticsLanguageWithScore[];
 export interface UtteranceEvent {
   UtteranceId?: string | undefined;
-  IsPartial?: boolean | undefined;
+  IsPartial: boolean;
   ParticipantRole?: ParticipantRole | undefined;
   BeginOffsetMillis?: number | undefined;
   EndOffsetMillis?: number | undefined;
@@ -428,12 +428,12 @@ export interface StartCallAnalyticsStreamTranscriptionResponse {
   VocabularyFilterName?: string | undefined;
   VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
   LanguageModelName?: string | undefined;
-  IdentifyLanguage?: boolean | undefined;
+  IdentifyLanguage: boolean;
   LanguageOptions?: string | undefined;
   PreferredLanguage?: CallAnalyticsLanguageCode | undefined;
   VocabularyNames?: string | undefined;
   VocabularyFilterNames?: string | undefined;
-  EnablePartialResultsStabilization?: boolean | undefined;
+  EnablePartialResultsStabilization: boolean;
   PartialResultsStability?: PartialResultsStability | undefined;
   ContentIdentificationType?: ContentIdentificationType | undefined;
   ContentRedactionType?: ContentRedactionType | undefined;
@@ -488,8 +488,8 @@ export interface StartMedicalScribeStreamRequest {
 }
 export type MedicalScribeTranscriptItemType = "pronunciation" | "punctuation" | (string & {});
 export interface MedicalScribeTranscriptItem {
-  BeginAudioTime?: number | undefined;
-  EndAudioTime?: number | undefined;
+  BeginAudioTime: number;
+  EndAudioTime: number;
   Type?: MedicalScribeTranscriptItemType | undefined;
   Confidence?: number | undefined;
   Content?: string | undefined;
@@ -498,11 +498,11 @@ export interface MedicalScribeTranscriptItem {
 export type MedicalScribeTranscriptItemList = MedicalScribeTranscriptItem[];
 export interface MedicalScribeTranscriptSegment {
   SegmentId?: string | undefined;
-  BeginAudioTime?: number | undefined;
-  EndAudioTime?: number | undefined;
+  BeginAudioTime: number;
+  EndAudioTime: number;
   Content?: string | undefined;
   Items?: MedicalScribeTranscriptItem[] | undefined;
-  IsPartial?: boolean | undefined;
+  IsPartial: boolean;
   ChannelId?: string | undefined;
 }
 export interface MedicalScribeTranscriptEvent {
@@ -692,8 +692,8 @@ export interface StartMedicalStreamTranscriptionRequest {
   ContentIdentificationType?: MedicalContentIdentificationType | undefined;
 }
 export interface MedicalItem {
-  StartTime?: number | undefined;
-  EndTime?: number | undefined;
+  StartTime: number;
+  EndTime: number;
   Type?: ItemType | undefined;
   Content?: string | undefined;
   Confidence?: number | undefined;
@@ -701,8 +701,8 @@ export interface MedicalItem {
 }
 export type MedicalItemList = MedicalItem[];
 export interface MedicalEntity {
-  StartTime?: number | undefined;
-  EndTime?: number | undefined;
+  StartTime: number;
+  EndTime: number;
   Category?: string | undefined;
   Content?: string | undefined;
   Confidence?: number | undefined;
@@ -716,9 +716,9 @@ export interface MedicalAlternative {
 export type MedicalAlternativeList = MedicalAlternative[];
 export interface MedicalResult {
   ResultId?: string | undefined;
-  StartTime?: number | undefined;
-  EndTime?: number | undefined;
-  IsPartial?: boolean | undefined;
+  StartTime: number;
+  EndTime: number;
+  IsPartial: boolean;
   Alternatives?: MedicalAlternative[] | undefined;
   ChannelId?: string | undefined;
 }
@@ -786,10 +786,10 @@ export interface StartMedicalStreamTranscriptionResponse {
   VocabularyName?: string | undefined;
   Specialty?: Specialty | undefined;
   Type?: Type | undefined;
-  ShowSpeakerLabel?: boolean | undefined;
+  ShowSpeakerLabel: boolean;
   SessionId?: string | undefined;
   TranscriptResultStream?: stream.Stream<MedicalTranscriptResultStream, Error, never> | undefined;
-  EnableChannelIdentification?: boolean | undefined;
+  EnableChannelIdentification: boolean;
   NumberOfChannels?: number | undefined;
   ContentIdentificationType?: MedicalContentIdentificationType | undefined;
 }
@@ -823,19 +823,19 @@ export interface StartStreamTranscriptionRequest {
   TranscriptFormat?: TranscriptFormat | undefined;
 }
 export interface Item {
-  StartTime?: number | undefined;
-  EndTime?: number | undefined;
+  StartTime: number;
+  EndTime: number;
   Type?: ItemType | undefined;
   Content?: string | undefined;
-  VocabularyFilterMatch?: boolean | undefined;
+  VocabularyFilterMatch: boolean;
   Speaker?: string | undefined;
   Confidence?: number | undefined;
   Stable?: boolean | undefined;
 }
 export type ItemList = Item[];
 export interface Entity {
-  StartTime?: number | undefined;
-  EndTime?: number | undefined;
+  StartTime: number;
+  EndTime: number;
   Category?: string | undefined;
   Type?: string | undefined;
   Content?: string | undefined;
@@ -850,14 +850,14 @@ export interface Alternative {
 export type AlternativeList = Alternative[];
 export interface LanguageWithScore {
   LanguageCode?: LanguageCode | undefined;
-  Score?: number | undefined;
+  Score: number;
 }
 export type LanguageIdentification = LanguageWithScore[];
 export interface Result {
   ResultId?: string | undefined;
-  StartTime?: number | undefined;
-  EndTime?: number | undefined;
-  IsPartial?: boolean | undefined;
+  StartTime: number;
+  EndTime: number;
+  IsPartial: boolean;
   Alternatives?: Alternative[] | undefined;
   ChannelId?: string | undefined;
   LanguageCode?: LanguageCode | undefined;
@@ -929,19 +929,19 @@ export interface StartStreamTranscriptionResponse {
   TranscriptResultStream?: stream.Stream<TranscriptResultStream, Error, never> | undefined;
   VocabularyFilterName?: string | undefined;
   VocabularyFilterMethod?: VocabularyFilterMethod | undefined;
-  ShowSpeakerLabel?: boolean | undefined;
-  EnableChannelIdentification?: boolean | undefined;
+  ShowSpeakerLabel: boolean;
+  EnableChannelIdentification: boolean;
   NumberOfChannels?: number | undefined;
-  EnablePartialResultsStabilization?: boolean | undefined;
+  EnablePartialResultsStabilization: boolean;
   PartialResultsStability?: PartialResultsStability | undefined;
   ContentIdentificationType?: ContentIdentificationType | undefined;
   ContentRedactionType?: ContentRedactionType | undefined;
   PiiEntityTypes?: string | undefined;
   LanguageModelName?: string | undefined;
-  IdentifyLanguage?: boolean | undefined;
+  IdentifyLanguage: boolean;
   LanguageOptions?: string | undefined;
   PreferredLanguage?: LanguageCode | undefined;
-  IdentifyMultipleLanguages?: boolean | undefined;
+  IdentifyMultipleLanguages: boolean;
   VocabularyNames?: string | undefined;
   VocabularyFilterNames?: string | undefined;
   SessionResumeWindow?: number | undefined;
@@ -1257,11 +1257,11 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
+          StartTime: S.optional(S.Number).pipe(T.Default(0)),
+          EndTime: S.optional(S.Number).pipe(T.Default(0)),
           Type: S.optional(S.String),
           Content: S.optional(S.String),
-          VocabularyFilterMatch: S.optional(S.Boolean),
+          VocabularyFilterMatch: S.optional(S.Boolean).pipe(T.Default(false)),
           Speaker: S.optional(S.String),
           Confidence: S.optional(S.Number),
           Stable: S.optional(S.Boolean),
@@ -1272,8 +1272,8 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
+          StartTime: S.optional(S.Number).pipe(T.Default(0)),
+          EndTime: S.optional(S.Number).pipe(T.Default(0)),
           Category: S.optional(S.String),
           Type: S.optional(S.String),
           Content: S.optional(S.String),
@@ -1296,9 +1296,9 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ResultId: S.optional(S.String),
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
-          IsPartial: S.optional(S.Boolean),
+          StartTime: S.optional(S.Number).pipe(T.Default(0)),
+          EndTime: S.optional(S.Number).pipe(T.Default(0)),
+          IsPartial: S.optional(S.Boolean).pipe(T.Default(false)),
           Alternatives: S.optional(__S(6, __c0, 6)),
           ChannelId: S.optional(S.String),
           LanguageCode: S.optional(S.String),
@@ -1368,18 +1368,18 @@ function __c0(j: number): any {
           VocabularyFilterMethod: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-vocabulary-filter-method"),
           ),
-          ShowSpeakerLabel: S.optional(S.Boolean).pipe(
-            T.HttpHeader("x-amzn-transcribe-show-speaker-label"),
-          ),
-          EnableChannelIdentification: S.optional(S.Boolean).pipe(
-            T.HttpHeader("x-amzn-transcribe-enable-channel-identification"),
-          ),
+          ShowSpeakerLabel: S.optional(S.Boolean)
+            .pipe(T.HttpHeader("x-amzn-transcribe-show-speaker-label"))
+            .pipe(T.Default(false)),
+          EnableChannelIdentification: S.optional(S.Boolean)
+            .pipe(T.HttpHeader("x-amzn-transcribe-enable-channel-identification"))
+            .pipe(T.Default(false)),
           NumberOfChannels: S.optional(S.Number).pipe(
             T.HttpHeader("x-amzn-transcribe-number-of-channels"),
           ),
-          EnablePartialResultsStabilization: S.optional(S.Boolean).pipe(
-            T.HttpHeader("x-amzn-transcribe-enable-partial-results-stabilization"),
-          ),
+          EnablePartialResultsStabilization: S.optional(S.Boolean)
+            .pipe(T.HttpHeader("x-amzn-transcribe-enable-partial-results-stabilization"))
+            .pipe(T.Default(false)),
           PartialResultsStability: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-partial-results-stability"),
           ),
@@ -1395,18 +1395,18 @@ function __c0(j: number): any {
           LanguageModelName: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-language-model-name"),
           ),
-          IdentifyLanguage: S.optional(S.Boolean).pipe(
-            T.HttpHeader("x-amzn-transcribe-identify-language"),
-          ),
+          IdentifyLanguage: S.optional(S.Boolean)
+            .pipe(T.HttpHeader("x-amzn-transcribe-identify-language"))
+            .pipe(T.Default(false)),
           LanguageOptions: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-language-options"),
           ),
           PreferredLanguage: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-preferred-language"),
           ),
-          IdentifyMultipleLanguages: S.optional(S.Boolean).pipe(
-            T.HttpHeader("x-amzn-transcribe-identify-multiple-languages"),
-          ),
+          IdentifyMultipleLanguages: S.optional(S.Boolean)
+            .pipe(T.HttpHeader("x-amzn-transcribe-identify-multiple-languages"))
+            .pipe(T.Default(false)),
           VocabularyNames: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-vocabulary-names"),
           ),
@@ -1481,9 +1481,9 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ ChannelId: S.Number, ParticipantRole: S.String })).annotate(
-        { identifier: "MedicalScribeChannelDefinition" },
-      );
+      return S.suspend(() =>
+        S.Struct({ ChannelId: S.Number.pipe(T.Default(0)), ParticipantRole: S.String }),
+      ).annotate({ identifier: "MedicalScribeChannelDefinition" });
     case 1:
       return S.Array(__S(64, __c2, 0));
   }
@@ -1577,7 +1577,7 @@ function __c4(j: number): any {
           Type: S.optional(S.String),
           Content: S.optional(S.String),
           Confidence: S.optional(S.Number),
-          VocabularyFilterMatch: S.optional(S.Boolean),
+          VocabularyFilterMatch: S.optional(S.Boolean).pipe(T.Default(false)),
           Stable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CallAnalyticsItem" });
@@ -1610,7 +1610,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           UtteranceId: S.optional(S.String),
-          IsPartial: S.optional(S.Boolean),
+          IsPartial: S.optional(S.Boolean).pipe(T.Default(false)),
           ParticipantRole: S.optional(S.String),
           BeginOffsetMillis: S.optional(S.Number),
           EndOffsetMillis: S.optional(S.Number),
@@ -1704,9 +1704,9 @@ function __c4(j: number): any {
           LanguageModelName: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-language-model-name"),
           ),
-          IdentifyLanguage: S.optional(S.Boolean).pipe(
-            T.HttpHeader("x-amzn-transcribe-identify-language"),
-          ),
+          IdentifyLanguage: S.optional(S.Boolean)
+            .pipe(T.HttpHeader("x-amzn-transcribe-identify-language"))
+            .pipe(T.Default(false)),
           LanguageOptions: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-language-options"),
           ),
@@ -1719,9 +1719,9 @@ function __c4(j: number): any {
           VocabularyFilterNames: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-vocabulary-filter-names"),
           ),
-          EnablePartialResultsStabilization: S.optional(S.Boolean).pipe(
-            T.HttpHeader("x-amzn-transcribe-enable-partial-results-stabilization"),
-          ),
+          EnablePartialResultsStabilization: S.optional(S.Boolean)
+            .pipe(T.HttpHeader("x-amzn-transcribe-enable-partial-results-stabilization"))
+            .pipe(T.Default(false)),
           PartialResultsStability: S.optional(S.String).pipe(
             T.HttpHeader("x-amzn-transcribe-partial-results-stability"),
           ),
@@ -1742,7 +1742,10 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ LanguageCode: S.optional(S.String), Score: S.optional(S.Number) }),
+        S.Struct({
+          LanguageCode: S.optional(S.String),
+          Score: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "CallAnalyticsLanguageWithScore" });
     case 1:
       return S.Array(__S(160, __c5, 0));
@@ -1840,8 +1843,8 @@ function __c7(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          BeginAudioTime: S.optional(S.Number),
-          EndAudioTime: S.optional(S.Number),
+          BeginAudioTime: S.optional(S.Number).pipe(T.Default(0)),
+          EndAudioTime: S.optional(S.Number).pipe(T.Default(0)),
           Type: S.optional(S.String),
           Confidence: S.optional(S.Number),
           Content: S.optional(S.String),
@@ -1854,11 +1857,11 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SegmentId: S.optional(S.String),
-          BeginAudioTime: S.optional(S.Number),
-          EndAudioTime: S.optional(S.Number),
+          BeginAudioTime: S.optional(S.Number).pipe(T.Default(0)),
+          EndAudioTime: S.optional(S.Number).pipe(T.Default(0)),
           Content: S.optional(S.String),
           Items: S.optional(__S(232, __c7, 8)),
-          IsPartial: S.optional(S.Boolean),
+          IsPartial: S.optional(S.Boolean).pipe(T.Default(false)),
           ChannelId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MedicalScribeTranscriptSegment" });
@@ -1955,8 +1958,8 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
+          StartTime: S.optional(S.Number).pipe(T.Default(0)),
+          EndTime: S.optional(S.Number).pipe(T.Default(0)),
           Type: S.optional(S.String),
           Content: S.optional(S.String),
           Confidence: S.optional(S.Number),
@@ -1968,8 +1971,8 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
+          StartTime: S.optional(S.Number).pipe(T.Default(0)),
+          EndTime: S.optional(S.Number).pipe(T.Default(0)),
           Category: S.optional(S.String),
           Content: S.optional(S.String),
           Confidence: S.optional(S.Number),
@@ -1991,9 +1994,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ResultId: S.optional(S.String),
-          StartTime: S.optional(S.Number),
-          EndTime: S.optional(S.Number),
-          IsPartial: S.optional(S.Boolean),
+          StartTime: S.optional(S.Number).pipe(T.Default(0)),
+          EndTime: S.optional(S.Number).pipe(T.Default(0)),
+          IsPartial: S.optional(S.Boolean).pipe(T.Default(false)),
           Alternatives: S.optional(__S(262, __c8, 6)),
           ChannelId: S.optional(S.String),
         }),
@@ -2055,14 +2058,14 @@ function __c8(j: number): any {
           ),
           Specialty: S.optional(S.String).pipe(T.HttpHeader("x-amzn-transcribe-specialty")),
           Type: S.optional(S.String).pipe(T.HttpHeader("x-amzn-transcribe-type")),
-          ShowSpeakerLabel: S.optional(S.Boolean).pipe(
-            T.HttpHeader("x-amzn-transcribe-show-speaker-label"),
-          ),
+          ShowSpeakerLabel: S.optional(S.Boolean)
+            .pipe(T.HttpHeader("x-amzn-transcribe-show-speaker-label"))
+            .pipe(T.Default(false)),
           SessionId: S.optional(S.String).pipe(T.HttpHeader("x-amzn-transcribe-session-id")),
           TranscriptResultStream: S.optional(__S(267, __c8, 11)).pipe(T.HttpPayload()),
-          EnableChannelIdentification: S.optional(S.Boolean).pipe(
-            T.HttpHeader("x-amzn-transcribe-enable-channel-identification"),
-          ),
+          EnableChannelIdentification: S.optional(S.Boolean)
+            .pipe(T.HttpHeader("x-amzn-transcribe-enable-channel-identification"))
+            .pipe(T.Default(false)),
           NumberOfChannels: S.optional(S.Number).pipe(
             T.HttpHeader("x-amzn-transcribe-number-of-channels"),
           ),

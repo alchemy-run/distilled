@@ -115,9 +115,9 @@ export class InternalServerException
     "InternalServerException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -156,9 +156,9 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       serviceCode: /*@__PURE__*/ S.optional(S.String),
       quotaCode: /*@__PURE__*/ S.optional(S.String),
-      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.all(
       /*@__PURE__*/ T.HttpError(429),
@@ -511,7 +511,7 @@ export interface VsamDetailAttributes {
   alternateKeys?: AlternateKey[] | undefined;
 }
 export interface GdgDetailAttributes {
-  limit?: number | undefined;
+  limit: number;
   rollDisposition?: string | undefined;
 }
 export interface PoDetailAttributes {
@@ -614,7 +614,7 @@ export interface GetEnvironmentResponse {
   storageConfigurations?: StorageConfiguration[] | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   highAvailabilityConfig?: HighAvailabilityConfig | undefined;
-  publiclyAccessible?: boolean | undefined;
+  publiclyAccessible: boolean;
   actualCapacity?: number | undefined;
   loadBalancerArn?: string | undefined;
   statusReason?: string | undefined;
@@ -722,12 +722,12 @@ export interface ListBatchJobRestartPointsRequest {
   authSecretsManagerArn?: string | undefined;
 }
 export interface JobStep {
-  stepNumber?: number | undefined;
+  stepNumber: number;
   stepName?: string | undefined;
-  procStepNumber?: number | undefined;
+  procStepNumber: number;
   procStepName?: string | undefined;
   stepCondCode?: string | undefined;
-  stepRestartable?: boolean | undefined;
+  stepRestartable: boolean;
   stepCheckpoint?: number | undefined;
   stepCheckpointStatus?: string | undefined;
   stepCheckpointTime?: Date | undefined;
@@ -2306,7 +2306,7 @@ function __c5(j: number): any {
         S.Struct({
           format: S.String,
           encoding: S.optional(S.String),
-          compressed: S.optional(S.Boolean),
+          compressed: S.optional(S.Boolean).pipe(T.Default(false)),
           primaryKey: S.optional(__S(112, __c7, 0)),
           alternateKeys: S.optional(__S(114, __c7, 2)),
         }),
@@ -2331,9 +2331,9 @@ function __c5(j: number): any {
         /*@__PURE__*/ S.Struct({ ps: __S(82, __c5, 2) }),
       ]);
     case 4:
-      return S.suspend(() => S.Struct({ min: S.Number, max: S.Number })).annotate({
-        identifier: "RecordLength",
-      });
+      return S.suspend(() =>
+        S.Struct({ min: S.Number.pipe(T.Default(0)), max: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "RecordLength" });
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2384,22 +2384,29 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ name: S.optional(S.String), offset: S.Number, length: S.Number }),
+        S.Struct({
+          name: S.optional(S.String),
+          offset: S.Number.pipe(T.Default(0)),
+          length: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "PrimaryKey" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          offset: S.Number,
-          length: S.Number,
-          allowDuplicates: S.optional(S.Boolean),
+          offset: S.Number.pipe(T.Default(0)),
+          length: S.Number.pipe(T.Default(0)),
+          allowDuplicates: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AlternateKey" });
     case 2:
       return S.Array(__S(113, __c7, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ limit: S.optional(S.Number), rollDisposition: S.optional(S.String) }),
+        S.Struct({
+          limit: S.optional(S.Number).pipe(T.Default(0)),
+          rollDisposition: S.optional(S.String),
+        }),
       ).annotate({ identifier: "GdgAttributes" });
   }
 }
@@ -2833,11 +2840,11 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          total: S.Number,
-          succeeded: S.Number,
-          failed: S.Number,
-          pending: S.Number,
-          inProgress: S.Number,
+          total: S.Number.pipe(T.Default(0)),
+          succeeded: S.Number.pipe(T.Default(0)),
+          failed: S.Number.pipe(T.Default(0)),
+          pending: S.Number.pipe(T.Default(0)),
+          inProgress: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DataSetExportSummary" });
   }
@@ -2952,7 +2959,7 @@ function __c27(j: number): any {
           storageConfigurations: S.optional(__S(162, __c10, 2)),
           tags: S.optional(__S(16, __c1, 0)),
           highAvailabilityConfig: S.optional(__S(163, __c10, 3)),
-          publiclyAccessible: S.optional(S.Boolean),
+          publiclyAccessible: S.optional(S.Boolean).pipe(T.Default(false)),
           actualCapacity: S.optional(S.Number),
           loadBalancerArn: S.optional(S.String),
           statusReason: S.optional(S.String),
@@ -3153,12 +3160,12 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stepNumber: S.optional(S.Number),
+          stepNumber: S.optional(S.Number).pipe(T.Default(0)),
           stepName: S.optional(S.String),
-          procStepNumber: S.optional(S.Number),
+          procStepNumber: S.optional(S.Number).pipe(T.Default(0)),
           procStepName: S.optional(S.String),
           stepCondCode: S.optional(S.String),
-          stepRestartable: S.optional(S.Boolean),
+          stepRestartable: S.optional(S.Boolean).pipe(T.Default(false)),
           stepCheckpoint: S.optional(S.Number),
           stepCheckpointStatus: S.optional(S.String),
           stepCheckpointTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

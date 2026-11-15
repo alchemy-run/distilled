@@ -195,14 +195,14 @@ export interface Message {
 }
 export type Messages = Message[];
 export interface ConfidenceScore {
-  score?: number | undefined;
+  score: number;
 }
 export type SentimentType = "MIXED" | "NEGATIVE" | "NEUTRAL" | "POSITIVE" | (string & {});
 export interface SentimentScore {
-  positive?: number | undefined;
-  negative?: number | undefined;
-  neutral?: number | undefined;
-  mixed?: number | undefined;
+  positive: number;
+  negative: number;
+  neutral: number;
+  mixed: number;
 }
 export interface SentimentResponse {
   sentiment?: SentimentType | undefined;
@@ -1245,9 +1245,9 @@ function __c4(j: number): any {
           responseContentType: S.String,
           sessionState: S.optional(__S(248, __c7, 24)),
           welcomeMessages: S.optional(__S(228, __c7, 4)),
-          disablePlayback: S.optional(S.Boolean),
+          disablePlayback: S.optional(S.Boolean).pipe(T.Default(false)),
           eventId: S.optional(S.String),
-          clientTimestampMillis: S.optional(S.Number),
+          clientTimestampMillis: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ConfigurationEvent" });
     case 1:
@@ -1256,7 +1256,7 @@ function __c4(j: number): any {
           audioChunk: S.optional(T.Blob),
           contentType: S.String,
           eventId: S.optional(S.String),
-          clientTimestampMillis: S.optional(S.Number),
+          clientTimestampMillis: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AudioInputEvent" });
     case 2:
@@ -1264,7 +1264,7 @@ function __c4(j: number): any {
         S.Struct({
           inputCharacter: SensitiveString,
           eventId: S.optional(S.String),
-          clientTimestampMillis: S.optional(S.Number),
+          clientTimestampMillis: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DTMFInputEvent" });
     case 3:
@@ -1272,12 +1272,15 @@ function __c4(j: number): any {
         S.Struct({
           text: SensitiveString,
           eventId: S.optional(S.String),
-          clientTimestampMillis: S.optional(S.Number),
+          clientTimestampMillis: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TextInputEvent" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ eventId: S.optional(S.String), clientTimestampMillis: S.optional(S.Number) }),
+        S.Struct({
+          eventId: S.optional(S.String),
+          clientTimestampMillis: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "PlaybackCompletionEvent" });
     case 5:
       return T.InputEventStream(
@@ -1635,16 +1638,16 @@ function __c7(j: number): any {
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ score: S.optional(S.Number) })).annotate({
-        identifier: "ConfidenceScore",
-      });
+      return S.suspend(() => S.Struct({ score: S.optional(S.Number).pipe(T.Default(0)) })).annotate(
+        { identifier: "ConfidenceScore" },
+      );
     case 1:
       return S.suspend(() =>
         S.Struct({
-          positive: S.optional(S.Number),
-          negative: S.optional(S.Number),
-          neutral: S.optional(S.Number),
-          mixed: S.optional(S.Number),
+          positive: S.optional(S.Number).pipe(T.Default(0)),
+          negative: S.optional(S.Number).pipe(T.Default(0)),
+          neutral: S.optional(S.Number).pipe(T.Default(0)),
+          mixed: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SentimentScore" });
     case 2:

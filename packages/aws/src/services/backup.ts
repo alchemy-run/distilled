@@ -681,7 +681,7 @@ export interface DescribeBackupJobOutput {
   VaultLockState?: string | undefined;
   RecoveryPointArn?: string | undefined;
   EncryptionKeyArn?: string | undefined;
-  IsEncrypted?: boolean | undefined;
+  IsEncrypted: boolean;
   ResourceArn?: string | undefined;
   CreationDate?: Date | undefined;
   CompletionDate?: Date | undefined;
@@ -698,7 +698,7 @@ export interface DescribeBackupJobOutput {
   BackupOptions?: { [key: string]: string | undefined } | undefined;
   BackupType?: string | undefined;
   ParentJobId?: string | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
   NumberOfChildJobs?: number | undefined;
   ChildJobsInState?: { [key: string]: number | undefined } | undefined;
   ResourceName?: string | undefined;
@@ -732,7 +732,7 @@ export interface DescribeBackupVaultOutput {
   EncryptionKeyArn?: string | undefined;
   CreationDate?: Date | undefined;
   CreatorRequestId?: string | undefined;
-  NumberOfRecoveryPoints?: number | undefined;
+  NumberOfRecoveryPoints: number;
   Locked?: boolean | undefined;
   MinRetentionDays?: number | undefined;
   MaxRetentionDays?: number | undefined;
@@ -776,7 +776,7 @@ export interface CopyJob {
   CreatedByBackupJobId?: string | undefined;
   ResourceType?: string | undefined;
   ParentJobId?: string | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
   CompositeMemberIdentifier?: string | undefined;
   NumberOfChildJobs?: number | undefined;
   ChildJobsInState?: { [key: string]: number | undefined } | undefined;
@@ -874,12 +874,12 @@ export interface DescribeRecoveryPointOutput {
   CalculatedLifecycle?: CalculatedLifecycle | undefined;
   Lifecycle?: Lifecycle | undefined;
   EncryptionKeyArn?: string | undefined;
-  IsEncrypted?: boolean | undefined;
+  IsEncrypted: boolean;
   StorageClass?: StorageClass | undefined;
   LastRestoreTime?: Date | undefined;
   ParentRecoveryPointArn?: string | undefined;
   CompositeMemberIdentifier?: string | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
   ResourceName?: string | undefined;
   VaultType?: VaultType | undefined;
   IndexStatus?: IndexStatus | undefined;
@@ -976,7 +976,7 @@ export interface DescribeRestoreJobOutput {
   ValidationStatusMessage?: string | undefined;
   DeletionStatus?: RestoreDeletionStatus | undefined;
   DeletionStatusMessage?: string | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
   ParentJobId?: string | undefined;
 }
 export interface DescribeScanJobInput {
@@ -1259,7 +1259,7 @@ export interface RestoreTestingPlanForGet {
   RestoreTestingPlanName: string;
   ScheduleExpression: string;
   ScheduleExpressionTimezone?: string | undefined;
-  StartWindowHours?: number | undefined;
+  StartWindowHours: number;
 }
 export interface GetRestoreTestingPlanOutput {
   RestoreTestingPlan: RestoreTestingPlanForGet;
@@ -1278,7 +1278,7 @@ export interface RestoreTestingSelectionForGet {
   RestoreMetadataOverrides?: { [key: string]: string | undefined } | undefined;
   RestoreTestingPlanName: string;
   RestoreTestingSelectionName: string;
-  ValidationWindowHours?: number | undefined;
+  ValidationWindowHours: number;
 }
 export interface GetRestoreTestingSelectionOutput {
   RestoreTestingSelection: RestoreTestingSelectionForGet;
@@ -1371,7 +1371,7 @@ export interface BackupJob {
   RecoveryPointArn?: string | undefined;
   RecoveryPointLifecycle?: Lifecycle | undefined;
   EncryptionKeyArn?: string | undefined;
-  IsEncrypted?: boolean | undefined;
+  IsEncrypted: boolean;
   ResourceArn?: string | undefined;
   CreationDate?: Date | undefined;
   CompletionDate?: Date | undefined;
@@ -1388,7 +1388,7 @@ export interface BackupJob {
   BackupOptions?: { [key: string]: string | undefined } | undefined;
   BackupType?: string | undefined;
   ParentJobId?: string | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
   ResourceName?: string | undefined;
   InitiationDate?: Date | undefined;
   MessageCategory?: string | undefined;
@@ -1429,7 +1429,7 @@ export interface BackupJobSummary {
   State?: BackupJobStatus | undefined;
   ResourceType?: string | undefined;
   MessageCategory?: string | undefined;
-  Count?: number | undefined;
+  Count: number;
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
 }
@@ -1515,7 +1515,7 @@ export interface BackupVaultListMember {
   CreationDate?: Date | undefined;
   EncryptionKeyArn?: string | undefined;
   CreatorRequestId?: string | undefined;
-  NumberOfRecoveryPoints?: number | undefined;
+  NumberOfRecoveryPoints: number;
   Locked?: boolean | undefined;
   MinRetentionDays?: number | undefined;
   MaxRetentionDays?: number | undefined;
@@ -1576,7 +1576,7 @@ export interface CopyJobSummary {
   State?: CopyJobStatus | undefined;
   ResourceType?: string | undefined;
   MessageCategory?: string | undefined;
-  Count?: number | undefined;
+  Count: number;
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
 }
@@ -1595,7 +1595,7 @@ export interface Framework {
   FrameworkName?: string | undefined;
   FrameworkArn?: string | undefined;
   FrameworkDescription?: string | undefined;
-  NumberOfControls?: number | undefined;
+  NumberOfControls: number;
   CreationTime?: Date | undefined;
   DeploymentStatus?: string | undefined;
 }
@@ -1709,11 +1709,11 @@ export interface RecoveryPointByBackupVault {
   CalculatedLifecycle?: CalculatedLifecycle | undefined;
   Lifecycle?: Lifecycle | undefined;
   EncryptionKeyArn?: string | undefined;
-  IsEncrypted?: boolean | undefined;
+  IsEncrypted: boolean;
   LastRestoreTime?: Date | undefined;
   ParentRecoveryPointArn?: string | undefined;
   CompositeMemberIdentifier?: string | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
   ResourceName?: string | undefined;
   VaultType?: VaultType | undefined;
   IndexStatus?: IndexStatus | undefined;
@@ -1756,7 +1756,7 @@ export interface RecoveryPointByResource {
   EncryptionKeyArn?: string | undefined;
   BackupSizeBytes?: number | undefined;
   BackupVaultName?: string | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
   ParentRecoveryPointArn?: string | undefined;
   ResourceName?: string | undefined;
   VaultType?: VaultType | undefined;
@@ -1847,7 +1847,7 @@ export interface RestoreJobsListMember {
   CreatedResourceArn?: string | undefined;
   ResourceType?: string | undefined;
   RecoveryPointCreationDate?: Date | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
   ParentJobId?: string | undefined;
   CreatedBy?: RestoreJobCreator | undefined;
   ValidationStatus?: RestoreValidationStatus | undefined;
@@ -1895,7 +1895,7 @@ export interface RestoreJobSummary {
   AccountId?: string | undefined;
   State?: RestoreJobState | undefined;
   ResourceType?: string | undefined;
-  Count?: number | undefined;
+  Count: number;
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
 }
@@ -1918,7 +1918,7 @@ export interface RestoreTestingPlanForList {
   RestoreTestingPlanName: string;
   ScheduleExpression: string;
   ScheduleExpressionTimezone?: string | undefined;
-  StartWindowHours?: number | undefined;
+  StartWindowHours: number;
 }
 export type RestoreTestingPlans = RestoreTestingPlanForList[];
 export interface ListRestoreTestingPlansOutput {
@@ -1937,7 +1937,7 @@ export interface RestoreTestingSelectionForList {
   ProtectedResourceType: string;
   RestoreTestingPlanName: string;
   RestoreTestingSelectionName: string;
-  ValidationWindowHours?: number | undefined;
+  ValidationWindowHours: number;
 }
 export type RestoreTestingSelections = RestoreTestingSelectionForList[];
 export interface ListRestoreTestingSelectionsOutput {
@@ -2013,7 +2013,7 @@ export interface ScanJobSummary {
   AccountId?: string | undefined;
   State?: ScanJobStatus | undefined;
   ResourceType?: string | undefined;
-  Count?: number | undefined;
+  Count: number;
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
   MalwareScanner?: MalwareScanner | undefined;
@@ -2098,7 +2098,7 @@ export interface StartBackupJobOutput {
   BackupJobId?: string | undefined;
   RecoveryPointArn?: string | undefined;
   CreationDate?: Date | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
 }
 export interface StartCopyJobInput {
   RecoveryPointArn: string;
@@ -2111,7 +2111,7 @@ export interface StartCopyJobInput {
 export interface StartCopyJobOutput {
   CopyJobId?: string | undefined;
   CreationDate?: Date | undefined;
-  IsParent?: boolean | undefined;
+  IsParent: boolean;
 }
 export interface StartReportJobInput {
   ReportPlanName: string;
@@ -6392,7 +6392,7 @@ function __c9(j: number): any {
           BackupJobId: S.optional(S.String),
           RecoveryPointArn: S.optional(S.String),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "StartBackupJobOutput" });
   }
@@ -6415,7 +6415,7 @@ function __c10(j: number): any {
         S.Struct({
           CopyJobId: S.optional(S.String),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "StartCopyJobOutput" });
   }
@@ -6783,7 +6783,7 @@ function __c27(j: number): any {
           RecoveryPointSelection: S.optional(__S(408, __c51, 0)),
           ScheduleExpression: S.optional(S.String),
           ScheduleExpressionTimezone: S.optional(S.String),
-          StartWindowHours: S.optional(S.Number),
+          StartWindowHours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RestoreTestingPlanForUpdate" });
     case 1:
@@ -6822,7 +6822,7 @@ function __c28(j: number): any {
           ProtectedResourceArns: S.optional(__S(256, __c32, 0)),
           ProtectedResourceConditions: S.optional(__S(426, __c53, 2)),
           RestoreMetadataOverrides: S.optional(__S(192, __c24, 0)),
-          ValidationWindowHours: S.optional(S.Number),
+          ValidationWindowHours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RestoreTestingSelectionForUpdate" });
     case 1:
@@ -7292,7 +7292,7 @@ function __c47(j: number): any {
         S.Struct({
           ReportTemplate: S.String,
           FrameworkArns: S.optional(__S(256, __c32, 0)),
-          NumberOfFrameworks: S.optional(S.Number),
+          NumberOfFrameworks: S.optional(S.Number).pipe(T.Default(0)),
           Accounts: S.optional(__S(256, __c32, 0)),
           OrganizationUnits: S.optional(__S(256, __c32, 0)),
           Regions: S.optional(__S(256, __c32, 0)),
@@ -7341,7 +7341,7 @@ function __c49(j: number): any {
           RestoreTestingPlanName: S.String,
           ScheduleExpression: S.String,
           ScheduleExpressionTimezone: S.optional(S.String),
-          StartWindowHours: S.optional(S.Number),
+          StartWindowHours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RestoreTestingPlanForCreate" });
     case 1:
@@ -7386,7 +7386,7 @@ function __c51(j: number): any {
           ExcludeVaults: S.optional(__S(256, __c32, 0)),
           IncludeVaults: S.optional(__S(256, __c32, 0)),
           RecoveryPointTypes: S.optional(__S(400, __c50, 0)),
-          SelectionWindowDays: S.optional(S.Number),
+          SelectionWindowDays: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RestoreTestingRecoveryPointSelection" });
   }
@@ -7402,7 +7402,7 @@ function __c52(j: number): any {
           ProtectedResourceType: S.String,
           RestoreMetadataOverrides: S.optional(__S(192, __c24, 0)),
           RestoreTestingSelectionName: S.String,
-          ValidationWindowHours: S.optional(S.Number),
+          ValidationWindowHours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RestoreTestingSelectionForCreate" });
     case 1:
@@ -7819,7 +7819,7 @@ function __c70(j: number): any {
           VaultLockState: S.optional(S.String),
           RecoveryPointArn: S.optional(S.String),
           EncryptionKeyArn: S.optional(S.String),
-          IsEncrypted: S.optional(S.Boolean),
+          IsEncrypted: S.optional(S.Boolean).pipe(T.Default(false)),
           ResourceArn: S.optional(S.String),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -7836,7 +7836,7 @@ function __c70(j: number): any {
           BackupOptions: S.optional(__S(192, __c24, 0)),
           BackupType: S.optional(S.String),
           ParentJobId: S.optional(S.String),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
           NumberOfChildJobs: S.optional(S.Number),
           ChildJobsInState: S.optional(__S(576, __c72, 0)),
           ResourceName: S.optional(S.String),
@@ -7897,7 +7897,7 @@ function __c73(j: number): any {
           EncryptionKeyArn: S.optional(S.String),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CreatorRequestId: S.optional(S.String),
-          NumberOfRecoveryPoints: S.optional(S.Number),
+          NumberOfRecoveryPoints: S.optional(S.Number).pipe(T.Default(0)),
           Locked: S.optional(S.Boolean),
           MinRetentionDays: S.optional(S.Number),
           MaxRetentionDays: S.optional(S.Number),
@@ -7972,7 +7972,7 @@ function __c76(j: number): any {
           CreatedByBackupJobId: S.optional(S.String),
           ResourceType: S.optional(S.String),
           ParentJobId: S.optional(S.String),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
           CompositeMemberIdentifier: S.optional(S.String),
           NumberOfChildJobs: S.optional(S.Number),
           ChildJobsInState: S.optional(__S(576, __c72, 0)),
@@ -8115,12 +8115,12 @@ function __c80(j: number): any {
           CalculatedLifecycle: S.optional(__S(648, __c81, 0)),
           Lifecycle: S.optional(__S(264, __c33, 0)),
           EncryptionKeyArn: S.optional(S.String),
-          IsEncrypted: S.optional(S.Boolean),
+          IsEncrypted: S.optional(S.Boolean).pipe(T.Default(false)),
           StorageClass: S.optional(S.String),
           LastRestoreTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ParentRecoveryPointArn: S.optional(S.String),
           CompositeMemberIdentifier: S.optional(S.String),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
           ResourceName: S.optional(S.String),
           VaultType: S.optional(S.String),
           IndexStatus: S.optional(S.String),
@@ -8285,7 +8285,7 @@ function __c88(j: number): any {
           ValidationStatusMessage: S.optional(S.String),
           DeletionStatus: S.optional(S.String),
           DeletionStatusMessage: S.optional(S.String),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
           ParentJobId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeRestoreJobOutput" });
@@ -8873,7 +8873,7 @@ function __c110(j: number): any {
           RestoreTestingPlanName: S.String,
           ScheduleExpression: S.String,
           ScheduleExpressionTimezone: S.optional(S.String),
-          StartWindowHours: S.optional(S.Number),
+          StartWindowHours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RestoreTestingPlanForGet" });
     case 2:
@@ -8915,7 +8915,7 @@ function __c111(j: number): any {
           RestoreMetadataOverrides: S.optional(__S(192, __c24, 0)),
           RestoreTestingPlanName: S.String,
           RestoreTestingSelectionName: S.String,
-          ValidationWindowHours: S.optional(S.Number),
+          ValidationWindowHours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RestoreTestingSelectionForGet" });
     case 2:
@@ -9109,7 +9109,7 @@ function __c118(j: number): any {
           RecoveryPointArn: S.optional(S.String),
           RecoveryPointLifecycle: S.optional(__S(264, __c33, 0)),
           EncryptionKeyArn: S.optional(S.String),
-          IsEncrypted: S.optional(S.Boolean),
+          IsEncrypted: S.optional(S.Boolean).pipe(T.Default(false)),
           ResourceArn: S.optional(S.String),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CompletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -9126,7 +9126,7 @@ function __c118(j: number): any {
           BackupOptions: S.optional(__S(192, __c24, 0)),
           BackupType: S.optional(S.String),
           ParentJobId: S.optional(S.String),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
           ResourceName: S.optional(S.String),
           InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           MessageCategory: S.optional(S.String),
@@ -9183,7 +9183,7 @@ function __c120(j: number): any {
           State: S.optional(S.String),
           ResourceType: S.optional(S.String),
           MessageCategory: S.optional(S.String),
-          Count: S.optional(S.Number),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -9361,7 +9361,7 @@ function __c126(j: number): any {
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EncryptionKeyArn: S.optional(S.String),
           CreatorRequestId: S.optional(S.String),
-          NumberOfRecoveryPoints: S.optional(S.Number),
+          NumberOfRecoveryPoints: S.optional(S.Number).pipe(T.Default(0)),
           Locked: S.optional(S.Boolean),
           MinRetentionDays: S.optional(S.Number),
           MaxRetentionDays: S.optional(S.Number),
@@ -9469,7 +9469,7 @@ function __c129(j: number): any {
           FrameworkName: S.optional(S.String),
           FrameworkArn: S.optional(S.String),
           FrameworkDescription: S.optional(S.String),
-          NumberOfControls: S.optional(S.Number),
+          NumberOfControls: S.optional(S.Number).pipe(T.Default(0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DeploymentStatus: S.optional(S.String),
         }),
@@ -9671,11 +9671,11 @@ function __c135(j: number): any {
           CalculatedLifecycle: S.optional(__S(648, __c81, 0)),
           Lifecycle: S.optional(__S(264, __c33, 0)),
           EncryptionKeyArn: S.optional(S.String),
-          IsEncrypted: S.optional(S.Boolean),
+          IsEncrypted: S.optional(S.Boolean).pipe(T.Default(false)),
           LastRestoreTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ParentRecoveryPointArn: S.optional(S.String),
           CompositeMemberIdentifier: S.optional(S.String),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
           ResourceName: S.optional(S.String),
           VaultType: S.optional(S.String),
           IndexStatus: S.optional(S.String),
@@ -9776,7 +9776,7 @@ function __c138(j: number): any {
           EncryptionKeyArn: S.optional(S.String),
           BackupSizeBytes: S.optional(S.Number),
           BackupVaultName: S.optional(S.String),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
           ParentRecoveryPointArn: S.optional(S.String),
           ResourceName: S.optional(S.String),
           VaultType: S.optional(S.String),
@@ -9947,7 +9947,7 @@ function __c143(j: number): any {
           CreatedResourceArn: S.optional(S.String),
           ResourceType: S.optional(S.String),
           RecoveryPointCreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          IsParent: S.optional(S.Boolean),
+          IsParent: S.optional(S.Boolean).pipe(T.Default(false)),
           ParentJobId: S.optional(S.String),
           CreatedBy: S.optional(__S(712, __c89, 0)),
           ValidationStatus: S.optional(S.String),
@@ -10024,7 +10024,7 @@ function __c145(j: number): any {
           AccountId: S.optional(S.String),
           State: S.optional(S.String),
           ResourceType: S.optional(S.String),
-          Count: S.optional(S.Number),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -10069,7 +10069,7 @@ function __c146(j: number): any {
           RestoreTestingPlanName: S.String,
           ScheduleExpression: S.String,
           ScheduleExpressionTimezone: S.optional(S.String),
-          StartWindowHours: S.optional(S.Number),
+          StartWindowHours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RestoreTestingPlanForList" });
     case 2:
@@ -10110,7 +10110,7 @@ function __c147(j: number): any {
           ProtectedResourceType: S.String,
           RestoreTestingPlanName: S.String,
           RestoreTestingSelectionName: S.String,
-          ValidationWindowHours: S.optional(S.Number),
+          ValidationWindowHours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RestoreTestingSelectionForList" });
     case 2:
@@ -10213,7 +10213,7 @@ function __c149(j: number): any {
           AccountId: S.optional(S.String),
           State: S.optional(S.String),
           ResourceType: S.optional(S.String),
-          Count: S.optional(S.Number),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           MalwareScanner: S.optional(S.String),

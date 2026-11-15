@@ -3672,8 +3672,8 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           query: S.String,
-          shingleSize: S.optional(S.Number),
-          sampleSize: S.optional(S.Number),
+          shingleSize: S.optional(S.Number).pipe(T.Default(8)),
+          sampleSize: S.optional(S.Number).pipe(T.Default(256)),
           ignoreNearExpectedFromAbove: S.optional(__S(481, __c60, 1)),
           ignoreNearExpectedFromBelow: S.optional(__S(481, __c60, 1)),
         }),

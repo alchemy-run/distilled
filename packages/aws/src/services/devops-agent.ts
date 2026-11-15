@@ -992,7 +992,7 @@ export interface Task {
   metadata?: any | undefined;
   primaryTaskId?: string | undefined;
   statusReason?: string | undefined;
-  hasLinkedTasks?: boolean | undefined;
+  hasLinkedTasks: boolean;
 }
 export interface CreateBacklogTaskResponse {
   task: Task;
@@ -6085,7 +6085,7 @@ function __c19(j: number): any {
           metadata: S.optional(S.Any),
           primaryTaskId: S.optional(S.String),
           statusReason: S.optional(S.String),
-          hasLinkedTasks: S.optional(S.Boolean),
+          hasLinkedTasks: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "Task" });
   }
@@ -6860,7 +6860,7 @@ function __c51(j: number): any {
           description: S.optional(SensitiveString),
           region: S.String,
           service: S.String,
-          roleArn: S.String,
+          roleArn: S.String.pipe(T.Default("")),
           mcpRoleArn: S.optional(S.String),
           customHeaders: S.optional(__S(1665, __c52, 1)),
         }),
@@ -7318,7 +7318,7 @@ function __c64(j: number): any {
           title: S.String,
           content: __S(2048, __c64, 0),
           status: S.String,
-          goalType: S.String,
+          goalType: S.String.pipe(T.Default("ONCALL_REPORT")),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastEvaluatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -7424,7 +7424,7 @@ function __c66(j: number): any {
         S.Struct({
           agentSpaceId: S.String,
           executionId: S.String,
-          messages: __S(2119, __c66, 7),
+          messages: __S(2119, __c66, 7).pipe(T.Default([])),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "ListPendingMessagesResponse" });
@@ -7665,7 +7665,7 @@ function __c74(j: number): any {
           authorizationUrl: S.String,
           exchangeUrl: S.String,
           clientSecret: S.optional(SensitiveString),
-          supportCodeChallenge: S.optional(S.Boolean),
+          supportCodeChallenge: S.optional(S.Boolean).pipe(T.Default(false)),
           scopes: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "MCPServerOAuth3LOConfig" });
@@ -7678,7 +7678,7 @@ function __c74(j: number): any {
         S.Struct({
           tokenName: S.String,
           tokenValue: SensitiveString,
-          authorizationHeader: S.optional(S.String),
+          authorizationHeader: S.optional(S.String).pipe(T.Default("Authorization")),
         }),
       ).annotate({ identifier: "MCPServerBearerTokenConfig" });
     case 11:
@@ -7742,7 +7742,7 @@ function __c74(j: number): any {
         S.Struct({
           region: S.String,
           service: S.String,
-          roleArn: S.optional(S.String),
+          roleArn: S.optional(S.String).pipe(T.Default("")),
           mcpRoleArn: S.optional(S.String),
           customHeaders: S.optional(__S(1665, __c52, 1)),
         }),

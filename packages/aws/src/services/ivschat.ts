@@ -137,7 +137,7 @@ export class ServiceQuotaExceededException
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       resourceId: S.String,
       resourceType: S.String,
-      limit: S.Number,
+      limit: /*@__PURE__*/ S.Number.pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
@@ -148,7 +148,7 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       resourceId: S.String,
       resourceType: S.String,
-      limit: S.Number,
+      limit: /*@__PURE__*/ S.Number.pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}

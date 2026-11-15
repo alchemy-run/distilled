@@ -115,9 +115,9 @@ export class InternalServerException
     "InternalServerException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -306,10 +306,10 @@ export type PositiveInteger = number;
 export type VolumeStatus = string;
 export interface DataReplicationInfoReplicatedDisk {
   deviceName?: string | undefined;
-  totalStorageBytes?: number | undefined;
-  replicatedStorageBytes?: number | undefined;
-  rescannedStorageBytes?: number | undefined;
-  backloggedStorageBytes?: number | undefined;
+  totalStorageBytes: number;
+  replicatedStorageBytes: number;
+  rescannedStorageBytes: number;
+  backloggedStorageBytes: number;
   volumeStatus?: string | undefined;
 }
 export type DataReplicationInfoReplicatedDisks = DataReplicationInfoReplicatedDisk[];
@@ -378,11 +378,11 @@ export interface NetworkInterface {
 export type NetworkInterfaces = NetworkInterface[];
 export interface Disk {
   deviceName?: string | undefined;
-  bytes?: number | undefined;
+  bytes: number;
 }
 export type Disks = Disk[];
 export interface CPU {
-  cores?: number | undefined;
+  cores: number;
   modelName?: string | undefined;
 }
 export type Cpus = CPU[];
@@ -397,7 +397,7 @@ export interface SourceProperties {
   networkInterfaces?: NetworkInterface[] | undefined;
   disks?: Disk[] | undefined;
   cpus?: CPU[] | undefined;
-  ramBytes?: number | undefined;
+  ramBytes: number;
   os?: OS | undefined;
   supportsNitroInstances?: boolean | undefined;
   architecture?: string | undefined;
@@ -579,7 +579,7 @@ export interface ReplicationConfigurationTemplate {
   defaultLargeStagingDiskType?: string | undefined;
   ebsEncryption?: string | undefined;
   ebsEncryptionKeyArn?: string | undefined;
-  bandwidthThrottling?: number | undefined;
+  bandwidthThrottling: number;
   dataPlaneRouting?: string | undefined;
   createPublicIP?: boolean | undefined;
   stagingAreaTags?: { [key: string]: string | undefined } | undefined;
@@ -692,8 +692,8 @@ export interface JobLogEventData {
   rawError?: string | undefined;
   conversionProperties?: ConversionProperties | undefined;
   eventResourceData?: EventResourceData | undefined;
-  attemptCount?: number | undefined;
-  maxAttemptsCount?: number | undefined;
+  attemptCount: number;
+  maxAttemptsCount: number;
 }
 export interface JobLog {
   logDateTime?: string | undefined;
@@ -761,10 +761,10 @@ export interface RecoveryInstanceFailback {
 }
 export interface RecoveryInstanceDataReplicationInfoReplicatedDisk {
   deviceName?: string | undefined;
-  totalStorageBytes?: number | undefined;
-  replicatedStorageBytes?: number | undefined;
-  rescannedStorageBytes?: number | undefined;
-  backloggedStorageBytes?: number | undefined;
+  totalStorageBytes: number;
+  replicatedStorageBytes: number;
+  rescannedStorageBytes: number;
+  backloggedStorageBytes: number;
 }
 export type RecoveryInstanceDataReplicationInfoReplicatedDisks =
   RecoveryInstanceDataReplicationInfoReplicatedDisk[];
@@ -799,7 +799,7 @@ export interface RecoveryInstanceDataReplicationInfo {
 export type EbsVolumeID = string;
 export interface RecoveryInstanceDisk {
   internalDeviceName?: string | undefined;
-  bytes?: number | undefined;
+  bytes: number;
   ebsVolumeID?: string | undefined;
 }
 export type RecoveryInstanceDisks = RecoveryInstanceDisk[];
@@ -809,7 +809,7 @@ export interface RecoveryInstanceProperties {
   networkInterfaces?: NetworkInterface[] | undefined;
   disks?: RecoveryInstanceDisk[] | undefined;
   cpus?: CPU[] | undefined;
-  ramBytes?: number | undefined;
+  ramBytes: number;
   os?: OS | undefined;
 }
 export type OriginEnvironment = string;
@@ -946,7 +946,7 @@ export interface GetFailbackReplicationConfigurationRequest {
 export interface GetFailbackReplicationConfigurationResponse {
   recoveryInstanceID: string;
   name?: string | undefined;
-  bandwidthThrottling?: number | undefined;
+  bandwidthThrottling: number;
   usePrivateIP?: boolean | undefined;
   internetProtocol?: string | undefined;
 }
@@ -1046,7 +1046,7 @@ export interface ReplicationConfiguration {
   replicatedDisks?: ReplicationConfigurationReplicatedDisk[] | undefined;
   ebsEncryption?: string | undefined;
   ebsEncryptionKeyArn?: string | undefined;
-  bandwidthThrottling?: number | undefined;
+  bandwidthThrottling: number;
   dataPlaneRouting?: string | undefined;
   createPublicIP?: boolean | undefined;
   stagingAreaTags?: { [key: string]: string | undefined } | undefined;
@@ -3913,7 +3913,10 @@ function __c2(j: number): any {
       return S.Array(__S(36, __c2, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ cores: S.optional(S.Number), modelName: S.optional(S.String) }),
+        S.Struct({
+          cores: S.optional(S.Number).pipe(T.Default(0)),
+          modelName: S.optional(S.String),
+        }),
       ).annotate({ identifier: "CPU" });
     case 7:
       return S.Array(__S(38, __c2, 6));
@@ -3929,10 +3932,10 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deviceName: S.optional(S.String),
-          totalStorageBytes: S.optional(S.Number),
-          replicatedStorageBytes: S.optional(S.Number),
-          rescannedStorageBytes: S.optional(S.Number),
-          backloggedStorageBytes: S.optional(S.Number),
+          totalStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
+          replicatedStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
+          rescannedStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
+          backloggedStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
           volumeStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataReplicationInfoReplicatedDisk" });
@@ -3983,7 +3986,10 @@ function __c3(j: number): any {
       ).annotate({ identifier: "LifeCycle" });
     case 7:
       return S.suspend(() =>
-        S.Struct({ deviceName: S.optional(S.String), bytes: S.optional(S.Number) }),
+        S.Struct({
+          deviceName: S.optional(S.String),
+          bytes: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "Disk" });
     case 8:
       return S.Array(__S(55, __c3, 7));
@@ -3996,7 +4002,7 @@ function __c3(j: number): any {
           networkInterfaces: S.optional(__S(37, __c2, 5)),
           disks: S.optional(__S(56, __c3, 8)),
           cpus: S.optional(__S(39, __c2, 7)),
-          ramBytes: S.optional(S.Number),
+          ramBytes: S.optional(S.Number).pipe(T.Default(0)),
           os: S.optional(__S(40, __c2, 8)),
           supportsNitroInstances: S.optional(S.Boolean),
           architecture: S.optional(S.String),
@@ -4268,7 +4274,7 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ruleID: S.optional(S.Number),
+          ruleID: S.optional(S.Number).pipe(T.Default(0)),
           units: S.String,
           interval: S.Number,
           retentionDuration: S.Number,
@@ -4294,7 +4300,7 @@ function __c18(j: number): any {
           defaultLargeStagingDiskType: S.optional(S.String),
           ebsEncryption: S.optional(S.String),
           ebsEncryptionKeyArn: S.optional(S.String),
-          bandwidthThrottling: S.optional(S.Number),
+          bandwidthThrottling: S.optional(S.Number).pipe(T.Default(0)),
           dataPlaneRouting: S.optional(S.String),
           createPublicIP: S.optional(S.Boolean),
           stagingAreaTags: S.optional(__S(1536, __c96, 0)),
@@ -4575,8 +4581,8 @@ function __c31(j: number): any {
           rawError: S.optional(S.String),
           conversionProperties: S.optional(__S(502, __c31, 6)),
           eventResourceData: S.optional(__S(504, __c31, 8)),
-          attemptCount: S.optional(S.Number),
-          maxAttemptsCount: S.optional(S.Number),
+          attemptCount: S.optional(S.Number).pipe(T.Default(0)),
+          maxAttemptsCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "JobLogEventData" });
     case 10:
@@ -4695,10 +4701,10 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           deviceName: S.optional(S.String),
-          totalStorageBytes: S.optional(S.Number),
-          replicatedStorageBytes: S.optional(S.Number),
-          rescannedStorageBytes: S.optional(S.Number),
-          backloggedStorageBytes: S.optional(S.Number),
+          totalStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
+          replicatedStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
+          rescannedStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
+          backloggedStorageBytes: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RecoveryInstanceDataReplicationInfoReplicatedDisk" });
     case 4:
@@ -4724,7 +4730,7 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           internalDeviceName: S.optional(S.String),
-          bytes: S.optional(S.Number),
+          bytes: S.optional(S.Number).pipe(T.Default(0)),
           ebsVolumeID: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecoveryInstanceDisk" });
@@ -4738,7 +4744,7 @@ function __c34(j: number): any {
           networkInterfaces: S.optional(__S(37, __c2, 5)),
           disks: S.optional(__S(552, __c34, 8)),
           cpus: S.optional(__S(39, __c2, 7)),
-          ramBytes: S.optional(S.Number),
+          ramBytes: S.optional(S.Number).pipe(T.Default(0)),
           os: S.optional(__S(40, __c2, 8)),
         }),
       ).annotate({ identifier: "RecoveryInstanceProperties" });
@@ -5014,7 +5020,7 @@ function __c43(j: number): any {
         S.Struct({
           recoveryInstanceID: S.String,
           name: S.optional(S.String),
-          bandwidthThrottling: S.optional(S.Number),
+          bandwidthThrottling: S.optional(S.Number).pipe(T.Default(0)),
           usePrivateIP: S.optional(S.Boolean),
           internetProtocol: S.optional(S.String),
         }),
@@ -5193,8 +5199,8 @@ function __c53(j: number): any {
           deviceName: S.optional(S.String),
           isBootDisk: S.optional(S.Boolean),
           stagingDiskType: S.optional(S.String),
-          iops: S.optional(S.Number),
-          throughput: S.optional(S.Number),
+          iops: S.optional(S.Number).pipe(T.Default(0)),
+          throughput: S.optional(S.Number).pipe(T.Default(0)),
           optimizedStagingDiskType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationConfigurationReplicatedDisk" });
@@ -5214,7 +5220,7 @@ function __c53(j: number): any {
           replicatedDisks: S.optional(__S(849, __c53, 1)),
           ebsEncryption: S.optional(S.String),
           ebsEncryptionKeyArn: S.optional(S.String),
-          bandwidthThrottling: S.optional(S.Number),
+          bandwidthThrottling: S.optional(S.Number).pipe(T.Default(0)),
           dataPlaneRouting: S.optional(S.String),
           createPublicIP: S.optional(S.Boolean),
           stagingAreaTags: S.optional(__S(1536, __c96, 0)),

@@ -353,9 +353,9 @@ export type CurrencyCode = string;
 export type OfferingType = string;
 export interface ReservationOffering {
   offeringId?: string | undefined;
-  duration?: number | undefined;
-  upfrontCharge?: number | undefined;
-  hourlyCharge?: number | undefined;
+  duration: number;
+  upfrontCharge: number;
+  hourlyCharge: number;
   currencyCode?: string | undefined;
   offeringType?: string | undefined;
 }
@@ -365,7 +365,7 @@ export interface Reservation {
   reservationArn?: string | undefined;
   startDate?: Date | undefined;
   endDate?: Date | undefined;
-  capacity?: number | undefined;
+  capacity: number;
   offering?: ReservationOffering | undefined;
   status?: string | undefined;
 }
@@ -3400,9 +3400,9 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           offeringId: S.optional(S.String),
-          duration: S.optional(S.Number),
-          upfrontCharge: S.optional(S.Number),
-          hourlyCharge: S.optional(S.Number),
+          duration: S.optional(S.Number).pipe(T.Default(0)),
+          upfrontCharge: S.optional(S.Number).pipe(T.Default(0)),
+          hourlyCharge: S.optional(S.Number).pipe(T.Default(0)),
           currencyCode: S.optional(S.String),
           offeringType: S.optional(S.String),
         }),
@@ -3418,7 +3418,7 @@ function __c15(j: number): any {
           reservationArn: S.optional(S.String),
           startDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          capacity: S.optional(S.Number),
+          capacity: S.optional(S.Number).pipe(T.Default(0)),
           offering: S.optional(__S(112, __c14, 0)),
           status: S.optional(S.String),
         }),

@@ -208,7 +208,7 @@ export type OutputSegmentList = OutputSegment[];
 export interface InvokeDataAutomationResponse {
   outputConfiguration?: OutputConfiguration | undefined;
   semanticModality: SemanticModality;
-  outputSegments?: OutputSegment[] | undefined;
+  outputSegments: OutputSegment[];
 }
 export type IdempotencyToken = string;
 export interface TimestampSegment {
@@ -571,7 +571,7 @@ function __c6(j: number): any {
         S.Struct({
           outputConfiguration: S.optional(__S(80, __c5, 0)),
           semanticModality: S.String,
-          outputSegments: S.optional(__S(99, __c6, 3)),
+          outputSegments: S.optional(__S(99, __c6, 3)).pipe(T.Default([])),
         }),
       ).annotate({ identifier: "InvokeDataAutomationResponse" });
   }

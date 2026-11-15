@@ -97,9 +97,9 @@ export class ValidationException
     "ValidationException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      reason: /*@__PURE__*/ S.suspend(() => S.String).annotate({
-        identifier: "ValidationExceptionReason",
-      }),
+      reason: /*@__PURE__*/ S.suspend(() => S.String)
+        .annotate({ identifier: "ValidationExceptionReason" })
+        .pipe(/*@__PURE__*/ T.Default("FieldValidationFailed")),
       fieldList: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.suspend(() => __S(577, __c18, 1)).annotate({
           identifier: "ValidationExceptionFieldList",

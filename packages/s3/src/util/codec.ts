@@ -31,7 +31,7 @@ import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import type { Operation } from "../client/operation.ts";
 import { ParseError } from "../errors.ts";
-import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
+import { codecSymbol, defaultSymbol, isValidDate, type CodecKind } from "../lite.ts";
 import { toBase64 } from "./base64.ts";
 import { formatDateTime } from "./timestamp.ts";
 
@@ -82,6 +82,8 @@ interface Member {
   readonly wire: string;
   readonly type: Node;
   readonly optional: boolean;
+  /** The member's `@default`, in Smithy's node form. */
+  readonly default: unknown;
 }
 
 interface Shape {
@@ -106,6 +108,7 @@ const shapeOf = (n: Node): Shape => {
         wire: mapping && Object.hasOwn(mapping, name) ? mapping[name]! : name,
         type: p.type,
         optional: isOptional(p.type),
+        default: p.type.annotations?.[defaultSymbol],
       };
     });
     shape = {
@@ -381,9 +384,16 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
   for (const m of shape.members) {
     const x = v[m.wire];
     try {
-      // JSON sends null for an absent member.
+      // JSON sends null for an absent member. A member with a `@default`
+      // takes it; a required one takes its type's zero value (Smithy's
+      // client error correction), unless the decode is exact.
       if (x == null) {
-        if (exact && !m.optional) fail("a value", x);
+        if (m.default !== undefined) out[m.name] = decodeDefault(m.type, m.default);
+        else if (!m.optional) {
+          if (exact) fail("a value", x);
+          const zero = zeroOf(m.type);
+          if (zero !== undefined) out[m.name] = zero;
+        }
         continue;
       }
       out[m.name] = decode(m.type, x, exact);
@@ -409,6 +419,58 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
       if (!shape.wireKeys.has(key) && v[key] != null)
         throw within(new CodecError("no value (the schema does not model this key)", v[key]), key);
   return out;
+};
+
+/** The present type of `n`: an optional union and a suspension unwrapped. */
+const present = (n: Node): Node =>
+  n._tag === "Suspend"
+    ? present(n.thunk!())
+    : isOptional(n) && n.types!.length === 2
+      ? present(n.types![0]!)
+      : n;
+
+/** A `@default` (Smithy node form) as the value of the type `n`. */
+const decodeDefault = (n: Node, v: unknown): unknown => {
+  const codec = codecOf(present(n));
+  if (codec === "epoch-seconds" || codec === "http-date" || codec === "date-string")
+    return new Date(typeof v === "number" ? v * 1000 : String(v));
+  // A fresh copy, so no response shares a list, map or document with another.
+  return decode(n, typeof v === "object" && v !== null ? structuredClone(v) : v);
+};
+
+/**
+ * The zero value Smithy's client error correction gives a required member
+ * the service left out: false, 0, "", empty bytes, the epoch, [], {}, and a
+ * structure of its defaults when it requires no member. `undefined` for the
+ * types that have none (a structure with required members, unions,
+ * documents, streams): the member stays missing.
+ */
+const zeroOf = (n: Node): unknown => {
+  const codec = codecOf(n);
+  if (codec === "sensitive") {
+    const zero = zeroOf(innerOf(n));
+    return zero === undefined ? undefined : Redacted.make(zero);
+  }
+  if (codec === "blob") return new Uint8Array();
+  if (codec !== undefined) return new Date(0);
+  switch (n._tag) {
+    case "Suspend":
+      return zeroOf(n.thunk!());
+    case "String":
+      return "";
+    case "Number":
+      return 0;
+    case "Boolean":
+      return false;
+    case "Arrays":
+      return [];
+    case "Objects":
+      return shapeOf(n).members.some((m) => !m.optional && m.default === undefined)
+        ? undefined
+        : decodeObjects(n, {}, false);
+    default:
+      return undefined;
+  }
 };
 
 const decodeUnion = (n: Node, v: unknown, exact: Exactness): unknown => {

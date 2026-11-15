@@ -868,8 +868,8 @@ export interface VpcConfigResponse {
   securityGroupIds?: string[] | undefined;
   clusterSecurityGroupId?: string | undefined;
   vpcId?: string | undefined;
-  endpointPublicAccess?: boolean | undefined;
-  endpointPrivateAccess?: boolean | undefined;
+  endpointPublicAccess: boolean;
+  endpointPrivateAccess: boolean;
   publicAccessCidrs?: string[] | undefined;
   controlPlaneEgressMode?: ControlPlaneEgressModeType | undefined;
 }
@@ -1056,11 +1056,11 @@ export interface EksAnywhereSubscription {
   createdAt?: Date | undefined;
   effectiveDate?: Date | undefined;
   expirationDate?: Date | undefined;
-  licenseQuantity?: number | undefined;
+  licenseQuantity: number;
   licenseType?: EksAnywhereSubscriptionLicenseType | undefined;
   term?: EksAnywhereSubscriptionTerm | undefined;
   status?: string | undefined;
-  autoRenew?: boolean | undefined;
+  autoRenew: boolean;
   licenseArns?: string[] | undefined;
   licenses?: License[] | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -1463,7 +1463,7 @@ export interface DescribeAddonVersionsRequest {
 export interface Compatibility {
   clusterVersion?: string | undefined;
   platformVersions?: string[] | undefined;
-  defaultVersion?: boolean | undefined;
+  defaultVersion: boolean;
 }
 export type Compatibilities = Compatibility[];
 export interface AddonVersionInfo {
@@ -1471,8 +1471,8 @@ export interface AddonVersionInfo {
   architecture?: string[] | undefined;
   computeTypes?: string[] | undefined;
   compatibilities?: Compatibility[] | undefined;
-  requiresConfiguration?: boolean | undefined;
-  requiresIamPermissions?: boolean | undefined;
+  requiresConfiguration: boolean;
+  requiresIamPermissions: boolean;
 }
 export type AddonVersionInfoList = AddonVersionInfo[];
 export interface AddonInfo {
@@ -1630,7 +1630,7 @@ export interface ClusterVersionInformation {
   clusterVersion?: string | undefined;
   clusterType?: string | undefined;
   defaultPlatformVersion?: string | undefined;
-  defaultVersion?: boolean | undefined;
+  defaultVersion: boolean;
   releaseDate?: Date | undefined;
   endOfStandardSupportDate?: Date | undefined;
   endOfExtendedSupportDate?: Date | undefined;
@@ -1710,7 +1710,7 @@ export interface InsightResourceDetail {
 export type InsightResourceDetails = InsightResourceDetail[];
 export interface ClientStat {
   userAgent?: string | undefined;
-  numberOfRequestsLast30Days?: number | undefined;
+  numberOfRequestsLast30Days: number;
   lastRequestTime?: Date | undefined;
 }
 export type ClientStats = ClientStat[];
@@ -5445,7 +5445,10 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ minPort: S.optional(S.Number), maxPort: S.optional(S.Number) }),
+        S.Struct({
+          minPort: S.optional(S.Number).pipe(T.Default(0)),
+          maxPort: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "ServiceNodePortRange" });
     case 1:
       return S.suspend(() =>
@@ -5499,8 +5502,8 @@ function __c28(j: number): any {
           securityGroupIds: S.optional(__S(0, __c0, 0)),
           clusterSecurityGroupId: S.optional(S.String),
           vpcId: S.optional(S.String),
-          endpointPublicAccess: S.optional(S.Boolean),
-          endpointPrivateAccess: S.optional(S.Boolean),
+          endpointPublicAccess: S.optional(S.Boolean).pipe(T.Default(false)),
+          endpointPrivateAccess: S.optional(S.Boolean).pipe(T.Default(false)),
           publicAccessCidrs: S.optional(__S(0, __c0, 0)),
           controlPlaneEgressMode: S.optional(S.String),
         }),
@@ -5727,7 +5730,7 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ duration: S.optional(S.Number), unit: S.optional(S.String) }),
+        S.Struct({ duration: S.optional(S.Number).pipe(T.Default(0)), unit: S.optional(S.String) }),
       ).annotate({ identifier: "EksAnywhereSubscriptionTerm" });
     case 1:
       return S.suspend(() =>
@@ -5743,11 +5746,11 @@ function __c32(j: number): any {
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           effectiveDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           expirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          licenseQuantity: S.optional(S.Number),
+          licenseQuantity: S.optional(S.Number).pipe(T.Default(0)),
           licenseType: S.optional(S.String),
           term: S.optional(__S(1024, __c32, 0)),
           status: S.optional(S.String),
-          autoRenew: S.optional(S.Boolean),
+          autoRenew: S.optional(S.Boolean).pipe(T.Default(false)),
           licenseArns: S.optional(__S(0, __c0, 0)),
           licenses: S.optional(__S(1026, __c32, 2)),
           tags: S.optional(__S(384, __c12, 0)),
@@ -6367,7 +6370,7 @@ function __c56(j: number): any {
         S.Struct({
           clusterVersion: S.optional(S.String),
           platformVersions: S.optional(__S(0, __c0, 0)),
-          defaultVersion: S.optional(S.Boolean),
+          defaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "Compatibility" });
     case 2:
@@ -6379,8 +6382,8 @@ function __c56(j: number): any {
           architecture: S.optional(__S(0, __c0, 0)),
           computeTypes: S.optional(__S(0, __c0, 0)),
           compatibilities: S.optional(__S(1794, __c56, 2)),
-          requiresConfiguration: S.optional(S.Boolean),
-          requiresIamPermissions: S.optional(S.Boolean),
+          requiresConfiguration: S.optional(S.Boolean).pipe(T.Default(false)),
+          requiresIamPermissions: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AddonVersionInfo" });
     case 4:
@@ -6626,7 +6629,7 @@ function __c60(j: number): any {
           clusterVersion: S.optional(S.String),
           clusterType: S.optional(S.String),
           defaultPlatformVersion: S.optional(S.String),
-          defaultVersion: S.optional(S.Boolean),
+          defaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
           releaseDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           endOfStandardSupportDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           endOfExtendedSupportDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -6776,7 +6779,7 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userAgent: S.optional(S.String),
-          numberOfRequestsLast30Days: S.optional(S.Number),
+          numberOfRequestsLast30Days: S.optional(S.Number).pipe(T.Default(0)),
           lastRequestTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ClientStat" });

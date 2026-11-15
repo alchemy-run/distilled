@@ -963,7 +963,7 @@ function __c5(j: number): any {
           AllowedOrigins: __S(24, __c6, 0),
           AllowedMethods: S.optional(__S(20, __c5, 0)),
           AllowedHeaders: __S(24, __c6, 0),
-          MaxAgeSeconds: S.optional(S.Number),
+          MaxAgeSeconds: S.optional(S.Number).pipe(T.Default(0)),
           ExposeHeaders: S.optional(__S(24, __c6, 0)),
         }),
       ).annotate({ identifier: "CorsRule" });

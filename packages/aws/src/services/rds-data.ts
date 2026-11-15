@@ -179,7 +179,7 @@ export class StatementTimeoutException
     "StatementTimeoutException",
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-      dbConnectionId: /*@__PURE__*/ S.optional(S.Number),
+      dbConnectionId: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
@@ -360,23 +360,23 @@ export interface ExecuteSqlRequest {
 }
 export interface ColumnMetadata {
   name?: string | undefined;
-  type?: number | undefined;
+  type: number;
   typeName?: string | undefined;
   label?: string | undefined;
   schemaName?: string | undefined;
   tableName?: string | undefined;
-  isAutoIncrement?: boolean | undefined;
-  isSigned?: boolean | undefined;
-  isCurrency?: boolean | undefined;
-  isCaseSensitive?: boolean | undefined;
-  nullable?: number | undefined;
-  precision?: number | undefined;
-  scale?: number | undefined;
-  arrayBaseColumnType?: number | undefined;
+  isAutoIncrement: boolean;
+  isSigned: boolean;
+  isCurrency: boolean;
+  isCaseSensitive: boolean;
+  nullable: number;
+  precision: number;
+  scale: number;
+  arrayBaseColumnType: number;
 }
 export type Metadata = ColumnMetadata[];
 export interface ResultSetMetadata {
-  columnCount?: number | undefined;
+  columnCount: number;
   columnMetadata?: ColumnMetadata[] | undefined;
 }
 export type BoxedInteger = number;
@@ -518,7 +518,7 @@ export interface ResultFrame {
 export type RecordsUpdated = number;
 export interface SqlStatementResult {
   resultFrame?: ResultFrame | undefined;
-  numberOfRecordsUpdated?: number | undefined;
+  numberOfRecordsUpdated: number;
 }
 export type SqlStatementResults = SqlStatementResult[];
 export interface ExecuteSqlResponse {
@@ -549,7 +549,7 @@ export type FormattedSqlRecords = string;
 export interface ExecuteStatementResponse {
   records?: Field[][] | undefined;
   columnMetadata?: ColumnMetadata[] | undefined;
-  numberOfRecordsUpdated?: number | undefined;
+  numberOfRecordsUpdated: number;
   generatedFields?: Field[] | undefined;
   formattedRecords?: string | undefined;
 }
@@ -1018,7 +1018,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          columnCount: S.optional(S.Number),
+          columnCount: S.optional(S.Number).pipe(T.Default(0)),
           columnMetadata: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ResultSetMetadata" });
@@ -1076,7 +1076,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resultFrame: S.optional(__S(88, __c5, 8)),
-          numberOfRecordsUpdated: S.optional(S.Number),
+          numberOfRecordsUpdated: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SqlStatementResult" });
     case 10:
@@ -1093,19 +1093,19 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          type: S.optional(S.Number),
+          type: S.optional(S.Number).pipe(T.Default(0)),
           typeName: S.optional(S.String),
           label: S.optional(S.String),
           schemaName: S.optional(S.String),
           tableName: S.optional(S.String),
-          isAutoIncrement: S.optional(S.Boolean),
-          isSigned: S.optional(S.Boolean),
-          isCurrency: S.optional(S.Boolean),
-          isCaseSensitive: S.optional(S.Boolean),
-          nullable: S.optional(S.Number),
-          precision: S.optional(S.Number),
-          scale: S.optional(S.Number),
-          arrayBaseColumnType: S.optional(S.Number),
+          isAutoIncrement: S.optional(S.Boolean).pipe(T.Default(false)),
+          isSigned: S.optional(S.Boolean).pipe(T.Default(false)),
+          isCurrency: S.optional(S.Boolean).pipe(T.Default(false)),
+          isCaseSensitive: S.optional(S.Boolean).pipe(T.Default(false)),
+          nullable: S.optional(S.Number).pipe(T.Default(0)),
+          precision: S.optional(S.Number).pipe(T.Default(0)),
+          scale: S.optional(S.Number).pipe(T.Default(0)),
+          arrayBaseColumnType: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ColumnMetadata" });
     case 1:
@@ -1141,7 +1141,7 @@ function __c7(j: number): any {
         S.Struct({
           records: S.optional(__S(114, __c7, 2)),
           columnMetadata: S.optional(__S(97, __c6, 1)),
-          numberOfRecordsUpdated: S.optional(S.Number),
+          numberOfRecordsUpdated: S.optional(S.Number).pipe(T.Default(0)),
           generatedFields: S.optional(__S(24, __c1, 8)),
           formattedRecords: S.optional(S.String),
         }),

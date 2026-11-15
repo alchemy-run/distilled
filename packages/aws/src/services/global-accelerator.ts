@@ -3086,7 +3086,7 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          EndpointId: S.optional(S.String),
+          EndpointId: S.optional(S.String).pipe(T.Default("")),
           Cidr: S.optional(S.String),
           Region: S.optional(S.String),
         }),

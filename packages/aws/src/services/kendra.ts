@@ -2032,7 +2032,7 @@ export type HighlightType = "STANDARD" | "THESAURUS_SYNONYM" | (string & {});
 export interface Highlight {
   BeginOffset: number;
   EndOffset: number;
-  TopAnswer?: boolean | undefined;
+  TopAnswer: boolean;
   Type?: HighlightType | undefined;
 }
 export type HighlightList = Highlight[];
@@ -2062,9 +2062,9 @@ export interface ScoreAttributes {
 export type FeedbackToken = string;
 export interface TableCell {
   Value?: string | undefined;
-  TopAnswer?: boolean | undefined;
-  Highlighted?: boolean | undefined;
-  Header?: boolean | undefined;
+  TopAnswer: boolean;
+  Highlighted: boolean;
+  Header: boolean;
 }
 export type TableCellList = TableCell[];
 export interface TableRow {
@@ -5257,7 +5257,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TargetDocumentAttributeKey: S.optional(S.String),
-          TargetDocumentAttributeValueDeletion: S.optional(S.Boolean),
+          TargetDocumentAttributeValueDeletion: S.optional(S.Boolean).pipe(T.Default(false)),
           TargetDocumentAttributeValue: S.optional(__S(288, __c9, 0)),
         }),
       ).annotate({ identifier: "DocumentAttributeTarget" });
@@ -5266,7 +5266,7 @@ function __c14(j: number): any {
         S.Struct({
           Condition: S.optional(__S(448, __c14, 0)),
           Target: S.optional(__S(449, __c14, 1)),
-          DocumentContentDeletion: S.optional(S.Boolean),
+          DocumentContentDeletion: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "InlineCustomDocumentEnrichmentConfiguration" });
     case 3:
@@ -5427,14 +5427,14 @@ function __c23(j: number): any {
           SharePointVersion: S.String,
           Urls: __S(160, __c5, 0),
           SecretArn: S.String,
-          CrawlAttachments: S.optional(S.Boolean),
-          UseChangeLog: S.optional(S.Boolean),
+          CrawlAttachments: S.optional(S.Boolean).pipe(T.Default(false)),
+          UseChangeLog: S.optional(S.Boolean).pipe(T.Default(false)),
           InclusionPatterns: S.optional(__S(160, __c5, 0)),
           ExclusionPatterns: S.optional(__S(160, __c5, 0)),
           VpcConfiguration: S.optional(__S(739, __c23, 3)),
           FieldMappings: S.optional(__S(741, __c23, 5)),
           DocumentTitleFieldName: S.optional(S.String),
-          DisableLocalGroups: S.optional(S.Boolean),
+          DisableLocalGroups: S.optional(S.Boolean).pipe(T.Default(false)),
           SslCertificateS3Path: S.optional(__S(416, __c13, 0)),
           AuthenticationType: S.optional(S.String),
           ProxyConfiguration: S.optional(__S(742, __c23, 6)),
@@ -5541,7 +5541,7 @@ function __c23(j: number): any {
           StandardObjectConfigurations: S.optional(__S(750, __c23, 14)),
           KnowledgeArticleConfiguration: S.optional(__S(754, __c23, 18)),
           ChatterFeedConfiguration: S.optional(__S(755, __c23, 19)),
-          CrawlAttachments: S.optional(S.Boolean),
+          CrawlAttachments: S.optional(S.Boolean).pipe(T.Default(false)),
           StandardObjectAttachmentConfiguration: S.optional(__S(756, __c23, 20)),
           IncludeAttachmentFilePatterns: S.optional(__S(160, __c5, 0)),
           ExcludeAttachmentFilePatterns: S.optional(__S(160, __c5, 0)),
@@ -5563,13 +5563,13 @@ function __c23(j: number): any {
           InclusionPatterns: S.optional(__S(160, __c5, 0)),
           ExclusionPatterns: S.optional(__S(160, __c5, 0)),
           FieldMappings: S.optional(__S(741, __c23, 5)),
-          DisableLocalGroups: S.optional(S.Boolean),
+          DisableLocalGroups: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "OneDriveConfiguration" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          CrawlAttachments: S.optional(S.Boolean),
+          CrawlAttachments: S.optional(S.Boolean).pipe(T.Default(false)),
           IncludeAttachmentFilePatterns: S.optional(__S(160, __c5, 0)),
           ExcludeAttachmentFilePatterns: S.optional(__S(160, __c5, 0)),
           DocumentDataFieldName: S.String,
@@ -5581,7 +5581,7 @@ function __c23(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          CrawlAttachments: S.optional(S.Boolean),
+          CrawlAttachments: S.optional(S.Boolean).pipe(T.Default(false)),
           IncludeAttachmentFilePatterns: S.optional(__S(160, __c5, 0)),
           ExcludeAttachmentFilePatterns: S.optional(__S(160, __c5, 0)),
           DocumentDataFieldName: S.String,
@@ -5613,8 +5613,8 @@ function __c23(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          CrawlPersonalSpaces: S.optional(S.Boolean),
-          CrawlArchivedSpaces: S.optional(S.Boolean),
+          CrawlPersonalSpaces: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlArchivedSpaces: S.optional(S.Boolean).pipe(T.Default(false)),
           IncludeSpaces: S.optional(__S(160, __c5, 0)),
           ExcludeSpaces: S.optional(__S(160, __c5, 0)),
           SpaceFieldMappings: S.optional(__S(764, __c23, 28)),
@@ -5635,7 +5635,7 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CrawlAttachments: S.optional(S.Boolean),
+          CrawlAttachments: S.optional(S.Boolean).pipe(T.Default(false)),
           AttachmentFieldMappings: S.optional(__S(764, __c23, 28)),
         }),
       ).annotate({ identifier: "ConfluenceAttachmentConfiguration" });
@@ -5711,8 +5711,8 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OrganizationId: S.String,
-          CrawlComments: S.optional(S.Boolean),
-          UseChangeLog: S.optional(S.Boolean),
+          CrawlComments: S.optional(S.Boolean).pipe(T.Default(false)),
+          UseChangeLog: S.optional(S.Boolean).pipe(T.Default(false)),
           InclusionPatterns: S.optional(__S(160, __c5, 0)),
           ExclusionPatterns: S.optional(__S(160, __c5, 0)),
           FieldMappings: S.optional(__S(741, __c23, 5)),
@@ -5737,9 +5737,9 @@ function __c24(j: number): any {
           SecretArn: S.String,
           VpcConfiguration: S.optional(__S(739, __c23, 3)),
           SlackEntityList: __S(704, __c22, 0),
-          UseChangeLog: S.optional(S.Boolean),
-          CrawlBotMessage: S.optional(S.Boolean),
-          ExcludeArchived: S.optional(S.Boolean),
+          UseChangeLog: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlBotMessage: S.optional(S.Boolean).pipe(T.Default(false)),
+          ExcludeArchived: S.optional(S.Boolean).pipe(T.Default(false)),
           SinceCrawlDate: S.String,
           LookBackPeriod: S.optional(S.Number),
           PrivateChannelFilter: S.optional(__S(160, __c5, 0)),
@@ -5754,10 +5754,10 @@ function __c24(j: number): any {
         S.Struct({
           EnterpriseId: S.String,
           SecretArn: S.String,
-          UseChangeLog: S.optional(S.Boolean),
-          CrawlComments: S.optional(S.Boolean),
-          CrawlTasks: S.optional(S.Boolean),
-          CrawlWebLinks: S.optional(S.Boolean),
+          UseChangeLog: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlComments: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlTasks: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlWebLinks: S.optional(S.Boolean).pipe(T.Default(false)),
           FileFieldMappings: S.optional(__S(741, __c23, 5)),
           TaskFieldMappings: S.optional(__S(741, __c23, 5)),
           CommentFieldMappings: S.optional(__S(741, __c23, 5)),
@@ -5772,9 +5772,9 @@ function __c24(j: number): any {
         S.Struct({
           Domain: S.String,
           SecretArn: S.String,
-          CrawlFileComments: S.optional(S.Boolean),
-          CrawlChatRooms: S.optional(S.Boolean),
-          CrawlAttachments: S.optional(S.Boolean),
+          CrawlFileComments: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlChatRooms: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlAttachments: S.optional(S.Boolean).pipe(T.Default(false)),
           FolderIds: S.optional(__S(160, __c5, 0)),
           ThreadFieldMappings: S.optional(__S(741, __c23, 5)),
           MessageFieldMappings: S.optional(__S(741, __c23, 5)),
@@ -5789,7 +5789,7 @@ function __c24(j: number): any {
         S.Struct({
           JiraAccountUrl: S.String,
           SecretArn: S.String,
-          UseChangeLog: S.optional(S.Boolean),
+          UseChangeLog: S.optional(S.Boolean).pipe(T.Default(false)),
           Project: S.optional(__S(160, __c5, 0)),
           IssueType: S.optional(__S(160, __c5, 0)),
           Status: S.optional(__S(160, __c5, 0)),
@@ -5819,13 +5819,13 @@ function __c24(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          CrawlRepositoryDocuments: S.optional(S.Boolean),
-          CrawlIssue: S.optional(S.Boolean),
-          CrawlIssueComment: S.optional(S.Boolean),
-          CrawlIssueCommentAttachment: S.optional(S.Boolean),
-          CrawlPullRequest: S.optional(S.Boolean),
-          CrawlPullRequestComment: S.optional(S.Boolean),
-          CrawlPullRequestCommentAttachment: S.optional(S.Boolean),
+          CrawlRepositoryDocuments: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlIssue: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlIssueComment: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlIssueCommentAttachment: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlPullRequest: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlPullRequestComment: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlPullRequestCommentAttachment: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "GitHubDocumentCrawlProperties" });
     case 19:
@@ -5835,7 +5835,7 @@ function __c24(j: number): any {
           OnPremiseConfiguration: S.optional(__S(785, __c24, 17)),
           Type: S.optional(S.String),
           SecretArn: S.String,
-          UseChangeLog: S.optional(S.Boolean),
+          UseChangeLog: S.optional(S.Boolean).pipe(T.Default(false)),
           GitHubDocumentCrawlProperties: S.optional(__S(786, __c24, 18)),
           RepositoryFilter: S.optional(__S(160, __c5, 0)),
           InclusionFolderNamePatterns: S.optional(__S(160, __c5, 0)),
@@ -5864,8 +5864,8 @@ function __c24(j: number): any {
           SiteId: S.String,
           SecretArn: S.String,
           SslCertificateS3Path: __S(416, __c13, 0),
-          CrawlSystemFolders: S.optional(S.Boolean),
-          CrawlComments: S.optional(S.Boolean),
+          CrawlSystemFolders: S.optional(S.Boolean).pipe(T.Default(false)),
+          CrawlComments: S.optional(S.Boolean).pipe(T.Default(false)),
           EntityFilter: S.optional(__S(704, __c22, 0)),
           DocumentLibraryFieldMappings: S.optional(__S(741, __c23, 5)),
           BlogFieldMappings: S.optional(__S(741, __c23, 5)),
@@ -5926,7 +5926,7 @@ function __c26(j: number): any {
         S.Struct({
           DataSourceIds: S.optional(__S(160, __c5, 0)),
           FaqIds: S.optional(__S(160, __c5, 0)),
-          DirectPutContent: S.optional(S.Boolean),
+          DirectPutContent: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ContentSourceConfiguration" });
     case 1:
@@ -6343,12 +6343,15 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "DescribeIndexRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ IndexedQuestionAnswersCount: S.Number })).annotate({
-        identifier: "FaqStatistics",
-      });
+      return S.suspend(() =>
+        S.Struct({ IndexedQuestionAnswersCount: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "FaqStatistics" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ IndexedTextDocumentsCount: S.Number, IndexedTextBytes: S.Number }),
+        S.Struct({
+          IndexedTextDocumentsCount: S.Number.pipe(T.Default(0)),
+          IndexedTextBytes: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "TextDocumentStatistics" });
     case 3:
       return S.suspend(() =>
@@ -6401,10 +6404,10 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Facetable: S.optional(S.Boolean),
-          Searchable: S.optional(S.Boolean),
-          Displayable: S.optional(S.Boolean),
-          Sortable: S.optional(S.Boolean),
+          Facetable: S.optional(S.Boolean).pipe(T.Default(false)),
+          Searchable: S.optional(S.Boolean).pipe(T.Default(false)),
+          Displayable: S.optional(S.Boolean).pipe(T.Default(false)),
+          Sortable: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "Search" });
     case 1:
@@ -7157,7 +7160,7 @@ function __c79(j: number): any {
           Facets: S.optional(
             S.suspend(() => __S(2529, __c79, 1)).annotate({ identifier: "FacetList" }),
           ),
-          MaxResults: S.optional(S.Number),
+          MaxResults: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Facet" });
     case 1:
@@ -7173,9 +7176,9 @@ function __c79(j: number): any {
     case 3:
       return S.Array(__S(2530, __c79, 2));
     case 4:
-      return S.suspend(() => S.Struct({ IncludeQuerySpellCheckSuggestions: S.Boolean })).annotate({
-        identifier: "SpellCorrectionConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ IncludeQuerySpellCheckSuggestions: S.Boolean.pipe(T.Default(false)) }),
+      ).annotate({ identifier: "SpellCorrectionConfiguration" });
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -7189,7 +7192,7 @@ function __c79(j: number): any {
           DocumentAttributeKey: S.String,
           SortingConfigurations: S.optional(__S(2531, __c79, 3)),
           MissingAttributeKeyStrategy: S.optional(S.String),
-          Expand: S.optional(S.Boolean),
+          Expand: S.optional(S.Boolean).pipe(T.Default(false)),
           ExpandConfiguration: S.optional(__S(2533, __c79, 5)),
         }),
       ).annotate({ identifier: "CollapseConfiguration" });
@@ -7218,7 +7221,7 @@ function __c79(j: number): any {
         S.Struct({
           BeginOffset: S.Number,
           EndOffset: S.Number,
-          TopAnswer: S.optional(S.Boolean),
+          TopAnswer: S.optional(S.Boolean).pipe(T.Default(false)),
           Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Highlight" });
@@ -7242,9 +7245,9 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Value: S.optional(S.String),
-          TopAnswer: S.optional(S.Boolean),
-          Highlighted: S.optional(S.Boolean),
-          Header: S.optional(S.Boolean),
+          TopAnswer: S.optional(S.Boolean).pipe(T.Default(false)),
+          Highlighted: S.optional(S.Boolean).pipe(T.Default(false)),
+          Header: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "TableCell" });
     case 15:

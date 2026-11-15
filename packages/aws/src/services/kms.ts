@@ -828,7 +828,7 @@ export interface KeyMetadata {
   KeyId: string;
   Arn?: string | undefined;
   CreationDate?: Date | undefined;
-  Enabled?: boolean | undefined;
+  Enabled: boolean;
   Description?: string | undefined;
   KeyUsage?: KeyUsageType | undefined;
   KeyState?: KeyState | undefined;
@@ -985,7 +985,7 @@ export type CustomKeyStoresList = CustomKeyStoresListEntry[];
 export interface DescribeCustomKeyStoresResponse {
   CustomKeyStores?: CustomKeyStoresListEntry[] | undefined;
   NextMarker?: string | undefined;
-  Truncated?: boolean | undefined;
+  Truncated: boolean;
 }
 export interface DescribeKeyRequest {
   KeyId: string;
@@ -1184,7 +1184,7 @@ export interface GetKeyRotationStatusRequest {
   KeyId: string;
 }
 export interface GetKeyRotationStatusResponse {
-  KeyRotationEnabled?: boolean | undefined;
+  KeyRotationEnabled: boolean;
   KeyId?: string | undefined;
   RotationPeriodInDays?: number | undefined;
   NextRotationDate?: Date | undefined;
@@ -1257,7 +1257,7 @@ export type AliasList = AliasListEntry[];
 export interface ListAliasesResponse {
   Aliases?: AliasListEntry[] | undefined;
   NextMarker?: string | undefined;
-  Truncated?: boolean | undefined;
+  Truncated: boolean;
 }
 export interface ListGrantsRequest {
   Limit?: number | undefined;
@@ -1284,7 +1284,7 @@ export type GrantList = GrantListEntry[];
 export interface ListGrantsResponse {
   Grants?: GrantListEntry[] | undefined;
   NextMarker?: string | undefined;
-  Truncated?: boolean | undefined;
+  Truncated: boolean;
 }
 export interface ListKeyPoliciesRequest {
   KeyId: string;
@@ -1295,7 +1295,7 @@ export type PolicyNameList = string[];
 export interface ListKeyPoliciesResponse {
   PolicyNames?: string[] | undefined;
   NextMarker?: string | undefined;
-  Truncated?: boolean | undefined;
+  Truncated: boolean;
 }
 export type IncludeKeyMaterial = "ALL_KEY_MATERIAL" | "ROTATIONS_ONLY" | (string & {});
 export interface ListKeyRotationsRequest {
@@ -1327,7 +1327,7 @@ export type RotationsList = RotationsListEntry[];
 export interface ListKeyRotationsResponse {
   Rotations?: RotationsListEntry[] | undefined;
   NextMarker?: string | undefined;
-  Truncated?: boolean | undefined;
+  Truncated: boolean;
 }
 export interface ListKeysRequest {
   Limit?: number | undefined;
@@ -1341,7 +1341,7 @@ export type KeyList = KeyListEntry[];
 export interface ListKeysResponse {
   Keys?: KeyListEntry[] | undefined;
   NextMarker?: string | undefined;
-  Truncated?: boolean | undefined;
+  Truncated: boolean;
 }
 export interface ListResourceTagsRequest {
   KeyId: string;
@@ -1351,7 +1351,7 @@ export interface ListResourceTagsRequest {
 export interface ListResourceTagsResponse {
   Tags?: Tag[] | undefined;
   NextMarker?: string | undefined;
-  Truncated?: boolean | undefined;
+  Truncated: boolean;
 }
 export interface ListRetirableGrantsRequest {
   Limit?: number | undefined;
@@ -1493,7 +1493,7 @@ export interface VerifyRequest {
 }
 export interface VerifyResponse {
   KeyId?: string | undefined;
-  SignatureValid?: boolean | undefined;
+  SignatureValid: boolean;
   SigningAlgorithm?: SigningAlgorithmSpec | undefined;
 }
 export interface VerifyMacRequest {
@@ -1506,7 +1506,7 @@ export interface VerifyMacRequest {
 }
 export interface VerifyMacResponse {
   KeyId?: string | undefined;
-  MacValid?: boolean | undefined;
+  MacValid: boolean;
   MacAlgorithm?: MacAlgorithmSpec | undefined;
 }
 export type ErrorMessageType = string;
@@ -6339,7 +6339,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           KeyId: S.optional(S.String),
-          SignatureValid: S.optional(S.Boolean),
+          SignatureValid: S.optional(S.Boolean).pipe(T.Default(false)),
           SigningAlgorithm: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "VerifyResponse" });
@@ -6362,7 +6362,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           KeyId: S.optional(S.String),
-          MacValid: S.optional(S.Boolean),
+          MacValid: S.optional(S.Boolean).pipe(T.Default(false)),
           MacAlgorithm: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "VerifyMacResponse" });
@@ -6554,7 +6554,7 @@ function __c18(j: number): any {
           KeyId: S.String,
           Arn: S.optional(S.String),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           Description: S.optional(S.String),
           KeyUsage: S.optional(S.String),
           KeyState: S.optional(S.String),
@@ -6757,7 +6757,7 @@ function __c28(j: number): any {
         S.Struct({
           CustomKeyStores: S.optional(__S(227, __c28, 3)),
           NextMarker: S.optional(S.String),
-          Truncated: S.optional(S.Boolean),
+          Truncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeCustomKeyStoresResponse" });
   }
@@ -7061,7 +7061,7 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          KeyRotationEnabled: S.optional(S.Boolean),
+          KeyRotationEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           KeyId: S.optional(S.String),
           RotationPeriodInDays: S.optional(S.Number),
           NextRotationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -7157,7 +7157,7 @@ function __c49(j: number): any {
         S.Struct({
           Aliases: S.optional(__S(394, __c49, 2)),
           NextMarker: S.optional(S.String),
-          Truncated: S.optional(S.Boolean),
+          Truncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "ListAliasesResponse" });
   }
@@ -7202,7 +7202,7 @@ function __c51(j: number): any {
         S.Struct({
           Grants: S.optional(__S(409, __c51, 1)),
           NextMarker: S.optional(S.String),
-          Truncated: S.optional(S.Boolean),
+          Truncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "ListGrantsResponse" });
   }
@@ -7222,7 +7222,7 @@ function __c52(j: number): any {
         S.Struct({
           PolicyNames: S.optional(__S(104, __c13, 0)),
           NextMarker: S.optional(S.String),
-          Truncated: S.optional(S.Boolean),
+          Truncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "ListKeyPoliciesResponse" });
   }
@@ -7259,7 +7259,7 @@ function __c53(j: number): any {
         S.Struct({
           Rotations: S.optional(__S(426, __c53, 2)),
           NextMarker: S.optional(S.String),
-          Truncated: S.optional(S.Boolean),
+          Truncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "ListKeyRotationsResponse" });
   }
@@ -7283,7 +7283,7 @@ function __c54(j: number): any {
         S.Struct({
           Keys: S.optional(__S(434, __c54, 2)),
           NextMarker: S.optional(S.String),
-          Truncated: S.optional(S.Boolean),
+          Truncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "ListKeysResponse" });
   }
@@ -7303,7 +7303,7 @@ function __c55(j: number): any {
         S.Struct({
           Tags: S.optional(__S(153, __c19, 1)),
           NextMarker: S.optional(S.String),
-          Truncated: S.optional(S.Boolean),
+          Truncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "ListResourceTagsResponse" });
   }

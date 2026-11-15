@@ -1118,8 +1118,8 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           capacityProvider: S.String,
-          weight: S.optional(S.Number),
-          base: S.optional(S.Number),
+          weight: S.optional(S.Number).pipe(T.Default(0)),
+          base: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CapacityProviderStrategyItem" });
     case 5:

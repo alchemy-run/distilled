@@ -4960,7 +4960,7 @@ function __c41(j: number): any {
           EventId: S.String,
           GeofenceId: S.String,
           IsDeviceInGeofence: S.Boolean,
-          NearestDistance: S.Number,
+          NearestDistance: S.Number.pipe(T.Default(0)),
           EventType: S.String,
           ForecastedBreachTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           GeofenceProperties: S.optional(__S(32, __c2, 0)),
@@ -6153,15 +6153,15 @@ function __c83(j: number): any {
     case 1:
       return S.Array(__S(1328, __c83, 0));
     case 2:
-      return S.suspend(() => S.Struct({ Earfcn: S.Number, Pci: S.Number })).annotate({
-        identifier: "LteLocalId",
-      });
+      return S.suspend(() =>
+        S.Struct({ Earfcn: S.Number.pipe(T.Default(0)), Pci: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "LteLocalId" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Earfcn: S.Number,
-          CellId: S.Number,
-          Pci: S.Number,
+          Earfcn: S.Number.pipe(T.Default(0)),
+          CellId: S.Number.pipe(T.Default(0)),
+          Pci: S.Number.pipe(T.Default(0)),
           Rsrp: S.optional(S.Number),
           Rsrq: S.optional(S.Number),
         }),
@@ -6171,7 +6171,7 @@ function __c83(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          CellId: S.Number,
+          CellId: S.Number.pipe(T.Default(0)),
           Mcc: S.Number,
           Mnc: S.Number,
           LocalId: S.optional(__S(1330, __c83, 2)),

@@ -273,7 +273,7 @@ export type IdToken = string | redacted.Redacted<string>;
 export interface CreateTokenResponse {
   accessToken?: string | redacted.Redacted<string> | undefined;
   tokenType?: string | undefined;
-  expiresIn?: number | undefined;
+  expiresIn: number;
   refreshToken?: string | redacted.Redacted<string> | undefined;
   idToken?: string | redacted.Redacted<string> | undefined;
 }
@@ -300,7 +300,7 @@ export interface AwsAdditionalDetails {
 export interface CreateTokenWithIAMResponse {
   accessToken?: string | redacted.Redacted<string> | undefined;
   tokenType?: string | undefined;
-  expiresIn?: number | undefined;
+  expiresIn: number;
   refreshToken?: string | redacted.Redacted<string> | undefined;
   idToken?: string | redacted.Redacted<string> | undefined;
   issuedTokenType?: string | undefined;
@@ -325,8 +325,8 @@ export type LongTimeStampType = number;
 export interface RegisterClientResponse {
   clientId?: string | undefined;
   clientSecret?: string | redacted.Redacted<string> | undefined;
-  clientIdIssuedAt?: number | undefined;
-  clientSecretExpiresAt?: number | undefined;
+  clientIdIssuedAt: number;
+  clientSecretExpiresAt: number;
   authorizationEndpoint?: string | undefined;
   tokenEndpoint?: string | undefined;
 }
@@ -342,8 +342,8 @@ export interface StartDeviceAuthorizationResponse {
   userCode?: string | undefined;
   verificationUri?: string | undefined;
   verificationUriComplete?: string | undefined;
-  expiresIn?: number | undefined;
-  interval?: number | undefined;
+  expiresIn: number;
+  interval: number;
 }
 export type AccessDeniedExceptionReason = "KMS_AccessDeniedException" | (string & {});
 export type ErrorDescription = string;
@@ -546,7 +546,7 @@ function __c0(j: number): any {
         S.Struct({
           accessToken: S.optional(SensitiveString),
           tokenType: S.optional(S.String),
-          expiresIn: S.optional(S.Number),
+          expiresIn: S.optional(S.Number).pipe(T.Default(0)),
           refreshToken: S.optional(SensitiveString),
           idToken: S.optional(SensitiveString),
         }),
@@ -588,7 +588,7 @@ function __c2(j: number): any {
         S.Struct({
           accessToken: S.optional(SensitiveString),
           tokenType: S.optional(S.String),
-          expiresIn: S.optional(S.Number),
+          expiresIn: S.optional(S.Number).pipe(T.Default(0)),
           refreshToken: S.optional(SensitiveString),
           idToken: S.optional(SensitiveString),
           issuedTokenType: S.optional(S.String),
@@ -619,8 +619,8 @@ function __c3(j: number): any {
         S.Struct({
           clientId: S.optional(S.String),
           clientSecret: S.optional(SensitiveString),
-          clientIdIssuedAt: S.optional(S.Number),
-          clientSecretExpiresAt: S.optional(S.Number),
+          clientIdIssuedAt: S.optional(S.Number).pipe(T.Default(0)),
+          clientSecretExpiresAt: S.optional(S.Number).pipe(T.Default(0)),
           authorizationEndpoint: S.optional(S.String),
           tokenEndpoint: S.optional(S.String),
         }),
@@ -649,8 +649,8 @@ function __c4(j: number): any {
           userCode: S.optional(S.String),
           verificationUri: S.optional(S.String),
           verificationUriComplete: S.optional(S.String),
-          expiresIn: S.optional(S.Number),
-          interval: S.optional(S.Number),
+          expiresIn: S.optional(S.Number).pipe(T.Default(0)),
+          interval: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "StartDeviceAuthorizationResponse" });
   }

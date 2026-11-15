@@ -217,7 +217,7 @@ export interface CreateFileSystemResponse {
   fileSystemArn?: string | undefined;
   fileSystemId?: string | undefined;
   bucket?: string | undefined;
-  prefix?: string | undefined;
+  prefix: string;
   clientToken?: string | undefined;
   kmsKeyId?: string | undefined;
   status?: LifeCycleState | undefined;
@@ -299,7 +299,7 @@ export interface GetFileSystemResponse {
   fileSystemArn?: string | undefined;
   fileSystemId?: string | undefined;
   bucket?: string | undefined;
-  prefix?: string | undefined;
+  prefix: string;
   clientToken?: string | undefined;
   kmsKeyId?: string | undefined;
   status?: LifeCycleState | undefined;
@@ -1653,7 +1653,7 @@ function __c23(j: number): any {
           fileSystemArn: S.optional(S.String),
           fileSystemId: S.optional(S.String),
           bucket: S.optional(S.String),
-          prefix: S.optional(S.String),
+          prefix: S.optional(S.String).pipe(T.Default("")),
           clientToken: S.optional(S.String),
           kmsKeyId: S.optional(S.String),
           status: S.optional(S.String),

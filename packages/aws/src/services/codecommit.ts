@@ -1059,9 +1059,9 @@ export interface BatchDescribeMergeConflictsInput {
 }
 export type FileSize = number;
 export interface FileSizes {
-  source?: number | undefined;
-  destination?: number | undefined;
-  base?: number | undefined;
+  source: number;
+  destination: number;
+  base: number;
 }
 export type FileModeTypeEnum = "EXECUTABLE" | "NORMAL" | "SYMLINK" | (string & {});
 export interface FileModes {
@@ -1095,11 +1095,11 @@ export interface ConflictMetadata {
   fileSizes?: FileSizes | undefined;
   fileModes?: FileModes | undefined;
   objectTypes?: ObjectTypes | undefined;
-  numberOfConflicts?: number | undefined;
+  numberOfConflicts: number;
   isBinaryFile?: IsBinaryFile | undefined;
-  contentConflict?: boolean | undefined;
-  fileModeConflict?: boolean | undefined;
-  objectTypeConflict?: boolean | undefined;
+  contentConflict: boolean;
+  fileModeConflict: boolean;
+  objectTypeConflict: boolean;
   mergeOperations?: MergeOperations | undefined;
 }
 export type IsHunkConflict = boolean;
@@ -1111,7 +1111,7 @@ export interface MergeHunkDetail {
   hunkContent?: string | undefined;
 }
 export interface MergeHunk {
-  isConflict?: boolean | undefined;
+  isConflict: boolean;
   source?: MergeHunkDetail | undefined;
   destination?: MergeHunkDetail | undefined;
   base?: MergeHunkDetail | undefined;
@@ -1333,7 +1333,7 @@ export type PullRequestId = string;
 export type PullRequestStatusEnum = "OPEN" | "CLOSED" | (string & {});
 export type IsMerged = boolean;
 export interface MergeMetadata {
-  isMerged?: boolean | undefined;
+  isMerged: boolean;
   mergedBy?: string | undefined;
   mergeCommitId?: string | undefined;
   mergeOption?: MergeOptionTypeEnum | undefined;
@@ -1472,7 +1472,7 @@ export interface Comment {
   creationDate?: Date | undefined;
   lastModifiedDate?: Date | undefined;
   authorArn?: string | undefined;
-  deleted?: boolean | undefined;
+  deleted: boolean;
   clientRequestToken?: string | undefined;
   callerReactions?: string[] | undefined;
   reactionCounts?: { [key: string]: number | undefined } | undefined;
@@ -1618,8 +1618,8 @@ export type Overridden = boolean;
 export type ApprovalRulesSatisfiedList = string[];
 export type ApprovalRulesNotSatisfiedList = string[];
 export interface Evaluation {
-  approved?: boolean | undefined;
-  overridden?: boolean | undefined;
+  approved: boolean;
+  overridden: boolean;
   approvalRulesSatisfied?: string[] | undefined;
   approvalRulesNotSatisfied?: string[] | undefined;
 }
@@ -1672,7 +1672,7 @@ export type ObjectSize = number;
 export interface GetBlobDifferencesOutput {
   hunks: DiffHunk[];
   isBinary: boolean;
-  beforeBlobSize?: number | undefined;
+  beforeBlobSize: number;
   afterBlobSize: number;
   NextToken?: string | undefined;
 }
@@ -1921,7 +1921,7 @@ export interface GetPullRequestOverrideStateInput {
   revisionId: string;
 }
 export interface GetPullRequestOverrideStateOutput {
-  overridden?: boolean | undefined;
+  overridden: boolean;
   overrider?: string | undefined;
 }
 export interface GetRepositoryInput {
@@ -6622,7 +6622,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          isConflict: S.optional(S.Boolean),
+          isConflict: S.optional(S.Boolean).pipe(T.Default(false)),
           source: S.optional(__S(80, __c5, 0)),
           destination: S.optional(__S(80, __c5, 0)),
           base: S.optional(__S(80, __c5, 0)),
@@ -6637,9 +6637,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(S.Number),
-          destination: S.optional(S.Number),
-          base: S.optional(S.Number),
+          source: S.optional(S.Number).pipe(T.Default(0)),
+          destination: S.optional(S.Number).pipe(T.Default(0)),
+          base: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "FileSizes" });
     case 1:
@@ -6669,11 +6669,11 @@ function __c6(j: number): any {
           fileSizes: S.optional(__S(96, __c6, 0)),
           fileModes: S.optional(__S(97, __c6, 1)),
           objectTypes: S.optional(__S(97, __c6, 1)),
-          numberOfConflicts: S.optional(S.Number),
+          numberOfConflicts: S.optional(S.Number).pipe(T.Default(0)),
           isBinaryFile: S.optional(__S(98, __c6, 2)),
-          contentConflict: S.optional(S.Boolean),
-          fileModeConflict: S.optional(S.Boolean),
-          objectTypeConflict: S.optional(S.Boolean),
+          contentConflict: S.optional(S.Boolean).pipe(T.Default(false)),
+          fileModeConflict: S.optional(S.Boolean).pipe(T.Default(false)),
+          objectTypeConflict: S.optional(S.Boolean).pipe(T.Default(false)),
           mergeOperations: S.optional(__S(99, __c6, 3)),
         }),
       ).annotate({ identifier: "ConflictMetadata" });
@@ -6857,7 +6857,7 @@ function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ filePath: S.String, isMove: S.optional(S.Boolean) }),
+        S.Struct({ filePath: S.String, isMove: S.optional(S.Boolean).pipe(T.Default(false)) }),
       ).annotate({ identifier: "SourceFileSpecifier" });
     case 1:
       return S.suspend(() =>
@@ -6975,7 +6975,7 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          isMerged: S.optional(S.Boolean),
+          isMerged: S.optional(S.Boolean).pipe(T.Default(false)),
           mergedBy: S.optional(S.String),
           mergeCommitId: S.optional(S.String),
           mergeOption: S.optional(S.String),
@@ -7184,7 +7184,7 @@ function __c34(j: number): any {
           creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           authorArn: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
+          deleted: S.optional(S.Boolean).pipe(T.Default(false)),
           clientRequestToken: S.optional(S.String),
           callerReactions: S.optional(__S(48, __c3, 0)),
           reactionCounts: S.optional(__S(544, __c34, 0)),
@@ -7388,8 +7388,8 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          approved: S.optional(S.Boolean),
-          overridden: S.optional(S.Boolean),
+          approved: S.optional(S.Boolean).pipe(T.Default(false)),
+          overridden: S.optional(S.Boolean).pipe(T.Default(false)),
           approvalRulesSatisfied: S.optional(__S(48, __c3, 0)),
           approvalRulesNotSatisfied: S.optional(__S(48, __c3, 0)),
         }),
@@ -7466,8 +7466,8 @@ function __c45(j: number): any {
         S.Struct({
           hunks: __S(724, __c45, 4),
           isBinary: S.Boolean,
-          beforeBlobSize: S.optional(S.Number),
-          afterBlobSize: S.Number,
+          beforeBlobSize: S.optional(S.Number).pipe(T.Default(0)),
+          afterBlobSize: S.Number.pipe(T.Default(0)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetBlobDifferencesOutput" });
@@ -7696,7 +7696,7 @@ function __c55(j: number): any {
           blobId: S.String,
           filePath: S.String,
           fileMode: S.String,
-          fileSize: S.Number,
+          fileSize: S.Number.pipe(T.Default(0)),
           fileContent: T.Blob,
         }).pipe(ns),
       ).annotate({ identifier: "GetFileOutput" });
@@ -7800,7 +7800,7 @@ function __c58(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          mergeable: S.Boolean,
+          mergeable: S.Boolean.pipe(T.Default(false)),
           destinationCommitId: S.String,
           sourceCommitId: S.String,
           baseCommitId: S.optional(S.String),
@@ -7879,7 +7879,10 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetPullRequestOverrideStateInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ overridden: S.optional(S.Boolean), overrider: S.optional(S.String) }).pipe(ns),
+        S.Struct({
+          overridden: S.optional(S.Boolean).pipe(T.Default(false)),
+          overrider: S.optional(S.String),
+        }).pipe(ns),
       ).annotate({ identifier: "GetPullRequestOverrideStateOutput" });
   }
 }

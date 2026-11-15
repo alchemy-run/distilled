@@ -267,7 +267,7 @@ export interface CreateIdMappingWorkflowOutput {
   outputSourceConfig?: IdMappingWorkflowOutputSource[] | undefined;
   idMappingTechniques: IdMappingTechniques;
   incrementalRunConfig?: IdMappingIncrementalRunConfig | undefined;
-  roleArn?: string | undefined;
+  roleArn: string;
 }
 export interface IdNamespaceInputSource {
   inputSourceARN: string;
@@ -565,7 +565,7 @@ export interface GetIdMappingWorkflowOutput {
   createdAt: Date;
   updatedAt: Date;
   incrementalRunConfig?: IdMappingIncrementalRunConfig | undefined;
-  roleArn?: string | undefined;
+  roleArn: string;
   tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EntityNameOrIdNamespaceArn = string;
@@ -886,7 +886,7 @@ export interface UpdateIdMappingWorkflowOutput {
   outputSourceConfig?: IdMappingWorkflowOutputSource[] | undefined;
   idMappingTechniques: IdMappingTechniques;
   incrementalRunConfig?: IdMappingIncrementalRunConfig | undefined;
-  roleArn?: string | undefined;
+  roleArn: string;
 }
 export interface UpdateIdNamespaceInput {
   idNamespaceName: string;
@@ -2338,7 +2338,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           KMSArn: S.optional(S.String),
-          outputS3Path: S.optional(S.String),
+          outputS3Path: S.optional(S.String).pipe(T.Default("")),
           output: __S(67, __c4, 3),
           applyNormalization: S.optional(S.Boolean),
           customerProfilesIntegrationConfig: S.optional(__S(68, __c4, 4)),
@@ -2670,7 +2670,7 @@ function __c18(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           incrementalRunConfig: S.optional(__S(834, __c52, 2)),
-          roleArn: S.optional(S.String),
+          roleArn: S.optional(S.String).pipe(T.Default("")),
           tags: S.optional(__S(800, __c50, 0)),
         }),
       ).annotate({ identifier: "GetIdMappingWorkflowOutput" });
@@ -3593,7 +3593,7 @@ function __c54(j: number): any {
           outputSourceConfig: S.optional(__S(851, __c53, 3)),
           idMappingTechniques: __S(853, __c53, 5),
           incrementalRunConfig: S.optional(__S(834, __c52, 2)),
-          roleArn: S.optional(S.String),
+          roleArn: S.optional(S.String).pipe(T.Default("")),
         }),
       ).annotate({ identifier: "CreateIdMappingWorkflowOutput" });
   }

@@ -287,7 +287,7 @@ export interface GetApplicationResponse {
   description?: string | undefined;
   creationTime?: Date | undefined;
   lastUpdateTime?: Date | undefined;
-  associatedResourceCount?: number | undefined;
+  associatedResourceCount: number;
   tags?: { [key: string]: string | undefined } | undefined;
   integrations?: Integrations | undefined;
   applicationTag?: { [key: string]: string | undefined } | undefined;
@@ -1392,7 +1392,7 @@ function __c6(j: number): any {
           description: S.optional(S.String),
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           lastUpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          associatedResourceCount: S.optional(S.Number),
+          associatedResourceCount: S.optional(S.Number).pipe(T.Default(0)),
           tags: S.optional(__S(256, __c32, 0)),
           integrations: S.optional(__S(49, __c6, 1)),
           applicationTag: S.optional(__S(256, __c32, 0)),

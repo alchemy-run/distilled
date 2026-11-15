@@ -781,11 +781,11 @@ export interface OpenIdConnectGroupConfigurationDetail {
   groupEntityType: string | redacted.Redacted<string>;
 }
 export interface OpenIdConnectAccessTokenConfigurationDetail {
-  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  principalIdClaim: string | redacted.Redacted<string>;
   audiences?: string[] | undefined;
 }
 export interface OpenIdConnectIdentityTokenConfigurationDetail {
-  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  principalIdClaim: string | redacted.Redacted<string>;
   clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type OpenIdConnectTokenSelectionDetail =
@@ -956,11 +956,11 @@ export interface OpenIdConnectGroupConfigurationItem {
   groupEntityType: string | redacted.Redacted<string>;
 }
 export interface OpenIdConnectAccessTokenConfigurationItem {
-  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  principalIdClaim: string | redacted.Redacted<string>;
   audiences?: string[] | undefined;
 }
 export interface OpenIdConnectIdentityTokenConfigurationItem {
-  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  principalIdClaim: string | redacted.Redacted<string>;
   clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type OpenIdConnectTokenSelectionItem =
@@ -2747,14 +2747,14 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          principalIdClaim: S.optional(SensitiveString),
+          principalIdClaim: S.optional(SensitiveString).pipe(T.Default("sub")),
           audiences: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "OpenIdConnectAccessTokenConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          principalIdClaim: S.optional(SensitiveString),
+          principalIdClaim: S.optional(SensitiveString).pipe(T.Default("sub")),
           clientIds: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "OpenIdConnectIdentityTokenConfiguration" });

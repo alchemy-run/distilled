@@ -411,7 +411,7 @@ export interface CreateStorediSCSIVolumeInput {
 }
 export interface CreateStorediSCSIVolumeOutput {
   VolumeARN?: string | undefined;
-  VolumeSizeInBytes?: number | undefined;
+  VolumeSizeInBytes: number;
   TargetARN?: string | undefined;
 }
 export type PoolName = string;
@@ -583,11 +583,11 @@ export interface DescribeCacheInput {
 export interface DescribeCacheOutput {
   GatewayARN?: string | undefined;
   DiskIds?: string[] | undefined;
-  CacheAllocatedInBytes?: number | undefined;
-  CacheUsedPercentage?: number | undefined;
-  CacheDirtyPercentage?: number | undefined;
-  CacheHitPercentage?: number | undefined;
-  CacheMissPercentage?: number | undefined;
+  CacheAllocatedInBytes: number;
+  CacheUsedPercentage: number;
+  CacheDirtyPercentage: number;
+  CacheHitPercentage: number;
+  CacheMissPercentage: number;
 }
 export type VolumeARNs = string[];
 export interface DescribeCachediSCSIVolumesInput {
@@ -602,9 +602,9 @@ export type PositiveIntObject = number;
 export interface VolumeiSCSIAttributes {
   TargetARN?: string | undefined;
   NetworkInterfaceId?: string | undefined;
-  NetworkInterfacePort?: number | undefined;
+  NetworkInterfacePort: number;
   LunNumber?: number | undefined;
-  ChapEnabled?: boolean | undefined;
+  ChapEnabled: boolean;
 }
 export type CreatedDate = Date;
 export type VolumeUsedInBytes = number;
@@ -614,7 +614,7 @@ export interface CachediSCSIVolume {
   VolumeType?: string | undefined;
   VolumeStatus?: string | undefined;
   VolumeAttachmentStatus?: string | undefined;
-  VolumeSizeInBytes?: number | undefined;
+  VolumeSizeInBytes: number;
   VolumeProgress?: number | undefined;
   SourceSnapshotId?: string | undefined;
   VolumeiSCSIAttributes?: VolumeiSCSIAttributes | undefined;
@@ -789,7 +789,7 @@ export interface NFSFileShareInfo {
   FileShareStatus?: string | undefined;
   GatewayARN?: string | undefined;
   EncryptionType?: EncryptionType | undefined;
-  KMSEncrypted?: boolean | undefined;
+  KMSEncrypted: boolean;
   KMSKey?: string | undefined;
   Path?: string | undefined;
   Role?: string | undefined;
@@ -822,7 +822,7 @@ export interface SMBFileShareInfo {
   FileShareStatus?: string | undefined;
   GatewayARN?: string | undefined;
   EncryptionType?: EncryptionType | undefined;
-  KMSEncrypted?: boolean | undefined;
+  KMSEncrypted: boolean;
   KMSKey?: string | undefined;
   Path?: string | undefined;
   Role?: string | undefined;
@@ -906,11 +906,11 @@ export interface StorediSCSIVolume {
   VolumeType?: string | undefined;
   VolumeStatus?: string | undefined;
   VolumeAttachmentStatus?: string | undefined;
-  VolumeSizeInBytes?: number | undefined;
+  VolumeSizeInBytes: number;
   VolumeProgress?: number | undefined;
   VolumeDiskId?: string | undefined;
   SourceSnapshotId?: string | undefined;
-  PreservedExistingData?: boolean | undefined;
+  PreservedExistingData: boolean;
   VolumeiSCSIAttributes?: VolumeiSCSIAttributes | undefined;
   CreatedDate?: Date | undefined;
   VolumeUsedInBytes?: number | undefined;
@@ -940,7 +940,7 @@ export interface TapeArchive {
   TapeUsedInBytes?: number | undefined;
   KMSKey?: string | undefined;
   PoolId?: string | undefined;
-  Worm?: boolean | undefined;
+  Worm: boolean;
   RetentionStartDate?: Date | undefined;
   PoolEntryDate?: Date | undefined;
 }
@@ -986,7 +986,7 @@ export interface Tape {
   TapeUsedInBytes?: number | undefined;
   KMSKey?: string | undefined;
   PoolId?: string | undefined;
-  Worm?: boolean | undefined;
+  Worm: boolean;
   RetentionStartDate?: Date | undefined;
   PoolEntryDate?: Date | undefined;
 }
@@ -1001,8 +1001,8 @@ export interface DescribeUploadBufferInput {
 export interface DescribeUploadBufferOutput {
   GatewayARN?: string | undefined;
   DiskIds?: string[] | undefined;
-  UploadBufferUsedInBytes?: number | undefined;
-  UploadBufferAllocatedInBytes?: number | undefined;
+  UploadBufferUsedInBytes: number;
+  UploadBufferAllocatedInBytes: number;
 }
 export type VTLDeviceARNs = string[];
 export interface DescribeVTLDevicesInput {
@@ -1017,8 +1017,8 @@ export type VTLDeviceProductIdentifier = string;
 export interface DeviceiSCSIAttributes {
   TargetARN?: string | undefined;
   NetworkInterfaceId?: string | undefined;
-  NetworkInterfacePort?: number | undefined;
-  ChapEnabled?: boolean | undefined;
+  NetworkInterfacePort: number;
+  ChapEnabled: boolean;
 }
 export interface VTLDevice {
   VTLDeviceARN?: string | undefined;
@@ -1039,8 +1039,8 @@ export interface DescribeWorkingStorageInput {
 export interface DescribeWorkingStorageOutput {
   GatewayARN?: string | undefined;
   DiskIds?: string[] | undefined;
-  WorkingStorageUsedInBytes?: number | undefined;
-  WorkingStorageAllocatedInBytes?: number | undefined;
+  WorkingStorageUsedInBytes: number;
+  WorkingStorageAllocatedInBytes: number;
 }
 export interface DetachVolumeInput {
   VolumeARN: string;
@@ -1185,7 +1185,7 @@ export interface Disk {
   DiskPath?: string | undefined;
   DiskNode?: string | undefined;
   DiskStatus?: string | undefined;
-  DiskSizeInBytes?: number | undefined;
+  DiskSizeInBytes: number;
   DiskAllocationType?: string | undefined;
   DiskAllocationResource?: string | undefined;
   DiskAttributeList?: string[] | undefined;
@@ -1258,8 +1258,8 @@ export interface ListVolumeRecoveryPointsInput {
 }
 export interface VolumeRecoveryPointInfo {
   VolumeARN?: string | undefined;
-  VolumeSizeInBytes?: number | undefined;
-  VolumeUsageInBytes?: number | undefined;
+  VolumeSizeInBytes: number;
+  VolumeUsageInBytes: number;
   VolumeRecoveryPointTime?: string | undefined;
 }
 export type VolumeRecoveryPointInfos = VolumeRecoveryPointInfo[];
@@ -1278,7 +1278,7 @@ export interface VolumeInfo {
   GatewayARN?: string | undefined;
   GatewayId?: string | undefined;
   VolumeType?: string | undefined;
-  VolumeSizeInBytes?: number | undefined;
+  VolumeSizeInBytes: number;
   VolumeAttachmentStatus?: string | undefined;
 }
 export type VolumeInfos = VolumeInfo[];
@@ -4751,7 +4751,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           VolumeARN: S.optional(S.String),
-          VolumeSizeInBytes: S.optional(S.Number),
+          VolumeSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
           TargetARN: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "CreateStorediSCSIVolumeOutput" });
@@ -5068,11 +5068,11 @@ function __c39(j: number): any {
         S.Struct({
           GatewayARN: S.optional(S.String),
           DiskIds: S.optional(__S(368, __c46, 0)),
-          CacheAllocatedInBytes: S.optional(S.Number),
-          CacheUsedPercentage: S.optional(S.Number),
-          CacheDirtyPercentage: S.optional(S.Number),
-          CacheHitPercentage: S.optional(S.Number),
-          CacheMissPercentage: S.optional(S.Number),
+          CacheAllocatedInBytes: S.optional(S.Number).pipe(T.Default(0)),
+          CacheUsedPercentage: S.optional(S.Number).pipe(T.Default(0)),
+          CacheDirtyPercentage: S.optional(S.Number).pipe(T.Default(0)),
+          CacheHitPercentage: S.optional(S.Number).pipe(T.Default(0)),
+          CacheMissPercentage: S.optional(S.Number).pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeCacheOutput" });
   }
@@ -5093,7 +5093,7 @@ function __c40(j: number): any {
           VolumeType: S.optional(S.String),
           VolumeStatus: S.optional(S.String),
           VolumeAttachmentStatus: S.optional(S.String),
-          VolumeSizeInBytes: S.optional(S.Number),
+          VolumeSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
           VolumeProgress: S.optional(S.Number),
           SourceSnapshotId: S.optional(S.String),
           VolumeiSCSIAttributes: S.optional(__S(328, __c41, 0)),
@@ -5118,9 +5118,9 @@ function __c41(j: number): any {
         S.Struct({
           TargetARN: S.optional(S.String),
           NetworkInterfaceId: S.optional(S.String),
-          NetworkInterfacePort: S.optional(S.Number),
+          NetworkInterfacePort: S.optional(S.Number).pipe(T.Default(0)),
           LunNumber: S.optional(S.Number),
-          ChapEnabled: S.optional(S.Boolean),
+          ChapEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "VolumeiSCSIAttributes" });
   }
@@ -5343,7 +5343,7 @@ function __c52(j: number): any {
           FileShareStatus: S.optional(S.String),
           GatewayARN: S.optional(S.String),
           EncryptionType: S.optional(S.String),
-          KMSEncrypted: S.optional(S.Boolean),
+          KMSEncrypted: S.optional(S.Boolean).pipe(T.Default(false)),
           KMSKey: S.optional(S.String),
           Path: S.optional(S.String),
           Role: S.optional(S.String),
@@ -5388,7 +5388,7 @@ function __c53(j: number): any {
           FileShareStatus: S.optional(S.String),
           GatewayARN: S.optional(S.String),
           EncryptionType: S.optional(S.String),
-          KMSEncrypted: S.optional(S.Boolean),
+          KMSEncrypted: S.optional(S.Boolean).pipe(T.Default(false)),
           KMSKey: S.optional(S.String),
           Path: S.optional(S.String),
           Role: S.optional(S.String),
@@ -5490,11 +5490,11 @@ function __c57(j: number): any {
           VolumeType: S.optional(S.String),
           VolumeStatus: S.optional(S.String),
           VolumeAttachmentStatus: S.optional(S.String),
-          VolumeSizeInBytes: S.optional(S.Number),
+          VolumeSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
           VolumeProgress: S.optional(S.Number),
           VolumeDiskId: S.optional(S.String),
           SourceSnapshotId: S.optional(S.String),
-          PreservedExistingData: S.optional(S.Boolean),
+          PreservedExistingData: S.optional(S.Boolean).pipe(T.Default(false)),
           VolumeiSCSIAttributes: S.optional(__S(328, __c41, 0)),
           CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           VolumeUsedInBytes: S.optional(S.Number),
@@ -5533,7 +5533,7 @@ function __c58(j: number): any {
           TapeUsedInBytes: S.optional(S.Number),
           KMSKey: S.optional(S.String),
           PoolId: S.optional(S.String),
-          Worm: S.optional(S.Boolean),
+          Worm: S.optional(S.Boolean).pipe(T.Default(false)),
           RetentionStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           PoolEntryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -5622,7 +5622,7 @@ function __c62(j: number): any {
           TapeUsedInBytes: S.optional(S.Number),
           KMSKey: S.optional(S.String),
           PoolId: S.optional(S.String),
-          Worm: S.optional(S.Boolean),
+          Worm: S.optional(S.Boolean).pipe(T.Default(false)),
           RetentionStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           PoolEntryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -5648,8 +5648,8 @@ function __c63(j: number): any {
         S.Struct({
           GatewayARN: S.optional(S.String),
           DiskIds: S.optional(__S(368, __c46, 0)),
-          UploadBufferUsedInBytes: S.optional(S.Number),
-          UploadBufferAllocatedInBytes: S.optional(S.Number),
+          UploadBufferUsedInBytes: S.optional(S.Number).pipe(T.Default(0)),
+          UploadBufferAllocatedInBytes: S.optional(S.Number).pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeUploadBufferOutput" });
   }
@@ -5670,8 +5670,8 @@ function __c64(j: number): any {
         S.Struct({
           TargetARN: S.optional(S.String),
           NetworkInterfaceId: S.optional(S.String),
-          NetworkInterfacePort: S.optional(S.Number),
-          ChapEnabled: S.optional(S.Boolean),
+          NetworkInterfacePort: S.optional(S.Number).pipe(T.Default(0)),
+          ChapEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DeviceiSCSIAttributes" });
     case 2:
@@ -5709,8 +5709,8 @@ function __c65(j: number): any {
         S.Struct({
           GatewayARN: S.optional(S.String),
           DiskIds: S.optional(__S(368, __c46, 0)),
-          WorkingStorageUsedInBytes: S.optional(S.Number),
-          WorkingStorageAllocatedInBytes: S.optional(S.Number),
+          WorkingStorageUsedInBytes: S.optional(S.Number).pipe(T.Default(0)),
+          WorkingStorageAllocatedInBytes: S.optional(S.Number).pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeWorkingStorageOutput" });
   }
@@ -5824,7 +5824,7 @@ function __c73(j: number): any {
           PoolId: S.String,
           TapeSizeInBytes: S.Number,
           MinimumNumTapes: S.Number,
-          Worm: S.optional(S.Boolean),
+          Worm: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AutomaticTapeCreationRule" });
     case 1:
@@ -5962,7 +5962,7 @@ function __c78(j: number): any {
           DiskPath: S.optional(S.String),
           DiskNode: S.optional(S.String),
           DiskStatus: S.optional(S.String),
-          DiskSizeInBytes: S.optional(S.Number),
+          DiskSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
           DiskAllocationType: S.optional(S.String),
           DiskAllocationResource: S.optional(S.String),
           DiskAttributeList: S.optional(__S(368, __c46, 0)),
@@ -6098,8 +6098,8 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           VolumeARN: S.optional(S.String),
-          VolumeSizeInBytes: S.optional(S.Number),
-          VolumeUsageInBytes: S.optional(S.Number),
+          VolumeSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
+          VolumeUsageInBytes: S.optional(S.Number).pipe(T.Default(0)),
           VolumeRecoveryPointTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "VolumeRecoveryPointInfo" });
@@ -6132,7 +6132,7 @@ function __c85(j: number): any {
           GatewayARN: S.optional(S.String),
           GatewayId: S.optional(S.String),
           VolumeType: S.optional(S.String),
-          VolumeSizeInBytes: S.optional(S.Number),
+          VolumeSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
           VolumeAttachmentStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "VolumeInfo" });

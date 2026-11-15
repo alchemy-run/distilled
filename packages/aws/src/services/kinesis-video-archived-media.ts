@@ -290,10 +290,10 @@ export interface ListFragmentsInput {
 }
 export interface Fragment {
   FragmentNumber?: string | undefined;
-  FragmentSizeInBytes?: number | undefined;
+  FragmentSizeInBytes: number;
   ProducerTimestamp?: Date | undefined;
   ServerTimestamp?: Date | undefined;
-  FragmentLengthInMilliseconds?: number | undefined;
+  FragmentLengthInMilliseconds: number;
 }
 export type FragmentList = Fragment[];
 export interface ListFragmentsOutput {
@@ -1058,10 +1058,10 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FragmentNumber: S.optional(S.String),
-          FragmentSizeInBytes: S.optional(S.Number),
+          FragmentSizeInBytes: S.optional(S.Number).pipe(T.Default(0)),
           ProducerTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ServerTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          FragmentLengthInMilliseconds: S.optional(S.Number),
+          FragmentLengthInMilliseconds: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Fragment" });
     case 2:

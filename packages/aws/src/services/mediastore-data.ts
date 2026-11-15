@@ -376,7 +376,7 @@ function __c2(j: number): any {
           LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
             T.HttpHeader("Last-Modified"),
           ),
-          StatusCode: S.Number.pipe(T.HttpResponseCode()),
+          StatusCode: S.Number.pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "GetObjectResponse" });
   }

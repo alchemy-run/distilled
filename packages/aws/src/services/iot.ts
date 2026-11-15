@@ -1256,7 +1256,7 @@ export interface CreatePolicyVersionResponse {
   policyArn?: string | undefined;
   policyDocument?: string | undefined;
   policyVersionId?: string | undefined;
-  isDefaultVersion?: boolean | undefined;
+  isDefaultVersion: boolean;
 }
 export type TemplateName = string;
 export interface CreateProvisioningClaimRequest {
@@ -1303,7 +1303,7 @@ export interface CreateProvisioningTemplateVersionResponse {
   templateArn?: string | undefined;
   templateName?: string | undefined;
   versionId?: number | undefined;
-  isDefaultVersion?: boolean | undefined;
+  isDefaultVersion: boolean;
 }
 export type RoleAlias = string;
 export type CredentialDurationSeconds = number;
@@ -2014,7 +2014,7 @@ export interface DeleteCommandRequest {
 }
 export type StatusCode = number;
 export interface DeleteCommandResponse {
-  statusCode?: number | undefined;
+  statusCode: number;
 }
 export type CommandExecutionId = string;
 export interface DeleteCommandExecutionRequest {
@@ -2384,7 +2384,7 @@ export interface DescribeBillingGroupResponse {
   billingGroupName?: string | undefined;
   billingGroupId?: string | undefined;
   billingGroupArn?: string | undefined;
-  version?: number | undefined;
+  version: number;
   billingGroupProperties?: BillingGroupProperties | undefined;
   billingGroupMetadata?: BillingGroupMetadata | undefined;
 }
@@ -2521,8 +2521,8 @@ export interface DetectMitigationActionsTaskSummary {
   taskEndTime?: Date | undefined;
   target?: DetectMitigationActionsTaskTarget | undefined;
   violationEventOccurrenceRange?: ViolationEventOccurrenceRange | undefined;
-  onlyActiveViolationsIncluded?: boolean | undefined;
-  suppressedAlertsIncluded?: boolean | undefined;
+  onlyActiveViolationsIncluded: boolean;
+  suppressedAlertsIncluded: boolean;
   actionsDefinition?: MitigationAction[] | undefined;
   taskStatistics?: DetectMitigationActionsTaskStatistics | undefined;
 }
@@ -2634,7 +2634,7 @@ export interface DescribeFleetMetricResponse {
   creationDate?: Date | undefined;
   lastModifiedDate?: Date | undefined;
   unit?: FleetMetricUnit | undefined;
-  version?: number | undefined;
+  version: number;
   metricArn?: string | undefined;
 }
 export interface DescribeIndexRequest {
@@ -2747,7 +2747,7 @@ export interface JobExecution {
   startedAt?: Date | undefined;
   lastUpdatedAt?: Date | undefined;
   executionNumber?: number | undefined;
-  versionNumber?: number | undefined;
+  versionNumber: number;
   approximateSecondsBeforeTimedOut?: number | undefined;
 }
 export interface DescribeJobExecutionResponse {
@@ -2787,7 +2787,7 @@ export interface DocumentParameter {
   description?: string | undefined;
   regex?: string | undefined;
   example?: string | undefined;
-  optional?: boolean | undefined;
+  optional: boolean;
 }
 export type DocumentParameters = DocumentParameter[];
 export interface DescribeManagedJobTemplateResponse {
@@ -2844,7 +2844,7 @@ export interface DescribeProvisioningTemplateVersionResponse {
   versionId?: number | undefined;
   creationDate?: Date | undefined;
   templateBody?: string | undefined;
-  isDefaultVersion?: boolean | undefined;
+  isDefaultVersion: boolean;
 }
 export interface DescribeRoleAliasRequest {
   roleAlias: string;
@@ -2883,7 +2883,7 @@ export interface DescribeSecurityProfileResponse {
   alertTargets?: { [key: string]: AlertTarget | undefined } | undefined;
   additionalMetricsToRetain?: string[] | undefined;
   additionalMetricsToRetainV2?: MetricToRetain[] | undefined;
-  version?: number | undefined;
+  version: number;
   creationDate?: Date | undefined;
   lastModifiedDate?: Date | undefined;
   metricsExportConfig?: MetricsExportConfig | undefined;
@@ -2914,7 +2914,7 @@ export interface DescribeThingResponse {
   thingArn?: string | undefined;
   thingTypeName?: string | undefined;
   attributes?: { [key: string]: string | undefined } | undefined;
-  version?: number | undefined;
+  version: number;
   billingGroupName?: string | undefined;
 }
 export interface DescribeThingGroupRequest {
@@ -2935,7 +2935,7 @@ export interface DescribeThingGroupResponse {
   thingGroupName?: string | undefined;
   thingGroupId?: string | undefined;
   thingGroupArn?: string | undefined;
-  version?: number | undefined;
+  version: number;
   thingGroupProperties?: ThingGroupProperties | undefined;
   thingGroupMetadata?: ThingGroupMetadata | undefined;
   indexName?: string | undefined;
@@ -2968,16 +2968,16 @@ export interface DescribeThingRegistrationTaskResponse {
   roleArn?: string | undefined;
   status?: Status | undefined;
   message?: string | undefined;
-  successCount?: number | undefined;
-  failureCount?: number | undefined;
-  percentageProgress?: number | undefined;
+  successCount: number;
+  failureCount: number;
+  percentageProgress: number;
 }
 export interface DescribeThingTypeRequest {
   thingTypeName: string;
 }
 export type DeprecationDate = Date;
 export interface ThingTypeMetadata {
-  deprecated?: boolean | undefined;
+  deprecated: boolean;
   deprecationDate?: Date | undefined;
   creationDate?: Date | undefined;
 }
@@ -3061,11 +3061,11 @@ export interface GetBucketsAggregationRequest {
 export type BucketKeyValue = string;
 export interface Bucket {
   keyValue?: string | undefined;
-  count?: number | undefined;
+  count: number;
 }
 export type Buckets = Bucket[];
 export interface GetBucketsAggregationResponse {
-  totalCount?: number | undefined;
+  totalCount: number;
   buckets?: Bucket[] | undefined;
 }
 export interface GetCardinalityRequest {
@@ -3075,7 +3075,7 @@ export interface GetCardinalityRequest {
   queryVersion?: string | undefined;
 }
 export interface GetCardinalityResponse {
-  cardinality?: number | undefined;
+  cardinality: number;
 }
 export interface GetCommandRequest {
   commandId: string;
@@ -3299,8 +3299,8 @@ export interface GetPercentilesRequest {
 }
 export type PercentValue = number;
 export interface PercentPair {
-  percent?: number | undefined;
-  value?: number | undefined;
+  percent: number;
+  value: number;
 }
 export type Percentiles = PercentPair[];
 export interface GetPercentilesResponse {
@@ -3327,7 +3327,7 @@ export interface GetPolicyVersionResponse {
   policyName?: string | undefined;
   policyDocument?: string | undefined;
   policyVersionId?: string | undefined;
-  isDefaultVersion?: boolean | undefined;
+  isDefaultVersion: boolean;
   creationDate?: Date | undefined;
   lastModifiedDate?: Date | undefined;
   generationId?: string | undefined;
@@ -3351,7 +3351,7 @@ export type SumOfSquares = number;
 export type Variance = number;
 export type StdDeviation = number;
 export interface Statistics {
-  count?: number | undefined;
+  count: number;
   average?: number | undefined;
   sum?: number | undefined;
   minimum?: number | undefined;
@@ -3447,7 +3447,7 @@ export type LogEventConfigurations = LogEventConfiguration[];
 export interface GetV2LoggingOptionsResponse {
   roleArn?: string | undefined;
   defaultLogLevel?: LogLevel | undefined;
-  disableAllLogs?: boolean | undefined;
+  disableAllLogs: boolean;
   eventConfigurations?: LogEventConfiguration[] | undefined;
 }
 export type DeviceDefenderThingName = string;
@@ -4072,7 +4072,7 @@ export interface ListPolicyVersionsRequest {
 }
 export interface PolicyVersion {
   versionId?: string | undefined;
-  isDefaultVersion?: boolean | undefined;
+  isDefaultVersion: boolean;
   createDate?: Date | undefined;
 }
 export type PolicyVersions = PolicyVersion[];
@@ -4140,7 +4140,7 @@ export interface ListProvisioningTemplateVersionsRequest {
 export interface ProvisioningTemplateVersionSummary {
   versionId?: number | undefined;
   creationDate?: Date | undefined;
-  isDefaultVersion?: boolean | undefined;
+  isDefaultVersion: boolean;
 }
 export type ProvisioningTemplateVersionListing = ProvisioningTemplateVersionSummary[];
 export interface ListProvisioningTemplateVersionsResponse {
@@ -4367,7 +4367,7 @@ export interface ThingAttribute {
   thingTypeName?: string | undefined;
   thingArn?: string | undefined;
   attributes?: { [key: string]: string | undefined } | undefined;
-  version?: number | undefined;
+  version: number;
 }
 export type ThingAttributeList = ThingAttribute[];
 export interface ListThingsResponse {
@@ -4844,7 +4844,7 @@ export interface UpdateBillingGroupRequest {
   expectedVersion?: number | undefined;
 }
 export interface UpdateBillingGroupResponse {
-  version?: number | undefined;
+  version: number;
 }
 export type RemoveAutoRegistration = boolean;
 export interface UpdateCACertificateRequest {
@@ -4931,7 +4931,7 @@ export interface UpdateDynamicThingGroupRequest {
   queryVersion?: string | undefined;
 }
 export interface UpdateDynamicThingGroupResponse {
-  version?: number | undefined;
+  version: number;
 }
 export interface UpdateEncryptionConfigurationRequest {
   encryptionType: EncryptionType;
@@ -5063,7 +5063,7 @@ export interface UpdateSecurityProfileResponse {
   alertTargets?: { [key: string]: AlertTarget | undefined } | undefined;
   additionalMetricsToRetain?: string[] | undefined;
   additionalMetricsToRetainV2?: MetricToRetain[] | undefined;
-  version?: number | undefined;
+  version: number;
   creationDate?: Date | undefined;
   lastModifiedDate?: Date | undefined;
   metricsExportConfig?: MetricsExportConfig | undefined;
@@ -5095,7 +5095,7 @@ export interface UpdateThingGroupRequest {
   expectedVersion?: number | undefined;
 }
 export interface UpdateThingGroupResponse {
-  version?: number | undefined;
+  version: number;
 }
 export type ThingGroupList = string[];
 export interface UpdateThingGroupsForThingRequest {
@@ -5124,7 +5124,7 @@ export interface ValidationError {
 }
 export type ValidationErrors = ValidationError[];
 export interface ValidateSecurityProfileBehaviorsResponse {
-  valid?: boolean | undefined;
+  valid: boolean;
   validationErrors?: ValidationError[] | undefined;
 }
 export type ErrorMessage2 = string;
@@ -15542,7 +15542,7 @@ function __c21(j: number): any {
         S.Struct({
           targetArn: S.optional(S.String),
           roleArn: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
+          enabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AuditNotificationTarget" });
     case 1:
@@ -15551,7 +15551,10 @@ function __c21(j: number): any {
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
     case 3:
       return S.suspend(() =>
-        S.Struct({ enabled: S.optional(S.Boolean), configuration: S.optional(__S(674, __c21, 2)) }),
+        S.Struct({
+          enabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          configuration: S.optional(__S(674, __c21, 2)),
+        }),
       ).annotate({ identifier: "AuditCheckConfiguration" });
     case 4:
       return S.Record(S.String, /*@__PURE__*/ __S(675, __c21, 3).pipe(S.optional));
@@ -15828,7 +15831,7 @@ function __c32(j: number): any {
           billingGroupName: S.optional(S.String),
           billingGroupId: S.optional(S.String),
           billingGroupArn: S.optional(S.String),
-          version: S.optional(S.Number),
+          version: S.optional(S.Number).pipe(T.Default(0)),
           billingGroupProperties: S.optional(__S(8544, __c267, 0)),
           billingGroupMetadata: S.optional(__S(1025, __c32, 1)),
         }),
@@ -16068,8 +16071,8 @@ function __c42(j: number): any {
           taskEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           target: S.optional(__S(1376, __c43, 0)),
           violationEventOccurrenceRange: S.optional(__S(1377, __c43, 1)),
-          onlyActiveViolationsIncluded: S.optional(S.Boolean),
-          suppressedAlertsIncluded: S.optional(S.Boolean),
+          onlyActiveViolationsIncluded: S.optional(S.Boolean).pipe(T.Default(false)),
+          suppressedAlertsIncluded: S.optional(S.Boolean).pipe(T.Default(false)),
           actionsDefinition: S.optional(__S(833, __c26, 1)),
           taskStatistics: S.optional(__S(1344, __c42, 0)),
         }),
@@ -16245,9 +16248,9 @@ function __c49(j: number): any {
 function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) })).annotate({
-        identifier: "Configuration",
-      });
+      return S.suspend(() =>
+        S.Struct({ Enabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "Configuration" });
     case 1:
       return S.Record(S.String, /*@__PURE__*/ __S(1600, __c50, 0).pipe(S.optional));
   }
@@ -16281,7 +16284,7 @@ function __c51(j: number): any {
           creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           unit: S.optional(S.String),
-          version: S.optional(S.Number),
+          version: S.optional(S.Number).pipe(T.Default(0)),
           metricArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeFleetMetricResponse" });
@@ -16356,8 +16359,8 @@ function __c53(j: number): any {
           targets: S.optional(__S(7904, __c247, 0)),
           description: S.optional(S.String),
           presignedUrlConfig: S.optional(__S(9248, __c289, 0)),
-          jobExecutionsRolloutConfig: S.optional(__S(9282, __c290, 2)),
-          abortConfig: S.optional(__S(9249, __c289, 1)),
+          jobExecutionsRolloutConfig: S.optional(__S(9250, __c289, 2)),
+          abortConfig: S.optional(__S(9251, __c289, 3)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -16365,7 +16368,7 @@ function __c53(j: number): any {
           timeoutConfig: S.optional(__S(9314, __c291, 2)),
           namespaceId: S.optional(S.String),
           jobTemplateArn: S.optional(S.String),
-          jobExecutionsRetryConfig: S.optional(__S(9252, __c289, 4)),
+          jobExecutionsRetryConfig: S.optional(__S(9254, __c289, 6)),
           documentParameters: S.optional(__S(8256, __c258, 0)),
           isConcurrent: S.optional(S.Boolean),
           schedulingConfig: S.optional(__S(9184, __c287, 0)),
@@ -16414,7 +16417,7 @@ function __c54(j: number): any {
           startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           executionNumber: S.optional(S.Number),
-          versionNumber: S.optional(S.Number),
+          versionNumber: S.optional(S.Number).pipe(T.Default(0)),
           approximateSecondsBeforeTimedOut: S.optional(S.Number),
         }),
       ).annotate({ identifier: "JobExecution" });
@@ -16449,10 +16452,10 @@ function __c55(j: number): any {
           document: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           presignedUrlConfig: S.optional(__S(9248, __c289, 0)),
-          jobExecutionsRolloutConfig: S.optional(__S(9282, __c290, 2)),
-          abortConfig: S.optional(__S(9249, __c289, 1)),
+          jobExecutionsRolloutConfig: S.optional(__S(9250, __c289, 2)),
+          abortConfig: S.optional(__S(9251, __c289, 3)),
           timeoutConfig: S.optional(__S(9314, __c291, 2)),
-          jobExecutionsRetryConfig: S.optional(__S(9252, __c289, 4)),
+          jobExecutionsRetryConfig: S.optional(__S(9254, __c289, 6)),
           maintenanceWindows: S.optional(__S(9217, __c288, 1)),
           destinationPackageVersions: S.optional(__S(7904, __c247, 0)),
         }),
@@ -16484,7 +16487,7 @@ function __c56(j: number): any {
           description: S.optional(S.String),
           regex: S.optional(S.String),
           example: S.optional(S.String),
-          optional: S.optional(S.Boolean),
+          optional: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DocumentParameter" });
     case 2:
@@ -16593,7 +16596,7 @@ function __c59(j: number): any {
           versionId: S.optional(S.Number),
           creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           templateBody: S.optional(S.String),
-          isDefaultVersion: S.optional(S.Boolean),
+          isDefaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DescribeProvisioningTemplateVersionResponse" });
   }
@@ -16688,7 +16691,7 @@ function __c63(j: number): any {
           alertTargets: S.optional(__S(10113, __c316, 1)),
           additionalMetricsToRetain: S.optional(__S(7904, __c247, 0)),
           additionalMetricsToRetainV2: S.optional(__S(10115, __c316, 3)),
-          version: S.optional(S.Number),
+          version: S.optional(S.Number).pipe(T.Default(0)),
           creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           metricsExportConfig: S.optional(__S(10116, __c316, 4)),
@@ -16754,7 +16757,7 @@ function __c65(j: number): any {
           thingArn: S.optional(S.String),
           thingTypeName: S.optional(S.String),
           attributes: S.optional(__S(8256, __c258, 0)),
-          version: S.optional(S.Number),
+          version: S.optional(S.Number).pipe(T.Default(0)),
           billingGroupName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeThingResponse" });
@@ -16789,7 +16792,7 @@ function __c66(j: number): any {
           thingGroupName: S.optional(S.String),
           thingGroupId: S.optional(S.String),
           thingGroupArn: S.optional(S.String),
-          version: S.optional(S.Number),
+          version: S.optional(S.Number).pipe(T.Default(0)),
           thingGroupProperties: S.optional(__S(9056, __c283, 0)),
           thingGroupMetadata: S.optional(__S(2113, __c66, 1)),
           indexName: S.optional(S.String),
@@ -16837,9 +16840,9 @@ function __c68(j: number): any {
           roleArn: S.optional(S.String),
           status: S.optional(S.String),
           message: S.optional(S.String),
-          successCount: S.optional(S.Number),
-          failureCount: S.optional(S.Number),
-          percentageProgress: S.optional(S.Number),
+          successCount: S.optional(S.Number).pipe(T.Default(0)),
+          failureCount: S.optional(S.Number).pipe(T.Default(0)),
+          percentageProgress: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DescribeThingRegistrationTaskResponse" });
   }
@@ -16876,7 +16879,7 @@ function __c70(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deprecated: S.optional(S.Boolean),
+          deprecated: S.optional(S.Boolean).pipe(T.Default(false)),
           deprecationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -17082,13 +17085,19 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GetBucketsAggregationRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ keyValue: S.optional(S.String), count: S.optional(S.Number) }),
+        S.Struct({
+          keyValue: S.optional(S.String),
+          count: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "Bucket" });
     case 4:
       return S.Array(__S(2531, __c79, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ totalCount: S.optional(S.Number), buckets: S.optional(__S(2532, __c79, 4)) }),
+        S.Struct({
+          totalCount: S.optional(S.Number).pipe(T.Default(0)),
+          buckets: S.optional(__S(2532, __c79, 4)),
+        }),
       ).annotate({ identifier: "GetBucketsAggregationResponse" });
   }
 }
@@ -17113,9 +17122,9 @@ function __c80(j: number): any {
         ),
       ).annotate({ identifier: "GetCardinalityRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ cardinality: S.optional(S.Number) })).annotate({
-        identifier: "GetCardinalityResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ cardinality: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "GetCardinalityResponse" });
   }
 }
 function __c81(j: number): any {
@@ -17372,10 +17381,10 @@ function __c88(j: number): any {
           description: S.optional(S.String),
           targets: S.optional(__S(7904, __c247, 0)),
           protocols: S.optional(__S(8672, __c271, 0)),
-          awsJobExecutionsRolloutConfig: S.optional(__S(9282, __c290, 2)),
-          awsJobPresignedUrlConfig: S.optional(__S(9568, __c299, 0)),
+          awsJobExecutionsRolloutConfig: S.optional(__S(9569, __c299, 1)),
+          awsJobPresignedUrlConfig: S.optional(__S(9570, __c299, 2)),
           targetSelection: S.optional(S.String),
-          otaUpdateFiles: S.optional(__S(9580, __c299, 12)),
+          otaUpdateFiles: S.optional(__S(9582, __c299, 14)),
           otaUpdateStatus: S.optional(S.String),
           awsIotJobId: S.optional(S.String),
           awsIotJobArn: S.optional(S.String),
@@ -17507,7 +17516,10 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GetPercentilesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ percent: S.optional(S.Number), value: S.optional(S.Number) }),
+        S.Struct({
+          percent: S.optional(S.Number).pipe(T.Default(0)),
+          value: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "PercentPair" });
     case 2:
       return S.Array(__S(2977, __c93, 1));
@@ -17571,7 +17583,7 @@ function __c95(j: number): any {
           policyName: S.optional(S.String),
           policyDocument: S.optional(S.String),
           policyVersionId: S.optional(S.String),
-          isDefaultVersion: S.optional(S.Boolean),
+          isDefaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
           creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           generationId: S.optional(S.String),
@@ -17616,7 +17628,7 @@ function __c97(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          count: S.optional(S.Number),
+          count: S.optional(S.Number).pipe(T.Default(0)),
           average: S.optional(S.Number),
           sum: S.optional(S.Number),
           minimum: S.optional(S.Number),
@@ -17727,7 +17739,7 @@ function __c101(j: number): any {
         S.Struct({
           roleArn: S.optional(S.String),
           defaultLogLevel: S.optional(S.String),
-          disableAllLogs: S.optional(S.Boolean),
+          disableAllLogs: S.optional(S.Boolean).pipe(T.Default(false)),
           eventConfigurations: S.optional(__S(3265, __c102, 1)),
         }),
       ).annotate({ identifier: "GetV2LoggingOptionsResponse" });
@@ -18942,7 +18954,7 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           versionId: S.optional(S.String),
-          isDefaultVersion: S.optional(S.Boolean),
+          isDefaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
           createDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "PolicyVersion" });
@@ -19095,7 +19107,7 @@ function __c149(j: number): any {
         S.Struct({
           versionId: S.optional(S.Number),
           creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          isDefaultVersion: S.optional(S.Boolean),
+          isDefaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ProvisioningTemplateVersionSummary" });
     case 2:
@@ -19595,7 +19607,7 @@ function __c169(j: number): any {
           thingTypeName: S.optional(S.String),
           thingArn: S.optional(S.String),
           attributes: S.optional(__S(8256, __c258, 0)),
-          version: S.optional(S.Number),
+          version: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ThingAttribute" });
     case 2:
@@ -20505,9 +20517,9 @@ function __c208(j: number): any {
 function __c209(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ version: S.optional(S.Number) })).annotate({
-        identifier: "UpdateBillingGroupResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ version: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "UpdateBillingGroupResponse" });
   }
 }
 function __c210(j: number): any {
@@ -20786,11 +20798,11 @@ function __c222(j: number): any {
           jobId: S.String.pipe(T.HttpLabel("jobId")),
           description: S.optional(S.String),
           presignedUrlConfig: S.optional(__S(9248, __c289, 0)),
-          jobExecutionsRolloutConfig: S.optional(__S(9282, __c290, 2)),
-          abortConfig: S.optional(__S(9249, __c289, 1)),
+          jobExecutionsRolloutConfig: S.optional(__S(9250, __c289, 2)),
+          abortConfig: S.optional(__S(9251, __c289, 3)),
           timeoutConfig: S.optional(__S(9314, __c291, 2)),
           namespaceId: S.optional(S.String).pipe(T.HttpQuery("namespaceId")),
-          jobExecutionsRetryConfig: S.optional(__S(9252, __c289, 4)),
+          jobExecutionsRetryConfig: S.optional(__S(9254, __c289, 6)),
         }).pipe(
           T.all(T.Http({ method: "PATCH", uri: "/jobs/{jobId}" }), svc, auth, proto, ver, rules),
         ),
@@ -21128,7 +21140,7 @@ function __c237(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          valid: S.optional(S.Boolean),
+          valid: S.optional(S.Boolean).pipe(T.Default(false)),
           validationErrors: S.optional(__S(7586, __c237, 2)),
         }),
       ).annotate({ identifier: "ValidateSecurityProfileBehaviorsResponse" });
@@ -21988,7 +22000,10 @@ function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ attributes: S.optional(__S(8256, __c258, 0)), merge: S.optional(S.Boolean) }),
+        S.Struct({
+          attributes: S.optional(__S(8256, __c258, 0)),
+          merge: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "AttributePayload" });
   }
 }
@@ -22051,13 +22066,13 @@ function __c286(j: number): any {
           description: S.optional(S.String),
           presignedUrlConfig: S.optional(__S(9248, __c289, 0)),
           targetSelection: S.optional(S.String),
-          jobExecutionsRolloutConfig: S.optional(__S(9282, __c290, 2)),
-          abortConfig: S.optional(__S(9249, __c289, 1)),
+          jobExecutionsRolloutConfig: S.optional(__S(9250, __c289, 2)),
+          abortConfig: S.optional(__S(9251, __c289, 3)),
           timeoutConfig: S.optional(__S(9314, __c291, 2)),
           tags: S.optional(__S(8481, __c265, 1)),
           namespaceId: S.optional(S.String),
           jobTemplateArn: S.optional(S.String),
-          jobExecutionsRetryConfig: S.optional(__S(9252, __c289, 4)),
+          jobExecutionsRetryConfig: S.optional(__S(9254, __c289, 6)),
           documentParameters: S.optional(__S(8256, __c258, 0)),
           schedulingConfig: S.optional(__S(9184, __c287, 0)),
           destinationPackageVersions: S.optional(__S(7904, __c247, 0)),
@@ -22097,17 +22112,32 @@ function __c289(j: number): any {
         S.Struct({ roleArn: S.optional(S.String), expiresInSec: S.optional(S.Number) }),
       ).annotate({ identifier: "PresignedUrlConfig" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          baseRatePerMinute: S.Number,
+          incrementFactor: S.Number,
+          rateIncreaseCriteria: __S(9280, __c290, 0),
+        }),
+      ).annotate({ identifier: "ExponentialRolloutRate" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          maximumPerMinute: S.optional(S.Number),
+          exponentialRate: S.optional(__S(9249, __c289, 1)),
+        }),
+      ).annotate({ identifier: "JobExecutionsRolloutConfig" });
+    case 3:
       return S.suspend(() => S.Struct({ criteriaList: __S(9313, __c291, 1) })).annotate({
         identifier: "AbortConfig",
       });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({ failureType: S.String, numberOfRetries: S.Number }),
       ).annotate({ identifier: "RetryCriteria" });
-    case 3:
-      return S.Array(__S(9250, __c289, 2));
-    case 4:
-      return S.suspend(() => S.Struct({ criteriaList: __S(9251, __c289, 3) })).annotate({
+    case 5:
+      return S.Array(__S(9252, __c289, 4));
+    case 6:
+      return S.suspend(() => S.Struct({ criteriaList: __S(9253, __c289, 5) })).annotate({
         identifier: "JobExecutionsRetryConfig",
       });
   }
@@ -22121,21 +22151,6 @@ function __c290(j: number): any {
           numberOfSucceededThings: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RateIncreaseCriteria" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          baseRatePerMinute: S.Number,
-          incrementFactor: S.Number,
-          rateIncreaseCriteria: __S(9280, __c290, 0),
-        }),
-      ).annotate({ identifier: "ExponentialRolloutRate" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          maximumPerMinute: S.optional(S.Number),
-          exponentialRate: S.optional(__S(9281, __c290, 1)),
-        }),
-      ).annotate({ identifier: "JobExecutionsRolloutConfig" });
   }
 }
 function __c291(j: number): any {
@@ -22168,11 +22183,11 @@ function __c292(j: number): any {
           document: S.optional(S.String),
           description: S.String,
           presignedUrlConfig: S.optional(__S(9248, __c289, 0)),
-          jobExecutionsRolloutConfig: S.optional(__S(9282, __c290, 2)),
-          abortConfig: S.optional(__S(9249, __c289, 1)),
+          jobExecutionsRolloutConfig: S.optional(__S(9250, __c289, 2)),
+          abortConfig: S.optional(__S(9251, __c289, 3)),
           timeoutConfig: S.optional(__S(9314, __c291, 2)),
           tags: S.optional(__S(8481, __c265, 1)),
-          jobExecutionsRetryConfig: S.optional(__S(9252, __c289, 4)),
+          jobExecutionsRetryConfig: S.optional(__S(9254, __c289, 6)),
           maintenanceWindows: S.optional(__S(9217, __c288, 1)),
           destinationPackageVersions: S.optional(__S(7904, __c247, 0)),
         }).pipe(
@@ -22308,11 +22323,11 @@ function __c298(j: number): any {
           targets: __S(7904, __c247, 0),
           protocols: S.optional(__S(8672, __c271, 0)),
           targetSelection: S.optional(S.String),
-          awsJobExecutionsRolloutConfig: S.optional(__S(9282, __c290, 2)),
-          awsJobPresignedUrlConfig: S.optional(__S(9568, __c299, 0)),
+          awsJobExecutionsRolloutConfig: S.optional(__S(9569, __c299, 1)),
+          awsJobPresignedUrlConfig: S.optional(__S(9570, __c299, 2)),
           awsJobAbortConfig: S.optional(__S(9536, __c298, 0)),
           awsJobTimeoutConfig: S.optional(__S(9314, __c291, 2)),
-          files: __S(9580, __c299, 12),
+          files: __S(9582, __c299, 14),
           roleArn: S.String,
           additionalParameters: S.optional(__S(8256, __c258, 0)),
           tags: S.optional(__S(8481, __c265, 1)),
@@ -22342,21 +22357,36 @@ function __c298(j: number): any {
 function __c299(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          baseRatePerMinute: S.Number,
+          incrementFactor: S.Number.pipe(T.Default(0)),
+          rateIncreaseCriteria: __S(9280, __c290, 0),
+        }),
+      ).annotate({ identifier: "AwsJobExponentialRolloutRate" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          maximumPerMinute: S.optional(S.Number),
+          exponentialRate: S.optional(__S(9568, __c299, 0)),
+        }),
+      ).annotate({ identifier: "AwsJobExecutionsRolloutConfig" });
+    case 2:
       return S.suspend(() => S.Struct({ expiresInSec: S.optional(S.Number) })).annotate({
         identifier: "AwsJobPresignedUrlConfig",
       });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({ streamId: S.optional(S.String), fileId: S.optional(S.Number) }),
       ).annotate({ identifier: "Stream" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          stream: S.optional(__S(9569, __c299, 1)),
+          stream: S.optional(__S(9571, __c299, 3)),
           s3Location: S.optional(__S(7776, __c243, 0)),
         }),
       ).annotate({ identifier: "FileLocation" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           certificateArn: S.optional(S.String),
@@ -22364,60 +22394,60 @@ function __c299(j: number): any {
           certificatePathOnDevice: S.optional(S.String),
         }),
       ).annotate({ identifier: "SigningProfileParameter" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({ bucket: S.optional(S.String), prefix: S.optional(S.String) }),
       ).annotate({ identifier: "S3Destination" });
-    case 5:
+    case 7:
       return S.suspend(() =>
-        S.Struct({ s3Destination: S.optional(__S(9572, __c299, 4)) }),
+        S.Struct({ s3Destination: S.optional(__S(9574, __c299, 6)) }),
       ).annotate({ identifier: "Destination" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          signingProfileParameter: S.optional(__S(9571, __c299, 3)),
+          signingProfileParameter: S.optional(__S(9573, __c299, 5)),
           signingProfileName: S.optional(S.String),
-          destination: S.optional(__S(9573, __c299, 5)),
+          destination: S.optional(__S(9575, __c299, 7)),
         }),
       ).annotate({ identifier: "StartSigningJobParameter" });
-    case 7:
+    case 9:
       return S.suspend(() => S.Struct({ inlineDocument: S.optional(T.Blob) })).annotate({
         identifier: "CodeSigningSignature",
       });
-    case 8:
+    case 10:
       return S.suspend(() =>
         S.Struct({ certificateName: S.optional(S.String), inlineDocument: S.optional(S.String) }),
       ).annotate({ identifier: "CodeSigningCertificateChain" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          signature: S.optional(__S(9575, __c299, 7)),
-          certificateChain: S.optional(__S(9576, __c299, 8)),
+          signature: S.optional(__S(9577, __c299, 9)),
+          certificateChain: S.optional(__S(9578, __c299, 10)),
           hashAlgorithm: S.optional(S.String),
           signatureAlgorithm: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomCodeSigning" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           awsSignerJobId: S.optional(S.String),
-          startSigningJobParameter: S.optional(__S(9574, __c299, 6)),
-          customCodeSigning: S.optional(__S(9577, __c299, 9)),
+          startSigningJobParameter: S.optional(__S(9576, __c299, 8)),
+          customCodeSigning: S.optional(__S(9579, __c299, 11)),
         }),
       ).annotate({ identifier: "CodeSigning" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           fileName: S.optional(S.String),
           fileType: S.optional(S.Number),
           fileVersion: S.optional(S.String),
-          fileLocation: S.optional(__S(9570, __c299, 2)),
-          codeSigning: S.optional(__S(9578, __c299, 10)),
+          fileLocation: S.optional(__S(9572, __c299, 4)),
+          codeSigning: S.optional(__S(9580, __c299, 12)),
           attributes: S.optional(__S(8256, __c258, 0)),
         }),
       ).annotate({ identifier: "OTAUpdateFile" });
-    case 12:
-      return S.Array(__S(9579, __c299, 11));
+    case 14:
+      return S.Array(__S(9581, __c299, 13));
   }
 }
 function __c300(j: number): any {
@@ -22543,7 +22573,7 @@ function __c303(j: number): any {
           policyArn: S.optional(S.String),
           policyDocument: S.optional(S.String),
           policyVersionId: S.optional(S.String),
-          isDefaultVersion: S.optional(S.Boolean),
+          isDefaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "CreatePolicyVersionResponse" });
   }
@@ -22644,7 +22674,7 @@ function __c307(j: number): any {
           templateArn: S.optional(S.String),
           templateName: S.optional(S.String),
           versionId: S.optional(S.Number),
-          isDefaultVersion: S.optional(S.Boolean),
+          isDefaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "CreateProvisioningTemplateVersionResponse" });
   }
@@ -23235,7 +23265,7 @@ function __c327(j: number): any {
           maxBatchOpenMs: S.optional(S.Number),
           maxBatchSize: S.optional(S.Number),
           maxBatchSizeBytes: S.optional(S.Number),
-          batchAcrossTopics: S.optional(S.Boolean),
+          batchAcrossTopics: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "BatchConfig" });
     case 3:
@@ -23281,7 +23311,7 @@ function __c327(j: number): any {
           maxBatchSize: S.optional(S.Number),
           maxBatchOpenMs: S.optional(S.Number),
           maxBatchSizeBytes: S.optional(S.Number),
-          batchAcrossTopics: S.optional(S.Boolean),
+          batchAcrossTopics: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "InfluxDBBatchConfig" });
     case 8:
@@ -23580,7 +23610,9 @@ function __c339(j: number): any {
       ).annotate({ identifier: "DeleteCommandRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }),
+        S.Struct({
+          statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "DeleteCommandResponse" });
   }
 }

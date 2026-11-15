@@ -1685,7 +1685,7 @@ function __c9(j: number): any {
           S3Key: S.optional(S.String),
           S3Version: S.optional(S.String),
           ZipFile: S.optional(T.Blob),
-          Handler: S.optional(S.String),
+          Handler: S.optional(S.String).pipe(T.Default("")),
           BlueprintTypes: S.optional(__S(64, __c4, 0)),
           Dependencies: S.optional(__S(113, __c7, 1)),
         }),

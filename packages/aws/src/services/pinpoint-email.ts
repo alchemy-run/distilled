@@ -297,13 +297,13 @@ export type DkimStatus =
 export type DnsToken = string;
 export type DnsTokenList = string[];
 export interface DkimAttributes {
-  SigningEnabled?: boolean | undefined;
+  SigningEnabled: boolean;
   Status?: DkimStatus | undefined;
   Tokens?: string[] | undefined;
 }
 export interface CreateEmailIdentityResponse {
   IdentityType?: IdentityType | undefined;
-  VerifiedForSendingStatus?: boolean | undefined;
+  VerifiedForSendingStatus: boolean;
   DkimAttributes?: DkimAttributes | undefined;
 }
 export interface DeleteConfigurationSetRequest {
@@ -328,17 +328,17 @@ export type Max24HourSend = number;
 export type MaxSendRate = number;
 export type SentLast24Hours = number;
 export interface SendQuota {
-  Max24HourSend?: number | undefined;
-  MaxSendRate?: number | undefined;
-  SentLast24Hours?: number | undefined;
+  Max24HourSend: number;
+  MaxSendRate: number;
+  SentLast24Hours: number;
 }
 export type GeneralEnforcementStatus = string;
 export interface GetAccountResponse {
   SendQuota?: SendQuota | undefined;
-  SendingEnabled?: boolean | undefined;
-  DedicatedIpAutoWarmupEnabled?: boolean | undefined;
+  SendingEnabled: boolean;
+  DedicatedIpAutoWarmupEnabled: boolean;
   EnforcementStatus?: string | undefined;
-  ProductionAccessEnabled?: boolean | undefined;
+  ProductionAccessEnabled: boolean;
 }
 export type BlacklistItemName = string;
 export type BlacklistItemNames = string[];
@@ -373,7 +373,7 @@ export interface GetConfigurationSetEventDestinationsRequest {
 }
 export interface EventDestination {
   Name: string;
-  Enabled?: boolean | undefined;
+  Enabled: boolean;
   MatchingEventTypes: EventType[];
   KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
   CloudWatchDestination?: CloudWatchDestination | undefined;
@@ -551,8 +551,8 @@ export interface MailFromAttributes {
 }
 export interface GetEmailIdentityResponse {
   IdentityType?: IdentityType | undefined;
-  FeedbackForwardingStatus?: boolean | undefined;
-  VerifiedForSendingStatus?: boolean | undefined;
+  FeedbackForwardingStatus: boolean;
+  VerifiedForSendingStatus: boolean;
   DkimAttributes?: DkimAttributes | undefined;
   MailFromAttributes?: MailFromAttributes | undefined;
   Tags?: Tag[] | undefined;
@@ -603,7 +603,7 @@ export interface ListEmailIdentitiesRequest {
 export interface IdentityInfo {
   IdentityType?: IdentityType | undefined;
   IdentityName?: string | undefined;
-  SendingEnabled?: boolean | undefined;
+  SendingEnabled: boolean;
 }
 export type IdentityInfoList = IdentityInfo[];
 export interface ListEmailIdentitiesResponse {
@@ -2042,14 +2042,14 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ReputationMetricsEnabled: S.optional(S.Boolean),
+          ReputationMetricsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           LastFreshStart: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ReputationOptions" });
     case 3:
-      return S.suspend(() => S.Struct({ SendingEnabled: S.optional(S.Boolean) })).annotate({
-        identifier: "SendingOptions",
-      });
+      return S.suspend(() =>
+        S.Struct({ SendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "SendingOptions" });
   }
 }
 function __c4(j: number): any {
@@ -2113,7 +2113,7 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           MatchingEventTypes: S.optional(__S(40, __c5, 0)),
           KinesisFirehoseDestination: S.optional(__S(41, __c5, 1)),
           CloudWatchDestination: S.optional(__S(44, __c5, 4)),
@@ -2215,7 +2215,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IdentityType: S.optional(S.String),
-          VerifiedForSendingStatus: S.optional(S.Boolean),
+          VerifiedForSendingStatus: S.optional(S.Boolean).pipe(T.Default(false)),
           DkimAttributes: S.optional(__S(96, __c12, 0)),
         }),
       ).annotate({ identifier: "CreateEmailIdentityResponse" });
@@ -2232,7 +2232,7 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SigningEnabled: S.optional(S.Boolean),
+          SigningEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           Status: S.optional(S.String),
           Tokens: S.optional(__S(88, __c11, 0)),
         }),
@@ -2327,19 +2327,19 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Max24HourSend: S.optional(S.Number),
-          MaxSendRate: S.optional(S.Number),
-          SentLast24Hours: S.optional(S.Number),
+          Max24HourSend: S.optional(S.Number).pipe(T.Default(0)),
+          MaxSendRate: S.optional(S.Number).pipe(T.Default(0)),
+          SentLast24Hours: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SendQuota" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           SendQuota: S.optional(__S(137, __c17, 1)),
-          SendingEnabled: S.optional(S.Boolean),
-          DedicatedIpAutoWarmupEnabled: S.optional(S.Boolean),
+          SendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          DedicatedIpAutoWarmupEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           EnforcementStatus: S.optional(S.String),
-          ProductionAccessEnabled: S.optional(S.Boolean),
+          ProductionAccessEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "GetAccountResponse" });
   }
@@ -2429,7 +2429,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           MatchingEventTypes: __S(40, __c5, 0),
           KinesisFirehoseDestination: S.optional(__S(41, __c5, 1)),
           CloudWatchDestination: S.optional(__S(44, __c5, 4)),
@@ -2524,7 +2524,7 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DashboardEnabled: S.Boolean,
+          DashboardEnabled: S.Boolean.pipe(T.Default(false)),
           SubscriptionExpiryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           AccountStatus: S.optional(S.String),
           ActiveSubscribedDomains: S.optional(__S(202, __c25, 2)),
@@ -2537,7 +2537,10 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Global: S.optional(S.Boolean), TrackedIsps: S.optional(__S(88, __c11, 0)) }),
+        S.Struct({
+          Global: S.optional(S.Boolean).pipe(T.Default(false)),
+          TrackedIsps: S.optional(__S(88, __c11, 0)),
+        }),
       ).annotate({ identifier: "InboxPlacementTrackingOption" });
     case 1:
       return S.suspend(() =>
@@ -2760,8 +2763,8 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IdentityType: S.optional(S.String),
-          FeedbackForwardingStatus: S.optional(S.Boolean),
-          VerifiedForSendingStatus: S.optional(S.Boolean),
+          FeedbackForwardingStatus: S.optional(S.Boolean).pipe(T.Default(false)),
+          VerifiedForSendingStatus: S.optional(S.Boolean).pipe(T.Default(false)),
           DkimAttributes: S.optional(__S(96, __c12, 0)),
           MailFromAttributes: S.optional(__S(249, __c31, 1)),
           Tags: S.optional(__S(17, __c2, 1)),
@@ -2914,7 +2917,7 @@ function __c36(j: number): any {
         S.Struct({
           IdentityType: S.optional(S.String),
           IdentityName: S.optional(S.String),
-          SendingEnabled: S.optional(S.Boolean),
+          SendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "IdentityInfo" });
     case 2:

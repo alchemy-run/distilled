@@ -3091,7 +3091,11 @@ function __c11(j: number): any {
       ).annotate({ identifier: "HttpRouteMatch" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ virtualNode: S.String, weight: S.Number, port: S.optional(S.Number) }),
+        S.Struct({
+          virtualNode: S.String,
+          weight: S.Number.pipe(T.Default(0)),
+          port: S.optional(S.Number),
+        }),
       ).annotate({ identifier: "WeightedTarget" });
     case 2:
       return S.Array(__S(353, __c11, 1));

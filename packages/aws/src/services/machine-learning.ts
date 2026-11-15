@@ -101,7 +101,7 @@ export class IdempotentParameterMismatchException
     "IdempotentParameterMismatchException",
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-      code: /*@__PURE__*/ S.optional(S.Number),
+      code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
@@ -110,7 +110,7 @@ export class InternalServerException
     "InternalServerException",
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-      code: /*@__PURE__*/ S.optional(S.Number),
+      code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -119,7 +119,7 @@ export class InvalidInputException
     "InvalidInputException",
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-      code: /*@__PURE__*/ S.optional(S.Number),
+      code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
@@ -132,7 +132,7 @@ export class LimitExceededException
     "LimitExceededException",
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-      code: /*@__PURE__*/ S.optional(S.Number),
+      code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(417),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
@@ -147,7 +147,7 @@ export class ResourceNotFoundException
     "ResourceNotFoundException",
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-      code: /*@__PURE__*/ S.optional(S.Number),
+      code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
@@ -315,7 +315,7 @@ export type EpochTime = Date;
 export type VipURL = string;
 export type RealtimeEndpointStatus = "NONE" | "READY" | "UPDATING" | "FAILED" | (string & {});
 export interface RealtimeEndpointInfo {
-  PeakRequestsPerSecond?: number | undefined;
+  PeakRequestsPerSecond: number;
   CreatedAt?: Date | undefined;
   EndpointUrl?: string | undefined;
   EndpointStatus?: RealtimeEndpointStatus | undefined;
@@ -474,7 +474,7 @@ export interface DataSource {
   RedshiftMetadata?: RedshiftMetadata | undefined;
   RDSMetadata?: RDSMetadata | undefined;
   RoleARN?: string | undefined;
-  ComputeStatistics?: boolean | undefined;
+  ComputeStatistics: boolean;
   ComputeTime?: number | undefined;
   FinishedAt?: Date | undefined;
   StartedAt?: Date | undefined;
@@ -641,7 +641,7 @@ export interface GetDataSourceOutput {
   RedshiftMetadata?: RedshiftMetadata | undefined;
   RDSMetadata?: RDSMetadata | undefined;
   RoleARN?: string | undefined;
-  ComputeStatistics?: boolean | undefined;
+  ComputeStatistics: boolean;
   ComputeTime?: number | undefined;
   FinishedAt?: Date | undefined;
   StartedAt?: Date | undefined;
@@ -1802,7 +1802,7 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          PeakRequestsPerSecond: S.optional(S.Number),
+          PeakRequestsPerSecond: S.optional(S.Number).pipe(T.Default(0)),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndpointUrl: S.optional(S.String),
           EndpointStatus: S.optional(S.String),
@@ -1954,7 +1954,7 @@ function __c23(j: number): any {
           RedshiftMetadata: S.optional(__S(192, __c24, 0)),
           RDSMetadata: S.optional(__S(193, __c24, 1)),
           RoleARN: S.optional(S.String),
-          ComputeStatistics: S.optional(S.Boolean),
+          ComputeStatistics: S.optional(S.Boolean).pipe(T.Default(false)),
           ComputeTime: S.optional(S.Number),
           FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2176,7 +2176,7 @@ function __c30(j: number): any {
           RedshiftMetadata: S.optional(__S(192, __c24, 0)),
           RDSMetadata: S.optional(__S(193, __c24, 1)),
           RoleARN: S.optional(S.String),
-          ComputeStatistics: S.optional(S.Boolean),
+          ComputeStatistics: S.optional(S.Boolean).pipe(T.Default(false)),
           ComputeTime: S.optional(S.Number),
           FinishedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           StartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

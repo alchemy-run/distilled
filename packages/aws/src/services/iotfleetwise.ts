@@ -133,9 +133,9 @@ export class InternalServerException
     "InternalServerException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -191,9 +191,9 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       quotaCode: /*@__PURE__*/ S.optional(S.String),
       serviceCode: /*@__PURE__*/ S.optional(S.String),
-      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
@@ -308,7 +308,7 @@ export interface UpdateVehicleResponseItem {
 export type UpdateVehicleResponseItems = UpdateVehicleResponseItem[];
 export interface UpdateVehicleError_ {
   vehicleName?: string | undefined;
-  code?: number | undefined;
+  code: number;
   message?: string | undefined;
 }
 export type UpdateVehicleErrors = UpdateVehicleError_[];
@@ -1021,13 +1021,13 @@ export interface GetSignalCatalogRequest {
   name: string;
 }
 export interface NodeCounts {
-  totalNodes?: number | undefined;
-  totalBranches?: number | undefined;
-  totalSensors?: number | undefined;
-  totalAttributes?: number | undefined;
-  totalActuators?: number | undefined;
-  totalStructs?: number | undefined;
-  totalProperties?: number | undefined;
+  totalNodes: number;
+  totalBranches: number;
+  totalSensors: number;
+  totalAttributes: number;
+  totalActuators: number;
+  totalStructs: number;
+  totalProperties: number;
 }
 export interface GetSignalCatalogResponse {
   name: string;
@@ -3788,7 +3788,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vehicleName: S.optional(S.String),
-          code: S.optional(S.Number),
+          code: S.optional(S.Number).pipe(T.Default(0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateVehicleError" });
@@ -4001,12 +4001,12 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          requestMessageId: S.Number,
+          requestMessageId: S.Number.pipe(T.Default(0)),
           obdStandard: S.optional(S.String),
-          pidRequestIntervalSeconds: S.optional(S.Number),
-          dtcRequestIntervalSeconds: S.optional(S.Number),
-          useExtendedIds: S.optional(S.Boolean),
-          hasTransmissionEcu: S.optional(S.Boolean),
+          pidRequestIntervalSeconds: S.optional(S.Number).pipe(T.Default(0)),
+          dtcRequestIntervalSeconds: S.optional(S.Number).pipe(T.Default(0)),
+          useExtendedIds: S.optional(S.Boolean).pipe(T.Default(false)),
+          hasTransmissionEcu: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ObdInterface" });
     case 2:
@@ -4037,13 +4037,13 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          messageId: S.Number,
-          isBigEndian: S.Boolean,
-          isSigned: S.Boolean,
-          startBit: S.Number,
+          messageId: S.Number.pipe(T.Default(0)),
+          isBigEndian: S.Boolean.pipe(T.Default(false)),
+          isSigned: S.Boolean.pipe(T.Default(false)),
+          startBit: S.Number.pipe(T.Default(0)),
           offset: S.Number,
           factor: S.Number,
-          length: S.Number,
+          length: S.Number.pipe(T.Default(0)),
           name: S.optional(S.String),
           signalValueType: S.optional(S.String),
         }),
@@ -4052,13 +4052,13 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pidResponseLength: S.Number,
-          serviceMode: S.Number,
-          pid: S.Number,
+          serviceMode: S.Number.pipe(T.Default(0)),
+          pid: S.Number.pipe(T.Default(0)),
           scaling: S.Number,
           offset: S.Number,
-          startByte: S.Number,
+          startByte: S.Number.pipe(T.Default(0)),
           byteLength: S.Number,
-          bitRightShift: S.optional(S.Number),
+          bitRightShift: S.optional(S.Number).pipe(T.Default(0)),
           bitMaskLength: S.optional(S.Number),
           isSigned: S.optional(S.Boolean),
           signalValueType: S.optional(S.String),
@@ -4085,7 +4085,7 @@ function __c16(j: number): any {
             identifier: "StructuredMessage",
           }),
           listType: S.String,
-          capacity: S.optional(S.Number),
+          capacity: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "StructuredMessageListDefinition" });
     case 5:
@@ -4669,13 +4669,13 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          totalNodes: S.optional(S.Number),
-          totalBranches: S.optional(S.Number),
-          totalSensors: S.optional(S.Number),
-          totalAttributes: S.optional(S.Number),
-          totalActuators: S.optional(S.Number),
-          totalStructs: S.optional(S.Number),
-          totalProperties: S.optional(S.Number),
+          totalNodes: S.optional(S.Number).pipe(T.Default(0)),
+          totalBranches: S.optional(S.Number).pipe(T.Default(0)),
+          totalSensors: S.optional(S.Number).pipe(T.Default(0)),
+          totalAttributes: S.optional(S.Number).pipe(T.Default(0)),
+          totalActuators: S.optional(S.Number).pipe(T.Default(0)),
+          totalStructs: S.optional(S.Number).pipe(T.Default(0)),
+          totalProperties: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "NodeCounts" });
     case 2:

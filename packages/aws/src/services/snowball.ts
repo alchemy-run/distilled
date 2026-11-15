@@ -334,7 +334,7 @@ export interface CreateClusterRequest {
 export interface JobListEntry {
   JobId?: string | undefined;
   JobState?: JobState | undefined;
-  IsMaster?: boolean | undefined;
+  IsMaster: boolean;
   JobType?: JobType | undefined;
   SnowballType?: SnowballType | undefined;
   CreationDate?: Date | undefined;
@@ -473,10 +473,10 @@ export interface ShippingDetails {
   OutboundShipment?: Shipment | undefined;
 }
 export interface DataTransfer {
-  BytesTransferred?: number | undefined;
-  ObjectsTransferred?: number | undefined;
-  TotalBytes?: number | undefined;
-  TotalObjects?: number | undefined;
+  BytesTransferred: number;
+  ObjectsTransferred: number;
+  TotalBytes: number;
+  TotalObjects: number;
 }
 export interface JobLogs {
   JobCompletionReportURI?: string | undefined;
@@ -1578,7 +1578,7 @@ function __c4(j: number): any {
           Country: S.optional(S.String),
           PostalCode: S.optional(S.String),
           PhoneNumber: S.optional(S.String),
-          IsRestricted: S.optional(S.Boolean),
+          IsRestricted: S.optional(S.Boolean).pipe(T.Default(false)),
           Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Address" });
@@ -1679,7 +1679,10 @@ function __c7(j: number): any {
       ).annotate({ identifier: "JobResource" });
     case 12:
       return S.suspend(() =>
-        S.Struct({ StorageLimit: S.optional(S.Number), StorageUnit: S.optional(S.String) }),
+        S.Struct({
+          StorageLimit: S.optional(S.Number).pipe(T.Default(0)),
+          StorageUnit: S.optional(S.String),
+        }),
       ).annotate({ identifier: "NFSOnDeviceServiceConfiguration" });
     case 13:
       return S.suspend(() =>
@@ -1713,7 +1716,7 @@ function __c7(j: number): any {
         S.Struct({
           SnsTopicARN: S.optional(S.String),
           JobStatesToNotify: S.optional(__S(240, __c7, 16)),
-          NotifyAll: S.optional(S.Boolean),
+          NotifyAll: S.optional(S.Boolean).pipe(T.Default(false)),
           DevicePickupSnsTopicARN: S.optional(S.String),
         }),
       ).annotate({ identifier: "Notification" });
@@ -1726,7 +1729,7 @@ function __c8(j: number): any {
         S.Struct({
           JobId: S.optional(S.String),
           JobState: S.optional(S.String),
-          IsMaster: S.optional(S.Boolean),
+          IsMaster: S.optional(S.Boolean).pipe(T.Default(false)),
           JobType: S.optional(S.String),
           SnowballType: S.optional(S.String),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -1778,9 +1781,9 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ IsWifiEnabled: S.optional(S.Boolean) })).annotate({
-        identifier: "WirelessConnection",
-      });
+      return S.suspend(() =>
+        S.Struct({ IsWifiEnabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "WirelessConnection" });
     case 1:
       return S.suspend(() =>
         S.Struct({ WirelessConnection: S.optional(__S(352, __c11, 0)) }),
@@ -1928,10 +1931,10 @@ function __c19(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          BytesTransferred: S.optional(S.Number),
-          ObjectsTransferred: S.optional(S.Number),
-          TotalBytes: S.optional(S.Number),
-          TotalObjects: S.optional(S.Number),
+          BytesTransferred: S.optional(S.Number).pipe(T.Default(0)),
+          ObjectsTransferred: S.optional(S.Number).pipe(T.Default(0)),
+          TotalBytes: S.optional(S.Number).pipe(T.Default(0)),
+          TotalObjects: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DataTransfer" });
     case 4:

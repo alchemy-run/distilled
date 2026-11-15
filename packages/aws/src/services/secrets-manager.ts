@@ -625,7 +625,7 @@ export interface ValidationErrorsEntry {
 }
 export type ValidationErrorsType = ValidationErrorsEntry[];
 export interface ValidateResourcePolicyResponse {
-  PolicyValidationPassed?: boolean | undefined;
+  PolicyValidationPassed: boolean;
   ValidationErrors?: ValidationErrorsEntry[] | undefined;
 }
 export type AssociateCrossAccountReplicaError =
@@ -2766,7 +2766,7 @@ function __c38(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PolicyValidationPassed: S.optional(S.Boolean),
+          PolicyValidationPassed: S.optional(S.Boolean).pipe(T.Default(false)),
           ValidationErrors: S.optional(__S(306, __c38, 2)),
         }),
       ).annotate({ identifier: "ValidateResourcePolicyResponse" });

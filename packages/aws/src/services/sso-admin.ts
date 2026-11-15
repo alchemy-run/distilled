@@ -497,7 +497,7 @@ export interface RegionMetadata {
   RegionName?: string | undefined;
   Status?: RegionStatus | undefined;
   AddedDate?: Date | undefined;
-  IsPrimaryRegion?: boolean | undefined;
+  IsPrimaryRegion: boolean;
 }
 export type RegionMetadataList = RegionMetadata[];
 export type KmsKeyType = "AWS_OWNED_KMS_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
@@ -582,7 +582,7 @@ export interface DescribeRegionResponse {
   RegionName?: string | undefined;
   Status?: RegionStatus | undefined;
   AddedDate?: Date | undefined;
-  IsPrimaryRegion?: boolean | undefined;
+  IsPrimaryRegion: boolean;
 }
 export interface DescribeTrustedTokenIssuerRequest {
   TrustedTokenIssuerArn: string;
@@ -4162,7 +4162,10 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SignInOptions: S.optional(__S(48, __c6, 0)), Visibility: S.optional(S.String) }),
+        S.Struct({
+          SignInOptions: S.optional(__S(48, __c6, 0)),
+          Visibility: S.optional(S.String).pipe(T.Default("ENABLED")),
+        }),
       ).annotate({ identifier: "PortalOptions" });
   }
 }
@@ -4590,7 +4593,7 @@ function __c37(j: number): any {
           RegionName: S.optional(S.String),
           Status: S.optional(S.String),
           AddedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          IsPrimaryRegion: S.optional(S.Boolean),
+          IsPrimaryRegion: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "RegionMetadata" });
   }
@@ -4751,9 +4754,9 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "GetApplicationAssignmentConfigurationRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ AssignmentRequired: S.Boolean })).annotate({
-        identifier: "GetApplicationAssignmentConfigurationResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ AssignmentRequired: S.Boolean.pipe(T.Default(true)) }),
+      ).annotate({ identifier: "GetApplicationAssignmentConfigurationResponse" });
   }
 }
 function __c51(j: number): any {

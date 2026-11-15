@@ -1077,7 +1077,7 @@ function __c4(j: number): any {
         S.Struct({
           Id: S.optional(S.String),
           AbsoluteTime: S.optional(S.String),
-          MostRecent: S.optional(S.Number),
+          MostRecent: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "StartPosition" });
     case 1:

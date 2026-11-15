@@ -1212,13 +1212,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "SearchScope" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ Value: S.String, Operator: S.optional(S.String) }),
+        S.Struct({ Value: S.String, Operator: S.optional(S.String).pipe(T.Default("EQUALS_TO")) }),
       ).annotate({ identifier: "StringCondition" });
     case 4:
       return S.Array(__S(211, __c13, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ Value: S.Number, Operator: S.optional(S.String) }),
+        S.Struct({ Value: S.Number, Operator: S.optional(S.String).pipe(T.Default("EQUALS_TO")) }),
       ).annotate({ identifier: "LongCondition" });
     case 6:
       return S.Array(__S(213, __c13, 5));
@@ -1226,7 +1226,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Value: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          Operator: S.optional(S.String),
+          Operator: S.optional(S.String).pipe(T.Default("EQUALS_TO")),
         }),
       ).annotate({ identifier: "TimeCondition" });
     case 8:

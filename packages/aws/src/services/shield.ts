@@ -171,7 +171,7 @@ export class LimitsExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitsExceededException>()("LimitsExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     Type: /*@__PURE__*/ S.optional(S.String),
-    Limit: /*@__PURE__*/ S.optional(S.Number),
+    Limit: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
   }) {}
 export class LockedSubscriptionException
   extends /*@__PURE__*/ S.TaggedError<LockedSubscriptionException>()(
@@ -298,10 +298,10 @@ export interface DescribeAttackRequest {
 export type SubResourceType = "IP" | "URL" | (string & {});
 export interface SummarizedCounter {
   Name?: string | undefined;
-  Max?: number | undefined;
-  Average?: number | undefined;
-  Sum?: number | undefined;
-  N?: number | undefined;
+  Max: number;
+  Average: number;
+  Sum: number;
+  N: number;
   Unit?: string | undefined;
 }
 export type SummarizedCounterList = SummarizedCounter[];
@@ -331,7 +331,7 @@ export type AttackPropertyIdentifier =
   | (string & {});
 export interface Contributor {
   Name?: string | undefined;
-  Value?: number | undefined;
+  Value: number;
 }
 export type TopContributors = Contributor[];
 export type Unit = "BITS" | "BYTES" | "PACKETS" | "REQUESTS" | (string & {});
@@ -340,7 +340,7 @@ export interface AttackProperty {
   AttackPropertyIdentifier?: AttackPropertyIdentifier | undefined;
   TopContributors?: Contributor[] | undefined;
   Unit?: Unit | undefined;
-  Total?: number | undefined;
+  Total: number;
 }
 export type AttackProperties = AttackProperty[];
 export interface Mitigation {
@@ -441,7 +441,7 @@ export type DurationInSeconds = number;
 export type AutoRenew = "ENABLED" | "DISABLED" | (string & {});
 export interface Limit {
   Type?: string | undefined;
-  Max?: number | undefined;
+  Max: number;
 }
 export type Limits = Limit[];
 export type ProactiveEngagementStatus = "ENABLED" | "DISABLED" | "PENDING" | (string & {});
@@ -465,7 +465,7 @@ export interface SubscriptionLimits {
 export interface Subscription {
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
-  TimeCommitmentInSeconds?: number | undefined;
+  TimeCommitmentInSeconds: number;
   AutoRenew?: AutoRenew | undefined;
   Limits?: Limit[] | undefined;
   ProactiveEngagementStatus?: ProactiveEngagementStatus | undefined;
@@ -1938,10 +1938,10 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Max: S.optional(S.Number),
-          Average: S.optional(S.Number),
-          Sum: S.optional(S.Number),
-          N: S.optional(S.Number),
+          Max: S.optional(S.Number).pipe(T.Default(0)),
+          Average: S.optional(S.Number).pipe(T.Default(0)),
+          Sum: S.optional(S.Number).pipe(T.Default(0)),
+          N: S.optional(S.Number).pipe(T.Default(0)),
           Unit: S.optional(S.String),
         }),
       ).annotate({ identifier: "SummarizedCounter" });
@@ -1966,7 +1966,7 @@ function __c14(j: number): any {
       return S.Array(__S(229, __c14, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Value: S.optional(S.Number) }),
+        S.Struct({ Name: S.optional(S.String), Value: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "Contributor" });
     case 8:
       return S.Array(__S(231, __c14, 7));
@@ -1977,7 +1977,7 @@ function __c14(j: number): any {
           AttackPropertyIdentifier: S.optional(S.String),
           TopContributors: S.optional(__S(232, __c14, 8)),
           Unit: S.optional(S.String),
-          Total: S.optional(S.Number),
+          Total: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AttackProperty" });
     case 10:
@@ -2016,7 +2016,7 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "DescribeAttackStatisticsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Max: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ Max: S.Number.pipe(T.Default(0)) })).annotate({
         identifier: "AttackVolumeStatistics",
       });
     case 2:
@@ -2029,7 +2029,10 @@ function __c15(j: number): any {
       ).annotate({ identifier: "AttackVolume" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ AttackVolume: S.optional(__S(242, __c15, 2)), AttackCount: S.Number }),
+        S.Struct({
+          AttackVolume: S.optional(__S(242, __c15, 2)),
+          AttackCount: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "AttackStatisticsDataItem" });
     case 4:
       return S.Array(__S(243, __c15, 3));
@@ -2163,7 +2166,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DescribeSubscriptionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Type: S.optional(S.String), Max: S.optional(S.Number) }),
+        S.Struct({ Type: S.optional(S.String), Max: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "Limit" });
     case 2:
       return S.Array(__S(385, __c24, 1));
@@ -2172,7 +2175,7 @@ function __c24(j: number): any {
         S.Struct({ ProtectedResourceTypeLimits: __S(386, __c24, 2) }),
       ).annotate({ identifier: "ProtectionLimits" });
     case 4:
-      return S.suspend(() => S.Struct({ MaxMembers: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ MaxMembers: S.Number.pipe(T.Default(0)) })).annotate({
         identifier: "ProtectionGroupArbitraryPatternLimits",
       });
     case 5:
@@ -2181,7 +2184,10 @@ function __c24(j: number): any {
       });
     case 6:
       return S.suspend(() =>
-        S.Struct({ MaxProtectionGroups: S.Number, PatternTypeLimits: __S(389, __c24, 5) }),
+        S.Struct({
+          MaxProtectionGroups: S.Number.pipe(T.Default(0)),
+          PatternTypeLimits: __S(389, __c24, 5),
+        }),
       ).annotate({ identifier: "ProtectionGroupLimits" });
     case 7:
       return S.suspend(() =>
@@ -2195,7 +2201,7 @@ function __c24(j: number): any {
         S.Struct({
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          TimeCommitmentInSeconds: S.optional(S.Number),
+          TimeCommitmentInSeconds: S.optional(S.Number).pipe(T.Default(0)),
           AutoRenew: S.optional(S.String),
           Limits: S.optional(__S(386, __c24, 2)),
           ProactiveEngagementStatus: S.optional(S.String),

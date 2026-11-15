@@ -323,8 +323,8 @@ export interface GetSigningPlatformResponse {
   category?: Category | undefined;
   signingConfiguration?: SigningConfiguration | undefined;
   signingImageFormat?: SigningImageFormat | undefined;
-  maxSizeInMB?: number | undefined;
-  revocationSupported?: boolean | undefined;
+  maxSizeInMB: number;
+  revocationSupported: boolean;
 }
 export interface GetSigningProfileRequest {
   profileName: string;
@@ -374,7 +374,7 @@ export interface Permission {
 export type Permissions = Permission[];
 export interface ListProfilePermissionsResponse {
   revisionId?: string | undefined;
-  policySizeBytes?: number | undefined;
+  policySizeBytes: number;
   permissions?: Permission[] | undefined;
   nextToken?: string | undefined;
 }
@@ -398,7 +398,7 @@ export interface SigningJob {
   signingMaterial?: SigningMaterial | undefined;
   createdAt?: Date | undefined;
   status?: SigningStatus | undefined;
-  isRevoked?: boolean | undefined;
+  isRevoked: boolean;
   profileName?: string | undefined;
   profileVersion?: string | undefined;
   platformId?: string | undefined;
@@ -427,8 +427,8 @@ export interface SigningPlatform {
   category?: Category | undefined;
   signingConfiguration?: SigningConfiguration | undefined;
   signingImageFormat?: SigningImageFormat | undefined;
-  maxSizeInMB?: number | undefined;
-  revocationSupported?: boolean | undefined;
+  maxSizeInMB: number;
+  revocationSupported: boolean;
 }
 export type SigningPlatforms = SigningPlatform[];
 export interface ListSigningPlatformsResponse {
@@ -1447,8 +1447,8 @@ function __c13(j: number): any {
           category: S.optional(S.String),
           signingConfiguration: S.optional(__S(53, __c13, 1)),
           signingImageFormat: S.optional(__S(54, __c13, 2)),
-          maxSizeInMB: S.optional(S.Number),
-          revocationSupported: S.optional(S.Boolean),
+          maxSizeInMB: S.optional(S.Number).pipe(T.Default(0)),
+          revocationSupported: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "GetSigningPlatformResponse" });
   }
@@ -1510,7 +1510,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ value: S.optional(S.Number), type: S.optional(S.String) }),
+        S.Struct({ value: S.optional(S.Number).pipe(T.Default(0)), type: S.optional(S.String) }),
       ).annotate({ identifier: "SignatureValidityPeriod" });
   }
 }
@@ -1547,7 +1547,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           revisionId: S.optional(S.String),
-          policySizeBytes: S.optional(S.Number),
+          policySizeBytes: S.optional(S.Number).pipe(T.Default(0)),
           permissions: S.optional(__S(70, __c17, 2)),
           nextToken: S.optional(S.String),
         }),
@@ -1585,7 +1585,7 @@ function __c18(j: number): any {
           signingMaterial: S.optional(__S(20, __c5, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           status: S.optional(S.String),
-          isRevoked: S.optional(S.Boolean),
+          isRevoked: S.optional(S.Boolean).pipe(T.Default(false)),
           profileName: S.optional(S.String),
           profileVersion: S.optional(S.String),
           platformId: S.optional(S.String),

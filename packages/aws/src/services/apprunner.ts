@@ -268,8 +268,8 @@ export interface ObservabilityConfiguration {
   ObservabilityConfigurationArn?: string | undefined;
   ObservabilityConfigurationName?: string | undefined;
   TraceConfiguration?: TraceConfiguration | undefined;
-  ObservabilityConfigurationRevision?: number | undefined;
-  Latest?: boolean | undefined;
+  ObservabilityConfigurationRevision: number;
+  Latest: boolean;
   Status?: ObservabilityConfigurationStatus | undefined;
   CreatedAt?: Date | undefined;
   DeletedAt?: Date | undefined;
@@ -428,7 +428,7 @@ export type ServiceStatus =
 export interface AutoScalingConfigurationSummary {
   AutoScalingConfigurationArn?: string | undefined;
   AutoScalingConfigurationName?: string | undefined;
-  AutoScalingConfigurationRevision?: number | undefined;
+  AutoScalingConfigurationRevision: number;
   Status?: AutoScalingConfigurationStatus | undefined;
   CreatedAt?: Date | undefined;
   HasAssociatedService?: boolean | undefined;
@@ -468,7 +468,7 @@ export type VpcConnectorStatus = "ACTIVE" | "INACTIVE" | "active" | "inactive" |
 export interface VpcConnector {
   VpcConnectorName?: string | undefined;
   VpcConnectorArn?: string | undefined;
-  VpcConnectorRevision?: number | undefined;
+  VpcConnectorRevision: number;
   Subnets?: string[] | undefined;
   SecurityGroups?: string[] | undefined;
   Status?: VpcConnectorStatus | undefined;
@@ -645,7 +645,7 @@ export interface ListObservabilityConfigurationsRequest {
 export interface ObservabilityConfigurationSummary {
   ObservabilityConfigurationArn?: string | undefined;
   ObservabilityConfigurationName?: string | undefined;
-  ObservabilityConfigurationRevision?: number | undefined;
+  ObservabilityConfigurationRevision: number;
 }
 export type ObservabilityConfigurationSummaryList = ObservabilityConfigurationSummary[];
 export interface ListObservabilityConfigurationsResponse {
@@ -1943,7 +1943,7 @@ function __c3(j: number): any {
         S.Struct({
           VpcConnectorName: S.optional(S.String),
           VpcConnectorArn: S.optional(S.String),
-          VpcConnectorRevision: S.optional(S.Number),
+          VpcConnectorRevision: S.optional(S.Number).pipe(T.Default(0)),
           Subnets: S.optional(__S(64, __c2, 0)),
           SecurityGroups: S.optional(__S(64, __c2, 0)),
           Status: S.optional(S.String),
@@ -2204,7 +2204,7 @@ function __c21(j: number): any {
         S.Struct({
           ObservabilityConfigurationArn: S.optional(S.String),
           ObservabilityConfigurationName: S.optional(S.String),
-          ObservabilityConfigurationRevision: S.optional(S.Number),
+          ObservabilityConfigurationRevision: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ObservabilityConfigurationSummary" });
     case 2:
@@ -2626,8 +2626,8 @@ function __c47(j: number): any {
           ObservabilityConfigurationArn: S.optional(S.String),
           ObservabilityConfigurationName: S.optional(S.String),
           TraceConfiguration: S.optional(__S(1504, __c47, 0)),
-          ObservabilityConfigurationRevision: S.optional(S.Number),
-          Latest: S.optional(S.Boolean),
+          ObservabilityConfigurationRevision: S.optional(S.Number).pipe(T.Default(0)),
+          Latest: S.optional(S.Boolean).pipe(T.Default(false)),
           Status: S.optional(S.String),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DeletedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2664,7 +2664,7 @@ function __c49(j: number): any {
         S.Struct({
           AutoScalingConfigurationArn: S.optional(S.String),
           AutoScalingConfigurationName: S.optional(S.String),
-          AutoScalingConfigurationRevision: S.optional(S.Number),
+          AutoScalingConfigurationRevision: S.optional(S.Number).pipe(T.Default(0)),
           Status: S.optional(S.String),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           HasAssociatedService: S.optional(S.Boolean),
@@ -2766,9 +2766,9 @@ function __c50(j: number): any {
         S.Struct({ EgressType: S.optional(S.String), VpcConnectorArn: S.optional(S.String) }),
       ).annotate({ identifier: "EgressConfiguration" });
     case 13:
-      return S.suspend(() => S.Struct({ IsPubliclyAccessible: S.optional(S.Boolean) })).annotate({
-        identifier: "IngressConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ IsPubliclyAccessible: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "IngressConfiguration" });
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -2780,7 +2780,7 @@ function __c50(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          ObservabilityEnabled: S.Boolean,
+          ObservabilityEnabled: S.Boolean.pipe(T.Default(false)),
           ObservabilityConfigurationArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceObservabilityConfiguration" });

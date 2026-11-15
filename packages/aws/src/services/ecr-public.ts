@@ -1697,8 +1697,8 @@ function __c16(j: number): any {
         S.Struct({
           name: S.String,
           status: S.String,
-          primaryRegistryAlias: S.Boolean,
-          defaultRegistryAlias: S.Boolean,
+          primaryRegistryAlias: S.Boolean.pipe(T.Default(false)),
+          defaultRegistryAlias: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "RegistryAlias" });
     case 2:

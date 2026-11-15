@@ -494,8 +494,8 @@ export interface LexiconAttributes {
   LanguageCode?: LanguageCode | undefined;
   LastModified?: Date | undefined;
   LexiconArn?: string | undefined;
-  LexemesCount?: number | undefined;
-  Size?: number | undefined;
+  LexemesCount: number;
+  Size: number;
 }
 export interface GetLexiconOutput {
   Lexicon?: Lexicon | undefined;
@@ -531,7 +531,7 @@ export interface SynthesisTask {
   TaskStatusReason?: string | undefined;
   OutputUri?: string | undefined;
   CreationTime?: Date | undefined;
-  RequestCharacters?: number | undefined;
+  RequestCharacters: number;
   SnsTopicArn?: string | undefined;
   LexiconNames?: string[] | undefined;
   OutputFormat?: OutputFormat | undefined;
@@ -611,7 +611,7 @@ export interface AudioEvent {
   AudioChunk?: Uint8Array | undefined;
 }
 export interface StreamClosedEvent {
-  RequestCharacters?: number | undefined;
+  RequestCharacters: number;
 }
 export type ErrorMessage = string;
 export type ValidationExceptionReason =
@@ -726,7 +726,7 @@ export type ContentType = string;
 export interface SynthesizeSpeechOutput {
   AudioStream?: T.StreamingOutputBody | undefined;
   ContentType?: string | undefined;
-  RequestCharacters?: number | undefined;
+  RequestCharacters: number;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -1323,8 +1323,8 @@ function __c7(j: number): any {
           LanguageCode: S.optional(S.String),
           LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LexiconArn: S.optional(S.String),
-          LexemesCount: S.optional(S.Number),
-          Size: S.optional(S.Number),
+          LexemesCount: S.optional(S.Number).pipe(T.Default(0)),
+          Size: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "LexiconAttributes" });
   }
@@ -1364,7 +1364,7 @@ function __c10(j: number): any {
           TaskStatusReason: S.optional(S.String),
           OutputUri: S.optional(S.String),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          RequestCharacters: S.optional(S.Number),
+          RequestCharacters: S.optional(S.Number).pipe(T.Default(0)),
           SnsTopicArn: S.optional(S.String),
           LexiconNames: S.optional(__S(144, __c9, 0)),
           OutputFormat: S.optional(S.String),
@@ -1492,9 +1492,9 @@ function __c16(j: number): any {
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Force: S.optional(S.Boolean) })).annotate({
-        identifier: "FlushStreamConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ Force: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "FlushStreamConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1539,9 +1539,9 @@ function __c17(j: number): any {
         S.Struct({ AudioChunk: S.optional(T.Blob).pipe(T.EventPayload()) }),
       ).annotate({ identifier: "AudioEvent" });
     case 6:
-      return S.suspend(() => S.Struct({ RequestCharacters: S.optional(S.Number) })).annotate({
-        identifier: "StreamClosedEvent",
-      });
+      return S.suspend(() =>
+        S.Struct({ RequestCharacters: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "StreamClosedEvent" });
     case 7:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
@@ -1629,7 +1629,9 @@ function __c19(j: number): any {
         S.Struct({
           AudioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
           ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-          RequestCharacters: S.optional(S.Number).pipe(T.HttpHeader("x-amzn-RequestCharacters")),
+          RequestCharacters: S.optional(S.Number)
+            .pipe(T.HttpHeader("x-amzn-RequestCharacters"))
+            .pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "SynthesizeSpeechOutput" });
   }

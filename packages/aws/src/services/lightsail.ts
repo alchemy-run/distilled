@@ -592,7 +592,7 @@ export interface Certificate {
   subjectAlternativeNames?: string[] | undefined;
   domainValidationRecords?: DomainValidationRecord[] | undefined;
   requestFailureReason?: string | undefined;
-  inUseResourceCount?: number | undefined;
+  inUseResourceCount: number;
   keyAlgorithm?: string | undefined;
   createdAt?: Date | undefined;
   issuedAt?: Date | undefined;
@@ -2125,8 +2125,8 @@ export interface MonthlyTransfer {
 export type PortAccessType = "Public" | "Private" | (string & {});
 export type AccessDirection = "inbound" | "outbound" | (string & {});
 export interface InstancePortInfo {
-  fromPort?: number | undefined;
-  toPort?: number | undefined;
+  fromPort: number;
+  toPort: number;
   protocol?: NetworkProtocol | undefined;
   accessFrom?: string | undefined;
   accessType?: PortAccessType | undefined;
@@ -2280,8 +2280,8 @@ export interface GetInstancePortStatesRequest {
 }
 export type PortState = "open" | "closed" | (string & {});
 export interface InstancePortState {
-  fromPort?: number | undefined;
-  toPort?: number | undefined;
+  fromPort: number;
+  toPort: number;
   protocol?: NetworkProtocol | undefined;
   state?: PortState | undefined;
   cidrs?: string[] | undefined;
@@ -10307,8 +10307,8 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          fromPort: S.optional(S.Number),
-          toPort: S.optional(S.Number),
+          fromPort: S.optional(S.Number).pipe(T.Default(0)),
+          toPort: S.optional(S.Number).pipe(T.Default(0)),
           protocol: S.optional(S.String),
           accessFrom: S.optional(S.String),
           accessType: S.optional(S.String),
@@ -10489,8 +10489,8 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fromPort: S.optional(S.Number),
-          toPort: S.optional(S.Number),
+          fromPort: S.optional(S.Number).pipe(T.Default(0)),
+          toPort: S.optional(S.Number).pipe(T.Default(0)),
           protocol: S.optional(S.String),
           state: S.optional(S.String),
           cidrs: S.optional(__S(256, __c16, 0)),
@@ -11959,8 +11959,8 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fromPort: S.optional(S.Number),
-          toPort: S.optional(S.Number),
+          fromPort: S.optional(S.Number).pipe(T.Default(0)),
+          toPort: S.optional(S.Number).pipe(T.Default(0)),
           protocol: S.optional(S.String),
           cidrs: S.optional(__S(256, __c16, 0)),
           ipv6Cidrs: S.optional(__S(256, __c16, 0)),
@@ -12739,7 +12739,7 @@ function __c101(j: number): any {
           subjectAlternativeNames: S.optional(__S(256, __c16, 0)),
           domainValidationRecords: S.optional(__S(1618, __c101, 2)),
           requestFailureReason: S.optional(S.String),
-          inUseResourceCount: S.optional(S.Number),
+          inUseResourceCount: S.optional(S.Number).pipe(T.Default(0)),
           keyAlgorithm: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           issuedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

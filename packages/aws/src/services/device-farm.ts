@@ -262,8 +262,8 @@ export interface NetworkProfile {
   downlinkDelayMs?: number | undefined;
   uplinkJitterMs?: number | undefined;
   downlinkJitterMs?: number | undefined;
-  uplinkLossPercent?: number | undefined;
-  downlinkLossPercent?: number | undefined;
+  uplinkLossPercent: number;
+  downlinkLossPercent: number;
 }
 export interface CreateNetworkProfileResult {
   networkProfile?: NetworkProfile | undefined;
@@ -3722,8 +3722,8 @@ function __c8(j: number): any {
           downlinkDelayMs: S.optional(S.Number),
           uplinkJitterMs: S.optional(S.Number),
           downlinkJitterMs: S.optional(S.Number),
-          uplinkLossPercent: S.optional(S.Number),
-          downlinkLossPercent: S.optional(S.Number),
+          uplinkLossPercent: S.optional(S.Number).pipe(T.Default(0)),
+          downlinkLossPercent: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "NetworkProfile" });
   }
@@ -3889,9 +3889,9 @@ function __c18(j: number): any {
 function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ host: S.String, port: S.Number })).annotate({
-        identifier: "DeviceProxy",
-      });
+      return S.suspend(() =>
+        S.Struct({ host: S.String, port: S.Number.pipe(T.Default(3128)) }),
+      ).annotate({ identifier: "DeviceProxy" });
   }
 }
 function __c20(j: number): any {

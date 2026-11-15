@@ -1845,9 +1845,9 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           executionRoleArn: S.String,
-          timeoutSeconds: S.optional(S.Number),
+          timeoutSeconds: S.optional(S.Number).pipe(T.Default(30)),
           egressNetworkConnectorArn: S.optional(S.String),
-          maxConcurrencyPerEnvironment: S.optional(S.Number),
+          maxConcurrencyPerEnvironment: S.optional(S.Number).pipe(T.Default(64)),
           environmentVariables: S.optional(__S(200, __c25, 0)),
           telemetryConfig: S.optional(__S(197, __c24, 5)),
         }),

@@ -25,6 +25,12 @@ import * as Redacted from "effect/Redacted";
 export const codecSymbol = "distilled-aws/codec" as const;
 
 /**
+ * Annotation on a structure member: its `@default`, in Smithy's node form
+ * (a blob as base64, a timestamp as epoch seconds or a date-time string).
+ */
+export const defaultSymbol = "distilled-aws/smithy.api#default" as const;
+
+/**
  * - `epoch-seconds`: Date <-> number of seconds
  * - `http-date`: Date <-> RFC 7231 string
  * - `date-string`: Date <-> ISO 8601 string

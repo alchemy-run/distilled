@@ -562,7 +562,7 @@ export interface CreateDomainLayoutResponse {
   LayoutDefinitionName: string;
   Description: string | redacted.Redacted<string>;
   DisplayName: string;
-  IsDefault?: boolean | undefined;
+  IsDefault: boolean;
   LayoutType: LayoutType;
   Layout: string | redacted.Redacted<string>;
   Version: string;
@@ -1199,7 +1199,7 @@ export type StatusCode = number;
 export interface CreateSegmentEstimateResponse {
   DomainName?: string | undefined;
   EstimateId?: string | undefined;
-  StatusCode?: number | undefined;
+  StatusCode: number;
 }
 export type DataFormat = "CSV" | "JSONL" | "ORC" | (string & {});
 export interface CreateSegmentSnapshotRequest {
@@ -1405,9 +1405,9 @@ export interface GetAutoMergingPreviewRequest {
 }
 export interface GetAutoMergingPreviewResponse {
   DomainName: string;
-  NumberOfMatchesInSample?: number | undefined;
-  NumberOfProfilesInSample?: number | undefined;
-  NumberOfProfilesWillBeMerged?: number | undefined;
+  NumberOfMatchesInSample: number;
+  NumberOfProfilesInSample: number;
+  NumberOfProfilesWillBeMerged: number;
 }
 export interface GetCalculatedAttributeDefinitionRequest {
   DomainName: string;
@@ -1444,10 +1444,10 @@ export interface GetDomainRequest {
   DomainName: string;
 }
 export interface DomainStats {
-  ProfileCount?: number | undefined;
-  MeteringProfileCount?: number | undefined;
-  ObjectCount?: number | undefined;
-  TotalSize?: number | undefined;
+  ProfileCount: number;
+  MeteringProfileCount: number;
+  ObjectCount: number;
+  TotalSize: number;
 }
 export interface GetDomainResponse {
   DomainName: string;
@@ -1470,7 +1470,7 @@ export interface GetDomainLayoutResponse {
   LayoutDefinitionName: string;
   Description: string | redacted.Redacted<string>;
   DisplayName: string;
-  IsDefault?: boolean | undefined;
+  IsDefault: boolean;
   LayoutType: LayoutType;
   Layout: string | redacted.Redacted<string>;
   Version: string;
@@ -1558,9 +1558,9 @@ export interface ExportingLocation {
   S3Exporting?: S3ExportingLocation | undefined;
 }
 export interface JobStats {
-  NumberOfProfilesReviewed?: number | undefined;
-  NumberOfMatchesFound?: number | undefined;
-  NumberOfMergesDone?: number | undefined;
+  NumberOfProfilesReviewed: number;
+  NumberOfMatchesFound: number;
+  NumberOfMergesDone: number;
 }
 export interface GetIdentityResolutionJobResponse {
   DomainName?: string | undefined;
@@ -1678,7 +1678,7 @@ export interface GetProfileObjectTypeResponse {
   TemplateId?: string | undefined;
   ExpirationDays?: number | undefined;
   EncryptionKey?: string | undefined;
-  AllowProfileCreation?: boolean | undefined;
+  AllowProfileCreation: boolean;
   SourceLastUpdatedTimestampFormat?: string | undefined;
   MaxAvailableProfileObjectCount?: number | undefined;
   MaxProfileObjectCount?: number | undefined;
@@ -1698,8 +1698,8 @@ export interface GetProfileObjectTypeTemplateResponse {
   SourceObject?: string | undefined;
   DefaultMaxProfileObjectCount?: number | undefined;
   DefaultMaxProfileObjectCountEffectiveAfter?: Date | undefined;
-  StoreOnly?: boolean | undefined;
-  AllowProfileCreation?: boolean | undefined;
+  StoreOnly: boolean;
+  AllowProfileCreation: boolean;
   SourceLastUpdatedTimestampFormat?: string | undefined;
   Fields?: { [key: string]: ObjectTypeField | undefined } | undefined;
   Keys?: { [key: string]: ObjectTypeKey[] | undefined } | undefined;
@@ -1894,7 +1894,7 @@ export interface GetSegmentEstimateResponse {
   Status?: EstimateStatus | undefined;
   Estimate?: string | undefined;
   Message?: string | undefined;
-  StatusCode?: number | undefined;
+  StatusCode: number;
 }
 export type ProfileIds = string[];
 export interface GetSegmentMembershipRequest {
@@ -2187,7 +2187,7 @@ export interface LayoutItem {
   LayoutDefinitionName: string;
   Description: string | redacted.Redacted<string>;
   DisplayName: string;
-  IsDefault?: boolean | undefined;
+  IsDefault: boolean;
   LayoutType: LayoutType;
   Tags?: { [key: string]: string | undefined } | undefined;
   CreatedAt: Date;
@@ -2345,7 +2345,7 @@ export interface ProfileAttributeValuesResponse {
   DomainName?: string | undefined;
   AttributeName?: string | undefined;
   Items?: AttributeValueItem[] | undefined;
-  StatusCode?: number | undefined;
+  StatusCode: number;
 }
 export interface ListProfileHistoryRecordsRequest {
   DomainName: string;
@@ -2703,7 +2703,7 @@ export interface PutProfileObjectTypeResponse {
   TemplateId?: string | undefined;
   ExpirationDays?: number | undefined;
   EncryptionKey?: string | undefined;
-  AllowProfileCreation?: boolean | undefined;
+  AllowProfileCreation: boolean;
   SourceLastUpdatedTimestampFormat?: string | undefined;
   MaxProfileObjectCount?: number | undefined;
   MaxAvailableProfileObjectCount?: number | undefined;
@@ -2854,7 +2854,7 @@ export interface UpdateDomainLayoutResponse {
   LayoutDefinitionName?: string | undefined;
   Description?: string | redacted.Redacted<string> | undefined;
   DisplayName?: string | undefined;
-  IsDefault?: boolean | undefined;
+  IsDefault: boolean;
   LayoutType?: LayoutType | undefined;
   Layout?: string | redacted.Redacted<string> | undefined;
   Version?: string | undefined;
@@ -3523,8 +3523,8 @@ export const createSegmentEstimate: API.OperationMethod<
   CreateSegmentEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<CreateSegmentEstimateRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<CreateSegmentEstimateResponse>,
+  input: __S(753, __c47, 1) as any as S.Schema<CreateSegmentEstimateRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<CreateSegmentEstimateResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -7055,8 +7055,8 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Value: S.optional(S.Number),
-          Unit: S.optional(S.String),
+          Value: S.optional(S.Number).pipe(T.Default(0)),
+          Unit: S.optional(S.String).pipe(T.Default("DAYS")),
           ValueRange: S.optional(__S(67, __c4, 3)),
           TimestampSource: S.optional(S.String),
           TimestampFormat: S.optional(S.String),
@@ -7254,7 +7254,7 @@ function __c9(j: number): any {
           TemplateId: S.optional(S.String),
           ExpirationDays: S.optional(S.Number),
           EncryptionKey: S.optional(S.String),
-          AllowProfileCreation: S.optional(S.Boolean),
+          AllowProfileCreation: S.optional(S.Boolean).pipe(T.Default(false)),
           SourceLastUpdatedTimestampFormat: S.optional(S.String),
           MaxProfileObjectCount: S.optional(S.Number),
           MaxAvailableProfileObjectCount: S.optional(S.Number),
@@ -7770,7 +7770,7 @@ function __c26(j: number): any {
           LayoutDefinitionName: S.optional(S.String),
           Description: S.optional(SensitiveString),
           DisplayName: S.optional(S.String),
-          IsDefault: S.optional(S.Boolean),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
           LayoutType: S.optional(S.String),
           Layout: S.optional(SensitiveString),
           Version: S.optional(S.String),
@@ -7914,7 +7914,7 @@ function __c30(j: number): any {
           LayoutDefinitionName: S.String,
           Description: SensitiveString,
           DisplayName: S.String,
-          IsDefault: S.optional(S.Boolean),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
           LayoutType: S.String,
           Layout: SensitiveString,
           Version: S.String,
@@ -8014,7 +8014,7 @@ function __c33(j: number): any {
           Unit: S.String,
           Value: S.Number,
           MaxInvocationsPerProfile: S.optional(S.Number),
-          Unlimited: S.optional(S.Boolean),
+          Unlimited: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "Period" });
     case 7:
@@ -8105,8 +8105,8 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Object: S.String,
-          EnableDynamicFieldUpdate: S.optional(S.Boolean),
-          IncludeDeletedRecords: S.optional(S.Boolean),
+          EnableDynamicFieldUpdate: S.optional(S.Boolean).pipe(T.Default(false)),
+          IncludeDeletedRecords: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "SalesforceSourceProperties" });
     case 4:
@@ -8403,9 +8403,9 @@ function __c43(j: number): any {
           SegmentDefinitionName: S.String.pipe(T.HttpLabel("SegmentDefinitionName")),
           DisplayName: S.String,
           Description: S.optional(SensitiveString),
-          SegmentGroups: S.optional(__S(731, __c45, 11)),
+          SegmentGroups: S.optional(__S(736, __c46, 0)),
           SegmentSqlQuery: S.optional(SensitiveString),
-          SegmentSort: S.optional(__S(738, __c46, 2)),
+          SegmentSort: S.optional(__S(739, __c46, 3)),
           Tags: S.optional(__S(2032, __c127, 0)),
         }).pipe(
           T.all(
@@ -8512,16 +8512,12 @@ function __c45(j: number): any {
         S.Struct({
           Dimensions: S.optional(__S(726, __c45, 6)),
           SourceSegments: S.optional(__S(728, __c45, 8)),
-          SourceType: S.optional(S.String),
-          Type: S.optional(S.String),
+          SourceType: S.optional(S.String).pipe(T.Default("ALL")),
+          Type: S.optional(S.String).pipe(T.Default("ALL")),
         }),
       ).annotate({ identifier: "Group" });
     case 10:
       return S.Array(__S(729, __c45, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({ Groups: S.optional(__S(730, __c45, 10)), Include: S.optional(S.String) }),
-      ).annotate({ identifier: "SegmentGroup" });
   }
 }
 function __c46(j: number): any {
@@ -8529,16 +8525,23 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          Groups: S.optional(__S(730, __c45, 10)),
+          Include: S.optional(S.String).pipe(T.Default("ALL")),
+        }),
+      ).annotate({ identifier: "SegmentGroup" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           Name: S.String,
           DataType: S.optional(S.String),
           Order: S.String,
-          Type: S.optional(S.String),
+          Type: S.optional(S.String).pipe(T.Default("PROFILE")),
         }),
       ).annotate({ identifier: "SortAttribute" });
-    case 1:
-      return S.Array(__S(736, __c46, 0));
     case 2:
-      return S.suspend(() => S.Struct({ Attributes: __S(737, __c46, 1) })).annotate({
+      return S.Array(__S(737, __c46, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ Attributes: __S(738, __c46, 2) })).annotate({
         identifier: "SegmentSort",
       });
   }
@@ -8547,9 +8550,13 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ Groups: S.optional(__S(730, __c45, 10)), Include: S.optional(S.String) }),
+      ).annotate({ identifier: "SegmentGroupStructure" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
           DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-          SegmentQuery: S.optional(__S(731, __c45, 11)),
+          SegmentQuery: S.optional(__S(752, __c47, 0)),
           SegmentSqlQuery: S.optional(SensitiveString),
         }).pipe(
           T.all(
@@ -8562,12 +8569,12 @@ function __c47(j: number): any {
           ),
         ),
       ).annotate({ identifier: "CreateSegmentEstimateRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           DomainName: S.optional(S.String),
           EstimateId: S.optional(S.String),
-          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CreateSegmentEstimateResponse" });
   }
@@ -9126,9 +9133,9 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           DomainName: S.String,
-          NumberOfMatchesInSample: S.optional(S.Number),
-          NumberOfProfilesInSample: S.optional(S.Number),
-          NumberOfProfilesWillBeMerged: S.optional(S.Number),
+          NumberOfMatchesInSample: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfProfilesInSample: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfProfilesWillBeMerged: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "GetAutoMergingPreviewResponse" });
   }
@@ -9230,10 +9237,10 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ProfileCount: S.optional(S.Number),
-          MeteringProfileCount: S.optional(S.Number),
-          ObjectCount: S.optional(S.Number),
-          TotalSize: S.optional(S.Number),
+          ProfileCount: S.optional(S.Number).pipe(T.Default(0)),
+          MeteringProfileCount: S.optional(S.Number).pipe(T.Default(0)),
+          ObjectCount: S.optional(S.Number).pipe(T.Default(0)),
+          TotalSize: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DomainStats" });
     case 2:
@@ -9278,7 +9285,7 @@ function __c78(j: number): any {
           LayoutDefinitionName: S.String,
           Description: SensitiveString,
           DisplayName: S.String,
-          IsDefault: S.optional(S.Boolean),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
           LayoutType: S.String,
           Layout: SensitiveString,
           Version: S.String,
@@ -9491,9 +9498,9 @@ function __c87(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          NumberOfProfilesReviewed: S.optional(S.Number),
-          NumberOfMatchesFound: S.optional(S.Number),
-          NumberOfMergesDone: S.optional(S.Number),
+          NumberOfProfilesReviewed: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfMatchesFound: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfMergesDone: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "JobStats" });
   }
@@ -9684,7 +9691,7 @@ function __c93(j: number): any {
           TemplateId: S.optional(S.String),
           ExpirationDays: S.optional(S.Number),
           EncryptionKey: S.optional(S.String),
-          AllowProfileCreation: S.optional(S.Boolean),
+          AllowProfileCreation: S.optional(S.Boolean).pipe(T.Default(false)),
           SourceLastUpdatedTimestampFormat: S.optional(S.String),
           MaxAvailableProfileObjectCount: S.optional(S.Number),
           MaxProfileObjectCount: S.optional(S.Number),
@@ -9723,8 +9730,8 @@ function __c94(j: number): any {
           DefaultMaxProfileObjectCountEffectiveAfter: S.optional(
             S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           ),
-          StoreOnly: S.optional(S.Boolean),
-          AllowProfileCreation: S.optional(S.Boolean),
+          StoreOnly: S.optional(S.Boolean).pipe(T.Default(false)),
+          AllowProfileCreation: S.optional(S.Boolean).pipe(T.Default(false)),
           SourceLastUpdatedTimestampFormat: S.optional(S.String),
           Fields: S.optional(__S(801, __c50, 1)),
           Keys: S.optional(__S(1138, __c71, 2)),
@@ -10018,8 +10025,8 @@ function __c104(j: number): any {
           SegmentDefinitionName: S.optional(S.String),
           DisplayName: S.optional(S.String),
           Description: S.optional(SensitiveString),
-          SegmentGroups: S.optional(__S(731, __c45, 11)),
-          SegmentSort: S.optional(__S(738, __c46, 2)),
+          SegmentGroups: S.optional(__S(736, __c46, 0)),
+          SegmentSort: S.optional(__S(739, __c46, 3)),
           SegmentDefinitionArn: S.String,
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Tags: S.optional(__S(2032, __c127, 0)),
@@ -10055,7 +10062,7 @@ function __c105(j: number): any {
           Status: S.optional(S.String),
           Estimate: S.optional(S.String),
           Message: S.optional(S.String),
-          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "GetSegmentEstimateResponse" });
   }
@@ -10368,7 +10375,11 @@ function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Start: S.Number, End: S.optional(S.Number), Unit: S.String }),
+        S.Struct({
+          Start: S.Number.pipe(T.Default(366)),
+          End: S.optional(S.Number).pipe(T.Default(0)),
+          Unit: S.String,
+        }),
       ).annotate({ identifier: "RangeOverride" });
     case 1:
       return S.suspend(() => S.Struct({ Range: S.optional(__S(1824, __c114, 0)) })).annotate({
@@ -10436,7 +10447,11 @@ function __c116(j: number): any {
       ).annotate({ identifier: "WorkflowAttributes" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ RecordsProcessed: S.Number, StepsCompleted: S.Number, TotalSteps: S.Number }),
+        S.Struct({
+          RecordsProcessed: S.Number.pipe(T.Default(0)),
+          StepsCompleted: S.Number.pipe(T.Default(0)),
+          TotalSteps: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "AppflowIntegrationWorkflowMetrics" });
     case 4:
       return S.suspend(() =>
@@ -10483,7 +10498,7 @@ function __c117(j: number): any {
           FlowName: S.String,
           Status: S.String,
           ExecutionMessage: S.String,
-          RecordsProcessed: S.Number,
+          RecordsProcessed: S.Number.pipe(T.Default(0)),
           BatchRecordsStartTime: S.String,
           BatchRecordsEndTime: S.String,
           CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -10628,7 +10643,7 @@ function __c122(j: number): any {
           LayoutDefinitionName: S.String,
           Description: SensitiveString,
           DisplayName: S.String,
-          IsDefault: S.optional(S.Boolean),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
           LayoutType: S.String,
           Tags: S.optional(__S(2032, __c127, 0)),
           CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -11086,7 +11101,7 @@ function __c136(j: number): any {
           DomainName: S.optional(S.String),
           AttributeName: S.optional(S.String),
           Items: S.optional(__S(2178, __c136, 2)),
-          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
+          StatusCode: S.optional(S.Number).pipe(T.HttpResponseCode()).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ProfileAttributeValuesResponse" });
   }

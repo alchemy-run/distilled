@@ -796,8 +796,8 @@ export interface CreateTransformerResponse {
   name: string;
   status: TransformerStatus;
   createdAt: Date;
-  fileFormat?: FileFormat | undefined;
-  mappingTemplate?: string | undefined;
+  fileFormat: FileFormat;
+  mappingTemplate: string;
   ediType?: EdiType | undefined;
   sampleDocument?: string | undefined;
   inputConversion?: InputConversion | undefined;
@@ -887,8 +887,8 @@ export interface GetTransformerResponse {
   status: TransformerStatus;
   createdAt: Date;
   modifiedAt?: Date | undefined;
-  fileFormat?: FileFormat | undefined;
-  mappingTemplate?: string | undefined;
+  fileFormat: FileFormat;
+  mappingTemplate: string;
   ediType?: EdiType | undefined;
   sampleDocument?: string | undefined;
   inputConversion?: InputConversion | undefined;
@@ -981,8 +981,8 @@ export interface TransformerSummary {
   status: TransformerStatus;
   createdAt: Date;
   modifiedAt?: Date | undefined;
-  fileFormat?: FileFormat | undefined;
-  mappingTemplate?: string | undefined;
+  fileFormat: FileFormat;
+  mappingTemplate: string;
   ediType?: EdiType | undefined;
   sampleDocument?: string | undefined;
   inputConversion?: InputConversion | undefined;
@@ -1134,8 +1134,8 @@ export interface UpdateTransformerResponse {
   status: TransformerStatus;
   createdAt: Date;
   modifiedAt: Date;
-  fileFormat?: FileFormat | undefined;
-  mappingTemplate?: string | undefined;
+  fileFormat: FileFormat;
+  mappingTemplate: string;
   ediType?: EdiType | undefined;
   sampleDocument?: string | undefined;
   inputConversion?: InputConversion | undefined;
@@ -2242,8 +2242,8 @@ function __c2(j: number): any {
           name: S.String,
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          fileFormat: S.optional(S.String),
-          mappingTemplate: S.optional(S.String),
+          fileFormat: S.optional(S.String).pipe(T.Default("NOT_USED")),
+          mappingTemplate: S.optional(S.String).pipe(T.Default("NOT_USED")),
           ediType: S.optional(__S(592, __c37, 0)),
           sampleDocument: S.optional(S.String),
           inputConversion: S.optional(__S(64, __c4, 0)),
@@ -2558,8 +2558,8 @@ function __c17(j: number): any {
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          fileFormat: S.optional(S.String),
-          mappingTemplate: S.optional(S.String),
+          fileFormat: S.optional(S.String).pipe(T.Default("NOT_USED")),
+          mappingTemplate: S.optional(S.String).pipe(T.Default("NOT_USED")),
           ediType: S.optional(__S(592, __c37, 0)),
           sampleDocument: S.optional(S.String),
           inputConversion: S.optional(__S(64, __c4, 0)),
@@ -2729,8 +2729,8 @@ function __c23(j: number): any {
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          fileFormat: S.optional(S.String),
-          mappingTemplate: S.optional(S.String),
+          fileFormat: S.optional(S.String).pipe(T.Default("NOT_USED")),
+          mappingTemplate: S.optional(S.String).pipe(T.Default("NOT_USED")),
           ediType: S.optional(__S(592, __c37, 0)),
           sampleDocument: S.optional(S.String),
           inputConversion: S.optional(__S(64, __c4, 0)),
@@ -2984,8 +2984,8 @@ function __c33(j: number): any {
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          fileFormat: S.optional(S.String),
-          mappingTemplate: S.optional(S.String),
+          fileFormat: S.optional(S.String).pipe(T.Default("NOT_USED")),
+          mappingTemplate: S.optional(S.String).pipe(T.Default("NOT_USED")),
           ediType: S.optional(__S(592, __c37, 0)),
           sampleDocument: S.optional(S.String),
           inputConversion: S.optional(__S(64, __c4, 0)),

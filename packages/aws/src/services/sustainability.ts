@@ -426,9 +426,9 @@ export const getEstimatedWaterAllocationDimensionValues: API.PaginatedOperationM
 function __c0(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ FiscalYearStartMonth: S.optional(S.Number) })).annotate({
-        identifier: "GranularityConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ FiscalYearStartMonth: S.optional(S.Number).pipe(T.Default(1)) }),
+      ).annotate({ identifier: "GranularityConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({

@@ -380,7 +380,7 @@ export interface CreateClusterRequest {
 }
 export interface Endpoint {
   Address?: string | undefined;
-  Port?: number | undefined;
+  Port: number;
   URL?: string | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c1, 0) as any as S.Schema<Endpoint>;
@@ -1439,7 +1439,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Address: S.optional(S.String),
-          Port: S.optional(S.Number),
+          Port: S.optional(S.Number).pipe(T.Default(0)),
           URL: S.optional(S.String),
         }),
       ).annotate({ identifier: "Endpoint" });

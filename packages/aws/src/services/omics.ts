@@ -1481,7 +1481,7 @@ export interface AnnotationImportJobItem {
   creationTime: Date;
   updateTime: Date;
   completionTime?: Date | undefined;
-  runLeftNormalization?: boolean | undefined;
+  runLeftNormalization: boolean;
   annotationFields?: { [key: string]: string | undefined } | undefined;
 }
 export type AnnotationImportJobItems = AnnotationImportJobItem[];
@@ -2016,7 +2016,7 @@ export interface VariantImportJobItem {
   creationTime: Date;
   updateTime: Date;
   completionTime?: Date | undefined;
-  runLeftNormalization?: boolean | undefined;
+  runLeftNormalization: boolean;
   annotationFields?: { [key: string]: string | undefined } | undefined;
 }
 export type VariantImportJobItems = VariantImportJobItem[];
@@ -8316,7 +8316,7 @@ function __c73(j: number): any {
           updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           completionTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           items: __S(586, __c73, 2),
-          runLeftNormalization: S.Boolean,
+          runLeftNormalization: S.Boolean.pipe(T.Default(false)),
           formatOptions: __S(595, __c74, 3),
           annotationFields: S.optional(__S(256, __c32, 0)),
         }),
@@ -8331,11 +8331,11 @@ function __c74(j: number): any {
           sep: S.optional(S.String),
           encoding: S.optional(S.String),
           quote: S.optional(S.String),
-          quoteAll: S.optional(S.Boolean),
+          quoteAll: S.optional(S.Boolean).pipe(T.Default(false)),
           escape: S.optional(S.String),
-          escapeQuotes: S.optional(S.Boolean),
+          escapeQuotes: S.optional(S.Boolean).pipe(T.Default(false)),
           comment: S.optional(S.String),
-          header: S.optional(S.Boolean),
+          header: S.optional(S.Boolean).pipe(T.Default(false)),
           lineSep: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReadOptions" });
@@ -9235,7 +9235,7 @@ function __c102(j: number): any {
           updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           completionTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           items: __S(818, __c102, 2),
-          runLeftNormalization: S.Boolean,
+          runLeftNormalization: S.Boolean.pipe(T.Default(false)),
           annotationFields: S.optional(__S(256, __c32, 0)),
         }),
       ).annotate({ identifier: "GetVariantImportResponse" });
@@ -9421,7 +9421,7 @@ function __c107(j: number): any {
           creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           completionTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          runLeftNormalization: S.optional(S.Boolean),
+          runLeftNormalization: S.optional(S.Boolean).pipe(T.Default(false)),
           annotationFields: S.optional(__S(256, __c32, 0)),
         }),
       ).annotate({ identifier: "AnnotationImportJobItem" });
@@ -10307,7 +10307,7 @@ function __c131(j: number): any {
           creationTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updateTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           completionTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          runLeftNormalization: S.optional(S.Boolean),
+          runLeftNormalization: S.optional(S.Boolean).pipe(T.Default(false)),
           annotationFields: S.optional(__S(256, __c32, 0)),
         }),
       ).annotate({ identifier: "VariantImportJobItem" });

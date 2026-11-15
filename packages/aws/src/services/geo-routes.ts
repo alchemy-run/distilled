@@ -438,9 +438,9 @@ export interface IsolineShapeGeometry {
 export type IsolineShapeGeometryList = IsolineShapeGeometry[];
 export interface Isoline {
   Connections: IsolineConnection[];
-  DistanceThreshold?: number | undefined;
+  DistanceThreshold: number;
   Geometries: IsolineShapeGeometry[];
-  TimeThreshold?: number | undefined;
+  TimeThreshold: number;
 }
 export type IsolineList = Isoline[];
 export interface CalculateIsolinesResponse {
@@ -1044,8 +1044,8 @@ export interface LocalizedString {
 export type LocalizedStringList = LocalizedString[];
 export interface RouteFerrySpan {
   Country?: string | redacted.Redacted<string> | undefined;
-  Distance?: number | undefined;
-  Duration?: number | undefined;
+  Distance: number;
+  Duration: number;
   GeometryOffset?: number | undefined;
   Names?: LocalizedString[] | undefined;
   Region?: string | redacted.Redacted<string> | undefined;
@@ -1064,7 +1064,7 @@ export interface RouteFerrySummary {
 }
 export type RouteFerryTravelStepType = "Depart" | "Continue" | "Arrive" | (string & {});
 export interface RouteFerryTravelStep {
-  Distance?: number | undefined;
+  Distance: number;
   Duration: number;
   GeometryOffset?: number | undefined;
   Instruction?: string | redacted.Redacted<string> | undefined;
@@ -1150,9 +1150,9 @@ export interface RoutePedestrianNotice {
 }
 export type RoutePedestrianNoticeList = RoutePedestrianNotice[];
 export interface RouteSpanDynamicSpeedDetails {
-  BestCaseSpeed?: number | undefined;
-  TurnDuration?: number | undefined;
-  TypicalSpeed?: number | undefined;
+  BestCaseSpeed: number;
+  TurnDuration: number;
+  TypicalSpeed: number;
 }
 export type IndexList = number[];
 export type RouteSpanPedestrianAccessAttribute =
@@ -1187,14 +1187,14 @@ export interface RouteNumber {
 }
 export type RouteNumberList = RouteNumber[];
 export interface RouteSpanSpeedLimitDetails {
-  MaxSpeed?: number | undefined;
+  MaxSpeed: number;
   Unlimited?: boolean | undefined;
 }
 export interface RoutePedestrianSpan {
-  BestCaseDuration?: number | undefined;
+  BestCaseDuration: number;
   Country?: string | redacted.Redacted<string> | undefined;
-  Distance?: number | undefined;
-  Duration?: number | undefined;
+  Distance: number;
+  Duration: number;
   DynamicSpeed?: RouteSpanDynamicSpeedDetails | undefined;
   FunctionalClassification?: number | undefined;
   GeometryOffset?: number | undefined;
@@ -1205,7 +1205,7 @@ export interface RoutePedestrianSpan {
   RoadAttributes?: RouteSpanRoadAttribute[] | undefined;
   RouteNumbers?: RouteNumber[] | undefined;
   SpeedLimit?: RouteSpanSpeedLimitDetails | undefined;
-  TypicalDuration?: number | undefined;
+  TypicalDuration: number;
 }
 export type RoutePedestrianSpanList = RoutePedestrianSpan[];
 export interface RoutePedestrianOverviewSummary {
@@ -1235,26 +1235,26 @@ export type RouteTurnIntensity = "Sharp" | "Slight" | "Typical" | (string & {});
 export interface RouteKeepStepDetails {
   Intersection: LocalizedString[];
   SteeringDirection?: RouteSteeringDirection | undefined;
-  TurnAngle?: number | undefined;
+  TurnAngle: number;
   TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteRoundaboutEnterStepDetails {
   Intersection: LocalizedString[];
   SteeringDirection?: RouteSteeringDirection | undefined;
-  TurnAngle?: number | undefined;
+  TurnAngle: number;
   TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export type RoundaboutAngle = number;
 export interface RouteRoundaboutExitStepDetails {
   Intersection: LocalizedString[];
   RelativeExit?: number | undefined;
-  RoundaboutAngle?: number | undefined;
+  RoundaboutAngle: number;
   SteeringDirection?: RouteSteeringDirection | undefined;
 }
 export interface RouteRoundaboutPassStepDetails {
   Intersection: LocalizedString[];
   SteeringDirection?: RouteSteeringDirection | undefined;
-  TurnAngle?: number | undefined;
+  TurnAngle: number;
   TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteSignpostLabel {
@@ -1268,7 +1268,7 @@ export interface RouteSignpost {
 export interface RouteTurnStepDetails {
   Intersection: LocalizedString[];
   SteeringDirection?: RouteSteeringDirection | undefined;
-  TurnAngle?: number | undefined;
+  TurnAngle: number;
   TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export type RoutePedestrianTravelStepType =
@@ -1284,7 +1284,7 @@ export type RoutePedestrianTravelStepType =
 export interface RoutePedestrianTravelStep {
   ContinueStepDetails?: RouteContinueStepDetails | undefined;
   CurrentRoad?: RouteRoad | undefined;
-  Distance?: number | undefined;
+  Distance: number;
   Duration: number;
   ExitNumber?: LocalizedString[] | undefined;
   GeometryOffset?: number | undefined;
@@ -1300,7 +1300,7 @@ export interface RoutePedestrianTravelStep {
 }
 export type RoutePedestrianTravelStepList = RoutePedestrianTravelStep[];
 export interface RoutePedestrianLegDetails {
-  AfterTravelSteps?: RoutePedestrianAfterTravelStep[] | undefined;
+  AfterTravelSteps: RoutePedestrianAfterTravelStep[];
   Arrival: RoutePedestrianArrival;
   Departure: RoutePedestrianDeparture;
   Notices?: RoutePedestrianNotice[] | undefined;
@@ -1443,14 +1443,14 @@ export interface RouteViolatedConstraints {
   AllHazardsRestricted?: boolean | undefined;
   AxleCount?: RouteNoticeDetailRange | undefined;
   HazardousCargos: RouteHazardousCargoType[];
-  MaxHeight?: number | undefined;
-  MaxKpraLength?: number | undefined;
-  MaxLength?: number | undefined;
-  MaxPayloadCapacity?: number | undefined;
+  MaxHeight: number;
+  MaxKpraLength: number;
+  MaxLength: number;
+  MaxPayloadCapacity: number;
   MaxWeight?: RouteWeightConstraint | undefined;
-  MaxWeightPerAxle?: number | undefined;
+  MaxWeightPerAxle: number;
   MaxWeightPerAxleGroup?: WeightPerAxleGroup | undefined;
-  MaxWidth?: number | undefined;
+  MaxWidth: number;
   Occupancy?: RouteNoticeDetailRange | undefined;
   RestrictedTimes?: string | undefined;
   TimeDependent?: boolean | undefined;
@@ -1496,11 +1496,11 @@ export type RouteSpanTruckAccessAttribute =
   | (string & {});
 export type RouteSpanTruckAccessAttributeList = RouteSpanTruckAccessAttribute[];
 export interface RouteVehicleSpan {
-  BestCaseDuration?: number | undefined;
+  BestCaseDuration: number;
   CarAccess?: RouteSpanCarAccessAttribute[] | undefined;
   Country?: string | redacted.Redacted<string> | undefined;
-  Distance?: number | undefined;
-  Duration?: number | undefined;
+  Distance: number;
+  Duration: number;
   DynamicSpeed?: RouteSpanDynamicSpeedDetails | undefined;
   FunctionalClassification?: number | undefined;
   Gate?: RouteSpanGateAttribute | undefined;
@@ -1517,20 +1517,20 @@ export interface RouteVehicleSpan {
   TollSystems?: number[] | undefined;
   TruckAccess?: RouteSpanTruckAccessAttribute[] | undefined;
   TruckRoadTypes?: number[] | undefined;
-  TypicalDuration?: number | undefined;
+  TypicalDuration: number;
   Zones?: number[] | undefined;
 }
 export type RouteVehicleSpanList = RouteVehicleSpan[];
 export interface RouteVehicleOverviewSummary {
-  BestCaseDuration?: number | undefined;
+  BestCaseDuration: number;
   Distance: number;
   Duration: number;
-  TypicalDuration?: number | undefined;
+  TypicalDuration: number;
 }
 export interface RouteVehicleTravelOnlySummary {
-  BestCaseDuration?: number | undefined;
+  BestCaseDuration: number;
   Duration: number;
-  TypicalDuration?: number | undefined;
+  TypicalDuration: number;
 }
 export interface RouteVehicleSummary {
   Overview?: RouteVehicleOverviewSummary | undefined;
@@ -1548,7 +1548,7 @@ export interface RouteTollPriceValueRange {
 export interface RouteTollPrice {
   Currency: string;
   Estimate: boolean;
-  PerDuration?: number | undefined;
+  PerDuration: number;
   Range: boolean;
   RangeValue?: RouteTollPriceValueRange | undefined;
   Value: number;
@@ -1611,26 +1611,26 @@ export type RouteTollSystemList = RouteTollSystem[];
 export interface RouteContinueHighwayStepDetails {
   Intersection: LocalizedString[];
   SteeringDirection?: RouteSteeringDirection | undefined;
-  TurnAngle?: number | undefined;
+  TurnAngle: number;
   TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteEnterHighwayStepDetails {
   Intersection: LocalizedString[];
   SteeringDirection?: RouteSteeringDirection | undefined;
-  TurnAngle?: number | undefined;
+  TurnAngle: number;
   TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteExitStepDetails {
   Intersection: LocalizedString[];
   RelativeExit?: number | undefined;
   SteeringDirection?: RouteSteeringDirection | undefined;
-  TurnAngle?: number | undefined;
+  TurnAngle: number;
   TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteRampStepDetails {
   Intersection: LocalizedString[];
   SteeringDirection?: RouteSteeringDirection | undefined;
-  TurnAngle?: number | undefined;
+  TurnAngle: number;
   TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export type RouteVehicleTravelStepType =
@@ -1651,14 +1651,14 @@ export type RouteVehicleTravelStepType =
 export interface RouteUTurnStepDetails {
   Intersection: LocalizedString[];
   SteeringDirection?: RouteSteeringDirection | undefined;
-  TurnAngle?: number | undefined;
+  TurnAngle: number;
   TurnIntensity?: RouteTurnIntensity | undefined;
 }
 export interface RouteVehicleTravelStep {
   ContinueHighwayStepDetails?: RouteContinueHighwayStepDetails | undefined;
   ContinueStepDetails?: RouteContinueStepDetails | undefined;
   CurrentRoad?: RouteRoad | undefined;
-  Distance?: number | undefined;
+  Distance: number;
   Duration: number;
   EnterHighwayStepDetails?: RouteEnterHighwayStepDetails | undefined;
   ExitNumber?: LocalizedString[] | undefined;
@@ -1683,7 +1683,7 @@ export interface RouteZone {
 }
 export type RouteZoneList = RouteZone[];
 export interface RouteVehicleLegDetails {
-  AfterTravelSteps?: RouteVehicleAfterTravelStep[] | undefined;
+  AfterTravelSteps: RouteVehicleAfterTravelStep[];
   Arrival: RouteVehicleArrival;
   Departure: RouteVehicleDeparture;
   Incidents?: RouteVehicleIncident[] | undefined;
@@ -2124,8 +2124,8 @@ export interface RouteTollSummary {
   Total?: RouteTollPriceSummary | undefined;
 }
 export interface RouteSummary {
-  Distance?: number | undefined;
-  Duration?: number | undefined;
+  Distance: number;
+  Duration: number;
   Tolls?: RouteTollSummary | undefined;
 }
 export interface Route {
@@ -2537,7 +2537,7 @@ export const calculateRoutes: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(409, __c12, 25) as any as S.Schema<CalculateRoutesRequest>,
-  output: __S(522, __c16, 10) as any as S.Schema<CalculateRoutesResponse>,
+  output: __S(531, __c16, 19) as any as S.Schema<CalculateRoutesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2667,7 +2667,10 @@ function __c1(j: number): any {
       ).annotate({ identifier: "IsolineAvoidanceOptions" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ MaxPoints: S.optional(S.Number), MaxResolution: S.optional(S.Number) }),
+        S.Struct({
+          MaxPoints: S.optional(S.Number),
+          MaxResolution: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "IsolineGranularityOptions" });
     case 6:
       return S.suspend(() =>
@@ -2687,23 +2690,23 @@ function __c1(j: number): any {
         S.Struct({
           AxleCount: S.optional(S.Number),
           EngineType: S.optional(S.String),
-          GrossWeight: S.optional(S.Number),
+          GrossWeight: S.optional(S.Number).pipe(T.Default(0)),
           HazardousCargos: S.optional(__S(161, __c5, 1)),
-          Height: S.optional(S.Number),
-          HeightAboveFirstAxle: S.optional(S.Number),
-          KpraLength: S.optional(S.Number),
-          Length: S.optional(S.Number),
+          Height: S.optional(S.Number).pipe(T.Default(0)),
+          HeightAboveFirstAxle: S.optional(S.Number).pipe(T.Default(0)),
+          KpraLength: S.optional(S.Number).pipe(T.Default(0)),
+          Length: S.optional(S.Number).pipe(T.Default(0)),
           LicensePlate: S.optional(__S(67, __c2, 3)),
           MaxSpeed: S.optional(S.Number),
           Occupancy: S.optional(S.Number),
-          PayloadCapacity: S.optional(S.Number),
+          PayloadCapacity: S.optional(S.Number).pipe(T.Default(0)),
           TireCount: S.optional(S.Number),
           Trailer: S.optional(__S(226, __c7, 2)),
           TruckType: S.optional(S.String),
           TunnelRestrictionCode: S.optional(SensitiveString),
-          WeightPerAxle: S.optional(S.Number),
+          WeightPerAxle: S.optional(S.Number).pipe(T.Default(0)),
           WeightPerAxleGroup: S.optional(__S(100, __c3, 4)),
-          Width: S.optional(S.Number),
+          Width: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "IsolineTruckOptions" });
     case 9:
@@ -2762,9 +2765,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Connections: __S(44, __c1, 12),
-          DistanceThreshold: S.optional(S.Number),
+          DistanceThreshold: S.optional(S.Number).pipe(T.Default(0)),
           Geometries: __S(46, __c1, 14),
-          TimeThreshold: S.optional(S.Number),
+          TimeThreshold: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Isoline" });
     case 16:
@@ -2794,8 +2797,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AvoidActionsForDistance: S.optional(S.Number),
-          Heading: S.optional(S.Number),
+          AvoidActionsForDistance: S.optional(S.Number).pipe(T.Default(0)),
+          Heading: S.optional(S.Number).pipe(T.Default(0)),
           Matching: S.optional(__S(98, __c3, 2)),
           SideOfStreet: S.optional(__S(129, __c4, 1)),
         }),
@@ -2818,23 +2821,26 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NameHint: S.optional(SensitiveString),
-          OnRoadThreshold: S.optional(S.Number),
-          Radius: S.optional(S.Number),
+          OnRoadThreshold: S.optional(S.Number).pipe(T.Default(0)),
+          Radius: S.optional(S.Number).pipe(T.Default(0)),
           Strategy: S.optional(S.String),
         }),
       ).annotate({ identifier: "IsolineMatchingOptions" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ FlowEventThresholdOverride: S.optional(S.Number), Usage: S.optional(S.String) }),
+        S.Struct({
+          FlowEventThresholdOverride: S.optional(S.Number).pipe(T.Default(0)),
+          Usage: S.optional(S.String),
+        }),
       ).annotate({ identifier: "IsolineTrafficOptions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Single: S.optional(S.Number),
-          Tandem: S.optional(S.Number),
-          Triple: S.optional(S.Number),
-          Quad: S.optional(S.Number),
-          Quint: S.optional(S.Number),
+          Single: S.optional(S.Number).pipe(T.Default(0)),
+          Tandem: S.optional(S.Number).pipe(T.Default(0)),
+          Triple: S.optional(S.Number).pipe(T.Default(0)),
+          Quad: S.optional(S.Number).pipe(T.Default(0)),
+          Quint: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WeightPerAxleGroup" });
   }
@@ -2930,7 +2936,10 @@ function __c9(j: number): any {
       return S.Array(__S(292, __c9, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ Margin: S.optional(S.Number), MaxRadius: S.optional(S.Number) }),
+        S.Struct({
+          Margin: S.optional(S.Number).pipe(T.Default(0)),
+          MaxRadius: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "RouteMatrixAutoCircle" });
     case 7:
       return S.suspend(() => S.Struct({ Center: __S(160, __c5, 0), Radius: S.Number })).annotate({
@@ -2961,21 +2970,21 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AxleCount: S.optional(S.Number),
-          GrossWeight: S.optional(S.Number),
+          GrossWeight: S.optional(S.Number).pipe(T.Default(0)),
           HazardousCargos: S.optional(__S(161, __c5, 1)),
-          Height: S.optional(S.Number),
-          KpraLength: S.optional(S.Number),
-          Length: S.optional(S.Number),
+          Height: S.optional(S.Number).pipe(T.Default(0)),
+          KpraLength: S.optional(S.Number).pipe(T.Default(0)),
+          Length: S.optional(S.Number).pipe(T.Default(0)),
           LicensePlate: S.optional(__S(67, __c2, 3)),
           MaxSpeed: S.optional(S.Number),
           Occupancy: S.optional(S.Number),
-          PayloadCapacity: S.optional(S.Number),
+          PayloadCapacity: S.optional(S.Number).pipe(T.Default(0)),
           Trailer: S.optional(__S(352, __c11, 0)),
           TruckType: S.optional(S.String),
           TunnelRestrictionCode: S.optional(SensitiveString),
-          WeightPerAxle: S.optional(S.Number),
+          WeightPerAxle: S.optional(S.Number).pipe(T.Default(0)),
           WeightPerAxleGroup: S.optional(__S(100, __c3, 4)),
-          Width: S.optional(S.Number),
+          Width: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RouteMatrixTruckOptions" });
     case 12:
@@ -3008,7 +3017,11 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CalculateRouteMatrixRequest" });
     case 14:
       return S.suspend(() =>
-        S.Struct({ Distance: S.Number, Duration: S.Number, Error: S.optional(S.String) }),
+        S.Struct({
+          Distance: S.Number.pipe(T.Default(0)),
+          Duration: S.Number.pipe(T.Default(0)),
+          Error: S.optional(S.String),
+        }),
       ).annotate({ identifier: "RouteMatrixEntry" });
     case 15:
       return S.Array(__S(302, __c9, 14));
@@ -3087,17 +3100,20 @@ function __c12(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          AvoidActionsForDistance: S.optional(S.Number),
+          AvoidActionsForDistance: S.optional(S.Number).pipe(T.Default(0)),
           AvoidUTurns: S.optional(S.Boolean),
-          Heading: S.optional(S.Number),
+          Heading: S.optional(S.Number).pipe(T.Default(0)),
           Matching: S.optional(__S(98, __c3, 2)),
           SideOfStreet: S.optional(__S(129, __c4, 1)),
-          StopDuration: S.optional(S.Number),
+          StopDuration: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RouteDestinationOptions" });
     case 8:
       return S.suspend(() =>
-        S.Struct({ DriveDuration: S.Number, RestDuration: S.Number }),
+        S.Struct({
+          DriveDuration: S.Number.pipe(T.Default(0)),
+          RestDuration: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "RouteDriverScheduleInterval" });
     case 9:
       return S.Array(__S(392, __c12, 8));
@@ -3110,9 +3126,9 @@ function __c12(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          AvoidActionsForDistance: S.optional(S.Number),
+          AvoidActionsForDistance: S.optional(S.Number).pipe(T.Default(0)),
           AvoidUTurns: S.optional(S.Boolean),
-          Heading: S.optional(S.Number),
+          Heading: S.optional(S.Number).pipe(T.Default(0)),
           Matching: S.optional(__S(98, __c3, 2)),
           SideOfStreet: S.optional(__S(129, __c4, 1)),
         }),
@@ -3149,23 +3165,23 @@ function __c12(j: number): any {
         S.Struct({
           AxleCount: S.optional(S.Number),
           EngineType: S.optional(S.String),
-          GrossWeight: S.optional(S.Number),
+          GrossWeight: S.optional(S.Number).pipe(T.Default(0)),
           HazardousCargos: S.optional(__S(161, __c5, 1)),
-          Height: S.optional(S.Number),
-          HeightAboveFirstAxle: S.optional(S.Number),
-          KpraLength: S.optional(S.Number),
-          Length: S.optional(S.Number),
+          Height: S.optional(S.Number).pipe(T.Default(0)),
+          HeightAboveFirstAxle: S.optional(S.Number).pipe(T.Default(0)),
+          KpraLength: S.optional(S.Number).pipe(T.Default(0)),
+          Length: S.optional(S.Number).pipe(T.Default(0)),
           LicensePlate: S.optional(__S(399, __c12, 15)),
           MaxSpeed: S.optional(S.Number),
           Occupancy: S.optional(S.Number),
-          PayloadCapacity: S.optional(S.Number),
+          PayloadCapacity: S.optional(S.Number).pipe(T.Default(0)),
           TireCount: S.optional(S.Number),
           Trailer: S.optional(__S(226, __c7, 2)),
           TruckType: S.optional(S.String),
           TunnelRestrictionCode: S.optional(SensitiveString),
-          WeightPerAxle: S.optional(S.Number),
+          WeightPerAxle: S.optional(S.Number).pipe(T.Default(0)),
           WeightPerAxleGroup: S.optional(__S(100, __c3, 4)),
-          Width: S.optional(S.Number),
+          Width: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RouteTruckOptions" });
     case 18:
@@ -3216,14 +3232,14 @@ function __c12(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          AvoidActionsForDistance: S.optional(S.Number),
+          AvoidActionsForDistance: S.optional(S.Number).pipe(T.Default(0)),
           AvoidUTurns: S.optional(S.Boolean),
-          Heading: S.optional(S.Number),
+          Heading: S.optional(S.Number).pipe(T.Default(0)),
           Matching: S.optional(__S(98, __c3, 2)),
           PassThrough: S.optional(S.Boolean),
           Position: __S(160, __c5, 0),
           SideOfStreet: S.optional(__S(129, __c4, 1)),
-          StopDuration: S.optional(S.Number),
+          StopDuration: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RouteWaypoint" });
     case 24:
@@ -3266,7 +3282,11 @@ function __c12(j: number): any {
       return S.Array(__S(410, __c12, 26));
     case 28:
       return S.suspend(() =>
-        S.Struct({ Duration: S.Number, Instruction: S.optional(SensitiveString), Type: S.String }),
+        S.Struct({
+          Duration: S.Number.pipe(T.Default(0)),
+          Instruction: S.optional(SensitiveString),
+          Type: S.String,
+        }),
       ).annotate({ identifier: "RouteFerryAfterTravelStep" });
     case 29:
       return S.Array(__S(412, __c12, 28));
@@ -3311,8 +3331,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Country: S.optional(SensitiveString),
-          Distance: S.optional(S.Number),
-          Duration: S.optional(S.Number),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
           GeometryOffset: S.optional(S.Number),
           Names: S.optional(__S(420, __c13, 4)),
           Region: S.optional(SensitiveString),
@@ -3321,11 +3341,11 @@ function __c13(j: number): any {
     case 6:
       return S.Array(__S(421, __c13, 5));
     case 7:
-      return S.suspend(() => S.Struct({ Distance: S.Number, Duration: S.Number })).annotate({
-        identifier: "RouteFerryOverviewSummary",
-      });
+      return S.suspend(() =>
+        S.Struct({ Distance: S.Number.pipe(T.Default(0)), Duration: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "RouteFerryOverviewSummary" });
     case 8:
-      return S.suspend(() => S.Struct({ Duration: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ Duration: S.Number.pipe(T.Default(0)) })).annotate({
         identifier: "RouteFerryTravelOnlySummary",
       });
     case 9:
@@ -3338,8 +3358,8 @@ function __c13(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          Distance: S.optional(S.Number),
-          Duration: S.Number,
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
+          Duration: S.Number.pipe(T.Default(0)),
           GeometryOffset: S.optional(S.Number),
           Instruction: S.optional(SensitiveString),
           Type: S.String,
@@ -3363,47 +3383,53 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "RouteFerryLegDetails" });
     case 13:
+      return S.suspend(() =>
+        S.Struct({ Duration: S.Number, Instruction: S.optional(SensitiveString), Type: S.String }),
+      ).annotate({ identifier: "RoutePedestrianAfterTravelStep" });
+    case 14:
+      return S.Array(__S(429, __c13, 13));
+    case 15:
       return S.suspend(() => S.Struct({ Wheelchair: S.optional(S.String) })).annotate({
         identifier: "RouteAccessibilityAvailabilityDetails",
       });
-    case 14:
-      return S.suspend(() => S.Struct({ Accessibility: S.optional(__S(429, __c13, 13)) })).annotate(
+    case 16:
+      return S.suspend(() => S.Struct({ Accessibility: S.optional(__S(431, __c13, 15)) })).annotate(
         { identifier: "RouteAccessPointDetails" },
       );
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          Accessibility: S.optional(__S(429, __c13, 13)),
+          Accessibility: S.optional(__S(431, __c13, 15)),
           PlatformName: S.optional(SensitiveString),
           ShortName: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "RouteStationDetails" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          AccessPointDetails: S.optional(__S(430, __c13, 14)),
+          AccessPointDetails: S.optional(__S(432, __c13, 16)),
           Name: S.optional(SensitiveString),
           OriginalPosition: S.optional(__S(160, __c5, 0)),
           Position: __S(160, __c5, 0),
           SideOfStreet: S.optional(S.String),
-          StationDetails: S.optional(__S(431, __c13, 15)),
+          StationDetails: S.optional(__S(433, __c13, 17)),
           Type: S.optional(S.String),
           WaypointIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RoutePedestrianPlace" });
-    case 17:
+    case 19:
       return S.suspend(() =>
-        S.Struct({ Place: __S(432, __c13, 16), Time: S.optional(SensitiveString) }),
+        S.Struct({ Place: __S(434, __c13, 18), Time: S.optional(SensitiveString) }),
       ).annotate({ identifier: "RoutePedestrianArrival" });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          BestCaseSpeed: S.optional(S.Number),
-          TurnDuration: S.optional(S.Number),
-          TypicalSpeed: S.optional(S.Number),
+          BestCaseSpeed: S.optional(S.Number).pipe(T.Default(0)),
+          TurnDuration: S.optional(S.Number).pipe(T.Default(0)),
+          TypicalSpeed: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RouteSpanDynamicSpeedDetails" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           Direction: S.optional(S.String),
@@ -3411,20 +3437,23 @@ function __c13(j: number): any {
           Value: SensitiveString,
         }),
       ).annotate({ identifier: "RouteNumber" });
-    case 20:
-      return S.Array(__S(435, __c13, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({ MaxSpeed: S.optional(S.Number), Unlimited: S.optional(S.Boolean) }),
-      ).annotate({ identifier: "RouteSpanSpeedLimitDetails" });
     case 22:
+      return S.Array(__S(437, __c13, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          BestCaseDuration: S.optional(S.Number),
+          MaxSpeed: S.optional(S.Number).pipe(T.Default(0)),
+          Unlimited: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "RouteSpanSpeedLimitDetails" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          BestCaseDuration: S.optional(S.Number).pipe(T.Default(0)),
           Country: S.optional(SensitiveString),
-          Distance: S.optional(S.Number),
-          Duration: S.optional(S.Number),
-          DynamicSpeed: S.optional(__S(434, __c13, 18)),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
+          DynamicSpeed: S.optional(__S(436, __c13, 20)),
           FunctionalClassification: S.optional(S.Number),
           GeometryOffset: S.optional(S.Number),
           Incidents: S.optional(__S(160, __c5, 0)),
@@ -3432,97 +3461,97 @@ function __c13(j: number): any {
           PedestrianAccess: S.optional(__S(161, __c5, 1)),
           Region: S.optional(SensitiveString),
           RoadAttributes: S.optional(__S(161, __c5, 1)),
-          RouteNumbers: S.optional(__S(436, __c13, 20)),
-          SpeedLimit: S.optional(__S(437, __c13, 21)),
-          TypicalDuration: S.optional(S.Number),
+          RouteNumbers: S.optional(__S(438, __c13, 22)),
+          SpeedLimit: S.optional(__S(439, __c13, 23)),
+          TypicalDuration: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RoutePedestrianSpan" });
-    case 23:
-      return S.Array(__S(438, __c13, 22));
-    case 24:
+    case 25:
+      return S.Array(__S(440, __c13, 24));
+    case 26:
       return S.suspend(() => S.Struct({ Intersection: __S(420, __c13, 4) })).annotate({
         identifier: "RouteContinueStepDetails",
       });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           RoadName: __S(420, __c13, 4),
-          RouteNumber: __S(436, __c13, 20),
+          RouteNumber: __S(438, __c13, 22),
           Towards: __S(420, __c13, 4),
           Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "RouteRoad" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           Intersection: __S(420, __c13, 4),
           SteeringDirection: S.optional(S.String),
-          TurnAngle: S.optional(S.Number),
+          TurnAngle: S.optional(S.Number).pipe(T.Default(0)),
           TurnIntensity: S.optional(S.String),
         }),
       ).annotate({ identifier: "RouteKeepStepDetails" });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           Intersection: __S(420, __c13, 4),
           RelativeExit: S.optional(S.Number),
-          RoundaboutAngle: S.optional(S.Number),
+          RoundaboutAngle: S.optional(S.Number).pipe(T.Default(0)),
           SteeringDirection: S.optional(S.String),
         }),
       ).annotate({ identifier: "RouteRoundaboutExitStepDetails" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
-          RouteNumber: S.optional(__S(435, __c13, 19)),
+          RouteNumber: S.optional(__S(437, __c13, 21)),
           Text: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "RouteSignpostLabel" });
-    case 29:
-      return S.Array(__S(444, __c13, 28));
-    case 30:
-      return S.suspend(() => S.Struct({ Labels: __S(445, __c13, 29) })).annotate({
-        identifier: "RouteSignpost",
-      });
     case 31:
-      return S.suspend(() =>
-        S.Struct({
-          ContinueStepDetails: S.optional(__S(440, __c13, 24)),
-          CurrentRoad: S.optional(__S(441, __c13, 25)),
-          Distance: S.optional(S.Number),
-          Duration: S.Number,
-          ExitNumber: S.optional(__S(420, __c13, 4)),
-          GeometryOffset: S.optional(S.Number),
-          Instruction: S.optional(SensitiveString),
-          KeepStepDetails: S.optional(__S(442, __c13, 26)),
-          NextRoad: S.optional(__S(441, __c13, 25)),
-          RoundaboutEnterStepDetails: S.optional(__S(442, __c13, 26)),
-          RoundaboutExitStepDetails: S.optional(__S(443, __c13, 27)),
-          RoundaboutPassStepDetails: S.optional(__S(442, __c13, 26)),
-          Signpost: S.optional(__S(446, __c13, 30)),
-          TurnStepDetails: S.optional(__S(442, __c13, 26)),
-          Type: S.String,
-        }),
-      ).annotate({ identifier: "RoutePedestrianTravelStep" });
+      return S.Array(__S(446, __c13, 30));
   }
 }
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(447, __c13, 31));
+      return S.suspend(() => S.Struct({ Labels: __S(447, __c13, 31) })).annotate({
+        identifier: "RouteSignpost",
+      });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AfterTravelSteps: S.optional(__S(413, __c12, 29)),
-          Arrival: __S(433, __c13, 17),
-          Departure: __S(433, __c13, 17),
+          ContinueStepDetails: S.optional(__S(442, __c13, 26)),
+          CurrentRoad: S.optional(__S(443, __c13, 27)),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
+          Duration: S.Number.pipe(T.Default(0)),
+          ExitNumber: S.optional(__S(420, __c13, 4)),
+          GeometryOffset: S.optional(S.Number),
+          Instruction: S.optional(SensitiveString),
+          KeepStepDetails: S.optional(__S(444, __c13, 28)),
+          NextRoad: S.optional(__S(443, __c13, 27)),
+          RoundaboutEnterStepDetails: S.optional(__S(444, __c13, 28)),
+          RoundaboutExitStepDetails: S.optional(__S(445, __c13, 29)),
+          RoundaboutPassStepDetails: S.optional(__S(444, __c13, 28)),
+          Signpost: S.optional(__S(448, __c14, 0)),
+          TurnStepDetails: S.optional(__S(444, __c13, 28)),
+          Type: S.String,
+        }),
+      ).annotate({ identifier: "RoutePedestrianTravelStep" });
+    case 2:
+      return S.Array(__S(449, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          AfterTravelSteps: S.optional(__S(430, __c13, 14)).pipe(T.Default([])),
+          Arrival: __S(435, __c13, 19),
+          Departure: __S(435, __c13, 19),
           Notices: S.optional(__S(411, __c12, 27)),
           PassThroughWaypoints: S.optional(__S(418, __c13, 2)),
-          Spans: S.optional(__S(439, __c13, 23)),
+          Spans: S.optional(__S(441, __c13, 25)),
           Summary: S.optional(__S(425, __c13, 9)),
-          TravelSteps: S.optional(__S(448, __c14, 0)),
+          TravelSteps: S.optional(__S(450, __c14, 2)),
         }),
       ).annotate({ identifier: "RoutePedestrianLegDetails" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           ArrivalCharge: S.optional(S.Number),
@@ -3530,18 +3559,18 @@ function __c14(j: number): any {
           DesiredCharge: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RouteChargeStepDetails" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          ChargeStepDetails: S.optional(__S(450, __c14, 2)),
+          ChargeStepDetails: S.optional(__S(452, __c14, 4)),
           Duration: S.Number,
           Instruction: S.optional(SensitiveString),
           Type: S.String,
         }),
       ).annotate({ identifier: "RouteVehicleAfterTravelStep" });
-    case 4:
-      return S.Array(__S(451, __c14, 3));
-    case 5:
+    case 6:
+      return S.Array(__S(453, __c14, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(SensitiveString),
@@ -3549,16 +3578,16 @@ function __c14(j: number): any {
           Position: __S(160, __c5, 0),
           SideOfStreet: S.optional(S.String),
           WaypointIndex: S.optional(S.Number),
-          AccessPointDetails: S.optional(__S(430, __c13, 14)),
-          StationDetails: S.optional(__S(431, __c13, 15)),
+          AccessPointDetails: S.optional(__S(432, __c13, 16)),
+          StationDetails: S.optional(__S(433, __c13, 17)),
           Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "RouteVehiclePlace" });
-    case 6:
+    case 8:
       return S.suspend(() =>
-        S.Struct({ Place: __S(453, __c14, 5), Time: S.optional(SensitiveString) }),
+        S.Struct({ Place: __S(455, __c14, 7), Time: S.optional(SensitiveString) }),
       ).annotate({ identifier: "RouteVehicleArrival" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(SensitiveString),
@@ -3568,64 +3597,64 @@ function __c14(j: number): any {
           Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "RouteVehicleIncident" });
-    case 8:
-      return S.Array(__S(455, __c14, 7));
-    case 9:
+    case 10:
+      return S.Array(__S(457, __c14, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
       ).annotate({ identifier: "RouteNoticeDetailRange" });
-    case 10:
-      return S.suspend(() => S.Struct({ Type: S.String, Value: S.Number })).annotate({
-        identifier: "RouteWeightConstraint",
-      });
-    case 11:
+    case 12:
+      return S.suspend(() =>
+        S.Struct({ Type: S.String, Value: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "RouteWeightConstraint" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           AllHazardsRestricted: S.optional(S.Boolean),
-          AxleCount: S.optional(__S(457, __c14, 9)),
+          AxleCount: S.optional(__S(459, __c14, 11)),
           HazardousCargos: __S(161, __c5, 1),
-          MaxHeight: S.optional(S.Number),
-          MaxKpraLength: S.optional(S.Number),
-          MaxLength: S.optional(S.Number),
-          MaxPayloadCapacity: S.optional(S.Number),
-          MaxWeight: S.optional(__S(458, __c14, 10)),
-          MaxWeightPerAxle: S.optional(S.Number),
+          MaxHeight: S.optional(S.Number).pipe(T.Default(0)),
+          MaxKpraLength: S.optional(S.Number).pipe(T.Default(0)),
+          MaxLength: S.optional(S.Number).pipe(T.Default(0)),
+          MaxPayloadCapacity: S.optional(S.Number).pipe(T.Default(0)),
+          MaxWeight: S.optional(__S(460, __c14, 12)),
+          MaxWeightPerAxle: S.optional(S.Number).pipe(T.Default(0)),
           MaxWeightPerAxleGroup: S.optional(__S(100, __c3, 4)),
-          MaxWidth: S.optional(S.Number),
-          Occupancy: S.optional(__S(457, __c14, 9)),
+          MaxWidth: S.optional(S.Number).pipe(T.Default(0)),
+          Occupancy: S.optional(__S(459, __c14, 11)),
           RestrictedTimes: S.optional(S.String),
           TimeDependent: S.optional(S.Boolean),
-          TrailerCount: S.optional(__S(457, __c14, 9)),
+          TrailerCount: S.optional(__S(459, __c14, 11)),
           TravelMode: S.optional(S.Boolean),
           TruckRoadType: S.optional(S.String),
           TruckType: S.optional(S.String),
           TunnelRestrictionCode: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "RouteViolatedConstraints" });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           Title: S.optional(SensitiveString),
-          ViolatedConstraints: S.optional(__S(459, __c14, 11)),
+          ViolatedConstraints: S.optional(__S(461, __c14, 13)),
         }),
       ).annotate({ identifier: "RouteVehicleNoticeDetail" });
-    case 13:
-      return S.Array(__S(460, __c14, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({ Code: S.String, Details: __S(461, __c14, 13), Impact: S.optional(S.String) }),
-      ).annotate({ identifier: "RouteVehicleNotice" });
     case 15:
       return S.Array(__S(462, __c14, 14));
     case 16:
       return S.suspend(() =>
+        S.Struct({ Code: S.String, Details: __S(463, __c14, 15), Impact: S.optional(S.String) }),
+      ).annotate({ identifier: "RouteVehicleNotice" });
+    case 17:
+      return S.Array(__S(464, __c14, 16));
+    case 18:
+      return S.suspend(() =>
         S.Struct({
-          BestCaseDuration: S.optional(S.Number),
+          BestCaseDuration: S.optional(S.Number).pipe(T.Default(0)),
           CarAccess: S.optional(__S(161, __c5, 1)),
           Country: S.optional(SensitiveString),
-          Distance: S.optional(S.Number),
-          Duration: S.optional(S.Number),
-          DynamicSpeed: S.optional(__S(434, __c13, 18)),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
+          DynamicSpeed: S.optional(__S(436, __c13, 20)),
           FunctionalClassification: S.optional(S.Number),
           Gate: S.optional(S.String),
           GeometryOffset: S.optional(S.Number),
@@ -3635,107 +3664,96 @@ function __c14(j: number): any {
           RailwayCrossing: S.optional(S.String),
           Region: S.optional(SensitiveString),
           RoadAttributes: S.optional(__S(161, __c5, 1)),
-          RouteNumbers: S.optional(__S(436, __c13, 20)),
+          RouteNumbers: S.optional(__S(438, __c13, 22)),
           ScooterAccess: S.optional(__S(161, __c5, 1)),
-          SpeedLimit: S.optional(__S(437, __c13, 21)),
+          SpeedLimit: S.optional(__S(439, __c13, 23)),
           TollSystems: S.optional(__S(160, __c5, 0)),
           TruckAccess: S.optional(__S(161, __c5, 1)),
           TruckRoadTypes: S.optional(__S(160, __c5, 0)),
-          TypicalDuration: S.optional(S.Number),
+          TypicalDuration: S.optional(S.Number).pipe(T.Default(0)),
           Zones: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "RouteVehicleSpan" });
-    case 17:
-      return S.Array(__S(464, __c14, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          BestCaseDuration: S.optional(S.Number),
-          Distance: S.Number,
-          Duration: S.Number,
-          TypicalDuration: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RouteVehicleOverviewSummary" });
     case 19:
-      return S.suspend(() =>
-        S.Struct({
-          BestCaseDuration: S.optional(S.Number),
-          Duration: S.Number,
-          TypicalDuration: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RouteVehicleTravelOnlySummary" });
+      return S.Array(__S(466, __c14, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          Overview: S.optional(__S(466, __c14, 18)),
-          TravelOnly: S.optional(__S(467, __c14, 19)),
+          BestCaseDuration: S.optional(S.Number).pipe(T.Default(0)),
+          Distance: S.Number.pipe(T.Default(0)),
+          Duration: S.Number.pipe(T.Default(0)),
+          TypicalDuration: S.optional(S.Number).pipe(T.Default(0)),
+        }),
+      ).annotate({ identifier: "RouteVehicleOverviewSummary" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          BestCaseDuration: S.optional(S.Number).pipe(T.Default(0)),
+          Duration: S.Number.pipe(T.Default(0)),
+          TypicalDuration: S.optional(S.Number).pipe(T.Default(0)),
+        }),
+      ).annotate({ identifier: "RouteVehicleTravelOnlySummary" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          Overview: S.optional(__S(468, __c14, 20)),
+          TravelOnly: S.optional(__S(469, __c14, 21)),
         }),
       ).annotate({ identifier: "RouteVehicleSummary" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), Position: __S(160, __c5, 0) }),
       ).annotate({ identifier: "RouteTollPaymentSite" });
-    case 22:
-      return S.Array(__S(469, __c14, 21));
-    case 23:
+    case 24:
+      return S.Array(__S(471, __c14, 23));
+    case 25:
       return S.suspend(() => S.Struct({ Min: S.Number, Max: S.Number })).annotate({
         identifier: "RouteTollPriceValueRange",
       });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           Currency: S.String,
           Estimate: S.Boolean,
-          PerDuration: S.optional(S.Number),
+          PerDuration: S.optional(S.Number).pipe(T.Default(0)),
           Range: S.Boolean,
-          RangeValue: S.optional(__S(471, __c14, 23)),
+          RangeValue: S.optional(__S(473, __c14, 25)),
           Value: S.Number,
         }),
       ).annotate({ identifier: "RouteTollPrice" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({ Period: S.String, PeriodCount: S.optional(S.Number) }),
       ).annotate({ identifier: "RouteTollPassValidityPeriod" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           IncludesReturnTrip: S.optional(S.Boolean),
           SeniorPass: S.optional(S.Boolean),
           TransferCount: S.optional(S.Number),
           TripCount: S.optional(S.Number),
-          ValidityPeriod: S.optional(__S(473, __c14, 25)),
+          ValidityPeriod: S.optional(__S(475, __c14, 27)),
         }),
       ).annotate({ identifier: "RouteTollPass" });
-    case 27:
+    case 29:
       return S.suspend(() => S.Struct({ SystemName: S.optional(SensitiveString) })).annotate({
         identifier: "RouteTransponder",
       });
-    case 28:
-      return S.Array(__S(475, __c14, 27));
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          ApplicableTimes: S.optional(SensitiveString),
-          ConvertedPrice: S.optional(__S(472, __c14, 24)),
-          Id: SensitiveString,
-          LocalPrice: __S(472, __c14, 24),
-          Name: SensitiveString,
-          Pass: S.optional(__S(474, __c14, 26)),
-          PaymentMethods: __S(161, __c5, 1),
-          Transponders: __S(476, __c14, 28),
-        }),
-      ).annotate({ identifier: "RouteTollRate" });
     case 30:
       return S.Array(__S(477, __c14, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          Country: S.optional(SensitiveString),
-          PaymentSites: __S(470, __c14, 22),
-          Rates: __S(478, __c14, 30),
-          Systems: __S(160, __c5, 0),
+          ApplicableTimes: S.optional(SensitiveString),
+          ConvertedPrice: S.optional(__S(474, __c14, 26)),
+          Id: SensitiveString,
+          LocalPrice: __S(474, __c14, 26),
+          Name: SensitiveString,
+          Pass: S.optional(__S(476, __c14, 28)),
+          PaymentMethods: __S(161, __c5, 1),
+          Transponders: __S(478, __c14, 30),
         }),
-      ).annotate({ identifier: "RouteToll" });
+      ).annotate({ identifier: "RouteTollRate" });
   }
 }
 function __c15(j: number): any {
@@ -3743,93 +3761,104 @@ function __c15(j: number): any {
     case 0:
       return S.Array(__S(479, __c14, 31));
     case 1:
-      return S.suspend(() => S.Struct({ Name: S.optional(SensitiveString) })).annotate({
-        identifier: "RouteTollSystem",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          Country: S.optional(SensitiveString),
+          PaymentSites: __S(472, __c14, 24),
+          Rates: __S(480, __c15, 0),
+          Systems: __S(160, __c5, 0),
+        }),
+      ).annotate({ identifier: "RouteToll" });
     case 2:
       return S.Array(__S(481, __c15, 1));
     case 3:
+      return S.suspend(() => S.Struct({ Name: S.optional(SensitiveString) })).annotate({
+        identifier: "RouteTollSystem",
+      });
+    case 4:
+      return S.Array(__S(483, __c15, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           Intersection: __S(420, __c13, 4),
           RelativeExit: S.optional(S.Number),
           SteeringDirection: S.optional(S.String),
-          TurnAngle: S.optional(S.Number),
+          TurnAngle: S.optional(S.Number).pipe(T.Default(0)),
           TurnIntensity: S.optional(S.String),
         }),
       ).annotate({ identifier: "RouteExitStepDetails" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          ContinueHighwayStepDetails: S.optional(__S(442, __c13, 26)),
-          ContinueStepDetails: S.optional(__S(440, __c13, 24)),
-          CurrentRoad: S.optional(__S(441, __c13, 25)),
-          Distance: S.optional(S.Number),
-          Duration: S.Number,
-          EnterHighwayStepDetails: S.optional(__S(442, __c13, 26)),
-          ExitNumber: S.optional(__S(420, __c13, 4)),
-          ExitStepDetails: S.optional(__S(483, __c15, 3)),
-          GeometryOffset: S.optional(S.Number),
-          Instruction: S.optional(SensitiveString),
-          KeepStepDetails: S.optional(__S(442, __c13, 26)),
-          NextRoad: S.optional(__S(441, __c13, 25)),
-          RampStepDetails: S.optional(__S(442, __c13, 26)),
-          RoundaboutEnterStepDetails: S.optional(__S(442, __c13, 26)),
-          RoundaboutExitStepDetails: S.optional(__S(443, __c13, 27)),
-          RoundaboutPassStepDetails: S.optional(__S(442, __c13, 26)),
-          Signpost: S.optional(__S(446, __c13, 30)),
-          TurnStepDetails: S.optional(__S(442, __c13, 26)),
-          Type: S.String,
-          UTurnStepDetails: S.optional(__S(442, __c13, 26)),
-        }),
-      ).annotate({ identifier: "RouteVehicleTravelStep" });
-    case 5:
-      return S.Array(__S(484, __c15, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ Category: S.optional(S.String), Name: S.optional(SensitiveString) }),
-      ).annotate({ identifier: "RouteZone" });
+        S.Struct({
+          ContinueHighwayStepDetails: S.optional(__S(444, __c13, 28)),
+          ContinueStepDetails: S.optional(__S(442, __c13, 26)),
+          CurrentRoad: S.optional(__S(443, __c13, 27)),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
+          Duration: S.Number.pipe(T.Default(0)),
+          EnterHighwayStepDetails: S.optional(__S(444, __c13, 28)),
+          ExitNumber: S.optional(__S(420, __c13, 4)),
+          ExitStepDetails: S.optional(__S(485, __c15, 5)),
+          GeometryOffset: S.optional(S.Number),
+          Instruction: S.optional(SensitiveString),
+          KeepStepDetails: S.optional(__S(444, __c13, 28)),
+          NextRoad: S.optional(__S(443, __c13, 27)),
+          RampStepDetails: S.optional(__S(444, __c13, 28)),
+          RoundaboutEnterStepDetails: S.optional(__S(444, __c13, 28)),
+          RoundaboutExitStepDetails: S.optional(__S(445, __c13, 29)),
+          RoundaboutPassStepDetails: S.optional(__S(444, __c13, 28)),
+          Signpost: S.optional(__S(448, __c14, 0)),
+          TurnStepDetails: S.optional(__S(444, __c13, 28)),
+          Type: S.String,
+          UTurnStepDetails: S.optional(__S(444, __c13, 28)),
+        }),
+      ).annotate({ identifier: "RouteVehicleTravelStep" });
     case 7:
       return S.Array(__S(486, __c15, 6));
     case 8:
       return S.suspend(() =>
-        S.Struct({
-          AfterTravelSteps: S.optional(__S(452, __c14, 4)),
-          Arrival: __S(454, __c14, 6),
-          Departure: __S(454, __c14, 6),
-          Incidents: S.optional(__S(456, __c14, 8)),
-          Notices: S.optional(__S(463, __c14, 15)),
-          PassThroughWaypoints: S.optional(__S(418, __c13, 2)),
-          Spans: S.optional(__S(465, __c14, 17)),
-          Summary: S.optional(__S(468, __c14, 20)),
-          Tolls: S.optional(__S(480, __c15, 0)),
-          TollSystems: S.optional(__S(482, __c15, 2)),
-          TravelSteps: S.optional(__S(485, __c15, 5)),
-          TruckRoadTypes: S.optional(__S(128, __c4, 0)),
-          Zones: S.optional(__S(487, __c15, 7)),
-        }),
-      ).annotate({ identifier: "RouteVehicleLegDetails" });
+        S.Struct({ Category: S.optional(S.String), Name: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "RouteZone" });
     case 9:
-      return S.suspend(() =>
-        S.Struct({ Name: SensitiveString, Url: S.optional(SensitiveString) }),
-      ).annotate({ identifier: "RouteRentalAgency" });
+      return S.Array(__S(488, __c15, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          AccessPointDetails: S.optional(__S(430, __c13, 14)),
+          AfterTravelSteps: S.optional(__S(454, __c14, 6)).pipe(T.Default([])),
+          Arrival: __S(456, __c14, 8),
+          Departure: __S(456, __c14, 8),
+          Incidents: S.optional(__S(458, __c14, 10)),
+          Notices: S.optional(__S(465, __c14, 17)),
+          PassThroughWaypoints: S.optional(__S(418, __c13, 2)),
+          Spans: S.optional(__S(467, __c14, 19)),
+          Summary: S.optional(__S(470, __c14, 22)),
+          Tolls: S.optional(__S(482, __c15, 2)),
+          TollSystems: S.optional(__S(484, __c15, 4)),
+          TravelSteps: S.optional(__S(487, __c15, 7)),
+          TruckRoadTypes: S.optional(__S(128, __c4, 0)),
+          Zones: S.optional(__S(489, __c15, 9)),
+        }),
+      ).annotate({ identifier: "RouteVehicleLegDetails" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({ Name: SensitiveString, Url: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "RouteRentalAgency" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          AccessPointDetails: S.optional(__S(432, __c13, 16)),
           Name: S.optional(SensitiveString),
           OriginalPosition: S.optional(__S(160, __c5, 0)),
           Position: __S(160, __c5, 0),
-          StationDetails: S.optional(__S(431, __c13, 15)),
+          StationDetails: S.optional(__S(433, __c13, 17)),
           Type: S.optional(S.String),
           WaypointIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RouteRentalPlace" });
-    case 11:
+    case 13:
       return S.suspend(() =>
-        S.Struct({ Place: __S(490, __c15, 10), Time: S.optional(SensitiveString) }),
+        S.Struct({ Place: __S(492, __c15, 12), Time: S.optional(SensitiveString) }),
       ).annotate({ identifier: "RouteRentalArrival" });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           AnchorText: S.optional(SensitiveString),
@@ -3838,26 +3867,30 @@ function __c15(j: number): any {
           Url: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "RouteWebLink" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({ AttributionType: S.optional(S.String), WebLink: __S(492, __c15, 12) }),
-      ).annotate({ identifier: "RouteAttribution" });
-    case 14:
-      return S.Array(__S(493, __c15, 13));
     case 15:
-      return S.Array(__S(492, __c15, 12));
+      return S.suspend(() =>
+        S.Struct({ AttributionType: S.optional(S.String), WebLink: __S(494, __c15, 14) }),
+      ).annotate({ identifier: "RouteAttribution" });
     case 16:
+      return S.Array(__S(495, __c15, 15));
+    case 17:
+      return S.Array(__S(494, __c15, 14));
+    case 18:
       return S.suspend(() => S.Struct({ Duration: S.Number, Distance: S.Number })).annotate({
         identifier: "RouteRentalOverviewSummary",
       });
-    case 17:
+    case 19:
+      return S.suspend(() => S.Struct({ Duration: S.Number })).annotate({
+        identifier: "RouteRentalTravelOnlySummary",
+      });
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          Overview: S.optional(__S(496, __c15, 16)),
-          TravelOnly: S.optional(__S(424, __c13, 8)),
+          Overview: S.optional(__S(498, __c15, 18)),
+          TravelOnly: S.optional(__S(499, __c15, 19)),
         }),
       ).annotate({ identifier: "RouteRentalSummary" });
-    case 18:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           AvailableSeats: S.optional(S.Number),
@@ -3871,79 +3904,79 @@ function __c15(j: number): any {
           TextColor: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "RouteRentalTransportModeDetails" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          ContinueStepDetails: S.optional(__S(440, __c13, 24)),
-          Distance: S.optional(S.Number),
-          Duration: S.Number,
-          ExitStepDetails: S.optional(__S(483, __c15, 3)),
-          GeometryOffset: S.optional(S.Number),
-          Instruction: S.optional(SensitiveString),
-          KeepStepDetails: S.optional(__S(442, __c13, 26)),
-          RampStepDetails: S.optional(__S(442, __c13, 26)),
-          RoundaboutEnterStepDetails: S.optional(__S(442, __c13, 26)),
-          RoundaboutExitStepDetails: S.optional(__S(443, __c13, 27)),
-          RoundaboutPassStepDetails: S.optional(__S(442, __c13, 26)),
-          TurnStepDetails: S.optional(__S(442, __c13, 26)),
-          Type: S.String,
-          UTurnStepDetails: S.optional(__S(442, __c13, 26)),
-        }),
-      ).annotate({ identifier: "RouteRentalTravelStep" });
-    case 20:
-      return S.Array(__S(499, __c15, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          AfterTravelSteps: S.optional(__S(413, __c12, 29)),
-          Agency: __S(489, __c15, 9),
-          Arrival: __S(491, __c15, 11),
-          Attributions: S.optional(__S(494, __c15, 14)),
-          BeforeTravelSteps: S.optional(__S(413, __c12, 29)),
-          BookingWebLinks: S.optional(__S(495, __c15, 15)),
-          Departure: __S(491, __c15, 11),
-          Summary: S.optional(__S(497, __c15, 17)),
-          Transport: __S(498, __c15, 18),
-          TravelSteps: S.optional(__S(500, __c15, 20)),
-        }),
-      ).annotate({ identifier: "RouteRentalLegDetails" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          AfterTravelSteps: S.optional(__S(413, __c12, 29)),
-          Agency: __S(489, __c15, 9),
-          Arrival: __S(491, __c15, 11),
-          Attributions: S.optional(__S(494, __c15, 14)),
-          BeforeTravelSteps: S.optional(__S(413, __c12, 29)),
-          BookingWebLinks: S.optional(__S(495, __c15, 15)),
-          Departure: __S(491, __c15, 11),
+          ContinueStepDetails: S.optional(__S(442, __c13, 26)),
+          Distance: S.optional(S.Number),
+          Duration: S.Number,
+          ExitStepDetails: S.optional(__S(485, __c15, 5)),
+          GeometryOffset: S.optional(S.Number),
+          Instruction: S.optional(SensitiveString),
+          KeepStepDetails: S.optional(__S(444, __c13, 28)),
+          RampStepDetails: S.optional(__S(444, __c13, 28)),
+          RoundaboutEnterStepDetails: S.optional(__S(444, __c13, 28)),
+          RoundaboutExitStepDetails: S.optional(__S(445, __c13, 29)),
+          RoundaboutPassStepDetails: S.optional(__S(444, __c13, 28)),
+          TurnStepDetails: S.optional(__S(444, __c13, 28)),
+          Type: S.String,
+          UTurnStepDetails: S.optional(__S(444, __c13, 28)),
+        }),
+      ).annotate({ identifier: "RouteRentalTravelStep" });
+    case 23:
+      return S.Array(__S(502, __c15, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          AfterTravelSteps: S.optional(__S(430, __c13, 14)),
+          Agency: __S(491, __c15, 11),
+          Arrival: __S(493, __c15, 13),
+          Attributions: S.optional(__S(496, __c15, 16)),
+          BeforeTravelSteps: S.optional(__S(430, __c13, 14)),
+          BookingWebLinks: S.optional(__S(497, __c15, 17)),
+          Departure: __S(493, __c15, 13),
+          Summary: S.optional(__S(500, __c15, 20)),
+          Transport: __S(501, __c15, 21),
+          TravelSteps: S.optional(__S(503, __c15, 23)),
+        }),
+      ).annotate({ identifier: "RouteRentalLegDetails" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          AfterTravelSteps: S.optional(__S(430, __c13, 14)),
+          Agency: __S(491, __c15, 11),
+          Arrival: __S(493, __c15, 13),
+          Attributions: S.optional(__S(496, __c15, 16)),
+          BeforeTravelSteps: S.optional(__S(430, __c13, 14)),
+          BookingWebLinks: S.optional(__S(497, __c15, 17)),
+          Departure: __S(493, __c15, 13),
           Notices: S.optional(__S(411, __c12, 27)),
-          Summary: S.optional(__S(497, __c15, 17)),
-          Transport: __S(498, __c15, 18),
-          TravelSteps: S.optional(__S(500, __c15, 20)),
+          Summary: S.optional(__S(500, __c15, 20)),
+          Transport: __S(501, __c15, 21),
+          TravelSteps: S.optional(__S(503, __c15, 23)),
         }),
       ).annotate({ identifier: "RouteTaxiLegDetails" });
-    case 23:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(SensitiveString),
           OriginalPosition: S.optional(__S(160, __c5, 0)),
           Position: __S(160, __c5, 0),
-          StationDetails: S.optional(__S(431, __c13, 15)),
+          StationDetails: S.optional(__S(433, __c13, 17)),
           Type: S.optional(S.String),
           WaypointIndex: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RouteTransitPlace" });
-    case 24:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           Delay: S.optional(S.Number),
-          Place: __S(503, __c15, 23),
+          Place: __S(506, __c15, 26),
           Status: S.optional(S.String),
           Time: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "RouteTransitArrival" });
-    case 25:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(SensitiveString),
@@ -3954,12 +3987,12 @@ function __c15(j: number): any {
           Url: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "RouteTransitIncident" });
-    case 26:
-      return S.Array(__S(505, __c15, 25));
-    case 27:
+    case 29:
+      return S.Array(__S(508, __c15, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
-          Accessibility: S.optional(__S(429, __c13, 13)),
+          Accessibility: S.optional(__S(431, __c13, 15)),
           Color: S.optional(SensitiveString),
           Headsign: S.optional(SensitiveString),
           LongRouteName: S.optional(SensitiveString),
@@ -3969,120 +4002,156 @@ function __c15(j: number): any {
           TextColor: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "RouteTransitTransportModeDetails" });
-    case 28:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           Attributes: S.optional(__S(161, __c5, 1)),
-          Departure: __S(504, __c15, 24),
+          Departure: __S(507, __c15, 27),
           Duration: S.Number,
           GeometryOffset: S.optional(S.Number),
-          Transport: S.optional(__S(507, __c15, 27)),
+          Transport: S.optional(__S(510, __c15, 30)),
         }),
       ).annotate({ identifier: "RouteTransitIntermediateStop" });
-    case 29:
-      return S.Array(__S(508, __c15, 28));
-    case 30:
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(511, __c15, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           Delay: S.optional(S.Number),
           PlatformName: S.optional(SensitiveString),
           Status: S.optional(S.String),
           Time: SensitiveString,
-          Transport: S.optional(__S(507, __c15, 27)),
+          Transport: S.optional(__S(510, __c15, 30)),
         }),
       ).annotate({ identifier: "RouteTransitNextDeparture" });
-    case 31:
-      return S.Array(__S(510, __c15, 30));
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          AfterTravelSteps: S.optional(__S(413, __c12, 29)),
-          Agency: S.optional(__S(489, __c15, 9)),
-          Arrival: __S(504, __c15, 24),
-          Attributions: S.optional(__S(494, __c15, 14)),
-          BeforeTravelSteps: S.optional(__S(413, __c12, 29)),
-          BookingWebLinks: S.optional(__S(495, __c15, 15)),
-          Departure: __S(504, __c15, 24),
-          Incidents: S.optional(__S(506, __c15, 26)),
-          IntermediateStops: S.optional(__S(509, __c15, 29)),
-          NextDepartures: S.optional(__S(511, __c15, 31)),
-          Notices: S.optional(__S(411, __c12, 27)),
-          PassThroughWaypoints: S.optional(__S(418, __c13, 2)),
-          Spans: S.optional(__S(422, __c13, 6)),
-          Summary: S.optional(__S(425, __c13, 9)),
-          Transport: __S(507, __c15, 27),
-          TravelSteps: S.optional(__S(427, __c13, 11)),
-        }),
-      ).annotate({ identifier: "RouteTransitLegDetails" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          FerryLegDetails: S.optional(__S(428, __c13, 12)),
-          Geometry: __S(256, __c8, 0),
-          Language: S.optional(S.String),
-          PedestrianLegDetails: S.optional(__S(449, __c14, 1)),
-          TravelMode: S.String,
-          Type: S.String,
-          VehicleLegDetails: S.optional(__S(488, __c15, 8)),
-          RentalLegDetails: S.optional(__S(501, __c15, 21)),
-          TaxiLegDetails: S.optional(__S(502, __c15, 22)),
-          TransitLegDetails: S.optional(__S(512, __c16, 0)),
-        }),
-      ).annotate({ identifier: "RouteLeg" });
     case 2:
       return S.Array(__S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          RoadName: S.optional(__S(419, __c13, 3)),
-          RouteNumber: S.optional(__S(435, __c13, 19)),
+          Country: S.optional(SensitiveString),
+          Distance: S.optional(S.Number),
+          Duration: S.optional(S.Number),
+          GeometryOffset: S.optional(S.Number),
+          Names: S.optional(__S(420, __c13, 4)),
+          Region: S.optional(SensitiveString),
         }),
-      ).annotate({ identifier: "RouteMajorRoadLabel" });
+      ).annotate({ identifier: "RouteTransitSpan" });
     case 4:
       return S.Array(__S(515, __c16, 3));
     case 5:
+      return S.suspend(() => S.Struct({ Distance: S.Number, Duration: S.Number })).annotate({
+        identifier: "RouteTransitOverviewSummary",
+      });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Overview: S.optional(__S(517, __c16, 5)),
+          TravelOnly: S.optional(__S(499, __c15, 19)),
+        }),
+      ).annotate({ identifier: "RouteTransitSummary" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          Distance: S.optional(S.Number),
+          Duration: S.Number,
+          GeometryOffset: S.optional(S.Number),
+          Instruction: S.optional(SensitiveString),
+          Type: S.String,
+        }),
+      ).annotate({ identifier: "RouteTransitTravelStep" });
+    case 8:
+      return S.Array(__S(519, __c16, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          AfterTravelSteps: S.optional(__S(430, __c13, 14)),
+          Agency: S.optional(__S(491, __c15, 11)),
+          Arrival: __S(507, __c15, 27),
+          Attributions: S.optional(__S(496, __c15, 16)),
+          BeforeTravelSteps: S.optional(__S(430, __c13, 14)),
+          BookingWebLinks: S.optional(__S(497, __c15, 17)),
+          Departure: __S(507, __c15, 27),
+          Incidents: S.optional(__S(509, __c15, 29)),
+          IntermediateStops: S.optional(__S(512, __c16, 0)),
+          NextDepartures: S.optional(__S(514, __c16, 2)),
+          Notices: S.optional(__S(411, __c12, 27)),
+          PassThroughWaypoints: S.optional(__S(418, __c13, 2)),
+          Spans: S.optional(__S(516, __c16, 4)),
+          Summary: S.optional(__S(518, __c16, 6)),
+          Transport: __S(510, __c15, 30),
+          TravelSteps: S.optional(__S(520, __c16, 8)),
+        }),
+      ).annotate({ identifier: "RouteTransitLegDetails" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          FerryLegDetails: S.optional(__S(428, __c13, 12)),
+          Geometry: __S(256, __c8, 0),
+          Language: S.optional(S.String),
+          PedestrianLegDetails: S.optional(__S(451, __c14, 3)),
+          TravelMode: S.String,
+          Type: S.String,
+          VehicleLegDetails: S.optional(__S(490, __c15, 10)),
+          RentalLegDetails: S.optional(__S(504, __c15, 24)),
+          TaxiLegDetails: S.optional(__S(505, __c15, 25)),
+          TransitLegDetails: S.optional(__S(521, __c16, 9)),
+        }),
+      ).annotate({ identifier: "RouteLeg" });
+    case 11:
+      return S.Array(__S(522, __c16, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          RoadName: S.optional(__S(419, __c13, 3)),
+          RouteNumber: S.optional(__S(437, __c13, 21)),
+        }),
+      ).annotate({ identifier: "RouteMajorRoadLabel" });
+    case 13:
+      return S.Array(__S(524, __c16, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           Currency: S.String,
           Estimate: S.Boolean,
           Range: S.Boolean,
-          RangeValue: S.optional(__S(471, __c14, 23)),
+          RangeValue: S.optional(__S(473, __c14, 25)),
           Value: S.Number,
         }),
       ).annotate({ identifier: "RouteTollPriceSummary" });
-    case 6:
-      return S.suspend(() => S.Struct({ Total: S.optional(__S(517, __c16, 5)) })).annotate({
+    case 15:
+      return S.suspend(() => S.Struct({ Total: S.optional(__S(526, __c16, 14)) })).annotate({
         identifier: "RouteTollSummary",
       });
-    case 7:
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          Distance: S.optional(S.Number),
-          Duration: S.optional(S.Number),
-          Tolls: S.optional(__S(518, __c16, 6)),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
+          Tolls: S.optional(__S(527, __c16, 15)),
         }),
       ).annotate({ identifier: "RouteSummary" });
-    case 8:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          Legs: __S(514, __c16, 2),
-          MajorRoadLabels: __S(516, __c16, 4),
-          Summary: S.optional(__S(519, __c16, 7)),
+          Legs: __S(523, __c16, 11),
+          MajorRoadLabels: __S(525, __c16, 13),
+          Summary: S.optional(__S(528, __c16, 16)),
         }),
       ).annotate({ identifier: "Route" });
-    case 9:
-      return S.Array(__S(520, __c16, 8));
-    case 10:
+    case 18:
+      return S.Array(__S(529, __c16, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           LegGeometryFormat: S.String,
           Notices: __S(411, __c12, 27),
           PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
-          Routes: __S(521, __c16, 9),
+          Routes: __S(530, __c16, 18),
         }),
       ).annotate({ identifier: "CalculateRoutesResponse" });
   }
@@ -4121,7 +4190,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "WaypointOptimizationAvoidanceOptions" });
     case 4:
-      return S.suspend(() => S.Struct({ DrivingDistance: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ DrivingDistance: S.Number.pipe(T.Default(5)) })).annotate({
         identifier: "WaypointOptimizationDrivingDistanceOptions",
       });
     case 5:
@@ -4141,16 +4210,19 @@ function __c18(j: number): any {
         S.Struct({
           AccessHours: S.optional(__S(583, __c18, 7)),
           AppointmentTime: S.optional(SensitiveString),
-          Heading: S.optional(S.Number),
+          Heading: S.optional(S.Number).pipe(T.Default(0)),
           Id: S.optional(S.String),
-          ServiceDuration: S.optional(S.Number),
+          ServiceDuration: S.optional(S.Number).pipe(T.Default(0)),
           SideOfStreet: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "WaypointOptimizationDestinationOptions" });
     case 9:
-      return S.suspend(() => S.Struct({ RestDuration: S.Number, WorkDuration: S.Number })).annotate(
-        { identifier: "WaypointOptimizationRestCycleDurations" },
-      );
+      return S.suspend(() =>
+        S.Struct({
+          RestDuration: S.Number.pipe(T.Default(0)),
+          WorkDuration: S.Number.pipe(T.Default(0)),
+        }),
+      ).annotate({ identifier: "WaypointOptimizationRestCycleDurations" });
     case 10:
       return S.suspend(() =>
         S.Struct({ LongCycle: __S(585, __c18, 9), ShortCycle: __S(585, __c18, 9) }),
@@ -4178,15 +4250,15 @@ function __c18(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          GrossWeight: S.optional(S.Number),
+          GrossWeight: S.optional(S.Number).pipe(T.Default(0)),
           HazardousCargos: S.optional(__S(161, __c5, 1)),
-          Height: S.optional(S.Number),
-          Length: S.optional(S.Number),
+          Height: S.optional(S.Number).pipe(T.Default(0)),
+          Length: S.optional(S.Number).pipe(T.Default(0)),
           Trailer: S.optional(__S(352, __c11, 0)),
           TruckType: S.optional(S.String),
           TunnelRestrictionCode: S.optional(SensitiveString),
-          WeightPerAxle: S.optional(S.Number),
-          Width: S.optional(S.Number),
+          WeightPerAxle: S.optional(S.Number).pipe(T.Default(0)),
+          Width: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WaypointOptimizationTruckOptions" });
     case 16:
@@ -4202,10 +4274,10 @@ function __c18(j: number): any {
           AccessHours: S.optional(__S(583, __c18, 7)),
           AppointmentTime: S.optional(SensitiveString),
           Before: S.optional(__S(160, __c5, 0)),
-          Heading: S.optional(S.Number),
+          Heading: S.optional(S.Number).pipe(T.Default(0)),
           Id: S.optional(S.String),
           Position: __S(160, __c5, 0),
-          ServiceDuration: S.optional(S.Number),
+          ServiceDuration: S.optional(S.Number).pipe(T.Default(0)),
           SideOfStreet: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "WaypointOptimizationWaypoint" });
@@ -4243,12 +4315,12 @@ function __c18(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          Distance: S.Number,
+          Distance: S.Number.pipe(T.Default(0)),
           From: S.String,
-          RestDuration: S.Number,
+          RestDuration: S.Number.pipe(T.Default(0)),
           To: S.String,
-          TravelDuration: S.Number,
-          WaitDuration: S.Number,
+          TravelDuration: S.Number.pipe(T.Default(0)),
+          WaitDuration: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WaypointOptimizationConnection" });
     case 21:
@@ -4284,18 +4356,18 @@ function __c18(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          RestDuration: S.Number,
-          ServiceDuration: S.Number,
-          TravelDuration: S.Number,
-          WaitDuration: S.Number,
+          RestDuration: S.Number.pipe(T.Default(0)),
+          ServiceDuration: S.Number.pipe(T.Default(0)),
+          TravelDuration: S.Number.pipe(T.Default(0)),
+          WaitDuration: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WaypointOptimizationTimeBreakdown" });
     case 29:
       return S.suspend(() =>
         S.Struct({
           Connections: __S(597, __c18, 21),
-          Distance: S.Number,
-          Duration: S.Number,
+          Distance: S.Number.pipe(T.Default(0)),
+          Duration: S.Number.pipe(T.Default(0)),
           ImpedingWaypoints: __S(601, __c18, 25),
           OptimizedWaypoints: __S(603, __c18, 27),
           PricingBucket: S.String.pipe(T.HttpHeader("x-amz-geo-pricing-bucket")),
@@ -4309,9 +4381,9 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Heading: S.optional(S.Number),
+          Heading: S.optional(S.Number).pipe(T.Default(0)),
           Position: __S(160, __c5, 0),
-          Speed: S.optional(S.Number),
+          Speed: S.optional(S.Number).pipe(T.Default(0)),
           Timestamp: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "RoadSnapTracePoint" });
@@ -4320,13 +4392,13 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          GrossWeight: S.optional(S.Number),
+          GrossWeight: S.optional(S.Number).pipe(T.Default(0)),
           HazardousCargos: S.optional(__S(161, __c5, 1)),
-          Height: S.optional(S.Number),
-          Length: S.optional(S.Number),
+          Height: S.optional(S.Number).pipe(T.Default(0)),
+          Length: S.optional(S.Number).pipe(T.Default(0)),
           Trailer: S.optional(__S(352, __c11, 0)),
           TunnelRestrictionCode: S.optional(SensitiveString),
-          Width: S.optional(S.Number),
+          Width: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "RoadSnapTruckOptions" });
     case 3:

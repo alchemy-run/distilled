@@ -264,7 +264,7 @@ export interface IdentityUsage {
   IdentityId?: string | undefined;
   IdentityPoolId?: string | undefined;
   LastModifiedDate?: Date | undefined;
-  DatasetCount?: number | undefined;
+  DatasetCount: number;
   DataStorage?: number | undefined;
 }
 export interface DescribeIdentityUsageResponse {
@@ -327,7 +327,7 @@ export interface ListDatasetsRequest {
 export type DatasetList = Dataset[];
 export interface ListDatasetsResponse {
   Datasets?: Dataset[] | undefined;
-  Count?: number | undefined;
+  Count: number;
   NextToken?: string | undefined;
 }
 export interface ListIdentityPoolUsageRequest {
@@ -337,8 +337,8 @@ export interface ListIdentityPoolUsageRequest {
 export type IdentityPoolUsageList = IdentityPoolUsage[];
 export interface ListIdentityPoolUsageResponse {
   IdentityPoolUsages?: IdentityPoolUsage[] | undefined;
-  MaxResults?: number | undefined;
-  Count?: number | undefined;
+  MaxResults: number;
+  Count: number;
   NextToken?: string | undefined;
 }
 export type SyncSessionToken = string;
@@ -366,12 +366,12 @@ export type MergedDatasetNameList = string[];
 export interface ListRecordsResponse {
   Records?: Record[] | undefined;
   NextToken?: string | undefined;
-  Count?: number | undefined;
+  Count: number;
   DatasetSyncCount?: number | undefined;
   LastModifiedBy?: string | undefined;
   MergedDatasetNames?: string[] | undefined;
-  DatasetExists?: boolean | undefined;
-  DatasetDeletedAfterRequestedSyncCount?: boolean | undefined;
+  DatasetExists: boolean;
+  DatasetDeletedAfterRequestedSyncCount: boolean;
   SyncSessionToken?: string | undefined;
 }
 export type Platform = "APNS" | "APNS_SANDBOX" | "GCM" | "ADM" | (string & {});
@@ -1635,7 +1635,7 @@ function __c7(j: number): any {
           IdentityId: S.optional(S.String),
           IdentityPoolId: S.optional(S.String),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          DatasetCount: S.optional(S.Number),
+          DatasetCount: S.optional(S.Number).pipe(T.Default(0)),
           DataStorage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IdentityUsage" });
@@ -1782,7 +1782,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Datasets: S.optional(__S(57, __c14, 1)),
-          Count: S.optional(S.Number),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListDatasetsResponse" });
@@ -1805,8 +1805,8 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IdentityPoolUsages: S.optional(__S(61, __c15, 1)),
-          MaxResults: S.optional(S.Number),
-          Count: S.optional(S.Number),
+          MaxResults: S.optional(S.Number).pipe(T.Default(0)),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListIdentityPoolUsageResponse" });
@@ -1844,12 +1844,12 @@ function __c16(j: number): any {
         S.Struct({
           Records: S.optional(__S(69, __c17, 1)),
           NextToken: S.optional(S.String),
-          Count: S.optional(S.Number),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
           DatasetSyncCount: S.optional(S.Number),
           LastModifiedBy: S.optional(S.String),
           MergedDatasetNames: S.optional(__S(48, __c12, 0)),
-          DatasetExists: S.optional(S.Boolean),
-          DatasetDeletedAfterRequestedSyncCount: S.optional(S.Boolean),
+          DatasetExists: S.optional(S.Boolean).pipe(T.Default(false)),
+          DatasetDeletedAfterRequestedSyncCount: S.optional(S.Boolean).pipe(T.Default(false)),
           SyncSessionToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListRecordsResponse" });

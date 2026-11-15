@@ -351,7 +351,7 @@ export interface GetApplicationResponse {
   LastModifiedRegion?: string | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
   Permissions?: string[] | undefined;
-  IsService?: boolean | undefined;
+  IsService: boolean;
   InitializationTimeout?: number | undefined;
   ApplicationConfig?: ApplicationConfig | undefined;
   IframeConfig?: IframeConfig | undefined;
@@ -416,7 +416,7 @@ export interface ApplicationSummary {
   CreatedTime?: Date | undefined;
   LastModifiedTime?: Date | undefined;
   LastModifiedRegion?: string | undefined;
-  IsService?: boolean | undefined;
+  IsService: boolean;
   ApplicationType?: ApplicationType | undefined;
 }
 export type ApplicationsList = ApplicationSummary[];
@@ -1749,7 +1749,7 @@ function __c16(j: number): any {
           LastModifiedRegion: S.optional(S.String),
           Tags: S.optional(__S(16, __c1, 0)),
           Permissions: S.optional(__S(32, __c2, 0)),
-          IsService: S.optional(S.Boolean),
+          IsService: S.optional(S.Boolean).pipe(T.Default(false)),
           InitializationTimeout: S.optional(S.Number),
           ApplicationConfig: S.optional(__S(55, __c3, 7)),
           IframeConfig: S.optional(__S(56, __c3, 8)),
@@ -1879,7 +1879,7 @@ function __c20(j: number): any {
           CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedRegion: S.optional(S.String),
-          IsService: S.optional(S.Boolean),
+          IsService: S.optional(S.Boolean).pipe(T.Default(false)),
           ApplicationType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationSummary" });

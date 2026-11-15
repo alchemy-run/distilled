@@ -3675,7 +3675,7 @@ function __c11(j: number): any {
         S.Struct({
           allowedAccountIds: __S(128, __c8, 0),
           filterPattern: S.optional(S.String),
-          logType: S.optional(S.String),
+          logType: S.optional(S.String).pipe(T.Default("ALL")),
           logRedactionConfiguration: S.optional(__S(177, __c11, 1)),
         }),
       ).annotate({ identifier: "LogsConfigurationPolicy" });
@@ -3767,8 +3767,8 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          number: S.optional(S.Number),
+          type: S.optional(S.String).pipe(T.Default("CR.1X")),
+          number: S.optional(S.Number).pipe(T.Default(16)),
           properties: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "WorkerComputeConfiguration" });
@@ -3794,7 +3794,7 @@ function __c15(j: number): any {
         S.Struct({
           sqlParameters: __S(208, __c13, 0),
           computeConfiguration: S.optional(__S(211, __c13, 3)),
-          resultFormat: S.optional(S.String),
+          resultFormat: S.optional(S.String).pipe(T.Default("CSV")),
         }),
       ).annotate({ identifier: "ProtectedQueryInputParameters" });
     case 1:
@@ -3866,15 +3866,15 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instanceCount: S.optional(S.Number),
+          instanceCount: S.optional(S.Number).pipe(T.Default(1)),
           instanceType: S.String,
           volumeSizeInGB: S.Number,
         }),
       ).annotate({ identifier: "ResourceConfig" });
     case 1:
-      return S.suspend(() => S.Struct({ maxRuntimeInSeconds: S.optional(S.Number) })).annotate({
-        identifier: "StoppingCondition",
-      });
+      return S.suspend(() =>
+        S.Struct({ maxRuntimeInSeconds: S.optional(S.Number).pipe(T.Default(86400)) }),
+      ).annotate({ identifier: "StoppingCondition" });
   }
 }
 function __c19(j: number): any {
@@ -3884,7 +3884,7 @@ function __c19(j: number): any {
         S.Struct({
           mlInputChannelArn: S.String,
           channelName: S.String,
-          s3DataDistributionType: S.optional(S.String),
+          s3DataDistributionType: S.optional(S.String).pipe(T.Default("FullyReplicated")),
         }),
       ).annotate({ identifier: "ModelTrainingDataChannel" });
     case 1:
@@ -4833,7 +4833,10 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ accept: S.optional(S.String), members: __S(817, __c51, 1) }),
+        S.Struct({
+          accept: S.optional(S.String).pipe(T.Default("application/json")),
+          members: __S(817, __c51, 1),
+        }),
       ).annotate({ identifier: "InferenceOutputConfiguration" });
   }
 }
@@ -4841,7 +4844,10 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ instanceType: S.String, instanceCount: S.optional(S.Number) }),
+        S.Struct({
+          instanceType: S.String,
+          instanceCount: S.optional(S.Number).pipe(T.Default(1)),
+        }),
       ).annotate({ identifier: "InferenceResourceConfig" });
     case 1:
       return S.suspend(() => S.Struct({ maxPayloadInMB: S.optional(S.Number) })).annotate({

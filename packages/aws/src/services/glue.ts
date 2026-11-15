@@ -715,11 +715,11 @@ export interface Crawler {
   State?: CrawlerState | undefined;
   TablePrefix?: string | undefined;
   Schedule?: Schedule | undefined;
-  CrawlElapsedTime?: number | undefined;
+  CrawlElapsedTime: number;
   CreationTime?: Date | undefined;
   LastUpdated?: Date | undefined;
   LastCrawl?: LastCrawlInfo | undefined;
-  Version?: number | undefined;
+  Version: number;
   Configuration?: string | undefined;
   CrawlerSecurityConfiguration?: string | undefined;
   LakeFormationConfiguration?: LakeFormationConfiguration | undefined;
@@ -962,7 +962,7 @@ export interface DataQualityRulesetEvaluationRun {
   StartedOn?: Date | undefined;
   LastModifiedOn?: Date | undefined;
   CompletedOn?: Date | undefined;
-  ExecutionTime?: number | undefined;
+  ExecutionTime: number;
   RulesetNames?: string[] | undefined;
   ResultIds?: string[] | undefined;
   AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
@@ -1004,13 +1004,13 @@ export interface DevEndpoint {
   SubnetId?: string | undefined;
   YarnEndpointAddress?: string | undefined;
   PrivateAddress?: string | undefined;
-  ZeppelinRemoteSparkInterpreterPort?: number | undefined;
+  ZeppelinRemoteSparkInterpreterPort: number;
   PublicAddress?: string | undefined;
   Status?: string | undefined;
   WorkerType?: WorkerType | undefined;
   GlueVersion?: string | undefined;
   NumberOfWorkers?: number | undefined;
-  NumberOfNodes?: number | undefined;
+  NumberOfNodes: number;
   AvailabilityZone?: string | undefined;
   VpcId?: string | undefined;
   ExtraPythonLibsS3Path?: string | undefined;
@@ -2310,8 +2310,8 @@ export interface Job {
   DefaultArguments?: { [key: string]: string | undefined } | undefined;
   NonOverridableArguments?: { [key: string]: string | undefined } | undefined;
   Connections?: ConnectionsList | undefined;
-  MaxRetries?: number | undefined;
-  AllocatedCapacity?: number | undefined;
+  MaxRetries: number;
+  AllocatedCapacity: number;
   Timeout?: number | undefined;
   MaxCapacity?: number | undefined;
   WorkerType?: WorkerType | undefined;
@@ -2448,31 +2448,31 @@ export type DpuHours = number;
 export type DpuCounts = number;
 export type DpuDurationInHour = number;
 export interface IcebergCompactionMetrics {
-  NumberOfBytesCompacted?: number | undefined;
-  NumberOfFilesCompacted?: number | undefined;
-  DpuHours?: number | undefined;
-  NumberOfDpus?: number | undefined;
-  JobDurationInHour?: number | undefined;
+  NumberOfBytesCompacted: number;
+  NumberOfFilesCompacted: number;
+  DpuHours: number;
+  NumberOfDpus: number;
+  JobDurationInHour: number;
 }
 export interface CompactionMetrics {
   IcebergMetrics?: IcebergCompactionMetrics | undefined;
 }
 export interface IcebergRetentionMetrics {
-  NumberOfDataFilesDeleted?: number | undefined;
-  NumberOfManifestFilesDeleted?: number | undefined;
-  NumberOfManifestListsDeleted?: number | undefined;
-  DpuHours?: number | undefined;
-  NumberOfDpus?: number | undefined;
-  JobDurationInHour?: number | undefined;
+  NumberOfDataFilesDeleted: number;
+  NumberOfManifestFilesDeleted: number;
+  NumberOfManifestListsDeleted: number;
+  DpuHours: number;
+  NumberOfDpus: number;
+  JobDurationInHour: number;
 }
 export interface RetentionMetrics {
   IcebergMetrics?: IcebergRetentionMetrics | undefined;
 }
 export interface IcebergOrphanFileDeletionMetrics {
-  NumberOfOrphanFilesDeleted?: number | undefined;
-  DpuHours?: number | undefined;
-  NumberOfDpus?: number | undefined;
-  JobDurationInHour?: number | undefined;
+  NumberOfOrphanFilesDeleted: number;
+  DpuHours: number;
+  NumberOfDpus: number;
+  JobDurationInHour: number;
 }
 export interface OrphanFileDeletionMetrics {
   IcebergMetrics?: IcebergOrphanFileDeletionMetrics | undefined;
@@ -2609,14 +2609,14 @@ export type WorkflowRunStatus =
   | "ERROR"
   | (string & {});
 export interface WorkflowRunStatistics {
-  TotalActions?: number | undefined;
-  TimeoutActions?: number | undefined;
-  FailedActions?: number | undefined;
-  StoppedActions?: number | undefined;
-  SucceededActions?: number | undefined;
-  RunningActions?: number | undefined;
-  ErroredActions?: number | undefined;
-  WaitingActions?: number | undefined;
+  TotalActions: number;
+  TimeoutActions: number;
+  FailedActions: number;
+  StoppedActions: number;
+  SucceededActions: number;
+  RunningActions: number;
+  ErroredActions: number;
+  WaitingActions: number;
 }
 export type NodeType = "CRAWLER" | "JOB" | "TRIGGER" | (string & {});
 export interface TriggerNodeDetails {
@@ -2632,7 +2632,7 @@ export type OrchestrationMessageString = string;
 export type OrchestrationPolicyJsonString = string;
 export interface JobRun {
   Id?: string | undefined;
-  Attempt?: number | undefined;
+  Attempt: number;
   PreviousRunId?: string | undefined;
   TriggerName?: string | undefined;
   JobName?: string | undefined;
@@ -2645,8 +2645,8 @@ export interface JobRun {
   Arguments?: { [key: string]: string | undefined } | undefined;
   ErrorMessage?: string | undefined;
   PredecessorRuns?: Predecessor[] | undefined;
-  AllocatedCapacity?: number | undefined;
-  ExecutionTime?: number | undefined;
+  AllocatedCapacity: number;
+  ExecutionTime: number;
   Timeout?: number | undefined;
   MaxCapacity?: number | undefined;
   WorkerType?: WorkerType | undefined;
@@ -2825,7 +2825,7 @@ export interface CheckSchemaVersionValidityInput {
 export type IsVersionValid = boolean;
 export type SchemaValidationError = string;
 export interface CheckSchemaVersionValidityResponse {
-  Valid?: boolean | undefined;
+  Valid: boolean;
   Error?: string | undefined;
 }
 export type OrchestrationS3Location = string;
@@ -3363,8 +3363,8 @@ export interface CreateDevEndpointResponse {
   SubnetId?: string | undefined;
   RoleArn?: string | undefined;
   YarnEndpointAddress?: string | undefined;
-  ZeppelinRemoteSparkInterpreterPort?: number | undefined;
-  NumberOfNodes?: number | undefined;
+  ZeppelinRemoteSparkInterpreterPort: number;
+  NumberOfNodes: number;
   WorkerType?: WorkerType | undefined;
   GlueVersion?: string | undefined;
   NumberOfWorkers?: number | undefined;
@@ -3786,7 +3786,7 @@ export interface Session {
   Command?: SessionCommand | undefined;
   DefaultArguments?: { [key: string]: string | undefined } | undefined;
   Connections?: ConnectionsList | undefined;
-  Progress?: number | undefined;
+  Progress: number;
   MaxCapacity?: number | undefined;
   SecurityConfiguration?: string | undefined;
   GlueVersion?: string | undefined;
@@ -4696,7 +4696,7 @@ export interface GetCatalogRequest {
   CatalogId: string;
 }
 export interface DataLakeAccessPropertiesOutput {
-  DataLakeAccess?: boolean | undefined;
+  DataLakeAccess: boolean;
   DataTransferRole?: string | undefined;
   KmsKey?: string | undefined;
   ManagedWorkgroupName?: string | undefined;
@@ -4739,7 +4739,7 @@ export interface GetCatalogImportStatusRequest {
   CatalogId?: string | undefined;
 }
 export interface CatalogImportStatus {
-  ImportCompleted?: boolean | undefined;
+  ImportCompleted: boolean;
   ImportTime?: Date | undefined;
   ImportedBy?: string | undefined;
 }
@@ -4768,7 +4768,7 @@ export interface GrokClassifier {
   Classification: string;
   CreationTime?: Date | undefined;
   LastUpdated?: Date | undefined;
-  Version?: number | undefined;
+  Version: number;
   GrokPattern: string;
   CustomPatterns?: string | undefined;
 }
@@ -4777,21 +4777,21 @@ export interface XMLClassifier {
   Classification: string;
   CreationTime?: Date | undefined;
   LastUpdated?: Date | undefined;
-  Version?: number | undefined;
+  Version: number;
   RowTag?: string | undefined;
 }
 export interface JsonClassifier {
   Name: string;
   CreationTime?: Date | undefined;
   LastUpdated?: Date | undefined;
-  Version?: number | undefined;
+  Version: number;
   JsonPath: string;
 }
 export interface CsvClassifier {
   Name: string;
   CreationTime?: Date | undefined;
   LastUpdated?: Date | undefined;
-  Version?: number | undefined;
+  Version: number;
   Delimiter?: string | undefined;
   QuoteSymbol?: string | undefined;
   ContainsHeader?: CsvHeaderOption | undefined;
@@ -4941,9 +4941,9 @@ export interface ColumnStatisticsTaskRun {
   ColumnNameList?: string[] | undefined;
   CatalogID?: string | undefined;
   Role?: string | undefined;
-  SampleSize?: number | undefined;
+  SampleSize: number;
   SecurityConfiguration?: string | undefined;
-  NumberOfWorkers?: number | undefined;
+  NumberOfWorkers: number;
   WorkerType?: string | undefined;
   ComputationType?: ComputationType | undefined;
   Status?: ColumnStatisticsState | undefined;
@@ -4952,7 +4952,7 @@ export interface ColumnStatisticsTaskRun {
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
   ErrorMessage?: string | undefined;
-  DPUSeconds?: number | undefined;
+  DPUSeconds: number;
 }
 export interface GetColumnStatisticsTaskRunResponse {
   ColumnStatisticsTaskRun?: ColumnStatisticsTaskRun | undefined;
@@ -4990,7 +4990,7 @@ export interface ColumnStatisticsTaskSettings {
   ColumnNameList?: string[] | undefined;
   CatalogID?: string | undefined;
   Role?: string | undefined;
-  SampleSize?: number | undefined;
+  SampleSize: number;
   SecurityConfiguration?: string | undefined;
   ScheduleType?: ScheduleType | undefined;
   SettingSource?: SettingSource | undefined;
@@ -5072,13 +5072,13 @@ export interface GetCrawlerMetricsRequest {
 }
 export interface CrawlerMetrics {
   CrawlerName?: string | undefined;
-  TimeLeftSeconds?: number | undefined;
-  StillEstimating?: boolean | undefined;
-  LastRuntimeSeconds?: number | undefined;
-  MedianRuntimeSeconds?: number | undefined;
-  TablesCreated?: number | undefined;
-  TablesUpdated?: number | undefined;
-  TablesDeleted?: number | undefined;
+  TimeLeftSeconds: number;
+  StillEstimating: boolean;
+  LastRuntimeSeconds: number;
+  MedianRuntimeSeconds: number;
+  TablesCreated: number;
+  TablesUpdated: number;
+  TablesDeleted: number;
 }
 export type CrawlerMetricsList = CrawlerMetrics[];
 export interface GetCrawlerMetricsResponse {
@@ -5314,7 +5314,7 @@ export interface GetDataQualityRuleRecommendationRunResponse {
   StartedOn?: Date | undefined;
   LastModifiedOn?: Date | undefined;
   CompletedOn?: Date | undefined;
-  ExecutionTime?: number | undefined;
+  ExecutionTime: number;
   RecommendedRuleset?: string | undefined;
   CreatedRulesetName?: string | undefined;
   DataQualitySecurityConfiguration?: string | undefined;
@@ -5349,7 +5349,7 @@ export interface GetDataQualityRulesetEvaluationRunResponse {
   StartedOn?: Date | undefined;
   LastModifiedOn?: Date | undefined;
   CompletedOn?: Date | undefined;
-  ExecutionTime?: number | undefined;
+  ExecutionTime: number;
   RulesetNames?: string[] | undefined;
   ResultIds?: string[] | undefined;
   AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
@@ -5462,9 +5462,9 @@ export interface GetJobBookmarkRequest {
 export type JsonValue = string;
 export interface JobBookmarkEntry {
   JobName?: string | undefined;
-  Version?: number | undefined;
-  Run?: number | undefined;
-  Attempt?: number | undefined;
+  Version: number;
+  Run: number;
+  Attempt: number;
   PreviousRunId?: string | undefined;
   RunId?: string | undefined;
   JobBookmark?: string | undefined;
@@ -5581,7 +5581,7 @@ export interface MaterializedViewRefreshTaskRun {
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
   ErrorMessage?: string | undefined;
-  DPUSeconds?: number | undefined;
+  DPUSeconds: number;
   RefreshType?: MaterializedViewRefreshType | undefined;
   ProcessedBytes?: number | undefined;
 }
@@ -5602,7 +5602,7 @@ export type TaskType =
 export type ReplaceBoolean = boolean;
 export interface ImportLabelsTaskRunProperties {
   InputS3Path?: string | undefined;
-  Replace?: boolean | undefined;
+  Replace: boolean;
 }
 export interface ExportLabelsTaskRunProperties {
   OutputS3Path?: string | undefined;
@@ -5632,7 +5632,7 @@ export interface GetMLTaskRunResponse {
   StartedOn?: Date | undefined;
   LastModifiedOn?: Date | undefined;
   CompletedOn?: Date | undefined;
-  ExecutionTime?: number | undefined;
+  ExecutionTime: number;
 }
 export type PaginationToken = string;
 export interface TaskRunFilterCriteria {
@@ -5664,7 +5664,7 @@ export interface TaskRun {
   StartedOn?: Date | undefined;
   LastModifiedOn?: Date | undefined;
   CompletedOn?: Date | undefined;
-  ExecutionTime?: number | undefined;
+  ExecutionTime: number;
 }
 export type TaskRunList = TaskRun[];
 export interface GetMLTaskRunsResponse {
@@ -5715,7 +5715,7 @@ export interface GetMLTransformResponse {
   InputRecordTables?: GlueTable[] | undefined;
   Parameters?: TransformParameters | undefined;
   EvaluationMetrics?: EvaluationMetrics | undefined;
-  LabelCount?: number | undefined;
+  LabelCount: number;
   Schema?: SchemaColumn[] | undefined;
   Role?: string | undefined;
   GlueVersion?: string | undefined;
@@ -5764,7 +5764,7 @@ export interface MLTransform {
   InputRecordTables?: GlueTable[] | undefined;
   Parameters?: TransformParameters | undefined;
   EvaluationMetrics?: EvaluationMetrics | undefined;
-  LabelCount?: number | undefined;
+  LabelCount: number;
   Schema?: SchemaColumn[] | undefined;
   Role?: string | undefined;
   GlueVersion?: string | undefined;
@@ -6018,7 +6018,7 @@ export interface StatementOutputData {
 }
 export interface StatementOutput {
   Data?: StatementOutputData | undefined;
-  ExecutionCount?: number | undefined;
+  ExecutionCount: number;
   Status?: StatementState | undefined;
   ErrorName?: string | undefined;
   ErrorValue?: string | undefined;
@@ -6026,13 +6026,13 @@ export interface StatementOutput {
 }
 export type LongValue = number;
 export interface Statement {
-  Id?: number | undefined;
+  Id: number;
   Code?: string | undefined;
   State?: StatementState | undefined;
   Output?: StatementOutput | undefined;
-  Progress?: number | undefined;
-  StartedOn?: number | undefined;
-  CompletedOn?: number | undefined;
+  Progress: number;
+  StartedOn: number;
+  CompletedOn: number;
 }
 export interface GetStatementResponse {
   Statement?: Statement | undefined;
@@ -6081,7 +6081,7 @@ export interface ViewDefinition {
   IsProtected?: boolean | undefined;
   IsManaged?: boolean | undefined;
   Definer?: string | undefined;
-  ViewVersionId?: number | undefined;
+  ViewVersionId: number;
   ViewVersionToken?: string | undefined;
   RefreshSeconds?: number | undefined;
   LastRefreshType?: LastRefreshType | undefined;
@@ -6101,13 +6101,13 @@ export interface IcebergTableMetadata {
   Location?: string | undefined;
   Properties?: { [key: string]: string | undefined } | undefined;
   Schemas?: IcebergSchema[] | undefined;
-  CurrentSchemaId?: number | undefined;
-  LastColumnId?: number | undefined;
+  CurrentSchemaId: number;
+  LastColumnId: number;
   PartitionSpecs?: IcebergPartitionSpec[] | undefined;
-  DefaultSpecId?: number | undefined;
-  LastPartitionId?: number | undefined;
+  DefaultSpecId: number;
+  LastPartitionId: number;
   SortOrders?: IcebergSortOrder[] | undefined;
-  DefaultSortOrderId?: number | undefined;
+  DefaultSortOrderId: number;
 }
 export type ResourceAction = "UPDATE" | "CREATE" | (string & {});
 export type ResourceState =
@@ -6152,7 +6152,7 @@ export interface Table {
   UpdateTime?: Date | undefined;
   LastAccessTime?: Date | undefined;
   LastAnalyzedTime?: Date | undefined;
-  Retention?: number | undefined;
+  Retention: number;
   StorageDescriptor?: StorageDescriptor | undefined;
   PartitionKeys?: Column[] | undefined;
   ViewOriginalText?: string | undefined;
@@ -6160,7 +6160,7 @@ export interface Table {
   TableType?: string | undefined;
   Parameters?: { [key: string]: string | undefined } | undefined;
   CreatedBy?: string | undefined;
-  IsRegisteredWithLakeFormation?: boolean | undefined;
+  IsRegisteredWithLakeFormation: boolean;
   TargetTable?: TableIdentifier | undefined;
   CatalogId?: string | undefined;
   VersionId?: string | undefined;
@@ -6275,7 +6275,7 @@ export interface GetUnfilteredPartitionMetadataRequest {
 export interface GetUnfilteredPartitionMetadataResponse {
   Partition?: Partition | undefined;
   AuthorizedColumns?: string[] | undefined;
-  IsRegisteredWithLakeFormation?: boolean | undefined;
+  IsRegisteredWithLakeFormation: boolean;
 }
 export interface GetUnfilteredPartitionsMetadataRequest {
   Region?: string | undefined;
@@ -6293,7 +6293,7 @@ export interface GetUnfilteredPartitionsMetadataRequest {
 export interface UnfilteredPartition {
   Partition?: Partition | undefined;
   AuthorizedColumns?: string[] | undefined;
-  IsRegisteredWithLakeFormation?: boolean | undefined;
+  IsRegisteredWithLakeFormation: boolean;
 }
 export type UnfilteredPartitionList = UnfilteredPartition[];
 export interface GetUnfilteredPartitionsMetadataResponse {
@@ -6325,13 +6325,13 @@ export type ColumnRowFilterList = ColumnRowFilter[];
 export interface GetUnfilteredTableMetadataResponse {
   Table?: Table | undefined;
   AuthorizedColumns?: string[] | undefined;
-  IsRegisteredWithLakeFormation?: boolean | undefined;
+  IsRegisteredWithLakeFormation: boolean;
   CellFilters?: ColumnRowFilter[] | undefined;
   QueryAuthorizationId?: string | undefined;
-  IsMultiDialectView?: boolean | undefined;
-  IsMaterializedView?: boolean | undefined;
+  IsMultiDialectView: boolean;
+  IsMaterializedView: boolean;
   ResourceArn?: string | undefined;
-  IsProtected?: boolean | undefined;
+  IsProtected: boolean;
   Permissions?: Permission[] | undefined;
   RowFilter?: string | undefined;
 }
@@ -6519,7 +6519,7 @@ export interface CrawlerHistory {
   LogGroup?: string | undefined;
   LogStream?: string | undefined;
   MessagePrefix?: string | undefined;
-  DPUHour?: number | undefined;
+  DPUHour: number;
 }
 export type CrawlerHistoryList = CrawlerHistory[];
 export interface ListCrawlsResponse {
@@ -7215,7 +7215,7 @@ export interface PutSchemaVersionMetadataResponse {
   SchemaArn?: string | undefined;
   SchemaName?: string | undefined;
   RegistryName?: string | undefined;
-  LatestVersion?: boolean | undefined;
+  LatestVersion: boolean;
   VersionNumber?: number | undefined;
   SchemaVersionId?: string | undefined;
   MetadataKey?: string | undefined;
@@ -7343,7 +7343,7 @@ export interface RemoveSchemaVersionMetadataResponse {
   SchemaArn?: string | undefined;
   SchemaName?: string | undefined;
   RegistryName?: string | undefined;
-  LatestVersion?: boolean | undefined;
+  LatestVersion: boolean;
   VersionNumber?: number | undefined;
   SchemaVersionId?: string | undefined;
   MetadataKey?: string | undefined;
@@ -7373,7 +7373,7 @@ export interface RunStatementRequest {
   RequestOrigin?: string | undefined;
 }
 export interface RunStatementResponse {
-  Id?: number | undefined;
+  Id: number;
 }
 export type SearchText = string;
 export type SearchMaxResults = number;
@@ -18793,7 +18793,7 @@ function __c4(j: number): any {
           Id: S.String,
           NodeType: S.String,
           Args: __S(161, __c5, 1),
-          LineNumber: S.optional(S.Number),
+          LineNumber: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CodeGenNode" });
     case 1:
@@ -18810,7 +18810,11 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Value: S.String, Param: S.optional(S.Boolean) }),
+        S.Struct({
+          Name: S.String,
+          Value: S.String,
+          Param: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "CodeGenNodeArg" });
     case 1:
       return S.Array(__S(160, __c5, 0));
@@ -18932,7 +18936,7 @@ function __c11(j: number): any {
           Command: S.optional(__S(352, __c11, 0)),
           DefaultArguments: S.optional(__S(10656, __c333, 0)),
           Connections: S.optional(__S(11968, __c374, 0)),
-          Progress: S.optional(S.Number),
+          Progress: S.optional(S.Number).pipe(T.Default(0)),
           MaxCapacity: S.optional(S.Number),
           SecurityConfiguration: S.optional(S.String),
           GlueVersion: S.optional(S.String),
@@ -19023,10 +19027,10 @@ function __c13(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Id: S.Number,
+          Id: S.Number.pipe(T.Default(0)),
           Name: S.String,
           Type: S.Any,
-          Required: S.Boolean,
+          Required: S.Boolean.pipe(T.Default(false)),
           Doc: S.optional(S.String),
           InitialDefault: S.optional(S.Any),
           WriteDefault: S.optional(S.Any),
@@ -19037,7 +19041,7 @@ function __c13(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          SchemaId: S.optional(S.Number),
+          SchemaId: S.optional(S.Number).pipe(T.Default(0)),
           IdentifierFieldIds: S.optional(__S(11328, __c354, 0)),
           Type: S.optional(S.String),
           Fields: __S(421, __c13, 5),
@@ -19046,22 +19050,22 @@ function __c13(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          SourceId: S.Number,
+          SourceId: S.Number.pipe(T.Default(0)),
           Transform: S.String,
           Name: S.String,
-          FieldId: S.optional(S.Number),
+          FieldId: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "IcebergPartitionField" });
     case 8:
       return S.Array(__S(423, __c13, 7));
     case 9:
       return S.suspend(() =>
-        S.Struct({ Fields: __S(424, __c13, 8), SpecId: S.optional(S.Number) }),
+        S.Struct({ Fields: __S(424, __c13, 8), SpecId: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "IcebergPartitionSpec" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          SourceId: S.Number,
+          SourceId: S.Number.pipe(T.Default(0)),
           Transform: S.String,
           Direction: S.String,
           NullOrder: S.String,
@@ -19070,9 +19074,9 @@ function __c13(j: number): any {
     case 11:
       return S.Array(__S(426, __c13, 10));
     case 12:
-      return S.suspend(() => S.Struct({ OrderId: S.Number, Fields: __S(427, __c13, 11) })).annotate(
-        { identifier: "IcebergSortOrder" },
-      );
+      return S.suspend(() =>
+        S.Struct({ OrderId: S.Number.pipe(T.Default(0)), Fields: __S(427, __c13, 11) }),
+      ).annotate({ identifier: "IcebergSortOrder" });
   }
 }
 function __c14(j: number): any {
@@ -19096,7 +19100,7 @@ function __c14(j: number): any {
           IsManaged: S.optional(S.Boolean),
           Definer: S.optional(S.String),
           Representations: S.optional(__S(449, __c14, 1)),
-          ViewVersionId: S.optional(S.Number),
+          ViewVersionId: S.optional(S.Number).pipe(T.Default(0)),
           ViewVersionToken: S.optional(S.String),
           RefreshSeconds: S.optional(S.Number),
           LastRefreshType: S.optional(S.String),
@@ -19114,7 +19118,7 @@ function __c14(j: number): any {
           Owner: S.optional(S.String),
           LastAccessTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastAnalyzedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Retention: S.optional(S.Number),
+          Retention: S.optional(S.Number).pipe(T.Default(0)),
           StorageDescriptor: S.optional(__S(10727, __c335, 7)),
           PartitionKeys: S.optional(__S(10721, __c335, 1)),
           ViewOriginalText: S.optional(S.String),
@@ -19831,7 +19835,7 @@ function __c66(j: number): any {
           Description: S.String,
           Required: S.Boolean,
           DefaultValue: S.optional(S.String),
-          PropertyTypes: __S(11136, __c348, 0),
+          PropertyTypes: __S(11136, __c348, 0).pipe(T.Default([])),
           AllowedValues: S.optional(__S(2114, __c66, 2)),
           DataOperationScopes: S.optional(__S(11136, __c348, 0)),
           KeyOverride: S.optional(S.String),
@@ -19860,7 +19864,7 @@ function __c66(j: number): any {
           ConnectionOptions: __S(2116, __c66, 4),
           ConnectionPropertyNameOverrides: __S(10656, __c333, 0),
           ConnectionOptionNameOverrides: __S(10656, __c333, 0),
-          ConnectionPropertiesRequiredOverrides: __S(10528, __c329, 0),
+          ConnectionPropertiesRequiredOverrides: __S(10528, __c329, 0).pipe(T.Default([])),
           PhysicalConnectionPropertiesRequired: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ComputeEnvironmentConfiguration" });
@@ -20342,7 +20346,7 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DataLakeAccess: S.optional(S.Boolean),
+          DataLakeAccess: S.optional(S.Boolean).pipe(T.Default(false)),
           DataTransferRole: S.optional(S.String),
           KmsKey: S.optional(S.String),
           ManagedWorkgroupName: S.optional(S.String),
@@ -20401,7 +20405,7 @@ function __c83(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ImportCompleted: S.optional(S.Boolean),
+          ImportCompleted: S.optional(S.Boolean).pipe(T.Default(false)),
           ImportTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ImportedBy: S.optional(S.String),
         }),
@@ -20456,7 +20460,7 @@ function __c86(j: number): any {
           Classification: S.String,
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           GrokPattern: S.String,
           CustomPatterns: S.optional(S.String),
         }),
@@ -20468,7 +20472,7 @@ function __c86(j: number): any {
           Classification: S.String,
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           RowTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "XMLClassifier" });
@@ -20478,7 +20482,7 @@ function __c86(j: number): any {
           Name: S.String,
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           JsonPath: S.String,
         }),
       ).annotate({ identifier: "JsonClassifier" });
@@ -20488,7 +20492,7 @@ function __c86(j: number): any {
           Name: S.String,
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           Delimiter: S.optional(S.String),
           QuoteSymbol: S.optional(S.String),
           ContainsHeader: S.optional(S.String),
@@ -20562,51 +20566,59 @@ function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ NumberOfTrues: S.Number, NumberOfFalses: S.Number, NumberOfNulls: S.Number }),
+        S.Struct({
+          NumberOfTrues: S.Number.pipe(T.Default(0)),
+          NumberOfFalses: S.Number.pipe(T.Default(0)),
+          NumberOfNulls: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "BooleanColumnStatisticsData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           MinimumValue: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           MaximumValue: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          NumberOfNulls: S.Number,
-          NumberOfDistinctValues: S.Number,
+          NumberOfNulls: S.Number.pipe(T.Default(0)),
+          NumberOfDistinctValues: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DateColumnStatisticsData" });
     case 2:
-      return S.suspend(() => S.Struct({ UnscaledValue: T.Blob, Scale: S.Number })).annotate({
-        identifier: "DecimalNumber",
-      });
+      return S.suspend(() =>
+        S.Struct({ UnscaledValue: T.Blob, Scale: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "DecimalNumber" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           MinimumValue: S.optional(__S(2882, __c90, 2)),
           MaximumValue: S.optional(__S(2882, __c90, 2)),
-          NumberOfNulls: S.Number,
-          NumberOfDistinctValues: S.Number,
+          NumberOfNulls: S.Number.pipe(T.Default(0)),
+          NumberOfDistinctValues: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DecimalColumnStatisticsData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          MinimumValue: S.optional(S.Number),
-          MaximumValue: S.optional(S.Number),
-          NumberOfNulls: S.Number,
-          NumberOfDistinctValues: S.Number,
+          MinimumValue: S.optional(S.Number).pipe(T.Default(0)),
+          MaximumValue: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfNulls: S.Number.pipe(T.Default(0)),
+          NumberOfDistinctValues: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DoubleColumnStatisticsData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          MaximumLength: S.Number,
-          AverageLength: S.Number,
-          NumberOfNulls: S.Number,
-          NumberOfDistinctValues: S.Number,
+          MaximumLength: S.Number.pipe(T.Default(0)),
+          AverageLength: S.Number.pipe(T.Default(0)),
+          NumberOfNulls: S.Number.pipe(T.Default(0)),
+          NumberOfDistinctValues: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "StringColumnStatisticsData" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ MaximumLength: S.Number, AverageLength: S.Number, NumberOfNulls: S.Number }),
+        S.Struct({
+          MaximumLength: S.Number.pipe(T.Default(0)),
+          AverageLength: S.Number.pipe(T.Default(0)),
+          NumberOfNulls: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "BinaryColumnStatisticsData" });
     case 7:
       return S.suspend(() =>
@@ -20673,9 +20685,9 @@ function __c93(j: number): any {
           ColumnNameList: S.optional(__S(10528, __c329, 0)),
           CatalogID: S.optional(S.String),
           Role: S.optional(S.String),
-          SampleSize: S.optional(S.Number),
+          SampleSize: S.optional(S.Number).pipe(T.Default(0)),
           SecurityConfiguration: S.optional(S.String),
-          NumberOfWorkers: S.optional(S.Number),
+          NumberOfWorkers: S.optional(S.Number).pipe(T.Default(0)),
           WorkerType: S.optional(S.String),
           ComputationType: S.optional(S.String),
           Status: S.optional(S.String),
@@ -20684,7 +20696,7 @@ function __c93(j: number): any {
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ErrorMessage: S.optional(S.String),
-          DPUSeconds: S.optional(S.Number),
+          DPUSeconds: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ColumnStatisticsTaskRun" });
   }
@@ -20740,7 +20752,7 @@ function __c95(j: number): any {
           ColumnNameList: S.optional(__S(10528, __c329, 0)),
           CatalogID: S.optional(S.String),
           Role: S.optional(S.String),
-          SampleSize: S.optional(S.Number),
+          SampleSize: S.optional(S.Number).pipe(T.Default(0)),
           SecurityConfiguration: S.optional(S.String),
           ScheduleType: S.optional(S.String),
           SettingSource: S.optional(S.String),
@@ -20874,13 +20886,13 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CrawlerName: S.optional(S.String),
-          TimeLeftSeconds: S.optional(S.Number),
-          StillEstimating: S.optional(S.Boolean),
-          LastRuntimeSeconds: S.optional(S.Number),
-          MedianRuntimeSeconds: S.optional(S.Number),
-          TablesCreated: S.optional(S.Number),
-          TablesUpdated: S.optional(S.Number),
-          TablesDeleted: S.optional(S.Number),
+          TimeLeftSeconds: S.optional(S.Number).pipe(T.Default(0)),
+          StillEstimating: S.optional(S.Boolean).pipe(T.Default(false)),
+          LastRuntimeSeconds: S.optional(S.Number).pipe(T.Default(0)),
+          MedianRuntimeSeconds: S.optional(S.Number).pipe(T.Default(0)),
+          TablesCreated: S.optional(S.Number).pipe(T.Default(0)),
+          TablesUpdated: S.optional(S.Number).pipe(T.Default(0)),
+          TablesDeleted: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CrawlerMetrics" });
     case 2:
@@ -21021,7 +21033,7 @@ function __c108(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ReturnConnectionPasswordEncrypted: S.Boolean,
+          ReturnConnectionPasswordEncrypted: S.Boolean.pipe(T.Default(false)),
           AwsKmsKeyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectionPasswordEncryption" });
@@ -21237,7 +21249,7 @@ function __c118(j: number): any {
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ExecutionTime: S.optional(S.Number),
+          ExecutionTime: S.optional(S.Number).pipe(T.Default(0)),
           RecommendedRuleset: S.optional(S.String),
           CreatedRulesetName: S.optional(S.String),
           DataQualitySecurityConfiguration: S.optional(S.String),
@@ -21498,9 +21510,9 @@ function __c135(j: number): any {
       return S.suspend(() =>
         S.Struct({
           JobName: S.optional(S.String),
-          Version: S.optional(S.Number),
-          Run: S.optional(S.Number),
-          Attempt: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
+          Run: S.optional(S.Number).pipe(T.Default(0)),
+          Attempt: S.optional(S.Number).pipe(T.Default(0)),
           PreviousRunId: S.optional(S.String),
           RunId: S.optional(S.String),
           JobBookmark: S.optional(S.String),
@@ -21660,7 +21672,7 @@ function __c143(j: number): any {
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ErrorMessage: S.optional(S.String),
-          DPUSeconds: S.optional(S.Number),
+          DPUSeconds: S.optional(S.Number).pipe(T.Default(0)),
           RefreshType: S.optional(S.String),
           ProcessedBytes: S.optional(S.Number),
         }),
@@ -21681,7 +21693,10 @@ function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ InputS3Path: S.optional(S.String), Replace: S.optional(S.Boolean) }),
+        S.Struct({
+          InputS3Path: S.optional(S.String),
+          Replace: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "ImportLabelsTaskRunProperties" });
     case 1:
       return S.suspend(() => S.Struct({ OutputS3Path: S.optional(S.String) })).annotate({
@@ -21717,7 +21732,7 @@ function __c145(j: number): any {
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ExecutionTime: S.optional(S.Number),
+          ExecutionTime: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "GetMLTaskRunResponse" });
   }
@@ -21813,7 +21828,7 @@ function __c149(j: number): any {
           InputRecordTables: S.optional(__S(14368, __c449, 0)),
           Parameters: S.optional(__S(14401, __c450, 1)),
           EvaluationMetrics: S.optional(__S(4772, __c149, 4)),
-          LabelCount: S.optional(S.Number),
+          LabelCount: S.optional(S.Number).pipe(T.Default(0)),
           Schema: S.optional(__S(4801, __c150, 1)),
           Role: S.optional(S.String),
           GlueVersion: S.optional(S.String),
@@ -21966,7 +21981,7 @@ function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SegmentNumber: S.Number, TotalSegments: S.Number }),
+        S.Struct({ SegmentNumber: S.Number.pipe(T.Default(0)), TotalSegments: S.Number }),
       ).annotate({ identifier: "Segment" });
   }
 }
@@ -22128,7 +22143,10 @@ function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ LatestVersion: S.optional(S.Boolean), VersionNumber: S.optional(S.Number) }),
+        S.Struct({
+          LatestVersion: S.optional(S.Boolean).pipe(T.Default(false)),
+          VersionNumber: S.optional(S.Number),
+        }),
       ).annotate({ identifier: "SchemaVersionNumber" });
   }
 }
@@ -22250,7 +22268,7 @@ function __c174(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Data: S.optional(__S(5568, __c174, 0)),
-          ExecutionCount: S.optional(S.Number),
+          ExecutionCount: S.optional(S.Number).pipe(T.Default(0)),
           Status: S.optional(S.String),
           ErrorName: S.optional(S.String),
           ErrorValue: S.optional(S.String),
@@ -22260,13 +22278,13 @@ function __c174(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Id: S.optional(S.Number),
+          Id: S.optional(S.Number).pipe(T.Default(0)),
           Code: S.optional(S.String),
           State: S.optional(S.String),
           Output: S.optional(__S(5569, __c174, 1)),
-          Progress: S.optional(S.Number),
-          StartedOn: S.optional(S.Number),
-          CompletedOn: S.optional(S.Number),
+          Progress: S.optional(S.Number).pipe(T.Default(0)),
+          StartedOn: S.optional(S.Number).pipe(T.Default(0)),
+          CompletedOn: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Statement" });
   }
@@ -22341,7 +22359,7 @@ function __c179(j: number): any {
           IsProtected: S.optional(S.Boolean),
           IsManaged: S.optional(S.Boolean),
           Definer: S.optional(S.String),
-          ViewVersionId: S.optional(S.Number),
+          ViewVersionId: S.optional(S.Number).pipe(T.Default(0)),
           ViewVersionToken: S.optional(S.String),
           RefreshSeconds: S.optional(S.Number),
           LastRefreshType: S.optional(S.String),
@@ -22366,13 +22384,13 @@ function __c179(j: number): any {
           Location: S.optional(S.String),
           Properties: S.optional(__S(10656, __c333, 0)),
           Schemas: S.optional(__S(5731, __c179, 3)),
-          CurrentSchemaId: S.optional(S.Number),
-          LastColumnId: S.optional(S.Number),
+          CurrentSchemaId: S.optional(S.Number).pipe(T.Default(0)),
+          LastColumnId: S.optional(S.Number).pipe(T.Default(0)),
           PartitionSpecs: S.optional(__S(5732, __c179, 4)),
-          DefaultSpecId: S.optional(S.Number),
-          LastPartitionId: S.optional(S.Number),
+          DefaultSpecId: S.optional(S.Number).pipe(T.Default(0)),
+          LastPartitionId: S.optional(S.Number).pipe(T.Default(0)),
           SortOrders: S.optional(__S(5733, __c179, 5)),
-          DefaultSortOrderId: S.optional(S.Number),
+          DefaultSortOrderId: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "IcebergTableMetadata" });
     case 7:
@@ -22431,7 +22449,7 @@ function __c179(j: number): any {
           UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastAccessTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastAnalyzedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Retention: S.optional(S.Number),
+          Retention: S.optional(S.Number).pipe(T.Default(0)),
           StorageDescriptor: S.optional(__S(10727, __c335, 7)),
           PartitionKeys: S.optional(__S(10721, __c335, 1)),
           ViewOriginalText: S.optional(S.String),
@@ -22439,7 +22457,7 @@ function __c179(j: number): any {
           TableType: S.optional(S.String),
           Parameters: S.optional(__S(10656, __c333, 0)),
           CreatedBy: S.optional(S.String),
-          IsRegisteredWithLakeFormation: S.optional(S.Boolean),
+          IsRegisteredWithLakeFormation: S.optional(S.Boolean).pipe(T.Default(false)),
           TargetTable: S.optional(__S(416, __c13, 0)),
           CatalogId: S.optional(S.String),
           VersionId: S.optional(S.String),
@@ -22628,7 +22646,7 @@ function __c190(j: number): any {
         S.Struct({
           Partition: S.optional(__S(12192, __c381, 0)),
           AuthorizedColumns: S.optional(__S(10528, __c329, 0)),
-          IsRegisteredWithLakeFormation: S.optional(S.Boolean),
+          IsRegisteredWithLakeFormation: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "GetUnfilteredPartitionMetadataResponse" });
   }
@@ -22695,13 +22713,13 @@ function __c192(j: number): any {
         S.Struct({
           Table: S.optional(__S(5740, __c179, 12)),
           AuthorizedColumns: S.optional(__S(10528, __c329, 0)),
-          IsRegisteredWithLakeFormation: S.optional(S.Boolean),
+          IsRegisteredWithLakeFormation: S.optional(S.Boolean).pipe(T.Default(false)),
           CellFilters: S.optional(__S(6147, __c192, 3)),
           QueryAuthorizationId: S.optional(S.String),
-          IsMultiDialectView: S.optional(S.Boolean),
-          IsMaterializedView: S.optional(S.Boolean),
+          IsMultiDialectView: S.optional(S.Boolean).pipe(T.Default(false)),
+          IsMaterializedView: S.optional(S.Boolean).pipe(T.Default(false)),
           ResourceArn: S.optional(S.String),
-          IsProtected: S.optional(S.Boolean),
+          IsProtected: S.optional(S.Boolean).pipe(T.Default(false)),
           Permissions: S.optional(__S(11136, __c348, 0)),
           RowFilter: S.optional(S.String),
         }),
@@ -23017,7 +23035,7 @@ function __c208(j: number): any {
           LogGroup: S.optional(S.String),
           LogStream: S.optional(S.String),
           MessagePrefix: S.optional(S.String),
-          DPUHour: S.optional(S.Number),
+          DPUHour: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CrawlerHistory" });
     case 4:
@@ -23381,7 +23399,7 @@ function __c220(j: number): any {
           ProfileId: S.optional(S.String),
           RunIdentifier: S.optional(__S(7040, __c220, 0)),
           StatisticName: S.optional(S.String),
-          DoubleValue: S.optional(S.Number),
+          DoubleValue: S.optional(S.Number).pipe(T.Default(0)),
           DistributionValue: S.optional(__S(11360, __c355, 0)),
           EvaluationLevel: S.optional(S.String),
           ColumnsReferenced: S.optional(__S(10528, __c329, 0)),
@@ -24098,7 +24116,7 @@ function __c253(j: number): any {
           SchemaArn: S.optional(S.String),
           SchemaName: S.optional(S.String),
           RegistryName: S.optional(S.String),
-          LatestVersion: S.optional(S.Boolean),
+          LatestVersion: S.optional(S.Boolean).pipe(T.Default(false)),
           VersionNumber: S.optional(S.Number),
           SchemaVersionId: S.optional(S.String),
           MetadataKey: S.optional(S.String),
@@ -24316,7 +24334,7 @@ function __c261(j: number): any {
         ),
       ).annotate({ identifier: "RunStatementRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Id: S.optional(S.Number) })).annotate({
+      return S.suspend(() => S.Struct({ Id: S.optional(S.Number).pipe(T.Default(0)) })).annotate({
         identifier: "RunStatementResponse",
       });
   }
@@ -25173,8 +25191,8 @@ function __c314(j: number): any {
           DefaultArguments: S.optional(__S(10656, __c333, 0)),
           NonOverridableArguments: S.optional(__S(10656, __c333, 0)),
           Connections: S.optional(__S(11968, __c374, 0)),
-          MaxRetries: S.optional(S.Number),
-          AllocatedCapacity: S.optional(S.Number),
+          MaxRetries: S.optional(S.Number).pipe(T.Default(0)),
+          AllocatedCapacity: S.optional(S.Number).pipe(T.Default(0)),
           Timeout: S.optional(S.Number),
           MaxCapacity: S.optional(S.Number),
           WorkerType: S.optional(S.String),
@@ -25539,9 +25557,9 @@ function __c335(j: number): any {
         }),
       ).annotate({ identifier: "SerDeInfo" });
     case 3:
-      return S.suspend(() => S.Struct({ Column: S.String, SortOrder: S.Number })).annotate({
-        identifier: "Order",
-      });
+      return S.suspend(() =>
+        S.Struct({ Column: S.String, SortOrder: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "Order" });
     case 4:
       return S.Array(__S(10723, __c335, 3));
     case 5:
@@ -25568,14 +25586,14 @@ function __c335(j: number): any {
           AdditionalLocations: S.optional(__S(10528, __c329, 0)),
           InputFormat: S.optional(S.String),
           OutputFormat: S.optional(S.String),
-          Compressed: S.optional(S.Boolean),
-          NumberOfBuckets: S.optional(S.Number),
+          Compressed: S.optional(S.Boolean).pipe(T.Default(false)),
+          NumberOfBuckets: S.optional(S.Number).pipe(T.Default(0)),
           SerdeInfo: S.optional(__S(10722, __c335, 2)),
           BucketColumns: S.optional(__S(10528, __c329, 0)),
           SortColumns: S.optional(__S(10724, __c335, 4)),
           Parameters: S.optional(__S(10656, __c333, 0)),
           SkewedInfo: S.optional(__S(10725, __c335, 5)),
-          StoredAsSubDirectories: S.optional(S.Boolean),
+          StoredAsSubDirectories: S.optional(S.Boolean).pipe(T.Default(false)),
           SchemaReference: S.optional(__S(10726, __c335, 6)),
         }),
       ).annotate({ identifier: "StorageDescriptor" });
@@ -25794,11 +25812,11 @@ function __c346(j: number): any {
           State: S.optional(S.String),
           TablePrefix: S.optional(S.String),
           Schedule: S.optional(__S(11040, __c345, 0)),
-          CrawlElapsedTime: S.optional(S.Number),
+          CrawlElapsedTime: S.optional(S.Number).pipe(T.Default(0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastCrawl: S.optional(__S(11072, __c346, 0)),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           Configuration: S.optional(S.String),
           CrawlerSecurityConfiguration: S.optional(S.String),
           LakeFormationConfiguration: S.optional(__S(11186, __c349, 18)),
@@ -26212,7 +26230,7 @@ function __c361(j: number): any {
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ExecutionTime: S.optional(S.Number),
+          ExecutionTime: S.optional(S.Number).pipe(T.Default(0)),
           RulesetNames: S.optional(__S(10528, __c329, 0)),
           ResultIds: S.optional(__S(10528, __c329, 0)),
           AdditionalDataSources: S.optional(__S(11622, __c363, 6)),
@@ -26319,13 +26337,13 @@ function __c365(j: number): any {
           SubnetId: S.optional(S.String),
           YarnEndpointAddress: S.optional(S.String),
           PrivateAddress: S.optional(S.String),
-          ZeppelinRemoteSparkInterpreterPort: S.optional(S.Number),
+          ZeppelinRemoteSparkInterpreterPort: S.optional(S.Number).pipe(T.Default(0)),
           PublicAddress: S.optional(S.String),
           Status: S.optional(S.String),
           WorkerType: S.optional(S.String),
           GlueVersion: S.optional(S.String),
           NumberOfWorkers: S.optional(S.Number),
-          NumberOfNodes: S.optional(S.Number),
+          NumberOfNodes: S.optional(S.Number).pipe(T.Default(0)),
           AvailabilityZone: S.optional(S.String),
           VpcId: S.optional(S.String),
           ExtraPythonLibsS3Path: S.optional(S.String),
@@ -26455,8 +26473,8 @@ function __c370(j: number): any {
           DefaultArguments: S.optional(__S(10656, __c333, 0)),
           NonOverridableArguments: S.optional(__S(10656, __c333, 0)),
           Connections: S.optional(__S(11968, __c374, 0)),
-          MaxRetries: S.optional(S.Number),
-          AllocatedCapacity: S.optional(S.Number),
+          MaxRetries: S.optional(S.Number).pipe(T.Default(0)),
+          AllocatedCapacity: S.optional(S.Number).pipe(T.Default(0)),
           Timeout: S.optional(S.Number),
           MaxCapacity: S.optional(S.Number),
           WorkerType: S.optional(S.String),
@@ -26505,9 +26523,9 @@ function __c374(j: number): any {
 function __c375(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ MaxConcurrentRuns: S.optional(S.Number) })).annotate({
-        identifier: "ExecutionProperty",
-      });
+      return S.suspend(() =>
+        S.Struct({ MaxConcurrentRuns: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "ExecutionProperty" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -26647,7 +26665,7 @@ function __c375(j: number): any {
           WithHeader: S.optional(S.Boolean),
           WriteHeader: S.optional(S.Boolean),
           SkipFirst: S.optional(S.Boolean),
-          OptimizePerformance: S.optional(S.Boolean),
+          OptimizePerformance: S.optional(S.Boolean).pipe(T.Default(false)),
           OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3CsvSource" });
@@ -26693,7 +26711,7 @@ function __c375(j: number): any {
       return S.suspend(() =>
         S.Struct({
           DynamodbExport: S.optional(S.String),
-          DynamodbUnnestDDBJson: S.optional(S.Boolean),
+          DynamodbUnnestDDBJson: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DDBELTCatalogAdditionalOptions" });
     case 21:
@@ -26772,7 +26790,10 @@ function __c375(j: number): any {
       ).annotate({ identifier: "CatalogSchemaChangePolicy" });
     case 29:
       return S.suspend(() =>
-        S.Struct({ IsEnabled: S.optional(S.Boolean), EvaluationContext: S.optional(S.String) }),
+        S.Struct({
+          IsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          EvaluationContext: S.optional(S.String),
+        }),
       ).annotate({ identifier: "AutoDataQuality" });
     case 30:
       return S.suspend(() =>
@@ -26890,7 +26911,11 @@ function __c376(j: number): any {
       ).annotate({ identifier: "Join" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Inputs: __S(10528, __c329, 0), Index: S.Number }),
+        S.Struct({
+          Name: S.String,
+          Inputs: __S(10528, __c329, 0),
+          Index: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "SelectFromCollection" });
     case 12:
       return S.suspend(() =>
@@ -27377,7 +27402,7 @@ function __c378(j: number): any {
           PostAction: S.optional(S.String),
           Action: S.optional(S.String),
           TablePrefix: S.optional(S.String),
-          Upsert: S.optional(S.Boolean),
+          Upsert: S.optional(S.Boolean).pipe(T.Default(false)),
           MergeAction: S.optional(S.String),
           MergeWhenMatched: S.optional(S.String),
           MergeWhenNotMatched: S.optional(S.String),
@@ -27459,14 +27484,14 @@ function __c378(j: number): any {
           PreAction: S.optional(S.String),
           PostAction: S.optional(S.String),
           Action: S.optional(S.String),
-          Upsert: S.optional(S.Boolean),
+          Upsert: S.optional(S.Boolean).pipe(T.Default(false)),
           MergeAction: S.optional(S.String),
           MergeWhenMatched: S.optional(S.String),
           MergeWhenNotMatched: S.optional(S.String),
           MergeClause: S.optional(S.String),
           StagingTable: S.optional(S.String),
           SelectedColumns: S.optional(__S(12096, __c378, 0)),
-          AutoPushdown: S.optional(S.Boolean),
+          AutoPushdown: S.optional(S.Boolean).pipe(T.Default(false)),
           TableSchema: S.optional(__S(12096, __c378, 0)),
         }),
       ).annotate({ identifier: "SnowflakeNodeData" });
@@ -27579,7 +27604,7 @@ function __c378(j: number): any {
       return S.suspend(() =>
         S.Struct({
           DynamodbExport: S.optional(S.String),
-          DynamodbUnnestDDBJson: S.optional(S.Boolean),
+          DynamodbUnnestDDBJson: S.optional(S.Boolean).pipe(T.Default(false)),
           DynamodbTableArn: S.String,
           DynamodbS3Bucket: S.optional(S.String),
           DynamodbS3Prefix: S.optional(S.String),
@@ -27900,11 +27925,11 @@ function __c387(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          NumberOfBytesCompacted: S.optional(S.Number),
-          NumberOfFilesCompacted: S.optional(S.Number),
-          DpuHours: S.optional(S.Number),
-          NumberOfDpus: S.optional(S.Number),
-          JobDurationInHour: S.optional(S.Number),
+          NumberOfBytesCompacted: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfFilesCompacted: S.optional(S.Number).pipe(T.Default(0)),
+          DpuHours: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfDpus: S.optional(S.Number).pipe(T.Default(0)),
+          JobDurationInHour: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "IcebergCompactionMetrics" });
     case 2:
@@ -27914,12 +27939,12 @@ function __c387(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          NumberOfDataFilesDeleted: S.optional(S.Number),
-          NumberOfManifestFilesDeleted: S.optional(S.Number),
-          NumberOfManifestListsDeleted: S.optional(S.Number),
-          DpuHours: S.optional(S.Number),
-          NumberOfDpus: S.optional(S.Number),
-          JobDurationInHour: S.optional(S.Number),
+          NumberOfDataFilesDeleted: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfManifestFilesDeleted: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfManifestListsDeleted: S.optional(S.Number).pipe(T.Default(0)),
+          DpuHours: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfDpus: S.optional(S.Number).pipe(T.Default(0)),
+          JobDurationInHour: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "IcebergRetentionMetrics" });
     case 4:
@@ -27929,10 +27954,10 @@ function __c387(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          NumberOfOrphanFilesDeleted: S.optional(S.Number),
-          DpuHours: S.optional(S.Number),
-          NumberOfDpus: S.optional(S.Number),
-          JobDurationInHour: S.optional(S.Number),
+          NumberOfOrphanFilesDeleted: S.optional(S.Number).pipe(T.Default(0)),
+          DpuHours: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfDpus: S.optional(S.Number).pipe(T.Default(0)),
+          JobDurationInHour: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "IcebergOrphanFileDeletionMetrics" });
     case 6:
@@ -28065,7 +28090,7 @@ function __c393(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.String),
-          Attempt: S.optional(S.Number),
+          Attempt: S.optional(S.Number).pipe(T.Default(0)),
           PreviousRunId: S.optional(S.String),
           TriggerName: S.optional(S.String),
           JobName: S.optional(S.String),
@@ -28078,8 +28103,8 @@ function __c393(j: number): any {
           Arguments: S.optional(__S(10656, __c333, 0)),
           ErrorMessage: S.optional(S.String),
           PredecessorRuns: S.optional(__S(12577, __c393, 1)),
-          AllocatedCapacity: S.optional(S.Number),
-          ExecutionTime: S.optional(S.Number),
+          AllocatedCapacity: S.optional(S.Number).pipe(T.Default(0)),
+          ExecutionTime: S.optional(S.Number).pipe(T.Default(0)),
           Timeout: S.optional(S.Number),
           MaxCapacity: S.optional(S.Number),
           WorkerType: S.optional(S.String),
@@ -28139,14 +28164,14 @@ function __c397(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TotalActions: S.optional(S.Number),
-          TimeoutActions: S.optional(S.Number),
-          FailedActions: S.optional(S.Number),
-          StoppedActions: S.optional(S.Number),
-          SucceededActions: S.optional(S.Number),
-          RunningActions: S.optional(S.Number),
-          ErroredActions: S.optional(S.Number),
-          WaitingActions: S.optional(S.Number),
+          TotalActions: S.optional(S.Number).pipe(T.Default(0)),
+          TimeoutActions: S.optional(S.Number).pipe(T.Default(0)),
+          FailedActions: S.optional(S.Number).pipe(T.Default(0)),
+          StoppedActions: S.optional(S.Number).pipe(T.Default(0)),
+          SucceededActions: S.optional(S.Number).pipe(T.Default(0)),
+          RunningActions: S.optional(S.Number).pipe(T.Default(0)),
+          ErroredActions: S.optional(S.Number).pipe(T.Default(0)),
+          WaitingActions: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WorkflowRunStatistics" });
     case 1:
@@ -28387,7 +28412,10 @@ function __c406(j: number): any {
       ).annotate({ identifier: "CheckSchemaVersionValidityInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Valid: S.optional(S.Boolean), Error: S.optional(S.String) }),
+        S.Struct({
+          Valid: S.optional(S.Boolean).pipe(T.Default(false)),
+          Error: S.optional(S.String),
+        }),
       ).annotate({ identifier: "CheckSchemaVersionValidityResponse" });
   }
 }
@@ -28437,7 +28465,7 @@ function __c411(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DataLakeAccess: S.optional(S.Boolean),
+          DataLakeAccess: S.optional(S.Boolean).pipe(T.Default(false)),
           DataTransferRole: S.optional(S.String),
           KmsKey: S.optional(S.String),
           CatalogType: S.optional(S.String),
@@ -28668,7 +28696,7 @@ function __c420(j: number): any {
           PythonProperties: S.optional(__S(10656, __c333, 0)),
           PhysicalConnectionRequirements: S.optional(__S(13376, __c418, 0)),
           AuthenticationConfiguration: S.optional(__S(13412, __c419, 4)),
-          ValidateCredentials: S.optional(S.Boolean),
+          ValidateCredentials: S.optional(S.Boolean).pipe(T.Default(false)),
           ValidateForComputeEnvironments: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "ConnectionInput" });
@@ -28870,8 +28898,8 @@ function __c430(j: number): any {
           SubnetId: S.optional(S.String),
           RoleArn: S.optional(S.String),
           YarnEndpointAddress: S.optional(S.String),
-          ZeppelinRemoteSparkInterpreterPort: S.optional(S.Number),
-          NumberOfNodes: S.optional(S.Number),
+          ZeppelinRemoteSparkInterpreterPort: S.optional(S.Number).pipe(T.Default(0)),
+          NumberOfNodes: S.optional(S.Number).pipe(T.Default(0)),
           WorkerType: S.optional(S.String),
           GlueVersion: S.optional(S.String),
           NumberOfWorkers: S.optional(S.Number),

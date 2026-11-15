@@ -298,7 +298,7 @@ export interface ProcessedObject {
 }
 export interface Progress {
   ProgressPercent?: number | undefined;
-  TotalObjects?: number | undefined;
+  TotalObjects: number;
   ProgressStep?: string | undefined;
   ProcessedObject?: ProcessedObject | undefined;
 }
@@ -324,16 +324,16 @@ export interface CancelReplicationTaskAssessmentRunMessage {
   ReplicationTaskAssessmentRunArn: string;
 }
 export interface ReplicationTaskAssessmentRunProgress {
-  IndividualAssessmentCount?: number | undefined;
-  IndividualAssessmentCompletedCount?: number | undefined;
+  IndividualAssessmentCount: number;
+  IndividualAssessmentCompletedCount: number;
 }
 export interface ReplicationTaskAssessmentRunResultStatistic {
-  Passed?: number | undefined;
-  Failed?: number | undefined;
-  Error?: number | undefined;
-  Warning?: number | undefined;
-  Cancelled?: number | undefined;
-  Skipped?: number | undefined;
+  Passed: number;
+  Failed: number;
+  Error: number;
+  Warning: number;
+  Cancelled: number;
+  Skipped: number;
 }
 export interface ReplicationTaskAssessmentRun {
   ReplicationTaskAssessmentRunArn?: string | undefined;
@@ -348,7 +348,7 @@ export interface ReplicationTaskAssessmentRun {
   ResultEncryptionMode?: string | undefined;
   ResultKmsKeyArn?: string | undefined;
   AssessmentRunName?: string | undefined;
-  IsLatestTaskAssessmentRun?: boolean | undefined;
+  IsLatestTaskAssessmentRun: boolean;
   ResultStatistic?: ReplicationTaskAssessmentRunResultStatistic | undefined;
 }
 export interface CancelReplicationTaskAssessmentRunResponse {
@@ -391,13 +391,13 @@ export interface DataMigrationSettings {
   SelectionRules?: string | redacted.Redacted<string> | undefined;
 }
 export interface DataMigrationStatistics {
-  TablesLoaded?: number | undefined;
-  ElapsedTimeMillis?: number | undefined;
-  TablesLoading?: number | undefined;
-  FullLoadPercentage?: number | undefined;
-  CDCLatency?: number | undefined;
-  TablesQueued?: number | undefined;
-  TablesErrored?: number | undefined;
+  TablesLoaded: number;
+  ElapsedTimeMillis: number;
+  TablesLoading: number;
+  FullLoadPercentage: number;
+  CDCLatency: number;
+  TablesQueued: number;
+  TablesErrored: number;
   StartTime?: Date | undefined;
   StopTime?: Date | undefined;
 }
@@ -1192,7 +1192,7 @@ export interface EventSubscription {
   SourceType?: string | undefined;
   SourceIdsList?: string[] | undefined;
   EventCategoriesList?: string[] | undefined;
-  Enabled?: boolean | undefined;
+  Enabled: boolean;
 }
 export interface CreateEventSubscriptionResponse {
   EventSubscription?: EventSubscription | undefined;
@@ -1382,16 +1382,16 @@ export interface ReplicationInstance {
   ReplicationInstanceIdentifier?: string | undefined;
   ReplicationInstanceClass?: string | undefined;
   ReplicationInstanceStatus?: string | undefined;
-  AllocatedStorage?: number | undefined;
+  AllocatedStorage: number;
   InstanceCreateTime?: Date | undefined;
   VpcSecurityGroups?: VpcSecurityGroupMembership[] | undefined;
   AvailabilityZone?: string | undefined;
   ReplicationSubnetGroup?: ReplicationSubnetGroup | undefined;
   PreferredMaintenanceWindow?: string | undefined;
   PendingModifiedValues?: ReplicationPendingModifiedValues | undefined;
-  MultiAZ?: boolean | undefined;
+  MultiAZ: boolean;
   EngineVersion?: string | undefined;
-  AutoMinorVersionUpgrade?: boolean | undefined;
+  AutoMinorVersionUpgrade: boolean;
   KmsKeyId?: string | undefined;
   ReplicationInstanceArn?: string | undefined;
   ReplicationInstancePublicIpAddress?: string | undefined;
@@ -1399,7 +1399,7 @@ export interface ReplicationInstance {
   ReplicationInstancePublicIpAddresses?: string[] | undefined;
   ReplicationInstancePrivateIpAddresses?: string[] | undefined;
   ReplicationInstanceIpv6Addresses?: string[] | undefined;
-  PubliclyAccessible?: boolean | undefined;
+  PubliclyAccessible: boolean;
   SecondaryAvailabilityZone?: string | undefined;
   FreeUntil?: Date | undefined;
   DnsNameServers?: string | undefined;
@@ -1435,12 +1435,12 @@ export interface CreateReplicationTaskMessage {
   ResourceIdentifier?: string | undefined;
 }
 export interface ReplicationTaskStats {
-  FullLoadProgressPercent?: number | undefined;
-  ElapsedTimeMillis?: number | undefined;
-  TablesLoaded?: number | undefined;
-  TablesLoading?: number | undefined;
-  TablesQueued?: number | undefined;
-  TablesErrored?: number | undefined;
+  FullLoadProgressPercent: number;
+  ElapsedTimeMillis: number;
+  TablesLoaded: number;
+  TablesLoading: number;
+  TablesQueued: number;
+  TablesErrored: number;
   FreshStartDate?: Date | undefined;
   StartDate?: Date | undefined;
   StopDate?: Date | undefined;
@@ -1583,8 +1583,8 @@ export interface DeleteReplicationTaskAssessmentRunResponse {
 export interface DescribeAccountAttributesMessage {}
 export interface AccountQuota {
   AccountQuotaName?: string | undefined;
-  Used?: number | undefined;
-  Max?: number | undefined;
+  Used: number;
+  Max: number;
 }
 export type AccountQuotaList = AccountQuota[];
 export interface DescribeAccountAttributesResponse {
@@ -1702,7 +1702,7 @@ export interface DescribeEndpointTypesMessage {
 }
 export interface SupportedEndpointType {
   EngineName?: string | undefined;
-  SupportsCDC?: boolean | undefined;
+  SupportsCDC: boolean;
   EndpointType?: ReplicationEndpointTypeValue | undefined;
   ReplicationInstanceEngineMinimumVersion?: string | undefined;
   EngineDisplayName?: string | undefined;
@@ -2047,10 +2047,10 @@ export interface OrderableReplicationInstance {
   EngineVersion?: string | undefined;
   ReplicationInstanceClass?: string | undefined;
   StorageType?: string | undefined;
-  MinAllocatedStorage?: number | undefined;
-  MaxAllocatedStorage?: number | undefined;
-  DefaultAllocatedStorage?: number | undefined;
-  IncludedAllocatedStorage?: number | undefined;
+  MinAllocatedStorage: number;
+  MaxAllocatedStorage: number;
+  DefaultAllocatedStorage: number;
+  IncludedAllocatedStorage: number;
   AvailabilityZones?: string[] | undefined;
   ReleaseStatus?: ReleaseStatusValues | undefined;
 }
@@ -2176,7 +2176,7 @@ export interface DescribeReplicationInstanceTaskLogsMessage {
 export interface ReplicationInstanceTaskLog {
   ReplicationTaskName?: string | undefined;
   ReplicationTaskArn?: string | undefined;
-  ReplicationInstanceTaskLogSize?: number | undefined;
+  ReplicationInstanceTaskLogSize: number;
 }
 export type ReplicationInstanceTaskLogsList = ReplicationInstanceTaskLog[];
 export interface DescribeReplicationInstanceTaskLogsResponse {
@@ -2191,15 +2191,15 @@ export interface DescribeReplicationsMessage {
 }
 export interface ProvisionData {
   ProvisionState?: string | undefined;
-  ProvisionedCapacityUnits?: number | undefined;
+  ProvisionedCapacityUnits: number;
   DateProvisioned?: Date | undefined;
-  IsNewProvisioningAvailable?: boolean | undefined;
+  IsNewProvisioningAvailable: boolean;
   DateNewProvisioningDataAvailable?: Date | undefined;
   ReasonForNewProvisioningData?: string | undefined;
 }
 export interface PremigrationAssessmentStatus {
   PremigrationAssessmentRunArn?: string | undefined;
-  FailOnAssessmentFailure?: boolean | undefined;
+  FailOnAssessmentFailure: boolean;
   Status?: string | undefined;
   PremigrationAssessmentRunCreationDate?: Date | undefined;
   AssessmentProgress?: ReplicationTaskAssessmentRunProgress | undefined;
@@ -2212,12 +2212,12 @@ export interface PremigrationAssessmentStatus {
 }
 export type PremigrationAssessmentStatusList = PremigrationAssessmentStatus[];
 export interface ReplicationStats {
-  FullLoadProgressPercent?: number | undefined;
-  ElapsedTimeMillis?: number | undefined;
-  TablesLoaded?: number | undefined;
-  TablesLoading?: number | undefined;
-  TablesQueued?: number | undefined;
-  TablesErrored?: number | undefined;
+  FullLoadProgressPercent: number;
+  ElapsedTimeMillis: number;
+  TablesLoaded: number;
+  TablesLoading: number;
+  TablesQueued: number;
+  TablesErrored: number;
   FreshStartDate?: Date | undefined;
   StartDate?: Date | undefined;
   StopDate?: Date | undefined;
@@ -2271,25 +2271,25 @@ export interface DescribeReplicationTableStatisticsMessage {
 export interface TableStatistics {
   SchemaName?: string | undefined;
   TableName?: string | undefined;
-  Inserts?: number | undefined;
-  Deletes?: number | undefined;
-  Updates?: number | undefined;
-  Ddls?: number | undefined;
+  Inserts: number;
+  Deletes: number;
+  Updates: number;
+  Ddls: number;
   AppliedInserts?: number | undefined;
   AppliedDeletes?: number | undefined;
   AppliedUpdates?: number | undefined;
   AppliedDdls?: number | undefined;
-  FullLoadRows?: number | undefined;
-  FullLoadCondtnlChkFailedRows?: number | undefined;
-  FullLoadErrorRows?: number | undefined;
+  FullLoadRows: number;
+  FullLoadCondtnlChkFailedRows: number;
+  FullLoadErrorRows: number;
   FullLoadStartTime?: Date | undefined;
   FullLoadEndTime?: Date | undefined;
   FullLoadReloaded?: boolean | undefined;
   LastUpdateTime?: Date | undefined;
   TableState?: string | undefined;
-  ValidationPendingRecords?: number | undefined;
-  ValidationFailedRecords?: number | undefined;
-  ValidationSuspendedRecords?: number | undefined;
+  ValidationPendingRecords: number;
+  ValidationFailedRecords: number;
+  ValidationSuspendedRecords: number;
   ValidationState?: string | undefined;
   ValidationStateDetails?: string | undefined;
   ResyncState?: string | undefined;
@@ -6604,25 +6604,25 @@ function __c1(j: number): any {
         S.Struct({
           SchemaName: S.optional(S.String),
           TableName: S.optional(S.String),
-          Inserts: S.optional(S.Number),
-          Deletes: S.optional(S.Number),
-          Updates: S.optional(S.Number),
-          Ddls: S.optional(S.Number),
+          Inserts: S.optional(S.Number).pipe(T.Default(0)),
+          Deletes: S.optional(S.Number).pipe(T.Default(0)),
+          Updates: S.optional(S.Number).pipe(T.Default(0)),
+          Ddls: S.optional(S.Number).pipe(T.Default(0)),
           AppliedInserts: S.optional(S.Number),
           AppliedDeletes: S.optional(S.Number),
           AppliedUpdates: S.optional(S.Number),
           AppliedDdls: S.optional(S.Number),
-          FullLoadRows: S.optional(S.Number),
-          FullLoadCondtnlChkFailedRows: S.optional(S.Number),
-          FullLoadErrorRows: S.optional(S.Number),
+          FullLoadRows: S.optional(S.Number).pipe(T.Default(0)),
+          FullLoadCondtnlChkFailedRows: S.optional(S.Number).pipe(T.Default(0)),
+          FullLoadErrorRows: S.optional(S.Number).pipe(T.Default(0)),
           FullLoadStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           FullLoadEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           FullLoadReloaded: S.optional(S.Boolean),
           LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           TableState: S.optional(S.String),
-          ValidationPendingRecords: S.optional(S.Number),
-          ValidationFailedRecords: S.optional(S.Number),
-          ValidationSuspendedRecords: S.optional(S.Number),
+          ValidationPendingRecords: S.optional(S.Number).pipe(T.Default(0)),
+          ValidationFailedRecords: S.optional(S.Number).pipe(T.Default(0)),
+          ValidationSuspendedRecords: S.optional(S.Number).pipe(T.Default(0)),
           ValidationState: S.optional(S.String),
           ValidationStateDetails: S.optional(S.String),
           ResyncState: S.optional(S.String),
@@ -7771,7 +7771,7 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ServerName: S.String,
-          Port: S.Number,
+          Port: S.Number.pipe(T.Default(0)),
           SslSecurityProtocol: S.optional(S.String),
           AuthType: S.optional(S.String),
           AuthUserName: S.optional(S.String),
@@ -8003,7 +8003,7 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ProgressPercent: S.optional(S.Number),
-          TotalObjects: S.optional(S.Number),
+          TotalObjects: S.optional(S.Number).pipe(T.Default(0)),
           ProgressStep: S.optional(S.String),
           ProcessedObject: S.optional(__S(1954, __c61, 2)),
         }),
@@ -8068,7 +8068,7 @@ function __c65(j: number): any {
           ResultEncryptionMode: S.optional(S.String),
           ResultKmsKeyArn: S.optional(S.String),
           AssessmentRunName: S.optional(S.String),
-          IsLatestTaskAssessmentRun: S.optional(S.Boolean),
+          IsLatestTaskAssessmentRun: S.optional(S.Boolean).pipe(T.Default(false)),
           ResultStatistic: S.optional(__S(2145, __c67, 1)),
         }),
       ).annotate({ identifier: "ReplicationTaskAssessmentRun" });
@@ -8087,19 +8087,19 @@ function __c67(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          IndividualAssessmentCount: S.optional(S.Number),
-          IndividualAssessmentCompletedCount: S.optional(S.Number),
+          IndividualAssessmentCount: S.optional(S.Number).pipe(T.Default(0)),
+          IndividualAssessmentCompletedCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ReplicationTaskAssessmentRunProgress" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Passed: S.optional(S.Number),
-          Failed: S.optional(S.Number),
-          Error: S.optional(S.Number),
-          Warning: S.optional(S.Number),
-          Cancelled: S.optional(S.Number),
-          Skipped: S.optional(S.Number),
+          Passed: S.optional(S.Number).pipe(T.Default(0)),
+          Failed: S.optional(S.Number).pipe(T.Default(0)),
+          Error: S.optional(S.Number).pipe(T.Default(0)),
+          Warning: S.optional(S.Number).pipe(T.Default(0)),
+          Cancelled: S.optional(S.Number).pipe(T.Default(0)),
+          Skipped: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ReplicationTaskAssessmentRunResultStatistic" });
   }
@@ -8167,13 +8167,13 @@ function __c71(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          TablesLoaded: S.optional(S.Number),
-          ElapsedTimeMillis: S.optional(S.Number),
-          TablesLoading: S.optional(S.Number),
-          FullLoadPercentage: S.optional(S.Number),
-          CDCLatency: S.optional(S.Number),
-          TablesQueued: S.optional(S.Number),
-          TablesErrored: S.optional(S.Number),
+          TablesLoaded: S.optional(S.Number).pipe(T.Default(0)),
+          ElapsedTimeMillis: S.optional(S.Number).pipe(T.Default(0)),
+          TablesLoading: S.optional(S.Number).pipe(T.Default(0)),
+          FullLoadPercentage: S.optional(S.Number).pipe(T.Default(0)),
+          CDCLatency: S.optional(S.Number).pipe(T.Default(0)),
+          TablesQueued: S.optional(S.Number).pipe(T.Default(0)),
+          TablesErrored: S.optional(S.Number).pipe(T.Default(0)),
           StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           StopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
@@ -8454,7 +8454,7 @@ function __c80(j: number): any {
           SourceType: S.optional(S.String),
           SourceIdsList: S.optional(__S(2560, __c80, 0)),
           EventCategoriesList: S.optional(__S(2528, __c79, 0)),
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "EventSubscription" });
   }
@@ -8776,16 +8776,16 @@ function __c96(j: number): any {
           ReplicationInstanceIdentifier: S.optional(S.String),
           ReplicationInstanceClass: S.optional(S.String),
           ReplicationInstanceStatus: S.optional(S.String),
-          AllocatedStorage: S.optional(S.Number),
+          AllocatedStorage: S.optional(S.Number).pipe(T.Default(0)),
           InstanceCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           VpcSecurityGroups: S.optional(__S(3074, __c96, 2)),
           AvailabilityZone: S.optional(S.String),
           ReplicationSubnetGroup: S.optional(__S(3011, __c94, 3)),
           PreferredMaintenanceWindow: S.optional(S.String),
           PendingModifiedValues: S.optional(__S(3075, __c96, 3)),
-          MultiAZ: S.optional(S.Boolean),
+          MultiAZ: S.optional(S.Boolean).pipe(T.Default(false)),
           EngineVersion: S.optional(S.String),
-          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean).pipe(T.Default(false)),
           KmsKeyId: S.optional(S.String),
           ReplicationInstanceArn: S.optional(S.String),
           ReplicationInstancePublicIpAddress: S.optional(S.String),
@@ -8793,7 +8793,7 @@ function __c96(j: number): any {
           ReplicationInstancePublicIpAddresses: S.optional(__S(2208, __c69, 0)),
           ReplicationInstancePrivateIpAddresses: S.optional(__S(2208, __c69, 0)),
           ReplicationInstanceIpv6Addresses: S.optional(__S(2208, __c69, 0)),
-          PubliclyAccessible: S.optional(S.Boolean),
+          PubliclyAccessible: S.optional(S.Boolean).pipe(T.Default(false)),
           SecondaryAvailabilityZone: S.optional(S.String),
           FreeUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DnsNameServers: S.optional(S.String),
@@ -8889,12 +8889,12 @@ function __c102(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          FullLoadProgressPercent: S.optional(S.Number),
-          ElapsedTimeMillis: S.optional(S.Number),
-          TablesLoaded: S.optional(S.Number),
-          TablesLoading: S.optional(S.Number),
-          TablesQueued: S.optional(S.Number),
-          TablesErrored: S.optional(S.Number),
+          FullLoadProgressPercent: S.optional(S.Number).pipe(T.Default(0)),
+          ElapsedTimeMillis: S.optional(S.Number).pipe(T.Default(0)),
+          TablesLoaded: S.optional(S.Number).pipe(T.Default(0)),
+          TablesLoading: S.optional(S.Number).pipe(T.Default(0)),
+          TablesQueued: S.optional(S.Number).pipe(T.Default(0)),
+          TablesErrored: S.optional(S.Number).pipe(T.Default(0)),
           FreshStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           StopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -9121,8 +9121,8 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AccountQuotaName: S.optional(S.String),
-          Used: S.optional(S.Number),
-          Max: S.optional(S.Number),
+          Used: S.optional(S.Number).pipe(T.Default(0)),
+          Max: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AccountQuota" });
     case 2:
@@ -9369,7 +9369,7 @@ function __c132(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EngineName: S.optional(S.String),
-          SupportsCDC: S.optional(S.Boolean),
+          SupportsCDC: S.optional(S.Boolean).pipe(T.Default(false)),
           EndpointType: S.optional(S.String),
           ReplicationInstanceEngineMinimumVersion: S.optional(S.String),
           EngineDisplayName: S.optional(S.String),
@@ -9968,10 +9968,10 @@ function __c156(j: number): any {
           EngineVersion: S.optional(S.String),
           ReplicationInstanceClass: S.optional(S.String),
           StorageType: S.optional(S.String),
-          MinAllocatedStorage: S.optional(S.Number),
-          MaxAllocatedStorage: S.optional(S.Number),
-          DefaultAllocatedStorage: S.optional(S.Number),
-          IncludedAllocatedStorage: S.optional(S.Number),
+          MinAllocatedStorage: S.optional(S.Number).pipe(T.Default(0)),
+          MaxAllocatedStorage: S.optional(S.Number).pipe(T.Default(0)),
+          DefaultAllocatedStorage: S.optional(S.Number).pipe(T.Default(0)),
+          IncludedAllocatedStorage: S.optional(S.Number).pipe(T.Default(0)),
           AvailabilityZones: S.optional(__S(2208, __c69, 0)),
           ReleaseStatus: S.optional(S.String),
         }),
@@ -10212,7 +10212,7 @@ function __c164(j: number): any {
         S.Struct({
           ReplicationTaskName: S.optional(S.String),
           ReplicationTaskArn: S.optional(S.String),
-          ReplicationInstanceTaskLogSize: S.optional(S.Number),
+          ReplicationInstanceTaskLogSize: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ReplicationInstanceTaskLog" });
     case 2:
@@ -10258,9 +10258,9 @@ function __c166(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ProvisionState: S.optional(S.String),
-          ProvisionedCapacityUnits: S.optional(S.Number),
+          ProvisionedCapacityUnits: S.optional(S.Number).pipe(T.Default(0)),
           DateProvisioned: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          IsNewProvisioningAvailable: S.optional(S.Boolean),
+          IsNewProvisioningAvailable: S.optional(S.Boolean).pipe(T.Default(false)),
           DateNewProvisioningDataAvailable: S.optional(
             S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           ),
@@ -10271,7 +10271,7 @@ function __c166(j: number): any {
       return S.suspend(() =>
         S.Struct({
           PremigrationAssessmentRunArn: S.optional(S.String),
-          FailOnAssessmentFailure: S.optional(S.Boolean),
+          FailOnAssessmentFailure: S.optional(S.Boolean).pipe(T.Default(false)),
           Status: S.optional(S.String),
           PremigrationAssessmentRunCreationDate: S.optional(
             S.Date.pipe(T.TimestampFormat("epoch-seconds")),

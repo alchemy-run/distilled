@@ -158,7 +158,7 @@ export interface Summary {
   TargetIdType?: TargetIdType | undefined;
   Region?: string | undefined;
   ResourceType?: string | undefined;
-  NonCompliantResources?: number | undefined;
+  NonCompliantResources: number;
 }
 export type SummaryList = Summary[];
 export interface GetComplianceSummaryOutput {
@@ -260,7 +260,7 @@ export interface TagResourcesInput {
 export type StatusCode = number;
 export type ErrorCode = "InternalServiceException" | "InvalidParameterException" | (string & {});
 export interface FailureInfo {
-  StatusCode?: number | undefined;
+  StatusCode: number;
   ErrorCode?: ErrorCode | undefined;
   ErrorMessage?: string | undefined;
 }
@@ -803,7 +803,7 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StatusCode: S.optional(S.Number),
+          StatusCode: S.optional(S.Number).pipe(T.Default(0)),
           ErrorCode: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
         }),
@@ -885,7 +885,7 @@ function __c7(j: number): any {
           TargetIdType: S.optional(S.String),
           Region: S.optional(S.String),
           ResourceType: S.optional(S.String),
-          NonCompliantResources: S.optional(S.Number),
+          NonCompliantResources: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Summary" });
     case 3:

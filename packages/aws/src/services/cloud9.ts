@@ -97,25 +97,25 @@ export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()("BadRequestException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     className: /*@__PURE__*/ S.optional(S.String),
-    code: /*@__PURE__*/ S.optional(S.Number),
+    code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
   }) {}
 export class ConcurrentAccessException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentAccessException>()("ConcurrentAccessException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     className: /*@__PURE__*/ S.optional(S.String),
-    code: /*@__PURE__*/ S.optional(S.Number),
+    code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
   }) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     className: /*@__PURE__*/ S.optional(S.String),
-    code: /*@__PURE__*/ S.optional(S.Number),
+    code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
   }) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()("ForbiddenException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     className: /*@__PURE__*/ S.optional(S.String),
-    code: /*@__PURE__*/ S.optional(S.Number),
+    code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
   }) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
@@ -123,26 +123,26 @@ export class InternalServerErrorException
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
       className: /*@__PURE__*/ S.optional(S.String),
-      code: /*@__PURE__*/ S.optional(S.Number),
+      code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
     },
   ) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     className: /*@__PURE__*/ S.optional(S.String),
-    code: /*@__PURE__*/ S.optional(S.Number),
+    code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
   }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()("NotFoundException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     className: /*@__PURE__*/ S.optional(S.String),
-    code: /*@__PURE__*/ S.optional(S.Number),
+    code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
   }) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()("TooManyRequestsException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     className: /*@__PURE__*/ S.optional(S.String),
-    code: /*@__PURE__*/ S.optional(S.Number),
+    code: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
   }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type EnvironmentName = string;
 export type EnvironmentDescription = string | redacted.Redacted<string>;

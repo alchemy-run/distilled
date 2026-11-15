@@ -220,15 +220,15 @@ export interface DescribeStatementRequest {
 export type StatusString = string;
 export interface SubStatementData {
   Id: string;
-  Duration?: number | undefined;
+  Duration: number;
   Error?: string | undefined;
   Status?: string | undefined;
   CreatedAt?: Date | undefined;
   UpdatedAt?: Date | undefined;
   QueryString?: string | undefined;
-  ResultRows?: number | undefined;
-  ResultSize?: number | undefined;
-  RedshiftQueryId?: number | undefined;
+  ResultRows: number;
+  ResultSize: number;
+  RedshiftQueryId: number;
   RedshiftQueryUuid?: string | undefined;
   HasResultSet?: boolean | undefined;
 }
@@ -239,17 +239,17 @@ export interface DescribeStatementResponse {
   DbUser?: string | undefined;
   Database?: string | undefined;
   ClusterIdentifier?: string | undefined;
-  Duration?: number | undefined;
+  Duration: number;
   Error?: string | undefined;
   Status?: string | undefined;
   CreatedAt?: Date | undefined;
   UpdatedAt?: Date | undefined;
-  RedshiftPid?: number | undefined;
+  RedshiftPid: number;
   HasResultSet?: boolean | undefined;
   QueryString?: string | undefined;
-  ResultRows?: number | undefined;
-  ResultSize?: number | undefined;
-  RedshiftQueryId?: number | undefined;
+  ResultRows: number;
+  ResultSize: number;
+  RedshiftQueryId: number;
   RedshiftQueryUuid?: string | undefined;
   QueryParameters?: SqlParameter[] | undefined;
   SubStatements?: SubStatementData[] | undefined;
@@ -272,18 +272,18 @@ export interface DescribeTableRequest {
   WorkgroupName?: string | undefined;
 }
 export interface ColumnMetadata {
-  isCaseSensitive?: boolean | undefined;
-  isCurrency?: boolean | undefined;
-  isSigned?: boolean | undefined;
+  isCaseSensitive: boolean;
+  isCurrency: boolean;
+  isSigned: boolean;
   label?: string | undefined;
   name?: string | undefined;
-  nullable?: number | undefined;
-  precision?: number | undefined;
-  scale?: number | undefined;
+  nullable: number;
+  precision: number;
+  scale: number;
   schemaName?: string | undefined;
   tableName?: string | undefined;
   typeName?: string | undefined;
-  length?: number | undefined;
+  length: number;
   columnDefault?: string | undefined;
 }
 export type ColumnList = ColumnMetadata[];
@@ -383,7 +383,7 @@ export type ColumnMetadataList = ColumnMetadata[];
 export interface GetStatementResultResponse {
   Records: Field[][];
   ColumnMetadata?: ColumnMetadata[] | undefined;
-  TotalNumRows?: number | undefined;
+  TotalNumRows: number;
   NextToken?: string | undefined;
 }
 export interface GetStatementResultV2Request {
@@ -396,7 +396,7 @@ export type FormattedSqlRecords = QueryRecords[];
 export interface GetStatementResultV2Response {
   Records: QueryRecords[];
   ColumnMetadata?: ColumnMetadata[] | undefined;
-  TotalNumRows?: number | undefined;
+  TotalNumRows: number;
   ResultFormat?: string | undefined;
   NextToken?: string | undefined;
 }
@@ -1098,15 +1098,15 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
-          Duration: S.optional(S.Number),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
           Error: S.optional(S.String),
           Status: S.optional(S.String),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           QueryString: S.optional(S.String),
-          ResultRows: S.optional(S.Number),
-          ResultSize: S.optional(S.Number),
-          RedshiftQueryId: S.optional(S.Number),
+          ResultRows: S.optional(S.Number).pipe(T.Default(0)),
+          ResultSize: S.optional(S.Number).pipe(T.Default(0)),
+          RedshiftQueryId: S.optional(S.Number).pipe(T.Default(0)),
           RedshiftQueryUuid: S.optional(S.String),
           HasResultSet: S.optional(S.Boolean),
         }),
@@ -1121,17 +1121,17 @@ function __c5(j: number): any {
           DbUser: S.optional(S.String),
           Database: S.optional(S.String),
           ClusterIdentifier: S.optional(S.String),
-          Duration: S.optional(S.Number),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
           Error: S.optional(S.String),
           Status: S.optional(S.String),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          RedshiftPid: S.optional(S.Number),
+          RedshiftPid: S.optional(S.Number).pipe(T.Default(0)),
           HasResultSet: S.optional(S.Boolean),
           QueryString: S.optional(S.String),
-          ResultRows: S.optional(S.Number),
-          ResultSize: S.optional(S.Number),
-          RedshiftQueryId: S.optional(S.Number),
+          ResultRows: S.optional(S.Number).pipe(T.Default(0)),
+          ResultSize: S.optional(S.Number).pipe(T.Default(0)),
+          RedshiftQueryId: S.optional(S.Number).pipe(T.Default(0)),
           RedshiftQueryUuid: S.optional(S.String),
           QueryParameters: S.optional(__S(9, __c1, 1)),
           SubStatements: S.optional(__S(42, __c5, 2)),
@@ -1175,18 +1175,18 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          isCaseSensitive: S.optional(S.Boolean),
-          isCurrency: S.optional(S.Boolean),
-          isSigned: S.optional(S.Boolean),
+          isCaseSensitive: S.optional(S.Boolean).pipe(T.Default(false)),
+          isCurrency: S.optional(S.Boolean).pipe(T.Default(false)),
+          isSigned: S.optional(S.Boolean).pipe(T.Default(false)),
           label: S.optional(S.String),
           name: S.optional(S.String),
-          nullable: S.optional(S.Number),
-          precision: S.optional(S.Number),
-          scale: S.optional(S.Number),
+          nullable: S.optional(S.Number).pipe(T.Default(0)),
+          precision: S.optional(S.Number).pipe(T.Default(0)),
+          scale: S.optional(S.Number).pipe(T.Default(0)),
           schemaName: S.optional(S.String),
           tableName: S.optional(S.String),
           typeName: S.optional(S.String),
-          length: S.optional(S.Number),
+          length: S.optional(S.Number).pipe(T.Default(0)),
           columnDefault: S.optional(S.String),
         }),
       ).annotate({ identifier: "ColumnMetadata" });
@@ -1245,7 +1245,7 @@ function __c9(j: number): any {
         S.Struct({
           Records: __S(75, __c9, 3),
           ColumnMetadata: S.optional(__S(57, __c7, 1)),
-          TotalNumRows: S.optional(S.Number),
+          TotalNumRows: S.optional(S.Number).pipe(T.Default(0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetStatementResultResponse" });
@@ -1270,7 +1270,7 @@ function __c10(j: number): any {
         S.Struct({
           Records: __S(82, __c10, 2),
           ColumnMetadata: S.optional(__S(57, __c7, 1)),
-          TotalNumRows: S.optional(S.Number),
+          TotalNumRows: S.optional(S.Number).pipe(T.Default(0)),
           ResultFormat: S.optional(S.String),
           NextToken: S.optional(S.String),
         }),

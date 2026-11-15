@@ -403,7 +403,7 @@ export interface ProductViewSummary {
   ShortDescription?: string | undefined;
   Type?: ProductType | undefined;
   Distributor?: string | undefined;
-  HasDefaultPath?: boolean | undefined;
+  HasDefaultPath: boolean;
   SupportEmail?: string | undefined;
   SupportDescription?: string | undefined;
   SupportUrl?: string | undefined;
@@ -646,9 +646,9 @@ export interface DescribePortfolioSharesInput {
 export interface PortfolioShareDetail {
   PrincipalId?: string | undefined;
   Type?: DescribePortfolioShareType | undefined;
-  Accepted?: boolean | undefined;
-  ShareTagOptions?: boolean | undefined;
-  SharePrincipals?: boolean | undefined;
+  Accepted: boolean;
+  ShareTagOptions: boolean;
+  SharePrincipals: boolean;
 }
 export type PortfolioShareDetails = PortfolioShareDetail[];
 export interface DescribePortfolioSharesOutput {
@@ -889,7 +889,7 @@ export interface ProvisioningArtifactParameter {
   ParameterKey?: string | undefined;
   DefaultValue?: string | undefined;
   ParameterType?: string | undefined;
-  IsNoEcho?: boolean | undefined;
+  IsNoEcho: boolean;
   Description?: string | undefined;
   ParameterConstraints?: ParameterConstraints | undefined;
 }
@@ -1490,7 +1490,7 @@ export type AttributeValue = string;
 export type ApproximateCount = number;
 export interface ProductViewAggregationValue {
   Value?: string | undefined;
-  ApproximateCount?: number | undefined;
+  ApproximateCount: number;
 }
 export type ProductViewAggregationValues = ProductViewAggregationValue[];
 export type ProductViewAggregations = { [key: string]: ProductViewAggregationValue[] | undefined };
@@ -1561,7 +1561,7 @@ export type ProvisionedProductAttributes = ProvisionedProductAttribute[];
 export type TotalResultsCount = number;
 export interface SearchProvisionedProductsOutput {
   ProvisionedProducts?: ProvisionedProductAttribute[] | undefined;
-  TotalResultsCount?: number | undefined;
+  TotalResultsCount: number;
   NextPageToken?: string | undefined;
 }
 export type RetainPhysicalResources = boolean;
@@ -4631,7 +4631,7 @@ function __c22(j: number): any {
           Description: S.optional(S.String),
           Info: S.optional(__S(368, __c23, 0)),
           Type: S.optional(S.String),
-          DisableTemplateValidation: S.optional(S.Boolean),
+          DisableTemplateValidation: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ProvisioningArtifactProperties" });
   }
@@ -4671,7 +4671,7 @@ function __c25(j: number): any {
           ShortDescription: S.optional(S.String),
           Type: S.optional(S.String),
           Distributor: S.optional(S.String),
-          HasDefaultPath: S.optional(S.Boolean),
+          HasDefaultPath: S.optional(S.Boolean).pipe(T.Default(false)),
           SupportEmail: S.optional(S.String),
           SupportDescription: S.optional(S.String),
           SupportUrl: S.optional(S.String),
@@ -4775,7 +4775,7 @@ function __c30(j: number): any {
         S.Struct({
           Key: S.optional(S.String),
           Value: S.optional(S.String),
-          UsePreviousValue: S.optional(S.Boolean),
+          UsePreviousValue: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "UpdateProvisioningParameter" });
     case 1:
@@ -5050,9 +5050,9 @@ function __c52(j: number): any {
         S.Struct({
           PrincipalId: S.optional(S.String),
           Type: S.optional(S.String),
-          Accepted: S.optional(S.Boolean),
-          ShareTagOptions: S.optional(S.Boolean),
-          SharePrincipals: S.optional(S.Boolean),
+          Accepted: S.optional(S.Boolean).pipe(T.Default(false)),
+          ShareTagOptions: S.optional(S.Boolean).pipe(T.Default(false)),
+          SharePrincipals: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PortfolioShareDetail" });
     case 2:
@@ -5368,7 +5368,7 @@ function __c63(j: number): any {
           ParameterKey: S.optional(S.String),
           DefaultValue: S.optional(S.String),
           ParameterType: S.optional(S.String),
-          IsNoEcho: S.optional(S.Boolean),
+          IsNoEcho: S.optional(S.Boolean).pipe(T.Default(false)),
           Description: S.optional(S.String),
           ParameterConstraints: S.optional(__S(1008, __c63, 0)),
         }),
@@ -6290,7 +6290,10 @@ function __c113(j: number): any {
       return S.Array(__S(400, __c25, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Value: S.optional(S.String), ApproximateCount: S.optional(S.Number) }),
+        S.Struct({
+          Value: S.optional(S.String),
+          ApproximateCount: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "ProductViewAggregationValue" });
     case 3:
       return S.Array(__S(1810, __c113, 2));
@@ -6382,7 +6385,7 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ProvisionedProducts: S.optional(__S(1858, __c116, 2)),
-          TotalResultsCount: S.optional(S.Number),
+          TotalResultsCount: S.optional(S.Number).pipe(T.Default(0)),
           NextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchProvisionedProductsOutput" });

@@ -1288,9 +1288,9 @@ function __c15(j: number): any {
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ key: S.String, type: S.optional(S.String) })).annotate({
-        identifier: "GroupDefinition",
-      });
+      return S.suspend(() =>
+        S.Struct({ key: S.String, type: S.optional(S.String).pipe(T.Default("DIMENSION")) }),
+      ).annotate({ identifier: "GroupDefinition" });
     case 1:
       return S.Array(__S(512, __c16, 0));
     case 2:
@@ -1412,9 +1412,9 @@ function __c16(j: number): any {
           id: S.optional(S.String),
           title: S.String,
           description: S.optional(S.String),
-          width: S.optional(S.Number),
-          height: S.optional(S.Number),
-          horizontalOffset: S.optional(S.Number),
+          width: S.optional(S.Number).pipe(T.Default(4)),
+          height: S.optional(S.Number).pipe(T.Default(7)),
+          horizontalOffset: S.optional(S.Number).pipe(T.Default(0)),
           configs: __S(528, __c16, 16),
         }),
       ).annotate({ identifier: "Widget" });

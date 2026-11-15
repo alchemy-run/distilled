@@ -232,9 +232,9 @@ export interface MacSecKey {
 export type MacSecKeyList = MacSecKey[];
 export type Count = number;
 export interface RateLimiterStatus {
-  maxAllowed?: number | undefined;
-  inUse?: number | undefined;
-  remaining?: number | undefined;
+  maxAllowed: number;
+  inUse: number;
+  remaining: number;
   totalBandwidth?: string | undefined;
 }
 export type PartnerInterconnectMacSecCapable = boolean;
@@ -261,7 +261,7 @@ export interface Connection {
   region?: string | undefined;
   location?: string | undefined;
   bandwidth?: string | undefined;
-  vlan?: number | undefined;
+  vlan: number;
   partnerName?: string | undefined;
   loaIssueTime?: Date | undefined;
   lagId?: string | undefined;
@@ -345,7 +345,7 @@ export type BGPPeerState =
 export type BGPStatus = "up" | "down" | "unknown" | (string & {});
 export interface BGPPeer {
   bgpPeerId?: string | undefined;
-  asn?: number | undefined;
+  asn: number;
   asnLong?: number | undefined;
   authKey?: string | undefined;
   addressFamily?: AddressFamily | undefined;
@@ -366,8 +366,8 @@ export interface VirtualInterface {
   connectionId?: string | undefined;
   virtualInterfaceType?: string | undefined;
   virtualInterfaceName?: string | undefined;
-  vlan?: number | undefined;
-  asn?: number | undefined;
+  vlan: number;
+  asn: number;
   asnLong?: number | undefined;
   amazonSideAsn?: number | undefined;
   authKey?: string | undefined;
@@ -672,19 +672,19 @@ export type ConnectionList = Connection[];
 export type BooleanFlag = boolean;
 export interface Lag {
   connectionsBandwidth?: string | undefined;
-  numberOfConnections?: number | undefined;
+  numberOfConnections: number;
   lagId?: string | undefined;
   ownerAccount?: string | undefined;
   lagName?: string | undefined;
   lagState?: LagState | undefined;
   location?: string | undefined;
   region?: string | undefined;
-  minimumLinks?: number | undefined;
+  minimumLinks: number;
   awsDevice?: string | undefined;
   awsDeviceV2?: string | undefined;
   awsLogicalDeviceId?: string | undefined;
   connections?: Connection[] | undefined;
-  allowsHostedConnections?: boolean | undefined;
+  allowsHostedConnections: boolean;
   jumboFrameCapable?: boolean | undefined;
   hasLogicalRedundancy?: HasLogicalRedundancy | undefined;
   tags?: Tag[] | undefined;
@@ -3414,8 +3414,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           virtualInterfaceName: S.optional(S.String),
-          vlan: S.optional(S.Number),
-          asn: S.optional(S.Number),
+          vlan: S.optional(S.Number).pipe(T.Default(0)),
+          asn: S.optional(S.Number).pipe(T.Default(0)),
           asnLong: S.optional(S.Number),
           mtu: S.optional(S.Number),
           authKey: S.optional(S.String),
@@ -3611,7 +3611,7 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          asn: S.optional(S.Number),
+          asn: S.optional(S.Number).pipe(T.Default(0)),
           asnLong: S.optional(S.Number),
           authKey: S.optional(S.String),
           addressFamily: S.optional(S.String),
@@ -3810,19 +3810,19 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           connectionsBandwidth: S.optional(S.String),
-          numberOfConnections: S.optional(S.Number),
+          numberOfConnections: S.optional(S.Number).pipe(T.Default(0)),
           lagId: S.optional(S.String),
           ownerAccount: S.optional(S.String),
           lagName: S.optional(S.String),
           lagState: S.optional(S.String),
           location: S.optional(S.String),
           region: S.optional(S.String),
-          minimumLinks: S.optional(S.Number),
+          minimumLinks: S.optional(S.Number).pipe(T.Default(0)),
           awsDevice: S.optional(S.String),
           awsDeviceV2: S.optional(S.String),
           awsLogicalDeviceId: S.optional(S.String),
           connections: S.optional(__S(232, __c29, 0)),
-          allowsHostedConnections: S.optional(S.Boolean),
+          allowsHostedConnections: S.optional(S.Boolean).pipe(T.Default(false)),
           jumboFrameCapable: S.optional(S.Boolean),
           hasLogicalRedundancy: S.optional(S.String),
           tags: S.optional(__S(601, __c75, 1)),
@@ -3846,8 +3846,8 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           virtualInterfaceName: S.String,
-          vlan: S.Number,
-          asn: S.optional(S.Number),
+          vlan: S.Number.pipe(T.Default(0)),
+          asn: S.optional(S.Number).pipe(T.Default(0)),
           asnLong: S.optional(S.Number),
           mtu: S.optional(S.Number),
           authKey: S.optional(S.String),
@@ -3920,8 +3920,8 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           virtualInterfaceName: S.optional(S.String),
-          vlan: S.optional(S.Number),
-          asn: S.optional(S.Number),
+          vlan: S.optional(S.Number).pipe(T.Default(0)),
+          asn: S.optional(S.Number).pipe(T.Default(0)),
           asnLong: S.optional(S.Number),
           mtu: S.optional(S.Number),
           authKey: S.optional(S.String),
@@ -4556,9 +4556,9 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxAllowed: S.optional(S.Number),
-          inUse: S.optional(S.Number),
-          remaining: S.optional(S.Number),
+          maxAllowed: S.optional(S.Number).pipe(T.Default(0)),
+          inUse: S.optional(S.Number).pipe(T.Default(0)),
+          remaining: S.optional(S.Number).pipe(T.Default(0)),
           totalBandwidth: S.optional(S.String),
         }),
       ).annotate({ identifier: "RateLimiterStatus" });
@@ -4572,7 +4572,7 @@ function __c74(j: number): any {
           region: S.optional(S.String),
           location: S.optional(S.String),
           bandwidth: S.optional(S.String),
-          vlan: S.optional(S.Number),
+          vlan: S.optional(S.Number).pipe(T.Default(0)),
           partnerName: S.optional(S.String),
           loaIssueTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lagId: S.optional(S.String),
@@ -4948,8 +4948,8 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           virtualInterfaceName: S.String,
-          vlan: S.Number,
-          asn: S.optional(S.Number),
+          vlan: S.Number.pipe(T.Default(0)),
+          asn: S.optional(S.Number).pipe(T.Default(0)),
           asnLong: S.optional(S.Number),
           mtu: S.optional(S.Number),
           authKey: S.optional(S.String),
@@ -4976,7 +4976,7 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bgpPeerId: S.optional(S.String),
-          asn: S.optional(S.Number),
+          asn: S.optional(S.Number).pipe(T.Default(0)),
           asnLong: S.optional(S.Number),
           authKey: S.optional(S.String),
           addressFamily: S.optional(S.String),
@@ -4999,8 +4999,8 @@ function __c99(j: number): any {
           connectionId: S.optional(S.String),
           virtualInterfaceType: S.optional(S.String),
           virtualInterfaceName: S.optional(S.String),
-          vlan: S.optional(S.Number),
-          asn: S.optional(S.Number),
+          vlan: S.optional(S.Number).pipe(T.Default(0)),
+          asn: S.optional(S.Number).pipe(T.Default(0)),
           asnLong: S.optional(S.Number),
           amazonSideAsn: S.optional(S.Number),
           authKey: S.optional(S.String),
@@ -5045,8 +5045,8 @@ function __c101(j: number): any {
       return S.suspend(() =>
         S.Struct({
           virtualInterfaceName: S.String,
-          vlan: S.Number,
-          asn: S.optional(S.Number),
+          vlan: S.Number.pipe(T.Default(0)),
+          asn: S.optional(S.Number).pipe(T.Default(0)),
           asnLong: S.optional(S.Number),
           authKey: S.optional(S.String),
           amazonAddress: S.optional(S.String),

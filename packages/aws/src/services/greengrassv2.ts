@@ -141,9 +141,9 @@ export class InternalServerException
     "InternalServerException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -182,9 +182,9 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       quotaCode: /*@__PURE__*/ S.optional(S.String),
       serviceCode: /*@__PURE__*/ S.optional(S.String),
-      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
@@ -585,7 +585,7 @@ export interface GetDeploymentResponse {
   deploymentPolicies?: DeploymentPolicies | undefined;
   iotJobConfiguration?: DeploymentIoTJobConfiguration | undefined;
   creationTimestamp?: Date | undefined;
-  isLatestForTarget?: boolean | undefined;
+  isLatestForTarget: boolean;
   parentTargetArn?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
 }
@@ -685,7 +685,7 @@ export interface Deployment {
   deploymentName?: string | undefined;
   creationTimestamp?: Date | undefined;
   deploymentStatus?: DeploymentStatus | undefined;
-  isLatestForTarget?: boolean | undefined;
+  isLatestForTarget: boolean;
   parentTargetArn?: string | undefined;
 }
 export type DeploymentList = Deployment[];
@@ -765,7 +765,7 @@ export interface InstalledComponent {
   componentVersion?: string | undefined;
   lifecycleState?: InstalledComponentLifecycleState | undefined;
   lifecycleStateDetails?: string | undefined;
-  isRoot?: boolean | undefined;
+  isRoot: boolean;
   lastStatusChangeTimestamp?: Date | undefined;
   lastReportedTimestamp?: Date | undefined;
   lastInstallationSource?: string | undefined;
@@ -2171,7 +2171,10 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ComponentConfigurationUpdate" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ memory: S.optional(S.Number), cpus: S.optional(S.Number) }),
+        S.Struct({
+          memory: S.optional(S.Number).pipe(T.Default(0)),
+          cpus: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "SystemResourceLimits" });
     case 2:
       return S.suspend(() =>
@@ -2218,7 +2221,7 @@ function __c9(j: number): any {
         S.Struct({
           failureType: S.String,
           action: S.String,
-          thresholdPercentage: S.Number,
+          thresholdPercentage: S.Number.pipe(T.Default(0)),
           minNumberOfExecutedThings: S.Number,
         }),
       ).annotate({ identifier: "IoTJobAbortCriteria" });
@@ -2457,7 +2460,7 @@ function __c19(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           hostAddress: S.optional(S.String),
-          portNumber: S.optional(S.Number),
+          portNumber: S.optional(S.Number).pipe(T.Default(0)),
           metadata: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -2531,7 +2534,7 @@ function __c21(j: number): any {
           deploymentPolicies: S.optional(__S(159, __c9, 15)),
           iotJobConfiguration: S.optional(__S(156, __c9, 12)),
           creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          isLatestForTarget: S.optional(S.Boolean),
+          isLatestForTarget: S.optional(S.Boolean).pipe(T.Default(false)),
           parentTargetArn: S.optional(S.String),
           tags: S.optional(__S(48, __c3, 0)),
         }),
@@ -2755,7 +2758,7 @@ function __c27(j: number): any {
           deploymentName: S.optional(S.String),
           creationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           deploymentStatus: S.optional(S.String),
-          isLatestForTarget: S.optional(S.Boolean),
+          isLatestForTarget: S.optional(S.Boolean).pipe(T.Default(false)),
           parentTargetArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Deployment" });
@@ -2853,7 +2856,7 @@ function __c29(j: number): any {
           componentVersion: S.optional(S.String),
           lifecycleState: S.optional(S.String),
           lifecycleStateDetails: S.optional(S.String),
-          isRoot: S.optional(S.Boolean),
+          isRoot: S.optional(S.Boolean).pipe(T.Default(false)),
           lastStatusChangeTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastReportedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lastInstallationSource: S.optional(S.String),

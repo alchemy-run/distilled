@@ -860,7 +860,7 @@ export interface Component {
   dateCreated?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   publisher?: string | undefined;
-  obfuscate?: boolean | undefined;
+  obfuscate: boolean;
   productCodes?: ProductCodeListItem[] | undefined;
 }
 export interface GetComponentResponse {
@@ -1174,7 +1174,7 @@ export interface GetLifecycleExecutionRequest {
   lifecycleExecutionId: string;
 }
 export interface LifecycleExecutionResourcesImpactedSummary {
-  hasImpactedResources?: boolean | undefined;
+  hasImpactedResources: boolean;
 }
 export type LifecycleExecutionStatus =
   | "IN_PROGRESS"
@@ -1291,10 +1291,10 @@ export interface GetWorkflowExecutionResponse {
   type?: WorkflowType | undefined;
   status?: WorkflowExecutionStatus | undefined;
   message?: string | undefined;
-  totalStepCount?: number | undefined;
-  totalStepsSucceeded?: number | undefined;
-  totalStepsFailed?: number | undefined;
-  totalStepsSkipped?: number | undefined;
+  totalStepCount: number;
+  totalStepsSucceeded: number;
+  totalStepsFailed: number;
+  totalStepsSkipped: number;
   startTime?: string | undefined;
   endTime?: string | undefined;
   parallelGroup?: string | undefined;
@@ -1430,7 +1430,7 @@ export interface ComponentSummary {
   dateCreated?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
   publisher?: string | undefined;
-  obfuscate?: boolean | undefined;
+  obfuscate: boolean;
 }
 export type ComponentSummaryList = ComponentSummary[];
 export interface ListComponentBuildVersionsResponse {
@@ -1935,10 +1935,10 @@ export interface WorkflowExecutionMetadata {
   type?: WorkflowType | undefined;
   status?: WorkflowExecutionStatus | undefined;
   message?: string | undefined;
-  totalStepCount?: number | undefined;
-  totalStepsSucceeded?: number | undefined;
-  totalStepsFailed?: number | undefined;
-  totalStepsSkipped?: number | undefined;
+  totalStepCount: number;
+  totalStepsSucceeded: number;
+  totalStepsFailed: number;
+  totalStepsSkipped: number;
   startTime?: string | undefined;
   endTime?: string | undefined;
   parallelGroup?: string | undefined;
@@ -5657,7 +5657,7 @@ function __c13(j: number): any {
         S.Struct({
           launchTemplateId: S.String,
           accountId: S.optional(S.String),
-          setDefaultVersion: S.optional(S.Boolean),
+          setDefaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "LaunchTemplateConfiguration" });
     case 4:
@@ -5686,7 +5686,7 @@ function __c13(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.Boolean,
+          enabled: S.Boolean.pipe(T.Default(false)),
           snapshotConfiguration: S.optional(__S(214, __c13, 6)),
           maxParallelLaunches: S.optional(S.Number),
           launchTemplate: S.optional(__S(215, __c13, 7)),
@@ -6063,9 +6063,9 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amis: S.optional(S.Boolean),
-          snapshots: S.optional(S.Boolean),
-          containers: S.optional(S.Boolean),
+          amis: S.optional(S.Boolean).pipe(T.Default(false)),
+          snapshots: S.optional(S.Boolean).pipe(T.Default(false)),
+          containers: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "LifecyclePolicyDetailActionIncludeResources" });
     case 1:
@@ -6075,7 +6075,7 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          isPublic: S.optional(S.Boolean),
+          isPublic: S.optional(S.Boolean).pipe(T.Default(false)),
           regions: S.optional(__S(80, __c5, 0)),
           sharedAccounts: S.optional(__S(80, __c5, 0)),
           lastLaunched: S.optional(__S(449, __c28, 1)),
@@ -6416,7 +6416,7 @@ function __c45(j: number): any {
           dateCreated: S.optional(S.String),
           tags: S.optional(__S(64, __c4, 0)),
           publisher: S.optional(S.String),
-          obfuscate: S.optional(S.Boolean),
+          obfuscate: S.optional(S.Boolean).pipe(T.Default(false)),
           productCodes: S.optional(__S(769, __c48, 1)),
         }),
       ).annotate({ identifier: "Component" });
@@ -6928,9 +6928,9 @@ function __c66(j: number): any {
 function __c67(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ hasImpactedResources: S.optional(S.Boolean) })).annotate({
-        identifier: "LifecycleExecutionResourcesImpactedSummary",
-      });
+      return S.suspend(() =>
+        S.Struct({ hasImpactedResources: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "LifecycleExecutionResourcesImpactedSummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -7073,10 +7073,10 @@ function __c71(j: number): any {
           type: S.optional(S.String),
           status: S.optional(S.String),
           message: S.optional(S.String),
-          totalStepCount: S.optional(S.Number),
-          totalStepsSucceeded: S.optional(S.Number),
-          totalStepsFailed: S.optional(S.Number),
-          totalStepsSkipped: S.optional(S.Number),
+          totalStepCount: S.optional(S.Number).pipe(T.Default(0)),
+          totalStepsSucceeded: S.optional(S.Number).pipe(T.Default(0)),
+          totalStepsFailed: S.optional(S.Number).pipe(T.Default(0)),
+          totalStepsSkipped: S.optional(S.Number).pipe(T.Default(0)),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           parallelGroup: S.optional(S.String),
@@ -7251,7 +7251,7 @@ function __c76(j: number): any {
           dateCreated: S.optional(S.String),
           tags: S.optional(__S(64, __c4, 0)),
           publisher: S.optional(S.String),
-          obfuscate: S.optional(S.Boolean),
+          obfuscate: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ComponentSummary" });
     case 2:
@@ -8137,10 +8137,10 @@ function __c98(j: number): any {
           type: S.optional(S.String),
           status: S.optional(S.String),
           message: S.optional(S.String),
-          totalStepCount: S.optional(S.Number),
-          totalStepsSucceeded: S.optional(S.Number),
-          totalStepsFailed: S.optional(S.Number),
-          totalStepsSkipped: S.optional(S.Number),
+          totalStepCount: S.optional(S.Number).pipe(T.Default(0)),
+          totalStepsSucceeded: S.optional(S.Number).pipe(T.Default(0)),
+          totalStepsFailed: S.optional(S.Number).pipe(T.Default(0)),
+          totalStepsSkipped: S.optional(S.Number).pipe(T.Default(0)),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           parallelGroup: S.optional(S.String),

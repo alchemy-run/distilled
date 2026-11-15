@@ -393,7 +393,7 @@ export interface IngestConfiguration {
   participantId: string;
   state: string;
   userId?: string | undefined;
-  redundantIngest?: boolean | undefined;
+  redundantIngest: boolean;
   redundantIngestCredentials?: RedundantIngestCredential[] | undefined;
   attributes?: { [key: string]: string | undefined } | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -679,7 +679,7 @@ export interface Participant {
   state?: string | undefined;
   firstJoinTime?: Date | undefined;
   attributes?: { [key: string]: string | undefined } | undefined;
-  published?: boolean | undefined;
+  published: boolean;
   ispName?: string | undefined;
   osName?: string | undefined;
   osVersion?: string | undefined;
@@ -694,7 +694,7 @@ export interface Participant {
   replicationState?: string | undefined;
   sourceStageArn?: string | undefined;
   sourceSessionId?: string | undefined;
-  redundantIngest?: boolean | undefined;
+  redundantIngest: boolean;
   ingestConfigurationArn?: string | undefined;
 }
 export interface GetParticipantResponse {
@@ -807,7 +807,7 @@ export interface IngestConfigurationSummary {
   participantId: string;
   state: string;
   userId?: string | undefined;
-  redundantIngest?: boolean | undefined;
+  redundantIngest: boolean;
 }
 export type IngestConfigurationList = IngestConfigurationSummary[];
 export interface ListIngestConfigurationsResponse {
@@ -854,7 +854,7 @@ export interface Event {
   errorCode?: EventErrorCode | undefined;
   destinationStageArn?: string | undefined;
   destinationSessionId?: string | undefined;
-  replica?: boolean | undefined;
+  replica: boolean;
   previousToken?: ExchangedParticipantToken | undefined;
   newToken?: ExchangedParticipantToken | undefined;
 }
@@ -900,13 +900,13 @@ export interface ParticipantSummary {
   userId?: string | undefined;
   state?: string | undefined;
   firstJoinTime?: Date | undefined;
-  published?: boolean | undefined;
+  published: boolean;
   recordingState?: string | undefined;
   replicationType?: string | undefined;
   replicationState?: string | undefined;
   sourceStageArn?: string | undefined;
   sourceSessionId?: string | undefined;
-  redundantIngest?: boolean | undefined;
+  redundantIngest: boolean;
   ingestConfigurationArn?: string | undefined;
 }
 export type ParticipantList = ParticipantSummary[];
@@ -2448,9 +2448,9 @@ function __c5(j: number): any {
           storageConfigurationArn: S.String,
           mediaTypes: S.optional(__S(64, __c4, 0)),
           thumbnailConfiguration: S.optional(__S(80, __c5, 0)),
-          recordingReconnectWindowSeconds: S.optional(S.Number),
+          recordingReconnectWindowSeconds: S.optional(S.Number).pipe(T.Default(0)),
           hlsConfiguration: S.optional(__S(65, __c4, 1)),
-          recordParticipantReplicas: S.optional(S.Boolean),
+          recordParticipantReplicas: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "AutoParticipantRecordingConfiguration" });
     case 2:
@@ -2637,10 +2637,10 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           featuredParticipantAttribute: S.optional(S.String),
-          omitStoppedVideo: S.optional(S.Boolean),
+          omitStoppedVideo: S.optional(S.Boolean).pipe(T.Default(false)),
           videoAspectRatio: S.optional(S.String),
           videoFillMode: S.optional(S.String),
-          gridGap: S.optional(S.Number),
+          gridGap: S.optional(S.Number).pipe(T.Default(0)),
           participantOrderAttribute: S.optional(S.String),
         }),
       ).annotate({ identifier: "GridConfiguration" });
@@ -2648,12 +2648,12 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           featuredParticipantAttribute: S.optional(S.String),
-          omitStoppedVideo: S.optional(S.Boolean),
+          omitStoppedVideo: S.optional(S.Boolean).pipe(T.Default(false)),
           videoFillMode: S.optional(S.String),
-          gridGap: S.optional(S.Number),
+          gridGap: S.optional(S.Number).pipe(T.Default(0)),
           pipParticipantAttribute: S.optional(S.String),
           pipBehavior: S.optional(S.String),
-          pipOffset: S.optional(S.Number),
+          pipOffset: S.optional(S.Number).pipe(T.Default(0)),
           pipPosition: S.optional(S.String),
           pipWidth: S.optional(S.Number),
           pipHeight: S.optional(S.Number),
@@ -2792,7 +2792,7 @@ function __c20(j: number): any {
           state: S.optional(S.String),
           firstJoinTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           attributes: S.optional(__S(832, __c52, 0)),
-          published: S.optional(S.Boolean),
+          published: S.optional(S.Boolean).pipe(T.Default(false)),
           ispName: S.optional(S.String),
           osName: S.optional(S.String),
           osVersion: S.optional(S.String),
@@ -2807,7 +2807,7 @@ function __c20(j: number): any {
           replicationState: S.optional(S.String),
           sourceStageArn: S.optional(S.String),
           sourceSessionId: S.optional(S.String),
-          redundantIngest: S.optional(S.Boolean),
+          redundantIngest: S.optional(S.Boolean).pipe(T.Default(false)),
           ingestConfigurationArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Participant" });
@@ -3025,7 +3025,7 @@ function __c31(j: number): any {
           participantId: S.String,
           state: S.String,
           userId: S.optional(S.String),
-          redundantIngest: S.optional(S.Boolean),
+          redundantIngest: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "IngestConfigurationSummary" });
     case 2:
@@ -3076,7 +3076,7 @@ function __c32(j: number): any {
           errorCode: S.optional(S.String),
           destinationStageArn: S.optional(S.String),
           destinationSessionId: S.optional(S.String),
-          replica: S.optional(S.Boolean),
+          replica: S.optional(S.Boolean).pipe(T.Default(false)),
           previousToken: S.optional(__S(513, __c32, 1)),
           newToken: S.optional(__S(513, __c32, 1)),
         }),
@@ -3152,13 +3152,13 @@ function __c34(j: number): any {
           userId: S.optional(S.String),
           state: S.optional(S.String),
           firstJoinTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          published: S.optional(S.Boolean),
+          published: S.optional(S.Boolean).pipe(T.Default(false)),
           recordingState: S.optional(S.String),
           replicationType: S.optional(S.String),
           replicationState: S.optional(S.String),
           sourceStageArn: S.optional(S.String),
           sourceSessionId: S.optional(S.String),
-          redundantIngest: S.optional(S.Boolean),
+          redundantIngest: S.optional(S.Boolean).pipe(T.Default(false)),
           ingestConfigurationArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "ParticipantSummary" });
@@ -3574,7 +3574,7 @@ function __c54(j: number): any {
           participantId: S.String,
           state: S.String,
           userId: S.optional(S.String),
-          redundantIngest: S.optional(S.Boolean),
+          redundantIngest: S.optional(S.Boolean).pipe(T.Default(false)),
           redundantIngestCredentials: S.optional(__S(865, __c54, 1)),
           attributes: S.optional(__S(832, __c52, 0)),
           tags: S.optional(__S(832, __c52, 0)),

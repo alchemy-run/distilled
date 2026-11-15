@@ -848,7 +848,7 @@ export type MetricValue = number;
 export interface UtilizationMetric {
   name?: MetricName | undefined;
   statistic?: MetricStatistic | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export type UtilizationMetrics = UtilizationMetric[];
 export type LookBackPeriodInDays = number;
@@ -862,9 +862,9 @@ export type AsgType = "SingleInstanceType" | "MixedInstanceTypes" | (string & {}
 export type MixedInstanceType = string;
 export type MixedInstanceTypes = string[];
 export interface AutoScalingGroupConfiguration {
-  desiredCapacity?: number | undefined;
-  minSize?: number | undefined;
-  maxSize?: number | undefined;
+  desiredCapacity: number;
+  minSize: number;
+  maxSize: number;
   instanceType?: string | undefined;
   allocationStrategy?: AllocationStrategy | undefined;
   estimatedInstanceHourReductionPercentage?: number | undefined;
@@ -874,8 +874,8 @@ export interface AutoScalingGroupConfiguration {
 export type GpuCount = number;
 export type GpuMemorySizeInMiB = number;
 export interface Gpu {
-  gpuCount?: number | undefined;
-  gpuMemorySizeInMiB?: number | undefined;
+  gpuCount: number;
+  gpuMemorySizeInMiB: number;
 }
 export type Gpus = Gpu[];
 export interface GpuInfo {
@@ -889,18 +889,18 @@ export type Currency = "USD" | "CNY" | (string & {});
 export type Value = number;
 export interface EstimatedMonthlySavings {
   currency?: Currency | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export interface SavingsOpportunity {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: EstimatedMonthlySavings | undefined;
 }
 export interface AutoScalingGroupEstimatedMonthlySavings {
   currency?: Currency | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export interface AutoScalingGroupSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: AutoScalingGroupEstimatedMonthlySavings | undefined;
 }
 export type MigrationEffort = "VeryLow" | "Low" | "Medium" | "High" | (string & {});
@@ -908,8 +908,8 @@ export interface AutoScalingGroupRecommendationOption {
   configuration?: AutoScalingGroupConfiguration | undefined;
   instanceGpuInfo?: GpuInfo | undefined;
   projectedUtilizationMetrics?: UtilizationMetric[] | undefined;
-  performanceRisk?: number | undefined;
-  rank?: number | undefined;
+  performanceRisk: number;
+  rank: number;
   savingsOpportunity?: SavingsOpportunity | undefined;
   savingsOpportunityAfterDiscounts?: AutoScalingGroupSavingsOpportunityAfterDiscounts | undefined;
   migrationEffort?: MigrationEffort | undefined;
@@ -992,7 +992,7 @@ export interface AutoScalingGroupRecommendation {
   autoScalingGroupName?: string | undefined;
   finding?: Finding | undefined;
   utilizationMetrics?: UtilizationMetric[] | undefined;
-  lookBackPeriodInDays?: number | undefined;
+  lookBackPeriodInDays: number;
   currentConfiguration?: AutoScalingGroupConfiguration | undefined;
   currentInstanceGpuInfo?: GpuInfo | undefined;
   recommendationOptions?: AutoScalingGroupRecommendationOption[] | undefined;
@@ -1034,11 +1034,11 @@ export type VolumeBurstThroughput = number;
 export type RootVolume = boolean;
 export interface VolumeConfiguration {
   volumeType?: string | undefined;
-  volumeSize?: number | undefined;
-  volumeBaselineIOPS?: number | undefined;
-  volumeBurstIOPS?: number | undefined;
-  volumeBaselineThroughput?: number | undefined;
-  volumeBurstThroughput?: number | undefined;
+  volumeSize: number;
+  volumeBaselineIOPS: number;
+  volumeBurstIOPS: number;
+  volumeBaselineThroughput: number;
+  volumeBurstThroughput: number;
   rootVolume?: boolean | undefined;
 }
 export type EBSFinding = "Optimized" | "NotOptimized" | (string & {});
@@ -1053,21 +1053,21 @@ export type EBSMetricName =
 export interface EBSUtilizationMetric {
   name?: EBSMetricName | undefined;
   statistic?: MetricStatistic | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export type EBSUtilizationMetrics = EBSUtilizationMetric[];
 export interface EBSEstimatedMonthlySavings {
   currency?: Currency | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export interface EBSSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: EBSEstimatedMonthlySavings | undefined;
 }
 export interface VolumeRecommendationOption {
   configuration?: VolumeConfiguration | undefined;
-  performanceRisk?: number | undefined;
-  rank?: number | undefined;
+  performanceRisk: number;
+  rank: number;
   savingsOpportunity?: SavingsOpportunity | undefined;
   savingsOpportunityAfterDiscounts?: EBSSavingsOpportunityAfterDiscounts | undefined;
 }
@@ -1097,7 +1097,7 @@ export interface VolumeRecommendation {
   currentConfiguration?: VolumeConfiguration | undefined;
   finding?: EBSFinding | undefined;
   utilizationMetrics?: EBSUtilizationMetric[] | undefined;
-  lookBackPeriodInDays?: number | undefined;
+  lookBackPeriodInDays: number;
   volumeRecommendationOptions?: VolumeRecommendationOption[] | undefined;
   lastRefreshTimestamp?: Date | undefined;
   currentPerformanceRisk?: CurrentPerformanceRisk | undefined;
@@ -1157,10 +1157,10 @@ export type PlatformDifference =
 export type PlatformDifferences = PlatformDifference[];
 export interface InstanceEstimatedMonthlySavings {
   currency?: Currency | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export interface InstanceSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: InstanceEstimatedMonthlySavings | undefined;
 }
 export interface InstanceRecommendationOption {
@@ -1168,8 +1168,8 @@ export interface InstanceRecommendationOption {
   instanceGpuInfo?: GpuInfo | undefined;
   projectedUtilizationMetrics?: UtilizationMetric[] | undefined;
   platformDifferences?: PlatformDifference[] | undefined;
-  performanceRisk?: number | undefined;
-  rank?: number | undefined;
+  performanceRisk: number;
+  rank: number;
   savingsOpportunity?: SavingsOpportunity | undefined;
   savingsOpportunityAfterDiscounts?: InstanceSavingsOpportunityAfterDiscounts | undefined;
   migrationEffort?: MigrationEffort | undefined;
@@ -1233,7 +1233,7 @@ export interface InstanceRecommendation {
   finding?: Finding | undefined;
   findingReasonCodes?: InstanceRecommendationFindingReasonCode[] | undefined;
   utilizationMetrics?: UtilizationMetric[] | undefined;
-  lookBackPeriodInDays?: number | undefined;
+  lookBackPeriodInDays: number;
   recommendationOptions?: InstanceRecommendationOption[] | undefined;
   recommendationSources?: RecommendationSource[] | undefined;
   lastRefreshTimestamp?: Date | undefined;
@@ -1272,7 +1272,7 @@ export interface ProjectedMetric {
 export type ProjectedMetrics = ProjectedMetric[];
 export interface RecommendedOptionProjectedMetric {
   recommendedInstanceType?: string | undefined;
-  rank?: number | undefined;
+  rank: number;
   projectedMetrics?: ProjectedMetric[] | undefined;
 }
 export type RecommendedOptionProjectedMetrics = RecommendedOptionProjectedMetric[];
@@ -1298,8 +1298,8 @@ export interface ECSServiceProjectedMetric {
 }
 export type ECSServiceProjectedMetrics = ECSServiceProjectedMetric[];
 export interface ECSServiceRecommendedOptionProjectedMetric {
-  recommendedCpuUnits?: number | undefined;
-  recommendedMemorySize?: number | undefined;
+  recommendedCpuUnits: number;
+  recommendedMemorySize: number;
   projectedMetrics?: ECSServiceProjectedMetric[] | undefined;
 }
 export type ECSServiceRecommendedOptionProjectedMetrics =
@@ -1345,7 +1345,7 @@ export type ECSServiceMetricStatistic = "Maximum" | "Average" | (string & {});
 export interface ECSServiceUtilizationMetric {
   name?: ECSServiceMetricName | undefined;
   statistic?: ECSServiceMetricStatistic | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export type ECSServiceUtilizationMetrics = ECSServiceUtilizationMetric[];
 export type ECSServiceLaunchType = "EC2" | "Fargate" | (string & {});
@@ -1364,10 +1364,10 @@ export type ECSServiceRecommendationFindingReasonCodes =
   ECSServiceRecommendationFindingReasonCode[];
 export interface ECSEstimatedMonthlySavings {
   currency?: Currency | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export interface ECSSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: ECSEstimatedMonthlySavings | undefined;
 }
 export type LowerBoundValue = number;
@@ -1375,8 +1375,8 @@ export type UpperBoundValue = number;
 export interface ECSServiceProjectedUtilizationMetric {
   name?: ECSServiceMetricName | undefined;
   statistic?: ECSServiceMetricStatistic | undefined;
-  lowerBoundValue?: number | undefined;
-  upperBoundValue?: number | undefined;
+  lowerBoundValue: number;
+  upperBoundValue: number;
 }
 export type ECSServiceProjectedUtilizationMetrics = ECSServiceProjectedUtilizationMetric[];
 export interface ContainerRecommendation {
@@ -1411,7 +1411,7 @@ export interface ECSServiceRecommendation {
   accountId?: string | undefined;
   currentServiceConfiguration?: ServiceConfiguration | undefined;
   utilizationMetrics?: ECSServiceUtilizationMetric[] | undefined;
-  lookbackPeriodInDays?: number | undefined;
+  lookbackPeriodInDays: number;
   launchType?: ECSServiceLaunchType | undefined;
   lastRefreshTimestamp?: Date | undefined;
   finding?: ECSServiceRecommendationFinding | undefined;
@@ -1446,7 +1446,7 @@ export type NumberOfMemberAccountsOptedIn = number;
 export interface GetEnrollmentStatusResponse {
   status?: Status | undefined;
   statusReason?: string | undefined;
-  memberAccountsEnrolled?: boolean | undefined;
+  memberAccountsEnrolled: boolean;
   lastUpdatedTimestamp?: Date | undefined;
   numberOfMemberAccountsOptedIn?: number | undefined;
 }
@@ -1507,14 +1507,14 @@ export type IdleFinding = "Idle" | "Unattached" | "Unused" | (string & {});
 export type IdleFindingDescription = string;
 export interface IdleEstimatedMonthlySavings {
   currency?: Currency | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export interface IdleSavingsOpportunity {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: IdleEstimatedMonthlySavings | undefined;
 }
 export interface IdleSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: IdleEstimatedMonthlySavings | undefined;
 }
 export type IdleMetricName =
@@ -1558,7 +1558,7 @@ export type IdleDimensions = IdleDimension[];
 export interface IdleUtilizationMetric {
   name?: IdleMetricName | undefined;
   statistic?: MetricStatistic | undefined;
-  value?: number | undefined;
+  value: number;
   dimensions?: IdleDimension[] | undefined;
 }
 export type IdleUtilizationMetrics = IdleUtilizationMetric[];
@@ -1572,7 +1572,7 @@ export interface IdleRecommendation {
   savingsOpportunity?: IdleSavingsOpportunity | undefined;
   savingsOpportunityAfterDiscounts?: IdleSavingsOpportunityAfterDiscounts | undefined;
   utilizationMetrics?: IdleUtilizationMetric[] | undefined;
-  lookBackPeriodInDays?: number | undefined;
+  lookBackPeriodInDays: number;
   lastRefreshTimestamp?: Date | undefined;
   tags?: Tag[] | undefined;
 }
@@ -1605,7 +1605,7 @@ export type LambdaFunctionMetricStatistic = "Maximum" | "Average" | (string & {}
 export interface LambdaFunctionUtilizationMetric {
   name?: LambdaFunctionMetricName | undefined;
   statistic?: LambdaFunctionMetricStatistic | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export type LambdaFunctionUtilizationMetrics = LambdaFunctionUtilizationMetric[];
 export type LambdaFunctionRecommendationFinding =
@@ -1630,20 +1630,20 @@ export type LambdaFunctionMemoryMetricStatistic =
 export interface LambdaFunctionMemoryProjectedMetric {
   name?: LambdaFunctionMemoryMetricName | undefined;
   statistic?: LambdaFunctionMemoryMetricStatistic | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export type LambdaFunctionMemoryProjectedMetrics = LambdaFunctionMemoryProjectedMetric[];
 export interface LambdaEstimatedMonthlySavings {
   currency?: Currency | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export interface LambdaSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: LambdaEstimatedMonthlySavings | undefined;
 }
 export interface LambdaFunctionMemoryRecommendationOption {
-  rank?: number | undefined;
-  memorySize?: number | undefined;
+  rank: number;
+  memorySize: number;
   projectedUtilizationMetrics?: LambdaFunctionMemoryProjectedMetric[] | undefined;
   savingsOpportunity?: SavingsOpportunity | undefined;
   savingsOpportunityAfterDiscounts?: LambdaSavingsOpportunityAfterDiscounts | undefined;
@@ -1664,10 +1664,10 @@ export interface LambdaFunctionRecommendation {
   functionArn?: string | undefined;
   functionVersion?: string | undefined;
   accountId?: string | undefined;
-  currentMemorySize?: number | undefined;
-  numberOfInvocations?: number | undefined;
+  currentMemorySize: number;
+  numberOfInvocations: number;
   utilizationMetrics?: LambdaFunctionUtilizationMetric[] | undefined;
-  lookbackPeriodInDays?: number | undefined;
+  lookbackPeriodInDays: number;
   lastRefreshTimestamp?: Date | undefined;
   finding?: LambdaFunctionRecommendationFinding | undefined;
   findingReasonCodes?: LambdaFunctionRecommendationFindingReasonCode[] | undefined;
@@ -1707,7 +1707,7 @@ export interface MetricSource {
 }
 export type MetricsSource = MetricSource[];
 export interface LicenseConfiguration {
-  numberOfCores?: number | undefined;
+  numberOfCores: number;
   instanceType?: string | undefined;
   operatingSystem?: string | undefined;
   licenseEdition?: LicenseEdition | undefined;
@@ -1725,7 +1725,7 @@ export type LicenseFindingReasonCode =
   | (string & {});
 export type LicenseFindingReasonCodes = LicenseFindingReasonCode[];
 export interface LicenseRecommendationOption {
-  rank?: number | undefined;
+  rank: number;
   operatingSystem?: string | undefined;
   licenseEdition?: LicenseEdition | undefined;
   licenseModel?: LicenseModel | undefined;
@@ -1736,7 +1736,7 @@ export interface LicenseRecommendation {
   resourceArn?: string | undefined;
   accountId?: string | undefined;
   currentLicenseConfiguration?: LicenseConfiguration | undefined;
-  lookbackPeriodInDays?: number | undefined;
+  lookbackPeriodInDays: number;
   lastRefreshTimestamp?: Date | undefined;
   finding?: LicenseFinding | undefined;
   findingReasonCodes?: LicenseFindingReasonCode[] | undefined;
@@ -1789,7 +1789,7 @@ export interface RDSDatabaseProjectedMetric {
 export type RDSDatabaseProjectedMetrics = RDSDatabaseProjectedMetric[];
 export interface RDSDatabaseRecommendedOptionProjectedMetric {
   recommendedDBInstanceClass?: string | undefined;
-  rank?: number | undefined;
+  rank: number;
   projectedMetrics?: RDSDatabaseProjectedMetric[] | undefined;
 }
 export type RDSDatabaseRecommendedOptionProjectedMetrics =
@@ -1816,7 +1816,7 @@ export type NullableMaxAllocatedStorage = number;
 export type NullableStorageThroughput = number;
 export interface DBStorageConfiguration {
   storageType?: string | undefined;
-  allocatedStorage?: number | undefined;
+  allocatedStorage: number;
   iops?: number | undefined;
   maxAllocatedStorage?: number | undefined;
   storageThroughput?: number | undefined;
@@ -1878,37 +1878,37 @@ export type RDSDBMetricStatistic = "Maximum" | "Minimum" | "Average" | (string &
 export interface RDSDBUtilizationMetric {
   name?: RDSDBMetricName | undefined;
   statistic?: RDSDBMetricStatistic | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export type RDSDBProjectedUtilizationMetrics = RDSDBUtilizationMetric[];
 export interface RDSInstanceEstimatedMonthlySavings {
   currency?: Currency | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export interface RDSInstanceSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: RDSInstanceEstimatedMonthlySavings | undefined;
 }
 export interface RDSDBInstanceRecommendationOption {
   dbInstanceClass?: string | undefined;
   projectedUtilizationMetrics?: RDSDBUtilizationMetric[] | undefined;
-  performanceRisk?: number | undefined;
-  rank?: number | undefined;
+  performanceRisk: number;
+  rank: number;
   savingsOpportunity?: SavingsOpportunity | undefined;
   savingsOpportunityAfterDiscounts?: RDSInstanceSavingsOpportunityAfterDiscounts | undefined;
 }
 export type RDSDBInstanceRecommendationOptions = RDSDBInstanceRecommendationOption[];
 export interface RDSStorageEstimatedMonthlySavings {
   currency?: Currency | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export interface RDSStorageSavingsOpportunityAfterDiscounts {
-  savingsOpportunityPercentage?: number | undefined;
+  savingsOpportunityPercentage: number;
   estimatedMonthlySavings?: RDSStorageEstimatedMonthlySavings | undefined;
 }
 export interface RDSDBStorageRecommendationOption {
   storageConfiguration?: DBStorageConfiguration | undefined;
-  rank?: number | undefined;
+  rank: number;
   savingsOpportunity?: SavingsOpportunity | undefined;
   savingsOpportunityAfterDiscounts?: RDSStorageSavingsOpportunityAfterDiscounts | undefined;
   estimatedMonthlyVolumeIOPsCostVariation?: RDSEstimatedMonthlyVolumeIOPsCostVariation | undefined;
@@ -1951,7 +1951,7 @@ export interface RDSDBRecommendation {
   storageRecommendationOptions?: RDSDBStorageRecommendationOption[] | undefined;
   utilizationMetrics?: RDSDBUtilizationMetric[] | undefined;
   effectiveRecommendationPreferences?: RDSEffectiveRecommendationPreferences | undefined;
-  lookbackPeriodInDays?: number | undefined;
+  lookbackPeriodInDays: number;
   lastRefreshTimestamp?: Date | undefined;
   tags?: Tag[] | undefined;
 }
@@ -1993,18 +1993,18 @@ export type SummaryValue = number;
 export type FindingReasonCode = "MemoryOverprovisioned" | "MemoryUnderprovisioned" | (string & {});
 export interface ReasonCodeSummary {
   name?: FindingReasonCode | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export type ReasonCodeSummaries = ReasonCodeSummary[];
 export interface Summary {
   name?: Finding | undefined;
-  value?: number | undefined;
+  value: number;
   reasonCodeSummaries?: ReasonCodeSummary[] | undefined;
 }
 export type Summaries = Summary[];
 export interface IdleSummary {
   name?: IdleFinding | undefined;
-  value?: number | undefined;
+  value: number;
 }
 export type IdleSummaries = IdleSummary[];
 export type High = number;
@@ -2012,10 +2012,10 @@ export type Medium = number;
 export type Low = number;
 export type VeryLow = number;
 export interface CurrentPerformanceRiskRatings {
-  high?: number | undefined;
-  medium?: number | undefined;
-  low?: number | undefined;
-  veryLow?: number | undefined;
+  high: number;
+  medium: number;
+  low: number;
+  veryLow: number;
 }
 export interface InferredWorkloadSaving {
   inferredWorkloadTypes?: InferredWorkloadType[] | undefined;
@@ -3556,9 +3556,9 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          desiredCapacity: S.optional(S.Number),
-          minSize: S.optional(S.Number),
-          maxSize: S.optional(S.Number),
+          desiredCapacity: S.optional(S.Number).pipe(T.Default(0)),
+          minSize: S.optional(S.Number).pipe(T.Default(0)),
+          maxSize: S.optional(S.Number).pipe(T.Default(0)),
           instanceType: S.optional(S.String),
           allocationStrategy: S.optional(S.String),
           estimatedInstanceHourReductionPercentage: S.optional(S.Number),
@@ -3572,8 +3572,8 @@ function __c14(j: number): any {
           configuration: S.optional(__S(225, __c14, 1)),
           instanceGpuInfo: S.optional(__S(306, __c19, 2)),
           projectedUtilizationMetrics: S.optional(__S(273, __c17, 1)),
-          performanceRisk: S.optional(S.Number),
-          rank: S.optional(S.Number),
+          performanceRisk: S.optional(S.Number).pipe(T.Default(0)),
+          rank: S.optional(S.Number).pipe(T.Default(0)),
           savingsOpportunity: S.optional(__S(257, __c16, 1)),
           savingsOpportunityAfterDiscounts: S.optional(__S(257, __c16, 1)),
           migrationEffort: S.optional(S.String),
@@ -3589,7 +3589,7 @@ function __c14(j: number): any {
           autoScalingGroupName: S.optional(S.String),
           finding: S.optional(S.String),
           utilizationMetrics: S.optional(__S(273, __c17, 1)),
-          lookBackPeriodInDays: S.optional(S.Number),
+          lookBackPeriodInDays: S.optional(S.Number).pipe(T.Default(0)),
           currentConfiguration: S.optional(__S(225, __c14, 1)),
           currentInstanceGpuInfo: S.optional(__S(306, __c19, 2)),
           recommendationOptions: S.optional(__S(227, __c14, 3)),
@@ -3623,12 +3623,15 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ currency: S.optional(S.String), value: S.optional(S.Number) }),
+        S.Struct({
+          currency: S.optional(S.String),
+          value: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "EstimatedMonthlySavings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          savingsOpportunityPercentage: S.optional(S.Number),
+          savingsOpportunityPercentage: S.optional(S.Number).pipe(T.Default(0)),
           estimatedMonthlySavings: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "SavingsOpportunity" });
@@ -3641,7 +3644,7 @@ function __c17(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           statistic: S.optional(S.String),
-          value: S.optional(S.Number),
+          value: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "UtilizationMetric" });
     case 1:
@@ -3666,7 +3669,10 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ gpuCount: S.optional(S.Number), gpuMemorySizeInMiB: S.optional(S.Number) }),
+        S.Struct({
+          gpuCount: S.optional(S.Number).pipe(T.Default(0)),
+          gpuMemorySizeInMiB: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "Gpu" });
     case 1:
       return S.Array(__S(304, __c19, 0));
@@ -3737,11 +3743,11 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           volumeType: S.optional(S.String),
-          volumeSize: S.optional(S.Number),
-          volumeBaselineIOPS: S.optional(S.Number),
-          volumeBurstIOPS: S.optional(S.Number),
-          volumeBaselineThroughput: S.optional(S.Number),
-          volumeBurstThroughput: S.optional(S.Number),
+          volumeSize: S.optional(S.Number).pipe(T.Default(0)),
+          volumeBaselineIOPS: S.optional(S.Number).pipe(T.Default(0)),
+          volumeBurstIOPS: S.optional(S.Number).pipe(T.Default(0)),
+          volumeBaselineThroughput: S.optional(S.Number).pipe(T.Default(0)),
+          volumeBurstThroughput: S.optional(S.Number).pipe(T.Default(0)),
           rootVolume: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "VolumeConfiguration" });
@@ -3749,8 +3755,8 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           configuration: S.optional(__S(353, __c22, 1)),
-          performanceRisk: S.optional(S.Number),
-          rank: S.optional(S.Number),
+          performanceRisk: S.optional(S.Number).pipe(T.Default(0)),
+          rank: S.optional(S.Number).pipe(T.Default(0)),
           savingsOpportunity: S.optional(__S(257, __c16, 1)),
           savingsOpportunityAfterDiscounts: S.optional(__S(257, __c16, 1)),
         }),
@@ -3765,7 +3771,7 @@ function __c22(j: number): any {
           currentConfiguration: S.optional(__S(353, __c22, 1)),
           finding: S.optional(S.String),
           utilizationMetrics: S.optional(__S(273, __c17, 1)),
-          lookBackPeriodInDays: S.optional(S.Number),
+          lookBackPeriodInDays: S.optional(S.Number).pipe(T.Default(0)),
           volumeRecommendationOptions: S.optional(__S(355, __c22, 3)),
           lastRefreshTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           currentPerformanceRisk: S.optional(S.String),
@@ -3826,8 +3832,8 @@ function __c25(j: number): any {
           instanceGpuInfo: S.optional(__S(306, __c19, 2)),
           projectedUtilizationMetrics: S.optional(__S(273, __c17, 1)),
           platformDifferences: S.optional(__S(704, __c44, 0)),
-          performanceRisk: S.optional(S.Number),
-          rank: S.optional(S.Number),
+          performanceRisk: S.optional(S.Number).pipe(T.Default(0)),
+          rank: S.optional(S.Number).pipe(T.Default(0)),
           savingsOpportunity: S.optional(__S(257, __c16, 1)),
           savingsOpportunityAfterDiscounts: S.optional(__S(257, __c16, 1)),
           migrationEffort: S.optional(S.String),
@@ -3858,7 +3864,7 @@ function __c25(j: number): any {
           finding: S.optional(S.String),
           findingReasonCodes: S.optional(__S(704, __c44, 0)),
           utilizationMetrics: S.optional(__S(273, __c17, 1)),
-          lookBackPeriodInDays: S.optional(S.Number),
+          lookBackPeriodInDays: S.optional(S.Number).pipe(T.Default(0)),
           recommendationOptions: S.optional(__S(402, __c25, 2)),
           recommendationSources: S.optional(__S(404, __c25, 4)),
           lastRefreshTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3901,7 +3907,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recommendedInstanceType: S.optional(S.String),
-          rank: S.optional(S.Number),
+          rank: S.optional(S.Number).pipe(T.Default(0)),
           projectedMetrics: S.optional(__S(449, __c28, 1)),
         }),
       ).annotate({ identifier: "RecommendedOptionProjectedMetric" });
@@ -3961,8 +3967,8 @@ function __c29(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          recommendedCpuUnits: S.optional(S.Number),
-          recommendedMemorySize: S.optional(S.Number),
+          recommendedCpuUnits: S.optional(S.Number).pipe(T.Default(0)),
+          recommendedMemorySize: S.optional(S.Number).pipe(T.Default(0)),
           projectedMetrics: S.optional(__S(466, __c29, 2)),
         }),
       ).annotate({ identifier: "ECSServiceRecommendedOptionProjectedMetric" });
@@ -4015,8 +4021,8 @@ function __c30(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           statistic: S.optional(S.String),
-          lowerBoundValue: S.optional(S.Number),
-          upperBoundValue: S.optional(S.Number),
+          lowerBoundValue: S.optional(S.Number).pipe(T.Default(0)),
+          upperBoundValue: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ECSServiceProjectedUtilizationMetric" });
     case 6:
@@ -4041,7 +4047,7 @@ function __c30(j: number): any {
           accountId: S.optional(S.String),
           currentServiceConfiguration: S.optional(__S(484, __c30, 4)),
           utilizationMetrics: S.optional(__S(273, __c17, 1)),
-          lookbackPeriodInDays: S.optional(S.Number),
+          lookbackPeriodInDays: S.optional(S.Number).pipe(T.Default(0)),
           launchType: S.optional(S.String),
           lastRefreshTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           finding: S.optional(S.String),
@@ -4097,7 +4103,7 @@ function __c32(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           statusReason: S.optional(S.String),
-          memberAccountsEnrolled: S.optional(S.Boolean),
+          memberAccountsEnrolled: S.optional(S.Boolean).pipe(T.Default(false)),
           lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           numberOfMemberAccountsOptedIn: S.optional(S.Number),
         }),
@@ -4162,7 +4168,7 @@ function __c34(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           statistic: S.optional(S.String),
-          value: S.optional(S.Number),
+          value: S.optional(S.Number).pipe(T.Default(0)),
           dimensions: S.optional(__S(547, __c34, 3)),
         }),
       ).annotate({ identifier: "IdleUtilizationMetric" });
@@ -4180,7 +4186,7 @@ function __c34(j: number): any {
           savingsOpportunity: S.optional(__S(257, __c16, 1)),
           savingsOpportunityAfterDiscounts: S.optional(__S(257, __c16, 1)),
           utilizationMetrics: S.optional(__S(549, __c34, 5)),
-          lookBackPeriodInDays: S.optional(S.Number),
+          lookBackPeriodInDays: S.optional(S.Number).pipe(T.Default(0)),
           lastRefreshTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           tags: S.optional(__S(369, __c23, 1)),
         }),
@@ -4223,8 +4229,8 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rank: S.optional(S.Number),
-          memorySize: S.optional(S.Number),
+          rank: S.optional(S.Number).pipe(T.Default(0)),
+          memorySize: S.optional(S.Number).pipe(T.Default(0)),
           projectedUtilizationMetrics: S.optional(__S(273, __c17, 1)),
           savingsOpportunity: S.optional(__S(257, __c16, 1)),
           savingsOpportunityAfterDiscounts: S.optional(__S(257, __c16, 1)),
@@ -4242,10 +4248,10 @@ function __c35(j: number): any {
           functionArn: S.optional(S.String),
           functionVersion: S.optional(S.String),
           accountId: S.optional(S.String),
-          currentMemorySize: S.optional(S.Number),
-          numberOfInvocations: S.optional(S.Number),
+          currentMemorySize: S.optional(S.Number).pipe(T.Default(0)),
+          numberOfInvocations: S.optional(S.Number).pipe(T.Default(0)),
           utilizationMetrics: S.optional(__S(273, __c17, 1)),
-          lookbackPeriodInDays: S.optional(S.Number),
+          lookbackPeriodInDays: S.optional(S.Number).pipe(T.Default(0)),
           lastRefreshTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           finding: S.optional(S.String),
           findingReasonCodes: S.optional(__S(704, __c44, 0)),
@@ -4287,7 +4293,7 @@ function __c36(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          numberOfCores: S.optional(S.Number),
+          numberOfCores: S.optional(S.Number).pipe(T.Default(0)),
           instanceType: S.optional(S.String),
           operatingSystem: S.optional(S.String),
           licenseEdition: S.optional(S.String),
@@ -4300,7 +4306,7 @@ function __c36(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          rank: S.optional(S.Number),
+          rank: S.optional(S.Number).pipe(T.Default(0)),
           operatingSystem: S.optional(S.String),
           licenseEdition: S.optional(S.String),
           licenseModel: S.optional(S.String),
@@ -4315,7 +4321,7 @@ function __c36(j: number): any {
           resourceArn: S.optional(S.String),
           accountId: S.optional(S.String),
           currentLicenseConfiguration: S.optional(__S(579, __c36, 3)),
-          lookbackPeriodInDays: S.optional(S.Number),
+          lookbackPeriodInDays: S.optional(S.Number).pipe(T.Default(0)),
           lastRefreshTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           finding: S.optional(S.String),
           findingReasonCodes: S.optional(__S(704, __c44, 0)),
@@ -4352,7 +4358,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recommendedDBInstanceClass: S.optional(S.String),
-          rank: S.optional(S.Number),
+          rank: S.optional(S.Number).pipe(T.Default(0)),
           projectedMetrics: S.optional(__S(449, __c28, 1)),
         }),
       ).annotate({ identifier: "RDSDatabaseRecommendedOptionProjectedMetric" });
@@ -4381,7 +4387,7 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           storageType: S.optional(S.String),
-          allocatedStorage: S.optional(S.Number),
+          allocatedStorage: S.optional(S.Number).pipe(T.Default(0)),
           iops: S.optional(S.Number),
           maxAllocatedStorage: S.optional(S.Number),
           storageThroughput: S.optional(S.Number),
@@ -4392,8 +4398,8 @@ function __c38(j: number): any {
         S.Struct({
           dbInstanceClass: S.optional(S.String),
           projectedUtilizationMetrics: S.optional(__S(273, __c17, 1)),
-          performanceRisk: S.optional(S.Number),
-          rank: S.optional(S.Number),
+          performanceRisk: S.optional(S.Number).pipe(T.Default(0)),
+          rank: S.optional(S.Number).pipe(T.Default(0)),
           savingsOpportunity: S.optional(__S(257, __c16, 1)),
           savingsOpportunityAfterDiscounts: S.optional(__S(257, __c16, 1)),
         }),
@@ -4404,7 +4410,7 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           storageConfiguration: S.optional(__S(609, __c38, 1)),
-          rank: S.optional(S.Number),
+          rank: S.optional(S.Number).pipe(T.Default(0)),
           savingsOpportunity: S.optional(__S(257, __c16, 1)),
           savingsOpportunityAfterDiscounts: S.optional(__S(257, __c16, 1)),
           estimatedMonthlyVolumeIOPsCostVariation: S.optional(S.String),
@@ -4443,7 +4449,7 @@ function __c38(j: number): any {
           storageRecommendationOptions: S.optional(__S(613, __c38, 5)),
           utilizationMetrics: S.optional(__S(273, __c17, 1)),
           effectiveRecommendationPreferences: S.optional(__S(614, __c38, 6)),
-          lookbackPeriodInDays: S.optional(S.Number),
+          lookbackPeriodInDays: S.optional(S.Number).pipe(T.Default(0)),
           lastRefreshTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           tags: S.optional(__S(369, __c23, 1)),
         }),
@@ -4508,7 +4514,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetRecommendationSummariesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ name: S.optional(S.String), value: S.optional(S.Number) }),
+        S.Struct({ name: S.optional(S.String), value: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "ReasonCodeSummary" });
     case 2:
       return S.Array(__S(641, __c40, 1));
@@ -4516,7 +4522,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(S.Number),
+          value: S.optional(S.Number).pipe(T.Default(0)),
           reasonCodeSummaries: S.optional(__S(642, __c40, 2)),
         }),
       ).annotate({ identifier: "Summary" });
@@ -4525,10 +4531,10 @@ function __c40(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          high: S.optional(S.Number),
-          medium: S.optional(S.Number),
-          low: S.optional(S.Number),
-          veryLow: S.optional(S.Number),
+          high: S.optional(S.Number).pipe(T.Default(0)),
+          medium: S.optional(S.Number).pipe(T.Default(0)),
+          low: S.optional(S.Number).pipe(T.Default(0)),
+          veryLow: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CurrentPerformanceRiskRatings" });
     case 6:

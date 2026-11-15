@@ -424,7 +424,7 @@ export interface GetTypeResponse {
   status?: string | undefined;
   directReferringTables?: string[] | undefined;
   directParentTypes?: string[] | undefined;
-  maxNestingDepth?: number | undefined;
+  maxNestingDepth: number;
   keyspaceArn: string;
 }
 export type NextToken = string;
@@ -1454,7 +1454,7 @@ function __c5(j: number): any {
           status: S.optional(S.String),
           directReferringTables: S.optional(__S(128, __c16, 0)),
           directParentTypes: S.optional(__S(128, __c16, 0)),
-          maxNestingDepth: S.optional(S.Number),
+          maxNestingDepth: S.optional(S.Number).pipe(T.Default(0)),
           keyspaceArn: S.String,
         }),
       ).annotate({ identifier: "GetTypeResponse" });
@@ -1731,10 +1731,10 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          disableScaleIn: S.optional(S.Boolean),
-          scaleInCooldown: S.optional(S.Number),
-          scaleOutCooldown: S.optional(S.Number),
-          targetValue: S.Number,
+          disableScaleIn: S.optional(S.Boolean).pipe(T.Default(false)),
+          scaleInCooldown: S.optional(S.Number).pipe(T.Default(0)),
+          scaleOutCooldown: S.optional(S.Number).pipe(T.Default(0)),
+          targetValue: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TargetTrackingScalingPolicyConfiguration" });
     case 1:
@@ -1744,7 +1744,7 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          autoScalingDisabled: S.optional(S.Boolean),
+          autoScalingDisabled: S.optional(S.Boolean).pipe(T.Default(false)),
           minimumUnits: S.optional(S.Number),
           maximumUnits: S.optional(S.Number),
           scalingPolicy: S.optional(__S(193, __c24, 1)),

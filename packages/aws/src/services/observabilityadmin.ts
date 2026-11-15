@@ -3757,7 +3757,7 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          LogGroupSelectionCriteria: S.optional(S.String),
+          LogGroupSelectionCriteria: S.optional(S.String).pipe(T.Default("*")),
           DataSourceSelectionCriteria: S.optional(S.String),
           EncryptedLogGroupStrategy: S.String,
         }),

@@ -340,17 +340,17 @@ export type ScheduledQueryRunStatus =
   | "MANUAL_TRIGGER_FAILURE"
   | (string & {});
 export interface ExecutionStats {
-  ExecutionTimeInMillis?: number | undefined;
-  DataWrites?: number | undefined;
-  BytesMetered?: number | undefined;
-  CumulativeBytesScanned?: number | undefined;
-  RecordsIngested?: number | undefined;
-  QueryResultRows?: number | undefined;
+  ExecutionTimeInMillis: number;
+  DataWrites: number;
+  BytesMetered: number;
+  CumulativeBytesScanned: number;
+  RecordsIngested: number;
+  QueryResultRows: number;
 }
 export type PartitionKey = string;
 export type PartitionKeyList = string[];
 export interface QuerySpatialCoverageMax {
-  Value?: number | undefined;
+  Value: number;
   TableArn?: string | undefined;
   PartitionKey?: string[] | undefined;
 }
@@ -358,7 +358,7 @@ export interface QuerySpatialCoverage {
   Max?: QuerySpatialCoverageMax | undefined;
 }
 export interface QueryTemporalRangeMax {
-  Value?: number | undefined;
+  Value: number;
   TableArn?: string | undefined;
 }
 export interface QueryTemporalRange {
@@ -540,9 +540,9 @@ export interface Row {
 }
 export type RowList = Row[];
 export interface QueryStatus {
-  ProgressPercentage?: number | undefined;
-  CumulativeBytesScanned?: number | undefined;
-  CumulativeBytesMetered?: number | undefined;
+  ProgressPercentage: number;
+  CumulativeBytesScanned: number;
+  CumulativeBytesMetered: number;
 }
 export interface QueryInsightsResponse {
   QuerySpatialCoverage?: QuerySpatialCoverage | undefined;
@@ -1191,7 +1191,7 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Address: S.String, CachePeriodInMinutes: S.Number }),
+        S.Struct({ Address: S.String, CachePeriodInMinutes: S.Number.pipe(T.Default(0)) }),
       ).annotate({ identifier: "Endpoint" });
   }
 }
@@ -1407,12 +1407,12 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ExecutionTimeInMillis: S.optional(S.Number),
-          DataWrites: S.optional(S.Number),
-          BytesMetered: S.optional(S.Number),
-          CumulativeBytesScanned: S.optional(S.Number),
-          RecordsIngested: S.optional(S.Number),
-          QueryResultRows: S.optional(S.Number),
+          ExecutionTimeInMillis: S.optional(S.Number).pipe(T.Default(0)),
+          DataWrites: S.optional(S.Number).pipe(T.Default(0)),
+          BytesMetered: S.optional(S.Number).pipe(T.Default(0)),
+          CumulativeBytesScanned: S.optional(S.Number).pipe(T.Default(0)),
+          RecordsIngested: S.optional(S.Number).pipe(T.Default(0)),
+          QueryResultRows: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ExecutionStats" });
     case 2:
@@ -1478,7 +1478,7 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Value: S.optional(S.Number),
+          Value: S.optional(S.Number).pipe(T.Default(0)),
           TableArn: S.optional(S.String),
           PartitionKey: S.optional(__S(224, __c14, 0)),
         }),
@@ -1489,7 +1489,10 @@ function __c13(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Value: S.optional(S.Number), TableArn: S.optional(S.String) }),
+        S.Struct({
+          Value: S.optional(S.Number).pipe(T.Default(0)),
+          TableArn: S.optional(S.String),
+        }),
       ).annotate({ identifier: "QueryTemporalRangeMax" });
     case 3:
       return S.suspend(() => S.Struct({ Max: S.optional(__S(210, __c13, 2)) })).annotate({
@@ -1716,9 +1719,9 @@ function __c21(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          ProgressPercentage: S.optional(S.Number),
-          CumulativeBytesScanned: S.optional(S.Number),
-          CumulativeBytesMetered: S.optional(S.Number),
+          ProgressPercentage: S.optional(S.Number).pipe(T.Default(0)),
+          CumulativeBytesScanned: S.optional(S.Number).pipe(T.Default(0)),
+          CumulativeBytesMetered: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "QueryStatus" });
     case 8:

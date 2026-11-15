@@ -613,7 +613,7 @@ export interface CommentMetadata {
 export interface Activity {
   Type?: ActivityType | undefined;
   TimeStamp?: Date | undefined;
-  IsIndirectActivity?: boolean | undefined;
+  IsIndirectActivity: boolean;
   OrganizationId?: string | undefined;
   Initiator?: UserMetadata | undefined;
   Participants?: Participants | undefined;
@@ -2871,7 +2871,10 @@ function __c5(j: number): any {
       return S.Array(__S(80, __c5, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ SendEmail: S.optional(S.Boolean), EmailMessage: S.optional(SensitiveString) }),
+        S.Struct({
+          SendEmail: S.optional(S.Boolean).pipe(T.Default(false)),
+          EmailMessage: S.optional(SensitiveString),
+        }),
       ).annotate({ identifier: "NotificationOptions" });
     case 3:
       return S.suspend(() =>
@@ -3413,7 +3416,7 @@ function __c26(j: number): any {
         S.Struct({
           Type: S.optional(S.String),
           TimeStamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          IsIndirectActivity: S.optional(S.Boolean),
+          IsIndirectActivity: S.optional(S.Boolean).pipe(T.Default(false)),
           OrganizationId: S.optional(S.String),
           Initiator: S.optional(__S(417, __c26, 1)),
           Participants: S.optional(__S(419, __c26, 3)),

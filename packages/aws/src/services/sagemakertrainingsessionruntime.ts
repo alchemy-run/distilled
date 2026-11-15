@@ -685,9 +685,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           maxTokens: S.Number,
-          temperature: S.optional(S.Number),
-          topK: S.optional(S.Number),
-          topP: S.optional(S.Number),
+          temperature: S.optional(S.Number).pipe(T.Default(1)),
+          topK: S.optional(S.Number).pipe(T.Default(-1)),
+          topP: S.optional(S.Number).pipe(T.Default(1)),
           seed: S.optional(S.Number),
           stop: S.optional(__S(16, __c1, 0)),
         }),
@@ -698,8 +698,8 @@ function __c1(j: number): any {
           prompt: __S(34, __c2, 2),
           numSamples: S.Number,
           samplingParams: __S(17, __c1, 1),
-          includePromptLogprobs: S.optional(S.Boolean),
-          topkPromptLogprobs: S.optional(S.Number),
+          includePromptLogprobs: S.optional(S.Boolean).pipe(T.Default(false)),
+          topkPromptLogprobs: S.optional(S.Number).pipe(T.Default(0)),
           modelPackageArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "SampleConfig" });
@@ -786,11 +786,11 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           learningRate: S.Number,
-          beta1: S.optional(S.Number),
-          beta2: S.optional(S.Number),
-          eps: S.optional(S.Number),
-          weightDecay: S.optional(S.Number),
-          gradClipNorm: S.optional(S.Number),
+          beta1: S.optional(S.Number).pipe(T.Default(0.9)),
+          beta2: S.optional(S.Number).pipe(T.Default(0.95)),
+          eps: S.optional(S.Number).pipe(T.Default(1e-8)),
+          weightDecay: S.optional(S.Number).pipe(T.Default(0)),
+          gradClipNorm: S.optional(S.Number).pipe(T.Default(1)),
           loraPlusLrRatio: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AdamParamsConfig" });

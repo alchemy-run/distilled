@@ -93,17 +93,17 @@ const TELEMETRY = {
 export class CloudHsmInternalException
   extends /*@__PURE__*/ S.TaggedError<CloudHsmInternalException>()("CloudHsmInternalException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-    retryable: /*@__PURE__*/ S.optional(S.Boolean),
+    retryable: /*@__PURE__*/ S.optional(S.Boolean).pipe(/*@__PURE__*/ T.Default(false)),
   }) {}
 export class CloudHsmServiceException
   extends /*@__PURE__*/ S.TaggedError<CloudHsmServiceException>()("CloudHsmServiceException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-    retryable: /*@__PURE__*/ S.optional(S.Boolean),
+    retryable: /*@__PURE__*/ S.optional(S.Boolean).pipe(/*@__PURE__*/ T.Default(false)),
   }) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()("InvalidRequestException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-    retryable: /*@__PURE__*/ S.optional(S.Boolean),
+    retryable: /*@__PURE__*/ S.optional(S.Boolean).pipe(/*@__PURE__*/ T.Default(false)),
   }) {}
 export type TagKey = string;
 export type TagValue = string;

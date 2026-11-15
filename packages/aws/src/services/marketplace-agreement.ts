@@ -727,7 +727,7 @@ export interface PaymentScheduleTerm {
 export type PositiveIntegerWithDefaultValueOne = number;
 export interface GrantItem {
   dimensionKey?: string | undefined;
-  maxQuantity?: number | undefined;
+  maxQuantity: number;
 }
 export type GrantList = GrantItem[];
 export interface FreeTrialPricingTerm {
@@ -2355,9 +2355,9 @@ function __c6(j: number): any {
     case 2:
       return S.Array(__S(193, __c6, 1));
     case 3:
-      return S.suspend(() => S.Struct({ taxEstimation: S.optional(S.String) })).annotate({
-        identifier: "TaxConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ taxEstimation: S.optional(S.String).pipe(T.Default("DISABLED")) }),
+      ).annotate({ identifier: "TaxConfiguration" });
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2433,7 +2433,7 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ dimensionKey: S.String, dimensionValue: S.Number }),
+        S.Struct({ dimensionKey: S.String, dimensionValue: S.Number.pipe(T.Default(0)) }),
       ).annotate({ identifier: "Dimension" });
     case 1:
       return S.Array(__S(224, __c7, 0));
@@ -2786,7 +2786,10 @@ function __c15(j: number): any {
       ).annotate({ identifier: "PaymentScheduleTerm" });
     case 30:
       return S.suspend(() =>
-        S.Struct({ dimensionKey: S.optional(S.String), maxQuantity: S.optional(S.Number) }),
+        S.Struct({
+          dimensionKey: S.optional(S.String),
+          maxQuantity: S.optional(S.Number).pipe(T.Default(1)),
+        }),
       ).annotate({ identifier: "GrantItem" });
     case 31:
       return S.Array(__S(510, __c15, 30));

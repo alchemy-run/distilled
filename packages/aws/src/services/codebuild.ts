@@ -387,7 +387,7 @@ export type BuildSummaries = BuildSummary[];
 export interface BuildGroup {
   identifier?: string | undefined;
   dependsOn?: string[] | undefined;
-  ignoreFailure?: boolean | undefined;
+  ignoreFailure: boolean;
   currentBuildSummary?: BuildSummary | undefined;
   priorBuildSummaryList?: BuildSummary[] | undefined;
 }
@@ -415,7 +415,7 @@ export interface BuildBatch {
   logConfig?: LogsConfig | undefined;
   buildTimeoutInMinutes?: number | undefined;
   queuedTimeoutInMinutes?: number | undefined;
-  complete?: boolean | undefined;
+  complete: boolean;
   initiator?: string | undefined;
   vpcConfig?: VpcConfig | undefined;
   encryptionKey?: string | undefined;
@@ -508,7 +508,7 @@ export interface Build {
   logs?: LogsLocation | undefined;
   timeoutInMinutes?: number | undefined;
   queuedTimeoutInMinutes?: number | undefined;
-  buildComplete?: boolean | undefined;
+  buildComplete: boolean;
   initiator?: string | undefined;
   vpcConfig?: VpcConfig | undefined;
   networkInterface?: NetworkInterface | undefined;
@@ -735,7 +735,7 @@ export interface Webhook {
   pullRequestBuildPolicy?: PullRequestBuildPolicy | undefined;
 }
 export interface ProjectBadge {
-  badgeEnabled?: boolean | undefined;
+  badgeEnabled: boolean;
   badgeRequestUrl?: string | undefined;
 }
 export type ProjectVisibilityType = "PUBLIC_READ" | "PRIVATE" | (string & {});
@@ -3144,7 +3144,10 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ badgeEnabled: S.optional(S.Boolean), badgeRequestUrl: S.optional(S.String) }),
+        S.Struct({
+          badgeEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          badgeRequestUrl: S.optional(S.String),
+        }),
       ).annotate({ identifier: "ProjectBadge" });
     case 1:
       return S.suspend(() =>
@@ -4471,7 +4474,7 @@ function __c83(j: number): any {
         S.Struct({
           identifier: S.optional(S.String),
           dependsOn: S.optional(__S(1184, __c74, 0)),
-          ignoreFailure: S.optional(S.Boolean),
+          ignoreFailure: S.optional(S.Boolean).pipe(T.Default(false)),
           currentBuildSummary: S.optional(__S(1330, __c83, 2)),
           priorBuildSummaryList: S.optional(__S(1331, __c83, 3)),
         }),
@@ -4502,7 +4505,7 @@ function __c83(j: number): any {
           logConfig: S.optional(__S(1296, __c81, 0)),
           buildTimeoutInMinutes: S.optional(S.Number),
           queuedTimeoutInMinutes: S.optional(S.Number),
-          complete: S.optional(S.Boolean),
+          complete: S.optional(S.Boolean).pipe(T.Default(false)),
           initiator: S.optional(S.String),
           vpcConfig: S.optional(__S(1345, __c84, 1)),
           encryptionKey: S.optional(S.String),
@@ -4786,7 +4789,7 @@ function __c93(j: number): any {
           logs: S.optional(__S(1504, __c94, 0)),
           timeoutInMinutes: S.optional(S.Number),
           queuedTimeoutInMinutes: S.optional(S.Number),
-          buildComplete: S.optional(S.Boolean),
+          buildComplete: S.optional(S.Boolean).pipe(T.Default(false)),
           initiator: S.optional(S.String),
           vpcConfig: S.optional(__S(1345, __c84, 1)),
           networkInterface: S.optional(__S(1472, __c92, 0)),

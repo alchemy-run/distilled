@@ -130,6 +130,9 @@ const toCredentials = (token: LoginAccessToken): AwsCredentialIdentity => ({
   ...(token.accountId && { accountId: token.accountId }),
 });
 
+const isNonEmptyString = (value: unknown): value is string =>
+  typeof value === "string" && value !== "";
+
 const expiresAt = (token: LoginToken): number => new Date(token.accessToken.expiresAt).getTime();
 
 // ---------------------------------------------------------------------------
@@ -297,13 +300,14 @@ const refresh = (
         // `tokenOutput` is the payload; a body that is not a token response
         // can leave it missing, and the checks below reject that.
         const output = response.tokenOutput ?? response;
-        // Lenient response validation passes a malformed body through as read.
+        // Lenient response validation passes a malformed body through as
+        // read, and gives a required string the service left out "".
         const accessToken = output.accessToken as Partial<typeof output.accessToken> | undefined;
         const expiry = new Date(Date.now() + (output.expiresIn || 900) * 1000);
         if (
-          typeof accessToken?.accessKeyId !== "string" ||
-          typeof accessToken.secretAccessKey !== "string" ||
-          typeof accessToken.sessionToken !== "string" ||
+          !isNonEmptyString(accessToken?.accessKeyId) ||
+          !isNonEmptyString(accessToken.secretAccessKey) ||
+          !isNonEmptyString(accessToken.sessionToken) ||
           Number.isNaN(expiry.getTime())
         ) {
           return Effect.fail(

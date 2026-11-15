@@ -390,7 +390,7 @@ export type ExecutionStatus =
 export type SensitiveData = string | redacted.Redacted<string>;
 export type IncludedDetails = boolean;
 export interface CloudWatchEventsExecutionDataDetails {
-  included?: boolean | undefined;
+  included: boolean;
 }
 export type TraceHeader = string;
 export type SensitiveError = string | redacted.Redacted<string>;
@@ -628,7 +628,7 @@ export interface ActivityScheduleFailedEventDetails {
 }
 export type Truncated = boolean;
 export interface HistoryEventExecutionDataDetails {
-  truncated?: boolean | undefined;
+  truncated: boolean;
 }
 export type TimeoutInSeconds = number;
 export interface ActivityScheduledEventDetails {
@@ -731,11 +731,11 @@ export interface ExecutionRedrivenEventDetails {
 }
 export type UnsignedInteger = number;
 export interface MapStateStartedEventDetails {
-  length?: number | undefined;
+  length: number;
 }
 export interface MapIterationEventDetails {
   name?: string | undefined;
-  index?: number | undefined;
+  index: number;
 }
 export interface LambdaFunctionFailedEventDetails {
   error?: string | redacted.Redacted<string> | undefined;
@@ -772,7 +772,7 @@ export interface StateEnteredEventDetails {
 export type VariableValue = string | redacted.Redacted<string>;
 export type AssignedVariables = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface AssignedVariablesDetails {
-  truncated?: boolean | undefined;
+  truncated: boolean;
 }
 export interface StateExitedEventDetails {
   name: string;
@@ -803,7 +803,7 @@ export interface HistoryEvent {
   timestamp: Date;
   type: HistoryEventType;
   id: number;
-  previousEventId?: number | undefined;
+  previousEventId: number;
   activityFailedEventDetails?: ActivityFailedEventDetails | undefined;
   activityScheduleFailedEventDetails?: ActivityScheduleFailedEventDetails | undefined;
   activityScheduledEventDetails?: ActivityScheduledEventDetails | undefined;
@@ -1009,8 +1009,8 @@ export type SyncExecutionStatus = "SUCCEEDED" | "FAILED" | "TIMED_OUT" | (string
 export type BilledMemoryUsed = number;
 export type BilledDuration = number;
 export interface BillingDetails {
-  billedMemoryUsedInMB?: number | undefined;
-  billedDurationInMilliseconds?: number | undefined;
+  billedMemoryUsedInMB: number;
+  billedDurationInMilliseconds: number;
 }
 export interface StartSyncExecutionOutput {
   executionArn: string;
@@ -2898,14 +2898,14 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           level: S.optional(S.String),
-          includeExecutionData: S.optional(S.Boolean),
+          includeExecutionData: S.optional(S.Boolean).pipe(T.Default(false)),
           destinations: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "LoggingConfiguration" });
     case 4:
-      return S.suspend(() => S.Struct({ enabled: S.optional(S.Boolean) })).annotate({
-        identifier: "TracingConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ enabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "TracingConfiguration" });
   }
 }
 function __c5(j: number): any {
@@ -2931,7 +2931,7 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ stateMachineVersionArn: S.String, weight: S.Number }),
+        S.Struct({ stateMachineVersionArn: S.String, weight: S.Number.pipe(T.Default(0)) }),
       ).annotate({ identifier: "RoutingConfigurationListItem" });
     case 1:
       return S.Array(__S(192, __c6, 0));
@@ -3042,9 +3042,9 @@ function __c13(j: number): any {
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ included: S.optional(S.Boolean) })).annotate({
-        identifier: "CloudWatchEventsExecutionDataDetails",
-      });
+      return S.suspend(() =>
+        S.Struct({ included: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "CloudWatchEventsExecutionDataDetails" });
   }
 }
 function __c15(j: number): any {
@@ -3058,14 +3058,14 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pending: S.Number,
-          running: S.Number,
-          succeeded: S.Number,
-          failed: S.Number,
-          timedOut: S.Number,
-          aborted: S.Number,
-          total: S.Number,
-          resultsWritten: S.Number,
+          pending: S.Number.pipe(T.Default(0)),
+          running: S.Number.pipe(T.Default(0)),
+          succeeded: S.Number.pipe(T.Default(0)),
+          failed: S.Number.pipe(T.Default(0)),
+          timedOut: S.Number.pipe(T.Default(0)),
+          aborted: S.Number.pipe(T.Default(0)),
+          total: S.Number.pipe(T.Default(0)),
+          resultsWritten: S.Number.pipe(T.Default(0)),
           failuresNotRedrivable: S.optional(S.Number),
           pendingRedrive: S.optional(S.Number),
         }),
@@ -3078,9 +3078,9 @@ function __c15(j: number): any {
           status: S.String,
           startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           stopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          maxConcurrency: S.Number,
-          toleratedFailurePercentage: S.Number,
-          toleratedFailureCount: S.Number,
+          maxConcurrency: S.Number.pipe(T.Default(0)),
+          toleratedFailurePercentage: S.Number.pipe(T.Default(0)),
+          toleratedFailureCount: S.Number.pipe(T.Default(0)),
           itemCounts: __S(481, __c15, 1),
           executionCounts: __S(481, __c15, 1),
           redriveCount: S.optional(S.Number),
@@ -3204,9 +3204,9 @@ function __c21(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetExecutionHistoryInput" });
     case 1:
-      return S.suspend(() => S.Struct({ truncated: S.optional(S.Boolean) })).annotate({
-        identifier: "HistoryEventExecutionDataDetails",
-      });
+      return S.suspend(() =>
+        S.Struct({ truncated: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "HistoryEventExecutionDataDetails" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3281,12 +3281,12 @@ function __c21(j: number): any {
         identifier: "ExecutionRedrivenEventDetails",
       });
     case 12:
-      return S.suspend(() => S.Struct({ length: S.optional(S.Number) })).annotate({
-        identifier: "MapStateStartedEventDetails",
-      });
+      return S.suspend(() =>
+        S.Struct({ length: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "MapStateStartedEventDetails" });
     case 13:
       return S.suspend(() =>
-        S.Struct({ name: S.optional(S.String), index: S.optional(S.Number) }),
+        S.Struct({ name: S.optional(S.String), index: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "MapIterationEventDetails" });
     case 14:
       return S.suspend(() =>
@@ -3340,8 +3340,8 @@ function __c21(j: number): any {
         S.Struct({
           timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           type: S.String,
-          id: S.Number,
-          previousEventId: S.optional(S.Number),
+          id: S.Number.pipe(T.Default(0)),
+          previousEventId: S.optional(S.Number).pipe(T.Default(0)),
           activityFailedEventDetails: S.optional(__S(704, __c22, 0)),
           activityScheduleFailedEventDetails: S.optional(__S(704, __c22, 0)),
           activityScheduledEventDetails: S.optional(__S(674, __c21, 2)),
@@ -3682,8 +3682,8 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          billedMemoryUsedInMB: S.optional(S.Number),
-          billedDurationInMilliseconds: S.optional(S.Number),
+          billedMemoryUsedInMB: S.optional(S.Number).pipe(T.Default(0)),
+          billedDurationInMilliseconds: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "BillingDetails" });
     case 2:

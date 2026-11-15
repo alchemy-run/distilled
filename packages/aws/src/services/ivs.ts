@@ -499,9 +499,9 @@ export interface Channel {
   recordingConfigurationArn?: string | undefined;
   ingestEndpoint?: string | undefined;
   playbackUrl?: string | undefined;
-  authorized?: boolean | undefined;
+  authorized: boolean;
   tags?: { [key: string]: string | undefined } | undefined;
-  insecureIngest?: boolean | undefined;
+  insecureIngest: boolean;
   preset?: TranscodePreset | undefined;
   srt?: Srt | undefined;
   playbackRestrictionPolicyArn?: string | undefined;
@@ -735,7 +735,7 @@ export interface RecordingConfiguration {
   state: string;
   tags?: { [key: string]: string | undefined } | undefined;
   thumbnailConfiguration?: ThumbnailConfiguration | undefined;
-  recordingReconnectWindowSeconds?: number | undefined;
+  recordingReconnectWindowSeconds: number;
   renditionConfiguration?: RenditionConfiguration | undefined;
 }
 export interface CreateRecordingConfigurationResponse {
@@ -836,7 +836,7 @@ export interface Stream {
   startTime?: Date | undefined;
   state?: string | undefined;
   health?: string | undefined;
-  viewerCount?: number | undefined;
+  viewerCount: number;
 }
 export interface GetStreamResponse {
   stream?: Stream | undefined;
@@ -856,19 +856,19 @@ export interface VideoConfiguration {
   avcLevel?: string | undefined;
   codec?: string | undefined;
   encoder?: string | undefined;
-  targetBitrate?: number | undefined;
-  targetFramerate?: number | undefined;
-  videoHeight?: number | undefined;
-  videoWidth?: number | undefined;
+  targetBitrate: number;
+  targetFramerate: number;
+  videoHeight: number;
+  videoWidth: number;
   level?: string | undefined;
   track?: string | undefined;
   profile?: string | undefined;
 }
 export interface AudioConfiguration {
   codec?: string | undefined;
-  targetBitrate?: number | undefined;
-  sampleRate?: number | undefined;
-  channels?: number | undefined;
+  targetBitrate: number;
+  sampleRate: number;
+  channels: number;
   track?: string | undefined;
 }
 export interface IngestConfiguration {
@@ -954,10 +954,10 @@ export interface ChannelSummary {
   arn?: string | undefined;
   name?: string | undefined;
   latencyMode?: string | undefined;
-  authorized?: boolean | undefined;
+  authorized: boolean;
   recordingConfigurationArn?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
-  insecureIngest?: boolean | undefined;
+  insecureIngest: boolean;
   type?: ChannelType | undefined;
   preset?: TranscodePreset | undefined;
   playbackRestrictionPolicyArn?: string | undefined;
@@ -1068,7 +1068,7 @@ export interface StreamSummary {
   streamId?: string | undefined;
   state?: string | undefined;
   health?: string | undefined;
-  viewerCount?: number | undefined;
+  viewerCount: number;
   startTime?: Date | undefined;
 }
 export type StreamList = StreamSummary[];
@@ -1085,7 +1085,7 @@ export interface StreamSessionSummary {
   streamId?: string | undefined;
   startTime?: Date | undefined;
   endTime?: Date | undefined;
-  hasErrorEvent?: boolean | undefined;
+  hasErrorEvent: boolean;
 }
 export type StreamSessionList = StreamSessionSummary[];
 export interface ListStreamSessionsResponse {
@@ -2752,7 +2752,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
+          enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           policy: S.optional(S.String),
           maximumResolution: S.optional(S.String),
         }),
@@ -2767,9 +2767,9 @@ function __c4(j: number): any {
           recordingConfigurationArn: S.optional(S.String),
           ingestEndpoint: S.optional(S.String),
           playbackUrl: S.optional(S.String),
-          authorized: S.optional(S.Boolean),
+          authorized: S.optional(S.Boolean).pipe(T.Default(false)),
           tags: S.optional(__S(32, __c2, 0)),
-          insecureIngest: S.optional(S.Boolean),
+          insecureIngest: S.optional(S.Boolean).pipe(T.Default(false)),
           preset: S.optional(S.String),
           srt: S.optional(__S(64, __c4, 0)),
           playbackRestrictionPolicyArn: S.optional(S.String),
@@ -2840,7 +2840,7 @@ function __c7(j: number): any {
         S.Struct({
           channelArn: S.String,
           viewerId: S.String,
-          viewerSessionVersionsLessThanOrEqualTo: S.optional(S.Number),
+          viewerSessionVersionsLessThanOrEqualTo: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "BatchStartViewerSessionRevocationViewerSession" });
     case 1:
@@ -2921,9 +2921,9 @@ function __c9(j: number): any {
     case 1:
       return S.Array(__S(144, __c9, 0));
     case 2:
-      return S.suspend(() => S.Struct({ durationSeconds: S.Number, enabled: S.Boolean })).annotate({
-        identifier: "PostRollConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ durationSeconds: S.Number, enabled: S.Boolean.pipe(T.Default(false)) }),
+      ).annotate({ identifier: "PostRollConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3129,7 +3129,7 @@ function __c20(j: number): any {
           state: S.String,
           tags: S.optional(__S(32, __c2, 0)),
           thumbnailConfiguration: S.optional(__S(320, __c20, 0)),
-          recordingReconnectWindowSeconds: S.optional(S.Number),
+          recordingReconnectWindowSeconds: S.optional(S.Number).pipe(T.Default(0)),
           renditionConfiguration: S.optional(__S(322, __c20, 2)),
         }),
       ).annotate({ identifier: "RecordingConfiguration" });
@@ -3419,7 +3419,7 @@ function __c40(j: number): any {
           startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           state: S.optional(S.String),
           health: S.optional(S.String),
-          viewerCount: S.optional(S.Number),
+          viewerCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "Stream" });
     case 2:
@@ -3453,10 +3453,10 @@ function __c42(j: number): any {
           avcLevel: S.optional(S.String),
           codec: S.optional(S.String),
           encoder: S.optional(S.String),
-          targetBitrate: S.optional(S.Number),
-          targetFramerate: S.optional(S.Number),
-          videoHeight: S.optional(S.Number),
-          videoWidth: S.optional(S.Number),
+          targetBitrate: S.optional(S.Number).pipe(T.Default(0)),
+          targetFramerate: S.optional(S.Number).pipe(T.Default(0)),
+          videoHeight: S.optional(S.Number).pipe(T.Default(0)),
+          videoWidth: S.optional(S.Number).pipe(T.Default(0)),
           level: S.optional(S.String),
           track: S.optional(S.String),
           profile: S.optional(S.String),
@@ -3466,9 +3466,9 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           codec: S.optional(S.String),
-          targetBitrate: S.optional(S.Number),
-          sampleRate: S.optional(S.Number),
-          channels: S.optional(S.Number),
+          targetBitrate: S.optional(S.Number).pipe(T.Default(0)),
+          sampleRate: S.optional(S.Number).pipe(T.Default(0)),
+          channels: S.optional(S.Number).pipe(T.Default(0)),
           track: S.optional(S.String),
         }),
       ).annotate({ identifier: "AudioConfiguration" });
@@ -3606,10 +3606,10 @@ function __c46(j: number): any {
           arn: S.optional(S.String),
           name: S.optional(S.String),
           latencyMode: S.optional(S.String),
-          authorized: S.optional(S.Boolean),
+          authorized: S.optional(S.Boolean).pipe(T.Default(false)),
           recordingConfigurationArn: S.optional(S.String),
           tags: S.optional(__S(32, __c2, 0)),
-          insecureIngest: S.optional(S.Boolean),
+          insecureIngest: S.optional(S.Boolean).pipe(T.Default(false)),
           type: S.optional(S.String),
           preset: S.optional(S.String),
           playbackRestrictionPolicyArn: S.optional(S.String),
@@ -3792,7 +3792,7 @@ function __c52(j: number): any {
           streamId: S.optional(S.String),
           state: S.optional(S.String),
           health: S.optional(S.String),
-          viewerCount: S.optional(S.Number),
+          viewerCount: S.optional(S.Number).pipe(T.Default(0)),
           startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "StreamSummary" });
@@ -3829,7 +3829,7 @@ function __c53(j: number): any {
           streamId: S.optional(S.String),
           startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          hasErrorEvent: S.optional(S.Boolean),
+          hasErrorEvent: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "StreamSessionSummary" });
     case 2:

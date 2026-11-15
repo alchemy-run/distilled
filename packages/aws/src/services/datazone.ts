@@ -2790,7 +2790,7 @@ export interface CreateEnvironmentOutput {
   updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string> | undefined;
-  environmentProfileId?: string | undefined;
+  environmentProfileId: string;
   awsAccountId?: string | undefined;
   awsAccountRegion?: string | undefined;
   provider: string;
@@ -4022,7 +4022,7 @@ export interface GetEnvironmentOutput {
   updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string> | undefined;
-  environmentProfileId?: string | undefined;
+  environmentProfileId: string;
   awsAccountId?: string | undefined;
   awsAccountRegion?: string | undefined;
   provider: string;
@@ -5139,7 +5139,7 @@ export interface EnvironmentSummary {
   updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string> | undefined;
-  environmentProfileId?: string | undefined;
+  environmentProfileId: string;
   awsAccountId?: string | undefined;
   awsAccountRegion?: string | undefined;
   provider: string;
@@ -6856,7 +6856,7 @@ export interface UpdateEnvironmentOutput {
   updatedAt?: Date | undefined;
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string> | undefined;
-  environmentProfileId?: string | undefined;
+  environmentProfileId: string;
   awsAccountId?: string | undefined;
   awsAccountRegion?: string | undefined;
   provider: string;
@@ -15915,7 +15915,10 @@ function __c41(j: number): any {
       return S.Union([/*@__PURE__*/ S.Struct({ groupIdentifier: S.String })]);
     case 2:
       return S.suspend(() =>
-        S.Struct({ domainUnit: S.String, includeChildDomainUnits: S.optional(S.Boolean) }),
+        S.Struct({
+          domainUnit: S.String,
+          includeChildDomainUnits: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "DomainUnitFilterForProject" });
     case 3:
       return S.Union([/*@__PURE__*/ S.Struct({ domainUnitFilter: __S(1314, __c41, 2) })]);
@@ -16736,7 +16739,7 @@ function __c61(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          environmentProfileId: S.optional(S.String),
+          environmentProfileId: S.optional(S.String).pipe(T.Default("")),
           awsAccountId: S.optional(S.String),
           awsAccountRegion: S.optional(S.String),
           provider: S.String,
@@ -17966,9 +17969,9 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attribute: S.String,
-          value: S.optional(S.String),
+          value: S.optional(S.String).pipe(T.Default("")),
           intValue: S.optional(S.Number),
-          operator: S.optional(S.String),
+          operator: S.optional(S.String).pipe(T.Default("EQ")),
         }),
       ).annotate({ identifier: "Filter" });
     case 1:
@@ -19958,7 +19961,10 @@ function __c147(j: number): any {
       ]);
     case 7:
       return S.suspend(() =>
-        S.Struct({ rowFilter: __S(4710, __c147, 6), sensitive: S.optional(S.Boolean) }),
+        S.Struct({
+          rowFilter: __S(4710, __c147, 6),
+          sensitive: S.optional(S.Boolean).pipe(T.Default(true)),
+        }),
       ).annotate({ identifier: "RowFilterConfiguration" });
     case 8:
       return S.Union([
@@ -20635,7 +20641,7 @@ function __c158(j: number): any {
           revision: S.String,
           owningProjectId: S.String,
           name: SensitiveString,
-          status: S.String,
+          status: S.String.pipe(T.Default("CREATED")),
           description: S.optional(SensitiveString),
           glossaryTerms: S.optional(__S(32, __c1, 0)),
           items: S.optional(__S(5057, __c158, 1)),
@@ -21148,7 +21154,7 @@ function __c178(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          environmentProfileId: S.optional(S.String),
+          environmentProfileId: S.optional(S.String).pipe(T.Default("")),
           awsAccountId: S.optional(S.String),
           awsAccountRegion: S.optional(S.String),
           provider: S.String,
@@ -21550,7 +21556,10 @@ function __c197(j: number): any {
       return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ packageManager: S.String, packageSpecification: S.optional(S.String) }),
+        S.Struct({
+          packageManager: S.String.pipe(T.Default("UV")),
+          packageSpecification: S.optional(S.String),
+        }),
       ).annotate({ identifier: "PackageConfig" });
     case 3:
       return S.suspend(() =>

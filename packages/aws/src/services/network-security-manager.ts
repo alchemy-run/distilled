@@ -2869,8 +2869,8 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          remediationEnabled: S.Boolean,
-          resourcesCleanUp: S.Boolean,
+          remediationEnabled: S.Boolean.pipe(T.Default(false)),
+          resourcesCleanUp: S.Boolean.pipe(T.Default(false)),
           wafConfig: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "PolicyConfiguration" });
@@ -4254,9 +4254,9 @@ function __c61(j: number): any {
 function __c62(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ enableCrossAccountVisibility: S.Boolean })).annotate({
-        identifier: "DeploymentConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ enableCrossAccountVisibility: S.Boolean.pipe(T.Default(false)) }),
+      ).annotate({ identifier: "DeploymentConfiguration" });
     case 1:
       return S.suspend(() => S.Struct({ policyArn: S.String })).annotate({
         identifier: "AssociatedPolicy",

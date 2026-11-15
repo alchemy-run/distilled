@@ -693,7 +693,7 @@ export interface PolicySummary {
   Name?: string | undefined;
   Description?: string | undefined;
   Type?: PolicyType | undefined;
-  AwsManaged?: boolean | undefined;
+  AwsManaged: boolean;
 }
 export interface Policy {
   PolicySummary?: PolicySummary | undefined;
@@ -5174,7 +5174,7 @@ function __c33(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           Type: S.optional(S.String),
-          AwsManaged: S.optional(S.Boolean),
+          AwsManaged: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PolicySummary" });
   }

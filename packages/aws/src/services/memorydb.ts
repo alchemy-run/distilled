@@ -655,7 +655,7 @@ export interface BatchUpdateClusterRequest {
   ServiceUpdate?: ServiceUpdateRequest | undefined;
 }
 export interface SlotMigration {
-  ProgressPercentage?: number | undefined;
+  ProgressPercentage: number;
 }
 export interface ReshardingStatus {
   SlotMigration?: SlotMigration | undefined;
@@ -682,7 +682,7 @@ export interface ClusterPendingUpdates {
 }
 export interface Endpoint {
   Address?: string | undefined;
-  Port?: number | undefined;
+  Port: number;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c3, 0) as any as S.Schema<Endpoint>;
 export interface Node {
@@ -1180,7 +1180,7 @@ export interface DescribeReservedNodesRequest {
   NextToken?: string | undefined;
 }
 export interface RecurringCharge {
-  RecurringChargeAmount?: number | undefined;
+  RecurringChargeAmount: number;
   RecurringChargeFrequency?: string | undefined;
 }
 export type RecurringChargeList = RecurringCharge[];
@@ -1189,9 +1189,9 @@ export interface ReservedNode {
   ReservedNodesOfferingId?: string | undefined;
   NodeType?: string | undefined;
   StartTime?: Date | undefined;
-  Duration?: number | undefined;
-  FixedPrice?: number | undefined;
-  NodeCount?: number | undefined;
+  Duration: number;
+  FixedPrice: number;
+  NodeCount: number;
   OfferingType?: string | undefined;
   State?: string | undefined;
   RecurringCharges?: RecurringCharge[] | undefined;
@@ -1213,8 +1213,8 @@ export interface DescribeReservedNodesOfferingsRequest {
 export interface ReservedNodesOffering {
   ReservedNodesOfferingId?: string | undefined;
   NodeType?: string | undefined;
-  Duration?: number | undefined;
-  FixedPrice?: number | undefined;
+  Duration: number;
+  FixedPrice: number;
   OfferingType?: string | undefined;
   RecurringCharges?: RecurringCharge[] | undefined;
 }
@@ -3093,7 +3093,7 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Address: S.optional(S.String), Port: S.optional(S.Number) }),
+        S.Struct({ Address: S.optional(S.String), Port: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "Endpoint" });
   }
 }
@@ -3106,9 +3106,9 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ ProgressPercentage: S.optional(S.Number) })).annotate({
-        identifier: "SlotMigration",
-      });
+      return S.suspend(() =>
+        S.Struct({ ProgressPercentage: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "SlotMigration" });
     case 1:
       return S.suspend(() => S.Struct({ SlotMigration: S.optional(__S(80, __c5, 0)) })).annotate({
         identifier: "ReshardingStatus",
@@ -3987,7 +3987,7 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          RecurringChargeAmount: S.optional(S.Number),
+          RecurringChargeAmount: S.optional(S.Number).pipe(T.Default(0)),
           RecurringChargeFrequency: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecurringCharge" });
@@ -4008,9 +4008,9 @@ function __c51(j: number): any {
           ReservedNodesOfferingId: S.optional(S.String),
           NodeType: S.optional(S.String),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Duration: S.optional(S.Number),
-          FixedPrice: S.optional(S.Number),
-          NodeCount: S.optional(S.Number),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
+          FixedPrice: S.optional(S.Number).pipe(T.Default(0)),
+          NodeCount: S.optional(S.Number).pipe(T.Default(0)),
           OfferingType: S.optional(S.String),
           State: S.optional(S.String),
           RecurringCharges: S.optional(__S(801, __c50, 1)),
@@ -4037,8 +4037,8 @@ function __c52(j: number): any {
         S.Struct({
           ReservedNodesOfferingId: S.optional(S.String),
           NodeType: S.optional(S.String),
-          Duration: S.optional(S.Number),
-          FixedPrice: S.optional(S.Number),
+          Duration: S.optional(S.Number).pipe(T.Default(0)),
+          FixedPrice: S.optional(S.Number).pipe(T.Default(0)),
           OfferingType: S.optional(S.String),
           RecurringCharges: S.optional(__S(801, __c50, 1)),
         }),
@@ -4294,9 +4294,9 @@ function __c67(j: number): any {
 function __c68(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ ReplicaCount: S.optional(S.Number) })).annotate({
-        identifier: "ReplicaConfigurationRequest",
-      });
+      return S.suspend(() =>
+        S.Struct({ ReplicaCount: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "ReplicaConfigurationRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -4323,9 +4323,9 @@ function __c68(j: number): any {
 function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ ShardCount: S.optional(S.Number) })).annotate({
-        identifier: "ShardConfigurationRequest",
-      });
+      return S.suspend(() =>
+        S.Struct({ ShardCount: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "ShardConfigurationRequest" });
   }
 }
 function __c70(j: number): any {

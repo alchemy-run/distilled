@@ -662,7 +662,7 @@ export interface GetCapacityTaskOutput {
   AssetId?: string | undefined;
   RequestedInstancePools?: InstanceTypeCapacity[] | undefined;
   InstancesToExclude?: InstancesToExclude | undefined;
-  DryRun?: boolean | undefined;
+  DryRun: boolean;
   CapacityTaskStatus?: CapacityTaskStatus | undefined;
   Failed?: CapacityTaskFailure | undefined;
   CreationDate?: Date | undefined;
@@ -964,7 +964,7 @@ export type FormFactorConfigList = FormFactorConfig[];
 export interface DetailedInstanceTypeItem {
   InstanceType?: string | undefined;
   VCPUs?: number | undefined;
-  MemoryInMib?: number | undefined;
+  MemoryInMib: number;
   NetworkPerformance?: string | undefined;
   FormFactorConfigs?: FormFactorConfig[] | undefined;
 }
@@ -1072,7 +1072,7 @@ export interface StartCapacityTaskOutput {
   AssetId?: string | undefined;
   RequestedInstancePools?: InstanceTypeCapacity[] | undefined;
   InstancesToExclude?: InstancesToExclude | undefined;
-  DryRun?: boolean | undefined;
+  DryRun: boolean;
   CapacityTaskStatus?: CapacityTaskStatus | undefined;
   Failed?: CapacityTaskFailure | undefined;
   CreationDate?: Date | undefined;
@@ -2947,9 +2947,9 @@ function __c16(j: number): any {
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ InstanceType: S.String, Count: S.Number })).annotate({
-        identifier: "InstanceTypeCapacity",
-      });
+      return S.suspend(() =>
+        S.Struct({ InstanceType: S.String, Count: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "InstanceTypeCapacity" });
     case 1:
       return S.Array(__S(272, __c17, 0));
   }
@@ -2977,7 +2977,7 @@ function __c18(j: number): any {
           AssetId: S.optional(S.String),
           RequestedInstancePools: S.optional(__S(273, __c17, 1)),
           InstancesToExclude: S.optional(__S(288, __c18, 0)),
-          DryRun: S.optional(S.Boolean),
+          DryRun: S.optional(S.Boolean).pipe(T.Default(false)),
           CapacityTaskStatus: S.optional(S.String),
           Failed: S.optional(__S(289, __c18, 1)),
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -3539,7 +3539,7 @@ function __c38(j: number): any {
         S.Struct({
           InstanceType: S.optional(S.String),
           VCPUs: S.optional(S.Number),
-          MemoryInMib: S.optional(S.Number),
+          MemoryInMib: S.optional(S.Number).pipe(T.Default(0)),
           NetworkPerformance: S.optional(S.String),
           FormFactorConfigs: S.optional(__S(610, __c38, 2)),
         }),

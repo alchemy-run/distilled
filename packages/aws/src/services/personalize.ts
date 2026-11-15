@@ -533,22 +533,22 @@ export interface AlgorithmImage {
 export type Tunable = boolean;
 export interface DefaultIntegerHyperParameterRange {
   name?: string | undefined;
-  minValue?: number | undefined;
-  maxValue?: number | undefined;
-  isTunable?: boolean | undefined;
+  minValue: number;
+  maxValue: number;
+  isTunable: boolean;
 }
 export type DefaultIntegerHyperParameterRanges = DefaultIntegerHyperParameterRange[];
 export interface DefaultContinuousHyperParameterRange {
   name?: string | undefined;
-  minValue?: number | undefined;
-  maxValue?: number | undefined;
-  isTunable?: boolean | undefined;
+  minValue: number;
+  maxValue: number;
+  isTunable: boolean;
 }
 export type DefaultContinuousHyperParameterRanges = DefaultContinuousHyperParameterRange[];
 export interface DefaultCategoricalHyperParameterRange {
   name?: string | undefined;
   values?: string[] | undefined;
-  isTunable?: boolean | undefined;
+  isTunable: boolean;
 }
 export type DefaultCategoricalHyperParameterRanges = DefaultCategoricalHyperParameterRange[];
 export interface DefaultHyperParameterRanges {
@@ -900,8 +900,8 @@ export interface SolutionUpdateSummary {
 export interface Solution {
   name?: string | undefined;
   solutionArn?: string | undefined;
-  performHPO?: boolean | undefined;
-  performAutoML?: boolean | undefined;
+  performHPO: boolean;
+  performAutoML: boolean;
   performAutoTraining?: boolean | undefined;
   performIncrementalUpdate?: boolean | undefined;
   recipeArn?: string | undefined;
@@ -929,8 +929,8 @@ export interface SolutionVersion {
   name?: string | undefined;
   solutionVersionArn?: string | undefined;
   solutionArn?: string | undefined;
-  performHPO?: boolean | undefined;
-  performAutoML?: boolean | undefined;
+  performHPO: boolean;
+  performAutoML: boolean;
   performIncrementalUpdate?: boolean | undefined;
   recipeArn?: string | undefined;
   eventType?: string | undefined;
@@ -4167,8 +4167,8 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          minValue: S.optional(S.Number),
-          maxValue: S.optional(S.Number),
+          minValue: S.optional(S.Number).pipe(T.Default(0)),
+          maxValue: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "IntegerHyperParameterRange" });
     case 3:
@@ -4381,9 +4381,9 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          minValue: S.optional(S.Number),
-          maxValue: S.optional(S.Number),
-          isTunable: S.optional(S.Boolean),
+          minValue: S.optional(S.Number).pipe(T.Default(0)),
+          maxValue: S.optional(S.Number).pipe(T.Default(0)),
+          isTunable: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DefaultIntegerHyperParameterRange" });
     case 3:
@@ -4393,7 +4393,7 @@ function __c37(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           values: S.optional(__S(272, __c17, 0)),
-          isTunable: S.optional(S.Boolean),
+          isTunable: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DefaultCategoricalHyperParameterRange" });
     case 5:
@@ -4922,8 +4922,8 @@ function __c54(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           solutionArn: S.optional(S.String),
-          performHPO: S.optional(S.Boolean),
-          performAutoML: S.optional(S.Boolean),
+          performHPO: S.optional(S.Boolean).pipe(T.Default(false)),
+          performAutoML: S.optional(S.Boolean).pipe(T.Default(false)),
           performAutoTraining: S.optional(S.Boolean),
           performIncrementalUpdate: S.optional(S.Boolean),
           recipeArn: S.optional(S.String),
@@ -4989,8 +4989,8 @@ function __c57(j: number): any {
           name: S.optional(S.String),
           solutionVersionArn: S.optional(S.String),
           solutionArn: S.optional(S.String),
-          performHPO: S.optional(S.Boolean),
-          performAutoML: S.optional(S.Boolean),
+          performHPO: S.optional(S.Boolean).pipe(T.Default(false)),
+          performAutoML: S.optional(S.Boolean).pipe(T.Default(false)),
           performIncrementalUpdate: S.optional(S.Boolean),
           recipeArn: S.optional(S.String),
           eventType: S.optional(S.String),

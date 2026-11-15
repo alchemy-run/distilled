@@ -284,7 +284,7 @@ export interface GetHealthEventOutput {
   Status: string;
   PercentOfTotalTrafficImpacted?: number | undefined;
   ImpactType: string;
-  HealthScoreThreshold?: number | undefined;
+  HealthScoreThreshold: number;
 }
 export type InternetEventId = string;
 export interface GetInternetEventInput {
@@ -379,7 +379,7 @@ export interface HealthEvent {
   Status: string;
   PercentOfTotalTrafficImpacted?: number | undefined;
   ImpactType: string;
-  HealthScoreThreshold?: number | undefined;
+  HealthScoreThreshold: number;
 }
 export type HealthEventList = HealthEvent[];
 export interface ListHealthEventsOutput {
@@ -1139,15 +1139,15 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Status: S.optional(S.String),
-          HealthScoreThreshold: S.optional(S.Number),
-          MinTrafficImpact: S.optional(S.Number),
+          HealthScoreThreshold: S.optional(S.Number).pipe(T.Default(0)),
+          MinTrafficImpact: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "LocalHealthEventsConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AvailabilityScoreThreshold: S.optional(S.Number),
-          PerformanceScoreThreshold: S.optional(S.Number),
+          AvailabilityScoreThreshold: S.optional(S.Number).pipe(T.Default(0)),
+          PerformanceScoreThreshold: S.optional(S.Number).pipe(T.Default(0)),
           AvailabilityLocalHealthEventsConfig: S.optional(__S(50, __c3, 2)),
           PerformanceLocalHealthEventsConfig: S.optional(__S(50, __c3, 2)),
         }),
@@ -1284,7 +1284,7 @@ function __c7(j: number): any {
           Status: S.String,
           PercentOfTotalTrafficImpacted: S.optional(S.Number),
           ImpactType: S.String,
-          HealthScoreThreshold: S.optional(S.Number),
+          HealthScoreThreshold: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "GetHealthEventOutput" });
   }

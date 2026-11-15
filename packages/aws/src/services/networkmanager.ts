@@ -1201,9 +1201,9 @@ export interface CoreNetworkChangeValues {
   InsideCidrBlocks?: string[] | undefined;
   SharedSegments?: string[] | undefined;
   ServiceInsertionActions?: ServiceInsertionAction[] | undefined;
-  VpnEcmpSupport?: boolean | undefined;
-  DnsSupport?: boolean | undefined;
-  SecurityGroupReferencingSupport?: boolean | undefined;
+  VpnEcmpSupport: boolean;
+  DnsSupport: boolean;
+  SecurityGroupReferencingSupport: boolean;
   RoutingPolicyDirection?: RoutingPolicyDirection | undefined;
   RoutingPolicy?: string | undefined;
   PeerEdgeLocations?: string[] | undefined;
@@ -1504,7 +1504,7 @@ export interface NetworkResourceSummary {
   ResourceType?: string | undefined;
   Definition?: string | undefined;
   NameTag?: string | undefined;
-  IsMiddlebox?: boolean | undefined;
+  IsMiddlebox: boolean;
 }
 export interface PathComponent {
   Sequence?: number | undefined;
@@ -1524,8 +1524,8 @@ export interface RouteAnalysis {
   Status?: RouteAnalysisStatus | undefined;
   Source?: RouteAnalysisEndpointOptions | undefined;
   Destination?: RouteAnalysisEndpointOptions | undefined;
-  IncludeReturnPath?: boolean | undefined;
-  UseMiddleboxes?: boolean | undefined;
+  IncludeReturnPath: boolean;
+  UseMiddleboxes: boolean;
   ForwardPath?: RouteAnalysisPath | undefined;
   ReturnPath?: RouteAnalysisPath | undefined;
 }
@@ -6458,10 +6458,10 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Ipv6Support: S.optional(S.Boolean),
-          ApplianceModeSupport: S.optional(S.Boolean),
-          DnsSupport: S.optional(S.Boolean),
-          SecurityGroupReferencingSupport: S.optional(S.Boolean),
+          Ipv6Support: S.optional(S.Boolean).pipe(T.Default(false)),
+          ApplianceModeSupport: S.optional(S.Boolean).pipe(T.Default(false)),
+          DnsSupport: S.optional(S.Boolean).pipe(T.Default(false)),
+          SecurityGroupReferencingSupport: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "VpcOptions" });
     case 1:
@@ -7195,9 +7195,9 @@ function __c82(j: number): any {
           InsideCidrBlocks: S.optional(__S(1856, __c116, 0)),
           SharedSegments: S.optional(__S(1856, __c116, 0)),
           ServiceInsertionActions: S.optional(__S(1321, __c82, 9)),
-          VpnEcmpSupport: S.optional(S.Boolean),
-          DnsSupport: S.optional(S.Boolean),
-          SecurityGroupReferencingSupport: S.optional(S.Boolean),
+          VpnEcmpSupport: S.optional(S.Boolean).pipe(T.Default(false)),
+          DnsSupport: S.optional(S.Boolean).pipe(T.Default(false)),
+          SecurityGroupReferencingSupport: S.optional(S.Boolean).pipe(T.Default(false)),
           RoutingPolicyDirection: S.optional(S.String),
           RoutingPolicy: S.optional(S.String),
           PeerEdgeLocations: S.optional(__S(1856, __c116, 0)),
@@ -7754,7 +7754,7 @@ function __c97(j: number): any {
           ResourceType: S.optional(S.String),
           Definition: S.optional(S.String),
           NameTag: S.optional(S.String),
-          IsMiddlebox: S.optional(S.Boolean),
+          IsMiddlebox: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "NetworkResourceSummary" });
     case 3:
@@ -7784,8 +7784,8 @@ function __c97(j: number): any {
           Status: S.optional(S.String),
           Source: S.optional(__S(1552, __c97, 0)),
           Destination: S.optional(__S(1552, __c97, 0)),
-          IncludeReturnPath: S.optional(S.Boolean),
-          UseMiddleboxes: S.optional(S.Boolean),
+          IncludeReturnPath: S.optional(S.Boolean).pipe(T.Default(false)),
+          UseMiddleboxes: S.optional(S.Boolean).pipe(T.Default(false)),
           ForwardPath: S.optional(__S(1557, __c97, 5)),
           ReturnPath: S.optional(__S(1557, __c97, 5)),
         }),

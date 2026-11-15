@@ -786,7 +786,7 @@ export interface CallDetails {
 }
 export type ConfidenceScore = number;
 export interface SpeakerSearchResult {
-  ConfidenceScore?: number | undefined;
+  ConfidenceScore: number;
   VoiceProfileId?: string | undefined;
 }
 export type SpeakerSearchResultList = SpeakerSearchResult[];
@@ -1382,7 +1382,7 @@ export interface CandidateAddress {
 }
 export type CandidateAddressList = CandidateAddress[];
 export interface ValidateE911AddressResponse {
-  ValidationResult?: number | undefined;
+  ValidationResult: number;
   AddressExternalId?: string | undefined;
   Address?: Address | undefined;
   CandidateAddressList?: CandidateAddress[] | undefined;
@@ -5426,7 +5426,7 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ValidationResult: S.optional(S.Number),
+          ValidationResult: S.optional(S.Number).pipe(T.Default(0)),
           AddressExternalId: S.optional(S.String),
           Address: S.optional(__S(57, __c7, 1)),
           CandidateAddressList: S.optional(__S(59, __c7, 3)),
@@ -5912,7 +5912,7 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ VoiceConnectorId: S.String, Priority: S.optional(S.Number) }),
+        S.Struct({ VoiceConnectorId: S.String, Priority: S.optional(S.Number).pipe(T.Default(1)) }),
       ).annotate({ identifier: "VoiceConnectorItem" });
     case 1:
       return S.Array(__S(288, __c36, 0));
@@ -6647,7 +6647,10 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ConfidenceScore: S.optional(S.Number), VoiceProfileId: S.optional(S.String) }),
+        S.Struct({
+          ConfidenceScore: S.optional(S.Number).pipe(T.Default(0)),
+          VoiceProfileId: S.optional(S.String),
+        }),
       ).annotate({ identifier: "SpeakerSearchResult" });
     case 1:
       return S.Array(__S(608, __c76, 0));

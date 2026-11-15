@@ -286,7 +286,7 @@ export interface AddCommunicationToCaseRequest {
 }
 export type Result = boolean;
 export interface AddCommunicationToCaseResponse {
-  result?: boolean | undefined;
+  result: boolean;
 }
 export type FieldIntegerValue = number;
 export type ETag = string;
@@ -543,7 +543,7 @@ export interface TrustedAdvisorResourceDetail {
   status: string;
   region?: string | undefined;
   resourceId: string;
-  isSuppressed?: boolean | undefined;
+  isSuppressed: boolean;
   metadata: (string | null)[];
 }
 export type TrustedAdvisorResourceDetailList = TrustedAdvisorResourceDetail[];
@@ -579,7 +579,7 @@ export interface TrustedAdvisorCheckSummary {
   checkId: string;
   timestamp: string;
   status: string;
-  hasFlaggedResources?: boolean | undefined;
+  hasFlaggedResources: boolean;
   resourcesSummary: TrustedAdvisorResourcesSummary;
   categorySpecificSummary: TrustedAdvisorCategorySpecificSummary;
 }
@@ -625,7 +625,7 @@ export interface GetAttachmentUploadLinksResponse {
   uploadId: string;
   partSizeBytes: number;
   totalParts: number;
-  nextIndex?: number | undefined;
+  nextIndex: number;
   uploadUrls: UploadUrl[];
 }
 export interface RefreshTrustedAdvisorCheckRequest {
@@ -1608,9 +1608,9 @@ function __c3(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AddCommunicationToCaseRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ result: S.optional(S.Boolean) }).pipe(ns)).annotate({
-        identifier: "AddCommunicationToCaseResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ result: S.optional(S.Boolean).pipe(T.Default(false)) }).pipe(ns),
+      ).annotate({ identifier: "AddCommunicationToCaseResponse" });
   }
 }
 function __c4(j: number): any {
@@ -1941,7 +1941,11 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ checkId: S.String, status: S.String, millisUntilNextRefreshable: S.Number }),
+        S.Struct({
+          checkId: S.String,
+          status: S.String,
+          millisUntilNextRefreshable: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "TrustedAdvisorCheckRefreshStatus" });
   }
 }
@@ -1959,7 +1963,7 @@ function __c20(j: number): any {
           status: S.String,
           region: S.optional(S.String),
           resourceId: S.String,
-          isSuppressed: S.optional(S.Boolean),
+          isSuppressed: S.optional(S.Boolean).pipe(T.Default(false)),
           metadata: __S(144, __c18, 0),
         }),
       ).annotate({ identifier: "TrustedAdvisorResourceDetail" });
@@ -1987,15 +1991,18 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourcesProcessed: S.Number,
-          resourcesFlagged: S.Number,
-          resourcesIgnored: S.Number,
-          resourcesSuppressed: S.Number,
+          resourcesProcessed: S.Number.pipe(T.Default(0)),
+          resourcesFlagged: S.Number.pipe(T.Default(0)),
+          resourcesIgnored: S.Number.pipe(T.Default(0)),
+          resourcesSuppressed: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TrustedAdvisorResourcesSummary" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ estimatedMonthlySavings: S.Number, estimatedPercentMonthlySavings: S.Number }),
+        S.Struct({
+          estimatedMonthlySavings: S.Number.pipe(T.Default(0)),
+          estimatedPercentMonthlySavings: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "TrustedAdvisorCostOptimizingSummary" });
     case 2:
       return S.suspend(() => S.Struct({ costOptimizing: S.optional(__S(169, __c21, 1)) })).annotate(
@@ -2043,7 +2050,7 @@ function __c23(j: number): any {
           checkId: S.String,
           timestamp: S.String,
           status: S.String,
-          hasFlaggedResources: S.optional(S.Boolean),
+          hasFlaggedResources: S.optional(S.Boolean).pipe(T.Default(false)),
           resourcesSummary: __S(168, __c21, 0),
           categorySpecificSummary: __S(170, __c21, 2),
         }),
@@ -2092,7 +2099,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetAttachmentUploadLinksRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ url: S.String, partIndex: S.Number, expiryDate: S.String }),
+        S.Struct({ url: S.String, partIndex: S.Number.pipe(T.Default(0)), expiryDate: S.String }),
       ).annotate({ identifier: "UploadUrl" });
     case 3:
       return S.Array(__S(202, __c25, 2));
@@ -2101,8 +2108,8 @@ function __c25(j: number): any {
         S.Struct({
           uploadId: S.String,
           partSizeBytes: S.Number,
-          totalParts: S.Number,
-          nextIndex: S.optional(S.Number),
+          totalParts: S.Number.pipe(T.Default(0)),
+          nextIndex: S.optional(S.Number).pipe(T.Default(0)),
           uploadUrls: __S(203, __c25, 3),
         }).pipe(ns),
       ).annotate({ identifier: "GetAttachmentUploadLinksResponse" });

@@ -376,7 +376,7 @@ export interface SavingsPlan {
   commitment?: string | undefined;
   upfrontPaymentAmount?: string | undefined;
   recurringPaymentAmount?: string | undefined;
-  termDurationInSeconds?: number | undefined;
+  termDurationInSeconds: number;
   tags?: { [key: string]: string | undefined } | undefined;
   returnableUntil?: string | undefined;
 }
@@ -425,7 +425,7 @@ export interface ParentSavingsPlanOffering {
   offeringId?: string | undefined;
   paymentOption?: SavingsPlanPaymentOption | undefined;
   planType?: SavingsPlanType | undefined;
-  durationSeconds?: number | undefined;
+  durationSeconds: number;
   currency?: CurrencyCode | undefined;
   planDescription?: string | undefined;
 }
@@ -492,7 +492,7 @@ export interface SavingsPlanOffering {
   planType?: SavingsPlanType | undefined;
   description?: string | undefined;
   paymentOption?: SavingsPlanPaymentOption | undefined;
-  durationSeconds?: number | undefined;
+  durationSeconds: number;
   currency?: CurrencyCode | undefined;
   serviceCode?: string | undefined;
   usageType?: string | undefined;
@@ -1026,7 +1026,7 @@ function __c13(j: number): any {
           commitment: S.optional(S.String),
           upfrontPaymentAmount: S.optional(S.String),
           recurringPaymentAmount: S.optional(S.String),
-          termDurationInSeconds: S.optional(S.Number),
+          termDurationInSeconds: S.optional(S.Number).pipe(T.Default(0)),
           tags: S.optional(__S(48, __c6, 0)),
           returnableUntil: S.optional(S.String),
         }),
@@ -1077,7 +1077,7 @@ function __c15(j: number): any {
           offeringId: S.optional(S.String),
           paymentOption: S.optional(S.String),
           planType: S.optional(S.String),
-          durationSeconds: S.optional(S.Number),
+          durationSeconds: S.optional(S.Number).pipe(T.Default(0)),
           currency: S.optional(S.String),
           planDescription: S.optional(S.String),
         }),
@@ -1151,7 +1151,7 @@ function __c16(j: number): any {
           planType: S.optional(S.String),
           description: S.optional(S.String),
           paymentOption: S.optional(S.String),
-          durationSeconds: S.optional(S.Number),
+          durationSeconds: S.optional(S.Number).pipe(T.Default(0)),
           currency: S.optional(S.String),
           serviceCode: S.optional(S.String),
           usageType: S.optional(S.String),

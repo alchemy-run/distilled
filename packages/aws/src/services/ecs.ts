@@ -582,10 +582,10 @@ export interface Cluster {
   clusterName?: string | undefined;
   configuration?: ClusterConfiguration | undefined;
   status?: string | undefined;
-  registeredContainerInstancesCount?: number | undefined;
-  runningTasksCount?: number | undefined;
-  pendingTasksCount?: number | undefined;
-  activeServicesCount?: number | undefined;
+  registeredContainerInstancesCount: number;
+  runningTasksCount: number;
+  pendingTasksCount: number;
+  activeServicesCount: number;
   statistics?: KeyValuePair[] | undefined;
   tags?: Tag[] | undefined;
   settings?: ClusterSetting[] | undefined;
@@ -1107,9 +1107,9 @@ export interface TaskSet {
   externalId?: string | undefined;
   status?: string | undefined;
   taskDefinition?: string | undefined;
-  computedDesiredCount?: number | undefined;
-  pendingCount?: number | undefined;
-  runningCount?: number | undefined;
+  computedDesiredCount: number;
+  pendingCount: number;
+  runningCount: number;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
   launchType?: LaunchType | undefined;
@@ -1136,10 +1136,10 @@ export interface Deployment {
   id?: string | undefined;
   status?: string | undefined;
   taskDefinition?: string | undefined;
-  desiredCount?: number | undefined;
-  pendingCount?: number | undefined;
-  runningCount?: number | undefined;
-  failedTasks?: number | undefined;
+  desiredCount: number;
+  pendingCount: number;
+  runningCount: number;
+  failedTasks: number;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
   capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
@@ -1164,9 +1164,9 @@ export interface ServiceEvent {
 export type ServiceEvents = ServiceEvent[];
 export interface ServiceCurrentRevisionSummary {
   arn?: string | undefined;
-  requestedTaskCount?: number | undefined;
-  runningTaskCount?: number | undefined;
-  pendingTaskCount?: number | undefined;
+  requestedTaskCount: number;
+  runningTaskCount: number;
+  pendingTaskCount: number;
 }
 export type ServiceCurrentRevisionSummaryList = ServiceCurrentRevisionSummary[];
 export type ResourceManagementType = "CUSTOMER" | "ECS" | (string & {});
@@ -1177,9 +1177,9 @@ export interface Service {
   loadBalancers?: LoadBalancer[] | undefined;
   serviceRegistries?: ServiceRegistry[] | undefined;
   status?: string | undefined;
-  desiredCount?: number | undefined;
-  runningCount?: number | undefined;
-  pendingCount?: number | undefined;
+  desiredCount: number;
+  runningCount: number;
+  pendingCount: number;
   launchType?: LaunchType | undefined;
   capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
   platformVersion?: string | undefined;
@@ -1201,9 +1201,9 @@ export interface Service {
   deploymentController?: DeploymentController | undefined;
   tags?: Tag[] | undefined;
   createdBy?: string | undefined;
-  enableECSManagedTags?: boolean | undefined;
+  enableECSManagedTags: boolean;
   propagateTags?: PropagateTags | undefined;
-  enableExecuteCommand?: boolean | undefined;
+  enableExecuteCommand: boolean;
   availabilityZoneRebalancing?: AvailabilityZoneRebalancing | undefined;
   resourceManagementType?: ResourceManagementType | undefined;
 }
@@ -1606,7 +1606,7 @@ export interface TaskDefinition {
   taskRoleArn?: string | undefined;
   executionRoleArn?: string | undefined;
   networkMode?: NetworkMode | undefined;
-  revision?: number | undefined;
+  revision: number;
   volumes?: Volume[] | undefined;
   status?: TaskDefinitionStatus | undefined;
   requiresAttributes?: Attribute[] | undefined;
@@ -1712,15 +1712,15 @@ export interface ContainerInstance {
   containerInstanceArn?: string | undefined;
   ec2InstanceId?: string | undefined;
   capacityProviderName?: string | undefined;
-  version?: number | undefined;
+  version: number;
   versionInfo?: VersionInfo | undefined;
   remainingResources?: Resource[] | undefined;
   registeredResources?: Resource[] | undefined;
   status?: string | undefined;
   statusReason?: string | undefined;
-  agentConnected?: boolean | undefined;
-  runningTasksCount?: number | undefined;
-  pendingTasksCount?: number | undefined;
+  agentConnected: boolean;
+  runningTasksCount: number;
+  pendingTasksCount: number;
   agentUpdateStatus?: AgentUpdateStatus | undefined;
   attributes?: Attribute[] | undefined;
   registeredAt?: Date | undefined;
@@ -1787,15 +1787,15 @@ export interface DescribeDaemonRequest {
 }
 export interface DaemonCapacityProvider {
   arn?: string | undefined;
-  runningCount?: number | undefined;
-  withoutDaemonCount?: number | undefined;
+  runningCount: number;
+  withoutDaemonCount: number;
 }
 export type DaemonCapacityProviderList = DaemonCapacityProvider[];
 export interface DaemonRevisionDetail {
   arn?: string | undefined;
   capacityProviders?: DaemonCapacityProvider[] | undefined;
-  totalRunningCount?: number | undefined;
-  totalWithoutDaemonCount?: number | undefined;
+  totalRunningCount: number;
+  totalWithoutDaemonCount: number;
 }
 export type DaemonRevisionDetailList = DaemonRevisionDetail[];
 export interface DaemonDetail {
@@ -1845,9 +1845,9 @@ export type DaemonDeploymentRollbackMonitorsStatus =
   | "DISABLED"
   | (string & {});
 export interface DaemonCircuitBreaker {
-  failureCount?: number | undefined;
+  failureCount: number;
   status?: DaemonDeploymentRollbackMonitorsStatus | undefined;
-  threshold?: number | undefined;
+  threshold: number;
 }
 export interface DaemonDeploymentAlarms {
   status?: DaemonDeploymentRollbackMonitorsStatus | undefined;
@@ -1967,7 +1967,7 @@ export type DaemonIpcMode = "none" | "shared" | (string & {});
 export interface DaemonTaskDefinition {
   daemonTaskDefinitionArn?: string | undefined;
   family?: string | undefined;
-  revision?: number | undefined;
+  revision: number;
   taskRoleArn?: string | undefined;
   executionRoleArn?: string | undefined;
   containerDefinitions?: DaemonContainerDefinition[] | undefined;
@@ -2103,9 +2103,9 @@ export interface DescribeServiceDeploymentsRequest {
 }
 export interface ServiceRevisionSummary {
   arn?: string | undefined;
-  requestedTaskCount?: number | undefined;
-  runningTaskCount?: number | undefined;
-  pendingTaskCount?: number | undefined;
+  requestedTaskCount: number;
+  runningTaskCount: number;
+  pendingTaskCount: number;
   requestedTestTrafficWeight?: number | undefined;
   requestedProductionTrafficWeight?: number | undefined;
 }
@@ -2162,8 +2162,8 @@ export type ServiceDeploymentRollbackMonitorsStatus =
   | (string & {});
 export interface ServiceDeploymentCircuitBreaker {
   status?: ServiceDeploymentRollbackMonitorsStatus | undefined;
-  failureCount?: number | undefined;
-  threshold?: number | undefined;
+  failureCount: number;
+  threshold: number;
 }
 export interface ServiceDeploymentAlarms {
   status?: ServiceDeploymentRollbackMonitorsStatus | undefined;
@@ -2367,7 +2367,7 @@ export interface ServiceRevision {
   serviceRegistries?: ServiceRegistry[] | undefined;
   networkConfiguration?: NetworkConfiguration | undefined;
   containerImages?: ContainerImage[] | undefined;
-  guardDutyEnabled?: boolean | undefined;
+  guardDutyEnabled: boolean;
   serviceConnectConfiguration?: ServiceConnectConfiguration | undefined;
   volumeConfigurations?: ServiceVolumeConfiguration[] | undefined;
   fargateEphemeralStorage?: DeploymentEphemeralStorage | undefined;
@@ -2497,7 +2497,7 @@ export type TaskStopCode =
   | "InfrastructureHealth"
   | (string & {});
 export interface TaskEphemeralStorage {
-  sizeInGiB?: number | undefined;
+  sizeInGiB: number;
   kmsKeyId?: string | undefined;
 }
 export type AttestationPolicyStatus = "CONFIGURED" | (string & {});
@@ -2518,7 +2518,7 @@ export interface Task {
   cpu?: string | undefined;
   createdAt?: Date | undefined;
   desiredStatus?: string | undefined;
-  enableExecuteCommand?: boolean | undefined;
+  enableExecuteCommand: boolean;
   executionStoppedAt?: Date | undefined;
   group?: string | undefined;
   healthStatus?: HealthStatus | undefined;
@@ -2540,7 +2540,7 @@ export interface Task {
   tags?: Tag[] | undefined;
   taskArn?: string | undefined;
   taskDefinitionArn?: string | undefined;
-  version?: number | undefined;
+  version: number;
   ephemeralStorage?: EphemeralStorage | undefined;
   fargateEphemeralStorage?: TaskEphemeralStorage | undefined;
   trustedExecutionSummary?: TrustedExecutionSummary | undefined;
@@ -2597,7 +2597,7 @@ export interface ExecuteCommandResponse {
   clusterArn?: string | undefined;
   containerArn?: string | undefined;
   containerName?: string | undefined;
-  interactive?: boolean | undefined;
+  interactive: boolean;
   session?: Session | undefined;
   taskArn?: string | undefined;
 }
@@ -2607,7 +2607,7 @@ export interface GetTaskProtectionRequest {
 }
 export interface ProtectedTask {
   taskArn?: string | undefined;
-  protectionEnabled?: boolean | undefined;
+  protectionEnabled: boolean;
   expirationDate?: Date | undefined;
 }
 export type ProtectedTasks = ProtectedTask[];
@@ -7325,9 +7325,9 @@ function __c33(j: number): any {
         identifier: "ManagedInstancesStorageConfiguration",
       });
     case 4:
-      return S.suspend(() => S.Struct({ useLocalStorage: S.optional(S.Boolean) })).annotate({
-        identifier: "ManagedInstancesLocalStorageConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ useLocalStorage: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "ManagedInstancesLocalStorageConfiguration" });
     case 5:
       return S.suspend(() => S.Struct({ min: S.Number, max: S.optional(S.Number) })).annotate({
         identifier: "VCpuCountRangeRequest",
@@ -7475,8 +7475,8 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           capacityProvider: S.String,
-          weight: S.optional(S.Number),
-          base: S.optional(S.Number),
+          weight: S.optional(S.Number).pipe(T.Default(0)),
+          base: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CapacityProviderStrategyItem" });
     case 1:
@@ -7510,9 +7510,9 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cloudWatchLogGroupName: S.optional(S.String),
-          cloudWatchEncryptionEnabled: S.optional(S.Boolean),
+          cloudWatchEncryptionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           s3BucketName: S.optional(S.String),
-          s3EncryptionEnabled: S.optional(S.Boolean),
+          s3EncryptionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           s3KeyPrefix: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExecuteCommandLogConfiguration" });
@@ -7549,10 +7549,10 @@ function __c39(j: number): any {
           clusterName: S.optional(S.String),
           configuration: S.optional(__S(1253, __c39, 5)),
           status: S.optional(S.String),
-          registeredContainerInstancesCount: S.optional(S.Number),
-          runningTasksCount: S.optional(S.Number),
-          pendingTasksCount: S.optional(S.Number),
-          activeServicesCount: S.optional(S.Number),
+          registeredContainerInstancesCount: S.optional(S.Number).pipe(T.Default(0)),
+          runningTasksCount: S.optional(S.Number).pipe(T.Default(0)),
+          pendingTasksCount: S.optional(S.Number).pipe(T.Default(0)),
+          activeServicesCount: S.optional(S.Number).pipe(T.Default(0)),
           statistics: S.optional(__S(1153, __c36, 1)),
           tags: S.optional(__S(993, __c31, 1)),
           settings: S.optional(__S(1249, __c39, 1)),
@@ -7606,14 +7606,17 @@ function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ alarmNames: S.optional(__S(4448, __c139, 0)), enable: S.optional(S.Boolean) }),
+        S.Struct({
+          alarmNames: S.optional(__S(4448, __c139, 0)),
+          enable: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "DaemonAlarmConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           drainPercent: S.optional(S.Number),
           alarms: S.optional(__S(1344, __c42, 0)),
-          bakeTimeInMinutes: S.optional(S.Number),
+          bakeTimeInMinutes: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DaemonDeploymentConfiguration" });
   }
@@ -7919,7 +7922,7 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ value: S.optional(S.Number), unit: S.optional(S.String) }),
+        S.Struct({ value: S.optional(S.Number).pipe(T.Default(0)), unit: S.optional(S.String) }),
       ).annotate({ identifier: "Scale" });
     case 1:
       return S.suspend(() =>
@@ -7932,9 +7935,9 @@ function __c54(j: number): any {
           externalId: S.optional(S.String),
           status: S.optional(S.String),
           taskDefinition: S.optional(S.String),
-          computedDesiredCount: S.optional(S.Number),
-          pendingCount: S.optional(S.Number),
-          runningCount: S.optional(S.Number),
+          computedDesiredCount: S.optional(S.Number).pipe(T.Default(0)),
+          pendingCount: S.optional(S.Number).pipe(T.Default(0)),
+          runningCount: S.optional(S.Number).pipe(T.Default(0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           launchType: S.optional(S.String),
@@ -7994,21 +7997,25 @@ function __c58(j: number): any {
 function __c59(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ type: S.String, value: S.Number })).annotate({
-        identifier: "ThresholdConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ type: S.String, value: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "ThresholdConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          enable: S.Boolean,
-          rollback: S.Boolean,
+          enable: S.Boolean.pipe(T.Default(false)),
+          rollback: S.Boolean.pipe(T.Default(false)),
           resetOnHealthyTask: S.optional(S.Boolean),
           thresholdConfiguration: S.optional(__S(1888, __c59, 0)),
         }),
       ).annotate({ identifier: "DeploymentCircuitBreaker" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ alarmNames: __S(4448, __c139, 0), rollback: S.Boolean, enable: S.Boolean }),
+        S.Struct({
+          alarmNames: __S(4448, __c139, 0),
+          rollback: S.Boolean.pipe(T.Default(false)),
+          enable: S.Boolean.pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "DeploymentAlarms" });
     case 3:
       return S.suspend(() =>
@@ -8044,7 +8051,7 @@ function __c59(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          enable: S.Boolean,
+          enable: S.Boolean.pipe(T.Default(false)),
           healthyPercent: S.optional(S.Number),
           sourceServiceRevisionCleanup: S.optional(S.String),
         }),
@@ -8147,7 +8154,7 @@ function __c61(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.Boolean,
+          enabled: S.Boolean.pipe(T.Default(false)),
           namespace: S.optional(S.String),
           services: S.optional(__S(1961, __c61, 9)),
           logConfiguration: S.optional(__S(1825, __c57, 1)),
@@ -8226,10 +8233,10 @@ function __c63(j: number): any {
           id: S.optional(S.String),
           status: S.optional(S.String),
           taskDefinition: S.optional(S.String),
-          desiredCount: S.optional(S.Number),
-          pendingCount: S.optional(S.Number),
-          runningCount: S.optional(S.Number),
-          failedTasks: S.optional(S.Number),
+          desiredCount: S.optional(S.Number).pipe(T.Default(0)),
+          pendingCount: S.optional(S.Number).pipe(T.Default(0)),
+          runningCount: S.optional(S.Number).pipe(T.Default(0)),
+          failedTasks: S.optional(S.Number).pipe(T.Default(0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           capacityProviderStrategy: S.optional(__S(1185, __c37, 1)),
@@ -8262,9 +8269,9 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           arn: S.optional(S.String),
-          requestedTaskCount: S.optional(S.Number),
-          runningTaskCount: S.optional(S.Number),
-          pendingTaskCount: S.optional(S.Number),
+          requestedTaskCount: S.optional(S.Number).pipe(T.Default(0)),
+          runningTaskCount: S.optional(S.Number).pipe(T.Default(0)),
+          pendingTaskCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ServiceCurrentRevisionSummary" });
     case 8:
@@ -8278,9 +8285,9 @@ function __c63(j: number): any {
           loadBalancers: S.optional(__S(1698, __c53, 2)),
           serviceRegistries: S.optional(__S(1700, __c53, 4)),
           status: S.optional(S.String),
-          desiredCount: S.optional(S.Number),
-          runningCount: S.optional(S.Number),
-          pendingCount: S.optional(S.Number),
+          desiredCount: S.optional(S.Number).pipe(T.Default(0)),
+          runningCount: S.optional(S.Number).pipe(T.Default(0)),
+          pendingCount: S.optional(S.Number).pipe(T.Default(0)),
           launchType: S.optional(S.String),
           capacityProviderStrategy: S.optional(__S(1185, __c37, 1)),
           platformVersion: S.optional(S.String),
@@ -8302,9 +8309,9 @@ function __c63(j: number): any {
           deploymentController: S.optional(__S(2016, __c63, 0)),
           tags: S.optional(__S(993, __c31, 1)),
           createdBy: S.optional(S.String),
-          enableECSManagedTags: S.optional(S.Boolean),
+          enableECSManagedTags: S.optional(S.Boolean).pipe(T.Default(false)),
           propagateTags: S.optional(S.String),
-          enableExecuteCommand: S.optional(S.Boolean),
+          enableExecuteCommand: S.optional(S.Boolean).pipe(T.Default(false)),
           availabilityZoneRebalancing: S.optional(S.String),
           resourceManagementType: S.optional(S.String),
         }),
@@ -8623,7 +8630,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           containerPath: S.String,
-          size: S.Number,
+          size: S.Number.pipe(T.Default(0)),
           mountOptions: S.optional(__S(4448, __c139, 0)),
         }),
       ).annotate({ identifier: "Tmpfs" });
@@ -8637,7 +8644,11 @@ function __c85(j: number): any {
       return S.Array(__S(2730, __c85, 10));
     case 12:
       return S.suspend(() =>
-        S.Struct({ name: S.String, softLimit: S.Number, hardLimit: S.Number }),
+        S.Struct({
+          name: S.String,
+          softLimit: S.Number.pipe(T.Default(0)),
+          hardLimit: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "Ulimit" });
     case 13:
       return S.Array(__S(2732, __c85, 12));
@@ -8712,7 +8723,7 @@ function __c86(j: number): any {
           name: S.optional(S.String),
           image: S.optional(S.String),
           repositoryCredentials: S.optional(__S(2720, __c85, 0)),
-          cpu: S.optional(S.Number),
+          cpu: S.optional(S.Number).pipe(T.Default(0)),
           memory: S.optional(S.Number),
           memoryReservation: S.optional(S.Number),
           links: S.optional(__S(4448, __c139, 0)),
@@ -8842,7 +8853,7 @@ function __c86(j: number): any {
           taskRoleArn: S.optional(S.String),
           executionRoleArn: S.optional(S.String),
           networkMode: S.optional(S.String),
-          revision: S.optional(S.Number),
+          revision: S.optional(S.Number).pipe(T.Default(0)),
           volumes: S.optional(__S(2768, __c86, 16)),
           status: S.optional(S.String),
           requiresAttributes: S.optional(__S(2305, __c72, 1)),
@@ -8878,7 +8889,7 @@ function __c87(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
+          value: S.optional(S.String).pipe(T.Default("")),
           type: S.String,
           sharingStrategy: S.optional(__S(2785, __c87, 1)),
         }),
@@ -8892,7 +8903,7 @@ function __c87(j: number): any {
     case 5:
       return S.Array(__S(2788, __c87, 4));
     case 6:
-      return S.suspend(() => S.Struct({ sizeInGiB: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ sizeInGiB: S.Number.pipe(T.Default(0)) })).annotate({
         identifier: "EphemeralStorage",
       });
   }
@@ -8951,9 +8962,9 @@ function __c91(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           type: S.optional(S.String),
-          doubleValue: S.optional(S.Number),
-          longValue: S.optional(S.Number),
-          integerValue: S.optional(S.Number),
+          doubleValue: S.optional(S.Number).pipe(T.Default(0)),
+          longValue: S.optional(S.Number).pipe(T.Default(0)),
+          integerValue: S.optional(S.Number).pipe(T.Default(0)),
           stringSetValue: S.optional(__S(4448, __c139, 0)),
         }),
       ).annotate({ identifier: "Resource" });
@@ -8993,15 +9004,15 @@ function __c91(j: number): any {
           containerInstanceArn: S.optional(S.String),
           ec2InstanceId: S.optional(S.String),
           capacityProviderName: S.optional(S.String),
-          version: S.optional(S.Number),
+          version: S.optional(S.Number).pipe(T.Default(0)),
           versionInfo: S.optional(__S(2912, __c91, 0)),
           remainingResources: S.optional(__S(2914, __c91, 2)),
           registeredResources: S.optional(__S(2914, __c91, 2)),
           status: S.optional(S.String),
           statusReason: S.optional(S.String),
-          agentConnected: S.optional(S.Boolean),
-          runningTasksCount: S.optional(S.Number),
-          pendingTasksCount: S.optional(S.Number),
+          agentConnected: S.optional(S.Boolean).pipe(T.Default(false)),
+          runningTasksCount: S.optional(S.Number).pipe(T.Default(0)),
+          pendingTasksCount: S.optional(S.Number).pipe(T.Default(0)),
           agentUpdateStatus: S.optional(S.String),
           attributes: S.optional(__S(2305, __c72, 1)),
           registeredAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -9116,8 +9127,8 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           arn: S.optional(S.String),
-          runningCount: S.optional(S.Number),
-          withoutDaemonCount: S.optional(S.Number),
+          runningCount: S.optional(S.Number).pipe(T.Default(0)),
+          withoutDaemonCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DaemonCapacityProvider" });
     case 2:
@@ -9127,8 +9138,8 @@ function __c98(j: number): any {
         S.Struct({
           arn: S.optional(S.String),
           capacityProviders: S.optional(__S(3138, __c98, 2)),
-          totalRunningCount: S.optional(S.Number),
-          totalWithoutDaemonCount: S.optional(S.Number),
+          totalRunningCount: S.optional(S.Number).pipe(T.Default(0)),
+          totalWithoutDaemonCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DaemonRevisionDetail" });
     case 4:
@@ -9185,9 +9196,9 @@ function __c99(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          failureCount: S.optional(S.Number),
+          failureCount: S.optional(S.Number).pipe(T.Default(0)),
           status: S.optional(S.String),
-          threshold: S.optional(S.Number),
+          threshold: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "DaemonCircuitBreaker" });
     case 6:
@@ -9302,7 +9313,7 @@ function __c103(j: number): any {
         S.Struct({
           daemonTaskDefinitionArn: S.optional(S.String),
           family: S.optional(S.String),
-          revision: S.optional(S.Number),
+          revision: S.optional(S.Number).pipe(T.Default(0)),
           taskRoleArn: S.optional(S.String),
           executionRoleArn: S.optional(S.String),
           containerDefinitions: S.optional(__S(3330, __c104, 2)),
@@ -9343,7 +9354,7 @@ function __c104(j: number): any {
           memoryReservation: S.optional(S.Number),
           repositoryCredentials: S.optional(__S(2720, __c85, 0)),
           healthCheck: S.optional(__S(2734, __c85, 14)),
-          cpu: S.optional(S.Number),
+          cpu: S.optional(S.Number).pipe(T.Default(0)),
           essential: S.optional(S.Boolean),
           entryPoint: S.optional(__S(4448, __c139, 0)),
           command: S.optional(__S(4448, __c139, 0)),
@@ -9556,9 +9567,9 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           arn: S.optional(S.String),
-          requestedTaskCount: S.optional(S.Number),
-          runningTaskCount: S.optional(S.Number),
-          pendingTaskCount: S.optional(S.Number),
+          requestedTaskCount: S.optional(S.Number).pipe(T.Default(0)),
+          runningTaskCount: S.optional(S.Number).pipe(T.Default(0)),
+          pendingTaskCount: S.optional(S.Number).pipe(T.Default(0)),
           requestedTestTrafficWeight: S.optional(S.Number),
           requestedProductionTrafficWeight: S.optional(S.Number),
         }),
@@ -9590,8 +9601,8 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          failureCount: S.optional(S.Number),
-          threshold: S.optional(S.Number),
+          failureCount: S.optional(S.Number).pipe(T.Default(0)),
+          threshold: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ServiceDeploymentCircuitBreaker" });
     case 7:
@@ -9693,8 +9704,8 @@ function __c110(j: number): any {
           statusReason: S.optional(S.String),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           healthCheckPath: S.String,
-          healthCheckPort: S.Number,
-          port: S.Number,
+          healthCheckPort: S.Number.pipe(T.Default(0)),
+          port: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ManagedTargetGroup" });
     case 9:
@@ -9721,8 +9732,8 @@ function __c110(j: number): any {
           status: S.String,
           statusReason: S.optional(S.String),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          minCapacity: S.Number,
-          maxCapacity: S.Number,
+          minCapacity: S.Number.pipe(T.Default(0)),
+          maxCapacity: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ManagedScalableTarget" });
     case 13:
@@ -9733,7 +9744,7 @@ function __c110(j: number): any {
           statusReason: S.optional(S.String),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           policyType: S.String,
-          targetValue: S.Number,
+          targetValue: S.Number.pipe(T.Default(0)),
           metric: S.String,
         }),
       ).annotate({ identifier: "ManagedApplicationAutoScalingPolicy" });
@@ -9823,7 +9834,7 @@ function __c110(j: number): any {
           serviceRegistries: S.optional(__S(1700, __c53, 4)),
           networkConfiguration: S.optional(__S(1665, __c52, 1)),
           containerImages: S.optional(__S(3265, __c102, 1)),
-          guardDutyEnabled: S.optional(S.Boolean),
+          guardDutyEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           serviceConnectConfiguration: S.optional(__S(1965, __c61, 13)),
           volumeConfigurations: S.optional(__S(1968, __c61, 16)),
           fargateEphemeralStorage: S.optional(__S(1701, __c53, 5)),
@@ -9998,7 +10009,10 @@ function __c116(j: number): any {
       ).annotate({ identifier: "TaskOverride" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ sizeInGiB: S.optional(S.Number), kmsKeyId: S.optional(S.String) }),
+        S.Struct({
+          sizeInGiB: S.optional(S.Number).pipe(T.Default(0)),
+          kmsKeyId: S.optional(S.String),
+        }),
       ).annotate({ identifier: "TaskEphemeralStorage" });
     case 12:
       return S.suspend(() =>
@@ -10019,7 +10033,7 @@ function __c116(j: number): any {
           cpu: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           desiredStatus: S.optional(S.String),
-          enableExecuteCommand: S.optional(S.Boolean),
+          enableExecuteCommand: S.optional(S.Boolean).pipe(T.Default(false)),
           executionStoppedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           group: S.optional(S.String),
           healthStatus: S.optional(S.String),
@@ -10041,7 +10055,7 @@ function __c116(j: number): any {
           tags: S.optional(__S(993, __c31, 1)),
           taskArn: S.optional(S.String),
           taskDefinitionArn: S.optional(S.String),
-          version: S.optional(S.Number),
+          version: S.optional(S.Number).pipe(T.Default(0)),
           ephemeralStorage: S.optional(__S(2790, __c87, 6)),
           fargateEphemeralStorage: S.optional(__S(3723, __c116, 11)),
           trustedExecutionSummary: S.optional(__S(3724, __c116, 12)),
@@ -10140,7 +10154,7 @@ function __c121(j: number): any {
           clusterArn: S.optional(S.String),
           containerArn: S.optional(S.String),
           containerName: S.optional(S.String),
-          interactive: S.optional(S.Boolean),
+          interactive: S.optional(S.Boolean).pipe(T.Default(false)),
           session: S.optional(__S(3873, __c121, 1)),
           taskArn: S.optional(S.String),
         }).pipe(ns),
@@ -10163,7 +10177,7 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           taskArn: S.optional(S.String),
-          protectionEnabled: S.optional(S.Boolean),
+          protectionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           expirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ProtectedTask" });

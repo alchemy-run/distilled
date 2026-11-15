@@ -196,7 +196,7 @@ export type Count = number;
 export type Truncated = boolean;
 export interface WorkflowExecutionCount {
   count: number;
-  truncated?: boolean | undefined;
+  truncated: boolean;
 }
 export interface CountOpenWorkflowExecutionsInput {
   domain: string;
@@ -214,7 +214,7 @@ export interface CountPendingActivityTasksInput {
 }
 export interface PendingTaskCount {
   count: number;
-  truncated?: boolean | undefined;
+  truncated: boolean;
 }
 export interface CountPendingDecisionTasksInput {
   domain: string;
@@ -319,7 +319,7 @@ export interface WorkflowExecutionInfo {
   closeStatus?: CloseStatus | undefined;
   parent?: WorkflowExecution | undefined;
   tagList?: string[] | undefined;
-  cancelRequested?: boolean | undefined;
+  cancelRequested: boolean;
 }
 export type DurationInSeconds = string;
 export type ChildPolicy = "TERMINATE" | "REQUEST_CANCEL" | "ABANDON" | (string & {});
@@ -337,7 +337,7 @@ export interface WorkflowExecutionOpenCounts {
   openDecisionTasks: number;
   openTimers: number;
   openChildWorkflowExecutions: number;
-  openLambdaFunctions?: number | undefined;
+  openLambdaFunctions: number;
 }
 export type Data = string;
 export interface WorkflowExecutionDetail {
@@ -449,7 +449,7 @@ export interface WorkflowExecutionStartedEventAttributes {
   tagList?: string[] | undefined;
   continuedExecutionRunId?: string | undefined;
   parentWorkflowExecution?: WorkflowExecution | undefined;
-  parentInitiatedEventId?: number | undefined;
+  parentInitiatedEventId: number;
   lambdaRole?: string | undefined;
 }
 export interface WorkflowExecutionCompletedEventAttributes {
@@ -538,7 +538,7 @@ export interface WorkflowExecutionTerminatedEventAttributes {
 export type WorkflowExecutionCancelRequestedCause = "CHILD_POLICY_APPLIED" | (string & {});
 export interface WorkflowExecutionCancelRequestedEventAttributes {
   externalWorkflowExecution?: WorkflowExecution | undefined;
-  externalInitiatedEventId?: number | undefined;
+  externalInitiatedEventId: number;
   cause?: WorkflowExecutionCancelRequestedCause | undefined;
 }
 export interface DecisionTaskScheduledEventAttributes {
@@ -611,7 +611,7 @@ export interface ActivityTaskCanceledEventAttributes {
   details?: string | undefined;
   scheduledEventId: number;
   startedEventId: number;
-  latestCancelRequestedEventId?: number | undefined;
+  latestCancelRequestedEventId: number;
 }
 export interface ActivityTaskCancelRequestedEventAttributes {
   decisionTaskCompletedEventId: number;
@@ -622,7 +622,7 @@ export interface WorkflowExecutionSignaledEventAttributes {
   signalName: string;
   input?: string | undefined;
   externalWorkflowExecution?: WorkflowExecution | undefined;
-  externalInitiatedEventId?: number | undefined;
+  externalInitiatedEventId: number;
 }
 export type MarkerName = string;
 export interface MarkerRecordedEventAttributes {
@@ -866,7 +866,7 @@ export interface ScheduleLambdaFunctionFailedEventAttributes {
 export type StartLambdaFunctionFailedCause = "ASSUME_ROLE_FAILED" | (string & {});
 export type CauseMessage = string;
 export interface StartLambdaFunctionFailedEventAttributes {
-  scheduledEventId?: number | undefined;
+  scheduledEventId: number;
   cause?: StartLambdaFunctionFailedCause | undefined;
   message?: string | undefined;
 }
@@ -1090,7 +1090,7 @@ export interface DecisionTask {
   workflowType: WorkflowType;
   events: HistoryEvent[];
   nextPageToken?: string | undefined;
-  previousStartedEventId?: number | undefined;
+  previousStartedEventId: number;
 }
 export interface RecordActivityTaskHeartbeatInput {
   taskToken: string;
@@ -3400,7 +3400,10 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ count: S.Number, truncated: S.optional(S.Boolean) }).pipe(ns),
+        S.Struct({
+          count: S.Number.pipe(T.Default(0)),
+          truncated: S.optional(S.Boolean).pipe(T.Default(false)),
+        }).pipe(ns),
       ).annotate({ identifier: "WorkflowExecutionCount" });
   }
 }
@@ -3631,11 +3634,11 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          openActivityTasks: S.Number,
-          openDecisionTasks: S.Number,
-          openTimers: S.Number,
-          openChildWorkflowExecutions: S.Number,
-          openLambdaFunctions: S.optional(S.Number),
+          openActivityTasks: S.Number.pipe(T.Default(0)),
+          openDecisionTasks: S.Number.pipe(T.Default(0)),
+          openTimers: S.Number.pipe(T.Default(0)),
+          openChildWorkflowExecutions: S.Number.pipe(T.Default(0)),
+          openLambdaFunctions: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WorkflowExecutionOpenCounts" });
     case 3:
@@ -3677,7 +3680,7 @@ function __c22(j: number): any {
           closeStatus: S.optional(S.String),
           parent: S.optional(__S(640, __c20, 0)),
           tagList: S.optional(__S(672, __c21, 0)),
-          cancelRequested: S.optional(S.Boolean),
+          cancelRequested: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "WorkflowExecutionInfo" });
   }
@@ -3754,24 +3757,27 @@ function __c26(j: number): any {
           tagList: S.optional(__S(672, __c21, 0)),
           continuedExecutionRunId: S.optional(S.String),
           parentWorkflowExecution: S.optional(__S(640, __c20, 0)),
-          parentInitiatedEventId: S.optional(S.Number),
+          parentInitiatedEventId: S.optional(S.Number).pipe(T.Default(0)),
           lambdaRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowExecutionStartedEventAttributes" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ result: S.optional(S.String), decisionTaskCompletedEventId: S.Number }),
+        S.Struct({
+          result: S.optional(S.String),
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "WorkflowExecutionCompletedEventAttributes" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ cause: S.String, decisionTaskCompletedEventId: S.Number }),
+        S.Struct({ cause: S.String, decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)) }),
       ).annotate({ identifier: "CompleteWorkflowExecutionFailedEventAttributes" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           reason: S.optional(S.String),
           details: S.optional(S.String),
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WorkflowExecutionFailedEventAttributes" });
     case 4:
@@ -3780,13 +3786,16 @@ function __c26(j: number): any {
       });
     case 5:
       return S.suspend(() =>
-        S.Struct({ details: S.optional(S.String), decisionTaskCompletedEventId: S.Number }),
+        S.Struct({
+          details: S.optional(S.String),
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "WorkflowExecutionCanceledEventAttributes" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           input: S.optional(S.String),
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
           newExecutionRunId: S.String,
           executionStartToCloseTimeout: S.optional(S.String),
           taskList: __S(192, __c6, 0),
@@ -3811,7 +3820,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           externalWorkflowExecution: S.optional(__S(640, __c20, 0)),
-          externalInitiatedEventId: S.optional(S.Number),
+          externalInitiatedEventId: S.optional(S.Number).pipe(T.Default(0)),
           cause: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowExecutionCancelRequestedEventAttributes" });
@@ -3826,21 +3835,25 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DecisionTaskScheduledEventAttributes" });
     case 10:
       return S.suspend(() =>
-        S.Struct({ identity: S.optional(S.String), scheduledEventId: S.Number }),
+        S.Struct({ identity: S.optional(S.String), scheduledEventId: S.Number.pipe(T.Default(0)) }),
       ).annotate({ identifier: "DecisionTaskStartedEventAttributes" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           executionContext: S.optional(S.String),
-          scheduledEventId: S.Number,
-          startedEventId: S.Number,
+          scheduledEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
           taskList: S.optional(__S(192, __c6, 0)),
           taskListScheduleToStartTimeout: S.optional(S.String),
         }),
       ).annotate({ identifier: "DecisionTaskCompletedEventAttributes" });
     case 12:
       return S.suspend(() =>
-        S.Struct({ timeoutType: S.String, scheduledEventId: S.Number, startedEventId: S.Number }),
+        S.Struct({
+          timeoutType: S.String,
+          scheduledEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "DecisionTaskTimedOutEventAttributes" });
     case 13:
       return S.suspend(() =>
@@ -3854,7 +3867,7 @@ function __c26(j: number): any {
           startToCloseTimeout: S.optional(S.String),
           taskList: __S(192, __c6, 0),
           taskPriority: S.optional(S.String),
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
           heartbeatTimeout: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActivityTaskScheduledEventAttributes" });
@@ -3862,8 +3875,8 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           result: S.optional(S.String),
-          scheduledEventId: S.Number,
-          startedEventId: S.Number,
+          scheduledEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ActivityTaskCompletedEventAttributes" });
     case 15:
@@ -3871,16 +3884,16 @@ function __c26(j: number): any {
         S.Struct({
           reason: S.optional(S.String),
           details: S.optional(S.String),
-          scheduledEventId: S.Number,
-          startedEventId: S.Number,
+          scheduledEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ActivityTaskFailedEventAttributes" });
     case 16:
       return S.suspend(() =>
         S.Struct({
           timeoutType: S.String,
-          scheduledEventId: S.Number,
-          startedEventId: S.Number,
+          scheduledEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
           details: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActivityTaskTimedOutEventAttributes" });
@@ -3888,14 +3901,17 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           details: S.optional(S.String),
-          scheduledEventId: S.Number,
-          startedEventId: S.Number,
-          latestCancelRequestedEventId: S.optional(S.Number),
+          scheduledEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
+          latestCancelRequestedEventId: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ActivityTaskCanceledEventAttributes" });
     case 18:
       return S.suspend(() =>
-        S.Struct({ decisionTaskCompletedEventId: S.Number, activityId: S.String }),
+        S.Struct({
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
+          activityId: S.String,
+        }),
       ).annotate({ identifier: "ActivityTaskCancelRequestedEventAttributes" });
     case 19:
       return S.suspend(() =>
@@ -3903,7 +3919,7 @@ function __c26(j: number): any {
           signalName: S.String,
           input: S.optional(S.String),
           externalWorkflowExecution: S.optional(__S(640, __c20, 0)),
-          externalInitiatedEventId: S.optional(S.Number),
+          externalInitiatedEventId: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "WorkflowExecutionSignaledEventAttributes" });
     case 20:
@@ -3911,12 +3927,16 @@ function __c26(j: number): any {
         S.Struct({
           markerName: S.String,
           details: S.optional(S.String),
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "MarkerRecordedEventAttributes" });
     case 21:
       return S.suspend(() =>
-        S.Struct({ markerName: S.String, cause: S.String, decisionTaskCompletedEventId: S.Number }),
+        S.Struct({
+          markerName: S.String,
+          cause: S.String,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "RecordMarkerFailedEventAttributes" });
     case 22:
       return S.suspend(() =>
@@ -3924,19 +3944,19 @@ function __c26(j: number): any {
           timerId: S.String,
           control: S.optional(S.String),
           startToFireTimeout: S.String,
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TimerStartedEventAttributes" });
     case 23:
-      return S.suspend(() => S.Struct({ timerId: S.String, startedEventId: S.Number })).annotate({
-        identifier: "TimerFiredEventAttributes",
-      });
+      return S.suspend(() =>
+        S.Struct({ timerId: S.String, startedEventId: S.Number.pipe(T.Default(0)) }),
+      ).annotate({ identifier: "TimerFiredEventAttributes" });
     case 24:
       return S.suspend(() =>
         S.Struct({
           timerId: S.String,
-          startedEventId: S.Number,
-          decisionTaskCompletedEventId: S.Number,
+          startedEventId: S.Number.pipe(T.Default(0)),
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TimerCanceledEventAttributes" });
     case 25:
@@ -3949,7 +3969,7 @@ function __c26(j: number): any {
           executionStartToCloseTimeout: S.optional(S.String),
           taskList: __S(192, __c6, 0),
           taskPriority: S.optional(S.String),
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
           childPolicy: S.String,
           taskStartToCloseTimeout: S.optional(S.String),
           tagList: S.optional(__S(672, __c21, 0)),
@@ -3961,7 +3981,7 @@ function __c26(j: number): any {
         S.Struct({
           workflowExecution: __S(640, __c20, 0),
           workflowType: __S(320, __c10, 0),
-          initiatedEventId: S.Number,
+          initiatedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ChildWorkflowExecutionStartedEventAttributes" });
     case 27:
@@ -3970,8 +3990,8 @@ function __c26(j: number): any {
           workflowExecution: __S(640, __c20, 0),
           workflowType: __S(320, __c10, 0),
           result: S.optional(S.String),
-          initiatedEventId: S.Number,
-          startedEventId: S.Number,
+          initiatedEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ChildWorkflowExecutionCompletedEventAttributes" });
     case 28:
@@ -3981,8 +4001,8 @@ function __c26(j: number): any {
           workflowType: __S(320, __c10, 0),
           reason: S.optional(S.String),
           details: S.optional(S.String),
-          initiatedEventId: S.Number,
-          startedEventId: S.Number,
+          initiatedEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ChildWorkflowExecutionFailedEventAttributes" });
     case 29:
@@ -3991,8 +4011,8 @@ function __c26(j: number): any {
           workflowExecution: __S(640, __c20, 0),
           workflowType: __S(320, __c10, 0),
           timeoutType: S.String,
-          initiatedEventId: S.Number,
-          startedEventId: S.Number,
+          initiatedEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ChildWorkflowExecutionTimedOutEventAttributes" });
     case 30:
@@ -4001,8 +4021,8 @@ function __c26(j: number): any {
           workflowExecution: __S(640, __c20, 0),
           workflowType: __S(320, __c10, 0),
           details: S.optional(S.String),
-          initiatedEventId: S.Number,
-          startedEventId: S.Number,
+          initiatedEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ChildWorkflowExecutionCanceledEventAttributes" });
     case 31:
@@ -4010,8 +4030,8 @@ function __c26(j: number): any {
         S.Struct({
           workflowExecution: __S(640, __c20, 0),
           workflowType: __S(320, __c10, 0),
-          initiatedEventId: S.Number,
-          startedEventId: S.Number,
+          initiatedEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ChildWorkflowExecutionTerminatedEventAttributes" });
   }
@@ -4025,13 +4045,16 @@ function __c27(j: number): any {
           runId: S.optional(S.String),
           signalName: S.String,
           input: S.optional(S.String),
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
           control: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignalExternalWorkflowExecutionInitiatedEventAttributes" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ workflowExecution: __S(640, __c20, 0), initiatedEventId: S.Number }),
+        S.Struct({
+          workflowExecution: __S(640, __c20, 0),
+          initiatedEventId: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "ExternalWorkflowExecutionSignaledEventAttributes" });
     case 2:
       return S.suspend(() =>
@@ -4039,8 +4062,8 @@ function __c27(j: number): any {
           workflowId: S.String,
           runId: S.optional(S.String),
           cause: S.String,
-          initiatedEventId: S.Number,
-          decisionTaskCompletedEventId: S.Number,
+          initiatedEventId: S.Number.pipe(T.Default(0)),
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
           control: S.optional(S.String),
         }),
       ).annotate({ identifier: "SignalExternalWorkflowExecutionFailedEventAttributes" });
@@ -4049,7 +4072,7 @@ function __c27(j: number): any {
         S.Struct({
           workflowId: S.String,
           runId: S.optional(S.String),
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
           control: S.optional(S.String),
         }),
       ).annotate({ identifier: "RequestCancelExternalWorkflowExecutionInitiatedEventAttributes" });
@@ -4059,16 +4082,24 @@ function __c27(j: number): any {
           activityType: __S(320, __c10, 0),
           activityId: S.String,
           cause: S.String,
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ScheduleActivityTaskFailedEventAttributes" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ activityId: S.String, cause: S.String, decisionTaskCompletedEventId: S.Number }),
+        S.Struct({
+          activityId: S.String,
+          cause: S.String,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "RequestCancelActivityTaskFailedEventAttributes" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ timerId: S.String, cause: S.String, decisionTaskCompletedEventId: S.Number }),
+        S.Struct({
+          timerId: S.String,
+          cause: S.String,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "StartTimerFailedEventAttributes" });
     case 7:
       return S.suspend(() =>
@@ -4076,8 +4107,8 @@ function __c27(j: number): any {
           workflowType: __S(320, __c10, 0),
           cause: S.String,
           workflowId: S.String,
-          initiatedEventId: S.Number,
-          decisionTaskCompletedEventId: S.Number,
+          initiatedEventId: S.Number.pipe(T.Default(0)),
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
           control: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartChildWorkflowExecutionFailedEventAttributes" });
@@ -4089,26 +4120,26 @@ function __c27(j: number): any {
           control: S.optional(S.String),
           input: S.optional(S.String),
           startToCloseTimeout: S.optional(S.String),
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "LambdaFunctionScheduledEventAttributes" });
     case 9:
-      return S.suspend(() => S.Struct({ scheduledEventId: S.Number })).annotate({
+      return S.suspend(() => S.Struct({ scheduledEventId: S.Number.pipe(T.Default(0)) })).annotate({
         identifier: "LambdaFunctionStartedEventAttributes",
       });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          scheduledEventId: S.Number,
-          startedEventId: S.Number,
+          scheduledEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
           result: S.optional(S.String),
         }),
       ).annotate({ identifier: "LambdaFunctionCompletedEventAttributes" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          scheduledEventId: S.Number,
-          startedEventId: S.Number,
+          scheduledEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
           reason: S.optional(S.String),
           details: S.optional(S.String),
         }),
@@ -4116,8 +4147,8 @@ function __c27(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          scheduledEventId: S.Number,
-          startedEventId: S.Number,
+          scheduledEventId: S.Number.pipe(T.Default(0)),
+          startedEventId: S.Number.pipe(T.Default(0)),
           timeoutType: S.optional(S.String),
         }),
       ).annotate({ identifier: "LambdaFunctionTimedOutEventAttributes" });
@@ -4127,13 +4158,13 @@ function __c27(j: number): any {
           id: S.String,
           name: S.String,
           cause: S.String,
-          decisionTaskCompletedEventId: S.Number,
+          decisionTaskCompletedEventId: S.Number.pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ScheduleLambdaFunctionFailedEventAttributes" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          scheduledEventId: S.optional(S.Number),
+          scheduledEventId: S.optional(S.Number).pipe(T.Default(0)),
           cause: S.optional(S.String),
           message: S.optional(S.String),
         }),
@@ -4143,7 +4174,7 @@ function __c27(j: number): any {
         S.Struct({
           eventTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           eventType: S.String,
-          eventId: S.Number,
+          eventId: S.Number.pipe(T.Default(0)),
           workflowExecutionStartedEventAttributes: S.optional(__S(832, __c26, 0)),
           workflowExecutionCompletedEventAttributes: S.optional(__S(833, __c26, 1)),
           completeWorkflowExecutionFailedEventAttributes: S.optional(__S(834, __c26, 2)),
@@ -4356,7 +4387,7 @@ function __c36(j: number): any {
         S.Struct({
           taskToken: S.String,
           activityId: S.String,
-          startedEventId: S.Number,
+          startedEventId: S.Number.pipe(T.Default(0)),
           workflowExecution: __S(640, __c20, 0),
           activityType: __S(320, __c10, 0),
           input: S.optional(S.String),
@@ -4382,12 +4413,12 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           taskToken: S.String,
-          startedEventId: S.Number,
+          startedEventId: S.Number.pipe(T.Default(0)),
           workflowExecution: __S(640, __c20, 0),
           workflowType: __S(320, __c10, 0),
           events: __S(880, __c27, 16),
           nextPageToken: S.optional(S.String),
-          previousStartedEventId: S.optional(S.Number),
+          previousStartedEventId: S.optional(S.Number).pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "DecisionTask" });
   }
@@ -4401,9 +4432,9 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "RecordActivityTaskHeartbeatInput" });
     case 1:
-      return S.suspend(() => S.Struct({ cancelRequested: S.Boolean }).pipe(ns)).annotate({
-        identifier: "ActivityTaskStatus",
-      });
+      return S.suspend(() =>
+        S.Struct({ cancelRequested: S.Boolean.pipe(T.Default(false)) }).pipe(ns),
+      ).annotate({ identifier: "ActivityTaskStatus" });
   }
 }
 function __c39(j: number): any {

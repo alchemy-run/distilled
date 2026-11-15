@@ -2408,7 +2408,7 @@ function __c19(j: number): any {
         S.Struct({
           outputType: S.optional(S.String),
           sourcePropertyName: S.optional(S.String),
-          multiValueHandling: S.optional(S.String),
+          multiValueHandling: S.optional(S.String).pipe(T.Default("PICK_FIRST")),
         }),
       ).annotate({ identifier: "ExportFilterPropertyAttributes" });
     case 1:

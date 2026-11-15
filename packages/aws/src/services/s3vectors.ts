@@ -1414,7 +1414,10 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ sseType: S.optional(S.String), kmsKeyArn: S.optional(S.String) }),
+        S.Struct({
+          sseType: S.optional(S.String).pipe(T.Default("AES256")),
+          kmsKeyArn: S.optional(S.String),
+        }),
       ).annotate({ identifier: "EncryptionConfiguration" });
   }
 }
@@ -1820,7 +1823,11 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ key: S.String, data: __S(69, __c17, 1), metadata: S.optional(S.Any) }),
+        S.Struct({
+          key: S.String,
+          data: __S(69, __c17, 1),
+          metadata: S.optional(S.Any).pipe(T.Default({})),
+        }),
       ).annotate({ identifier: "PutInputVector" });
     case 1:
       return S.Array(__S(96, __c24, 0));

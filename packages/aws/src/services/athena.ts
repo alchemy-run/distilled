@@ -265,7 +265,7 @@ export type ErrorType = number;
 export interface AthenaError {
   ErrorCategory?: number | undefined;
   ErrorType?: number | undefined;
-  Retryable?: boolean | undefined;
+  Retryable: boolean;
   ErrorMessage?: string | undefined;
 }
 export interface QueryExecutionStatus {
@@ -767,10 +767,10 @@ export interface ColumnInfo {
   Name: string;
   Label?: string | undefined;
   Type: string;
-  Precision?: number | undefined;
-  Scale?: number | undefined;
+  Precision: number;
+  Scale: number;
   Nullable?: ColumnNullable | undefined;
-  CaseSensitive?: boolean | undefined;
+  CaseSensitive: boolean;
 }
 export type ColumnInfoList = ColumnInfo[];
 export interface ResultSetMetadata {
@@ -3512,7 +3512,10 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Enabled: S.Boolean, EncryptionConfiguration: S.optional(__S(128, __c8, 0)) }),
+        S.Struct({
+          Enabled: S.Boolean.pipe(T.Default(false)),
+          EncryptionConfiguration: S.optional(__S(128, __c8, 0)),
+        }),
       ).annotate({ identifier: "ManagedQueryResultsConfiguration" });
   }
 }
@@ -3571,7 +3574,7 @@ function __c9(j: number): any {
         S.Struct({
           ErrorCategory: S.optional(S.Number),
           ErrorType: S.optional(S.Number),
-          Retryable: S.optional(S.Boolean),
+          Retryable: S.optional(S.Boolean).pipe(T.Default(false)),
           ErrorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "AthenaError" });
@@ -3586,9 +3589,9 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "QueryExecutionStatus" });
     case 2:
-      return S.suspend(() => S.Struct({ ReusedPreviousResult: S.Boolean })).annotate({
-        identifier: "ResultReuseInformation",
-      });
+      return S.suspend(() =>
+        S.Struct({ ReusedPreviousResult: S.Boolean.pipe(T.Default(false)) }),
+      ).annotate({ identifier: "ResultReuseInformation" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3629,7 +3632,10 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Enabled: S.Boolean, MaxAgeInMinutes: S.optional(S.Number) }),
+        S.Struct({
+          Enabled: S.Boolean.pipe(T.Default(false)),
+          MaxAgeInMinutes: S.optional(S.Number),
+        }),
       ).annotate({ identifier: "ResultReuseByAgeConfiguration" });
     case 1:
       return S.suspend(() =>
@@ -3838,7 +3844,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CoordinatorDpuSize: S.optional(S.Number),
-          MaxConcurrentDpus: S.optional(S.Number),
+          MaxConcurrentDpus: S.optional(S.Number).pipe(T.Default(20)),
           DefaultExecutorDpuSize: S.optional(S.Number),
           AdditionalConfigs: S.optional(__S(256, __c16, 0)),
           SparkProperties: S.optional(__S(256, __c16, 0)),
@@ -4309,10 +4315,10 @@ function __c56(j: number): any {
           Name: S.String,
           Label: S.optional(S.String),
           Type: S.String,
-          Precision: S.optional(S.Number),
-          Scale: S.optional(S.Number),
+          Precision: S.optional(S.Number).pipe(T.Default(0)),
+          Scale: S.optional(S.Number).pipe(T.Default(0)),
           Nullable: S.optional(S.String),
-          CaseSensitive: S.optional(S.Boolean),
+          CaseSensitive: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ColumnInfo" });
     case 6:

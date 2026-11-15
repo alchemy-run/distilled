@@ -200,7 +200,7 @@ export interface PracticeRunConfiguration {
   outcomeAlarms: ControlCondition[];
   blockedWindows?: string[] | undefined;
   allowedWindows?: string[] | undefined;
-  blockedDates?: string[] | undefined;
+  blockedDates: string[];
 }
 export interface CreatePracticeRunConfigurationResponse {
   arn: string;
@@ -1326,7 +1326,7 @@ function __c18(j: number): any {
           outcomeAlarms: __S(145, __c18, 1),
           blockedWindows: S.optional(__S(136, __c17, 0)),
           allowedWindows: S.optional(__S(136, __c17, 0)),
-          blockedDates: S.optional(__S(136, __c17, 0)),
+          blockedDates: S.optional(__S(136, __c17, 0)).pipe(T.Default([])),
         }),
       ).annotate({ identifier: "PracticeRunConfiguration" });
   }

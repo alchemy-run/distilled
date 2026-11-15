@@ -560,8 +560,8 @@ export type VirtualClusterState =
   | (string & {});
 export type NonNegativeInteger = number;
 export interface SchedulerStatus {
-  currentInQueueJobRuns?: number | undefined;
-  currentConcurrentJobRuns?: number | undefined;
+  currentInQueueJobRuns: number;
+  currentConcurrentJobRuns: number;
 }
 export interface VirtualCluster {
   id?: string | undefined;
@@ -1937,8 +1937,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          currentInQueueJobRuns: S.optional(S.Number),
-          currentConcurrentJobRuns: S.optional(S.Number),
+          currentInQueueJobRuns: S.optional(S.Number).pipe(T.Default(0)),
+          currentConcurrentJobRuns: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SchedulerStatus" });
     case 1:

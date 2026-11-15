@@ -199,11 +199,11 @@ export interface JobExecution {
   thingName?: string | undefined;
   status?: JobExecutionStatus | undefined;
   statusDetails?: { [key: string]: string | undefined } | undefined;
-  queuedAt?: number | undefined;
+  queuedAt: number;
   startedAt?: number | undefined;
-  lastUpdatedAt?: number | undefined;
+  lastUpdatedAt: number;
   approximateSecondsBeforeTimedOut?: number | undefined;
-  versionNumber?: number | undefined;
+  versionNumber: number;
   executionNumber?: number | undefined;
   jobDocument?: string | undefined;
 }
@@ -215,10 +215,10 @@ export interface GetPendingJobExecutionsRequest {
 }
 export interface JobExecutionSummary {
   jobId?: string | undefined;
-  queuedAt?: number | undefined;
+  queuedAt: number;
   startedAt?: number | undefined;
-  lastUpdatedAt?: number | undefined;
-  versionNumber?: number | undefined;
+  lastUpdatedAt: number;
+  versionNumber: number;
   executionNumber?: number | undefined;
 }
 export type JobExecutionSummaryList = JobExecutionSummary[];
@@ -284,7 +284,7 @@ export interface UpdateJobExecutionRequest {
 export interface JobExecutionState {
   status?: JobExecutionStatus | undefined;
   statusDetails?: { [key: string]: string | undefined } | undefined;
-  versionNumber?: number | undefined;
+  versionNumber: number;
 }
 export interface UpdateJobExecutionResponse {
   executionState?: JobExecutionState | undefined;
@@ -501,11 +501,11 @@ function __c1(j: number): any {
           thingName: S.optional(S.String),
           status: S.optional(S.String),
           statusDetails: S.optional(__S(8, __c2, 0)),
-          queuedAt: S.optional(S.Number),
+          queuedAt: S.optional(S.Number).pipe(T.Default(0)),
           startedAt: S.optional(S.Number),
-          lastUpdatedAt: S.optional(S.Number),
+          lastUpdatedAt: S.optional(S.Number).pipe(T.Default(0)),
           approximateSecondsBeforeTimedOut: S.optional(S.Number),
-          versionNumber: S.optional(S.Number),
+          versionNumber: S.optional(S.Number).pipe(T.Default(0)),
           executionNumber: S.optional(S.Number),
           jobDocument: S.optional(S.String),
         }),
@@ -541,10 +541,10 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jobId: S.optional(S.String),
-          queuedAt: S.optional(S.Number),
+          queuedAt: S.optional(S.Number).pipe(T.Default(0)),
           startedAt: S.optional(S.Number),
-          lastUpdatedAt: S.optional(S.Number),
-          versionNumber: S.optional(S.Number),
+          lastUpdatedAt: S.optional(S.Number).pipe(T.Default(0)),
+          versionNumber: S.optional(S.Number).pipe(T.Default(0)),
           executionNumber: S.optional(S.Number),
         }),
       ).annotate({ identifier: "JobExecutionSummary" });
@@ -651,7 +651,7 @@ function __c6(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           statusDetails: S.optional(__S(8, __c2, 0)),
-          versionNumber: S.optional(S.Number),
+          versionNumber: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "JobExecutionState" });
     case 2:

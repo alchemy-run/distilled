@@ -180,7 +180,7 @@ export type PipelineObjectList = PipelineObject[];
 export interface DescribeObjectsOutput {
   pipelineObjects: PipelineObject[];
   marker?: string | undefined;
-  hasMoreResults?: boolean | undefined;
+  hasMoreResults: boolean;
 }
 export interface DescribePipelinesInput {
   pipelineIds: string[];
@@ -237,7 +237,7 @@ export type PipelineList = PipelineIdName[];
 export interface ListPipelinesOutput {
   pipelineIdList: PipelineIdName[];
   marker?: string | undefined;
-  hasMoreResults?: boolean | undefined;
+  hasMoreResults: boolean;
 }
 export interface InstanceIdentity {
   document?: string | undefined;
@@ -307,7 +307,7 @@ export interface QueryObjectsInput {
 export interface QueryObjectsOutput {
   ids?: string[] | undefined;
   marker?: string | undefined;
-  hasMoreResults?: boolean | undefined;
+  hasMoreResults: boolean;
 }
 export interface RemoveTagsInput {
   pipelineId: string;
@@ -1650,7 +1650,7 @@ function __c0(j: number): any {
         S.Struct({
           pipelineObjects: __S(32, __c4, 0),
           marker: S.optional(S.String),
-          hasMoreResults: S.optional(S.Boolean),
+          hasMoreResults: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeObjectsOutput" });
   }
@@ -1782,7 +1782,7 @@ function __c9(j: number): any {
         S.Struct({
           pipelineIdList: __S(74, __c9, 2),
           marker: S.optional(S.String),
-          hasMoreResults: S.optional(S.Boolean),
+          hasMoreResults: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "ListPipelinesOutput" });
   }
@@ -1850,7 +1850,7 @@ function __c12(j: number): any {
         S.Struct({
           validationErrors: S.optional(__S(97, __c12, 1)),
           validationWarnings: S.optional(__S(99, __c12, 3)),
-          errored: S.Boolean,
+          errored: S.Boolean.pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "PutPipelineDefinitionOutput" });
   }
@@ -1886,7 +1886,7 @@ function __c13(j: number): any {
         S.Struct({
           ids: S.optional(__S(16, __c2, 0)),
           marker: S.optional(S.String),
-          hasMoreResults: S.optional(S.Boolean),
+          hasMoreResults: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "QueryObjectsOutput" });
   }
@@ -1910,9 +1910,9 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ReportTaskProgressInput" });
     case 1:
-      return S.suspend(() => S.Struct({ canceled: S.Boolean }).pipe(ns)).annotate({
-        identifier: "ReportTaskProgressOutput",
-      });
+      return S.suspend(() =>
+        S.Struct({ canceled: S.Boolean.pipe(T.Default(false)) }).pipe(ns),
+      ).annotate({ identifier: "ReportTaskProgressOutput" });
   }
 }
 function __c16(j: number): any {
@@ -1926,9 +1926,9 @@ function __c16(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ReportTaskRunnerHeartbeatInput" });
     case 1:
-      return S.suspend(() => S.Struct({ terminate: S.Boolean }).pipe(ns)).annotate({
-        identifier: "ReportTaskRunnerHeartbeatOutput",
-      });
+      return S.suspend(() =>
+        S.Struct({ terminate: S.Boolean.pipe(T.Default(false)) }).pipe(ns),
+      ).annotate({ identifier: "ReportTaskRunnerHeartbeatOutput" });
   }
 }
 function __c17(j: number): any {

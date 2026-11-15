@@ -413,8 +413,8 @@ export interface DescribeArchiveResponse {
   State?: ArchiveState | undefined;
   StateReason?: string | undefined;
   RetentionDays?: number | undefined;
-  SizeBytes?: number | undefined;
-  EventCount?: number | undefined;
+  SizeBytes: number;
+  EventCount: number;
   CreationTime?: Date | undefined;
 }
 export interface DescribeConnectionRequest {
@@ -576,8 +576,8 @@ export interface Archive {
   State?: ArchiveState | undefined;
   StateReason?: string | undefined;
   RetentionDays?: number | undefined;
-  SizeBytes?: number | undefined;
-  EventCount?: number | undefined;
+  SizeBytes: number;
+  EventCount: number;
   CreationTime?: Date | undefined;
 }
 export type ArchiveResponseList = Archive[];
@@ -929,7 +929,7 @@ export interface PutEventsResultEntry {
 }
 export type PutEventsResultEntryList = PutEventsResultEntry[];
 export interface PutEventsResponse {
-  FailedEntryCount?: number | undefined;
+  FailedEntryCount: number;
   Entries?: PutEventsResultEntry[] | undefined;
 }
 export interface PutPartnerEventsRequestEntry {
@@ -950,7 +950,7 @@ export interface PutPartnerEventsResultEntry {
 }
 export type PutPartnerEventsResultEntryList = PutPartnerEventsResultEntry[];
 export interface PutPartnerEventsResponse {
-  FailedEntryCount?: number | undefined;
+  FailedEntryCount: number;
   Entries?: PutPartnerEventsResultEntry[] | undefined;
 }
 export type NonPartnerEventBusName = string;
@@ -996,7 +996,7 @@ export interface PutTargetsResultEntry {
 }
 export type PutTargetsResultEntryList = PutTargetsResultEntry[];
 export interface PutTargetsResponse {
-  FailedEntryCount?: number | undefined;
+  FailedEntryCount: number;
   FailedEntries?: PutTargetsResultEntry[] | undefined;
 }
 export interface RemovePermissionRequest {
@@ -1019,7 +1019,7 @@ export interface RemoveTargetsResultEntry {
 }
 export type RemoveTargetsResultEntryList = RemoveTargetsResultEntry[];
 export interface RemoveTargetsResponse {
-  FailedEntryCount?: number | undefined;
+  FailedEntryCount: number;
   FailedEntries?: RemoveTargetsResultEntry[] | undefined;
 }
 export interface StartReplayRequest {
@@ -1046,7 +1046,7 @@ export interface TestEventPatternRequest {
   Event: string;
 }
 export interface TestEventPatternResponse {
-  Result?: boolean | undefined;
+  Result: boolean;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -2922,7 +2922,7 @@ function __c8(j: number): any {
         S.Struct({
           Key: S.optional(S.String),
           Value: S.optional(SensitiveString),
-          IsValueSecret: S.optional(S.Boolean),
+          IsValueSecret: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ConnectionHeaderParameter" });
     case 1:
@@ -3117,8 +3117,8 @@ function __c22(j: number): any {
           State: S.optional(S.String),
           StateReason: S.optional(S.String),
           RetentionDays: S.optional(S.Number),
-          SizeBytes: S.optional(S.Number),
-          EventCount: S.optional(S.Number),
+          SizeBytes: S.optional(S.Number).pipe(T.Default(0)),
+          EventCount: S.optional(S.Number).pipe(T.Default(0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeArchiveResponse" });
@@ -3375,8 +3375,8 @@ function __c34(j: number): any {
           State: S.optional(S.String),
           StateReason: S.optional(S.String),
           RetentionDays: S.optional(S.Number),
-          SizeBytes: S.optional(S.Number),
-          EventCount: S.optional(S.Number),
+          SizeBytes: S.optional(S.Number).pipe(T.Default(0)),
+          EventCount: S.optional(S.Number).pipe(T.Default(0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "Archive" });
@@ -3706,8 +3706,8 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           capacityProvider: S.String,
-          weight: S.optional(S.Number),
-          base: S.optional(S.Number),
+          weight: S.optional(S.Number).pipe(T.Default(0)),
+          base: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "CapacityProviderStrategyItem" });
     case 9:
@@ -3734,8 +3734,8 @@ function __c45(j: number): any {
           PlatformVersion: S.optional(S.String),
           Group: S.optional(S.String),
           CapacityProviderStrategy: S.optional(__S(1449, __c45, 9)),
-          EnableECSManagedTags: S.optional(S.Boolean),
-          EnableExecuteCommand: S.optional(S.Boolean),
+          EnableECSManagedTags: S.optional(S.Boolean).pipe(T.Default(false)),
+          EnableExecuteCommand: S.optional(S.Boolean).pipe(T.Default(false)),
           PlacementConstraints: S.optional(__S(1451, __c45, 11)),
           PlacementStrategy: S.optional(__S(1453, __c45, 13)),
           PropagateTags: S.optional(S.String),
@@ -3744,13 +3744,13 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "EcsParameters" });
     case 15:
-      return S.suspend(() => S.Struct({ Size: S.optional(S.Number) })).annotate({
+      return S.suspend(() => S.Struct({ Size: S.optional(S.Number).pipe(T.Default(0)) })).annotate({
         identifier: "BatchArrayProperties",
       });
     case 16:
-      return S.suspend(() => S.Struct({ Attempts: S.optional(S.Number) })).annotate({
-        identifier: "BatchRetryStrategy",
-      });
+      return S.suspend(() =>
+        S.Struct({ Attempts: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "BatchRetryStrategy" });
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -3780,7 +3780,7 @@ function __c45(j: number): any {
           DbUser: S.optional(S.String),
           Sql: S.String,
           StatementName: S.optional(S.String),
-          WithEvent: S.optional(S.Boolean),
+          WithEvent: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "RedshiftDataParameters" });
     case 21:
@@ -3868,7 +3868,7 @@ function __c47(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          FailedEntryCount: S.optional(S.Number),
+          FailedEntryCount: S.optional(S.Number).pipe(T.Default(0)),
           Entries: S.optional(__S(1505, __c47, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "PutEventsResponse" });
@@ -3963,7 +3963,7 @@ function __c52(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          FailedEntryCount: S.optional(S.Number),
+          FailedEntryCount: S.optional(S.Number).pipe(T.Default(0)),
           FailedEntries: S.optional(__S(1665, __c52, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "PutTargetsResponse" });
@@ -4037,9 +4037,9 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "TestEventPatternRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Result: S.optional(S.Boolean) }).pipe(ns)).annotate({
-        identifier: "TestEventPatternResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ Result: S.optional(S.Boolean).pipe(T.Default(false)) }).pipe(ns),
+      ).annotate({ identifier: "TestEventPatternResponse" });
   }
 }
 function __c58(j: number): any {

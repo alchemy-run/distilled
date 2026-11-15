@@ -1804,7 +1804,7 @@ export interface JobDescriptor {
   Status?: JobStatus | undefined;
   Manifest?: JobManifest | undefined;
   Operation?: JobOperation | undefined;
-  Priority?: number | undefined;
+  Priority: number;
   ProgressSummary?: JobProgressSummary | undefined;
   StatusUpdateReason?: string | undefined;
   FailureReasons?: JobFailure[] | undefined;
@@ -1992,7 +1992,7 @@ export interface GetAccessPointPolicyStatusRequest {
 }
 export type IsPublic = boolean;
 export interface PolicyStatus {
-  IsPublic?: boolean | undefined;
+  IsPublic: boolean;
 }
 export interface GetAccessPointPolicyStatusResult {
   PolicyStatus?: PolicyStatus | undefined;
@@ -2018,7 +2018,7 @@ export interface GetBucketRequest {
 export type PublicAccessBlockEnabled = boolean;
 export interface GetBucketResult {
   Bucket?: string | undefined;
-  PublicAccessBlockEnabled?: boolean | undefined;
+  PublicAccessBlockEnabled: boolean;
   CreationDate?: Date | undefined;
 }
 export interface GetBucketLifecycleConfigurationRequest {
@@ -2627,7 +2627,7 @@ export interface JobListDescriptor {
   JobId?: string | undefined;
   Description?: string | undefined;
   Operation?: OperationName | undefined;
-  Priority?: number | undefined;
+  Priority: number;
   Status?: JobStatus | undefined;
   CreationTime?: Date | undefined;
   TerminationDate?: Date | undefined;
@@ -2674,7 +2674,7 @@ export interface ListStorageLensConfigurationEntry {
   Id: string;
   StorageLensArn: string;
   HomeRegion: string;
-  IsEnabled?: boolean | undefined;
+  IsEnabled: boolean;
 }
 export type StorageLensConfigurationList = ListStorageLensConfigurationEntry[];
 export interface ListStorageLensConfigurationsResult {
@@ -7106,9 +7106,9 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "UpdateJobPriorityRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ JobId: S.String, Priority: S.Number }).pipe(ns)).annotate({
-        identifier: "UpdateJobPriorityResult",
-      });
+      return S.suspend(() =>
+        S.Struct({ JobId: S.String, Priority: S.Number.pipe(T.Default(0)) }).pipe(ns),
+      ).annotate({ identifier: "UpdateJobPriorityResult" });
   }
 }
 function __c17(j: number): any {
@@ -7413,10 +7413,18 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          BlockPublicAcls: S.optional(S.Boolean).pipe(T.XmlName("BlockPublicAcls")),
-          IgnorePublicAcls: S.optional(S.Boolean).pipe(T.XmlName("IgnorePublicAcls")),
-          BlockPublicPolicy: S.optional(S.Boolean).pipe(T.XmlName("BlockPublicPolicy")),
-          RestrictPublicBuckets: S.optional(S.Boolean).pipe(T.XmlName("RestrictPublicBuckets")),
+          BlockPublicAcls: S.optional(S.Boolean)
+            .pipe(T.XmlName("BlockPublicAcls"))
+            .pipe(T.Default(false)),
+          IgnorePublicAcls: S.optional(S.Boolean)
+            .pipe(T.XmlName("IgnorePublicAcls"))
+            .pipe(T.Default(false)),
+          BlockPublicPolicy: S.optional(S.Boolean)
+            .pipe(T.XmlName("BlockPublicPolicy"))
+            .pipe(T.Default(false)),
+          RestrictPublicBuckets: S.optional(S.Boolean)
+            .pipe(T.XmlName("RestrictPublicBuckets"))
+            .pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PublicAccessBlockConfiguration" });
   }
@@ -7504,7 +7512,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SupportingAccessPoint: S.String,
-          CloudWatchMetricsEnabled: S.optional(S.Boolean),
+          CloudWatchMetricsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           AllowedFeatures: S.optional(__S(1024, __c32, 0)),
           TransformationConfigurations: __S(1029, __c32, 5),
         }),
@@ -7654,7 +7662,7 @@ function __c37(j: number): any {
           ContentMD5: S.optional(S.String),
           ContentType: S.optional(S.String),
           HttpExpiresDate: S.optional(T.DateFromString),
-          RequesterCharged: S.optional(S.Boolean),
+          RequesterCharged: S.optional(S.Boolean).pipe(T.Default(false)),
           SSEAlgorithm: S.optional(S.String),
         }),
       ).annotate({ identifier: "S3ObjectMetadata" });
@@ -7674,7 +7682,7 @@ function __c37(j: number): any {
           NewObjectMetadata: S.optional(__S(1190, __c37, 6)),
           NewObjectTagging: S.optional(__S(1248, __c39, 0)),
           RedirectLocation: S.optional(S.String),
-          RequesterPays: S.optional(S.Boolean),
+          RequesterPays: S.optional(S.Boolean).pipe(T.Default(false)),
           StorageClass: S.optional(S.String),
           UnModifiedSinceConstraint: S.optional(T.DateFromString),
           SSEAwsKmsKeyId: S.optional(S.String),
@@ -7682,7 +7690,7 @@ function __c37(j: number): any {
           ObjectLockLegalHoldStatus: S.optional(S.String),
           ObjectLockMode: S.optional(S.String),
           ObjectLockRetainUntilDate: S.optional(T.DateFromString),
-          BucketKeyEnabled: S.optional(S.Boolean),
+          BucketKeyEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           ChecksumAlgorithm: S.optional(S.String),
           ObjectLockEventHold: S.optional(S.String),
           ObjectLockEventHoldDuration: S.optional(__S(1191, __c37, 7)),
@@ -7792,7 +7800,7 @@ function __c37(j: number): any {
         S.Struct({
           Bucket: S.optional(S.String),
           Format: S.optional(S.String),
-          Enabled: S.Boolean,
+          Enabled: S.Boolean.pipe(T.Default(false)),
           Prefix: S.optional(S.String),
           ReportScope: S.optional(S.String),
           ExpectedBucketOwner: S.optional(S.String),
@@ -7926,7 +7934,7 @@ function __c38(j: number): any {
           SourceBucket: S.String,
           ManifestOutputLocation: S.optional(__S(1219, __c38, 3)),
           Filter: S.optional(__S(1231, __c38, 15)),
-          EnableManifestOutput: S.Boolean,
+          EnableManifestOutput: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "S3JobManifestGenerator" });
     case 17:
@@ -8034,11 +8042,17 @@ function __c43(j: number): any {
       );
     case 3:
       return S.suspend(() =>
-        S.Struct({ DaysGreaterThan: S.optional(S.Number), DaysLessThan: S.optional(S.Number) }),
+        S.Struct({
+          DaysGreaterThan: S.optional(S.Number).pipe(T.Default(0)),
+          DaysLessThan: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "MatchObjectAge" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ BytesGreaterThan: S.optional(S.Number), BytesLessThan: S.optional(S.Number) }),
+        S.Struct({
+          BytesGreaterThan: S.optional(S.Number).pipe(T.Default(0)),
+          BytesLessThan: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "MatchObjectSize" });
     case 5:
       return S.suspend(() =>
@@ -8749,7 +8763,7 @@ function __c65(j: number): any {
           Status: S.optional(S.String),
           Manifest: S.optional(__S(1215, __c37, 31)),
           Operation: S.optional(__S(1210, __c37, 26)),
-          Priority: S.optional(S.Number),
+          Priority: S.optional(S.Number).pipe(T.Default(0)),
           ProgressSummary: S.optional(__S(2113, __c66, 1)),
           StatusUpdateReason: S.optional(S.String),
           FailureReasons: S.optional(__S(2082, __c65, 2)),
@@ -9297,7 +9311,9 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ IsPublic: S.optional(S.Boolean).pipe(T.XmlName("IsPublic")) }),
+        S.Struct({
+          IsPublic: S.optional(S.Boolean).pipe(T.XmlName("IsPublic")).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "PolicyStatus" });
   }
 }
@@ -9395,7 +9411,7 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Bucket: S.optional(S.String),
-          PublicAccessBlockEnabled: S.optional(S.Boolean),
+          PublicAccessBlockEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           CreationDate: S.optional(T.DateFromString),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketResult" });
@@ -9437,8 +9453,8 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Date: S.optional(T.DateFromString),
-          Days: S.optional(S.Number),
-          ExpiredObjectDeleteMarker: S.optional(S.Boolean),
+          Days: S.optional(S.Number).pipe(T.Default(0)),
+          ExpiredObjectDeleteMarker: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "LifecycleExpiration" });
     case 1:
@@ -9464,7 +9480,7 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Date: S.optional(T.DateFromString),
-          Days: S.optional(S.Number),
+          Days: S.optional(S.Number).pipe(T.Default(0)),
           StorageClass: S.optional(S.String),
         }),
       ).annotate({ identifier: "Transition" });
@@ -9476,7 +9492,10 @@ function __c86(j: number): any {
       );
     case 5:
       return S.suspend(() =>
-        S.Struct({ NoncurrentDays: S.optional(S.Number), StorageClass: S.optional(S.String) }),
+        S.Struct({
+          NoncurrentDays: S.optional(S.Number).pipe(T.Default(0)),
+          StorageClass: S.optional(S.String),
+        }),
       ).annotate({ identifier: "NoncurrentVersionTransition" });
     case 6:
       return S.Array(
@@ -9487,14 +9506,14 @@ function __c86(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          NoncurrentDays: S.optional(S.Number),
+          NoncurrentDays: S.optional(S.Number).pipe(T.Default(0)),
           NewerNoncurrentVersions: S.optional(S.Number),
         }),
       ).annotate({ identifier: "NoncurrentVersionExpiration" });
     case 8:
-      return S.suspend(() => S.Struct({ DaysAfterInitiation: S.optional(S.Number) })).annotate({
-        identifier: "AbortIncompleteMultipartUpload",
-      });
+      return S.suspend(() =>
+        S.Struct({ DaysAfterInitiation: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "AbortIncompleteMultipartUpload" });
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -10072,9 +10091,9 @@ function __c101(j: number): any {
 function __c102(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ IsEnabled: S.optional(S.Boolean) })).annotate({
-        identifier: "ActivityMetrics",
-      });
+      return S.suspend(() =>
+        S.Struct({ IsEnabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "ActivityMetrics" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10086,7 +10105,7 @@ function __c102(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          IsEnabled: S.optional(S.Boolean),
+          IsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           SelectionCriteria: S.optional(__S(3265, __c102, 1)),
         }),
       ).annotate({ identifier: "PrefixLevelStorageMetrics" });
@@ -10095,21 +10114,21 @@ function __c102(j: number): any {
         identifier: "PrefixLevel",
       });
     case 4:
-      return S.suspend(() => S.Struct({ IsEnabled: S.optional(S.Boolean) })).annotate({
-        identifier: "AdvancedCostOptimizationMetrics",
-      });
+      return S.suspend(() =>
+        S.Struct({ IsEnabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "AdvancedCostOptimizationMetrics" });
     case 5:
-      return S.suspend(() => S.Struct({ IsEnabled: S.optional(S.Boolean) })).annotate({
-        identifier: "AdvancedDataProtectionMetrics",
-      });
+      return S.suspend(() =>
+        S.Struct({ IsEnabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "AdvancedDataProtectionMetrics" });
     case 6:
-      return S.suspend(() => S.Struct({ IsEnabled: S.optional(S.Boolean) })).annotate({
-        identifier: "DetailedStatusCodesMetrics",
-      });
+      return S.suspend(() =>
+        S.Struct({ IsEnabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "DetailedStatusCodesMetrics" });
     case 7:
-      return S.suspend(() => S.Struct({ IsEnabled: S.optional(S.Boolean) })).annotate({
-        identifier: "AdvancedPerformanceMetrics",
-      });
+      return S.suspend(() =>
+        S.Struct({ IsEnabled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "AdvancedPerformanceMetrics" });
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -10197,12 +10216,15 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "S3BucketDestination" });
     case 22:
-      return S.suspend(() => S.Struct({ IsEnabled: S.Boolean })).annotate({
+      return S.suspend(() => S.Struct({ IsEnabled: S.Boolean.pipe(T.Default(false)) })).annotate({
         identifier: "CloudWatchMetrics",
       });
     case 23:
       return S.suspend(() =>
-        S.Struct({ IsEnabled: S.Boolean, Encryption: S.optional(__S(3284, __c102, 20)) }),
+        S.Struct({
+          IsEnabled: S.Boolean.pipe(T.Default(false)),
+          Encryption: S.optional(__S(3284, __c102, 20)),
+        }),
       ).annotate({ identifier: "StorageLensTableDestination" });
     case 24:
       return S.suspend(() =>
@@ -10232,7 +10254,7 @@ function __c102(j: number): any {
           Exclude: S.optional(__S(3281, __c102, 17)),
           DataExport: S.optional(__S(3288, __c102, 24)),
           ExpandedPrefixesDataExport: S.optional(__S(3289, __c102, 25)),
-          IsEnabled: S.Boolean,
+          IsEnabled: S.Boolean.pipe(T.Default(false)),
           AwsOrg: S.optional(__S(3290, __c102, 26)),
           StorageLensArn: S.optional(S.String),
           PrefixDelimiter: S.optional(S.String),
@@ -10716,7 +10738,7 @@ function __c114(j: number): any {
           JobId: S.optional(S.String),
           Description: S.optional(S.String),
           Operation: S.optional(S.String),
-          Priority: S.optional(S.Number),
+          Priority: S.optional(S.Number).pipe(T.Default(0)),
           Status: S.optional(S.String),
           CreationTime: S.optional(T.DateFromString),
           TerminationDate: S.optional(T.DateFromString),
@@ -10808,7 +10830,7 @@ function __c116(j: number): any {
         S.Struct({
           Bucket: S.String,
           BucketArn: S.optional(S.String),
-          PublicAccessBlockEnabled: S.Boolean,
+          PublicAccessBlockEnabled: S.Boolean.pipe(T.Default(false)),
           CreationDate: T.DateFromString,
           OutpostId: S.optional(S.String),
         }),
@@ -10858,7 +10880,7 @@ function __c117(j: number): any {
           Id: S.String,
           StorageLensArn: S.String,
           HomeRegion: S.String,
-          IsEnabled: S.optional(S.Boolean),
+          IsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ListStorageLensConfigurationEntry" });
     case 2:

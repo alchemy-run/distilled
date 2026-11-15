@@ -640,7 +640,7 @@ export interface ResolverQueryLogConfig {
   OwnerId?: string | undefined;
   Status?: ResolverQueryLogConfigStatus | undefined;
   ShareStatus?: ShareStatus | undefined;
-  AssociationCount?: number | undefined;
+  AssociationCount: number;
   Arn?: string | undefined;
   Name?: string | undefined;
   DestinationArn?: string | undefined;
@@ -1119,8 +1119,8 @@ export interface ListResolverQueryLogConfigAssociationsRequest {
 export type ResolverQueryLogConfigAssociationList = ResolverQueryLogConfigAssociation[];
 export interface ListResolverQueryLogConfigAssociationsResponse {
   NextToken?: string | undefined;
-  TotalCount?: number | undefined;
-  TotalFilteredCount?: number | undefined;
+  TotalCount: number;
+  TotalFilteredCount: number;
   ResolverQueryLogConfigAssociations?: ResolverQueryLogConfigAssociation[] | undefined;
 }
 export interface ListResolverQueryLogConfigsRequest {
@@ -1133,8 +1133,8 @@ export interface ListResolverQueryLogConfigsRequest {
 export type ResolverQueryLogConfigList = ResolverQueryLogConfig[];
 export interface ListResolverQueryLogConfigsResponse {
   NextToken?: string | undefined;
-  TotalCount?: number | undefined;
-  TotalFilteredCount?: number | undefined;
+  TotalCount: number;
+  TotalFilteredCount: number;
   ResolverQueryLogConfigs?: ResolverQueryLogConfig[] | undefined;
 }
 export interface ListResolverRuleAssociationsRequest {
@@ -1173,21 +1173,21 @@ export interface PutFirewallRuleGroupPolicyRequest {
   FirewallRuleGroupPolicy: string;
 }
 export interface PutFirewallRuleGroupPolicyResponse {
-  ReturnValue?: boolean | undefined;
+  ReturnValue: boolean;
 }
 export interface PutResolverQueryLogConfigPolicyRequest {
   Arn: string;
   ResolverQueryLogConfigPolicy: string;
 }
 export interface PutResolverQueryLogConfigPolicyResponse {
-  ReturnValue?: boolean | undefined;
+  ReturnValue: boolean;
 }
 export interface PutResolverRulePolicyRequest {
   Arn: string;
   ResolverRulePolicy: string;
 }
 export interface PutResolverRulePolicyResponse {
-  ReturnValue?: boolean | undefined;
+  ReturnValue: boolean;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -4551,7 +4551,7 @@ function __c32(j: number): any {
           OwnerId: S.optional(S.String),
           Status: S.optional(S.String),
           ShareStatus: S.optional(S.String),
-          AssociationCount: S.optional(S.Number),
+          AssociationCount: S.optional(S.Number).pipe(T.Default(0)),
           Arn: S.optional(S.String),
           Name: S.optional(S.String),
           DestinationArn: S.optional(S.String),
@@ -5307,8 +5307,8 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          TotalCount: S.optional(S.Number),
-          TotalFilteredCount: S.optional(S.Number),
+          TotalCount: S.optional(S.Number).pipe(T.Default(0)),
+          TotalFilteredCount: S.optional(S.Number).pipe(T.Default(0)),
           ResolverQueryLogConfigAssociations: S.optional(__S(665, __c83, 1)),
         }),
       ).annotate({ identifier: "ListResolverQueryLogConfigAssociationsResponse" });
@@ -5332,8 +5332,8 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          TotalCount: S.optional(S.Number),
-          TotalFilteredCount: S.optional(S.Number),
+          TotalCount: S.optional(S.Number).pipe(T.Default(0)),
+          TotalFilteredCount: S.optional(S.Number).pipe(T.Default(0)),
           ResolverQueryLogConfigs: S.optional(__S(673, __c84, 1)),
         }),
       ).annotate({ identifier: "ListResolverQueryLogConfigsResponse" });
@@ -5412,9 +5412,9 @@ function __c88(j: number): any {
 function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ ReturnValue: S.optional(S.Boolean) })).annotate({
-        identifier: "PutFirewallRuleGroupPolicyResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ ReturnValue: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "PutFirewallRuleGroupPolicyResponse" });
   }
 }
 function __c90(j: number): any {

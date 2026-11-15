@@ -10955,8 +10955,8 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          matchByPropertyName: S.optional(S.Boolean),
-          createMissingProperty: S.optional(S.Boolean),
+          matchByPropertyName: S.optional(S.Boolean).pipe(T.Default(false)),
+          createMissingProperty: S.optional(S.Boolean).pipe(T.Default(false)),
           overrides: S.optional(__S(2913, __c182, 1)),
         }),
       ).annotate({ identifier: "PropertyMappingConfiguration" });
@@ -12435,8 +12435,8 @@ function __c106(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
-          variables: S.optional(__S(1701, __c106, 5)),
+          expression: S.optional(S.String).pipe(T.Default("")),
+          variables: S.optional(__S(1701, __c106, 5)).pipe(T.Default([])),
           window: __S(1705, __c106, 9),
           processingConfig: S.optional(__S(1706, __c106, 10)),
         }),

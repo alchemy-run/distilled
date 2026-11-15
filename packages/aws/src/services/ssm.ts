@@ -724,7 +724,7 @@ export class OpsItemLimitExceededException
           identifier: "OpsItemParameterNamesList",
         }),
       ),
-      Limit: /*@__PURE__*/ S.optional(S.Number),
+      Limit: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
       LimitType: /*@__PURE__*/ S.optional(S.String),
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
@@ -962,7 +962,7 @@ export class ResourcePolicyLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ResourcePolicyLimitExceededException>()(
     "ResourcePolicyLimitExceededException",
     {
-      Limit: /*@__PURE__*/ S.optional(S.Number),
+      Limit: /*@__PURE__*/ S.optional(S.Number).pipe(/*@__PURE__*/ T.Default(0)),
       LimitType: /*@__PURE__*/ S.optional(S.String),
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
@@ -1347,7 +1347,7 @@ export interface AssociationDescription {
   MaxConcurrency?: string | undefined;
   ComplianceSeverity?: AssociationComplianceSeverity | undefined;
   SyncCompliance?: AssociationSyncCompliance | undefined;
-  ApplyOnlyAtCronInterval?: boolean | undefined;
+  ApplyOnlyAtCronInterval: boolean;
   CalendarNames?: string[] | undefined;
   TargetLocations?: TargetLocation[] | undefined;
   ScheduleOffset?: number | undefined;
@@ -1876,13 +1876,13 @@ export type InventoryItemSchemaVersion = string;
 export type ResourceCount = number;
 export interface InventoryDeletionSummaryItem {
   Version?: string | undefined;
-  Count?: number | undefined;
-  RemainingCount?: number | undefined;
+  Count: number;
+  RemainingCount: number;
 }
 export type InventoryDeletionSummaryItems = InventoryDeletionSummaryItem[];
 export interface InventoryDeletionSummary {
-  TotalCount?: number | undefined;
-  RemainingCount?: number | undefined;
+  TotalCount: number;
+  RemainingCount: number;
   SummaryItems?: InventoryDeletionSummaryItem[] | undefined;
 }
 export interface DeleteInventoryResult {
@@ -2002,7 +2002,7 @@ export interface Activation {
   RegistrationLimit?: number | undefined;
   RegistrationsCount?: number | undefined;
   ExpirationDate?: Date | undefined;
-  Expired?: boolean | undefined;
+  Expired: boolean;
   CreatedDate?: Date | undefined;
   Tags?: Tag[] | undefined;
 }
@@ -2156,7 +2156,7 @@ export type ExecutionMode = "Auto" | "Interactive" | (string & {});
 export type TargetParameterList = string[];
 export interface ResolvedTargets {
   ParameterValues?: string[] | undefined;
-  Truncated?: boolean | undefined;
+  Truncated: boolean;
 }
 export type AutomationType = "CrossAccount" | "Local" | (string & {});
 export type TargetLocationsURL = string;
@@ -2342,7 +2342,7 @@ export interface Patch {
   BugzillaIds?: string[] | undefined;
   CVEIds?: string[] | undefined;
   Name?: string | undefined;
-  Epoch?: number | undefined;
+  Epoch: number;
   Version?: string | undefined;
   Release?: string | undefined;
   Arch?: string | undefined;
@@ -2597,14 +2597,14 @@ export interface InstancePatchState {
   SnapshotId?: string | undefined;
   InstallOverrideList?: string | undefined;
   OwnerInformation?: string | redacted.Redacted<string> | undefined;
-  InstalledCount?: number | undefined;
-  InstalledOtherCount?: number | undefined;
+  InstalledCount: number;
+  InstalledOtherCount: number;
   InstalledPendingRebootCount?: number | undefined;
   InstalledRejectedCount?: number | undefined;
-  MissingCount?: number | undefined;
-  FailedCount?: number | undefined;
+  MissingCount: number;
+  FailedCount: number;
   UnreportedNotApplicableCount?: number | undefined;
-  NotApplicableCount?: number | undefined;
+  NotApplicableCount: number;
   AvailableSecurityUpdateCount?: number | undefined;
   OperationStartTime: Date;
   OperationEndTime: Date;
@@ -2865,9 +2865,9 @@ export interface MaintenanceWindowIdentity {
   WindowId?: string | undefined;
   Name?: string | undefined;
   Description?: string | redacted.Redacted<string> | undefined;
-  Enabled?: boolean | undefined;
+  Enabled: boolean;
   Duration?: number | undefined;
-  Cutoff?: number | undefined;
+  Cutoff: number;
   Schedule?: string | undefined;
   ScheduleTimezone?: string | undefined;
   ScheduleOffset?: number | undefined;
@@ -2967,7 +2967,7 @@ export interface MaintenanceWindowTask {
   TaskParameters?:
     | { [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined }
     | undefined;
-  Priority?: number | undefined;
+  Priority: number;
   LoggingInfo?: LoggingInfo | undefined;
   ServiceRoleArn?: string | undefined;
   MaxConcurrency?: string | undefined;
@@ -3134,7 +3134,7 @@ export interface ParameterMetadata {
   LastModifiedUser?: string | undefined;
   Description?: string | undefined;
   AllowedPattern?: string | undefined;
-  Version?: number | undefined;
+  Version: number;
   Tier?: ParameterTier | undefined;
   Policies?: ParameterInlinePolicy[] | undefined;
   DataType?: string | undefined;
@@ -3155,7 +3155,7 @@ export interface PatchBaselineIdentity {
   BaselineName?: string | undefined;
   OperatingSystem?: OperatingSystem | undefined;
   BaselineDescription?: string | undefined;
-  DefaultBaseline?: boolean | undefined;
+  DefaultBaseline: boolean;
 }
 export type PatchBaselineIdentityList = PatchBaselineIdentity[];
 export interface DescribePatchBaselinesResult {
@@ -3181,14 +3181,14 @@ export interface DescribePatchGroupStateRequest {
 }
 export type InstancesCount = number;
 export interface DescribePatchGroupStateResult {
-  Instances?: number | undefined;
-  InstancesWithInstalledPatches?: number | undefined;
-  InstancesWithInstalledOtherPatches?: number | undefined;
+  Instances: number;
+  InstancesWithInstalledPatches: number;
+  InstancesWithInstalledOtherPatches: number;
   InstancesWithInstalledPendingRebootPatches?: number | undefined;
   InstancesWithInstalledRejectedPatches?: number | undefined;
-  InstancesWithMissingPatches?: number | undefined;
-  InstancesWithFailedPatches?: number | undefined;
-  InstancesWithNotApplicablePatches?: number | undefined;
+  InstancesWithMissingPatches: number;
+  InstancesWithFailedPatches: number;
+  InstancesWithNotApplicablePatches: number;
   InstancesWithUnreportedNotApplicablePatches?: number | undefined;
   InstancesWithCriticalNonCompliantPatches?: number | undefined;
   InstancesWithSecurityNonCompliantPatches?: number | undefined;
@@ -3315,18 +3315,18 @@ export interface GetAutomationExecutionRequest {
   AutomationExecutionId: string;
 }
 export interface ProgressCounters {
-  TotalSteps?: number | undefined;
-  SuccessSteps?: number | undefined;
-  FailedSteps?: number | undefined;
-  CancelledSteps?: number | undefined;
-  TimedOutSteps?: number | undefined;
+  TotalSteps: number;
+  SuccessSteps: number;
+  FailedSteps: number;
+  CancelledSteps: number;
+  TimedOutSteps: number;
 }
 export interface TargetsSummary {
-  TotalCount?: number | undefined;
-  StartedCount?: number | undefined;
-  CompletedCount?: number | undefined;
-  SuccessfulCount?: number | undefined;
-  FailedCount?: number | undefined;
+  TotalCount: number;
+  StartedCount: number;
+  CompletedCount: number;
+  SuccessfulCount: number;
+  FailedCount: number;
 }
 export interface AutomationExecution {
   AutomationExecutionId?: string | undefined;
@@ -3336,7 +3336,7 @@ export interface AutomationExecution {
   ExecutionEndTime?: Date | undefined;
   AutomationExecutionStatus?: AutomationExecutionStatus | undefined;
   StepExecutions?: StepExecution[] | undefined;
-  StepExecutionsTruncated?: boolean | undefined;
+  StepExecutionsTruncated: boolean;
   Parameters?: { [key: string]: string[] | undefined } | undefined;
   Outputs?: { [key: string]: string[] | undefined } | undefined;
   FailureMessage?: string | undefined;
@@ -3430,7 +3430,7 @@ export interface GetCommandInvocationResult {
   DocumentName?: string | undefined;
   DocumentVersion?: string | undefined;
   PluginName?: string | undefined;
-  ResponseCode?: number | undefined;
+  ResponseCode: number;
   ExecutionStartDateTime?: string | undefined;
   ExecutionElapsedTime?: string | undefined;
   ExecutionEndDateTime?: string | undefined;
@@ -3495,7 +3495,7 @@ export type AttachmentHashType = "Sha256" | (string & {});
 export type AttachmentUrl = string;
 export interface AttachmentContent {
   Name?: string | undefined;
-  Size?: number | undefined;
+  Size: number;
   Hash?: string | undefined;
   HashType?: AttachmentHashType | undefined;
   Url?: string | undefined;
@@ -3530,7 +3530,7 @@ export type ImpactType = "Mutating" | "NonMutating" | "Undetermined" | (string &
 export type StepPreviewMap = { [key in ImpactType]?: number | undefined };
 export type RegionList = string[];
 export interface TargetPreview {
-  Count?: number | undefined;
+  Count: number;
   TargetType?: string | undefined;
 }
 export type TargetPreviewList = TargetPreview[];
@@ -3538,7 +3538,7 @@ export interface AutomationExecutionPreview {
   StepPreviews?: { [key: string]: number | undefined } | undefined;
   Regions?: string[] | undefined;
   TargetPreviews?: TargetPreview[] | undefined;
-  TotalAccounts?: number | undefined;
+  TotalAccounts: number;
 }
 export type ExecutionPreview = { Automation: AutomationExecutionPreview };
 export interface GetExecutionPreviewResponse {
@@ -3656,9 +3656,9 @@ export interface GetMaintenanceWindowResult {
   ScheduleOffset?: number | undefined;
   NextExecutionTime?: string | undefined;
   Duration?: number | undefined;
-  Cutoff?: number | undefined;
-  AllowUnassociatedTargets?: boolean | undefined;
-  Enabled?: boolean | undefined;
+  Cutoff: number;
+  AllowUnassociatedTargets: boolean;
+  Enabled: boolean;
   CreatedDate?: Date | undefined;
   ModifiedDate?: Date | undefined;
 }
@@ -3690,7 +3690,7 @@ export interface GetMaintenanceWindowExecutionTaskResult {
   TaskParameters?:
     | { [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined }[]
     | undefined;
-  Priority?: number | undefined;
+  Priority: number;
   MaxConcurrency?: string | undefined;
   MaxErrors?: string | undefined;
   Status?: MaintenanceWindowExecutionStatus | undefined;
@@ -3788,7 +3788,7 @@ export interface GetMaintenanceWindowTaskResult {
     | { [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined }
     | undefined;
   TaskInvocationParameters?: MaintenanceWindowTaskInvocationParameters | undefined;
-  Priority?: number | undefined;
+  Priority: number;
   MaxConcurrency?: string | undefined;
   MaxErrors?: string | undefined;
   LoggingInfo?: LoggingInfo | undefined;
@@ -3912,7 +3912,7 @@ export interface Parameter {
   Name?: string | undefined;
   Type?: ParameterType | undefined;
   Value?: string | redacted.Redacted<string> | undefined;
-  Version?: number | undefined;
+  Version: number;
   Selector?: string | undefined;
   SourceResult?: string | undefined;
   LastModifiedDate?: Date | undefined;
@@ -3939,7 +3939,7 @@ export interface ParameterHistory {
   Description?: string | undefined;
   Value?: string | redacted.Redacted<string> | undefined;
   AllowedPattern?: string | undefined;
-  Version?: number | undefined;
+  Version: number;
   Labels?: string[] | undefined;
   Tier?: ParameterTier | undefined;
   Policies?: ParameterInlinePolicy[] | undefined;
@@ -4043,7 +4043,7 @@ export interface LabelParameterVersionRequest {
 }
 export interface LabelParameterVersionResult {
   InvalidLabels?: string[] | undefined;
-  ParameterVersion?: number | undefined;
+  ParameterVersion: number;
 }
 export type AssociationFilterKey =
   | "InstanceId"
@@ -4107,7 +4107,7 @@ export interface AssociationVersionInfo {
   MaxConcurrency?: string | undefined;
   ComplianceSeverity?: AssociationComplianceSeverity | undefined;
   SyncCompliance?: AssociationSyncCompliance | undefined;
-  ApplyOnlyAtCronInterval?: boolean | undefined;
+  ApplyOnlyAtCronInterval: boolean;
   CalendarNames?: string[] | undefined;
   TargetLocations?: TargetLocation[] | undefined;
   ScheduleOffset?: number | undefined;
@@ -4192,7 +4192,7 @@ export interface CommandPlugin {
   Name?: string | undefined;
   Status?: CommandPluginStatus | undefined;
   StatusDetails?: string | undefined;
-  ResponseCode?: number | undefined;
+  ResponseCode: number;
   ResponseStartDateTime?: Date | undefined;
   ResponseFinishDateTime?: Date | undefined;
   Output?: string | undefined;
@@ -4263,10 +4263,10 @@ export interface Command {
   OutputS3KeyPrefix?: string | undefined;
   MaxConcurrency?: string | undefined;
   MaxErrors?: string | undefined;
-  TargetCount?: number | undefined;
-  CompletedCount?: number | undefined;
-  ErrorCount?: number | undefined;
-  DeliveryTimedOutCount?: number | undefined;
+  TargetCount: number;
+  CompletedCount: number;
+  ErrorCount: number;
+  DeliveryTimedOutCount: number;
   ServiceRole?: string | undefined;
   NotificationConfig?: NotificationConfig | undefined;
   CloudWatchOutputConfig?: CloudWatchOutputConfig | undefined;
@@ -4349,19 +4349,19 @@ export interface ListComplianceSummariesRequest {
 }
 export type ComplianceSummaryCount = number;
 export interface SeveritySummary {
-  CriticalCount?: number | undefined;
-  HighCount?: number | undefined;
-  MediumCount?: number | undefined;
-  LowCount?: number | undefined;
-  InformationalCount?: number | undefined;
-  UnspecifiedCount?: number | undefined;
+  CriticalCount: number;
+  HighCount: number;
+  MediumCount: number;
+  LowCount: number;
+  InformationalCount: number;
+  UnspecifiedCount: number;
 }
 export interface CompliantSummary {
-  CompliantCount?: number | undefined;
+  CompliantCount: number;
   SeveritySummary?: SeveritySummary | undefined;
 }
 export interface NonCompliantSummary {
-  NonCompliantCount?: number | undefined;
+  NonCompliantCount: number;
   SeveritySummary?: SeveritySummary | undefined;
 }
 export interface ComplianceSummaryItem {
@@ -4461,7 +4461,7 @@ export interface DocumentVersionInfo {
   DocumentVersion?: string | undefined;
   VersionName?: string | undefined;
   CreatedDate?: Date | undefined;
-  IsDefaultVersion?: boolean | undefined;
+  IsDefaultVersion: boolean;
   DocumentFormat?: DocumentFormat | undefined;
   Status?: DocumentStatus | undefined;
   StatusInformation?: string | undefined;
@@ -4730,9 +4730,9 @@ export interface ResourceDataSyncSourceWithState {
   SourceType?: string | undefined;
   AwsOrganizationsSource?: ResourceDataSyncAwsOrganizationsSource | undefined;
   SourceRegions?: string[] | undefined;
-  IncludeFutureRegions?: boolean | undefined;
+  IncludeFutureRegions: boolean;
   State?: string | undefined;
-  EnableAllOpsDataSources?: boolean | undefined;
+  EnableAllOpsDataSources: boolean;
 }
 export type LastResourceDataSyncTime = Date;
 export type LastSuccessfulResourceDataSyncTime = Date;
@@ -4825,7 +4825,7 @@ export interface PutParameterRequest {
   DataType?: string | undefined;
 }
 export interface PutParameterResult {
-  Version?: number | undefined;
+  Version: number;
   Tier?: ParameterTier | undefined;
 }
 export interface PutResourcePolicyRequest {
@@ -5172,9 +5172,9 @@ export interface UpdateMaintenanceWindowResult {
   ScheduleTimezone?: string | undefined;
   ScheduleOffset?: number | undefined;
   Duration?: number | undefined;
-  Cutoff?: number | undefined;
-  AllowUnassociatedTargets?: boolean | undefined;
-  Enabled?: boolean | undefined;
+  Cutoff: number;
+  AllowUnassociatedTargets: boolean;
+  Enabled: boolean;
 }
 export interface UpdateMaintenanceWindowTargetRequest {
   WindowId: string;
@@ -5223,7 +5223,7 @@ export interface UpdateMaintenanceWindowTaskResult {
     | { [key: string]: MaintenanceWindowTaskParameterValueExpression | undefined }
     | undefined;
   TaskInvocationParameters?: MaintenanceWindowTaskInvocationParameters | undefined;
-  Priority?: number | undefined;
+  Priority: number;
   MaxConcurrency?: string | undefined;
   MaxErrors?: string | undefined;
   LoggingInfo?: LoggingInfo | undefined;
@@ -10815,7 +10815,10 @@ function __c8(j: number): any {
       return S.Array(__S(128, __c8, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ IgnorePollAlarmFailure: S.optional(S.Boolean), Alarms: __S(129, __c8, 1) }),
+        S.Struct({
+          IgnorePollAlarmFailure: S.optional(S.Boolean).pipe(T.Default(false)),
+          Alarms: __S(129, __c8, 1),
+        }),
       ).annotate({ identifier: "AlarmConfiguration" });
   }
 }
@@ -10856,7 +10859,7 @@ function __c12(j: number): any {
           TargetLocationMaxErrors: S.optional(S.String),
           ExecutionRoleName: S.optional(S.String),
           TargetLocationAlarmConfiguration: S.optional(__S(130, __c8, 2)),
-          IncludeChildOrganizationUnits: S.optional(S.Boolean),
+          IncludeChildOrganizationUnits: S.optional(S.Boolean).pipe(T.Default(false)),
           ExcludeAccounts: S.optional(__S(3584, __c224, 0)),
           Targets: S.optional(__S(161, __c10, 1)),
           TargetsMaxConcurrency: S.optional(S.String),
@@ -10946,7 +10949,7 @@ function __c18(j: number): any {
           MaxConcurrency: S.optional(S.String),
           ComplianceSeverity: S.optional(S.String),
           SyncCompliance: S.optional(S.String),
-          ApplyOnlyAtCronInterval: S.optional(S.Boolean),
+          ApplyOnlyAtCronInterval: S.optional(S.Boolean).pipe(T.Default(false)),
           CalendarNames: S.optional(__S(3584, __c224, 0)),
           TargetLocations: S.optional(__S(224, __c14, 0)),
           ScheduleOffset: S.optional(S.Number),
@@ -10985,7 +10988,7 @@ function __c20(j: number): any {
           MaxConcurrency: S.optional(S.String),
           ComplianceSeverity: S.optional(S.String),
           SyncCompliance: S.optional(S.String),
-          ApplyOnlyAtCronInterval: S.optional(S.Boolean),
+          ApplyOnlyAtCronInterval: S.optional(S.Boolean).pipe(T.Default(false)),
           CalendarNames: S.optional(__S(3584, __c224, 0)),
           TargetLocations: S.optional(__S(224, __c14, 0)),
           ScheduleOffset: S.optional(S.Number),
@@ -11489,8 +11492,8 @@ function __c45(j: number): any {
           SourceType: S.String,
           AwsOrganizationsSource: S.optional(__S(706, __c44, 2)),
           SourceRegions: __S(3584, __c224, 0),
-          IncludeFutureRegions: S.optional(S.Boolean),
-          EnableAllOpsDataSources: S.optional(S.Boolean),
+          IncludeFutureRegions: S.optional(S.Boolean).pipe(T.Default(false)),
+          EnableAllOpsDataSources: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ResourceDataSyncSource" });
   }
@@ -11567,8 +11570,8 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Version: S.optional(S.String),
-          Count: S.optional(S.Number),
-          RemainingCount: S.optional(S.Number),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
+          RemainingCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "InventoryDeletionSummaryItem" });
     case 1:
@@ -11576,8 +11579,8 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TotalCount: S.optional(S.Number),
-          RemainingCount: S.optional(S.Number),
+          TotalCount: S.optional(S.Number).pipe(T.Default(0)),
+          RemainingCount: S.optional(S.Number).pipe(T.Default(0)),
           SummaryItems: S.optional(__S(817, __c51, 1)),
         }),
       ).annotate({ identifier: "InventoryDeletionSummary" });
@@ -11761,7 +11764,7 @@ function __c66(j: number): any {
           RegistrationLimit: S.optional(S.Number),
           RegistrationsCount: S.optional(S.Number),
           ExpirationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Expired: S.optional(S.Boolean),
+          Expired: S.optional(S.Boolean).pipe(T.Default(false)),
           CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Tags: S.optional(__S(33, __c2, 1)),
         }),
@@ -11973,7 +11976,7 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ParameterValues: S.optional(__S(3584, __c224, 0)),
-          Truncated: S.optional(S.Boolean),
+          Truncated: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ResolvedTargets" });
   }
@@ -12122,7 +12125,7 @@ function __c78(j: number): any {
           BugzillaIds: S.optional(__S(3584, __c224, 0)),
           CVEIds: S.optional(__S(3584, __c224, 0)),
           Name: S.optional(S.String),
-          Epoch: S.optional(S.Number),
+          Epoch: S.optional(S.Number).pipe(T.Default(0)),
           Version: S.optional(S.String),
           Release: S.optional(S.String),
           Arch: S.optional(S.String),
@@ -12444,14 +12447,14 @@ function __c89(j: number): any {
           SnapshotId: S.optional(S.String),
           InstallOverrideList: S.optional(S.String),
           OwnerInformation: S.optional(SensitiveString),
-          InstalledCount: S.optional(S.Number),
-          InstalledOtherCount: S.optional(S.Number),
+          InstalledCount: S.optional(S.Number).pipe(T.Default(0)),
+          InstalledOtherCount: S.optional(S.Number).pipe(T.Default(0)),
           InstalledPendingRebootCount: S.optional(S.Number),
           InstalledRejectedCount: S.optional(S.Number),
-          MissingCount: S.optional(S.Number),
-          FailedCount: S.optional(S.Number),
+          MissingCount: S.optional(S.Number).pipe(T.Default(0)),
+          FailedCount: S.optional(S.Number).pipe(T.Default(0)),
           UnreportedNotApplicableCount: S.optional(S.Number),
-          NotApplicableCount: S.optional(S.Number),
+          NotApplicableCount: S.optional(S.Number).pipe(T.Default(0)),
           AvailableSecurityUpdateCount: S.optional(S.Number),
           OperationStartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           OperationEndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -12739,9 +12742,9 @@ function __c96(j: number): any {
           WindowId: S.optional(S.String),
           Name: S.optional(S.String),
           Description: S.optional(SensitiveString),
-          Enabled: S.optional(S.Boolean),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           Duration: S.optional(S.Number),
-          Cutoff: S.optional(S.Number),
+          Cutoff: S.optional(S.Number).pipe(T.Default(0)),
           Schedule: S.optional(S.String),
           ScheduleTimezone: S.optional(S.String),
           ScheduleOffset: S.optional(S.Number),
@@ -12873,7 +12876,7 @@ function __c100(j: number): any {
           Type: S.optional(S.String),
           Targets: S.optional(__S(161, __c10, 1)),
           TaskParameters: S.optional(__S(1618, __c101, 2)),
-          Priority: S.optional(S.Number),
+          Priority: S.optional(S.Number).pipe(T.Default(0)),
           LoggingInfo: S.optional(__S(1632, __c102, 0)),
           ServiceRoleArn: S.optional(S.String),
           MaxConcurrency: S.optional(S.String),
@@ -12990,7 +12993,7 @@ function __c105(j: number): any {
           LastModifiedUser: S.optional(S.String),
           Description: S.optional(S.String),
           AllowedPattern: S.optional(S.String),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           Tier: S.optional(S.String),
           Policies: S.optional(__S(1697, __c106, 1)),
           DataType: S.optional(S.String),
@@ -13065,7 +13068,7 @@ function __c109(j: number): any {
           BaselineName: S.optional(S.String),
           OperatingSystem: S.optional(S.String),
           BaselineDescription: S.optional(S.String),
-          DefaultBaseline: S.optional(S.Boolean),
+          DefaultBaseline: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "PatchBaselineIdentity" });
   }
@@ -13109,14 +13112,14 @@ function __c111(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Instances: S.optional(S.Number),
-          InstancesWithInstalledPatches: S.optional(S.Number),
-          InstancesWithInstalledOtherPatches: S.optional(S.Number),
+          Instances: S.optional(S.Number).pipe(T.Default(0)),
+          InstancesWithInstalledPatches: S.optional(S.Number).pipe(T.Default(0)),
+          InstancesWithInstalledOtherPatches: S.optional(S.Number).pipe(T.Default(0)),
           InstancesWithInstalledPendingRebootPatches: S.optional(S.Number),
           InstancesWithInstalledRejectedPatches: S.optional(S.Number),
-          InstancesWithMissingPatches: S.optional(S.Number),
-          InstancesWithFailedPatches: S.optional(S.Number),
-          InstancesWithNotApplicablePatches: S.optional(S.Number),
+          InstancesWithMissingPatches: S.optional(S.Number).pipe(T.Default(0)),
+          InstancesWithFailedPatches: S.optional(S.Number).pipe(T.Default(0)),
+          InstancesWithNotApplicablePatches: S.optional(S.Number).pipe(T.Default(0)),
           InstancesWithUnreportedNotApplicablePatches: S.optional(S.Number),
           InstancesWithCriticalNonCompliantPatches: S.optional(S.Number),
           InstancesWithSecurityNonCompliantPatches: S.optional(S.Number),
@@ -13257,21 +13260,21 @@ function __c119(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TotalSteps: S.optional(S.Number),
-          SuccessSteps: S.optional(S.Number),
-          FailedSteps: S.optional(S.Number),
-          CancelledSteps: S.optional(S.Number),
-          TimedOutSteps: S.optional(S.Number),
+          TotalSteps: S.optional(S.Number).pipe(T.Default(0)),
+          SuccessSteps: S.optional(S.Number).pipe(T.Default(0)),
+          FailedSteps: S.optional(S.Number).pipe(T.Default(0)),
+          CancelledSteps: S.optional(S.Number).pipe(T.Default(0)),
+          TimedOutSteps: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ProgressCounters" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TotalCount: S.optional(S.Number),
-          StartedCount: S.optional(S.Number),
-          CompletedCount: S.optional(S.Number),
-          SuccessfulCount: S.optional(S.Number),
-          FailedCount: S.optional(S.Number),
+          TotalCount: S.optional(S.Number).pipe(T.Default(0)),
+          StartedCount: S.optional(S.Number).pipe(T.Default(0)),
+          CompletedCount: S.optional(S.Number).pipe(T.Default(0)),
+          SuccessfulCount: S.optional(S.Number).pipe(T.Default(0)),
+          FailedCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TargetsSummary" });
     case 3:
@@ -13284,7 +13287,7 @@ function __c119(j: number): any {
           ExecutionEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           AutomationExecutionStatus: S.optional(S.String),
           StepExecutions: S.optional(__S(1219, __c76, 3)),
-          StepExecutionsTruncated: S.optional(S.Boolean),
+          StepExecutionsTruncated: S.optional(S.Boolean).pipe(T.Default(false)),
           Parameters: S.optional(__S(176, __c11, 0)),
           Outputs: S.optional(__S(176, __c11, 0)),
           FailureMessage: S.optional(S.String),
@@ -13382,7 +13385,7 @@ function __c122(j: number): any {
           DocumentName: S.optional(S.String),
           DocumentVersion: S.optional(S.String),
           PluginName: S.optional(S.String),
-          ResponseCode: S.optional(S.Number),
+          ResponseCode: S.optional(S.Number).pipe(T.Default(0)),
           ExecutionStartDateTime: S.optional(S.String),
           ExecutionElapsedTime: S.optional(S.String),
           ExecutionEndDateTime: S.optional(S.String),
@@ -13403,7 +13406,7 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CloudWatchLogGroupName: S.optional(S.String),
-          CloudWatchOutputEnabled: S.optional(S.Boolean),
+          CloudWatchOutputEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "CloudWatchOutputConfig" });
   }
@@ -13450,7 +13453,7 @@ function __c126(j: number): any {
           ApprovedPatchesComplianceLevel: S.optional(S.String),
           RejectedPatches: S.optional(__S(3584, __c224, 0)),
           RejectedPatchesAction: S.optional(S.String),
-          ApprovedPatchesEnableNonSecurity: S.optional(S.Boolean),
+          ApprovedPatchesEnableNonSecurity: S.optional(S.Boolean).pipe(T.Default(false)),
           Sources: S.optional(__S(661, __c41, 5)),
           AvailableSecurityUpdatesComplianceStatus: S.optional(S.String),
         }),
@@ -13490,7 +13493,7 @@ function __c127(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Size: S.optional(S.Number),
+          Size: S.optional(S.Number).pipe(T.Default(0)),
           Hash: S.optional(S.String),
           HashType: S.optional(S.String),
           Url: S.optional(S.String),
@@ -13534,7 +13537,10 @@ function __c128(j: number): any {
       return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Count: S.optional(S.Number), TargetType: S.optional(S.String) }),
+        S.Struct({
+          Count: S.optional(S.Number).pipe(T.Default(0)),
+          TargetType: S.optional(S.String),
+        }),
       ).annotate({ identifier: "TargetPreview" });
     case 3:
       return S.Array(__S(2050, __c128, 2));
@@ -13544,7 +13550,7 @@ function __c128(j: number): any {
           StepPreviews: S.optional(__S(2049, __c128, 1)),
           Regions: S.optional(__S(3584, __c224, 0)),
           TargetPreviews: S.optional(__S(2051, __c128, 3)),
-          TotalAccounts: S.optional(S.Number),
+          TotalAccounts: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "AutomationExecutionPreview" });
     case 5:
@@ -13734,9 +13740,9 @@ function __c135(j: number): any {
           ScheduleOffset: S.optional(S.Number),
           NextExecutionTime: S.optional(S.String),
           Duration: S.optional(S.Number),
-          Cutoff: S.optional(S.Number),
-          AllowUnassociatedTargets: S.optional(S.Boolean),
-          Enabled: S.optional(S.Boolean),
+          Cutoff: S.optional(S.Number).pipe(T.Default(0)),
+          AllowUnassociatedTargets: S.optional(S.Boolean).pipe(T.Default(false)),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
           CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(ns),
@@ -13783,7 +13789,7 @@ function __c137(j: number): any {
           ServiceRole: S.optional(S.String),
           Type: S.optional(S.String),
           TaskParameters: S.optional(__S(2193, __c137, 1)),
-          Priority: S.optional(S.Number),
+          Priority: S.optional(S.Number).pipe(T.Default(0)),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
           Status: S.optional(S.String),
@@ -13842,7 +13848,7 @@ function __c139(j: number): any {
           TaskType: S.optional(S.String),
           TaskParameters: S.optional(__S(1618, __c101, 2)),
           TaskInvocationParameters: S.optional(__S(2260, __c141, 4)),
-          Priority: S.optional(S.Number),
+          Priority: S.optional(S.Number).pipe(T.Default(0)),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
           LoggingInfo: S.optional(__S(1632, __c102, 0)),
@@ -14069,7 +14075,7 @@ function __c146(j: number): any {
           Name: S.optional(S.String),
           Type: S.optional(S.String),
           Value: S.optional(SensitiveString),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           Selector: S.optional(S.String),
           SourceResult: S.optional(S.String),
           LastModifiedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -14101,7 +14107,7 @@ function __c147(j: number): any {
           Description: S.optional(S.String),
           Value: S.optional(SensitiveString),
           AllowedPattern: S.optional(S.String),
-          Version: S.optional(S.Number),
+          Version: S.optional(S.Number).pipe(T.Default(0)),
           Labels: S.optional(__S(3584, __c224, 0)),
           Tier: S.optional(S.String),
           Policies: S.optional(__S(1697, __c106, 1)),
@@ -14285,7 +14291,7 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InvalidLabels: S.optional(__S(3584, __c224, 0)),
-          ParameterVersion: S.optional(S.Number),
+          ParameterVersion: S.optional(S.Number).pipe(T.Default(0)),
         }).pipe(ns),
       ).annotate({ identifier: "LabelParameterVersionResult" });
   }
@@ -14366,7 +14372,7 @@ function __c158(j: number): any {
           MaxConcurrency: S.optional(S.String),
           ComplianceSeverity: S.optional(S.String),
           SyncCompliance: S.optional(S.String),
-          ApplyOnlyAtCronInterval: S.optional(S.Boolean),
+          ApplyOnlyAtCronInterval: S.optional(S.Boolean).pipe(T.Default(false)),
           CalendarNames: S.optional(__S(3584, __c224, 0)),
           TargetLocations: S.optional(__S(224, __c14, 0)),
           ScheduleOffset: S.optional(S.Number),
@@ -14439,7 +14445,7 @@ function __c160(j: number): any {
           Name: S.optional(S.String),
           Status: S.optional(S.String),
           StatusDetails: S.optional(S.String),
-          ResponseCode: S.optional(S.Number),
+          ResponseCode: S.optional(S.Number).pipe(T.Default(0)),
           ResponseStartDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ResponseFinishDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Output: S.optional(S.String),
@@ -14528,10 +14534,10 @@ function __c162(j: number): any {
           OutputS3KeyPrefix: S.optional(S.String),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
-          TargetCount: S.optional(S.Number),
-          CompletedCount: S.optional(S.Number),
-          ErrorCount: S.optional(S.Number),
-          DeliveryTimedOutCount: S.optional(S.Number),
+          TargetCount: S.optional(S.Number).pipe(T.Default(0)),
+          CompletedCount: S.optional(S.Number).pipe(T.Default(0)),
+          ErrorCount: S.optional(S.Number).pipe(T.Default(0)),
+          DeliveryTimedOutCount: S.optional(S.Number).pipe(T.Default(0)),
           ServiceRole: S.optional(S.String),
           NotificationConfig: S.optional(__S(2241, __c140, 1)),
           CloudWatchOutputConfig: S.optional(__S(1968, __c123, 0)),
@@ -14651,25 +14657,25 @@ function __c167(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CriticalCount: S.optional(S.Number),
-          HighCount: S.optional(S.Number),
-          MediumCount: S.optional(S.Number),
-          LowCount: S.optional(S.Number),
-          InformationalCount: S.optional(S.Number),
-          UnspecifiedCount: S.optional(S.Number),
+          CriticalCount: S.optional(S.Number).pipe(T.Default(0)),
+          HighCount: S.optional(S.Number).pipe(T.Default(0)),
+          MediumCount: S.optional(S.Number).pipe(T.Default(0)),
+          LowCount: S.optional(S.Number).pipe(T.Default(0)),
+          InformationalCount: S.optional(S.Number).pipe(T.Default(0)),
+          UnspecifiedCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "SeveritySummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CompliantCount: S.optional(S.Number),
+          CompliantCount: S.optional(S.Number).pipe(T.Default(0)),
           SeveritySummary: S.optional(__S(2672, __c167, 0)),
         }),
       ).annotate({ identifier: "CompliantSummary" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          NonCompliantCount: S.optional(S.Number),
+          NonCompliantCount: S.optional(S.Number).pipe(T.Default(0)),
           SeveritySummary: S.optional(__S(2672, __c167, 0)),
         }),
       ).annotate({ identifier: "NonCompliantSummary" });
@@ -14795,7 +14801,7 @@ function __c171(j: number): any {
           DocumentVersion: S.optional(S.String),
           VersionName: S.optional(S.String),
           CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          IsDefaultVersion: S.optional(S.Boolean),
+          IsDefaultVersion: S.optional(S.Boolean).pipe(T.Default(false)),
           DocumentFormat: S.optional(S.String),
           Status: S.optional(S.String),
           StatusInformation: S.optional(S.String),
@@ -15113,9 +15119,9 @@ function __c180(j: number): any {
           SourceType: S.optional(S.String),
           AwsOrganizationsSource: S.optional(__S(706, __c44, 2)),
           SourceRegions: S.optional(__S(3584, __c224, 0)),
-          IncludeFutureRegions: S.optional(S.Boolean),
+          IncludeFutureRegions: S.optional(S.Boolean).pipe(T.Default(false)),
           State: S.optional(S.String),
-          EnableAllOpsDataSources: S.optional(S.Boolean),
+          EnableAllOpsDataSources: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ResourceDataSyncSourceWithState" });
     case 2:
@@ -15251,7 +15257,10 @@ function __c185(j: number): any {
       ).annotate({ identifier: "PutParameterRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Version: S.optional(S.Number), Tier: S.optional(S.String) }).pipe(ns),
+        S.Struct({
+          Version: S.optional(S.Number).pipe(T.Default(0)),
+          Tier: S.optional(S.String),
+        }).pipe(ns),
       ).annotate({ identifier: "PutParameterResult" });
   }
 }
@@ -15747,9 +15756,9 @@ function __c214(j: number): any {
           ScheduleTimezone: S.optional(S.String),
           ScheduleOffset: S.optional(S.Number),
           Duration: S.optional(S.Number),
-          Cutoff: S.optional(S.Number),
-          AllowUnassociatedTargets: S.optional(S.Boolean),
-          Enabled: S.optional(S.Boolean),
+          Cutoff: S.optional(S.Number).pipe(T.Default(0)),
+          AllowUnassociatedTargets: S.optional(S.Boolean).pipe(T.Default(false)),
+          Enabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }).pipe(ns),
       ).annotate({ identifier: "UpdateMaintenanceWindowResult" });
   }
@@ -15814,7 +15823,7 @@ function __c216(j: number): any {
           ServiceRoleArn: S.optional(S.String),
           TaskParameters: S.optional(__S(1618, __c101, 2)),
           TaskInvocationParameters: S.optional(__S(2260, __c141, 4)),
-          Priority: S.optional(S.Number),
+          Priority: S.optional(S.Number).pipe(T.Default(0)),
           MaxConcurrency: S.optional(S.String),
           MaxErrors: S.optional(S.String),
           LoggingInfo: S.optional(__S(1632, __c102, 0)),

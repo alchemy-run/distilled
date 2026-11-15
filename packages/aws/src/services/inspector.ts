@@ -470,7 +470,7 @@ export type NumericSeverity = number;
 export type IocConfidence = number;
 export interface Finding {
   arn: string;
-  schemaVersion?: number | undefined;
+  schemaVersion: number;
   service?: string | undefined;
   serviceAttributes?: InspectorServiceAttributes | undefined;
   assetType?: AssetType | undefined;
@@ -480,8 +480,8 @@ export interface Finding {
   description?: string | undefined;
   recommendation?: string | undefined;
   severity?: Severity | undefined;
-  numericSeverity?: number | undefined;
-  confidence?: number | undefined;
+  numericSeverity: number;
+  confidence: number;
   indicatorOfCompromise?: boolean | undefined;
   attributes: Attribute[];
   userAttributes: Attribute[];
@@ -2387,7 +2387,7 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          schemaVersion: S.Number,
+          schemaVersion: S.Number.pipe(T.Default(0)),
           assessmentRunArn: S.optional(S.String),
           rulesPackageArn: S.optional(S.String),
         }),
@@ -2424,7 +2424,7 @@ function __c20(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          schemaVersion: S.Number,
+          schemaVersion: S.Number.pipe(T.Default(0)),
           agentId: S.optional(S.String),
           autoScalingGroup: S.optional(S.String),
           amiId: S.optional(S.String),
@@ -2438,7 +2438,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           arn: S.String,
-          schemaVersion: S.optional(S.Number),
+          schemaVersion: S.optional(S.Number).pipe(T.Default(0)),
           service: S.optional(S.String),
           serviceAttributes: S.optional(__S(321, __c20, 1)),
           assetType: S.optional(S.String),
@@ -2448,8 +2448,8 @@ function __c20(j: number): any {
           description: S.optional(S.String),
           recommendation: S.optional(S.String),
           severity: S.optional(S.String),
-          numericSeverity: S.optional(S.Number),
-          confidence: S.optional(S.Number),
+          numericSeverity: S.optional(S.Number).pipe(T.Default(0)),
+          confidence: S.optional(S.Number).pipe(T.Default(0)),
           indicatorOfCompromise: S.optional(S.Boolean),
           attributes: __S(33, __c2, 1),
           userAttributes: __S(33, __c2, 1),

@@ -517,7 +517,7 @@ export interface DescribeGroupResponse {
   State?: EntityState | undefined;
   EnabledDate?: Date | undefined;
   DisabledDate?: Date | undefined;
-  HiddenFromGlobalAddressList?: boolean | undefined;
+  HiddenFromGlobalAddressList: boolean;
 }
 export interface DescribeIdentityProviderConfigurationRequest {
   OrganizationId: string;
@@ -545,7 +545,7 @@ export interface DescribeInboundDmarcSettingsRequest {
   OrganizationId: string;
 }
 export interface DescribeInboundDmarcSettingsResponse {
-  Enforced?: boolean | undefined;
+  Enforced: boolean;
 }
 export interface DescribeMailboxExportJobRequest {
   JobId: string;
@@ -570,7 +570,7 @@ export interface DescribeMailboxExportJobResponse {
   S3BucketName?: string | undefined;
   S3Prefix?: string | undefined;
   S3Path?: string | undefined;
-  EstimatedProgress?: number | undefined;
+  EstimatedProgress: number;
   State?: MailboxExportJobState | undefined;
   ErrorInfo?: string | undefined;
   StartTime?: Date | undefined;
@@ -591,7 +591,7 @@ export interface DescribeOrganizationResponse {
   ErrorMessage?: string | undefined;
   ARN?: string | undefined;
   MigrationAdmin?: string | undefined;
-  InteroperabilityEnabled?: boolean | undefined;
+  InteroperabilityEnabled: boolean;
 }
 export interface DescribeResourceRequest {
   OrganizationId: string;
@@ -612,7 +612,7 @@ export interface DescribeResourceResponse {
   EnabledDate?: Date | undefined;
   DisabledDate?: Date | undefined;
   Description?: string | redacted.Redacted<string> | undefined;
-  HiddenFromGlobalAddressList?: boolean | undefined;
+  HiddenFromGlobalAddressList: boolean;
 }
 export interface DescribeUserRequest {
   OrganizationId: string;
@@ -632,7 +632,7 @@ export interface DescribeUserResponse {
   MailboxDeprovisionedDate?: Date | undefined;
   FirstName?: string | redacted.Redacted<string> | undefined;
   LastName?: string | redacted.Redacted<string> | undefined;
-  HiddenFromGlobalAddressList?: boolean | undefined;
+  HiddenFromGlobalAddressList: boolean;
   Initials?: string | redacted.Redacted<string> | undefined;
   Telephone?: string | redacted.Redacted<string> | undefined;
   Street?: string | redacted.Redacted<string> | undefined;
@@ -733,7 +733,7 @@ export type MailboxQuota = number;
 export type MailboxSize = number;
 export interface GetMailboxDetailsResponse {
   MailboxQuota?: number | undefined;
-  MailboxSize?: number | undefined;
+  MailboxSize: number;
 }
 export interface GetMailDomainRequest {
   OrganizationId: string;
@@ -748,8 +748,8 @@ export type DnsRecords = DnsRecord[];
 export type DnsRecordVerificationStatus = "PENDING" | "VERIFIED" | "FAILED" | (string & {});
 export interface GetMailDomainResponse {
   Records?: DnsRecord[] | undefined;
-  IsTestDomain?: boolean | undefined;
-  IsDefault?: boolean | undefined;
+  IsTestDomain: boolean;
+  IsDefault: boolean;
   OwnershipVerificationStatus?: DnsRecordVerificationStatus | undefined;
   DkimVerificationStatus?: DnsRecordVerificationStatus | undefined;
 }
@@ -953,7 +953,7 @@ export interface MailboxExportJob {
   Description?: string | undefined;
   S3BucketName?: string | undefined;
   S3Path?: string | undefined;
-  EstimatedProgress?: number | undefined;
+  EstimatedProgress: number;
   State?: MailboxExportJobState | undefined;
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
@@ -988,7 +988,7 @@ export interface ListMailDomainsRequest {
 }
 export interface MailDomainSummary {
   DomainName?: string | undefined;
-  DefaultDomain?: boolean | undefined;
+  DefaultDomain: boolean;
 }
 export type MailDomains = MailDomainSummary[];
 export interface ListMailDomainsResponse {
@@ -1259,7 +1259,7 @@ export interface TestAvailabilityConfigurationRequest {
   LambdaProvider?: LambdaAvailabilityProvider | undefined;
 }
 export interface TestAvailabilityConfigurationResponse {
-  TestPassed?: boolean | undefined;
+  TestPassed: boolean;
   FailureReason?: string | undefined;
 }
 export type TagKeyList = string[];
@@ -4371,7 +4371,10 @@ function __c3(j: number): any {
       ).annotate({ identifier: "TestAvailabilityConfigurationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ TestPassed: S.optional(S.Boolean), FailureReason: S.optional(S.String) }),
+        S.Struct({
+          TestPassed: S.optional(S.Boolean).pipe(T.Default(false)),
+          FailureReason: S.optional(S.String),
+        }),
       ).annotate({ identifier: "TestAvailabilityConfigurationResponse" });
   }
 }
@@ -5016,7 +5019,7 @@ function __c52(j: number): any {
           State: S.optional(S.String),
           EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          HiddenFromGlobalAddressList: S.optional(S.Boolean),
+          HiddenFromGlobalAddressList: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DescribeGroupResponse" });
   }
@@ -5060,9 +5063,9 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "DescribeInboundDmarcSettingsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Enforced: S.optional(S.Boolean) })).annotate({
-        identifier: "DescribeInboundDmarcSettingsResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ Enforced: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "DescribeInboundDmarcSettingsResponse" });
   }
 }
 function __c56(j: number): any {
@@ -5083,7 +5086,7 @@ function __c56(j: number): any {
           S3BucketName: S.optional(S.String),
           S3Prefix: S.optional(S.String),
           S3Path: S.optional(S.String),
-          EstimatedProgress: S.optional(S.Number),
+          EstimatedProgress: S.optional(S.Number).pipe(T.Default(0)),
           State: S.optional(S.String),
           ErrorInfo: S.optional(S.String),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5113,7 +5116,7 @@ function __c57(j: number): any {
           ErrorMessage: S.optional(S.String),
           ARN: S.optional(S.String),
           MigrationAdmin: S.optional(S.String),
-          InteroperabilityEnabled: S.optional(S.Boolean),
+          InteroperabilityEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DescribeOrganizationResponse" });
   }
@@ -5138,7 +5141,7 @@ function __c58(j: number): any {
           EnabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           DisabledDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Description: S.optional(SensitiveString),
-          HiddenFromGlobalAddressList: S.optional(S.Boolean),
+          HiddenFromGlobalAddressList: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DescribeResourceResponse" });
   }
@@ -5148,9 +5151,9 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AutoAcceptRequests: S.optional(S.Boolean),
-          AutoDeclineRecurringRequests: S.optional(S.Boolean),
-          AutoDeclineConflictingRequests: S.optional(S.Boolean),
+          AutoAcceptRequests: S.optional(S.Boolean).pipe(T.Default(false)),
+          AutoDeclineRecurringRequests: S.optional(S.Boolean).pipe(T.Default(false)),
+          AutoDeclineConflictingRequests: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "BookingOptions" });
   }
@@ -5178,7 +5181,7 @@ function __c60(j: number): any {
           MailboxDeprovisionedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           FirstName: S.optional(SensitiveString),
           LastName: S.optional(SensitiveString),
-          HiddenFromGlobalAddressList: S.optional(S.Boolean),
+          HiddenFromGlobalAddressList: S.optional(S.Boolean).pipe(T.Default(false)),
           Initials: S.optional(SensitiveString),
           Telephone: S.optional(SensitiveString),
           Street: S.optional(SensitiveString),
@@ -5320,7 +5323,10 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetMailboxDetailsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ MailboxQuota: S.optional(S.Number), MailboxSize: S.optional(S.Number) }),
+        S.Struct({
+          MailboxQuota: S.optional(S.Number),
+          MailboxSize: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "GetMailboxDetailsResponse" });
   }
 }
@@ -5346,8 +5352,8 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Records: S.optional(__S(554, __c69, 2)),
-          IsTestDomain: S.optional(S.Boolean),
-          IsDefault: S.optional(S.Boolean),
+          IsTestDomain: S.optional(S.Boolean).pipe(T.Default(false)),
+          IsDefault: S.optional(S.Boolean).pipe(T.Default(false)),
           OwnershipVerificationStatus: S.optional(S.String),
           DkimVerificationStatus: S.optional(S.String),
         }),
@@ -5662,7 +5668,7 @@ function __c83(j: number): any {
           Description: S.optional(S.String),
           S3BucketName: S.optional(S.String),
           S3Path: S.optional(S.String),
-          EstimatedProgress: S.optional(S.Number),
+          EstimatedProgress: S.optional(S.Number).pipe(T.Default(0)),
           State: S.optional(S.String),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5721,7 +5727,10 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ListMailDomainsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DomainName: S.optional(S.String), DefaultDomain: S.optional(S.Boolean) }),
+        S.Struct({
+          DomainName: S.optional(S.String),
+          DefaultDomain: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "MailDomainSummary" });
     case 2:
       return S.Array(__S(689, __c86, 1));

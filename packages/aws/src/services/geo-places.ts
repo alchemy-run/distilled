@@ -378,7 +378,7 @@ export interface AutocompleteResultItem {
   PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
   Address?: Address | undefined;
-  Distance?: number | undefined;
+  Distance: number;
   Language?: string | undefined;
   PoliticalView?: string | redacted.Redacted<string> | undefined;
   Highlights?: AutocompleteHighlights | undefined;
@@ -505,35 +505,35 @@ export type DurationSeconds = number;
 export interface TimeZone {
   Name: string | redacted.Redacted<string>;
   Offset?: string | redacted.Redacted<string> | undefined;
-  OffsetSeconds?: number | undefined;
+  OffsetSeconds: number;
 }
 export type MatchScore = number;
 export type MatchScoreList = number[];
 export interface SecondaryAddressComponentMatchScore {
-  Number?: number | undefined;
+  Number: number;
 }
 export type SecondaryAddressComponentMatchScoreList = SecondaryAddressComponentMatchScore[];
 export interface AddressComponentMatchScores {
-  Country?: number | undefined;
-  Region?: number | undefined;
-  SubRegion?: number | undefined;
-  Locality?: number | undefined;
-  District?: number | undefined;
-  SubDistrict?: number | undefined;
-  PostalCode?: number | undefined;
-  Block?: number | undefined;
-  SubBlock?: number | undefined;
+  Country: number;
+  Region: number;
+  SubRegion: number;
+  Locality: number;
+  District: number;
+  SubDistrict: number;
+  PostalCode: number;
+  Block: number;
+  SubBlock: number;
   Intersection?: number[] | undefined;
-  AddressNumber?: number | undefined;
-  Building?: number | undefined;
+  AddressNumber: number;
+  Building: number;
   SecondaryAddressComponents?: SecondaryAddressComponentMatchScore[] | undefined;
 }
 export interface ComponentMatchScores {
-  Title?: number | undefined;
+  Title: number;
   Address?: AddressComponentMatchScores | undefined;
 }
 export interface MatchScoreDetails {
-  Overall?: number | undefined;
+  Overall: number;
   Components?: ComponentMatchScores | undefined;
 }
 export interface ParsedQueryComponent {
@@ -627,7 +627,7 @@ export interface GeocodeResultItem {
   AddressNumberCorrected?: boolean | undefined;
   PostalCodeDetails?: PostalCodeDetails[] | undefined;
   Position?: number[] | undefined;
-  Distance?: number | undefined;
+  Distance: number;
   MapView?: number[] | undefined;
   Categories?: Category[] | undefined;
   FoodTypes?: FoodType[] | undefined;
@@ -802,7 +802,7 @@ export interface ReverseGeocodeResultItem {
   AddressNumberCorrected?: boolean | undefined;
   PostalCodeDetails?: PostalCodeDetails[] | undefined;
   Position?: number[] | undefined;
-  Distance?: number | undefined;
+  Distance: number;
   MapView?: number[] | undefined;
   Categories?: Category[] | undefined;
   FoodTypes?: FoodType[] | undefined;
@@ -860,7 +860,7 @@ export interface SearchNearbyResultItem {
   Address?: Address | undefined;
   AddressNumberCorrected?: boolean | undefined;
   Position?: number[] | undefined;
-  Distance?: number | undefined;
+  Distance: number;
   MapView?: number[] | undefined;
   Categories?: Category[] | undefined;
   FoodTypes?: FoodType[] | undefined;
@@ -917,7 +917,7 @@ export interface SearchTextResultItem {
   Address?: Address | undefined;
   AddressNumberCorrected?: boolean | undefined;
   Position?: number[] | undefined;
-  Distance?: number | undefined;
+  Distance: number;
   MapView?: number[] | undefined;
   Categories?: Category[] | undefined;
   FoodTypes?: FoodType[] | undefined;
@@ -972,7 +972,7 @@ export interface SuggestPlaceResult {
   PlaceType?: PlaceType | undefined;
   Address?: Address | undefined;
   Position?: number[] | undefined;
-  Distance?: number | undefined;
+  Distance: number;
   MapView?: number[] | undefined;
   Categories?: Category[] | undefined;
   FoodTypes?: FoodType[] | undefined;
@@ -1282,7 +1282,7 @@ function __c0(j: number): any {
           PlaceType: S.optional(S.String),
           Address: S.optional(__S(137, __c4, 9)),
           Position: S.optional(__S(128, __c4, 0)),
-          Distance: S.optional(S.Number),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
           MapView: S.optional(__S(128, __c4, 0)),
           Categories: S.optional(__S(321, __c10, 1)),
           FoodTypes: S.optional(__S(323, __c10, 3)),
@@ -1417,7 +1417,7 @@ function __c2(j: number): any {
           PlaceType: S.String,
           Title: SensitiveString,
           Address: S.optional(__S(137, __c4, 9)),
-          Distance: S.optional(S.Number),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
           Language: S.optional(S.String),
           PoliticalView: S.optional(SensitiveString),
           Highlights: S.optional(__S(69, __c2, 5)),
@@ -1570,36 +1570,42 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "GeocodeRequest" });
     case 3:
-      return S.suspend(() => S.Struct({ Number: S.optional(S.Number) })).annotate({
-        identifier: "SecondaryAddressComponentMatchScore",
-      });
+      return S.suspend(() =>
+        S.Struct({ Number: S.optional(S.Number).pipe(T.Default(0)) }),
+      ).annotate({ identifier: "SecondaryAddressComponentMatchScore" });
     case 4:
       return S.Array(__S(227, __c7, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Country: S.optional(S.Number),
-          Region: S.optional(S.Number),
-          SubRegion: S.optional(S.Number),
-          Locality: S.optional(S.Number),
-          District: S.optional(S.Number),
-          SubDistrict: S.optional(S.Number),
-          PostalCode: S.optional(S.Number),
-          Block: S.optional(S.Number),
-          SubBlock: S.optional(S.Number),
+          Country: S.optional(S.Number).pipe(T.Default(0)),
+          Region: S.optional(S.Number).pipe(T.Default(0)),
+          SubRegion: S.optional(S.Number).pipe(T.Default(0)),
+          Locality: S.optional(S.Number).pipe(T.Default(0)),
+          District: S.optional(S.Number).pipe(T.Default(0)),
+          SubDistrict: S.optional(S.Number).pipe(T.Default(0)),
+          PostalCode: S.optional(S.Number).pipe(T.Default(0)),
+          Block: S.optional(S.Number).pipe(T.Default(0)),
+          SubBlock: S.optional(S.Number).pipe(T.Default(0)),
           Intersection: S.optional(__S(128, __c4, 0)),
-          AddressNumber: S.optional(S.Number),
-          Building: S.optional(S.Number),
+          AddressNumber: S.optional(S.Number).pipe(T.Default(0)),
+          Building: S.optional(S.Number).pipe(T.Default(0)),
           SecondaryAddressComponents: S.optional(__S(228, __c7, 4)),
         }),
       ).annotate({ identifier: "AddressComponentMatchScores" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ Title: S.optional(S.Number), Address: S.optional(__S(229, __c7, 5)) }),
+        S.Struct({
+          Title: S.optional(S.Number).pipe(T.Default(0)),
+          Address: S.optional(__S(229, __c7, 5)),
+        }),
       ).annotate({ identifier: "ComponentMatchScores" });
     case 7:
       return S.suspend(() =>
-        S.Struct({ Overall: S.optional(S.Number), Components: S.optional(__S(230, __c7, 6)) }),
+        S.Struct({
+          Overall: S.optional(S.Number).pipe(T.Default(0)),
+          Components: S.optional(__S(230, __c7, 6)),
+        }),
       ).annotate({ identifier: "MatchScoreDetails" });
     case 8:
       return S.suspend(() =>
@@ -1684,7 +1690,7 @@ function __c7(j: number): any {
           AddressNumberCorrected: S.optional(S.Boolean),
           PostalCodeDetails: S.optional(__S(291, __c9, 3)),
           Position: S.optional(__S(128, __c4, 0)),
-          Distance: S.optional(S.Number),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
           MapView: S.optional(__S(128, __c4, 0)),
           Categories: S.optional(__S(321, __c10, 1)),
           FoodTypes: S.optional(__S(323, __c10, 3)),
@@ -1791,7 +1797,7 @@ function __c10(j: number): any {
         S.Struct({
           Name: SensitiveString,
           Offset: S.optional(SensitiveString),
-          OffsetSeconds: S.optional(S.Number),
+          OffsetSeconds: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TimeZone" });
   }
@@ -2013,7 +2019,7 @@ function __c15(j: number): any {
           AddressNumberCorrected: S.optional(S.Boolean),
           PostalCodeDetails: S.optional(__S(291, __c9, 3)),
           Position: S.optional(__S(128, __c4, 0)),
-          Distance: S.optional(S.Number),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
           MapView: S.optional(__S(128, __c4, 0)),
           Categories: S.optional(__S(321, __c10, 1)),
           FoodTypes: S.optional(__S(323, __c10, 3)),
@@ -2081,7 +2087,7 @@ function __c17(j: number): any {
           Address: S.optional(__S(137, __c4, 9)),
           AddressNumberCorrected: S.optional(S.Boolean),
           Position: S.optional(__S(128, __c4, 0)),
-          Distance: S.optional(S.Number),
+          Distance: S.optional(S.Number).pipe(T.Default(0)),
           MapView: S.optional(__S(128, __c4, 0)),
           Categories: S.optional(__S(321, __c10, 1)),
           FoodTypes: S.optional(__S(323, __c10, 3)),

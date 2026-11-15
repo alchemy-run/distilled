@@ -3902,7 +3902,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Insights: S.optional(__S(128, __c4, 0)),
-          QualificationStatus: S.optional(S.String),
+          QualificationStatus: S.optional(S.String).pipe(T.Default("Unqualified")),
           Customer: __S(163, __c5, 3),
           Interactions: __S(96, __c3, 0),
         }),
@@ -3998,12 +3998,12 @@ function __c5(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          SourceType: S.optional(S.String),
-          SourceId: S.optional(S.String),
-          SourceName: S.optional(S.String),
+          SourceType: S.optional(S.String).pipe(T.Default("")),
+          SourceId: S.optional(S.String).pipe(T.Default("")),
+          SourceName: S.optional(S.String).pipe(T.Default("")),
           Usecase: S.optional(S.String),
           InteractionDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          CustomerAction: S.optional(S.String),
+          CustomerAction: S.optional(S.String).pipe(T.Default("")),
           BusinessProblem: S.optional(SensitiveString),
           Contact: __S(164, __c5, 4),
         }),
@@ -4113,7 +4113,7 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Amount: S.optional(SensitiveString),
+          Amount: S.optional(SensitiveString).pipe(T.Default("")),
           CurrencyCode: S.String,
           Frequency: S.String,
           TargetCompany: S.String,
@@ -4168,7 +4168,7 @@ function __c11(j: number): any {
           Industry: S.optional(S.String),
           CompanyName: SensitiveString,
           WebsiteUrl: S.optional(SensitiveString),
-          CountryCode: S.optional(SensitiveString),
+          CountryCode: S.optional(SensitiveString).pipe(T.Default("")),
           AwsMaturity: S.optional(S.String),
           MarketSegment: S.optional(S.String),
         }),
@@ -4176,9 +4176,9 @@ function __c11(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          SourceType: S.optional(S.String),
-          SourceId: S.optional(S.String),
-          SourceName: S.optional(S.String),
+          SourceType: S.optional(S.String).pipe(T.Default("")),
+          SourceId: S.optional(S.String).pipe(T.Default("")),
+          SourceName: S.optional(S.String).pipe(T.Default("")),
           Usecase: S.optional(S.String),
           ContactBusinessTitle: SensitiveString,
         }),
@@ -5449,7 +5449,7 @@ function __c47(j: number): any {
           TaskName: S.String,
           StartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          TotalEngagementCount: S.Number,
+          TotalEngagementCount: S.Number.pipe(T.Default(0)),
           CompletedEngagementCount: S.Number,
           FailedEngagementCount: S.Number,
         }),
@@ -5842,7 +5842,7 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          QualificationStatus: S.optional(S.String),
+          QualificationStatus: S.optional(S.String).pipe(T.Default("Unqualified")),
           Customer: __S(163, __c5, 3),
           Interaction: S.optional(__S(165, __c5, 5)),
           Insights: S.optional(__S(128, __c4, 0)),

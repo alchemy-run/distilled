@@ -1290,10 +1290,10 @@ export type ConnectorSuppliedValueList = string[];
 export type OAuth2CustomPropType = "TOKEN_URL" | "AUTH_URL" | (string & {});
 export interface OAuth2CustomParameter {
   key?: string | undefined;
-  isRequired?: boolean | undefined;
+  isRequired: boolean;
   label?: string | undefined;
   description?: string | undefined;
-  isSensitiveField?: boolean | undefined;
+  isSensitiveField: boolean;
   connectorSuppliedValues?: string[] | undefined;
   type?: OAuth2CustomPropType | undefined;
 }
@@ -1307,10 +1307,10 @@ export interface OAuth2Defaults {
 }
 export interface AuthParameter {
   key?: string | undefined;
-  isRequired?: boolean | undefined;
+  isRequired: boolean;
   label?: string | undefined;
   description?: string | undefined;
-  isSensitiveField?: boolean | undefined;
+  isSensitiveField: boolean;
   connectorSuppliedValues?: string[] | undefined;
 }
 export type AuthParameterList = AuthParameter[];
@@ -1320,10 +1320,10 @@ export interface CustomAuthConfig {
 }
 export type CustomAuthConfigList = CustomAuthConfig[];
 export interface AuthenticationConfig {
-  isBasicAuthSupported?: boolean | undefined;
-  isApiKeyAuthSupported?: boolean | undefined;
-  isOAuth2Supported?: boolean | undefined;
-  isCustomAuthSupported?: boolean | undefined;
+  isBasicAuthSupported: boolean;
+  isApiKeyAuthSupported: boolean;
+  isOAuth2Supported: boolean;
+  isCustomAuthSupported: boolean;
   oAuth2Defaults?: OAuth2Defaults | undefined;
   customAuthConfigs?: CustomAuthConfig[] | undefined;
 }
@@ -1333,7 +1333,7 @@ export type ConnectorSuppliedValueOptionList = string[];
 export interface ConnectorRuntimeSetting {
   key?: string | undefined;
   dataType?: string | undefined;
-  isRequired?: boolean | undefined;
+  isRequired: boolean;
   label?: string | undefined;
   description?: string | undefined;
   scope?: string | undefined;
@@ -1380,12 +1380,12 @@ export type SupportedDataTransferType = "RECORD" | "FILE" | (string & {});
 export type SupportedDataTransferTypeList = SupportedDataTransferType[];
 export type SupportedDataTransferApis = DataTransferApi[];
 export interface ConnectorConfiguration {
-  canUseAsSource?: boolean | undefined;
-  canUseAsDestination?: boolean | undefined;
+  canUseAsSource: boolean;
+  canUseAsDestination: boolean;
   supportedDestinationConnectors?: ConnectorType[] | undefined;
   supportedSchedulingFrequencies?: ScheduleFrequencyType[] | undefined;
-  isPrivateLinkEnabled?: boolean | undefined;
-  isPrivateLinkEndpointUrlRequired?: boolean | undefined;
+  isPrivateLinkEnabled: boolean;
+  isPrivateLinkEndpointUrlRequired: boolean;
   supportedTriggerTypes?: TriggerType[] | undefined;
   connectorMetadata?: ConnectorMetadata | undefined;
   connectorType?: ConnectorType | undefined;
@@ -1424,8 +1424,8 @@ export type FilterOperatorList = Operator[];
 export type Value = string;
 export type SupportedValueList = string[];
 export interface Range {
-  maximum?: number | undefined;
-  minimum?: number | undefined;
+  maximum: number;
+  minimum: number;
 }
 export interface FieldTypeDetails {
   fieldType: string;
@@ -1440,25 +1440,25 @@ export interface SupportedFieldTypeDetails {
   v1: FieldTypeDetails;
 }
 export interface SourceFieldProperties {
-  isRetrievable?: boolean | undefined;
-  isQueryable?: boolean | undefined;
-  isTimestampFieldForIncrementalQueries?: boolean | undefined;
+  isRetrievable: boolean;
+  isQueryable: boolean;
+  isTimestampFieldForIncrementalQueries: boolean;
 }
 export interface DestinationFieldProperties {
-  isCreatable?: boolean | undefined;
-  isNullable?: boolean | undefined;
-  isUpsertable?: boolean | undefined;
-  isUpdatable?: boolean | undefined;
-  isDefaultedOnCreate?: boolean | undefined;
+  isCreatable: boolean;
+  isNullable: boolean;
+  isUpsertable: boolean;
+  isUpdatable: boolean;
+  isDefaultedOnCreate: boolean;
   supportedWriteOperations?: WriteOperationType[] | undefined;
 }
 export interface ConnectorEntityField {
   identifier: string;
   parentIdentifier?: string | undefined;
   label?: string | undefined;
-  isPrimaryKey?: boolean | undefined;
+  isPrimaryKey: boolean;
   defaultValue?: string | undefined;
-  isDeprecated?: boolean | undefined;
+  isDeprecated: boolean;
   supportedFieldTypeDetails?: SupportedFieldTypeDetails | undefined;
   description?: string | undefined;
   sourceProperties?: SourceFieldProperties | undefined;
@@ -1639,7 +1639,7 @@ export type Group = string;
 export interface ConnectorEntity {
   name: string;
   label?: string | undefined;
-  hasNestedEntities?: boolean | undefined;
+  hasNestedEntities: boolean;
 }
 export type ConnectorEntityList = ConnectorEntity[];
 export type ConnectorEntityMap = { [key: string]: ConnectorEntity[] | undefined };
@@ -2648,7 +2648,7 @@ function __c5(j: number): any {
           bucketPrefix: S.optional(S.String),
           roleArn: S.String,
           dataApiRoleArn: S.optional(S.String),
-          isRedshiftServerless: S.optional(S.Boolean),
+          isRedshiftServerless: S.optional(S.Boolean).pipe(T.Default(false)),
           clusterIdentifier: S.optional(S.String),
           workgroupName: S.optional(S.String),
           databaseName: S.optional(S.String),
@@ -2658,8 +2658,8 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           instanceUrl: S.optional(S.String),
-          isSandboxEnvironment: S.optional(S.Boolean),
-          usePrivateLinkForMetadataAndAuthorization: S.optional(S.Boolean),
+          isSandboxEnvironment: S.optional(S.Boolean).pipe(T.Default(false)),
+          usePrivateLinkForMetadataAndAuthorization: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "SalesforceConnectorProfileProperties" });
     case 3:
@@ -2688,7 +2688,7 @@ function __c5(j: number): any {
           logonLanguage: S.optional(S.String),
           privateLinkServiceName: S.optional(S.String),
           oAuthProperties: S.optional(__S(164, __c5, 4)),
-          disableSSO: S.optional(S.Boolean),
+          disableSSO: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "SAPODataConnectorProfileProperties" });
     case 6:
@@ -2710,7 +2710,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           instanceUrl: S.optional(S.String),
-          isSandboxEnvironment: S.optional(S.Boolean),
+          isSandboxEnvironment: S.optional(S.Boolean).pipe(T.Default(false)),
           businessUnitId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PardotConnectorProfileProperties" });
@@ -3005,8 +3005,8 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          enableDynamicFieldUpdate: S.optional(S.Boolean),
-          includeDeletedRecords: S.optional(S.Boolean),
+          enableDynamicFieldUpdate: S.optional(S.Boolean).pipe(T.Default(false)),
+          includeDeletedRecords: S.optional(S.Boolean).pipe(T.Default(false)),
           dataTransferApi: S.optional(S.String),
         }),
       ).annotate({ identifier: "SalesforceSourceProperties" });
@@ -3015,9 +3015,9 @@ function __c10(j: number): any {
         S.Struct({
           object: S.String,
           documentType: S.optional(S.String),
-          includeSourceFiles: S.optional(S.Boolean),
-          includeRenditions: S.optional(S.Boolean),
-          includeAllVersions: S.optional(S.Boolean),
+          includeSourceFiles: S.optional(S.Boolean).pipe(T.Default(false)),
+          includeRenditions: S.optional(S.Boolean).pipe(T.Default(false)),
+          includeAllVersions: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "VeevaSourceProperties" });
     case 8:
@@ -3083,7 +3083,7 @@ function __c10(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          failOnFirstDestinationError: S.optional(S.Boolean),
+          failOnFirstDestinationError: S.optional(S.Boolean).pipe(T.Default(false)),
           bucketPrefix: S.optional(S.String),
           bucketName: S.optional(S.String),
         }),
@@ -3377,10 +3377,10 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          isRequired: S.optional(S.Boolean),
+          isRequired: S.optional(S.Boolean).pipe(T.Default(false)),
           label: S.optional(S.String),
           description: S.optional(S.String),
-          isSensitiveField: S.optional(S.Boolean),
+          isSensitiveField: S.optional(S.Boolean).pipe(T.Default(false)),
           connectorSuppliedValues: S.optional(__S(32, __c1, 0)),
           type: S.optional(S.String),
         }),
@@ -3401,10 +3401,10 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          isRequired: S.optional(S.Boolean),
+          isRequired: S.optional(S.Boolean).pipe(T.Default(false)),
           label: S.optional(S.String),
           description: S.optional(S.String),
-          isSensitiveField: S.optional(S.Boolean),
+          isSensitiveField: S.optional(S.Boolean).pipe(T.Default(false)),
           connectorSuppliedValues: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "AuthParameter" });
@@ -3422,10 +3422,10 @@ function __c16(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          isBasicAuthSupported: S.optional(S.Boolean),
-          isApiKeyAuthSupported: S.optional(S.Boolean),
-          isOAuth2Supported: S.optional(S.Boolean),
-          isCustomAuthSupported: S.optional(S.Boolean),
+          isBasicAuthSupported: S.optional(S.Boolean).pipe(T.Default(false)),
+          isApiKeyAuthSupported: S.optional(S.Boolean).pipe(T.Default(false)),
+          isOAuth2Supported: S.optional(S.Boolean).pipe(T.Default(false)),
+          isCustomAuthSupported: S.optional(S.Boolean).pipe(T.Default(false)),
           oAuth2Defaults: S.optional(__S(518, __c16, 6)),
           customAuthConfigs: S.optional(__S(522, __c16, 10)),
         }),
@@ -3435,7 +3435,7 @@ function __c16(j: number): any {
         S.Struct({
           key: S.optional(S.String),
           dataType: S.optional(S.String),
-          isRequired: S.optional(S.Boolean),
+          isRequired: S.optional(S.Boolean).pipe(T.Default(false)),
           label: S.optional(S.String),
           description: S.optional(S.String),
           scope: S.optional(S.String),
@@ -3449,12 +3449,12 @@ function __c16(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          canUseAsSource: S.optional(S.Boolean),
-          canUseAsDestination: S.optional(S.Boolean),
+          canUseAsSource: S.optional(S.Boolean).pipe(T.Default(false)),
+          canUseAsDestination: S.optional(S.Boolean).pipe(T.Default(false)),
           supportedDestinationConnectors: S.optional(__S(256, __c8, 0)),
           supportedSchedulingFrequencies: S.optional(__S(256, __c8, 0)),
-          isPrivateLinkEnabled: S.optional(S.Boolean),
-          isPrivateLinkEndpointUrlRequired: S.optional(S.Boolean),
+          isPrivateLinkEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          isPrivateLinkEndpointUrlRequired: S.optional(S.Boolean).pipe(T.Default(false)),
           supportedTriggerTypes: S.optional(__S(256, __c8, 0)),
           connectorMetadata: S.optional(__S(515, __c16, 3)),
           connectorType: S.optional(S.String),
@@ -3515,7 +3515,10 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DescribeConnectorEntityRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ maximum: S.optional(S.Number), minimum: S.optional(S.Number) }),
+        S.Struct({
+          maximum: S.optional(S.Number).pipe(T.Default(0)),
+          minimum: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "Range" });
     case 2:
       return S.suspend(() =>
@@ -3536,19 +3539,19 @@ function __c18(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          isRetrievable: S.optional(S.Boolean),
-          isQueryable: S.optional(S.Boolean),
-          isTimestampFieldForIncrementalQueries: S.optional(S.Boolean),
+          isRetrievable: S.optional(S.Boolean).pipe(T.Default(false)),
+          isQueryable: S.optional(S.Boolean).pipe(T.Default(false)),
+          isTimestampFieldForIncrementalQueries: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "SourceFieldProperties" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          isCreatable: S.optional(S.Boolean),
-          isNullable: S.optional(S.Boolean),
-          isUpsertable: S.optional(S.Boolean),
-          isUpdatable: S.optional(S.Boolean),
-          isDefaultedOnCreate: S.optional(S.Boolean),
+          isCreatable: S.optional(S.Boolean).pipe(T.Default(false)),
+          isNullable: S.optional(S.Boolean).pipe(T.Default(false)),
+          isUpsertable: S.optional(S.Boolean).pipe(T.Default(false)),
+          isUpdatable: S.optional(S.Boolean).pipe(T.Default(false)),
+          isDefaultedOnCreate: S.optional(S.Boolean).pipe(T.Default(false)),
           supportedWriteOperations: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "DestinationFieldProperties" });
@@ -3558,9 +3561,9 @@ function __c18(j: number): any {
           identifier: S.String,
           parentIdentifier: S.optional(S.String),
           label: S.optional(S.String),
-          isPrimaryKey: S.optional(S.Boolean),
+          isPrimaryKey: S.optional(S.Boolean).pipe(T.Default(false)),
           defaultValue: S.optional(S.String),
-          isDeprecated: S.optional(S.Boolean),
+          isDeprecated: S.optional(S.Boolean).pipe(T.Default(false)),
           supportedFieldTypeDetails: S.optional(__S(579, __c18, 3)),
           description: S.optional(S.String),
           sourceProperties: S.optional(__S(580, __c18, 4)),
@@ -3842,7 +3845,7 @@ function __c26(j: number): any {
         S.Struct({
           name: S.String,
           label: S.optional(S.String),
-          hasNestedEntities: S.optional(S.Boolean),
+          hasNestedEntities: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ConnectorEntity" });
     case 2:

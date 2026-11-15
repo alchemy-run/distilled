@@ -444,11 +444,11 @@ export interface LogGroupImpact {
 }
 export type LogGroupImpacts = LogGroupImpact[];
 export interface DryRunResult {
-  totalMatchedLogGroups?: number | undefined;
-  increasedRetentionLogGroupCount?: number | undefined;
-  decreasedRetentionLogGroupCount?: number | undefined;
-  unchangedRetentionLogGroupCount?: number | undefined;
-  failedAnalysisCount?: number | undefined;
+  totalMatchedLogGroups: number;
+  increasedRetentionLogGroupCount: number;
+  decreasedRetentionLogGroupCount: number;
+  unchangedRetentionLogGroupCount: number;
+  failedAnalysisCount: number;
   topLogGroupsImpacted?: LogGroupImpact[] | undefined;
 }
 export interface DeleteAccountPolicyResponse {
@@ -519,7 +519,7 @@ export interface DeleteQueryDefinitionRequest {
 }
 export type Success = boolean;
 export interface DeleteQueryDefinitionResponse {
-  success?: boolean | undefined;
+  success: boolean;
 }
 export type ExpectedRevisionId = string;
 export interface DeleteResourcePolicyRequest {
@@ -1016,7 +1016,7 @@ export interface MetricFilter {
   metricTransformations?: MetricTransformation[] | undefined;
   creationTime?: number | undefined;
   logGroupName?: string | undefined;
-  applyOnTransformedLogs?: boolean | undefined;
+  applyOnTransformedLogs: boolean;
   fieldSelectionCriteria?: string | undefined;
   emitSystemFieldDimensions?: string[] | undefined;
 }
@@ -1129,7 +1129,7 @@ export interface SubscriptionFilter {
   destinationArn?: string | undefined;
   roleArn?: string | undefined;
   distribution?: Distribution | undefined;
-  applyOnTransformedLogs?: boolean | undefined;
+  applyOnTransformedLogs: boolean;
   creationTime?: number | undefined;
   fieldSelectionCriteria?: string | undefined;
   emitSystemFields?: string[] | undefined;
@@ -1315,8 +1315,8 @@ export interface GetLogAnomalyDetectorResponse {
   filterPattern?: string | undefined;
   anomalyDetectorStatus?: AnomalyDetectorStatus | undefined;
   kmsKeyId?: string | undefined;
-  creationTimeStamp?: number | undefined;
-  lastModifiedTimeStamp?: number | undefined;
+  creationTimeStamp: number;
+  lastModifiedTimeStamp: number;
   anomalyVisibilityTime?: number | undefined;
 }
 export interface GetLogEventsRequest {
@@ -1369,7 +1369,7 @@ export type Field = string;
 export type Percentage = number;
 export interface LogGroupField {
   name?: string | undefined;
-  percent?: number | undefined;
+  percent: number;
 }
 export type LogGroupFieldList = LogGroupField[];
 export interface GetLogGroupFieldsResponse {
@@ -1431,13 +1431,13 @@ export type ResultRows = ResultField[];
 export type QueryResults = ResultField[][];
 export type StatsValue = number;
 export interface QueryStatistics {
-  recordsMatched?: number | undefined;
-  recordsScanned?: number | undefined;
-  estimatedRecordsSkipped?: number | undefined;
-  bytesScanned?: number | undefined;
-  estimatedBytesSkipped?: number | undefined;
-  logGroupsScanned?: number | undefined;
-  resultCount?: number | undefined;
+  recordsMatched: number;
+  recordsScanned: number;
+  estimatedRecordsSkipped: number;
+  bytesScanned: number;
+  estimatedBytesSkipped: number;
+  logGroupsScanned: number;
+  resultCount: number;
 }
 export type EncryptionKey = string;
 export interface GetQueryResultsResponse {
@@ -1800,7 +1800,7 @@ export type TokenValue = number;
 export type Enumerations = { [key: string]: number | undefined };
 export type InferredTokenName = string;
 export interface PatternToken {
-  dynamicTokenPosition?: number | undefined;
+  dynamicTokenPosition: number;
   isDynamic?: boolean | undefined;
   tokenString?: string | undefined;
   enumerations?: { [key: string]: number | undefined } | undefined;
@@ -1824,8 +1824,8 @@ export interface Anomaly {
   patternTokens: PatternToken[];
   logGroupArnList: string[];
   suppressed?: boolean | undefined;
-  suppressedDate?: number | undefined;
-  suppressedUntil?: number | undefined;
+  suppressedDate: number;
+  suppressedUntil: number;
   isPatternLevelSuppression?: boolean | undefined;
 }
 export type Anomalies = Anomaly[];
@@ -1862,8 +1862,8 @@ export interface AnomalyDetector {
   filterPattern?: string | undefined;
   anomalyDetectorStatus?: AnomalyDetectorStatus | undefined;
   kmsKeyId?: string | undefined;
-  creationTimeStamp?: number | undefined;
-  lastModifiedTimeStamp?: number | undefined;
+  creationTimeStamp: number;
+  lastModifiedTimeStamp: number;
   anomalyVisibilityTime?: number | undefined;
 }
 export type AnomalyDetectors = AnomalyDetector[];
@@ -2228,7 +2228,7 @@ export interface LiveTailSessionStart {
 }
 export type IsSampled = boolean;
 export interface LiveTailSessionMetadata {
-  sampled?: boolean | undefined;
+  sampled: boolean;
 }
 export interface LiveTailSessionLogEvent {
   logStreamName?: string | undefined;
@@ -2294,7 +2294,7 @@ export interface StopQueryRequest {
   queryId: string;
 }
 export interface StopQueryResponse {
-  success?: boolean | undefined;
+  success: boolean;
 }
 export interface TagLogGroupRequest {
   logGroupName: string;
@@ -2315,7 +2315,7 @@ export type EventNumber = number;
 export type Token = string;
 export type ExtractedValues = { [key: string]: string | undefined };
 export interface MetricFilterMatchRecord {
-  eventNumber?: number | undefined;
+  eventNumber: number;
   eventMessage?: string | undefined;
   extractedValues?: { [key: string]: string | undefined } | undefined;
 }
@@ -2329,7 +2329,7 @@ export interface TestTransformerRequest {
 }
 export type TransformedEventMessage = string;
 export interface TransformedLogRecord {
-  eventNumber?: number | undefined;
+  eventNumber: number;
   eventMessage?: string | undefined;
   transformedEventMessage?: string | undefined;
 }
@@ -8049,9 +8049,9 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "LiveTailSessionStart" });
     case 2:
-      return S.suspend(() => S.Struct({ sampled: S.optional(S.Boolean) })).annotate({
-        identifier: "LiveTailSessionMetadata",
-      });
+      return S.suspend(() =>
+        S.Struct({ sampled: S.optional(S.Boolean).pipe(T.Default(false)) }),
+      ).annotate({ identifier: "LiveTailSessionMetadata" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8148,7 +8148,7 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          eventNumber: S.optional(S.Number),
+          eventNumber: S.optional(S.Number).pipe(T.Default(0)),
           eventMessage: S.optional(S.String),
           extractedValues: S.optional(__S(1472, __c46, 0)),
         }),
@@ -8173,7 +8173,7 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          eventNumber: S.optional(S.Number),
+          eventNumber: S.optional(S.Number).pipe(T.Default(0)),
           eventMessage: S.optional(S.String),
           transformedEventMessage: S.optional(S.String),
         }),
@@ -8210,7 +8210,10 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ value: S.optional(S.Number), suppressionUnit: S.optional(S.String) }),
+        S.Struct({
+          value: S.optional(S.Number).pipe(T.Default(0)),
+          suppressionUnit: S.optional(S.String),
+        }),
       ).annotate({ identifier: "SuppressionPeriod" });
     case 1:
       return S.suspend(() =>
@@ -8647,11 +8650,11 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          totalMatchedLogGroups: S.optional(S.Number),
-          increasedRetentionLogGroupCount: S.optional(S.Number),
-          decreasedRetentionLogGroupCount: S.optional(S.Number),
-          unchangedRetentionLogGroupCount: S.optional(S.Number),
-          failedAnalysisCount: S.optional(S.Number),
+          totalMatchedLogGroups: S.optional(S.Number).pipe(T.Default(0)),
+          increasedRetentionLogGroupCount: S.optional(S.Number).pipe(T.Default(0)),
+          decreasedRetentionLogGroupCount: S.optional(S.Number).pipe(T.Default(0)),
+          unchangedRetentionLogGroupCount: S.optional(S.Number).pipe(T.Default(0)),
+          failedAnalysisCount: S.optional(S.Number).pipe(T.Default(0)),
           topLogGroupsImpacted: S.optional(__S(1953, __c61, 1)),
         }),
       ).annotate({ identifier: "DryRunResult" });
@@ -8800,9 +8803,9 @@ function __c75(j: number): any {
 function __c76(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ success: S.optional(S.Boolean) }).pipe(ns)).annotate({
-        identifier: "DeleteQueryDefinitionResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({ success: S.optional(S.Boolean).pipe(T.Default(false)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteQueryDefinitionResponse" });
   }
 }
 function __c77(j: number): any {
@@ -9434,7 +9437,7 @@ function __c103(j: number): any {
           metricTransformations: S.optional(__S(3329, __c104, 1)),
           creationTime: S.optional(S.Number),
           logGroupName: S.optional(S.String),
-          applyOnTransformedLogs: S.optional(S.Boolean),
+          applyOnTransformedLogs: S.optional(S.Boolean).pipe(T.Default(false)),
           fieldSelectionCriteria: S.optional(S.String),
           emitSystemFieldDimensions: S.optional(__S(1504, __c47, 0)),
         }),
@@ -9609,7 +9612,7 @@ function __c110(j: number): any {
           destinationArn: S.optional(S.String),
           roleArn: S.optional(S.String),
           distribution: S.optional(S.String),
-          applyOnTransformedLogs: S.optional(S.Boolean),
+          applyOnTransformedLogs: S.optional(S.Boolean).pipe(T.Default(false)),
           creationTime: S.optional(S.Number),
           fieldSelectionCriteria: S.optional(S.String),
           emitSystemFields: S.optional(__S(1504, __c47, 0)),
@@ -9876,8 +9879,8 @@ function __c124(j: number): any {
           filterPattern: S.optional(S.String),
           anomalyDetectorStatus: S.optional(S.String),
           kmsKeyId: S.optional(S.String),
-          creationTimeStamp: S.optional(S.Number),
-          lastModifiedTimeStamp: S.optional(S.Number),
+          creationTimeStamp: S.optional(S.Number).pipe(T.Default(0)),
+          lastModifiedTimeStamp: S.optional(S.Number).pipe(T.Default(0)),
           anomalyVisibilityTime: S.optional(S.Number),
         }).pipe(ns),
       ).annotate({ identifier: "GetLogAnomalyDetectorResponse" });
@@ -9988,7 +9991,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetLogGroupFieldsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ name: S.optional(S.String), percent: S.optional(S.Number) }),
+        S.Struct({ name: S.optional(S.String), percent: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "LogGroupField" });
     case 2:
       return S.Array(__S(4097, __c128, 1));
@@ -10088,13 +10091,13 @@ function __c133(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          recordsMatched: S.optional(S.Number),
-          recordsScanned: S.optional(S.Number),
-          estimatedRecordsSkipped: S.optional(S.Number),
-          bytesScanned: S.optional(S.Number),
-          estimatedBytesSkipped: S.optional(S.Number),
-          logGroupsScanned: S.optional(S.Number),
-          resultCount: S.optional(S.Number),
+          recordsMatched: S.optional(S.Number).pipe(T.Default(0)),
+          recordsScanned: S.optional(S.Number).pipe(T.Default(0)),
+          estimatedRecordsSkipped: S.optional(S.Number).pipe(T.Default(0)),
+          bytesScanned: S.optional(S.Number).pipe(T.Default(0)),
+          estimatedBytesSkipped: S.optional(S.Number).pipe(T.Default(0)),
+          logGroupsScanned: S.optional(S.Number).pipe(T.Default(0)),
+          resultCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "QueryStatistics" });
     case 5:
@@ -10240,7 +10243,11 @@ function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ key: S.String, value: S.String, overwriteIfExists: S.optional(S.Boolean) }),
+        S.Struct({
+          key: S.String,
+          value: S.String,
+          overwriteIfExists: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "AddKeyEntry" });
     case 1:
       return S.Array(__S(4480, __c140, 0));
@@ -10250,7 +10257,11 @@ function __c140(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({ source: S.String, target: S.String, overwriteIfExists: S.optional(S.Boolean) }),
+        S.Struct({
+          source: S.String,
+          target: S.String,
+          overwriteIfExists: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "CopyValueEntry" });
     case 4:
       return S.Array(__S(4483, __c140, 3));
@@ -10295,7 +10306,7 @@ function __c140(j: number): any {
           key: S.String,
           valueKey: S.optional(S.String),
           target: S.optional(S.String),
-          flatten: S.optional(S.Boolean),
+          flatten: S.optional(S.Boolean).pipe(T.Default(false)),
           flattenedElement: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListToMap" });
@@ -10316,7 +10327,7 @@ function __c140(j: number): any {
           keyValueDelimiter: S.optional(S.String),
           keyPrefix: S.optional(S.String),
           nonMatchValue: S.optional(S.String),
-          overwriteIfExists: S.optional(S.Boolean),
+          overwriteIfExists: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ParseKeyValue" });
     case 14:
@@ -10330,7 +10341,11 @@ function __c140(j: number): any {
       ).annotate({ identifier: "ParseToOCSF" });
     case 15:
       return S.suspend(() =>
-        S.Struct({ key: S.String, renameTo: S.String, overwriteIfExists: S.optional(S.Boolean) }),
+        S.Struct({
+          key: S.String,
+          renameTo: S.String,
+          overwriteIfExists: S.optional(S.Boolean).pipe(T.Default(false)),
+        }),
       ).annotate({ identifier: "RenameKeyEntry" });
     case 16:
       return S.Array(__S(4495, __c140, 15));
@@ -10467,7 +10482,7 @@ function __c143(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dynamicTokenPosition: S.optional(S.Number),
+          dynamicTokenPosition: S.optional(S.Number).pipe(T.Default(0)),
           isDynamic: S.optional(S.Boolean),
           tokenString: S.optional(S.String),
           enumerations: S.optional(__S(4577, __c143, 1)),
@@ -10485,8 +10500,8 @@ function __c143(j: number): any {
           patternString: S.String,
           patternRegex: S.optional(S.String),
           priority: S.optional(S.String),
-          firstSeen: S.Number,
-          lastSeen: S.Number,
+          firstSeen: S.Number.pipe(T.Default(0)),
+          lastSeen: S.Number.pipe(T.Default(0)),
           description: S.String,
           active: S.Boolean,
           state: S.String,
@@ -10495,8 +10510,8 @@ function __c143(j: number): any {
           patternTokens: __S(4581, __c143, 5),
           logGroupArnList: __S(1504, __c47, 0),
           suppressed: S.optional(S.Boolean),
-          suppressedDate: S.optional(S.Number),
-          suppressedUntil: S.optional(S.Number),
+          suppressedDate: S.optional(S.Number).pipe(T.Default(0)),
+          suppressedUntil: S.optional(S.Number).pipe(T.Default(0)),
           isPatternLevelSuppression: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Anomaly" });
@@ -10557,8 +10572,8 @@ function __c145(j: number): any {
           filterPattern: S.optional(S.String),
           anomalyDetectorStatus: S.optional(S.String),
           kmsKeyId: S.optional(S.String),
-          creationTimeStamp: S.optional(S.Number),
-          lastModifiedTimeStamp: S.optional(S.Number),
+          creationTimeStamp: S.optional(S.Number).pipe(T.Default(0)),
+          lastModifiedTimeStamp: S.optional(S.Number).pipe(T.Default(0)),
           anomalyVisibilityTime: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AnomalyDetector" });

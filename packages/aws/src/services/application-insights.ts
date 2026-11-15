@@ -279,7 +279,7 @@ export interface LogPattern {
   PatternSetName?: string | undefined;
   PatternName?: string | undefined;
   Pattern?: string | undefined;
-  Rank?: number | undefined;
+  Rank: number;
 }
 export interface CreateLogPatternResponse {
   LogPattern?: LogPattern | undefined;
@@ -1706,7 +1706,7 @@ function __c4(j: number): any {
           PatternSetName: S.optional(S.String),
           PatternName: S.optional(S.String),
           Pattern: S.optional(S.String),
-          Rank: S.optional(S.Number),
+          Rank: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "LogPattern" });
   }

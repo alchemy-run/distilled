@@ -291,7 +291,7 @@ export type OptionState =
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number | undefined;
+  UpdateVersion: number;
   State: OptionState;
   PendingDeletion?: boolean | undefined;
 }
@@ -1451,7 +1451,7 @@ function __c1(j: number): any {
         S.Struct({
           CreationDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           UpdateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          UpdateVersion: S.optional(S.Number),
+          UpdateVersion: S.optional(S.Number).pipe(T.Default(0)),
           State: S.String,
           PendingDeletion: S.optional(S.Boolean),
         }),
@@ -1811,9 +1811,9 @@ function __c16(j: number): any {
 function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Options: S.Boolean, Status: __S(16, __c1, 0) })).annotate({
-        identifier: "AvailabilityOptionsStatus",
-      });
+      return S.suspend(() =>
+        S.Struct({ Options: S.Boolean.pipe(T.Default(false)), Status: __S(16, __c1, 0) }),
+      ).annotate({ identifier: "AvailabilityOptionsStatus" });
   }
 }
 function __c18(j: number): any {
@@ -1918,8 +1918,8 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           DesiredInstanceType: S.optional(S.String),
-          DesiredReplicationCount: S.optional(S.Number),
-          DesiredPartitionCount: S.optional(S.Number),
+          DesiredReplicationCount: S.optional(S.Number).pipe(T.Default(0)),
+          DesiredPartitionCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ScalingParameters" });
     case 1:

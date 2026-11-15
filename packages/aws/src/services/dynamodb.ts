@@ -1486,11 +1486,11 @@ export interface BulkOperationDescription {
   OutputS3Configuration?: OutputS3Configuration | undefined;
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
-  ProcessedItemCount?: number | undefined;
+  ProcessedItemCount: number;
   ProcessedInputBytes?: number | undefined;
   TotalInputBytes?: number | undefined;
   BulkOperationUsage?: BulkOperationUsage[] | undefined;
-  FailedItemCount?: number | undefined;
+  FailedItemCount: number;
   FailureCode?: string | undefined;
   FailureMessage?: string | undefined;
   MaxWriteRequestUnits?: number | undefined;
@@ -1727,7 +1727,7 @@ export interface ImportTableDescription {
   TableId?: string | undefined;
   ClientToken?: string | undefined;
   S3BucketSource?: S3BucketSource | undefined;
-  ErrorCount?: number | undefined;
+  ErrorCount: number;
   CloudWatchLogGroupArn?: string | undefined;
   InputFormat?: InputFormat | undefined;
   InputFormatOptions?: InputFormatOptions | undefined;
@@ -1736,8 +1736,8 @@ export interface ImportTableDescription {
   StartTime?: Date | undefined;
   EndTime?: Date | undefined;
   ProcessedSizeBytes?: number | undefined;
-  ProcessedItemCount?: number | undefined;
-  ImportedItemCount?: number | undefined;
+  ProcessedItemCount: number;
+  ImportedItemCount: number;
   FailureCode?: string | undefined;
   FailureMessage?: string | undefined;
 }
@@ -2108,8 +2108,8 @@ export interface QueryInput {
 }
 export interface QueryOutput {
   Items?: { [key: string]: AttributeValue | undefined }[] | undefined;
-  Count?: number | undefined;
-  ScannedCount?: number | undefined;
+  Count: number;
+  ScannedCount: number;
   LastEvaluatedKey?: { [key: string]: AttributeValue | undefined } | undefined;
   ConsumedCapacity?: ConsumedCapacity | undefined;
 }
@@ -2166,8 +2166,8 @@ export interface ScanInput {
 }
 export interface ScanOutput {
   Items?: { [key: string]: AttributeValue | undefined }[] | undefined;
-  Count?: number | undefined;
-  ScannedCount?: number | undefined;
+  Count: number;
+  ScannedCount: number;
   LastEvaluatedKey?: { [key: string]: AttributeValue | undefined } | undefined;
   ConsumedCapacity?: ConsumedCapacity | undefined;
 }
@@ -2187,7 +2187,7 @@ export interface SearchVectorsInput {
 export type ScoreNumber = number;
 export interface SearchResultItem {
   Item?: { [key: string]: AttributeValue | undefined } | undefined;
-  Score?: number | undefined;
+  Score: number;
 }
 export type SearchResultList = SearchResultItem[];
 export interface SearchVectorsOutput {
@@ -5926,7 +5926,7 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Address: S.String, CachePeriodInMinutes: S.Number }),
+        S.Struct({ Address: S.String, CachePeriodInMinutes: S.Number.pipe(T.Default(0)) }),
       ).annotate({ identifier: "Endpoint" });
   }
 }
@@ -6802,11 +6802,11 @@ function __c46(j: number): any {
           OutputS3Configuration: S.optional(__S(740, __c46, 4)),
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ProcessedItemCount: S.optional(S.Number),
+          ProcessedItemCount: S.optional(S.Number).pipe(T.Default(0)),
           ProcessedInputBytes: S.optional(S.Number),
           TotalInputBytes: S.optional(S.Number),
           BulkOperationUsage: S.optional(__S(746, __c46, 10)),
-          FailedItemCount: S.optional(S.Number),
+          FailedItemCount: S.optional(S.Number).pipe(T.Default(0)),
           FailureCode: S.optional(S.String),
           FailureMessage: S.optional(S.String),
           MaxWriteRequestUnits: S.optional(S.Number),
@@ -7097,7 +7097,7 @@ function __c58(j: number): any {
           TableId: S.optional(S.String),
           ClientToken: S.optional(S.String),
           S3BucketSource: S.optional(__S(944, __c59, 0)),
-          ErrorCount: S.optional(S.Number),
+          ErrorCount: S.optional(S.Number).pipe(T.Default(0)),
           CloudWatchLogGroupArn: S.optional(S.String),
           InputFormat: S.optional(S.String),
           InputFormatOptions: S.optional(__S(929, __c58, 1)),
@@ -7106,8 +7106,8 @@ function __c58(j: number): any {
           StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ProcessedSizeBytes: S.optional(S.Number),
-          ProcessedItemCount: S.optional(S.Number),
-          ImportedItemCount: S.optional(S.Number),
+          ProcessedItemCount: S.optional(S.Number).pipe(T.Default(0)),
+          ImportedItemCount: S.optional(S.Number).pipe(T.Default(0)),
           FailureCode: S.optional(S.String),
           FailureMessage: S.optional(S.String),
         }),
@@ -7719,8 +7719,8 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Items: S.optional(__S(192, __c12, 0)),
-          Count: S.optional(S.Number),
-          ScannedCount: S.optional(S.Number),
+          Count: S.optional(S.Number).pipe(T.Default(0)),
+          ScannedCount: S.optional(S.Number).pipe(T.Default(0)),
           LastEvaluatedKey: S.optional(__S(20, __c1, 4)),
           ConsumedCapacity: S.optional(__S(115, __c7, 3)),
         }).pipe(ns),
@@ -7820,7 +7820,10 @@ function __c90(j: number): any {
       ).annotate({ identifier: "SearchVectorsInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Item: S.optional(__S(20, __c1, 4)), Score: S.optional(S.Number) }),
+        S.Struct({
+          Item: S.optional(__S(20, __c1, 4)),
+          Score: S.optional(S.Number).pipe(T.Default(0)),
+        }),
       ).annotate({ identifier: "SearchResultItem" });
     case 2:
       return S.Array(__S(1441, __c90, 1));

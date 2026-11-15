@@ -670,7 +670,7 @@ export interface DescribeDatasetImportJobResponse {
   DatasetArn?: string | undefined;
   TimestampFormat?: string | undefined;
   TimeZone?: string | undefined;
-  UseGeolocationForTimeZone?: boolean | undefined;
+  UseGeolocationForTimeZone: boolean;
   GeolocationFormat?: string | undefined;
   DataSource?: DataSource | undefined;
   EstimatedTimeRemainingInMinutes?: number | undefined;
@@ -4120,7 +4120,7 @@ function __c33(j: number): any {
           DatasetArn: S.optional(S.String),
           TimestampFormat: S.optional(S.String),
           TimeZone: S.optional(S.String),
-          UseGeolocationForTimeZone: S.optional(S.Boolean),
+          UseGeolocationForTimeZone: S.optional(S.Boolean).pipe(T.Default(false)),
           GeolocationFormat: S.optional(S.String),
           DataSource: S.optional(__S(1248, __c78, 0)),
           EstimatedTimeRemainingInMinutes: S.optional(S.Number),

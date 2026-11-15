@@ -308,8 +308,8 @@ export interface ServiceQuota {
   QuotaName?: string | undefined;
   Value?: number | undefined;
   Unit?: string | undefined;
-  Adjustable?: boolean | undefined;
-  GlobalQuota?: boolean | undefined;
+  Adjustable: boolean;
+  GlobalQuota: boolean;
   UsageMetric?: MetricInfo | undefined;
   Period?: QuotaPeriod | undefined;
   ErrorReason?: ErrorReason | undefined;
@@ -342,7 +342,7 @@ export interface QuotaUtilizationInfo {
   DefaultValue?: number | undefined;
   AppliedValue?: number | undefined;
   ServiceName?: string | undefined;
-  Adjustable?: boolean | undefined;
+  Adjustable: boolean;
 }
 export type QuotaUtilizationInfoList = QuotaUtilizationInfo[];
 export type ReportErrorCode = string;
@@ -386,7 +386,7 @@ export interface RequestedServiceQuotaChange {
   LastUpdated?: Date | undefined;
   Requester?: string | undefined;
   QuotaArn?: string | undefined;
-  GlobalQuota?: boolean | undefined;
+  GlobalQuota: boolean;
   Unit?: string | undefined;
   QuotaRequestedAtLevel?: AppliedLevelEnum | undefined;
   QuotaContext?: QuotaContextInfo | undefined;
@@ -415,7 +415,7 @@ export interface ServiceQuotaIncreaseRequestInTemplate {
   DesiredValue?: number | undefined;
   AwsRegion?: string | undefined;
   Unit?: string | undefined;
-  GlobalQuota?: boolean | undefined;
+  GlobalQuota: boolean;
 }
 export interface GetServiceQuotaIncreaseRequestFromTemplateResponse {
   ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate | undefined;
@@ -1721,8 +1721,8 @@ function __c10(j: number): any {
           QuotaName: S.optional(S.String),
           Value: S.optional(S.Number),
           Unit: S.optional(S.String),
-          Adjustable: S.optional(S.Boolean),
-          GlobalQuota: S.optional(S.Boolean),
+          Adjustable: S.optional(S.Boolean).pipe(T.Default(false)),
+          GlobalQuota: S.optional(S.Boolean).pipe(T.Default(false)),
           UsageMetric: S.optional(__S(81, __c10, 1)),
           Period: S.optional(__S(82, __c10, 2)),
           ErrorReason: S.optional(__S(83, __c10, 3)),
@@ -1754,7 +1754,7 @@ function __c11(j: number): any {
           DefaultValue: S.optional(S.Number),
           AppliedValue: S.optional(S.Number),
           ServiceName: S.optional(S.String),
-          Adjustable: S.optional(S.Boolean),
+          Adjustable: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "QuotaUtilizationInfo" });
     case 2:
@@ -1802,7 +1802,7 @@ function __c13(j: number): any {
           LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Requester: S.optional(S.String),
           QuotaArn: S.optional(S.String),
-          GlobalQuota: S.optional(S.Boolean),
+          GlobalQuota: S.optional(S.Boolean).pipe(T.Default(false)),
           Unit: S.optional(S.String),
           QuotaRequestedAtLevel: S.optional(S.String),
           QuotaContext: S.optional(__S(64, __c8, 0)),
@@ -1852,7 +1852,7 @@ function __c17(j: number): any {
           DesiredValue: S.optional(S.Number),
           AwsRegion: S.optional(S.String),
           Unit: S.optional(S.String),
-          GlobalQuota: S.optional(S.Boolean),
+          GlobalQuota: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "ServiceQuotaIncreaseRequestInTemplate" });
   }

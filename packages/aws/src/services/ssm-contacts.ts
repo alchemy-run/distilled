@@ -146,9 +146,9 @@ export class InternalServerException
     "InternalServerException",
     {
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError, C.withRetryableError) {}
@@ -202,9 +202,9 @@ export class ThrottlingException
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       QuotaCode: /*@__PURE__*/ S.optional(S.String),
       ServiceCode: /*@__PURE__*/ S.optional(S.String),
-      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
-        /*@__PURE__*/ T.HttpHeader("Retry-After"),
-      ),
+      RetryAfterSeconds: /*@__PURE__*/ S.optional(S.Number)
+        .pipe(/*@__PURE__*/ T.HttpHeader("Retry-After"))
+        .pipe(/*@__PURE__*/ T.Default(0)),
     },
     /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
@@ -2423,9 +2423,12 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ HourOfDay: S.Number, MinuteOfHour: S.Number })).annotate({
-        identifier: "HandOffTime",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          HourOfDay: S.Number.pipe(T.Default(0)),
+          MinuteOfHour: S.Number.pipe(T.Default(0)),
+        }),
+      ).annotate({ identifier: "HandOffTime" });
     case 1:
       return S.suspend(() =>
         S.Struct({ DayOfMonth: S.Number, HandOffTime: __S(176, __c11, 0) }),

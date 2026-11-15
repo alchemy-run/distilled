@@ -2137,7 +2137,7 @@ function __c3(j: number): any {
           executionRegion: S.String,
           recoveryExecutionId: S.optional(S.String),
           stepStates: S.optional(__S(98, __c3, 2)),
-          plan: S.optional(__S(923, __c28, 27)),
+          plan: S.optional(__S(924, __c28, 28)),
           actualRecoveryTime: S.optional(S.String),
           generatedReportDetails: S.optional(__S(103, __c3, 7)),
           nextToken: S.optional(S.String),
@@ -2469,12 +2469,12 @@ function __c18(j: number): any {
         S.Struct({
           arn: S.String,
           description: S.optional(S.String),
-          workflows: __S(912, __c28, 16),
+          workflows: __S(913, __c28, 17),
           executionRole: S.String,
           recoveryTimeObjectiveMinutes: S.optional(S.Number),
-          associatedAlarms: S.optional(__S(914, __c28, 18)),
-          triggers: S.optional(__S(918, __c28, 22)),
-          reportConfiguration: S.optional(__S(922, __c28, 26)),
+          associatedAlarms: S.optional(__S(915, __c28, 19)),
+          triggers: S.optional(__S(919, __c28, 23)),
+          reportConfiguration: S.optional(__S(923, __c28, 27)),
           serviceQuotaChecksEnabled: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -2555,12 +2555,12 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          workflows: __S(912, __c28, 16),
+          workflows: __S(913, __c28, 17),
           executionRole: S.String,
           recoveryTimeObjectiveMinutes: S.optional(S.Number),
-          associatedAlarms: S.optional(__S(914, __c28, 18)),
-          triggers: S.optional(__S(918, __c28, 22)),
-          reportConfiguration: S.optional(__S(922, __c28, 26)),
+          associatedAlarms: S.optional(__S(915, __c28, 19)),
+          triggers: S.optional(__S(919, __c28, 23)),
+          reportConfiguration: S.optional(__S(923, __c28, 27)),
           serviceQuotaChecksEnabled: S.optional(S.Boolean),
           name: S.String,
           regions: __S(800, __c25, 0),
@@ -2607,13 +2607,13 @@ function __c27(j: number): any {
     case 1:
       return S.Array(__S(864, __c27, 0));
     case 2:
-      return S.suspend(() => S.Struct({ behavior: S.optional(S.String) })).annotate({
-        identifier: "LambdaUngraceful",
-      });
+      return S.suspend(() =>
+        S.Struct({ behavior: S.optional(S.String).pipe(T.Default("skip")) }),
+      ).annotate({ identifier: "LambdaUngraceful" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           lambdas: __S(865, __c27, 1),
           retryIntervalMinutes: S.Number,
           regionToRun: S.String,
@@ -2637,17 +2637,22 @@ function __c27(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           asgs: __S(869, __c27, 5),
           ungraceful: S.optional(__S(870, __c27, 6)),
-          targetPercent: S.optional(S.Number),
-          capacityMonitoringApproach: S.optional(S.String),
+          targetPercent: S.optional(S.Number).pipe(T.Default(100)),
+          capacityMonitoringApproach: S.optional(S.String).pipe(
+            T.Default("sampledMaxInLast24Hours"),
+          ),
           waitELBTargetGroupHealthy: S.optional(S.String),
         }),
       ).annotate({ identifier: "Ec2AsgCapacityIncreaseConfiguration" });
     case 8:
       return S.suspend(() =>
-        S.Struct({ timeoutMinutes: S.optional(S.Number), approvalRole: S.String }),
+        S.Struct({
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
+          approvalRole: S.String,
+        }),
       ).annotate({ identifier: "ExecutionApprovalConfiguration" });
     case 9:
       return S.suspend(() => S.Struct({ routingControlArn: S.String, state: S.String })).annotate({
@@ -2660,7 +2665,7 @@ function __c27(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
           regionAndRoutingControls: __S(875, __c27, 11),
@@ -2673,10 +2678,10 @@ function __c27(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
-          behavior: S.String,
+          behavior: S.String.pipe(T.Default("switchoverOnly")),
           ungraceful: S.optional(__S(877, __c27, 13)),
           globalClusterIdentifier: S.String,
           databaseClusterArns: __S(800, __c25, 0),
@@ -2684,7 +2689,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GlobalAuroraConfiguration" });
     case 15:
       return S.suspend(() =>
-        S.Struct({ steps: S.suspend(() => __S(910, __c28, 14)).annotate({ identifier: "Steps" }) }),
+        S.Struct({ steps: S.suspend(() => __S(911, __c28, 15)).annotate({ identifier: "Steps" }) }),
       ).annotate({ identifier: "ParallelExecutionBlockConfiguration" });
     case 16:
       return S.suspend(() =>
@@ -2708,11 +2713,13 @@ function __c27(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           services: __S(882, __c27, 18),
           ungraceful: S.optional(__S(870, __c27, 6)),
-          targetPercent: S.optional(S.Number),
-          capacityMonitoringApproach: S.optional(S.String),
+          targetPercent: S.optional(S.Number).pipe(T.Default(100)),
+          capacityMonitoringApproach: S.optional(S.String).pipe(
+            T.Default("sampledMaxInLast24Hours"),
+          ),
           waitELBTargetGroupHealthy: S.optional(S.String),
         }),
       ).annotate({ identifier: "EcsCapacityIncreaseConfiguration" });
@@ -2743,13 +2750,15 @@ function __c27(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           kubernetesResourceType: __S(884, __c27, 20),
           scalingResources: S.optional(__S(888, __c27, 24)),
           eksClusters: S.optional(__S(890, __c27, 26)),
           ungraceful: S.optional(__S(870, __c27, 6)),
-          targetPercent: S.optional(S.Number),
-          capacityMonitoringApproach: S.optional(S.String),
+          targetPercent: S.optional(S.Number).pipe(T.Default(100)),
+          capacityMonitoringApproach: S.optional(S.String).pipe(
+            T.Default("sampledMaxInLast24Hours"),
+          ),
         }),
       ).annotate({ identifier: "EksResourceScalingConfiguration" });
     case 28:
@@ -2761,7 +2770,7 @@ function __c27(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
           hostedZoneId: S.String,
@@ -2772,7 +2781,7 @@ function __c27(j: number): any {
     case 31:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
           dbInstanceArnMap: __S(832, __c26, 0),
@@ -2787,7 +2796,7 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           action: S.String,
           regionEventSourceMappings: __S(896, __c28, 0),
           ungraceful: S.optional(__S(866, __c27, 2)),
@@ -2796,18 +2805,18 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
           globalClusterIdentifier: S.String,
           regionDatabaseClusterArns: __S(832, __c26, 0),
-          targetPercent: S.optional(S.Number),
+          targetPercent: S.optional(S.Number).pipe(T.Default(100)),
         }),
       ).annotate({ identifier: "AuroraServerlessScalingConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
           globalClusterIdentifier: S.String,
@@ -2818,10 +2827,10 @@ function __c28(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
-          behavior: S.String,
+          behavior: S.String.pipe(T.Default("switchoverOnly")),
           ungraceful: S.optional(__S(877, __c27, 13)),
           globalClusterIdentifier: S.String,
           regionDatabaseClusterArns: __S(832, __c26, 0),
@@ -2830,7 +2839,7 @@ function __c28(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
           dbInstanceArnMap: __S(832, __c26, 0),
@@ -2859,15 +2868,19 @@ function __c28(j: number): any {
     case 10:
       return S.Record(S.String, /*@__PURE__*/ __S(905, __c28, 9).pipe(S.optional));
     case 11:
+      return S.suspend(() => S.Struct({ behavior: S.optional(S.String) })).annotate({
+        identifier: "SsmSendCommandUngraceful",
+      });
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          timeoutMinutes: S.optional(S.Number),
+          timeoutMinutes: S.optional(S.Number).pipe(T.Default(60)),
           regionDocuments: __S(906, __c28, 10),
           retryIntervalMinutes: S.Number,
-          ungraceful: S.optional(__S(866, __c27, 2)),
+          ungraceful: S.optional(__S(907, __c28, 11)),
         }),
       ).annotate({ identifier: "SsmSendCommandConfiguration" });
-    case 12:
+    case 13:
       return S.Union([
         /*@__PURE__*/ S.Struct({ customActionLambdaConfig: __S(867, __c27, 3) }),
         /*@__PURE__*/ S.Struct({ ec2AsgCapacityIncreaseConfig: __S(871, __c27, 7) }),
@@ -2891,37 +2904,37 @@ function __c28(j: number): any {
         /*@__PURE__*/ S.Struct({ auroraProvisionedScalingConfig: __S(899, __c28, 3) }),
         /*@__PURE__*/ S.Struct({ neptuneGlobalDatabaseConfig: __S(900, __c28, 4) }),
         /*@__PURE__*/ S.Struct({ rdsSwitchoverReadReplicaConfig: __S(901, __c28, 5) }),
-        /*@__PURE__*/ S.Struct({ ssmSendCommandConfig: __S(907, __c28, 11) }),
+        /*@__PURE__*/ S.Struct({ ssmSendCommandConfig: __S(908, __c28, 12) }),
       ]);
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          executionBlockConfiguration: S.suspend(() => __S(908, __c28, 12)).annotate({
+          executionBlockConfiguration: S.suspend(() => __S(909, __c28, 13)).annotate({
             identifier: "ExecutionBlockConfiguration",
           }),
           executionBlockType: S.String,
         }),
       ).annotate({ identifier: "Step" });
-    case 14:
+    case 15:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<Step> => __S(909, __c28, 13)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<Step> => __S(910, __c28, 14)).annotate({
           identifier: "Step",
         }),
       );
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          steps: S.optional(__S(910, __c28, 14)),
+          steps: S.optional(__S(911, __c28, 15)),
           workflowTargetAction: S.String,
           workflowTargetRegion: S.optional(S.String),
           workflowDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "Workflow" });
-    case 16:
-      return S.Array(__S(911, __c28, 15));
     case 17:
+      return S.Array(__S(912, __c28, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           crossAccountRole: S.optional(S.String),
@@ -2930,49 +2943,49 @@ function __c28(j: number): any {
           alarmType: S.String,
         }),
       ).annotate({ identifier: "AssociatedAlarm" });
-    case 18:
-      return S.Record(S.String, /*@__PURE__*/ __S(913, __c28, 17).pipe(S.optional));
     case 19:
+      return S.Record(S.String, /*@__PURE__*/ __S(914, __c28, 18).pipe(S.optional));
+    case 20:
       return S.suspend(() =>
         S.Struct({ associatedAlarmName: S.String, condition: S.String }),
       ).annotate({ identifier: "TriggerCondition" });
-    case 20:
-      return S.Array(__S(915, __c28, 19));
     case 21:
+      return S.Array(__S(916, __c28, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           targetRegion: S.String,
           action: S.String,
-          conditions: __S(916, __c28, 20),
+          conditions: __S(917, __c28, 21),
           minDelayMinutesBetweenExecutions: S.Number,
         }),
       ).annotate({ identifier: "Trigger" });
-    case 22:
-      return S.Array(__S(917, __c28, 21));
     case 23:
+      return S.Array(__S(918, __c28, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({ bucketPath: S.optional(S.String), bucketOwner: S.optional(S.String) }),
       ).annotate({ identifier: "S3ReportOutputConfiguration" });
-    case 24:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3Configuration: __S(919, __c28, 23) })]);
     case 25:
-      return S.Array(__S(920, __c28, 24));
+      return S.Union([/*@__PURE__*/ S.Struct({ s3Configuration: __S(920, __c28, 24) })]);
     case 26:
-      return S.suspend(() => S.Struct({ reportOutput: S.optional(__S(921, __c28, 25)) })).annotate({
+      return S.Array(__S(921, __c28, 25));
+    case 27:
+      return S.suspend(() => S.Struct({ reportOutput: S.optional(__S(922, __c28, 26)) })).annotate({
         identifier: "ReportConfiguration",
       });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           arn: S.String,
           description: S.optional(S.String),
-          workflows: __S(912, __c28, 16),
+          workflows: __S(913, __c28, 17),
           executionRole: S.String,
           recoveryTimeObjectiveMinutes: S.optional(S.Number),
-          associatedAlarms: S.optional(__S(914, __c28, 18)),
-          triggers: S.optional(__S(918, __c28, 22)),
-          reportConfiguration: S.optional(__S(922, __c28, 26)),
+          associatedAlarms: S.optional(__S(915, __c28, 19)),
+          triggers: S.optional(__S(919, __c28, 23)),
+          reportConfiguration: S.optional(__S(923, __c28, 27)),
           serviceQuotaChecksEnabled: S.optional(S.Boolean),
           name: S.String,
           regions: __S(800, __c25, 0),
@@ -2988,7 +3001,7 @@ function __c28(j: number): any {
 function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ plan: S.optional(__S(923, __c28, 27)) })).annotate({
+      return S.suspend(() => S.Struct({ plan: S.optional(__S(924, __c28, 28)) })).annotate({
         identifier: "CreatePlanResponse",
       });
   }

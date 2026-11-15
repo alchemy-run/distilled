@@ -3166,7 +3166,10 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CallAnalyticsJobSettings" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ ChannelId: S.optional(S.Number), ParticipantRole: S.optional(S.String) }),
+        S.Struct({
+          ChannelId: S.optional(S.Number).pipe(T.Default(0)),
+          ParticipantRole: S.optional(S.String),
+        }),
       ).annotate({ identifier: "ChannelDefinition" });
     case 3:
       return S.Array(__S(290, __c18, 2));
@@ -3238,9 +3241,9 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "MedicalScribeSettings" });
     case 3:
-      return S.suspend(() => S.Struct({ ChannelId: S.Number, ParticipantRole: S.String })).annotate(
-        { identifier: "MedicalScribeChannelDefinition" },
-      );
+      return S.suspend(() =>
+        S.Struct({ ChannelId: S.Number.pipe(T.Default(0)), ParticipantRole: S.String }),
+      ).annotate({ identifier: "MedicalScribeChannelDefinition" });
     case 4:
       return S.Array(__S(323, __c20, 3));
     case 5:

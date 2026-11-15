@@ -161,7 +161,7 @@ export interface BatchCreateVariableRequest {
 export type Integer2 = number;
 export interface BatchCreateVariableError_ {
   name?: string | undefined;
-  code?: number | undefined;
+  code: number;
   message?: string | undefined;
 }
 export type BatchCreateVariableErrorList = BatchCreateVariableError_[];
@@ -189,7 +189,7 @@ export interface Variable {
 export type VariableList = Variable[];
 export interface BatchGetVariableError_ {
   name?: string | undefined;
-  code?: number | undefined;
+  code: number;
   message?: string | undefined;
 }
 export type BatchGetVariableErrorList = BatchGetVariableError_[];
@@ -5400,7 +5400,7 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          code: S.optional(S.Number),
+          code: S.optional(S.Number).pipe(T.Default(0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchCreateVariableError" });
@@ -5559,7 +5559,7 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          code: S.optional(S.Number),
+          code: S.optional(S.Number).pipe(T.Default(0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchGetVariableError" });

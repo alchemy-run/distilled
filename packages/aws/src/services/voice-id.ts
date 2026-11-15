@@ -217,7 +217,7 @@ export interface Watchlist {
   WatchlistId?: string | undefined;
   Name?: string | redacted.Redacted<string> | undefined;
   Description?: string | redacted.Redacted<string> | undefined;
-  DefaultWatchlist?: boolean | undefined;
+  DefaultWatchlist: boolean;
   CreatedAt?: Date | undefined;
   UpdatedAt?: Date | undefined;
 }
@@ -550,7 +550,7 @@ export interface WatchlistSummary {
   WatchlistId?: string | undefined;
   Name?: string | redacted.Redacted<string> | undefined;
   Description?: string | redacted.Redacted<string> | undefined;
-  DefaultWatchlist?: boolean | undefined;
+  DefaultWatchlist: boolean;
   CreatedAt?: Date | undefined;
   UpdatedAt?: Date | undefined;
 }
@@ -2316,7 +2316,7 @@ function __c43(j: number): any {
           WatchlistId: S.optional(S.String),
           Name: S.optional(SensitiveString),
           Description: S.optional(SensitiveString),
-          DefaultWatchlist: S.optional(S.Boolean),
+          DefaultWatchlist: S.optional(S.Boolean).pipe(T.Default(false)),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),

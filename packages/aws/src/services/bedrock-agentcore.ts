@@ -7253,7 +7253,7 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceNames: __S(128, __c4, 0),
-          logGroupNames: S.optional(__S(128, __c4, 0)),
+          logGroupNames: S.optional(__S(128, __c4, 0)).pipe(T.Default([])),
           logGroupNamePrefixes: S.optional(__S(128, __c4, 0)),
           filterConfig: S.optional(__S(1315, __c41, 3)),
         }),
@@ -7273,10 +7273,10 @@ function __c41(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          logGroupName: S.optional(S.String),
-          logStreamName: S.optional(S.String),
+          logGroupName: S.optional(S.String).pipe(T.Default("")),
+          logStreamName: S.optional(S.String).pipe(T.Default("")),
           metricsNamespace: S.optional(S.String),
-          resultDestination: S.optional(S.String),
+          resultDestination: S.optional(S.String).pipe(T.Default("DEDICATED_LOG_GROUP")),
         }),
       ).annotate({ identifier: "CloudWatchOutputConfig" });
     case 8:
@@ -7875,7 +7875,7 @@ function __c57(j: number): any {
           requestMethod: S.String,
           requestHost: S.optional(S.String),
           requestPath: S.String,
-          includeWalletAuthToken: S.optional(S.Boolean),
+          includeWalletAuthToken: S.optional(S.Boolean).pipe(T.Default(false)),
           requestBody: S.optional(S.String),
         }),
       ).annotate({ identifier: "CoinbaseCdpTokenRequestInput" });
@@ -7885,7 +7885,7 @@ function __c57(j: number): any {
           requestHost: S.optional(S.String),
           requestPath: S.String,
           requestBody: SensitiveString,
-          includeAuthorizationSignature: S.optional(S.Boolean),
+          includeAuthorizationSignature: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "StripePrivyTokenRequestInput" });
     case 2:
@@ -8588,7 +8588,7 @@ function __c67(j: number): any {
           providerArn: S.String,
           scopes: __S(128, __c4, 0),
           customParameters: S.optional(__S(1792, __c56, 0)),
-          grantType: S.optional(S.String),
+          grantType: S.optional(S.String).pipe(T.Default("CLIENT_CREDENTIALS")),
           defaultReturnUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "OAuthCredentialProvider" });
@@ -9059,7 +9059,10 @@ function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ name: S.String, includeParentBranches: S.optional(S.Boolean) }),
+        S.Struct({
+          name: S.String,
+          includeParentBranches: S.optional(S.Boolean).pipe(T.Default(true)),
+        }),
       ).annotate({ identifier: "BranchFilter" });
     case 1:
       return S.Union([/*@__PURE__*/ S.Struct({ metadataValue: __S(514, __c16, 2) })]);
@@ -9489,7 +9492,7 @@ function __c85(j: number): any {
         S.Struct({
           searchQuery: SensitiveString,
           memoryStrategyId: S.optional(S.String),
-          topK: S.optional(S.Number),
+          topK: S.optional(S.Number).pipe(T.Default(10)),
           metadataFilters: S.optional(__S(2530, __c79, 2)),
         }),
       ).annotate({ identifier: "SearchCriteria" });

@@ -747,15 +747,15 @@ export type NumberOfMilliseconds = number;
 export type NumberOfBytes = number;
 export type NumberOfItems = number;
 export interface ExecutionStatistics {
-  AverageExecutionTimeMillis?: number | undefined;
-  DataScannedBytes?: number | undefined;
-  WorkUnitsExecutedCount?: number | undefined;
+  AverageExecutionTimeMillis: number;
+  DataScannedBytes: number;
+  WorkUnitsExecutedCount: number;
 }
 export interface PlanningStatistics {
-  EstimatedDataToScanBytes?: number | undefined;
-  PlanningTimeMillis?: number | undefined;
-  QueueTimeMillis?: number | undefined;
-  WorkUnitsGeneratedCount?: number | undefined;
+  EstimatedDataToScanBytes: number;
+  PlanningTimeMillis: number;
+  QueueTimeMillis: number;
+  WorkUnitsGeneratedCount: number;
 }
 export interface GetQueryStatisticsResponse {
   ExecutionStatistics?: ExecutionStatistics | undefined;
@@ -807,7 +807,7 @@ export type ObjectSize = number;
 export interface TableObject {
   Uri?: string | undefined;
   ETag?: string | undefined;
-  Size?: number | undefined;
+  Size: number;
 }
 export type TableObjectList = TableObject[];
 export interface PartitionObjects {
@@ -3931,7 +3931,7 @@ function __c7(j: number): any {
         S.Struct({
           CatalogId: S.optional(S.String),
           ResourceType: S.String,
-          Expression: S.optional(__S(33, __c4, 1)),
+          Expression: S.optional(__S(33, __c4, 1)).pipe(T.Default([])),
           ExpressionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "LFTagPolicyResource" });
@@ -4877,18 +4877,18 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AverageExecutionTimeMillis: S.optional(S.Number),
-          DataScannedBytes: S.optional(S.Number),
-          WorkUnitsExecutedCount: S.optional(S.Number),
+          AverageExecutionTimeMillis: S.optional(S.Number).pipe(T.Default(0)),
+          DataScannedBytes: S.optional(S.Number).pipe(T.Default(0)),
+          WorkUnitsExecutedCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ExecutionStatistics" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          EstimatedDataToScanBytes: S.optional(S.Number),
-          PlanningTimeMillis: S.optional(S.Number),
-          QueueTimeMillis: S.optional(S.Number),
-          WorkUnitsGeneratedCount: S.optional(S.Number),
+          EstimatedDataToScanBytes: S.optional(S.Number).pipe(T.Default(0)),
+          PlanningTimeMillis: S.optional(S.Number).pipe(T.Default(0)),
+          QueueTimeMillis: S.optional(S.Number).pipe(T.Default(0)),
+          WorkUnitsGeneratedCount: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "PlanningStatistics" });
     case 3:
@@ -4989,7 +4989,7 @@ function __c65(j: number): any {
         S.Struct({
           Uri: S.optional(S.String),
           ETag: S.optional(S.String),
-          Size: S.optional(S.Number),
+          Size: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "TableObject" });
     case 2:
@@ -5184,7 +5184,11 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetWorkUnitsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ WorkUnitIdMax: S.Number, WorkUnitIdMin: S.Number, WorkUnitToken: S.String }),
+        S.Struct({
+          WorkUnitIdMax: S.Number.pipe(T.Default(0)),
+          WorkUnitIdMin: S.Number.pipe(T.Default(0)),
+          WorkUnitToken: S.String,
+        }),
       ).annotate({ identifier: "WorkUnitRange" });
     case 2:
       return S.Array(__S(577, __c72, 1));
@@ -5820,7 +5824,7 @@ function __c98(j: number): any {
         S.Struct({
           Uri: S.String,
           ETag: S.String,
-          Size: S.Number,
+          Size: S.Number.pipe(T.Default(0)),
           PartitionValues: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "AddObjectInput" });

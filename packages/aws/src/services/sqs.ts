@@ -392,7 +392,7 @@ export interface CancelMessageMoveTaskRequest {
   TaskHandle: string;
 }
 export interface CancelMessageMoveTaskResult {
-  ApproximateNumberOfMessagesMoved?: number | undefined;
+  ApproximateNumberOfMessagesMoved: number;
 }
 export interface ChangeMessageVisibilityRequest {
   QueueUrl: string;
@@ -525,10 +525,10 @@ export interface ListMessageMoveTasksResultEntry {
   SourceArn?: string | undefined;
   DestinationArn?: string | undefined;
   MaxNumberOfMessagesPerSecond?: number | undefined;
-  ApproximateNumberOfMessagesMoved?: number | undefined;
+  ApproximateNumberOfMessagesMoved: number;
   ApproximateNumberOfMessagesToMove?: number | undefined;
   FailureReason?: string | undefined;
-  StartedTimestamp?: number | undefined;
+  StartedTimestamp: number;
 }
 export type ListMessageMoveTasksResultEntryList = ListMessageMoveTasksResultEntry[];
 export interface ListMessageMoveTasksResult {
@@ -2142,7 +2142,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CancelMessageMoveTaskRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ApproximateNumberOfMessagesMoved: S.optional(S.Number) }),
+        S.Struct({ ApproximateNumberOfMessagesMoved: S.optional(S.Number).pipe(T.Default(0)) }),
       ).annotate({ identifier: "CancelMessageMoveTaskResult" });
   }
 }
@@ -2209,7 +2209,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
-          SenderFault: S.Boolean,
+          SenderFault: S.Boolean.pipe(T.Default(false)),
           Code: S.String,
           Message: S.optional(S.String),
         }),
@@ -2380,10 +2380,10 @@ function __c19(j: number): any {
           SourceArn: S.optional(S.String),
           DestinationArn: S.optional(S.String),
           MaxNumberOfMessagesPerSecond: S.optional(S.Number),
-          ApproximateNumberOfMessagesMoved: S.optional(S.Number),
+          ApproximateNumberOfMessagesMoved: S.optional(S.Number).pipe(T.Default(0)),
           ApproximateNumberOfMessagesToMove: S.optional(S.Number),
           FailureReason: S.optional(S.String),
-          StartedTimestamp: S.optional(S.Number),
+          StartedTimestamp: S.optional(S.Number).pipe(T.Default(0)),
         }),
       ).annotate({ identifier: "ListMessageMoveTasksResultEntry" });
     case 2:

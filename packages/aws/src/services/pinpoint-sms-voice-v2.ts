@@ -320,13 +320,13 @@ export interface CreatePoolResult {
   PoolId?: string | undefined;
   Status?: string | undefined;
   MessageType?: string | undefined;
-  TwoWayEnabled?: boolean | undefined;
+  TwoWayEnabled: boolean;
   TwoWayChannelArn?: string | undefined;
   TwoWayChannelRole?: string | undefined;
-  SelfManagedOptOutsEnabled?: boolean | undefined;
+  SelfManagedOptOutsEnabled: boolean;
   OptOutListName?: string | undefined;
-  SharedRoutesEnabled?: boolean | undefined;
-  DeletionProtectionEnabled?: boolean | undefined;
+  SharedRoutesEnabled: boolean;
+  DeletionProtectionEnabled: boolean;
   Tags?: Tag[] | undefined;
   CreatedTimestamp?: Date | undefined;
 }
@@ -561,7 +561,7 @@ export interface DeleteOptedOutNumberResult {
   OptOutListName?: string | undefined;
   OptedOutNumber?: string | undefined;
   OptedOutTimestamp?: Date | undefined;
-  EndUserOptedOut?: boolean | undefined;
+  EndUserOptedOut: boolean;
 }
 export interface DeleteOptOutListRequest {
   OptOutListName: string;
@@ -579,12 +579,12 @@ export interface DeletePoolResult {
   PoolId?: string | undefined;
   Status?: string | undefined;
   MessageType?: string | undefined;
-  TwoWayEnabled?: boolean | undefined;
+  TwoWayEnabled: boolean;
   TwoWayChannelArn?: string | undefined;
   TwoWayChannelRole?: string | undefined;
-  SelfManagedOptOutsEnabled?: boolean | undefined;
+  SelfManagedOptOutsEnabled: boolean;
   OptOutListName?: string | undefined;
-  SharedRoutesEnabled?: boolean | undefined;
+  SharedRoutesEnabled: boolean;
   CreatedTimestamp?: Date | undefined;
 }
 export interface DeleteProtectConfigurationRequest {
@@ -960,7 +960,7 @@ export interface PhoneNumberInformation {
   TwoWayChannelRole?: string | undefined;
   SelfManagedOptOutsEnabled: boolean;
   OptOutListName: string;
-  InternationalSendingEnabled?: boolean | undefined;
+  InternationalSendingEnabled: boolean;
   DeletionProtectionEnabled: boolean;
   PoolId?: string | undefined;
   RegistrationId?: string | undefined;
@@ -1673,7 +1673,7 @@ export interface PutOptedOutNumberResult {
   OptOutListName?: string | undefined;
   OptedOutNumber?: string | undefined;
   OptedOutTimestamp?: Date | undefined;
-  EndUserOptedOut?: boolean | undefined;
+  EndUserOptedOut: boolean;
 }
 export interface PutProtectConfigurationRuleSetNumberOverrideRequest {
   ClientToken?: string | undefined;
@@ -1729,10 +1729,10 @@ export interface ReleasePhoneNumberResult {
   NumberCapabilities?: string[] | undefined;
   NumberType?: string | undefined;
   MonthlyLeasingPrice?: string | undefined;
-  TwoWayEnabled?: boolean | undefined;
+  TwoWayEnabled: boolean;
   TwoWayChannelArn?: string | undefined;
   TwoWayChannelRole?: string | undefined;
-  SelfManagedOptOutsEnabled?: boolean | undefined;
+  SelfManagedOptOutsEnabled: boolean;
   OptOutListName?: string | undefined;
   RegistrationId?: string | undefined;
   CreatedTimestamp?: Date | undefined;
@@ -1775,13 +1775,13 @@ export interface RequestPhoneNumberResult {
   NumberCapabilities?: string[] | undefined;
   NumberType?: string | undefined;
   MonthlyLeasingPrice?: string | undefined;
-  TwoWayEnabled?: boolean | undefined;
+  TwoWayEnabled: boolean;
   TwoWayChannelArn?: string | undefined;
   TwoWayChannelRole?: string | undefined;
-  SelfManagedOptOutsEnabled?: boolean | undefined;
+  SelfManagedOptOutsEnabled: boolean;
   OptOutListName?: string | undefined;
-  InternationalSendingEnabled?: boolean | undefined;
-  DeletionProtectionEnabled?: boolean | undefined;
+  InternationalSendingEnabled: boolean;
+  DeletionProtectionEnabled: boolean;
   PoolId?: string | undefined;
   RegistrationId?: string | undefined;
   Tags?: Tag[] | undefined;
@@ -2263,13 +2263,13 @@ export interface UpdatePhoneNumberResult {
   NumberCapabilities?: string[] | undefined;
   NumberType?: string | undefined;
   MonthlyLeasingPrice?: string | undefined;
-  TwoWayEnabled?: boolean | undefined;
+  TwoWayEnabled: boolean;
   TwoWayChannelArn?: string | undefined;
   TwoWayChannelRole?: string | undefined;
-  SelfManagedOptOutsEnabled?: boolean | undefined;
+  SelfManagedOptOutsEnabled: boolean;
   OptOutListName?: string | undefined;
-  InternationalSendingEnabled?: boolean | undefined;
-  DeletionProtectionEnabled?: boolean | undefined;
+  InternationalSendingEnabled: boolean;
+  DeletionProtectionEnabled: boolean;
   RegistrationId?: string | undefined;
   CreatedTimestamp?: Date | undefined;
 }
@@ -2288,13 +2288,13 @@ export interface UpdatePoolResult {
   PoolId?: string | undefined;
   Status?: string | undefined;
   MessageType?: string | undefined;
-  TwoWayEnabled?: boolean | undefined;
+  TwoWayEnabled: boolean;
   TwoWayChannelArn?: string | undefined;
   TwoWayChannelRole?: string | undefined;
-  SelfManagedOptOutsEnabled?: boolean | undefined;
+  SelfManagedOptOutsEnabled: boolean;
   OptOutListName?: string | undefined;
-  SharedRoutesEnabled?: boolean | undefined;
-  DeletionProtectionEnabled?: boolean | undefined;
+  SharedRoutesEnabled: boolean;
+  DeletionProtectionEnabled: boolean;
   CreatedTimestamp?: Date | undefined;
 }
 export interface UpdateProtectConfigurationRequest {
@@ -6451,7 +6451,7 @@ function __c7(j: number): any {
           VersionNumber: S.Number,
           RegistrationVersionStatus: S.String,
           RegistrationVersionStatusHistory: __S(1088, __c34, 0),
-          AwsReview: S.Boolean,
+          AwsReview: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "SubmitRegistrationVersionResult" });
   }
@@ -6601,13 +6601,13 @@ function __c17(j: number): any {
           NumberCapabilities: S.optional(__S(448, __c14, 0)),
           NumberType: S.optional(S.String),
           MonthlyLeasingPrice: S.optional(S.String),
-          TwoWayEnabled: S.optional(S.Boolean),
+          TwoWayEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.optional(S.Boolean),
+          SelfManagedOptOutsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
-          InternationalSendingEnabled: S.optional(S.Boolean),
-          DeletionProtectionEnabled: S.optional(S.Boolean),
+          InternationalSendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          DeletionProtectionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           RegistrationId: S.optional(S.String),
           CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -6636,13 +6636,13 @@ function __c18(j: number): any {
           PoolId: S.optional(S.String),
           Status: S.optional(S.String),
           MessageType: S.optional(S.String),
-          TwoWayEnabled: S.optional(S.Boolean),
+          TwoWayEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.optional(S.Boolean),
+          SelfManagedOptOutsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
-          SharedRoutesEnabled: S.optional(S.Boolean),
-          DeletionProtectionEnabled: S.optional(S.Boolean),
+          SharedRoutesEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          DeletionProtectionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "UpdatePoolResult" });
@@ -6696,12 +6696,12 @@ function __c21(j: number): any {
           RcsAgentId: S.String,
           Status: S.String,
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          DeletionProtectionEnabled: S.Boolean,
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.Boolean,
+          SelfManagedOptOutsEnabled: S.Boolean.pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          TwoWayEnabled: S.Boolean,
+          TwoWayEnabled: S.Boolean.pipe(T.Default(false)),
           TwoWayMediaS3BucketName: S.optional(S.String),
           TwoWayMediaS3KeyPrefix: S.optional(S.String),
           TwoWayMediaS3Role: S.optional(S.String),
@@ -6728,8 +6728,8 @@ function __c22(j: number): any {
           IsoCountryCode: S.String,
           MessageTypes: __S(448, __c14, 0),
           MonthlyLeasingPrice: S.String,
-          DeletionProtectionEnabled: S.Boolean,
-          Registered: S.Boolean,
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
+          Registered: S.Boolean.pipe(T.Default(false)),
           RegistrationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateSenderIdResult" });
@@ -6786,7 +6786,7 @@ function __c24(j: number): any {
           TierUpgradeStatus: S.String,
           Status: S.String,
           RejectionReason: S.optional(S.String),
-          DeletionProtectionEnabled: S.Boolean,
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
           Tags: S.optional(__S(33, __c1, 1)),
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
@@ -6834,13 +6834,13 @@ function __c26(j: number): any {
           PoolId: S.optional(S.String),
           Status: S.optional(S.String),
           MessageType: S.optional(S.String),
-          TwoWayEnabled: S.optional(S.Boolean),
+          TwoWayEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.optional(S.Boolean),
+          SelfManagedOptOutsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
-          SharedRoutesEnabled: S.optional(S.Boolean),
-          DeletionProtectionEnabled: S.optional(S.Boolean),
+          SharedRoutesEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          DeletionProtectionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           Tags: S.optional(__S(33, __c1, 1)),
           CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -6863,8 +6863,8 @@ function __c27(j: number): any {
           ProtectConfigurationArn: S.String,
           ProtectConfigurationId: S.String,
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          AccountDefault: S.Boolean,
-          DeletionProtectionEnabled: S.Boolean,
+          AccountDefault: S.Boolean.pipe(T.Default(false)),
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
           Tags: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "CreateProtectConfigurationResult" });
@@ -6887,13 +6887,13 @@ function __c28(j: number): any {
           RcsAgentArn: S.String,
           RcsAgentId: S.String,
           Status: S.String,
-          DeletionProtectionEnabled: S.Boolean,
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          SelfManagedOptOutsEnabled: S.Boolean,
+          SelfManagedOptOutsEnabled: S.Boolean.pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          TwoWayEnabled: S.Boolean,
+          TwoWayEnabled: S.Boolean.pipe(T.Default(false)),
           TwoWayMediaS3BucketName: S.optional(S.String),
           TwoWayMediaS3KeyPrefix: S.optional(S.String),
           TwoWayMediaS3Role: S.optional(S.String),
@@ -7222,7 +7222,7 @@ function __c51(j: number): any {
           TierUpgradeStatus: S.String,
           Status: S.String,
           RejectionReason: S.optional(S.String),
-          DeletionProtectionEnabled: S.Boolean,
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "DeleteNotifyConfigurationResult" });
@@ -7257,7 +7257,7 @@ function __c54(j: number): any {
           OptOutListName: S.optional(S.String),
           OptedOutNumber: S.optional(S.String),
           OptedOutTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          EndUserOptedOut: S.optional(S.Boolean),
+          EndUserOptedOut: S.optional(S.Boolean).pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DeleteOptedOutNumberResult" });
   }
@@ -7295,12 +7295,12 @@ function __c56(j: number): any {
           PoolId: S.optional(S.String),
           Status: S.optional(S.String),
           MessageType: S.optional(S.String),
-          TwoWayEnabled: S.optional(S.Boolean),
+          TwoWayEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.optional(S.Boolean),
+          SelfManagedOptOutsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
-          SharedRoutesEnabled: S.optional(S.Boolean),
+          SharedRoutesEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "DeletePoolResult" });
@@ -7324,8 +7324,8 @@ function __c58(j: number): any {
           ProtectConfigurationArn: S.String,
           ProtectConfigurationId: S.String,
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          AccountDefault: S.Boolean,
-          DeletionProtectionEnabled: S.Boolean,
+          AccountDefault: S.Boolean.pipe(T.Default(false)),
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "DeleteProtectConfigurationResult" });
   }
@@ -7371,12 +7371,12 @@ function __c61(j: number): any {
           RcsAgentId: S.String,
           Status: S.String,
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          DeletionProtectionEnabled: S.Boolean,
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.Boolean,
+          SelfManagedOptOutsEnabled: S.Boolean.pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          TwoWayEnabled: S.Boolean,
+          TwoWayEnabled: S.Boolean.pipe(T.Default(false)),
           TwoWayRcsEventsEnabled: S.optional(__S(448, __c14, 0)),
         }),
       ).annotate({ identifier: "DeleteRcsAgentResult" });
@@ -7559,9 +7559,13 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "DescribeAccountLimitsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Name: S.String, Used: S.Number, Max: S.Number })).annotate({
-        identifier: "AccountLimit",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Used: S.Number.pipe(T.Default(0)),
+          Max: S.Number.pipe(T.Default(0)),
+        }),
+      ).annotate({ identifier: "AccountLimit" });
     case 2:
       return S.Array(__S(2369, __c74, 1));
     case 3:
@@ -7684,7 +7688,7 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Type: S.String,
-          Required: S.Boolean,
+          Required: S.Boolean.pipe(T.Default(false)),
           Description: S.optional(S.String),
           MaxLength: S.optional(S.Number),
           MinValue: S.optional(S.Number),
@@ -7742,7 +7746,7 @@ function __c80(j: number): any {
         S.Struct({
           OptedOutNumber: S.String,
           OptedOutTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          EndUserOptedOut: S.Boolean,
+          EndUserOptedOut: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "OptedOutNumberInformation" });
     case 2:
@@ -7809,13 +7813,13 @@ function __c82(j: number): any {
           NumberCapabilities: __S(448, __c14, 0),
           NumberType: S.String,
           MonthlyLeasingPrice: S.String,
-          TwoWayEnabled: S.Boolean,
+          TwoWayEnabled: S.Boolean.pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.Boolean,
+          SelfManagedOptOutsEnabled: S.Boolean.pipe(T.Default(false)),
           OptOutListName: S.String,
-          InternationalSendingEnabled: S.optional(S.Boolean),
-          DeletionProtectionEnabled: S.Boolean,
+          InternationalSendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
           PoolId: S.optional(S.String),
           RegistrationId: S.optional(S.String),
           MessagingLimits: S.optional(__S(2657, __c83, 1)),
@@ -7866,13 +7870,13 @@ function __c84(j: number): any {
           PoolId: S.String,
           Status: S.String,
           MessageType: S.String,
-          TwoWayEnabled: S.Boolean,
+          TwoWayEnabled: S.Boolean.pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.Boolean,
+          SelfManagedOptOutsEnabled: S.Boolean.pipe(T.Default(false)),
           OptOutListName: S.String,
-          SharedRoutesEnabled: S.Boolean,
-          DeletionProtectionEnabled: S.Boolean,
+          SharedRoutesEnabled: S.Boolean.pipe(T.Default(false)),
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "PoolInformation" });
@@ -7974,12 +7978,12 @@ function __c87(j: number): any {
           RcsAgentId: S.String,
           Status: S.String,
           CreatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          DeletionProtectionEnabled: S.Boolean,
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.Boolean,
+          SelfManagedOptOutsEnabled: S.Boolean.pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          TwoWayEnabled: S.Boolean,
+          TwoWayEnabled: S.Boolean.pipe(T.Default(false)),
           PoolId: S.optional(S.String),
           TwoWayMediaS3BucketName: S.optional(S.String),
           TwoWayMediaS3KeyPrefix: S.optional(S.String),
@@ -8358,8 +8362,8 @@ function __c96(j: number): any {
           IsoCountryCode: S.String,
           MessageTypes: __S(448, __c14, 0),
           MonthlyLeasingPrice: S.String,
-          DeletionProtectionEnabled: S.Boolean,
-          Registered: S.Boolean,
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
+          Registered: S.Boolean.pipe(T.Default(false)),
           RegistrationId: S.optional(S.String),
           MessagingLimits: S.optional(__S(2657, __c83, 1)),
           PricingTier: S.optional(S.String),
@@ -8385,9 +8389,9 @@ function __c97(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          EnforcedLimit: S.Number,
-          MaxLimit: S.Number,
-          Overridden: S.Boolean,
+          EnforcedLimit: S.Number.pipe(T.Default(0)),
+          MaxLimit: S.Number.pipe(T.Default(0)),
+          Overridden: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "SpendLimit" });
     case 2:
@@ -8581,7 +8585,7 @@ function __c109(j: number): any {
           SupportedChannels: __S(448, __c14, 0),
           SupportedUseCases: __S(448, __c14, 0),
           SupportedTiers: __S(448, __c14, 0),
-          CustomerOwnedIdentityRequired: S.Boolean,
+          CustomerOwnedIdentityRequired: S.Boolean.pipe(T.Default(false)),
         }),
       ).annotate({ identifier: "NotifyCountryInformation" });
     case 2:
@@ -8830,10 +8834,10 @@ function __c122(j: number): any {
           NumberCapabilities: S.optional(__S(448, __c14, 0)),
           NumberType: S.optional(S.String),
           MonthlyLeasingPrice: S.optional(S.String),
-          TwoWayEnabled: S.optional(S.Boolean),
+          TwoWayEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.optional(S.Boolean),
+          SelfManagedOptOutsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
           RegistrationId: S.optional(S.String),
           CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -8857,7 +8861,7 @@ function __c123(j: number): any {
           IsoCountryCode: S.String,
           MessageTypes: __S(448, __c14, 0),
           MonthlyLeasingPrice: S.String,
-          Registered: S.Boolean,
+          Registered: S.Boolean.pipe(T.Default(false)),
           RegistrationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReleaseSenderIdResult" });
@@ -8894,13 +8898,13 @@ function __c124(j: number): any {
           NumberCapabilities: S.optional(__S(448, __c14, 0)),
           NumberType: S.optional(S.String),
           MonthlyLeasingPrice: S.optional(S.String),
-          TwoWayEnabled: S.optional(S.Boolean),
+          TwoWayEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           TwoWayChannelArn: S.optional(S.String),
           TwoWayChannelRole: S.optional(S.String),
-          SelfManagedOptOutsEnabled: S.optional(S.Boolean),
+          SelfManagedOptOutsEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           OptOutListName: S.optional(S.String),
-          InternationalSendingEnabled: S.optional(S.Boolean),
-          DeletionProtectionEnabled: S.optional(S.Boolean),
+          InternationalSendingEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
+          DeletionProtectionEnabled: S.optional(S.Boolean).pipe(T.Default(false)),
           PoolId: S.optional(S.String),
           RegistrationId: S.optional(S.String),
           Tags: S.optional(__S(33, __c1, 1)),
@@ -8930,8 +8934,8 @@ function __c125(j: number): any {
           IsoCountryCode: S.String,
           MessageTypes: __S(448, __c14, 0),
           MonthlyLeasingPrice: S.String,
-          DeletionProtectionEnabled: S.Boolean,
-          Registered: S.Boolean,
+          DeletionProtectionEnabled: S.Boolean.pipe(T.Default(false)),
+          Registered: S.Boolean.pipe(T.Default(false)),
           Tags: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "RequestSenderIdResult" });

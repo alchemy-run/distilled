@@ -626,7 +626,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          CustomerIdentifier: S.optional(S.String),
+          CustomerIdentifier: S.optional(S.String).pipe(T.Default("")),
           Dimension: S.String,
           Quantity: S.optional(S.Number),
           QuantityAsDecimal: S.optional(S.String),
@@ -673,7 +673,7 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AllocatedUsageQuantity: S.optional(S.Number),
+          AllocatedUsageQuantity: S.optional(S.Number).pipe(T.Default(0)),
           AllocatedUsageQuantityAsDecimal: S.optional(S.String),
           Tags: S.optional(__S(9, __c1, 1)),
         }),
