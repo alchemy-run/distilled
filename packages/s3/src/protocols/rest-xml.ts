@@ -421,10 +421,19 @@ function serializeValue(ast: AST.AST, value: unknown, tagName?: string, xmlns?: 
     return serializeMap(ast, value as Record<string, unknown>, tagName, false, xmlns);
   }
 
+  // Lists: <List><member>a</member><member>b</member></List>, the member
+  // renamed by its `@xmlName`
+  if (tagName && Array.isArray(value)) {
+    const elementAST = getArrayElementAST(ast);
+    const itemTag = (elementAST && getXmlNameFromAST(elementAST)) ?? "member";
+    const items = value.map((item) => serializeValue(elementAST ?? ast, item, itemTag));
+    return wrapTag(tagName, items.join(""), xmlns);
+  }
+
   // Arrays
   if (Array.isArray(value)) {
     const elementAST = getArrayElementAST(ast);
-    const tag = tagName ?? (elementAST && getIdentifier(elementAST));
+    const tag = elementAST && getIdentifier(elementAST);
     return value
       .map((item, i) => serializeValue(elementAST ?? ast, item, tag, i === 0 ? xmlns : undefined))
       .join("");
@@ -466,15 +475,11 @@ function serializeObject(
       continue;
     }
 
-    const elementAST = getArrayElementAST(prop.type);
     if (hasXmlFlattened(prop)) {
+      const elementAST = getArrayElementAST(prop.type);
       elems.push(v.map((item) => serializeValue(elementAST ?? prop.type, item, xmlName)).join(""));
     } else {
-      // Use xmlName trait first, then fall back to class identifier
-      const itemTag = elementAST && (getXmlNameFromAST(elementAST) ?? getIdentifier(elementAST));
-      elems.push(
-        `<${xmlName}>${v.map((item) => serializeValue(elementAST ?? prop.type, item, itemTag)).join("")}</${xmlName}>`,
-      );
+      elems.push(serializeValue(prop.type, v, xmlName));
     }
   }
 
