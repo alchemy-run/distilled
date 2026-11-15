@@ -77,6 +77,8 @@ export class AccountCreationForbidden
     /*@__PURE__*/ S.TaggedError<AccountCreationForbidden>()("AccountCreationForbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002 }],
   ) {}
@@ -86,6 +88,8 @@ export class AccountMemberAlreadyExists
     /*@__PURE__*/ S.TaggedError<AccountMemberAlreadyExists>()("AccountMemberAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "already exists" } }],
   ) {}
@@ -95,6 +99,8 @@ export class AccountNameTooLong
     /*@__PURE__*/ S.TaggedError<AccountNameTooLong>()("AccountNameTooLong", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "too long" } }],
   ) {}
@@ -104,6 +110,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 400 }],
   ) {}
@@ -113,6 +121,8 @@ export class EndpointNotFound
     /*@__PURE__*/ S.TaggedError<EndpointNotFound>()("EndpointNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1199 }],
   ) {}
@@ -122,6 +132,8 @@ export class InvalidAccountName
     /*@__PURE__*/ S.TaggedError<InvalidAccountName>()("InvalidAccountName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "invalid character" } }],
   ) {}
@@ -131,6 +143,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -140,6 +154,8 @@ export class InvalidTokenName
     /*@__PURE__*/ S.TaggedError<InvalidTokenName>()("InvalidTokenName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 400, message: { includes: "name must have a length" } }],
   ) {}
@@ -149,6 +165,8 @@ export class JsonDecodeFailure
     /*@__PURE__*/ S.TaggedError<JsonDecodeFailure>()("JsonDecodeFailure", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1198 }],
   ) {}
@@ -158,6 +176,8 @@ export class MemberNotFound
     /*@__PURE__*/ S.TaggedError<MemberNotFound>()("MemberNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003 }],
   ) {}
@@ -167,6 +187,8 @@ export class MethodNotAllowed
     /*@__PURE__*/ S.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7001 }, { code: 10000 }, { code: 10405 }],
   ) {}
@@ -176,6 +198,8 @@ export class MissingAuthenticationToken
     /*@__PURE__*/ S.TaggedError<MissingAuthenticationToken>()("MissingAuthenticationToken", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001 }],
   ) {}
@@ -185,6 +209,8 @@ export class MissingName
     /*@__PURE__*/ S.TaggedError<MissingName>()("MissingName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001 }],
   ) {}
@@ -194,6 +220,8 @@ export class PermissionGroupNotFound
     /*@__PURE__*/ S.TaggedError<PermissionGroupNotFound>()("PermissionGroupNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "Permission group" } }],
   ) {}
@@ -203,6 +231,8 @@ export class TokenManagedByCloudflare
     /*@__PURE__*/ S.TaggedError<TokenManagedByCloudflare>()("TokenManagedByCloudflare", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001 }],
   ) {}
@@ -212,6 +242,8 @@ export class TokenNotFound
     /*@__PURE__*/ S.TaggedError<TokenNotFound>()("TokenNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003 }],
   ) {}
@@ -221,6 +253,8 @@ export class UpdateAccountTypeNotSupported
     /*@__PURE__*/ S.TaggedError<UpdateAccountTypeNotSupported>()("UpdateAccountTypeNotSupported", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "account type is not supported" } }],
   ) {}
@@ -230,6 +264,8 @@ export class ValidationError
     /*@__PURE__*/ S.TaggedError<ValidationError>()("ValidationError", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001 }],
   ) {}

@@ -80,6 +80,8 @@ export class ConsumerAlreadyExists
     /*@__PURE__*/ S.TaggedError<ConsumerAlreadyExists>()("ConsumerAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11004 }],
   ) {}
@@ -89,6 +91,8 @@ export class ConsumerNotFound
     /*@__PURE__*/ S.TaggedError<ConsumerNotFound>()("ConsumerNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10013 }, { code: 10105 }, { code: 11006 }],
   ) {}
@@ -98,6 +102,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -107,6 +113,8 @@ export class InvalidMessageBody
     /*@__PURE__*/ S.TaggedError<InvalidMessageBody>()("InvalidMessageBody", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10207 }, { code: 10013 }],
   ) {}
@@ -116,6 +124,8 @@ export class InvalidQueueId
     /*@__PURE__*/ S.TaggedError<InvalidQueueId>()("InvalidQueueId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10107 }],
   ) {}
@@ -125,6 +135,8 @@ export class InvalidQueueName
     /*@__PURE__*/ S.TaggedError<InvalidQueueName>()("InvalidQueueName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11003 }],
   ) {}
@@ -134,6 +146,8 @@ export class InvalidRequestBody
     /*@__PURE__*/ S.TaggedError<InvalidRequestBody>()("InvalidRequestBody", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10026 }],
   ) {}
@@ -143,6 +157,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -152,6 +168,8 @@ export class QueueAlreadyExists
     /*@__PURE__*/ S.TaggedError<QueueAlreadyExists>()("QueueAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11009 }],
   ) {}
@@ -161,6 +179,8 @@ export class QueueHandlerMissing
     /*@__PURE__*/ S.TaggedError<QueueHandlerMissing>()("QueueHandlerMissing", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11001 }, { status: 400, message: { includes: "queue handler is missing" } }],
   ) {}
@@ -170,6 +190,8 @@ export class QueueHttpPullNotEnabled
     /*@__PURE__*/ S.TaggedError<QueueHttpPullNotEnabled>()("QueueHttpPullNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0, message: "messages cannot be pulled unless http_pull mode is enabled" }],
   ) {}
@@ -179,6 +201,8 @@ export class QueueInUseByEventNotification
     /*@__PURE__*/ S.TaggedError<QueueInUseByEventNotification>()("QueueInUseByEventNotification", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11017 }],
   ) {}
@@ -188,6 +212,8 @@ export class QueueInUseByWorkerBinding
     /*@__PURE__*/ S.TaggedError<QueueInUseByWorkerBinding>()("QueueInUseByWorkerBinding", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11005 }],
   ) {}
@@ -197,6 +223,8 @@ export class QueueNotFound
     /*@__PURE__*/ S.TaggedError<QueueNotFound>()("QueueNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 11000 },
@@ -210,6 +238,8 @@ export class SubscriptionAlreadyExists
     /*@__PURE__*/ S.TaggedError<SubscriptionAlreadyExists>()("SubscriptionAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 405, message: { includes: "do not support multiple subscriptions" } }],
   ) {}
@@ -219,6 +249,8 @@ export class SubscriptionNotFound
     /*@__PURE__*/ S.TaggedError<SubscriptionNotFound>()("SubscriptionNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "No subscription with this ID" } }],
   ) {}
@@ -228,6 +260,8 @@ export class UnrecognizedEventType
     /*@__PURE__*/ S.TaggedError<UnrecognizedEventType>()("UnrecognizedEventType", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0, message: { includes: "Unrecognized event types" } }],
   ) {}
@@ -237,6 +271,8 @@ export class WorkerNotFound
     /*@__PURE__*/ S.TaggedError<WorkerNotFound>()("WorkerNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10007 }],
   ) {}

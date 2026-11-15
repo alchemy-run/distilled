@@ -105,6 +105,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -114,6 +116,8 @@ export class LoadBalancerNotFound
     /*@__PURE__*/ S.TaggedError<LoadBalancerNotFound>()("LoadBalancerNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001 }],
   ) {}
@@ -125,6 +129,8 @@ export class LoadBalancingNotEnabledForZone
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 1002, message: { includes: "load balancing not enabled" } }],
@@ -135,6 +141,8 @@ export class MonitorGroupInUse
     /*@__PURE__*/ S.TaggedError<MonitorGroupInUse>()("MonitorGroupInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "still referenced" } }],
   ) {}
@@ -144,6 +152,8 @@ export class MonitorGroupNotFound
     /*@__PURE__*/ S.TaggedError<MonitorGroupNotFound>()("MonitorGroupNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001 }],
   ) {}
@@ -153,6 +163,8 @@ export class MonitorGroupsNotEnabled
     /*@__PURE__*/ S.TaggedError<MonitorGroupsNotEnabled>()("MonitorGroupsNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "monitor groups not enabled" } }],
   ) {}
@@ -162,6 +174,8 @@ export class MonitorIntervalOutOfRange
     /*@__PURE__*/ S.TaggedError<MonitorIntervalOutOfRange>()("MonitorIntervalOutOfRange", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "interval is not in range" } }],
   ) {}
@@ -171,6 +185,8 @@ export class MonitorInUse
     /*@__PURE__*/ S.TaggedError<MonitorInUse>()("MonitorInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "still referenced" } }],
   ) {}
@@ -180,6 +196,8 @@ export class MonitorNotFound
     /*@__PURE__*/ S.TaggedError<MonitorNotFound>()("MonitorNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001 }],
   ) {}
@@ -189,6 +207,8 @@ export class PoolAccessFailed
     /*@__PURE__*/ S.TaggedError<PoolAccessFailed>()("PoolAccessFailed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "Access Failed" } }],
   ) {}
@@ -198,6 +218,8 @@ export class PoolInUse
     /*@__PURE__*/ S.TaggedError<PoolInUse>()("PoolInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1002, message: { includes: "still referenced" } }],
   ) {}
@@ -207,6 +229,8 @@ export class PoolNotFound
     /*@__PURE__*/ S.TaggedError<PoolNotFound>()("PoolNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001 }],
   ) {}

@@ -50,6 +50,8 @@ export class HyperdriveConfigAlreadyExists
     /*@__PURE__*/ S.TaggedError<HyperdriveConfigAlreadyExists>()("HyperdriveConfigAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2017 }],
   ) {}
@@ -59,6 +61,8 @@ export class HyperdriveConfigNotFound
     /*@__PURE__*/ S.TaggedError<HyperdriveConfigNotFound>()("HyperdriveConfigNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2006 }, { status: 404 }],
   ) {}
@@ -68,6 +72,8 @@ export class HyperdriveOriginUnavailable
     /*@__PURE__*/ S.TaggedError<HyperdriveOriginUnavailable>()("HyperdriveOriginUnavailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { status: 400, message: { includes: "Failed to connect to upstream database" } },
@@ -81,6 +87,8 @@ export class InvalidHyperdriveConfig
     /*@__PURE__*/ S.TaggedError<InvalidHyperdriveConfig>()("InvalidHyperdriveConfig", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2007 }],
   ) {}
@@ -90,6 +98,8 @@ export class InvalidObjectIdentifier
     /*@__PURE__*/ S.TaggedError<InvalidObjectIdentifier>()("InvalidObjectIdentifier", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -99,6 +109,8 @@ export class MethodNotAllowed
     /*@__PURE__*/ S.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 10000, message: { includes: "method not allowed" } },
@@ -111,6 +123,8 @@ export class PrivateHostNotAllowed
     /*@__PURE__*/ S.TaggedError<PrivateHostNotAllowed>()("PrivateHostNotAllowed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2009 }],
   ) {}

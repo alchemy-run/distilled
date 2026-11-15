@@ -45,6 +45,8 @@ export class InvalidAccountId
     /*@__PURE__*/ S.TaggedError<InvalidAccountId>()("InvalidAccountId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -54,6 +56,8 @@ export class InvalidJsonBody
     /*@__PURE__*/ S.TaggedError<InvalidJsonBody>()("InvalidJsonBody", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "invalid_json_body" } }],
   ) {}
@@ -63,6 +67,8 @@ export class MaximumStoresExceeded
     /*@__PURE__*/ S.TaggedError<MaximumStoresExceeded>()("MaximumStoresExceeded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003, message: { includes: "maximum_stores_exceeded" } }],
   ) {}
@@ -72,6 +78,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000 }],
   ) {}
@@ -81,6 +89,8 @@ export class SecretNameAlreadyExists
     /*@__PURE__*/ S.TaggedError<SecretNameAlreadyExists>()("SecretNameAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1003, message: { includes: "secret_name_already_exists" } }],
   ) {}
@@ -90,6 +100,8 @@ export class SecretNameEmpty
     /*@__PURE__*/ S.TaggedError<SecretNameEmpty>()("SecretNameEmpty", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "secret_name_empty" } }],
   ) {}
@@ -99,6 +111,8 @@ export class SecretNotFound
     /*@__PURE__*/ S.TaggedError<SecretNotFound>()("SecretNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "secret_not_found" } }],
   ) {}
@@ -108,6 +122,8 @@ export class SecretScopeInvalid
     /*@__PURE__*/ S.TaggedError<SecretScopeInvalid>()("SecretScopeInvalid", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "secret_scope_invalid" } }],
   ) {}
@@ -117,6 +133,8 @@ export class SecretScopesEmpty
     /*@__PURE__*/ S.TaggedError<SecretScopesEmpty>()("SecretScopesEmpty", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "secret_scopes_empty" } }],
   ) {}
@@ -126,6 +144,8 @@ export class StoreNotFound
     /*@__PURE__*/ S.TaggedError<StoreNotFound>()("StoreNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1001, message: { includes: "store_not_found" } }],
   ) {}

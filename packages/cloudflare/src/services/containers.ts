@@ -101,6 +101,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -113,6 +115,8 @@ export class ContainerApplicationCreateUnavailable
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ message: { includes: "can't create application at this time" } }],
@@ -123,6 +127,8 @@ export class ContainerApplicationNotFound
     /*@__PURE__*/ S.TaggedError<ContainerApplicationNotFound>()("ContainerApplicationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 1609, message: { includes: "Container application not found" } },
@@ -138,6 +144,8 @@ export class ContainerImagePreparationInvalidImage
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ).pipe(C.withBadRequestError),
     [
@@ -159,6 +167,8 @@ export class DurableObjectAlreadyHasApplication
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 1608, message: { includes: "DURABLE_OBJECT_ALREADY_HAS_APPLICATION" } }],
@@ -169,6 +179,8 @@ export class DurableObjectCheckError
     /*@__PURE__*/ S.TaggedError<DurableObjectCheckError>()("DurableObjectCheckError", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1000, message: { includes: "checking the application durable object" } }],
   ) {}
@@ -181,6 +193,8 @@ export class DurableObjectNamespaceNotFound
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ status: 400, message: { includes: "Durable Object namespace was not found" } }],
@@ -193,6 +207,8 @@ export class DurableObjectNotContainerEnabled
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 1607, message: { includes: "DURABLE_OBJECT_NOT_CONTAINER_ENABLED" } }],
@@ -204,6 +220,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -213,6 +231,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003, message: { includes: "Could not route" } }],
   ) {}

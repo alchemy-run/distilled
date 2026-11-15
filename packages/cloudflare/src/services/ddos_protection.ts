@@ -51,6 +51,8 @@ export class AdvancedTcpProtectionNotEntitled
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 8888 }],
@@ -61,6 +63,8 @@ export class AllowlistEntryNotFound
     /*@__PURE__*/ S.TaggedError<AllowlistEntryNotFound>()("AllowlistEntryNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -70,6 +74,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -79,6 +85,8 @@ export class SynProtectionFilterNotFound
     /*@__PURE__*/ S.TaggedError<SynProtectionFilterNotFound>()("SynProtectionFilterNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -88,6 +96,8 @@ export class SynProtectionRuleNotFound
     /*@__PURE__*/ S.TaggedError<SynProtectionRuleNotFound>()("SynProtectionRuleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -99,6 +109,8 @@ export class TcpFlowProtectionFilterNotFound
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ status: 404 }],
@@ -109,6 +121,8 @@ export class TcpFlowProtectionRuleNotFound
     /*@__PURE__*/ S.TaggedError<TcpFlowProtectionRuleNotFound>()("TcpFlowProtectionRuleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}

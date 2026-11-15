@@ -14,9 +14,10 @@ npm install @distilled.cloud/vercel effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Vercel from "@distilled.cloud/vercel";
+import * as Dns from "@distilled.cloud/vercel/dns";
 
 const program = Effect.gen(function* () {
-  const result = yield* Vercel.dns.getDomainsRecord({});
+  const result = yield* Dns.getDomainsRecord({});
   return result;
 });
 

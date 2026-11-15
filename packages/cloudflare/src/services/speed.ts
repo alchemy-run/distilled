@@ -43,6 +43,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -52,6 +54,8 @@ export class TestScheduleAlreadyExists
     /*@__PURE__*/ S.TaggedError<TestScheduleAlreadyExists>()("TestScheduleAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 400, message: { includes: "scheduled_test_already_exists" } }],
   ) {}
@@ -61,6 +65,8 @@ export class TestScheduleNotFound
     /*@__PURE__*/ S.TaggedError<TestScheduleNotFound>()("TestScheduleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 404, message: { includes: "schedule_not_found" } }, { status: 404 }],
   ) {}
@@ -70,6 +76,8 @@ export class TestScheduleQuotaReached
     /*@__PURE__*/ S.TaggedError<TestScheduleQuotaReached>()("TestScheduleQuotaReached", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 429, message: { includes: "quota reached" } }],
   ) {}

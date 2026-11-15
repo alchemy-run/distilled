@@ -174,6 +174,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -183,6 +185,8 @@ export class IndicatorFeedNotFound
     /*@__PURE__*/ S.TaggedError<IndicatorFeedNotFound>()("IndicatorFeedNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403, message: { includes: "does not exist" } }],
   ) {}
@@ -192,6 +196,8 @@ export class IndicatorFeedsNotEntitled
     /*@__PURE__*/ S.TaggedError<IndicatorFeedsNotEntitled>()("IndicatorFeedsNotEntitled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403, message: { includes: "does not have permission to create a feed" } }],
   ) {}

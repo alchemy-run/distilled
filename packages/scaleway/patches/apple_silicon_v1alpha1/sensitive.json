@@ -1,0 +1,26 @@
+{
+  "description": "Apple silicon runner configurations carry the GitHub/GitLab runner registration `token`, a CI credential, in plain text (https://www.scaleway.com/en/developers/api/apple-silicon/).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.apple_silicon_v1alpha1#RunnerConfiguration/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.apple_silicon_v1alpha1#GithubRunnerConfiguration/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.apple_silicon_v1alpha1#GitlabRunnerConfiguration/members/token/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

@@ -45,6 +45,8 @@ export class CertificateAlreadyDeleted
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyDeleted>()("CertificateAlreadyDeleted", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "already deleted" } }],
   ) {}
@@ -54,6 +56,8 @@ export class CertificateAlreadyExists
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyExists>()("CertificateAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1471, message: { includes: "already exists" } }],
   ) {}
@@ -63,6 +67,8 @@ export class CertificateInUse
     /*@__PURE__*/ S.TaggedError<CertificateInUse>()("CertificateInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "cannot be deleted while in use" } }],
   ) {}
@@ -72,6 +78,8 @@ export class CertificateNotFound
     /*@__PURE__*/ S.TaggedError<CertificateNotFound>()("CertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1472, message: { includes: "Certificate not found" } }, { status: 404 }],
   ) {}

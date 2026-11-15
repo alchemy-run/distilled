@@ -50,6 +50,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -59,6 +61,8 @@ export class InvalidSchema
     /*@__PURE__*/ S.TaggedError<InvalidSchema>()("InvalidSchema", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 50010 }],
   ) {}
@@ -68,6 +72,8 @@ export class OperationNotFound
     /*@__PURE__*/ S.TaggedError<OperationNotFound>()("OperationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10404 }],
   ) {}
@@ -77,6 +83,8 @@ export class SchemaNotFound
     /*@__PURE__*/ S.TaggedError<SchemaNotFound>()("SchemaNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 19400 }],
   ) {}
@@ -86,6 +94,8 @@ export class UnentitledMitigationAction
     /*@__PURE__*/ S.TaggedError<UnentitledMitigationAction>()("UnentitledMitigationAction", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11400 }],
   ) {}
@@ -95,6 +105,8 @@ export class ZonePurged
     /*@__PURE__*/ S.TaggedError<ZonePurged>()("ZonePurged", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ message: { includes: "has been purged" } }],
   ) {}

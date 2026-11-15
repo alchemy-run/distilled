@@ -32,6 +32,8 @@ export class AccessibilityActionNotSupported
       "AccessibilityActionNotSupported",
       {
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "action not supported by node" } }],
@@ -42,6 +44,9 @@ export class ComputerUseNotReady
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ComputerUseNotReady>()("ComputerUseNotReady", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError),
     [{ status: 503, message: { includes: "computer-use plugin is still loading" } }],
   ) {}

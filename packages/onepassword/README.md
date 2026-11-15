@@ -15,15 +15,15 @@ npm install @distilled.cloud/onepassword effect
 
 ## APIs
 
-Each API is a service namespace with its own credentials layer and protocol. A service is also importable on its own, e.g. `@distilled.cloud/onepassword/connect`.
+Each API is a service with its own subpath, credentials layer and protocol, e.g. `import * as Connect from "@distilled.cloud/onepassword/connect"`.
 
 | API         | Operations                                    | Credentials                             | Protocol              |
 | ----------- | --------------------------------------------- | --------------------------------------- | --------------------- |
-| Connect     | `Onepassword.connect.getVaults`, …        | `ConnectCredentialsFromEnv`                  | `ConnectProtocol` |
-| Events      | `Onepassword.events.getAuditEventsV2`, …      | `EventsCredentialsFromEnv`              | `EventsProtocol`      |
-| Users       | `Onepassword.users.listUsers`, …              | `UsersCredentialsFromEnv`               | `UsersProtocol`       |
-| OAuth       | `Onepassword.oauth.requestAccessToken`, …     | `OAuthCredentialsFromEnv`               | `OAuthProtocol`       |
-| Partnership | `Onepassword.partnership.createPartnerAccount`, … | `PartnershipCredentialsFromEnv`     | `PartnershipProtocol` |
+| Connect     | `Connect.getVaults`, …| `ConnectCredentialsFromEnv`                  | `ConnectProtocol` |
+| Events      | `Events.getAuditEventsV2`, …| `EventsCredentialsFromEnv`              | `EventsProtocol`      |
+| Users       | `Users.listUsers`, …| `UsersCredentialsFromEnv`               | `UsersProtocol`       |
+| OAuth       | `OAuth.requestAccessToken`, …| `OAuthCredentialsFromEnv`               | `OAuthProtocol`       |
+| Partnership | `Partnership.createPartnerAccount`, …| `PartnershipCredentialsFromEnv`     | `PartnershipProtocol` |
 
 ## Quick start
 
@@ -33,9 +33,10 @@ Connect (a self-hosted Connect server):
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Onepassword from "@distilled.cloud/onepassword";
+import * as Connect from "@distilled.cloud/onepassword/connect";
 
 const program = Effect.gen(function* () {
-  const vaults = yield* Onepassword.connect.getVaults({});
+  const vaults = yield* Connect.getVaults({});
   return vaults;
 });
 
@@ -54,11 +55,12 @@ Events (audit events from an Events Reporting integration):
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Onepassword from "@distilled.cloud/onepassword";
+import * as Events from "@distilled.cloud/onepassword/events";
 
 const program = Effect.gen(function* () {
   // Start a cursor with a page size and a start time, then pass the returned
   // `cursor` back as `{ body: { cursor } }` to continue.
-  const page = yield* Onepassword.events.getAuditEventsV2({
+  const page = yield* Events.getAuditEventsV2({
     body: { limit: 100, start_time: "2026-10-01T00:00:00Z" },
   });
   return page.items;
@@ -79,8 +81,9 @@ Users (suspend a user; the access token is requested and refreshed for you):
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Onepassword from "@distilled.cloud/onepassword";
+import * as Users from "@distilled.cloud/onepassword/users";
 
-const program = Onepassword.users.suspendUser({
+const program = Users.suspendUser({
   account: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
   user: "ZYXWVUTSRQPONMLKJIHGFEDCBA",
 });

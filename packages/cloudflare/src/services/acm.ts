@@ -50,6 +50,8 @@ export class AdvancedCertificateManagerRequired
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 1450 }],
@@ -60,6 +62,8 @@ export class CustomTrustStoreNotFound
     /*@__PURE__*/ S.TaggedError<CustomTrustStoreNotFound>()("CustomTrustStoreNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -69,6 +73,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -78,6 +84,8 @@ export class InvalidObjectIdentifier
     /*@__PURE__*/ S.TaggedError<InvalidObjectIdentifier>()("InvalidObjectIdentifier", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -87,6 +95,8 @@ export class NoStateChange
     /*@__PURE__*/ S.TaggedError<NoStateChange>()("NoStateChange", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1467 }],
   ) {}
@@ -96,6 +106,8 @@ export class PreviousJobInProgress
     /*@__PURE__*/ S.TaggedError<PreviousJobInProgress>()("PreviousJobInProgress", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1482 }],
   ) {}

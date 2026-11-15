@@ -12,10 +12,11 @@
  *
  * @example
  * ```ts
- * import * as Npm from "@distilled.cloud/npm";
+ * import * as Search from "@distilled.cloud/npm/search";
+ * import * as Access from "@distilled.cloud/npm/access";
  *
- * const { objects } = yield* Npm.search.searchPackages({ text: "effect", size: 5 });
- * const { public: isPublic } = yield* Npm.access.getPackageVisibility({
+ * const { objects } = yield* Search.searchPackages({ text: "effect", size: 5 });
+ * const { public: isPublic } = yield* Access.getPackageVisibility({
  *   escapedPackageName: "@npmcli/arborist",
  * });
  * ```
@@ -25,4 +26,3 @@ export * from "./errors.ts";
 export * as T from "./traits.ts";
 export { NpmProtocol, type NpmOpError, type NpmOpContext } from "./protocol.ts";
 export * as Retry from "./retry.ts";
-export * from "./services/index.ts";

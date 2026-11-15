@@ -14,9 +14,10 @@ npm install @distilled.cloud/vanta effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Vanta from "@distilled.cloud/vanta";
+import * as ManageVanta from "@distilled.cloud/vanta/manage_vanta";
 
 const program = Effect.gen(function* () {
-  const result = yield* Vanta.manageVanta.listComplianceFrameworks({});
+  const result = yield* ManageVanta.listComplianceFrameworks({});
   return result;
 });
 

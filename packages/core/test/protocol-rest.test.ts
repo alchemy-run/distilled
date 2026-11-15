@@ -13,6 +13,7 @@ import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
 import {
   BadRequest,
+  Conflict,
   InternalServerError,
   NotFound,
   ServiceUnavailable,
@@ -83,6 +84,34 @@ class Gone extends T.applyErrorMatchers(
   [{ body: { "/detail/kind": "gone" } }],
 ) {}
 
+class Nested extends T.applyErrorMatchers(
+  Schema.TaggedError<Nested>()("Nested", {
+    message: Schema.String,
+    status: Schema.optional(Schema.String),
+    details: Schema.optional(Schema.Unknown),
+    requestId: Schema.optional(Schema.String),
+  }),
+  [{ status: 412 }],
+) {}
+
+class SlowDown extends T.applyErrorMatchers(
+  Schema.TaggedError<SlowDown>()("SlowDown", {
+    message: Schema.String,
+    retryAfter: Schema.optional(Schema.Unknown),
+  }),
+  [{ status: 409, body: { "/code": "slow_down" } }],
+) {}
+
+class KeyReused extends T.applyErrorMatchers(
+  Schema.TaggedError<KeyReused>()("KeyReused", {
+    code: Schema.Number,
+    message: Schema.String,
+    requestId: Schema.optional(Schema.String),
+    error: Schema.optional(Schema.Unknown),
+  }),
+  [{ status: 422, body: { "/code": "key_reused" } }],
+) {}
+
 const baseOptions: RestProtocolOptions<Creds> = {
   credentials: Effect.gen(function* () {
     return yield* TestCreds;
@@ -128,6 +157,7 @@ const createThingWithErrors = thingOp(DefaultProtocol, [
   QuotaExceededOnCreate,
   Teapot,
   Gone,
+  KeyReused,
 ]);
 
 interface Recorded {
@@ -781,6 +811,27 @@ describe("makeRestProtocol typed error matching", () => {
     expect(error).toBeInstanceOf(Gone);
   });
 
+  test("a matched error's declared fields carry the body's values, with the matched code and message", async () => {
+    const error = await failOn(() =>
+      json(
+        {
+          code: "key_reused",
+          message: "key was used",
+          requestId: "req_1",
+          error: { details: { window: "day" } },
+          extra: true,
+        },
+        422,
+      ),
+    );
+    expect(error).toBeInstanceOf(KeyReused);
+    expect(error.requestId).toBe("req_1");
+    expect(error.error).toEqual({ details: { window: "day" } });
+    expect(error.code).toBe(0);
+    expect(error.message).toBe("key was used");
+    expect(error.extra).toBeUndefined();
+  });
+
   test("declared errors are ignored when nothing matches", async () => {
     const error = await failOn(() => json({ message: "thing is busy" }, 409));
     expect(error._tag).toBe("Conflict");
@@ -790,6 +841,54 @@ describe("makeRestProtocol typed error matching", () => {
   test("operations without declared errors fall straight to the status map", async () => {
     const error = await failOn(() => json({ message: "thing is locked" }, 409), createThing);
     expect(error._tag).toBe("Conflict");
+  });
+});
+
+describe("makeRestProtocol error response fields", () => {
+  const PlainOutput = S.Struct({ id: S.optional(S.String) });
+  const NestedProtocol = makeRestProtocol({ ...baseOptions, errorFieldsAt: "/error" });
+  const plainOp = (protocol: Layer.Layer<API.Protocol>) =>
+    API.make(() => ({
+      input: ThingInput,
+      output: PlainOutput,
+      errors: [Nested, SlowDown] as any,
+      protocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+  const plain = plainOp(DefaultProtocol);
+  const nested = plainOp(NestedProtocol);
+
+  test("a status-mapped error carries the body and headers", async () => {
+    const error = await failOn(
+      () => json({ message: "busy", requestId: "req_7" }, 409, { "x-request-id": "req_7" }),
+      plain,
+    );
+    expect(error).toBeInstanceOf(Conflict);
+    expect(error.body).toEqual({ message: "busy", requestId: "req_7" });
+    expect(error.headers["x-request-id"]).toBe("req_7");
+  });
+
+  test("errorFieldsAt reads declared fields from the nested object, then the top level", async () => {
+    const error = await failOn(
+      () =>
+        json(
+          { error: { message: "no", status: "FAILED_PRECONDITION", details: [1] }, requestId: "r" },
+          412,
+        ),
+      nested,
+    );
+    expect(error).toBeInstanceOf(Nested);
+    expect(error.status).toBe("FAILED_PRECONDITION");
+    expect(error.details).toEqual([1]);
+    expect(error.requestId).toBe("r");
+  });
+
+  test("a typed error that declares retryAfter gets the Retry-After hint", async () => {
+    const error = await failOn(
+      () => json({ code: "slow_down", message: "later" }, 409, { "retry-after": "7" }),
+      plain,
+    );
+    expect(error).toBeInstanceOf(SlowDown);
+    expect(Duration.toSeconds(error.retryAfter)).toBe(7);
   });
 });
 

@@ -153,7 +153,7 @@ describe("request encoding", () => {
 });
 
 describe("Google error envelope decoding", () => {
-  test("dispatches by HTTP status and tacks on envelope status and details", async () => {
+  test("dispatches by HTTP status and fills envelope status and details", async () => {
     const details = [{ "@type": "type.googleapis.com/google.rpc.ErrorInfo", reason: "notFound" }];
     const { layer } = fakeGoogle(
       404,
@@ -162,7 +162,7 @@ describe("Google error envelope decoding", () => {
       }),
     );
     const error = await runFlip(getFiles({ fileId: "f" }), layer);
-    // Core's status class shares its tag with the per-service class.
+    // The per-service class matches the declared status.
     expect((error as { _tag: string })._tag).toBe(NotFound.name);
     expect(error).toMatchObject({
       _tag: "NotFound",
@@ -196,7 +196,10 @@ describe("Google error envelope decoding", () => {
     const error = await runFlip(getFiles({ fileId: "f" }), layer);
     expect(error).toBeInstanceOf(TooManyRequests);
     expect((error as TooManyRequests).retryAfter).toBeDefined();
-    expect(error).toMatchObject({ message: "slow down", status: "RESOURCE_EXHAUSTED" });
+    expect(error).toMatchObject({
+      message: "slow down",
+      body: { error: { status: "RESOURCE_EXHAUSTED" } },
+    });
   });
 
   test("a non-JSON error body becomes the message", async () => {

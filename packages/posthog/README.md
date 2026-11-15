@@ -14,9 +14,10 @@ npm install @distilled.cloud/posthog effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as PostHog from "@distilled.cloud/posthog";
+import * as AccountRelationshipDefinitions from "@distilled.cloud/posthog/account_relationship_definitions";
 
 const program = Effect.gen(function* () {
-  const result = yield* PostHog.account_relationship_definitions.listAccountRelationshipDefinitions({});
+  const result = yield* AccountRelationshipDefinitions.listAccountRelationshipDefinitions({});
   return result;
 });
 

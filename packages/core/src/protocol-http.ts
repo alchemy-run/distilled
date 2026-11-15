@@ -16,6 +16,7 @@ import type * as AST from "effect/SchemaAST";
 import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
 import { isOpaqueValue } from "./plain-values.ts";
+import { parseServerRetryHint } from "./retry-after.ts";
 import * as Schema from "./schema-lite-typed.ts";
 import { SdkError } from "./sdk-error.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
@@ -926,6 +927,11 @@ const requestOrInvalid = ({
 export interface ErrorResponse {
   readonly body?: unknown;
   readonly headers?: Readonly<Record<string, string | undefined>>;
+  /**
+   * JSON pointer to the object that holds the error's fields when the
+   * provider nests them, e.g. `"/error"` for `{ error: { status, details } }`.
+   */
+  readonly fieldsAt?: string;
 }
 
 const matchesText = (matcher: ErrorTextMatcher, value: unknown): boolean => {
@@ -1003,6 +1009,47 @@ export const matchesExpression = (
   return true;
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+/**
+ * The body values whose keys the error class declares as fields: from the
+ * object at `fieldsAt` first, then from the top level.
+ */
+const declaredBodyFields = (
+  fields: Record<string, unknown> | undefined,
+  body: unknown,
+  fieldsAt: string | undefined,
+): Record<string, unknown> => {
+  if (fields === undefined) return {};
+  const nested = fieldsAt === undefined ? undefined : atPointer(body, fieldsAt);
+  const out: Record<string, unknown> = {};
+  for (const key of Object.keys(fields)) {
+    if (isRecord(nested) && Object.hasOwn(nested, key)) out[key] = nested[key];
+    else if (isRecord(body) && Object.hasOwn(body, key)) out[key] = body[key];
+  }
+  return out;
+};
+
+/**
+ * The fields every error built from a response gets, when its class declares
+ * them: the body, the headers, and the server's retry hint from
+ * `Retry-After` or `RateLimit`.
+ */
+export const responseErrorFields = (
+  fields: Record<string, unknown> | undefined,
+  response: ErrorResponse,
+): Record<string, unknown> => {
+  const out: Record<string, unknown> = {
+    body: response.body,
+    headers: response.headers,
+  };
+  if (fields !== undefined && Object.hasOwn(fields, "retryAfter") && response.headers) {
+    out.retryAfter = parseServerRetryHint(response.headers);
+  }
+  return out;
+};
+
 /**
  * Pick the operation's typed error class for a failed response: among all
  * declared classes whose matchers (see `applyErrorMatchers`) match the wire
@@ -1010,6 +1057,11 @@ export const matchesExpression = (
  * Empty error lists use an HTTP-status message so body/header-only failures can
  * still match. The constructor receives the raw body and headers as well as
  * code/message; error schemas can declare these fields to expose them to callers.
+ * Any other field the class declares is read from the JSON body's key of the
+ * same name -- at `response.fieldsAt` first, then at the top level -- so a
+ * patch that adds `requestId` to an error gets the body's `requestId`. A
+ * declared `retryAfter` gets the `Retry-After` / `RateLimit` header hint. The
+ * matched `code` and `message` always win over the body's.
  */
 export const matchTypedError = (
   errorClasses: ReadonlyArray<unknown>,
@@ -1033,13 +1085,14 @@ export const matchTypedError = (
     }
   }
   if (!best) return undefined;
+  const fields = (best.cls as { fields?: Record<string, unknown> }).fields;
   const saved = suppressStack();
   try {
     return new (best.cls as new (args: any) => unknown)({
+      ...declaredBodyFields(fields, response.body, response.fieldsAt),
       code: best.code ?? 0,
       message: best.message,
-      body: response.body,
-      headers: response.headers,
+      ...responseErrorFields(fields, response),
     });
   } finally {
     restoreStack(saved);

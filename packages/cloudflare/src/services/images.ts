@@ -42,6 +42,8 @@ export class ImageAlreadyExists
     /*@__PURE__*/ S.TaggedError<ImageAlreadyExists>()("ImageAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5409 }],
   ) {}
@@ -51,6 +53,8 @@ export class ImageNotFound
     /*@__PURE__*/ S.TaggedError<ImageNotFound>()("ImageNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5404 }],
   ) {}
@@ -60,6 +64,8 @@ export class ImagesAccessNotEnabled
     /*@__PURE__*/ S.TaggedError<ImagesAccessNotEnabled>()("ImagesAccessNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5403 }],
   ) {}
@@ -69,6 +75,8 @@ export class InvalidUploadFormat
     /*@__PURE__*/ S.TaggedError<InvalidUploadFormat>()("InvalidUploadFormat", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5415 }],
   ) {}
@@ -78,6 +86,8 @@ export class KeyNotFound
     /*@__PURE__*/ S.TaggedError<KeyNotFound>()("KeyNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5404 }],
   ) {}
@@ -87,6 +97,8 @@ export class VariantAlreadyExists
     /*@__PURE__*/ S.TaggedError<VariantAlreadyExists>()("VariantAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5409 }],
   ) {}
@@ -96,6 +108,8 @@ export class VariantNameNotAllowed
     /*@__PURE__*/ S.TaggedError<VariantNameNotAllowed>()("VariantNameNotAllowed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5400 }],
   ) {}
@@ -105,6 +119,8 @@ export class VariantNotFound
     /*@__PURE__*/ S.TaggedError<VariantNotFound>()("VariantNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5401 }, { status: 404, message: { includes: "not found" } }],
   ) {}

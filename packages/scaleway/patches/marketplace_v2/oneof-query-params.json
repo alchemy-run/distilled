@@ -1,0 +1,38 @@
+{
+  "description": "Scaleway's OpenAPI export drops query parameters that belong to a proto `oneOf`, so `ListLocalImages` lose filters the API takes. The official JS SDK sends them through `resolveOneOf` in `urlParams` \u2014 scaleway-sdk-js packages_generated/marketplace/src/v2/api.gen.ts \u2014 with the types in the sibling types.gen.ts. They are added as optional query members; the API enforces the one-of. Live on 2026-10-12, a call with none of them answered `invalid_arguments` \"One of image_id, image_label or version_id required\".",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.marketplace_v2#ListLocalImagesRequest/members/image_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "image_id",
+          "smithy.api#documentation": "Local images of this marketplace image ID. One-of `scope`: exactly one of `image_id`, `version_id`, `image_label` \u2014 the API rejects a call with none."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.marketplace_v2#ListLocalImagesRequest/members/version_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "version_id",
+          "smithy.api#documentation": "Local images of this marketplace version ID. One-of `scope`: exactly one of `image_id`, `version_id`, `image_label` \u2014 the API rejects a call with none."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.marketplace_v2#ListLocalImagesRequest/members/image_label",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpQuery": "image_label",
+          "smithy.api#documentation": "Local images of this marketplace image label (`ubuntu_noble`). One-of `scope`: exactly one of `image_id`, `version_id`, `image_label` \u2014 the API rejects a call with none."
+        }
+      }
+    }
+  ]
+}

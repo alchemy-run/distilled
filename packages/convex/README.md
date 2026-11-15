@@ -15,9 +15,10 @@ npm install @distilled.cloud/convex effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Convex from "@distilled.cloud/convex";
+import * as Management from "@distilled.cloud/convex/management";
 
 const program = Effect.gen(function* () {
-  const { id, deploymentUrl } = yield* Convex.management.createProject({
+  const { id, deploymentUrl } = yield* Management.createProject({
     teamId: 12345,
     projectName: "my-app",
     deploymentType: "prod",
@@ -38,9 +39,9 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 | Service | API | Lives at | Auth |
 | --- | --- | --- | --- |
-| `Convex.management` | Management | `https://api.convex.dev/v1` | `Authorization: Bearer <team token>` |
-| `Convex.deployment` | Deployment | `<deployment url>/api/v1` | `Authorization: Convex <token>` |
-| `Convex.functions` | Public HTTP | `<deployment url>/api` | none |
+| `@distilled.cloud/convex/management` | Management | `https://api.convex.dev/v1` | `Authorization: Bearer <team token>` |
+| `@distilled.cloud/convex/deployment` | Deployment | `<deployment url>/api/v1` | `Authorization: Convex <token>` |
+| `@distilled.cloud/convex/functions` | Public HTTP | `<deployment url>/api` | none |
 
 `deployment` and `functions` run against one deployment, so give them its URL
 with `fromDeployment`:
@@ -50,12 +51,14 @@ import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Redacted from "effect/Redacted";
 import * as Convex from "@distilled.cloud/convex";
+import * as Deployment from "@distilled.cloud/convex/deployment";
+import * as Functions from "@distilled.cloud/convex/functions";
 
 const program = Effect.gen(function* () {
-  yield* Convex.deployment.updateEnvironmentVariables({
+  yield* Deployment.updateEnvironmentVariables({
     changes: [{ name: "API_URL", value: "https://example.com" }],
   });
-  return yield* Convex.functions.query({
+  return yield* Functions.query({
     path: "messages:list",
     args: {},
     format: "json",

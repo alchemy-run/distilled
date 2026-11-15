@@ -47,6 +47,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -56,6 +58,8 @@ export class SnippetInUse
     /*@__PURE__*/ S.TaggedError<SnippetInUse>()("SnippetInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { status: 400, message: { includes: "still used" } },
@@ -68,6 +72,8 @@ export class SnippetNotFound
     /*@__PURE__*/ S.TaggedError<SnippetNotFound>()("SnippetNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "snippet not found" } }, { status: 404 }],
   ) {}
@@ -77,6 +83,8 @@ export class SnippetRulesNotFound
     /*@__PURE__*/ S.TaggedError<SnippetRulesNotFound>()("SnippetRulesNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -86,6 +94,8 @@ export class SnippetZoneNotFound
     /*@__PURE__*/ S.TaggedError<SnippetZoneNotFound>()("SnippetZoneNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: "requested zone not found" }],
   ) {}

@@ -47,6 +47,8 @@ export class DestinationNotVerified
     /*@__PURE__*/ S.TaggedError<DestinationNotVerified>()("DestinationNotVerified", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2054 }],
   ) {}
@@ -58,6 +60,8 @@ export class EmailAddressCreatedTooRecently
       {
         code: S.Number,
         message: S.String,
+        body: /*@__PURE__*/ S.optional(S.Unknown),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
       },
     ),
     [{ code: 2032 }],
@@ -68,6 +72,8 @@ export class EmailAddressNotFound
     /*@__PURE__*/ S.TaggedError<EmailAddressNotFound>()("EmailAddressNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2015 }],
   ) {}
@@ -77,6 +83,8 @@ export class EmailRoutingRuleNotFound
     /*@__PURE__*/ S.TaggedError<EmailRoutingRuleNotFound>()("EmailRoutingRuleNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404 }],
   ) {}
@@ -86,6 +94,8 @@ export class EmailRoutingSubdomainNotFound
     /*@__PURE__*/ S.TaggedError<EmailRoutingSubdomainNotFound>()("EmailRoutingSubdomainNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "Subdomain not found" } }],
   ) {}
@@ -95,6 +105,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -104,6 +116,8 @@ export class WorkerScriptNotFound
     /*@__PURE__*/ S.TaggedError<WorkerScriptNotFound>()("WorkerScriptNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 2016 }],
   ) {}

@@ -14,9 +14,10 @@ npm install @distilled.cloud/paypal effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Paypal from "@distilled.cloud/paypal";
+import * as CheckoutOrdersV2 from "@distilled.cloud/paypal/checkout_orders_v2";
 
 const program = Effect.gen(function* () {
-  const result = yield* Paypal.checkoutOrdersV2.ordersCreate({});
+  const result = yield* CheckoutOrdersV2.ordersCreate({});
   return result;
 });
 
