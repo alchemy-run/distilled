@@ -721,27 +721,30 @@ const call = (op: API.PreparedOperation, input: unknown) =>
         );
   });
 
+/** The AWS protocol's methods, typed (tests call them directly). */
+export const awsProtocol = {
+  // The protocol layer is memoized per process by `API.make`, so nothing
+  // here captures credentials: they, the region and the endpoint are read
+  // from the calling fiber's context on every request.
+  encode: ({ input, config }: API.ProtocolEncodeArgs) =>
+    Effect.withFiber((fiber) => {
+      const prepared = prepare(config);
+      // `Presign.presignRequest` sets `Presigning` to sign into the query string.
+      const presign = Context.getOrUndefined(fiber.context, Presigning);
+      return Effect.flatMap(planOf(prepared), (plan) =>
+        encodeWith(prepared, plan, fiber as unknown as Fiber, input, Effect.succeed, presign),
+      );
+    }),
+  decode: ({ response, config }: API.ProtocolDecodeArgs) =>
+    Effect.withFiber((fiber) => {
+      const prepared = prepare(config);
+      return Effect.flatMap(planOf(prepared), (plan) =>
+        decodeWith(prepared, plan, fiber.context as Context.Context<any>, response),
+      );
+    }),
+  call,
+};
+
 /** The Protocol layer every generated AWS operation references. */
 export const AwsProtocol: API.ProtocolLayer<CommonErrors, AwsOpContext> =
-  /*@__PURE__*/ API.makeProtocol({
-    // The protocol layer is memoized per process by `API.make`, so nothing
-    // here captures credentials: they, the region and the endpoint are read
-    // from the calling fiber's context on every request.
-    encode: ({ input, config }: API.ProtocolEncodeArgs) =>
-      Effect.withFiber((fiber) => {
-        const prepared = prepare(config);
-        // `Presign.presignRequest` sets `Presigning` to sign into the query string.
-        const presign = Context.getOrUndefined(fiber.context, Presigning);
-        return Effect.flatMap(planOf(prepared), (plan) =>
-          encodeWith(prepared, plan, fiber as unknown as Fiber, input, Effect.succeed, presign),
-        );
-      }),
-    decode: ({ response, config }: API.ProtocolDecodeArgs) =>
-      Effect.withFiber((fiber) => {
-        const prepared = prepare(config);
-        return Effect.flatMap(planOf(prepared), (plan) =>
-          decodeWith(prepared, plan, fiber.context as Context.Context<any>, response),
-        );
-      }),
-    call,
-  });
+  /*@__PURE__*/ API.makeProtocol(awsProtocol);

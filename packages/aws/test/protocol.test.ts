@@ -3,9 +3,7 @@
  * the same request on the wire and the same result or error, for operations
  * of every wire protocol, with and without strict validation.
  */
-import * as API from "@distilled.cloud/core/api";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
-import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
@@ -16,7 +14,7 @@ import * as Redacted from "effect/Redacted";
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
 import * as Credentials from "../src/credentials.ts";
 import * as Endpoint from "../src/endpoint.ts";
-import { AwsProtocol } from "../src/protocol.ts";
+import { awsProtocol as protocol } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import * as DynamoDB from "../src/services/dynamodb.ts";
 import * as EC2 from "../src/services/ec2.ts";
@@ -99,10 +97,6 @@ const run = async (
         },
   };
 };
-
-const protocol = Effect.runSync(
-  Effect.scoped(Effect.map(Layer.build(AwsProtocol), (ctx) => Context.get(ctx, API.Protocol))),
-);
 
 /** The operation through encode -> HttpClient -> decode, as before `call`. */
 const viaEncodeDecode = (op: any, input: unknown) => {

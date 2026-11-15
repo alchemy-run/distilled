@@ -34,7 +34,7 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  * Generic REST protocol factory for simple bearer/header-auth JSON APIs
  * (Neon, Fly.io, PlanetScale, Supabase, Turso, ...).
  *
- * `makeRestProtocol(options)` builds a core {@link API.Protocol} layer:
+ * `makeRestProtocol(options)` builds a core {@link API.ProtocolLayer}:
  *
  *   request:  credentials resolved from the CALLING fiber's context on every
  *             request (the layer itself is memoized per process -- see

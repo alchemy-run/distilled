@@ -136,12 +136,15 @@ export interface ProtocolImpl<E = never, R = never> {
  * The Protocol service an operation's protocol layer provides. One service
  * serves every SDK, so its methods' error and requirement types are
  * `unknown` here; the layer's type ({@link ProtocolLayer}) keeps the real ones.
+ * Only `API.make` reads it: the tag is exported as a type, never as a value,
+ * so no caller can get the `unknown`-typed methods.
  */
-export class Protocol
+class Protocol
   extends /*@__PURE__*/ Context.Service<Protocol, ProtocolImpl<unknown, unknown>>()("Protocol") {}
+export type { Protocol };
 
 /** The service a protocol layer provides. */
-export type ProtocolShape = (typeof Protocol)["Service"];
+export type ProtocolShape = ProtocolImpl<unknown, unknown>;
 
 /**
  * One operation as a protocol's {@link ProtocolImpl.call} sees it. Built once per
