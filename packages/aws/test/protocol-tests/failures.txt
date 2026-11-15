@@ -49,26 +49,6 @@ RestJsonClientPopulatesDefaultsValuesWhenMissingInResponse (response)
 RestJsonClientPopulatesNestedDefaultValuesWhenMissing (request)
 RestJsonClientPopulatesNestedDefaultsWhenMissingInResponseBody (response)
 
-# NaN and Infinity are sent as null, and decoded as strings.
-AwsJson10SupportsInfinityFloatInputs (request)
-AwsJson10SupportsInfinityFloatInputs (response)
-AwsJson10SupportsNaNFloatInputs (request)
-AwsJson10SupportsNaNFloatInputs (response)
-AwsJson10SupportsNegativeInfinityFloatInputs (request)
-AwsJson10SupportsNegativeInfinityFloatInputs (response)
-AwsJson11SupportsInfinityFloatInputs (request)
-AwsJson11SupportsInfinityFloatInputs (response)
-AwsJson11SupportsNaNFloatInputs (request)
-AwsJson11SupportsNaNFloatInputs (response)
-AwsJson11SupportsNegativeInfinityFloatInputs (request)
-AwsJson11SupportsNegativeInfinityFloatInputs (response)
-RestJsonSupportsInfinityFloatInputs (request)
-RestJsonSupportsInfinityFloatInputs (response)
-RestJsonSupportsNaNFloatInputs (request)
-RestJsonSupportsNaNFloatInputs (response)
-RestJsonSupportsNegativeInfinityFloatInputs (request)
-RestJsonSupportsNegativeInfinityFloatInputs (response)
-
 # `@sparse` lists and maps: a null element is refused on input and dropped
 # on output.
 AwsJson11SparseListsDeserializeNull (response)
