@@ -83,6 +83,16 @@ class Gone extends T.applyErrorMatchers(
   [{ body: { "/detail/kind": "gone" } }],
 ) {}
 
+class KeyReused extends T.applyErrorMatchers(
+  Schema.TaggedError<KeyReused>()("KeyReused", {
+    code: Schema.Number,
+    message: Schema.String,
+    requestId: Schema.optional(Schema.String),
+    error: Schema.optional(Schema.Unknown),
+  }),
+  [{ status: 422, body: { "/code": "key_reused" } }],
+) {}
+
 const baseOptions: RestProtocolOptions<Creds> = {
   credentials: Effect.gen(function* () {
     return yield* TestCreds;
@@ -128,6 +138,7 @@ const createThingWithErrors = thingOp(DefaultProtocol, [
   QuotaExceededOnCreate,
   Teapot,
   Gone,
+  KeyReused,
 ]);
 
 interface Recorded {
@@ -779,6 +790,27 @@ describe("makeRestProtocol typed error matching", () => {
   test("body pointer matchers see the parsed JSON body", async () => {
     const error = await failOn(() => json({ message: "bye", detail: { kind: "gone" } }, 410));
     expect(error).toBeInstanceOf(Gone);
+  });
+
+  test("a matched error's declared fields carry the body's values, with the matched code and message", async () => {
+    const error = await failOn(() =>
+      json(
+        {
+          code: "key_reused",
+          message: "key was used",
+          requestId: "req_1",
+          error: { details: { window: "day" } },
+          extra: true,
+        },
+        422,
+      ),
+    );
+    expect(error).toBeInstanceOf(KeyReused);
+    expect(error.requestId).toBe("req_1");
+    expect(error.error).toEqual({ details: { window: "day" } });
+    expect(error.code).toBe(0);
+    expect(error.message).toBe("key was used");
+    expect(error.extra).toBeUndefined();
   });
 
   test("declared errors are ignored when nothing matches", async () => {
