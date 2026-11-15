@@ -13,7 +13,7 @@ const pkg = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
 /** Feed `data` in chunks cut at `cuts`, then digest. */
 const digest = async (
-  Hash: new () => { update(d: Uint8Array): void; digest(): Promise<Uint8Array> },
+  Hash: new () => { update(d: Uint8Array): void; digest(): Uint8Array },
   data: Uint8Array,
   cuts: number[],
 ) => {
@@ -23,7 +23,7 @@ const digest = async (
     hash.update(data.subarray(at, cut));
     at = cut;
   }
-  return Buffer.from(await hash.digest()).toString("hex");
+  return Buffer.from(hash.digest()).toString("hex");
 };
 
 describe("browser hash variants match Node", () => {

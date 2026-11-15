@@ -1,0 +1,11 @@
+# Expected failures of core's tests on Bun (scripts/compat/bun-tests.ts).
+# The runner fails on a failure missing from this list and on a test in it
+# that passes. One test per line: `<file> > <describe and test names>`, or
+# `<file> (file)` for a failing hook. The text after `#` is a note.
+#
+# Recorded on Bun 1.4.4 (the version compat-tests.yml pins) with effect
+# 4.1.4. Remove a line when Bun or core fixes it.
+
+# Bun's Blob reports `text/html;charset=utf-8` for `new Blob([..], { type:
+# "text/html" })`, and core sends the Blob's own type.
+packages/core/test/protocol-rest.test.ts > makeRestProtocol raw request bodies with neither, a Blob body is sent under its own type

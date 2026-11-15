@@ -41,8 +41,14 @@ const aws = Layer.mergeAll(
 const outcome = (exit) =>
   exit._tag === "Success" ? "Success" : String(exit.cause).replace(/\s+/g, " ").slice(0, 160);
 
-export const report = async (name, effect) =>
-  console.log(`${name}: ${outcome(await Effect.runPromiseExit(effect))}`);
+/** Every line {@link report} printed, for a runtime whose stdout no one reads (workerd). */
+export const lines = [];
+
+export const report = async (name, effect) => {
+  const line = `${name}: ${outcome(await Effect.runPromiseExit(effect))}`;
+  lines.push(line);
+  console.log(line);
+};
 
 export const runShared = async () => {
   // s3: the restXml protocol and the checksum middleware.

@@ -10,7 +10,7 @@ class NodeMd5 implements Checksum {
   update(data: Uint8Array) {
     this.hash.update(data);
   }
-  async digest(): Promise<Uint8Array> {
+  digest(): Uint8Array {
     return new Uint8Array(this.hash.digest());
   }
   reset() {

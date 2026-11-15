@@ -75,8 +75,6 @@ const makeGcpSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
       `  code: S.optional(S.Number),`,
       `  message: S.String,`,
       `  status: S.optional(S.String),`,
-      `  reason: S.optional(S.String),`,
-      `  domain: S.optional(S.String),`,
       `  details: S.optional(S.Array(S.Unknown)),`,
     ],
   },
