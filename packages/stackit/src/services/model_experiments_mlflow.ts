@@ -29,43 +29,78 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class ExperimentAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ExperimentAlreadyExists>()("ExperimentAlreadyExists", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/error_code": "RESOURCE_ALREADY_EXISTS" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class ParamValueConflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ParamValueConflict>()("ParamValueConflict", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "Changing param values is not allowed" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** A key and value on an experiment. */
 export interface ExperimentTag {
@@ -75,8 +110,8 @@ export interface ExperimentTag {
 export type CreateExperimentRequestTagsList = Array<ExperimentTag>;
 export interface CreateExperimentRequest {
   name: string;
-  artifact_location?: string;
-  tags?: CreateExperimentRequestTagsList;
+  artifact_location?: string | undefined;
+  tags?: CreateExperimentRequestTagsList | undefined;
 }
 export interface CreateExperimentResponse {
   experiment_id: string;
@@ -86,23 +121,23 @@ export type RunTag = ExperimentTag;
 export type CreateRunRequestTagsList = Array<ExperimentTag>;
 export interface CreateRunRequest {
   experiment_id: string;
-  run_name?: string;
+  run_name?: string | undefined;
   /** Milliseconds since the Unix epoch. */
-  start_time?: number;
-  tags?: CreateRunRequestTagsList;
+  start_time?: number | undefined;
+  tags?: CreateRunRequestTagsList | undefined;
 }
 export type RunStatus = "RUNNING" | "SCHEDULED" | "FINISHED" | "FAILED" | "KILLED";
 export interface RunInfo {
   run_id: string;
-  run_uuid?: string;
-  run_name?: string;
+  run_uuid?: string | undefined;
+  run_name?: string | undefined;
   experiment_id: string;
-  user_id?: string;
+  user_id?: string | undefined;
   status: RunStatus;
-  start_time?: number;
-  end_time?: number;
-  artifact_uri?: string;
-  lifecycle_stage?: string;
+  start_time?: number | undefined;
+  end_time?: number | undefined;
+  artifact_uri?: string | undefined;
+  lifecycle_stage?: string | undefined;
   [key: string]: unknown;
 }
 export interface Metric {
@@ -110,8 +145,8 @@ export interface Metric {
   value: number;
   /** Milliseconds since the Unix epoch. */
   timestamp: number;
-  step?: number;
-  run_id?: string;
+  step?: number | undefined;
+  run_id?: string | undefined;
   [key: string]: unknown;
 }
 export type RunDataMetricsList = Array<Metric>;
@@ -120,14 +155,14 @@ export type Param = ExperimentTag;
 export type RunDataParamsList = Array<ExperimentTag>;
 export type RunDataTagsList = Array<ExperimentTag>;
 export interface RunData {
-  metrics?: RunDataMetricsList;
-  params?: RunDataParamsList;
-  tags?: RunDataTagsList;
+  metrics?: RunDataMetricsList | undefined;
+  params?: RunDataParamsList | undefined;
+  tags?: RunDataTagsList | undefined;
   [key: string]: unknown;
 }
 export interface Run {
   info: RunInfo;
-  data?: RunData;
+  data?: RunData | undefined;
   [key: string]: unknown;
 }
 export interface GetRunResponse {
@@ -141,12 +176,12 @@ export type ExperimentTagsList = Array<ExperimentTag>;
 export interface Experiment {
   experiment_id: string;
   name: string;
-  artifact_location?: string;
+  artifact_location?: string | undefined;
   /** `active` or `deleted`. */
-  lifecycle_stage?: string;
-  last_update_time?: number;
-  creation_time?: number;
-  tags?: ExperimentTagsList;
+  lifecycle_stage?: string | undefined;
+  last_update_time?: number | undefined;
+  creation_time?: number | undefined;
+  tags?: ExperimentTagsList | undefined;
   [key: string]: unknown;
 }
 export interface GetExperimentResponse {
@@ -166,7 +201,7 @@ export interface LogMetricRequest {
   value: number;
   /** Milliseconds since the Unix epoch. */
   timestamp: number;
-  step?: number;
+  step?: number | undefined;
 }
 export type LogMetricResponse2 = unknown;
 export interface LogParamRequest {
@@ -181,28 +216,32 @@ export type SearchRunsRequestExperimentIdsList = Array<string>;
 export type ViewType = "ACTIVE_ONLY" | "DELETED_ONLY" | "ALL";
 export type SearchRunsRequestOrderByList = Array<string>;
 export interface SearchRunsRequest {
-  experiment_ids?: SearchRunsRequestExperimentIdsList;
+  experiment_ids?: SearchRunsRequestExperimentIdsList | undefined;
   /** MLflow's search syntax, e.g. `params.lr = '0.1' and metrics.loss < 1`. */
-  filter?: string;
-  run_view_type?: ViewType | (string & {});
-  max_results?: number;
-  order_by?: SearchRunsRequestOrderByList;
-  page_token?: string;
+  filter?: string | undefined;
+  run_view_type?: ViewType | (string & {}) | undefined;
+  max_results?: number | undefined;
+  order_by?: SearchRunsRequestOrderByList | undefined;
+  page_token?: string | undefined;
 }
 export type SearchRunsResponseRunsList = Array<Run>;
 export interface SearchRunsResponse {
-  runs?: SearchRunsResponseRunsList;
-  next_page_token?: string;
+  runs?: SearchRunsResponseRunsList | undefined;
+  next_page_token?: string | undefined;
 }
 export interface UpdateRunRequest {
   run_id: string;
-  status?: RunStatus | (string & {});
+  status?: RunStatus | (string & {}) | undefined;
   /** Milliseconds since the Unix epoch. */
-  end_time?: number;
-  run_name?: string;
+  end_time?: number | undefined;
+  run_name?: string | undefined;
 }
 export interface UpdateRunResponse {
   run_info: RunInfo;
+}
+export interface ErrorResponse {
+  error_code?: string | undefined;
+  message: string;
 }
 export type CreateExperimentError =
   | BadRequest
@@ -217,8 +256,8 @@ export const createExperiment: API.OperationMethod<
   CreateExperimentError,
   MlflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<CreateExperimentRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<CreateExperimentResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<CreateExperimentRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<CreateExperimentResponse>,
   errors: [BadRequest, Forbidden, NotFound, ExperimentAlreadyExists, UnknownStackitError],
   protocol: MlflowProtocol,
   retry: Retry.Retry,
@@ -234,8 +273,8 @@ export const createRun: API.OperationMethod<
   CreateRunError,
   MlflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<CreateRunRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<GetRunResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<CreateRunRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<GetRunResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: MlflowProtocol,
   retry: Retry.Retry,
@@ -251,8 +290,8 @@ export const getExperiment: API.OperationMethod<
   GetExperimentError,
   MlflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GetExperimentRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<GetExperimentResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetExperimentRequest>,
+  output: __S(53, __c13, 1) as any as S.Schema<GetExperimentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: MlflowProtocol,
   retry: Retry.Retry,
@@ -268,8 +307,8 @@ export const getExperimentByName: API.OperationMethod<
   GetExperimentByNameError,
   MlflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetExperimentByNameRequest>,
-  output: __S(49, __c12, 1) as any as S.Schema<GetExperimentResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetExperimentByNameRequest>,
+  output: __S(53, __c13, 1) as any as S.Schema<GetExperimentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: MlflowProtocol,
   retry: Retry.Retry,
@@ -285,8 +324,8 @@ export const getRun: API.OperationMethod<
   GetRunError,
   MlflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetRunRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<GetRunResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<GetRunRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<GetRunResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: MlflowProtocol,
   retry: Retry.Retry,
@@ -302,8 +341,8 @@ export const logMetric: API.OperationMethod<
   LogMetricError,
   MlflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<LogMetricRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<LogMetricResponse2>,
+  input: __S(4, __c1, 0) as any as S.Schema<LogMetricRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<LogMetricResponse2>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: MlflowProtocol,
   retry: Retry.Retry,
@@ -319,8 +358,8 @@ export const logParam: API.OperationMethod<
   LogParamError,
   MlflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<LogParamRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<LogParamResponse2>,
+  input: __S(12, __c3, 0) as any as S.Schema<LogParamRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<LogParamResponse2>,
   errors: [BadRequest, Forbidden, NotFound, ParamValueConflict, UnknownStackitError],
   protocol: MlflowProtocol,
   retry: Retry.Retry,
@@ -336,8 +375,8 @@ export const searchRuns: API.OperationMethod<
   SearchRunsError,
   MlflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13, __c3, 1) as any as S.Schema<SearchRunsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<SearchRunsResponse>,
+  input: __S(17, __c4, 1) as any as S.Schema<SearchRunsRequest>,
+  output: __S(19, __c4, 3) as any as S.Schema<SearchRunsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: MlflowProtocol,
   retry: Retry.Retry,
@@ -353,8 +392,8 @@ export const updateRun: API.OperationMethod<
   UpdateRunError,
   MlflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<UpdateRunRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<UpdateRunResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<UpdateRunRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<UpdateRunResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: MlflowProtocol,
   retry: Retry.Retry,
@@ -368,6 +407,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error_code: S.optional(S.String),
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           run_id: S.String,
           key: S.String,
           value: S.Number,
@@ -377,7 +427,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "LogMetricRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -385,7 +435,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -397,33 +447,33 @@ function __c2(j: number): any {
       ).annotate({ identifier: "LogParamRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          experiment_ids: S.optional(__S(12, __c3, 0)),
+          experiment_ids: S.optional(__S(16, __c4, 0)),
           filter: S.optional(S.String),
           run_view_type: S.optional(S.String),
           max_results: S.optional(S.Number),
-          order_by: S.optional(__S(12, __c3, 0)),
+          order_by: S.optional(__S(16, __c4, 0)),
           page_token: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/2.0/mlflow/runs/search", code: 200 })),
       ).annotate({ identifier: "SearchRunsRequest" });
     case 2:
-      return S.Array(__S(39, __c9, 3));
+      return S.Array(__S(43, __c10, 3));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          runs: S.optional(__S(14, __c3, 2)),
+          runs: S.optional(__S(18, __c4, 2)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchRunsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -437,19 +487,19 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          run_info: __S(40, __c10, 0),
+          run_info: __S(44, __c11, 0),
         }),
       ).annotate({ identifier: "UpdateRunResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           artifact_location: S.optional(S.String),
-          tags: S.optional(__S(25, __c6, 1)),
+          tags: S.optional(__S(29, __c7, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/2.0/mlflow/experiments/create", code: 200 })),
       ).annotate({ identifier: "CreateExperimentRequest" });
     case 1:
@@ -460,7 +510,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateExperimentResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -470,20 +520,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ExperimentTag" });
     case 1:
-      return S.Array(__S(24, __c6, 0));
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          experiment_id: S.String,
-          run_name: S.optional(S.String),
-          start_time: S.optional(S.Number),
-          tags: S.optional(__S(25, __c6, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/2.0/mlflow/runs/create", code: 200 })),
-      ).annotate({ identifier: "CreateRunRequest" });
+      return S.Array(__S(28, __c7, 0));
   }
 }
 function __c8(j: number): any {
@@ -491,12 +528,25 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          run: __S(39, __c9, 3),
+          experiment_id: S.String,
+          run_name: S.optional(S.String),
+          start_time: S.optional(S.Number),
+          tags: S.optional(__S(29, __c7, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/2.0/mlflow/runs/create", code: 200 })),
+      ).annotate({ identifier: "CreateRunRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          run: __S(43, __c10, 3),
         }),
       ).annotate({ identifier: "GetRunResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -512,14 +562,14 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "Metric" });
     case 1:
-      return S.Array(__S(36, __c9, 0));
+      return S.Array(__S(40, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            metrics: S.optional(__S(37, __c9, 1)),
-            params: S.optional(__S(25, __c6, 1)),
-            tags: S.optional(__S(25, __c6, 1)),
+            metrics: S.optional(__S(41, __c10, 1)),
+            params: S.optional(__S(29, __c7, 1)),
+            tags: S.optional(__S(29, __c7, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -528,15 +578,15 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            info: __S(40, __c10, 0),
-            data: S.optional(__S(38, __c9, 2)),
+            info: __S(44, __c11, 0),
+            data: S.optional(__S(42, __c10, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Run" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -558,7 +608,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "RunInfo" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -568,7 +618,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetExperimentRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -580,7 +630,7 @@ function __c12(j: number): any {
             lifecycle_stage: S.optional(S.String),
             last_update_time: S.optional(S.Number),
             creation_time: S.optional(S.Number),
-            tags: S.optional(__S(25, __c6, 1)),
+            tags: S.optional(__S(29, __c7, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -588,12 +638,12 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          experiment: __S(48, __c12, 0),
+          experiment: __S(52, __c13, 0),
         }),
       ).annotate({ identifier: "GetExperimentResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -605,7 +655,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetExperimentByNameRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

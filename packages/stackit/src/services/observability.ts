@@ -31,71 +31,98 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(64, __c4, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | Error400Body | Message | CheckArrayError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(80, __c5, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: PermissionDenied | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Message | string;
+}
 
 export interface CreateAlertConfigReceiverRequestEmailConfigsItem {
   /** SMTP authentication information. `Additional Validators:` * must be a syntactically valid email address */
-  authIdentity?: string;
+  authIdentity?: string | undefined;
   /** SMTP authentication information. */
-  authPassword?: string | Redacted.Redacted<string>;
+  authPassword?: string | Redacted.Redacted<string> | undefined;
   /** SMTP authentication information. */
-  authUsername?: string;
+  authUsername?: string | undefined;
   /** The sender address. `Additional Validators:` * must be a syntactically valid email address */
-  from?: string;
+  from?: string | undefined;
   /** Whether to notify about resolved alerts. */
-  sendResolved?: boolean;
+  sendResolved?: boolean | undefined;
   /** The SMTP host through which emails are sent. `Additional Validators:` * should only include the characters: a-zA-Z0-9_./@&?:- */
-  smarthost?: string;
+  smarthost?: string | undefined;
   /** The email address to send notifications to. `Additional Validators:` * must be a syntactically valid email address */
-  to?: string;
+  to?: string | undefined;
 }
 /** Email configurations */
 export type CreateAlertConfigReceiverRequestEmailConfigsList =
   Array<CreateAlertConfigReceiverRequestEmailConfigsItem>;
 export interface CreateAlertConfigReceiverRequestOpsgenieConfigsItem {
   /** The API key to use when talking to the OpsGenie API. `Additional Validators:` * should only include the characters: a-zA-Z0-9- */
-  apiKey?: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
   /** The host to send OpsGenie API requests to. `Additional Validators:` * must be a syntactically valid url address */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   /** Priority level of alert. Possible values are P1, P2, P3, P4, and P5. */
-  priority?: string;
+  priority?: string | undefined;
   /** Whether to notify about resolved alerts. */
-  sendResolved?: boolean;
+  sendResolved?: boolean | undefined;
   /** Comma separated list of tags attached to the notifications. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** Configuration for ops genie. */
 export type CreateAlertConfigReceiverRequestOpsgenieConfigsList =
   Array<CreateAlertConfigReceiverRequestOpsgenieConfigsItem>;
 export interface CreateAlertConfigReceiverRequestWebHookConfigsItem {
   /** Google Chat webhooks require special handling. If you set this property to true, it is treated as such. `Additional Validators:` * When set to true, msTeams must be false. */
-  googleChat?: boolean;
+  googleChat?: boolean | undefined;
   /** Microsoft Teams webhooks require special handling. If you set this property to true, it is treated as such. `Additional Validators:` * When set to true, googleChat must be false. */
-  msTeams?: boolean;
+  msTeams?: boolean | undefined;
   /** Whether to notify about resolved alerts. */
-  sendResolved?: boolean;
+  sendResolved?: boolean | undefined;
   /** The endpoint to send HTTP POST requests to. `Additional Validators:` * must be a syntactically valid url address */
-  url?: string | Redacted.Redacted<string>;
+  url?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateAlertConfigReceiverRequestWebHookConfigsList =
   Array<CreateAlertConfigReceiverRequestWebHookConfigsItem>;
@@ -103,43 +130,43 @@ export interface CreateAlertConfigReceiverRequest {
   projectId: string;
   instanceId: string;
   /** Email configurations */
-  emailConfigs?: CreateAlertConfigReceiverRequestEmailConfigsList;
+  emailConfigs?: CreateAlertConfigReceiverRequestEmailConfigsList | undefined;
   /** `Additional Validators:` * must be unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** Configuration for ops genie. */
-  opsgenieConfigs?: CreateAlertConfigReceiverRequestOpsgenieConfigsList;
-  webHookConfigs?: CreateAlertConfigReceiverRequestWebHookConfigsList;
+  opsgenieConfigs?: CreateAlertConfigReceiverRequestOpsgenieConfigsList | undefined;
+  webHookConfigs?: CreateAlertConfigReceiverRequestWebHookConfigsList | undefined;
 }
 export interface EmailConfig {
-  authIdentity?: string;
-  authPassword?: string | Redacted.Redacted<string>;
-  authUsername?: string;
-  from?: string;
-  sendResolved?: boolean;
-  smarthost?: string;
+  authIdentity?: string | undefined;
+  authPassword?: string | Redacted.Redacted<string> | undefined;
+  authUsername?: string | undefined;
+  from?: string | undefined;
+  sendResolved?: boolean | undefined;
+  smarthost?: string | undefined;
   to: string;
 }
 export type ReceiversEmailConfigsList = Array<EmailConfig>;
 export interface OpsgenieConfig {
-  apiKey?: string | Redacted.Redacted<string>;
-  apiUrl?: string;
-  priority?: string;
-  sendResolved?: boolean;
-  tags?: string;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  apiUrl?: string | undefined;
+  priority?: string | undefined;
+  sendResolved?: boolean | undefined;
+  tags?: string | undefined;
 }
 export type ReceiversOpsgenieConfigsList = Array<OpsgenieConfig>;
 export interface WebHook {
-  googleChat?: boolean;
-  msTeams?: boolean;
-  sendResolved?: boolean;
+  googleChat?: boolean | undefined;
+  msTeams?: boolean | undefined;
+  sendResolved?: boolean | undefined;
   url: string | Redacted.Redacted<string>;
 }
 export type ReceiversWebHookConfigsList = Array<WebHook>;
 export interface Receivers {
-  emailConfigs?: ReceiversEmailConfigsList;
+  emailConfigs?: ReceiversEmailConfigsList | undefined;
   name: string;
-  opsgenieConfigs?: ReceiversOpsgenieConfigsList;
-  webHookConfigs?: ReceiversWebHookConfigsList;
+  opsgenieConfigs?: ReceiversOpsgenieConfigsList | undefined;
+  webHookConfigs?: ReceiversWebHookConfigsList | undefined;
 }
 export type AlertConfigReceiversResponseDataList = Array<Receivers>;
 export interface AlertConfigReceiversResponse {
@@ -158,24 +185,24 @@ export type CreateAlertConfigRouteRequestRoutesItemRoutesList = Array<unknown>;
 /** As in one level above */
 export interface CreateAlertConfigRouteRequestRoutesItem {
   /** Whether an alert should continue matching subsequent sibling nodes. */
-  continue?: boolean;
-  groupBy?: CreateAlertConfigRouteRequestRoutesItemGroupByList;
+  continue?: boolean | undefined;
+  groupBy?: CreateAlertConfigRouteRequestRoutesItemGroupByList | undefined;
   /** As in one level above */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** As in one level above */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** As in one level above */
-  match?: unknown;
+  match?: unknown | undefined;
   /** As in one level above */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** As in one level above */
-  matchers?: CreateAlertConfigRouteRequestRoutesItemMatchersList;
+  matchers?: CreateAlertConfigRouteRequestRoutesItemMatchersList | undefined;
   /** As in one level above */
-  receiver?: string;
+  receiver?: string | undefined;
   /** As in one level above */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Another child routes */
-  routes?: CreateAlertConfigRouteRequestRoutesItemRoutesList;
+  routes?: CreateAlertConfigRouteRequestRoutesItemRoutesList | undefined;
 }
 /** Zero or more child routes. */
 export type CreateAlertConfigRouteRequestRoutesList =
@@ -184,25 +211,25 @@ export interface CreateAlertConfigRouteRequest {
   projectId: string;
   instanceId: string;
   /** The continue parameter cannot be set to true on the root route because there are no subsequent sibling nodes to match. It must always be false. */
-  continue?: boolean;
+  continue?: boolean | undefined;
   /** The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping. */
-  groupBy?: CreateAlertConfigRouteRequestGroupByList;
+  groupBy?: CreateAlertConfigRouteRequestGroupByList | undefined;
   /** How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.) `Additional Validators:` * must be a valid time format */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.) `Additional Validators:` * must be a valid time format */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** map of key:value. A set of equality matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * key and values should only include the characters: a-zA-Z0-9_./@&?:- */
-  match?: unknown;
+  match?: unknown | undefined;
   /** map of key:value. A set of regex-matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics. The syntax of a matcher consists of three tokens: * A valid Prometheus label name. * One of =, !=, =~, or !~. = means equals, != means that the strings are not equal, =~ is used for equality of regex expressions and !~ is used for un-equality of regex expressions. They have the same meaning as known from PromQL selectors. * A UTF-8 string, which may be enclosed in double quotes. Before or after each token, there may be any amount of whitespace. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchers?: CreateAlertConfigRouteRequestMatchersList;
+  matchers?: CreateAlertConfigRouteRequestMatchersList | undefined;
   /** Receiver that should be one item of receivers `Additional Validators:` * must be a in name of receivers */
   receiver: string;
   /** How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more). `Additional Validators:` * must be a valid time format */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Zero or more child routes. */
-  routes?: CreateAlertConfigRouteRequestRoutesList;
+  routes?: CreateAlertConfigRouteRequestRoutesList | undefined;
 }
 export type RouteGroupByList = Array<string>;
 export type RouteMatchMap = { [key: string]: string | undefined };
@@ -215,29 +242,29 @@ export type RouteSerializerMatchersList = Array<string>;
 export type RouteSerializerRoutesItemMap = { [key: string]: string | null | undefined };
 export type RouteSerializerRoutesList = Array<RouteSerializerRoutesItemMap>;
 export interface RouteSerializer {
-  continue?: boolean;
-  groupBy?: RouteSerializerGroupByList;
-  groupInterval?: string;
-  groupWait?: string;
-  match?: RouteSerializerMatchMap;
-  matchRe?: RouteSerializerMatchReMap;
-  matchers?: RouteSerializerMatchersList;
+  continue?: boolean | undefined;
+  groupBy?: RouteSerializerGroupByList | undefined;
+  groupInterval?: string | undefined;
+  groupWait?: string | undefined;
+  match?: RouteSerializerMatchMap | undefined;
+  matchRe?: RouteSerializerMatchReMap | undefined;
+  matchers?: RouteSerializerMatchersList | undefined;
   receiver: string;
-  repeatInterval?: string;
-  routes?: RouteSerializerRoutesList;
+  repeatInterval?: string | undefined;
+  routes?: RouteSerializerRoutesList | undefined;
 }
 export type RouteRoutesList = Array<RouteSerializer>;
 export interface Route {
-  continue?: boolean;
-  groupBy?: RouteGroupByList;
-  groupInterval?: string;
-  groupWait?: string;
-  match?: RouteMatchMap;
-  matchRe?: RouteMatchReMap;
-  matchers?: RouteMatchersList;
+  continue?: boolean | undefined;
+  groupBy?: RouteGroupByList | undefined;
+  groupInterval?: string | undefined;
+  groupWait?: string | undefined;
+  match?: RouteMatchMap | undefined;
+  matchRe?: RouteMatchReMap | undefined;
+  matchers?: RouteMatchersList | undefined;
   receiver: string;
-  repeatInterval?: string;
-  routes?: RouteRoutesList;
+  repeatInterval?: string | undefined;
+  routes?: RouteRoutesList | undefined;
 }
 export interface AlertConfigRouteResponse {
   data: Route;
@@ -246,17 +273,17 @@ export interface AlertConfigRouteResponse {
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface CreateAlertgroupsRequestRulesItem {
   /** The name of the alert. When this attribute is used, an Alerting Rule will be created. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9- * required when 'record' is not used in this rule, otherwise not allowed */
-  alert?: string;
+  alert?: string | undefined;
   /** Map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * is not allowed to use when 'record' is used in this rule */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The PromQL expression to evaluate to create alerts when using the 'alert' attribute in this rule, or to create a metric when using the 'record' attribute. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string * is not allowed to use when 'record' is used in this rule */
-  for?: string;
+  for?: string | undefined;
   /** Map of key:value. Labels to add or overwrite for each alert or metric. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The name of the metric. When this attribute is used, an Recording Rule will be created. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9:_ * required when 'alert' is not used in this rule, otherwise not allowed */
-  record?: string;
+  record?: string | undefined;
 }
 /** rules for the alert group */
 export type CreateAlertgroupsRequestRulesList = Array<CreateAlertgroupsRequestRulesItem>;
@@ -264,7 +291,7 @@ export interface CreateAlertgroupsRequest {
   projectId: string;
   instanceId: string;
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** The name of the group. Must be unique. `Additional Validators:` * is the identifier and so unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** rules for the alert group */
@@ -273,16 +300,16 @@ export interface CreateAlertgroupsRequest {
 export type AlertRuleRecordAnnotationsMap = { [key: string]: string | undefined };
 export type AlertRuleRecordLabelsMap = { [key: string]: string | undefined };
 export interface AlertRuleRecord {
-  alert?: string;
-  annotations?: AlertRuleRecordAnnotationsMap;
+  alert?: string | undefined;
+  annotations?: AlertRuleRecordAnnotationsMap | undefined;
   expr: string;
-  for?: string;
-  labels?: AlertRuleRecordLabelsMap;
-  record?: string;
+  for?: string | undefined;
+  labels?: AlertRuleRecordLabelsMap | undefined;
+  record?: string | undefined;
 }
 export type AlertGroupRulesList = Array<AlertRuleRecord>;
 export interface AlertGroup {
-  interval?: string;
+  interval?: string | undefined;
   name: string;
   rules: AlertGroupRulesList;
 }
@@ -298,14 +325,14 @@ export interface CreateAlertRecordRequest {
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The name of the record. `Additional Validators:` * is the identifier and so unique in the group */
   record: string;
 }
 export type AlertRecordLabelsMap = { [key: string]: string | undefined };
 export interface AlertRecord {
   expr: string;
-  labels?: AlertRecordLabelsMap;
+  labels?: AlertRecordLabelsMap | undefined;
   record: string;
 }
 export type AlertRecordsResponseDataList = Array<AlertRecord>;
@@ -320,22 +347,22 @@ export interface CreateAlertrulesRequest {
   /** The name of the alert. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9- */
   alert: string;
   /** map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string */
-  for?: string;
+  for?: string | undefined;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 export type AlertRuleAnnotationsMap = { [key: string]: string | undefined };
 export type AlertRuleLabelsMap = { [key: string]: string | undefined };
 export interface AlertRule {
   alert: string;
-  annotations?: AlertRuleAnnotationsMap;
+  annotations?: AlertRuleAnnotationsMap | undefined;
   expr: string;
-  for?: string;
-  labels?: AlertRuleLabelsMap;
+  for?: string | undefined;
+  labels?: AlertRuleLabelsMap | undefined;
 }
 export type AlertRulesResponseDataList = Array<AlertRule>;
 export interface AlertRulesResponse {
@@ -354,7 +381,7 @@ export interface CreateBackupRequest {
   projectId: string;
   instanceId: string;
   /** List of backup targets */
-  backupTarget?: CreateBackupRequestBackupTargetList;
+  backupTarget?: CreateBackupRequestBackupTargetList | undefined;
 }
 export interface Message {
   message: string;
@@ -371,7 +398,7 @@ export interface CreateBackupScheduleRequest {
   projectId: string;
   instanceId: string;
   /** List of backup targets */
-  backupTarget?: CreateBackupScheduleRequestBackupTargetList;
+  backupTarget?: CreateBackupScheduleRequestBackupTargetList | undefined;
   /** The schedule for how often to create a backup. `Additional Validators:` * must be a valid cronjob format * must run less than hourly */
   schedule: string;
 }
@@ -391,7 +418,7 @@ export interface CertCheckChildResponse {
 }
 export type CertCheckResponseCertChecksList = Array<CertCheckChildResponse>;
 export interface CertCheckResponse {
-  certCheck?: CertCheckChildResponse;
+  certCheck?: CertCheckChildResponse | undefined;
   certChecks: CertCheckResponseCertChecksList;
   message: string;
 }
@@ -399,10 +426,10 @@ export interface CreateCredentialsRequest {
   projectId: string;
   instanceId: string;
   /** description */
-  description?: string;
+  description?: string | undefined;
 }
 export interface Credentials {
-  description?: string;
+  description?: string | undefined;
   password: string | Redacted.Redacted<string>;
   username: string;
 }
@@ -414,22 +441,22 @@ export interface CreateElasticsearchCheckRequest {
   projectId: string;
   instanceId: string;
   /** password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** url to check */
   server: string;
   /** username */
-  username?: string;
+  username?: string | undefined;
 }
 export interface ElasticsearchCheckChildResponse {
   id: string;
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   server: string;
-  username?: string;
+  username?: string | undefined;
 }
 export type ElasticsearchCheckResponseElasticsearchChecksList =
   Array<ElasticsearchCheckChildResponse>;
 export interface ElasticsearchCheckResponse {
-  elasticsearchCheck?: ElasticsearchCheckChildResponse;
+  elasticsearchCheck?: ElasticsearchCheckChildResponse | undefined;
   elasticsearchChecks: ElasticsearchCheckResponseElasticsearchChecksList;
   message: string;
 }
@@ -445,18 +472,18 @@ export interface HttpCheckChildResponse {
 }
 export type HttpCheckResponseHttpChecksList = Array<HttpCheckChildResponse>;
 export interface HttpCheckResponse {
-  httpCheck?: HttpCheckChildResponse;
+  httpCheck?: HttpCheckChildResponse | undefined;
   httpChecks: HttpCheckResponseHttpChecksList;
   message: string;
 }
 export interface CreateInstanceRequest {
   projectId: string;
   /** If true, a default Grafana server admin user is created. It's recommended to set this to false and use STACKIT SSO (`Owner` or `Observability Grafana Server Admin` role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later. */
-  grafanaAdminEnabled?: boolean;
+  grafanaAdminEnabled?: boolean | undefined;
   /** Name of the service */
-  name?: string;
+  name?: string | undefined;
   /** Additional parameters */
-  parameter?: unknown;
+  parameter?: unknown | undefined;
   /** UUID of the plan to create/update */
   planId: string;
 }
@@ -468,17 +495,17 @@ export interface CreateInstanceResponse {
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface CreateLogsAlertgroupsRequestRulesItem {
   /** The name of the alert. When this attribute is used, an Alerting Rule will be created. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9- * required when 'record' is not used in this rule, otherwise not allowed */
-  alert?: string;
+  alert?: string | undefined;
   /** Map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * is not allowed to use when 'record' is used in this rule */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The LogQL expression to evaluate to create alerts when using the 'alert' attribute in this rule, or to create a metric when using the 'record' attribute. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string * is not allowed to use when 'record' is used in this rule */
-  for?: string;
+  for?: string | undefined;
   /** Map of key:value. Labels to add or overwrite for each alert or metric. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The name of the metric. When this attribute is used, an Recording Rule will be created. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9:_ * required when 'alert' is not used in this rule, otherwise not allowed */
-  record?: string;
+  record?: string | undefined;
 }
 /** rules for the alert group */
 export type CreateLogsAlertgroupsRequestRulesList = Array<CreateLogsAlertgroupsRequestRulesItem>;
@@ -486,7 +513,7 @@ export interface CreateLogsAlertgroupsRequest {
   projectId: string;
   instanceId: string;
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** The name of the group. Must be unique. `Additional Validators:` * is the identifier and so unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** rules for the alert group */
@@ -505,7 +532,7 @@ export interface MongodbCheckChildResponse {
 export type MongodbCheckResponseMongodbChecksList = Array<MongodbCheckChildResponse>;
 export interface MongodbCheckResponse {
   message: string;
-  mongodbCheck?: MongodbCheckChildResponse;
+  mongodbCheck?: MongodbCheckChildResponse | undefined;
   mongodbChecks: MongodbCheckResponseMongodbChecksList;
 }
 export interface CreateMysqlCheckRequest {
@@ -518,7 +545,7 @@ export type MysqlCheckChildResponse = MongodbCheckChildResponse;
 export type MysqlCheckResponseMysqlChecksList = Array<MongodbCheckChildResponse>;
 export interface MysqlCheckResponse {
   message: string;
-  mysqlCheck?: MongodbCheckChildResponse;
+  mysqlCheck?: MongodbCheckChildResponse | undefined;
   mysqlChecks: MysqlCheckResponseMysqlChecksList;
 }
 export interface CreateNetworkCheckRequest {
@@ -534,7 +561,7 @@ export interface NetworkCheckChildResponse {
 export type NetworkCheckResponseNetworkChecksList = Array<NetworkCheckChildResponse>;
 export interface NetworkCheckResponse {
   message: string;
-  networkCheck?: NetworkCheckChildResponse;
+  networkCheck?: NetworkCheckChildResponse | undefined;
   networkChecks: NetworkCheckResponseNetworkChecksList;
 }
 export interface CreatePingCheckRequest {
@@ -547,7 +574,7 @@ export type PingCheckChildResponse = HttpCheckChildResponse;
 export type PingCheckResponsePingChecksList = Array<HttpCheckChildResponse>;
 export interface PingCheckResponse {
   message: string;
-  pingCheck?: HttpCheckChildResponse;
+  pingCheck?: HttpCheckChildResponse | undefined;
   pingChecks: PingCheckResponsePingChecksList;
 }
 export interface CreatePostgresqlCheckRequest {
@@ -560,54 +587,54 @@ export type PostgresqlCheckChildResponse = NetworkCheckChildResponse;
 export type PostgresqlCheckResponsePostgresqlChecksList = Array<NetworkCheckChildResponse>;
 export interface PostgresqlCheckResponse {
   message: string;
-  postgresqlCheck?: NetworkCheckChildResponse;
+  postgresqlCheck?: NetworkCheckChildResponse | undefined;
   postgresqlChecks: PostgresqlCheckResponsePostgresqlChecksList;
 }
 export interface CreateRabbitmqCheckRequest {
   projectId: string;
   instanceId: string;
   /** password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** url to check */
   url: string;
   /** username */
-  username?: string;
+  username?: string | undefined;
 }
 export interface RabbitMQCheckChildResponse {
   id: string;
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   url: string;
-  username?: string;
+  username?: string | undefined;
 }
 export type RabbitmqCheckResponseRabbitmqChecksList = Array<RabbitMQCheckChildResponse>;
 export interface RabbitmqCheckResponse {
   message: string;
-  rabbitmqCheck?: RabbitMQCheckChildResponse;
+  rabbitmqCheck?: RabbitMQCheckChildResponse | undefined;
   rabbitmqChecks: RabbitmqCheckResponseRabbitmqChecksList;
 }
 export interface CreateRedisCheckRequest {
   projectId: string;
   instanceId: string;
   /** password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** url to check */
   server: string;
   /** username */
-  username?: string;
+  username?: string | undefined;
 }
 export type RedisCheckChildResponse = ElasticsearchCheckChildResponse;
 export type RedisCheckResponseRedisChecksList = Array<ElasticsearchCheckChildResponse>;
 export interface RedisCheckResponse {
   message: string;
-  redisCheck?: ElasticsearchCheckChildResponse;
+  redisCheck?: ElasticsearchCheckChildResponse | undefined;
   redisChecks: RedisCheckResponseRedisChecksList;
 }
 /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
 export interface CreateScrapeConfigRequestBasicAuth {
   /** password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** username */
-  username?: string;
+  username?: string | undefined;
 }
 /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
 export type CreateScrapeConfigRequestHttpSdConfigsItemBasicAuth =
@@ -617,7 +644,7 @@ export type CreateScrapeConfigRequestHttpSdConfigsItemOauth2ScopesList = Array<s
 /** Configures the scrape request's TLS settings. */
 export interface CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig {
   /** Disable validation of the server certificate. */
-  insecureSkipVerify?: boolean;
+  insecureSkipVerify?: boolean | undefined;
 }
 /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
 export interface CreateScrapeConfigRequestHttpSdConfigsItemOauth2 {
@@ -626,9 +653,9 @@ export interface CreateScrapeConfigRequestHttpSdConfigsItemOauth2 {
   /** clientSecret */
   clientSecret: string | Redacted.Redacted<string>;
   /** The URL to fetch the token from. */
-  scopes?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2ScopesList;
+  scopes?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2ScopesList | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** The URL to fetch the token from. */
   tokenUrl: string;
 }
@@ -637,13 +664,13 @@ export type CreateScrapeConfigRequestHttpSdConfigsItemTlsConfig =
   CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
 export interface CreateScrapeConfigRequestHttpSdConfigsItem {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
-  oauth2?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2;
+  oauth2?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2 | undefined;
   /** Refresh interval to re-query the endpoint. E.g. 60s `Additional Validators:` * must be a valid time format* must be >= 60s */
-  refreshInterval?: string;
+  refreshInterval?: string | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** URL from which the targets are fetched. */
   url: string;
 }
@@ -663,19 +690,19 @@ export type CreateScrapeConfigRequestMetricsRelabelConfigsItemAction =
 export type CreateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList = Array<string>;
 export interface CreateScrapeConfigRequestMetricsRelabelConfigsItem {
   /** Action to perform based on regex matching. `Additional Validators:` * if action is replace, targetLabel needs to be in body */
-  action?: CreateScrapeConfigRequestMetricsRelabelConfigsItemAction | (string & {});
+  action?: CreateScrapeConfigRequestMetricsRelabelConfigsItemAction | (string & {}) | undefined;
   /** Modulus to take of the hash of the source label values. */
-  modulus?: number;
+  modulus?: number | undefined;
   /** Regular expression against which the extracted value is matched. */
-  regex?: string;
+  regex?: string | undefined;
   /** Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. */
-  replacement?: string;
+  replacement?: string | undefined;
   /** Separator placed between concatenated source label values. */
-  separator?: string;
+  separator?: string | undefined;
   /** The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions. */
-  sourceLabels?: CreateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList;
+  sourceLabels?: CreateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList | undefined;
   /** Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available. */
-  targetLabel?: string;
+  targetLabel?: string | undefined;
 }
 /** List of metric relabel configurations */
 export type CreateScrapeConfigRequestMetricsRelabelConfigsList =
@@ -692,9 +719,9 @@ export interface CreateScrapeConfigRequestOauth2 {
   /** clientSecret */
   clientSecret: string | Redacted.Redacted<string>;
   /** The URL to fetch the token from. */
-  scopes?: CreateScrapeConfigRequestOauth2ScopesList;
+  scopes?: CreateScrapeConfigRequestOauth2ScopesList | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** The URL to fetch the token from. */
   tokenUrl: string;
 }
@@ -704,7 +731,7 @@ export type CreateScrapeConfigRequestScheme = "http" | "https";
 export type CreateScrapeConfigRequestStaticConfigsItemTargetsList = Array<string>;
 export interface CreateScrapeConfigRequestStaticConfigsItem {
   /** Labels assigned to all metrics scraped from the targets. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The targets specified by the static config. */
   targets: CreateScrapeConfigRequestStaticConfigsItemTargetsList;
 }
@@ -718,27 +745,27 @@ export interface CreateScrapeConfigRequest {
   projectId: string;
   instanceId: string;
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string | Redacted.Redacted<string>;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
-  honorLabels?: boolean;
+  honorLabels?: boolean | undefined;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
-  honorTimeStamps?: boolean;
+  honorTimeStamps?: boolean | undefined;
   /** HTTP-based service discovery provides a more generic way to configure static targets and serves as an interface to plug in custom service discovery mechanisms. */
-  httpSdConfigs?: CreateScrapeConfigRequestHttpSdConfigsList;
+  httpSdConfigs?: CreateScrapeConfigRequestHttpSdConfigsList | undefined;
   /** The job name assigned to scraped metrics by default. `Additional Validators:` * must be unique * key and values should only include the characters: a-zA-Z0-9- */
   jobName: string;
   /** The HTTP resource path on which to fetch metrics from targets. E.g. /metrics */
-  metricsPath?: string;
+  metricsPath?: string | undefined;
   /** List of metric relabel configurations */
-  metricsRelabelConfigs?: CreateScrapeConfigRequestMetricsRelabelConfigsList;
+  metricsRelabelConfigs?: CreateScrapeConfigRequestMetricsRelabelConfigsList | undefined;
   /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
-  oauth2?: CreateScrapeConfigRequestOauth2;
+  oauth2?: CreateScrapeConfigRequestOauth2 | undefined;
   /** Optional http params `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  params?: unknown;
+  params?: unknown | undefined;
   /** Per-scrape limit on number of scraped samples that will be accepted. If more than this number of samples are present after metric relabeling the entire scrape will be treated as failed. The total limit depends on the service plan target limits * samples */
-  sampleLimit?: number;
+  sampleLimit?: number | undefined;
   /** Configures the protocol scheme used for requests. https or http */
   scheme: CreateScrapeConfigRequestScheme | (string & {});
   /** How frequently to scrape targets from this job. E.g. 5m `Additional Validators:` * must be a valid time format* must be >= 60s */
@@ -748,7 +775,7 @@ export interface CreateScrapeConfigRequest {
   /** A list of scrape configurations. */
   staticConfigs: CreateScrapeConfigRequestStaticConfigsList;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
 }
 export interface BasicAuth {
   password: string | Redacted.Redacted<string>;
@@ -756,20 +783,20 @@ export interface BasicAuth {
 }
 export type OAuth2ScopesList = Array<string>;
 export interface TLSConfig {
-  insecureSkipVerify?: boolean;
+  insecureSkipVerify?: boolean | undefined;
 }
 export interface OAuth2 {
   clientId: string;
   clientSecret: string | Redacted.Redacted<string>;
-  scopes?: OAuth2ScopesList;
-  tlsConfig?: TLSConfig;
+  scopes?: OAuth2ScopesList | undefined;
+  tlsConfig?: TLSConfig | undefined;
   tokenUrl: string;
 }
 export interface HTTPServiceSD {
-  basicAuth?: BasicAuth;
-  oauth2?: OAuth2;
-  refreshInterval?: string;
-  tlsConfig?: TLSConfig;
+  basicAuth?: BasicAuth | undefined;
+  oauth2?: OAuth2 | undefined;
+  refreshInterval?: string | undefined;
+  tlsConfig?: TLSConfig | undefined;
   url: string;
 }
 export type JobHttpSdConfigsList = Array<HTTPServiceSD>;
@@ -783,13 +810,13 @@ export type MetricsRelabelConfigAction =
   | "labelkeep";
 export type MetricsRelabelConfigSourceLabelsList = Array<string>;
 export interface MetricsRelabelConfig {
-  action?: MetricsRelabelConfigAction;
-  modulus?: number;
-  regex?: string;
-  replacement?: string;
-  separator?: string;
+  action?: MetricsRelabelConfigAction | undefined;
+  modulus?: number | undefined;
+  regex?: string | undefined;
+  replacement?: string | undefined;
+  separator?: string | undefined;
   sourceLabels: MetricsRelabelConfigSourceLabelsList;
-  targetLabel?: string;
+  targetLabel?: string | undefined;
 }
 export type JobMetricsRelabelConfigsList = Array<MetricsRelabelConfig>;
 export type JobParamsValueList = Array<string>;
@@ -798,27 +825,27 @@ export type JobScheme = "http" | "https";
 export type StaticConfigsLabelsMap = { [key: string]: string | undefined };
 export type StaticConfigsTargetsList = Array<string>;
 export interface StaticConfigs {
-  labels?: StaticConfigsLabelsMap;
+  labels?: StaticConfigsLabelsMap | undefined;
   targets: StaticConfigsTargetsList;
 }
 export type JobStaticConfigsList = Array<StaticConfigs>;
 export interface Job {
-  basicAuth?: BasicAuth;
-  bearerToken?: string | Redacted.Redacted<string>;
-  honorLabels?: boolean;
-  honorTimeStamps?: boolean;
-  httpSdConfigs?: JobHttpSdConfigsList;
+  basicAuth?: BasicAuth | undefined;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
+  honorLabels?: boolean | undefined;
+  honorTimeStamps?: boolean | undefined;
+  httpSdConfigs?: JobHttpSdConfigsList | undefined;
   jobName: string;
-  metricsPath?: string;
-  metricsRelabelConfigs?: JobMetricsRelabelConfigsList;
-  oauth2?: OAuth2;
-  params?: JobParamsMap;
-  sampleLimit?: number;
-  scheme?: JobScheme;
+  metricsPath?: string | undefined;
+  metricsRelabelConfigs?: JobMetricsRelabelConfigsList | undefined;
+  oauth2?: OAuth2 | undefined;
+  params?: JobParamsMap | undefined;
+  sampleLimit?: number | undefined;
+  scheme?: JobScheme | undefined;
   scrapeInterval: string;
   scrapeTimeout: string;
   staticConfigs: JobStaticConfigsList;
-  tlsConfig?: TLSConfig;
+  tlsConfig?: TLSConfig | undefined;
 }
 export type ScrapeConfigsResponseDataList = Array<Job>;
 export interface ScrapeConfigsResponse {
@@ -987,14 +1014,14 @@ export interface GetAlertConfigsRequest {
   instanceId: string;
 }
 export interface Global {
-  opsgenieApiKey?: string | Redacted.Redacted<string>;
-  opsgenieApiUrl?: string;
-  resolveTimeout?: string;
-  smtpAuthIdentity?: string;
-  smtpAuthPassword?: string | Redacted.Redacted<string>;
-  smtpAuthUsername?: string;
-  smtpFrom?: string;
-  smtpSmarthost?: string;
+  opsgenieApiKey?: string | Redacted.Redacted<string> | undefined;
+  opsgenieApiUrl?: string | undefined;
+  resolveTimeout?: string | undefined;
+  smtpAuthIdentity?: string | undefined;
+  smtpAuthPassword?: string | Redacted.Redacted<string> | undefined;
+  smtpAuthUsername?: string | undefined;
+  smtpFrom?: string | undefined;
+  smtpSmarthost?: string | undefined;
 }
 export type InhibitRulesEqualList = Array<string>;
 export type InhibitRulesSourceMatchMap = { [key: string]: string | undefined };
@@ -1004,19 +1031,19 @@ export type InhibitRulesTargetMatchMap = { [key: string]: string | undefined };
 export type InhibitRulesTargetMatchReMap = { [key: string]: string | undefined };
 export type InhibitRulesTargetMatchersList = Array<string>;
 export interface InhibitRules {
-  equal?: InhibitRulesEqualList;
-  sourceMatch?: InhibitRulesSourceMatchMap;
-  sourceMatchRe?: InhibitRulesSourceMatchReMap;
-  sourceMatchers?: InhibitRulesSourceMatchersList;
-  targetMatch?: InhibitRulesTargetMatchMap;
-  targetMatchRe?: InhibitRulesTargetMatchReMap;
-  targetMatchers?: InhibitRulesTargetMatchersList;
+  equal?: InhibitRulesEqualList | undefined;
+  sourceMatch?: InhibitRulesSourceMatchMap | undefined;
+  sourceMatchRe?: InhibitRulesSourceMatchReMap | undefined;
+  sourceMatchers?: InhibitRulesSourceMatchersList | undefined;
+  targetMatch?: InhibitRulesTargetMatchMap | undefined;
+  targetMatchRe?: InhibitRulesTargetMatchReMap | undefined;
+  targetMatchers?: InhibitRulesTargetMatchersList | undefined;
 }
 export type AlertInhibitRulesList = Array<InhibitRules>;
 export type AlertReceiversList = Array<Receivers>;
 export interface Alert {
-  global?: Global;
-  inhibitRules?: AlertInhibitRulesList;
+  global?: Global | undefined;
+  inhibitRules?: AlertInhibitRulesList | undefined;
   receivers: AlertReceiversList;
   route: Route;
 }
@@ -1060,7 +1087,7 @@ export interface GetCredentialsRequest {
 }
 export type GetCredentialsResponseCredentialsInfoMap = { [key: string]: string | null | undefined };
 export interface GetCredentialsResponse {
-  credentialsInfo?: GetCredentialsResponseCredentialsInfoMap;
+  credentialsInfo?: GetCredentialsResponseCredentialsInfoMap | undefined;
   id: string;
   message: string;
   name: string;
@@ -1080,24 +1107,24 @@ export interface GetGrafanaConfigsRequest {
   instanceId: string;
 }
 export interface GrafanaOauth {
-  allowAssignGrafanaAdmin?: boolean;
+  allowAssignGrafanaAdmin?: boolean | undefined;
   apiUrl: string;
   authUrl: string;
   enabled: boolean;
-  name?: string;
+  name?: string | undefined;
   oauthClientId: string;
   oauthClientSecret: string | Redacted.Redacted<string>;
   roleAttributePath: string;
-  roleAttributeStrict?: boolean;
-  scopes?: string;
+  roleAttributeStrict?: boolean | undefined;
+  scopes?: string | undefined;
   tokenUrl: string;
-  usePkce?: boolean;
+  usePkce?: boolean | undefined;
 }
 export interface GrafanaConfigs {
-  genericOauth?: GrafanaOauth;
+  genericOauth?: GrafanaOauth | undefined;
   message: string;
-  publicReadAccess?: boolean;
-  useStackitSso?: boolean;
+  publicReadAccess?: boolean | undefined;
+  useStackitSso?: boolean | undefined;
 }
 export interface GetInstanceRequest {
   projectId: string;
@@ -1107,9 +1134,9 @@ export interface PlanModel {
   alertMatchers: number;
   alertReceivers: number;
   alertRules: number;
-  amount?: number;
+  amount?: number | undefined;
   bucketSize: number;
-  description?: string;
+  description?: string | undefined;
   grafanaGlobalDashboards: number;
   grafanaGlobalOrgs: number;
   grafanaGlobalSessions: number;
@@ -1117,7 +1144,7 @@ export interface PlanModel {
   id: string;
   logsAlert: number;
   logsStorage: number;
-  name?: string;
+  name?: string | undefined;
   planId: string;
   samplesPerScrape: number;
   targetNumber: number;
@@ -1128,13 +1155,13 @@ export interface InstanceSensitiveData {
   alertingUrl: string;
   cluster: string;
   grafanaAdminEnabled: boolean;
-  grafanaAdminPassword?: string | Redacted.Redacted<string>;
-  grafanaAdminUser?: string;
+  grafanaAdminPassword?: string | Redacted.Redacted<string> | undefined;
+  grafanaAdminUser?: string | undefined;
   grafanaPublicReadAccess: boolean;
   grafanaUrl: string;
   grafanaUseStackitSso: boolean;
   instance: string;
-  jaegerHttpTracesUrl?: string;
+  jaegerHttpTracesUrl?: string | undefined;
   jaegerHttpUrl: string;
   jaegerTracesUrl: string;
   jaegerUiUrl: string;
@@ -1145,7 +1172,7 @@ export interface InstanceSensitiveData {
   metricsRetentionTime5m: number;
   metricsRetentionTimeRaw: number;
   metricsUrl: string;
-  name?: string;
+  name?: string | undefined;
   otlpGrpcTracesUrl: string;
   otlpHttpLogsUrl: string;
   otlpHttpTracesUrl: string;
@@ -1168,16 +1195,16 @@ export type GetInstanceResponseStatus =
   | "UPDATE_FAILED";
 export interface GetInstanceResponse {
   dashboardUrl: string;
-  error?: string | null;
+  error?: string | null | undefined;
   id: string;
   instance: InstanceSensitiveData;
-  isUpdatable?: boolean;
+  isUpdatable?: boolean | undefined;
   message: string;
-  name?: string;
-  parameters?: GetInstanceResponseParametersMap;
+  name?: string | undefined;
+  parameters?: GetInstanceResponseParametersMap | undefined;
   planId: string;
   planName: string;
-  planSchema?: string;
+  planSchema?: string | undefined;
   serviceName: string;
   status: GetInstanceResponseStatus;
 }
@@ -1279,7 +1306,7 @@ export interface ListBackupsRequest {
   projectId: string;
   instanceId: string;
   /** List of backup targets */
-  backupTarget?: ListBackupsRequestBackupTargetList;
+  backupTarget?: ListBackupsRequestBackupTargetList | undefined;
 }
 export type BackupResponseAlertConfigBackupsList = Array<string>;
 export type BackupResponseAlertRulesBackupsList = Array<string>;
@@ -1304,7 +1331,7 @@ export interface ListBackupSchedulesRequest {
   projectId: string;
   instanceId: string;
   /** List of backup targets */
-  backupTarget?: ListBackupSchedulesRequestBackupTargetList;
+  backupTarget?: ListBackupSchedulesRequestBackupTargetList | undefined;
 }
 export interface BackupSchedule {
   schedule: string;
@@ -1315,11 +1342,11 @@ export type BackupScheduleResponseAlertRulesBackupSchedulesList = Array<BackupSc
 export type BackupScheduleResponseGrafanaBackupSchedulesList = Array<BackupSchedule>;
 export type BackupScheduleResponseScrapeConfigBackupSchedulesList = Array<BackupSchedule>;
 export interface BackupScheduleResponse {
-  alertConfigBackupSchedules?: BackupScheduleResponseAlertConfigBackupSchedulesList;
-  alertRulesBackupSchedules?: BackupScheduleResponseAlertRulesBackupSchedulesList;
-  grafanaBackupSchedules?: BackupScheduleResponseGrafanaBackupSchedulesList;
+  alertConfigBackupSchedules?: BackupScheduleResponseAlertConfigBackupSchedulesList | undefined;
+  alertRulesBackupSchedules?: BackupScheduleResponseAlertRulesBackupSchedulesList | undefined;
+  grafanaBackupSchedules?: BackupScheduleResponseGrafanaBackupSchedulesList | undefined;
   message: string;
-  scrapeConfigBackupSchedules?: BackupScheduleResponseScrapeConfigBackupSchedulesList;
+  scrapeConfigBackupSchedules?: BackupScheduleResponseScrapeConfigBackupSchedulesList | undefined;
 }
 export interface ListCertChecksRequest {
   projectId: string;
@@ -1331,8 +1358,8 @@ export interface ListCredentialsRequest {
 }
 export type ServiceKeysListCredentialsInfoMap = { [key: string]: string | null | undefined };
 export interface ServiceKeysList {
-  credentialsInfo?: ServiceKeysListCredentialsInfoMap;
-  description?: string;
+  credentialsInfo?: ServiceKeysListCredentialsInfoMap | undefined;
+  description?: string | undefined;
   id: string;
   name: string;
 }
@@ -1363,10 +1390,10 @@ export type ProjectInstanceFullStatus =
   | "UPDATE_SUCCEEDED"
   | "UPDATE_FAILED";
 export interface ProjectInstanceFull {
-  error?: string | null;
+  error?: string | null | undefined;
   id: string;
   instance: string;
-  name?: string;
+  name?: string | undefined;
   planName: string;
   serviceName: string;
   status: ProjectInstanceFullStatus;
@@ -1399,22 +1426,22 @@ export interface Plan {
   alertMatchers: number;
   alertReceivers: number;
   alertRules: number;
-  amount?: number;
+  amount?: number | undefined;
   bucketSize: number;
-  description?: string;
+  description?: string | undefined;
   grafanaGlobalDashboards: number;
   grafanaGlobalOrgs: number;
   grafanaGlobalSessions: number;
   grafanaGlobalUsers: number;
   id: string;
-  isFree?: boolean;
-  isPublic?: boolean;
+  isFree?: boolean | undefined;
+  isPublic?: boolean | undefined;
   logsAlert: number;
   logsStorage: number;
-  name?: string;
+  name?: string | undefined;
   planId: string;
   samplesPerScrape: number;
-  schema?: string;
+  schema?: string | undefined;
   targetNumber: number;
   totalMetricSamples: number;
   tracesStorage: number;
@@ -1470,7 +1497,7 @@ export type PartialUpdateAlertgroupsRequestBodyItemRulesList =
 /** Alert group that should be created or updated. `Additional Validators:` * total config should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface PartialUpdateAlertgroupsRequestBodyItem {
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** The name of the group. Must be unique. `Additional Validators:` * is the identifier and so unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** rules for the alert group */
@@ -1489,7 +1516,7 @@ export interface PartialUpdateAlertRecordsRequestBodyItem {
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The name of the record. `Additional Validators:` * is the identifier and so unique in the group */
   record: string;
 }
@@ -1507,13 +1534,13 @@ export interface PartialUpdateAlertrulesRequestBodyItem {
   /** The name of the alert. `Additional Validators:` * is the identifier and so unique in the group * should only include the characters: a-zA-Z0-9- */
   alert: string;
   /** map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string */
-  for?: string;
+  for?: string | undefined;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 /** Array of alert rules that should be created or updated */
 export type PartialUpdateAlertrulesRequestBodyList = Array<PartialUpdateAlertrulesRequestBodyItem>;
@@ -1541,9 +1568,9 @@ export interface PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth
   /** clientSecret */
   clientSecret: string | Redacted.Redacted<string>;
   /** The URL to fetch the token from. */
-  scopes?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth2ScopesList;
+  scopes?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth2ScopesList | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** The URL to fetch the token from. */
   tokenUrl: string;
 }
@@ -1552,13 +1579,13 @@ export type PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemTlsConfig 
   CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
 export interface PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItem {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
-  oauth2?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth2;
+  oauth2?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsItemOauth2 | undefined;
   /** Refresh interval to re-query the endpoint. E.g. 60s `Additional Validators:` * must be a valid time format* must be >= 60s */
-  refreshInterval?: string;
+  refreshInterval?: string | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** URL from which the targets are fetched. */
   url: string;
 }
@@ -1579,19 +1606,24 @@ export type PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemSo
   Array<string>;
 export interface PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItem {
   /** Action to perform based on regex matching. `Additional Validators:` * if action is replace, targetLabel needs to be in body */
-  action?: PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemAction | (string & {});
+  action?:
+    | PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemAction
+    | (string & {})
+    | undefined;
   /** Modulus to take of the hash of the source label values. */
-  modulus?: number;
+  modulus?: number | undefined;
   /** Regular expression against which the extracted value is matched. */
-  regex?: string;
+  regex?: string | undefined;
   /** Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. */
-  replacement?: string;
+  replacement?: string | undefined;
   /** Separator placed between concatenated source label values. */
-  separator?: string;
+  separator?: string | undefined;
   /** The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions. */
-  sourceLabels?: PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemSourceLabelsList;
+  sourceLabels?:
+    | PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsItemSourceLabelsList
+    | undefined;
   /** Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available. */
-  targetLabel?: string;
+  targetLabel?: string | undefined;
 }
 /** List of metric relabel configurations */
 export type PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsList =
@@ -1608,9 +1640,9 @@ export interface PartialUpdateScrapeConfigsRequestBodyItemOauth2 {
   /** clientSecret */
   clientSecret: string | Redacted.Redacted<string>;
   /** The URL to fetch the token from. */
-  scopes?: PartialUpdateScrapeConfigsRequestBodyItemOauth2ScopesList;
+  scopes?: PartialUpdateScrapeConfigsRequestBodyItemOauth2ScopesList | undefined;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
   /** The URL to fetch the token from. */
   tokenUrl: string;
 }
@@ -1620,7 +1652,7 @@ export type PartialUpdateScrapeConfigsRequestBodyItemScheme = "http" | "https";
 export type PartialUpdateScrapeConfigsRequestBodyItemStaticConfigsItemTargetsList = Array<string>;
 export interface PartialUpdateScrapeConfigsRequestBodyItemStaticConfigsItem {
   /** Labels assigned to all metrics scraped from the targets. `Additional Validators:` * should not contain more than 10 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The targets specified by the static config. */
   targets: PartialUpdateScrapeConfigsRequestBodyItemStaticConfigsItemTargetsList;
 }
@@ -1632,27 +1664,29 @@ export type PartialUpdateScrapeConfigsRequestBodyItemTlsConfig =
   CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
 export interface PartialUpdateScrapeConfigsRequestBodyItem {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string | Redacted.Redacted<string>;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
-  honorLabels?: boolean;
+  honorLabels?: boolean | undefined;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
-  honorTimeStamps?: boolean;
+  honorTimeStamps?: boolean | undefined;
   /** HTTP-based service discovery provides a more generic way to configure static targets and serves as an interface to plug in custom service discovery mechanisms. */
-  httpSdConfigs?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsList;
+  httpSdConfigs?: PartialUpdateScrapeConfigsRequestBodyItemHttpSdConfigsList | undefined;
   /** The job name assigned to scraped metrics by default. `Additional Validators:` * must be unique * key and values should only include the characters: a-zA-Z0-9- */
   jobName: string;
   /** The HTTP resource path on which to fetch metrics from targets. E.g. /metrics */
-  metricsPath?: string;
+  metricsPath?: string | undefined;
   /** List of metric relabel configurations */
-  metricsRelabelConfigs?: PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsList;
+  metricsRelabelConfigs?:
+    | PartialUpdateScrapeConfigsRequestBodyItemMetricsRelabelConfigsList
+    | undefined;
   /** OAuth 2.0 authentication using the client credentials grant type. Prometheus fetches an access token from the specified endpoint with the given client access and secret keys. `Additional Validators:` * if oauth2 is in the body no other authentication method should be in the body */
-  oauth2?: PartialUpdateScrapeConfigsRequestBodyItemOauth2;
+  oauth2?: PartialUpdateScrapeConfigsRequestBodyItemOauth2 | undefined;
   /** Optional http params `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  params?: unknown;
+  params?: unknown | undefined;
   /** Per-scrape limit on number of scraped samples that will be accepted. If more than this number of samples are present after metric relabeling the entire scrape will be treated as failed. The total limit depends on the service plan target limits * samples */
-  sampleLimit?: number;
+  sampleLimit?: number | undefined;
   /** Configures the protocol scheme used for requests. https or http */
   scheme: PartialUpdateScrapeConfigsRequestBodyItemScheme | (string & {});
   /** How frequently to scrape targets from this job. E.g. 5m `Additional Validators:` * must be a valid time format* must be >= 60s */
@@ -1662,7 +1696,7 @@ export interface PartialUpdateScrapeConfigsRequestBodyItem {
   /** A list of scrape configurations. */
   staticConfigs: PartialUpdateScrapeConfigsRequestBodyItemStaticConfigsList;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
 }
 /** Array of jobs that should be created or updated */
 export type PartialUpdateScrapeConfigsRequestBodyList =
@@ -1711,12 +1745,12 @@ export interface UpdateAlertConfigReceiverRequest {
   instanceId: string;
   receiver: string;
   /** Email configurations */
-  emailConfigs?: UpdateAlertConfigReceiverRequestEmailConfigsList;
+  emailConfigs?: UpdateAlertConfigReceiverRequestEmailConfigsList | undefined;
   /** `Additional Validators:` * must be unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** Configuration for ops genie. */
-  opsgenieConfigs?: UpdateAlertConfigReceiverRequestOpsgenieConfigsList;
-  webHookConfigs?: UpdateAlertConfigReceiverRequestWebHookConfigsList;
+  opsgenieConfigs?: UpdateAlertConfigReceiverRequestOpsgenieConfigsList | undefined;
+  webHookConfigs?: UpdateAlertConfigReceiverRequestWebHookConfigsList | undefined;
 }
 /** The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping. */
 export type UpdateAlertConfigRouteRequestGroupByList = Array<string>;
@@ -1730,24 +1764,24 @@ export type UpdateAlertConfigRouteRequestRoutesItemRoutesList = Array<unknown>;
 /** As in one level above */
 export interface UpdateAlertConfigRouteRequestRoutesItem {
   /** Whether an alert should continue matching subsequent sibling nodes. */
-  continue?: boolean;
-  groupBy?: UpdateAlertConfigRouteRequestRoutesItemGroupByList;
+  continue?: boolean | undefined;
+  groupBy?: UpdateAlertConfigRouteRequestRoutesItemGroupByList | undefined;
   /** As in one level above */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** As in one level above */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** As in one level above */
-  match?: unknown;
+  match?: unknown | undefined;
   /** As in one level above */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** As in one level above */
-  matchers?: UpdateAlertConfigRouteRequestRoutesItemMatchersList;
+  matchers?: UpdateAlertConfigRouteRequestRoutesItemMatchersList | undefined;
   /** As in one level above */
-  receiver?: string;
+  receiver?: string | undefined;
   /** As in one level above */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Another child routes */
-  routes?: UpdateAlertConfigRouteRequestRoutesItemRoutesList;
+  routes?: UpdateAlertConfigRouteRequestRoutesItemRoutesList | undefined;
 }
 /** Zero or more child routes. */
 export type UpdateAlertConfigRouteRequestRoutesList =
@@ -1757,57 +1791,57 @@ export interface UpdateAlertConfigRouteRequest {
   instanceId: string;
   receiver: string;
   /** The continue parameter cannot be set to true on the root route because there are no subsequent sibling nodes to match. It must always be false. */
-  continue?: boolean;
+  continue?: boolean | undefined;
   /** The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping. */
-  groupBy?: UpdateAlertConfigRouteRequestGroupByList;
+  groupBy?: UpdateAlertConfigRouteRequestGroupByList | undefined;
   /** How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.) `Additional Validators:` * must be a valid time format */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.) `Additional Validators:` * must be a valid time format */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** map of key:value. A set of equality matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * key and values should only include the characters: a-zA-Z0-9_./@&?:- */
-  match?: unknown;
+  match?: unknown | undefined;
   /** map of key:value. A set of regex-matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics. The syntax of a matcher consists of three tokens: * A valid Prometheus label name. * One of =, !=, =~, or !~. = means equals, != means that the strings are not equal, =~ is used for equality of regex expressions and !~ is used for un-equality of regex expressions. They have the same meaning as known from PromQL selectors. * A UTF-8 string, which may be enclosed in double quotes. Before or after each token, there may be any amount of whitespace. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchers?: UpdateAlertConfigRouteRequestMatchersList;
+  matchers?: UpdateAlertConfigRouteRequestMatchersList | undefined;
   /** How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more). `Additional Validators:` * must be a valid time format */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Zero or more child routes. */
-  routes?: UpdateAlertConfigRouteRequestRoutesList;
+  routes?: UpdateAlertConfigRouteRequestRoutesList | undefined;
 }
 /** Global config. If nothing passed the default argus config will be used. It is only possible to update the entire global part, not individual attributes. */
 export interface UpdateAlertConfigsRequestGlobal {
   /** Opsgenie api key `Additional Validators:` * should only include the characters: a-zA-Z0-9- */
-  opsgenieApiKey?: string | Redacted.Redacted<string>;
+  opsgenieApiKey?: string | Redacted.Redacted<string> | undefined;
   /** Opsgenie api url `Additional Validators:` * must be a syntactically valid url address */
-  opsgenieApiUrl?: string;
+  opsgenieApiUrl?: string | undefined;
   /** ResolveTimeout is the default value used by alertmanager if the alert does not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt. `Additional Validators:` * must be a valid time format */
-  resolveTimeout?: string;
+  resolveTimeout?: string | undefined;
   /** Auth identity. `Additional Validators:` * must be a syntactically valid email address */
-  smtpAuthIdentity?: string;
+  smtpAuthIdentity?: string | undefined;
   /** SMTP Auth using LOGIN and PLAIN. */
-  smtpAuthPassword?: string | Redacted.Redacted<string>;
+  smtpAuthPassword?: string | Redacted.Redacted<string> | undefined;
   /** SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server. */
-  smtpAuthUsername?: string;
+  smtpAuthUsername?: string | undefined;
   /** The default SMTP From header field. `Additional Validators:` * must be a syntactically valid email address */
-  smtpFrom?: string;
+  smtpFrom?: string | undefined;
   /** The default SMTP smarthost used for sending emails, including port number. Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS). Example: smtp.example.org:587 `Additional Validators:` * should only include the characters: a-zA-Z0-9_./@&?:- */
-  smtpSmarthost?: string;
+  smtpSmarthost?: string | undefined;
 }
 /** Labels that must have an equal value in the source and target alert for the inhibition to take effect. `Additional Validators:` * should only include the characters: a-zA-Z0-9_./@&?:- */
 export type UpdateAlertConfigsRequestInhibitRulesEqualList = Array<string>;
 /** A list of inhibition rules. */
 export interface UpdateAlertConfigsRequestInhibitRules {
   /** Labels that must have an equal value in the source and target alert for the inhibition to take effect. `Additional Validators:` * should only include the characters: a-zA-Z0-9_./@&?:- */
-  equal?: UpdateAlertConfigsRequestInhibitRulesEqualList;
+  equal?: UpdateAlertConfigsRequestInhibitRulesEqualList | undefined;
   /** map of key:value. Matchers for which one or more alerts have to exist for the inhibition to take effect. `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters * each key and value should only include the characters: a-zA-Z0-9_./@&?:- */
-  sourceMatch?: unknown;
+  sourceMatch?: unknown | undefined;
   /** map of key:value. Regex match `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  sourceMatchRe?: unknown;
+  sourceMatchRe?: unknown | undefined;
   /** map of key:value. Matchers that have to be fulfilled in the alerts to be muted. `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters * each key and value should only include the characters: a-zA-Z0-9_./@&?:- */
-  targetMatch?: unknown;
+  targetMatch?: unknown | undefined;
   /** map of key:value. Matchers that have to be fulfilled in the alerts to be muted. Regex. `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  targetMatchRe?: unknown;
+  targetMatchRe?: unknown | undefined;
 }
 export type UpdateAlertConfigsRequestReceiversItemEmailConfigsItem =
   CreateAlertConfigReceiverRequestEmailConfigsItem;
@@ -1826,12 +1860,12 @@ export type UpdateAlertConfigsRequestReceiversItemWebHookConfigsList =
 /** Receivers */
 export interface UpdateAlertConfigsRequestReceiversItem {
   /** Email configurations */
-  emailConfigs?: UpdateAlertConfigsRequestReceiversItemEmailConfigsList;
+  emailConfigs?: UpdateAlertConfigsRequestReceiversItemEmailConfigsList | undefined;
   /** `Additional Validators:` * must be unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** Configuration for ops genie. */
-  opsgenieConfigs?: UpdateAlertConfigsRequestReceiversItemOpsgenieConfigsList;
-  webHookConfigs?: UpdateAlertConfigsRequestReceiversItemWebHookConfigsList;
+  opsgenieConfigs?: UpdateAlertConfigsRequestReceiversItemOpsgenieConfigsList | undefined;
+  webHookConfigs?: UpdateAlertConfigsRequestReceiversItemWebHookConfigsList | undefined;
 }
 /** A list of notification receivers. */
 export type UpdateAlertConfigsRequestReceiversList = Array<UpdateAlertConfigsRequestReceiversItem>;
@@ -1845,24 +1879,24 @@ export type UpdateAlertConfigsRequestRouteRoutesItemRoutesList = Array<unknown>;
 /** As in one level above */
 export interface UpdateAlertConfigsRequestRouteRoutesItem {
   /** Whether an alert should continue matching subsequent sibling nodes. */
-  continue?: boolean;
-  groupBy?: UpdateAlertConfigsRequestRouteRoutesItemGroupByList;
+  continue?: boolean | undefined;
+  groupBy?: UpdateAlertConfigsRequestRouteRoutesItemGroupByList | undefined;
   /** As in one level above */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** As in one level above */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** As in one level above */
-  match?: unknown;
+  match?: unknown | undefined;
   /** As in one level above */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics. The syntax of a matcher consists of three tokens: * A valid Prometheus label name. * One of =, !=, =~, or !~. = means equals, != means that the strings are not equal, =~ is used for equality of regex expressions and !~ is used for un-equality of regex expressions. They have the same meaning as known from PromQL selectors. * A UTF-8 string, which may be enclosed in double quotes. Before or after each token, there may be any amount of whitespace. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchers?: UpdateAlertConfigsRequestRouteRoutesItemMatchersList;
+  matchers?: UpdateAlertConfigsRequestRouteRoutesItemMatchersList | undefined;
   /** As in one level above */
-  receiver?: string;
+  receiver?: string | undefined;
   /** As in one level above */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Another child routes */
-  routes?: UpdateAlertConfigsRequestRouteRoutesItemRoutesList;
+  routes?: UpdateAlertConfigsRequestRouteRoutesItemRoutesList | undefined;
 }
 /** Zero or more child routes. */
 export type UpdateAlertConfigsRequestRouteRoutesList =
@@ -1870,31 +1904,31 @@ export type UpdateAlertConfigsRequestRouteRoutesList =
 /** The root node of the routing tree. */
 export interface UpdateAlertConfigsRequestRoute {
   /** The continue parameter cannot be set to true on the root route because there are no subsequent sibling nodes to match. It must always be false. */
-  continue?: boolean;
+  continue?: boolean | undefined;
   /** The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping. */
-  groupBy?: UpdateAlertConfigsRequestRouteGroupByList;
+  groupBy?: UpdateAlertConfigsRequestRouteGroupByList | undefined;
   /** How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.) `Additional Validators:` * must be a valid time format */
-  groupInterval?: string;
+  groupInterval?: string | undefined;
   /** How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.) `Additional Validators:` * must be a valid time format */
-  groupWait?: string;
+  groupWait?: string | undefined;
   /** map of key:value. A set of equality matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters * key and values should only include the characters: a-zA-Z0-9_./@&?:- */
-  match?: unknown;
+  match?: unknown | undefined;
   /** map of key:value. A set of regex-matchers an alert has to fulfill to match the node. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  matchRe?: unknown;
+  matchRe?: unknown | undefined;
   /** Receiver that should be one item of receivers `Additional Validators:` * must be a in name of receivers */
   receiver: string;
   /** How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more). `Additional Validators:` * must be a valid time format */
-  repeatInterval?: string;
+  repeatInterval?: string | undefined;
   /** Zero or more child routes. */
-  routes?: UpdateAlertConfigsRequestRouteRoutesList;
+  routes?: UpdateAlertConfigsRequestRouteRoutesList | undefined;
 }
 export interface UpdateAlertConfigsRequest {
   projectId: string;
   instanceId: string;
   /** Global config. If nothing passed the default argus config will be used. It is only possible to update the entire global part, not individual attributes. */
-  global?: UpdateAlertConfigsRequestGlobal;
+  global?: UpdateAlertConfigsRequestGlobal | undefined;
   /** A list of inhibition rules. */
-  inhibitRules?: UpdateAlertConfigsRequestInhibitRules;
+  inhibitRules?: UpdateAlertConfigsRequestInhibitRules | undefined;
   /** A list of notification receivers. */
   receivers: UpdateAlertConfigsRequestReceiversList;
   /** The root node of the routing tree. */
@@ -1913,7 +1947,7 @@ export interface UpdateAlertgroupRequest {
   instanceId: string;
   groupName: string;
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** rules for the alert group */
   rules: UpdateAlertgroupRequestRulesList;
 }
@@ -1924,7 +1958,7 @@ export type UpdateAlertgroupsRequestBodyItemRulesList = Array<CreateAlertgroupsR
 /** Alert group that should be created or updated. `Additional Validators:` * total config should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export interface UpdateAlertgroupsRequestBodyItem {
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** The name of the group. Must be unique. `Additional Validators:` * is the identifier and so unique * should only include the characters: a-zA-Z0-9- */
   name: string;
   /** rules for the alert group */
@@ -1945,7 +1979,7 @@ export interface UpdateAlertRecordRequest {
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 export interface UpdateAlertruleRequest {
   projectId: string;
@@ -1953,24 +1987,24 @@ export interface UpdateAlertruleRequest {
   groupName: string;
   alertName: string;
   /** map of key:value. Annotations to add to each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  annotations?: unknown;
+  annotations?: unknown | undefined;
   /** The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts. */
   expr: string;
   /** Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. `Additional Validators:` * must be a valid time string */
-  for?: string;
+  for?: string | undefined;
   /** map of key:value. Labels to add or overwrite for each alert. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 export interface UpdateCredentialsRemoteWriteConfigRequest {
   projectId: string;
   instanceId: string;
   username: string;
   /** Remote write metric sample limit for credential to push in a single minute. */
-  maxLimit?: number;
+  maxLimit?: number | undefined;
 }
 export interface UpdateGrafanaConfigsRequestGenericOauth {
   /** Set to true to enable automatic sync of the Grafana server administrator role. If this option is set to true and the result of evaluating role_attribute_path for a user is GrafanaAdmin, Grafana grants the user the server administrator privileges and organization administrator role. If this option is set to false and the result of evaluating role_attribute_path for a user is GrafanaAdmin, Grafana grants the user only organization administrator role. */
-  allowAssignGrafanaAdmin?: boolean;
+  allowAssignGrafanaAdmin?: boolean | undefined;
   /** Set api_url to the resource that returns OpenID UserInfo compatible information. */
   apiUrl: string;
   /** Authentication endpoint of idp. */
@@ -1978,7 +2012,7 @@ export interface UpdateGrafanaConfigsRequestGenericOauth {
   /** Enable or disable generic oauth login */
   enabled: boolean;
   /** Display name for the oAuth provider */
-  name?: string;
+  name?: string | undefined;
   /** Oauth client id for auth endpoint. */
   oauthClientId: string;
   /** Oauth client secret for auth endpoint. */
@@ -1986,34 +2020,34 @@ export interface UpdateGrafanaConfigsRequestGenericOauth {
   /** Grafana checks for the presence of a role using the JMESPath specified via the role_attribute_path configuration option. The JMESPath is applied to the id_token first. If there is no match, then the UserInfo endpoint specified via the api_url configuration option is tried next. The result after evaluation of the role_attribute_path JMESPath expression should be a valid Grafana role, for example, Viewer, Editor or Admin For example: contains(roles[\*], 'grafana-admin') && 'Admin' || contains(roles[\*], 'grafana-editor') && 'Editor' || contains(roles[\*], 'grafana-viewer') && 'Viewer' */
   roleAttributePath: string;
   /** If the role_attribute_path property does not return a role, then the user is assigned the Viewer role by default. You can disable the role assignment by setting role_attribute_strict = true. It denies user access if no role or an invalid role is returned. */
-  roleAttributeStrict?: boolean;
+  roleAttributeStrict?: boolean | undefined;
   /** Space seperated list of scopes of the token */
-  scopes?: string;
+  scopes?: string | undefined;
   /** Token endpoint of the idp. */
   tokenUrl: string;
   /** Enable or disable Proof Key for Code Exchange */
-  usePkce?: boolean;
+  usePkce?: boolean | undefined;
 }
 export interface UpdateGrafanaConfigsRequest {
   projectId: string;
   instanceId: string;
-  genericOauth?: UpdateGrafanaConfigsRequestGenericOauth;
+  genericOauth?: UpdateGrafanaConfigsRequestGenericOauth | undefined;
   /** If it's true, anyone can access the Grafana dashboards without logging in. If it is wrong, a login is required. */
-  publicReadAccess?: boolean;
+  publicReadAccess?: boolean | undefined;
   /** If it's true, it overwrites the current genericOauth config and configures STACKIT SSO for this instance. */
-  useStackitSso?: boolean;
+  useStackitSso?: boolean | undefined;
 }
 export interface UpdateInstanceRequest {
   projectId: string;
   instanceId: string;
   /** When set to false, the Grafana server admin created during provisioning will be deleted. It's recommended to set this to false and use STACKIT SSO (`Owner` or `Observability Grafana Server Admin` role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later. Once set to false, it is not possible to set it to true again. */
-  grafanaAdminEnabled?: boolean;
+  grafanaAdminEnabled?: boolean | undefined;
   /** Name of the service */
-  name?: string;
+  name?: string | undefined;
   /** Additional parameters */
-  parameter?: unknown;
+  parameter?: unknown | undefined;
   /** UUID of the plan to update */
-  planId?: string;
+  planId?: string | undefined;
 }
 /** Rule definition. Must be either an Alerting Rule (using 'alert') or a Recording Rule (using 'record'). `Additional Validators:` * total config (all alert groups/rules) should not be bigger than 500000 characters as string since this the limitation of prometheus. */
 export type UpdateLogsAlertgroupRequestRulesItem = CreateLogsAlertgroupsRequestRulesItem;
@@ -2024,7 +2058,7 @@ export interface UpdateLogsAlertgroupRequest {
   instanceId: string;
   groupName: string;
   /** How often rules in the group are evaluated. `Additional Validators:` * must be a valid time string * should be >=60s */
-  interval?: string;
+  interval?: string | undefined;
   /** rules for the alert group */
   rules: UpdateLogsAlertgroupRequestRulesList;
 }
@@ -2059,19 +2093,19 @@ export type UpdateScrapeConfigRequestMetricsRelabelConfigsItemAction =
 export type UpdateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList = Array<string>;
 export interface UpdateScrapeConfigRequestMetricsRelabelConfigsItem {
   /** Action to perform based on regex matching. `Additional Validators:` * if action is replace, targetLabel needs to be in body */
-  action?: UpdateScrapeConfigRequestMetricsRelabelConfigsItemAction | (string & {});
+  action?: UpdateScrapeConfigRequestMetricsRelabelConfigsItemAction | (string & {}) | undefined;
   /** Modulus to take of the hash of the source label values. */
-  modulus?: number;
+  modulus?: number | undefined;
   /** Regular expression against which the extracted value is matched. */
-  regex?: string;
+  regex?: string | undefined;
   /** Replacement value against which a regex replace is performed if the regular expression matches. Regex capture groups are available. */
-  replacement?: string;
+  replacement?: string | undefined;
   /** Separator placed between concatenated source label values. */
-  separator?: string;
+  separator?: string | undefined;
   /** The source labels select values from existing labels. Their content is concatenated using the configured separator and matched against the configured regular expression for the replace, keep, and drop actions. */
-  sourceLabels?: UpdateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList;
+  sourceLabels?: UpdateScrapeConfigRequestMetricsRelabelConfigsItemSourceLabelsList | undefined;
   /** Label to which the resulting value is written in a replace action. It is mandatory for replace actions. Regex capture groups are available. */
-  targetLabel?: string;
+  targetLabel?: string | undefined;
 }
 /** List of metric relabel configurations */
 export type UpdateScrapeConfigRequestMetricsRelabelConfigsList =
@@ -2082,7 +2116,7 @@ export type UpdateScrapeConfigRequestScheme = "http" | "https";
 export type UpdateScrapeConfigRequestStaticConfigsItemTargetsList = Array<string>;
 export interface UpdateScrapeConfigRequestStaticConfigsItem {
   /** Labels assigned to all metrics scraped from the targets. `Additional Validators:` * should not contain more than 5 keys * each key and value should not be longer than 200 characters */
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** The targets specified by the static config. */
   targets: UpdateScrapeConfigRequestStaticConfigsItemTargetsList;
 }
@@ -2097,21 +2131,21 @@ export interface UpdateScrapeConfigRequest {
   instanceId: string;
   jobName: string;
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
-  basicAuth?: CreateScrapeConfigRequestBasicAuth;
+  basicAuth?: CreateScrapeConfigRequestBasicAuth | undefined;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string | Redacted.Redacted<string>;
+  bearerToken?: string | Redacted.Redacted<string> | undefined;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
-  honorLabels?: boolean;
+  honorLabels?: boolean | undefined;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
-  honorTimeStamps?: boolean;
+  honorTimeStamps?: boolean | undefined;
   /** The HTTP resource path on which to fetch metrics from targets. E.g. /metrics */
   metricsPath: string;
   /** List of metric relabel configurations */
-  metricsRelabelConfigs?: UpdateScrapeConfigRequestMetricsRelabelConfigsList;
+  metricsRelabelConfigs?: UpdateScrapeConfigRequestMetricsRelabelConfigsList | undefined;
   /** Optional http params `Additional Validators:` * should not contain more than 5 keys * each key and value should not have more than 200 characters */
-  params?: unknown;
+  params?: unknown | undefined;
   /** Per-scrape limit on number of scraped samples that will be accepted. If more than this number of samples are present after metric relabeling the entire scrape will be treated as failed. The total limit depends on the service plan target limits * samples */
-  sampleLimit?: number;
+  sampleLimit?: number | undefined;
   /** Configures the protocol scheme used for requests. https or http */
   scheme: UpdateScrapeConfigRequestScheme | (string & {});
   /** How frequently to scrape targets from this job. E.g. 5m `Additional Validators:` * must be a valid time format* must be >= 60s */
@@ -2121,13 +2155,26 @@ export interface UpdateScrapeConfigRequest {
   /** A list of scrape configurations. */
   staticConfigs: UpdateScrapeConfigRequestStaticConfigsList;
   /** Configures the scrape request's TLS settings. */
-  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig;
+  tlsConfig?: CreateScrapeConfigRequestHttpSdConfigsItemOauth2TlsConfig | undefined;
 }
 export interface UpdateTracesConfigsRequest {
   projectId: string;
   instanceId: string;
   /** How long to keep the traces `Additional Validators:` * Should be a valid time string * Should not be bigger than 30 days */
   retention: string;
+}
+export type ErrorErrorsItemMap = { [key: string]: string | null | undefined };
+export type ErrorErrorsList = Array<ErrorErrorsItemMap>;
+export interface Error {
+  errors?: ErrorErrorsList | undefined;
+  message: string;
+}
+export type CheckObjectErrorValueList = Array<string>;
+export type CheckObjectError = { [key: string]: CheckObjectErrorValueList | undefined };
+export type CheckArrayError = Array<string>;
+export type Error400Body = CheckObjectError | CheckArrayError;
+export interface PermissionDenied {
+  detail: string;
 }
 export type CreateAlertConfigReceiverError = BadRequest | Forbidden | StackitOpError;
 /** Create alert config receiver. */
@@ -2137,8 +2184,8 @@ export const createAlertConfigReceiver: API.OperationMethod<
   CreateAlertConfigReceiverError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<CreateAlertConfigReceiverRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<AlertConfigReceiversResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<CreateAlertConfigReceiverRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2154,8 +2201,8 @@ export const createAlertConfigRoute: API.OperationMethod<
   CreateAlertConfigRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<CreateAlertConfigRouteRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<CreateAlertConfigRouteRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2171,8 +2218,8 @@ export const createAlertgroups: API.OperationMethod<
   CreateAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<CreateAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<CreateAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2188,8 +2235,8 @@ export const createAlertRecord: API.OperationMethod<
   CreateAlertRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<CreateAlertRecordRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<CreateAlertRecordRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2205,8 +2252,8 @@ export const createAlertrules: API.OperationMethod<
   CreateAlertrulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CreateAlertrulesRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<CreateAlertrulesRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2222,8 +2269,8 @@ export const createBackup: API.OperationMethod<
   CreateBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<CreateBackupRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(2048, __c128, 0) as any as S.Schema<CreateBackupRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2239,8 +2286,8 @@ export const createBackupSchedule: API.OperationMethod<
   CreateBackupScheduleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<CreateBackupScheduleRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<BackupSchedulePostResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<CreateBackupScheduleRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<BackupSchedulePostResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2256,8 +2303,8 @@ export const createCertCheck: API.OperationMethod<
   CreateCertCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateCertCheckRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<CertCheckResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<CreateCertCheckRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<CertCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2273,8 +2320,8 @@ export const createCredentials: API.OperationMethod<
   CreateCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CreateCredentialsRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<CreateCredentialsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateCredentialsRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<CreateCredentialsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2290,8 +2337,8 @@ export const createElasticsearchCheck: API.OperationMethod<
   CreateElasticsearchCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<CreateElasticsearchCheckRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ElasticsearchCheckResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<CreateElasticsearchCheckRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<ElasticsearchCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2307,8 +2354,8 @@ export const createHttpCheck: API.OperationMethod<
   CreateHttpCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateHttpCheckRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<HttpCheckResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<CreateHttpCheckRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<HttpCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2324,8 +2371,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2341,8 +2388,8 @@ export const createLogsAlertgroups: API.OperationMethod<
   CreateLogsAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateLogsAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateLogsAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2358,8 +2405,8 @@ export const createMongodbCheck: API.OperationMethod<
   CreateMongodbCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateMongodbCheckRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<MongodbCheckResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<CreateMongodbCheckRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<MongodbCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2375,8 +2422,8 @@ export const createMysqlCheck: API.OperationMethod<
   CreateMysqlCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateMysqlCheckRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<MysqlCheckResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<CreateMysqlCheckRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<MysqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2392,8 +2439,8 @@ export const createNetworkCheck: API.OperationMethod<
   CreateNetworkCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateNetworkCheckRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<NetworkCheckResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateNetworkCheckRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<NetworkCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2409,8 +2456,8 @@ export const createPingCheck: API.OperationMethod<
   CreatePingCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<CreatePingCheckRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<PingCheckResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<CreatePingCheckRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<PingCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2426,8 +2473,8 @@ export const createPostgresqlCheck: API.OperationMethod<
   CreatePostgresqlCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<CreatePostgresqlCheckRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<PostgresqlCheckResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreatePostgresqlCheckRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<PostgresqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2443,8 +2490,8 @@ export const createRabbitmqCheck: API.OperationMethod<
   CreateRabbitmqCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<CreateRabbitmqCheckRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<RabbitmqCheckResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<CreateRabbitmqCheckRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<RabbitmqCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2460,8 +2507,8 @@ export const createRedisCheck: API.OperationMethod<
   CreateRedisCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CreateRedisCheckRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<RedisCheckResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<CreateRedisCheckRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<RedisCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2477,8 +2524,8 @@ export const createScrapeConfig: API.OperationMethod<
   CreateScrapeConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<CreateScrapeConfigRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ScrapeConfigsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<CreateScrapeConfigRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2494,8 +2541,8 @@ export const deleteAlertConfigReceiver: API.OperationMethod<
   DeleteAlertConfigReceiverError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DeleteAlertConfigReceiverRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<AlertConfigReceiversResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<DeleteAlertConfigReceiverRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2511,8 +2558,8 @@ export const deleteAlertConfigRoute: API.OperationMethod<
   DeleteAlertConfigRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DeleteAlertConfigRouteRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<DeleteAlertConfigRouteRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2528,8 +2575,8 @@ export const deleteAlertgroup: API.OperationMethod<
   DeleteAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DeleteAlertgroupRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<DeleteAlertgroupRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2545,8 +2592,8 @@ export const deleteAlertgroups: API.OperationMethod<
   DeleteAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<DeleteAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<DeleteAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2562,8 +2609,8 @@ export const deleteAlertRecord: API.OperationMethod<
   DeleteAlertRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<DeleteAlertRecordRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<DeleteAlertRecordRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2579,8 +2626,8 @@ export const deleteAlertRecords: API.OperationMethod<
   DeleteAlertRecordsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<DeleteAlertRecordsRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<DeleteAlertRecordsRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2596,8 +2643,8 @@ export const deleteAlertrule: API.OperationMethod<
   DeleteAlertruleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<DeleteAlertruleRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<DeleteAlertruleRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2613,8 +2660,8 @@ export const deleteAlertrules: API.OperationMethod<
   DeleteAlertrulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<DeleteAlertrulesRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<DeleteAlertrulesRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2630,8 +2677,8 @@ export const deleteCertCheck: API.OperationMethod<
   DeleteCertCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<DeleteCertCheckRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<CertCheckResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<DeleteCertCheckRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<CertCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2647,8 +2694,8 @@ export const deleteCredentials: API.OperationMethod<
   DeleteCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<DeleteCredentialsRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(976, __c61, 0) as any as S.Schema<DeleteCredentialsRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2668,8 +2715,8 @@ export const deleteCredentialsRemoteWriteConfig: API.OperationMethod<
   DeleteCredentialsRemoteWriteConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<DeleteCredentialsRemoteWriteConfigRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<CredentialsRemoteWriteDeleteResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<DeleteCredentialsRemoteWriteConfigRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<CredentialsRemoteWriteDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2685,8 +2732,8 @@ export const deleteElasticsearchCheck: API.OperationMethod<
   DeleteElasticsearchCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<DeleteElasticsearchCheckRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ElasticsearchCheckResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<DeleteElasticsearchCheckRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<ElasticsearchCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2702,8 +2749,8 @@ export const deleteHttpCheck: API.OperationMethod<
   DeleteHttpCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<DeleteHttpCheckRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<HttpCheckResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<DeleteHttpCheckRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<HttpCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2719,8 +2766,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<InstanceResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<InstanceResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2736,8 +2783,8 @@ export const deleteLogsAlertgroup: API.OperationMethod<
   DeleteLogsAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<DeleteLogsAlertgroupRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<DeleteLogsAlertgroupRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2753,8 +2800,8 @@ export const deleteMongodbCheck: API.OperationMethod<
   DeleteMongodbCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<DeleteMongodbCheckRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<MongodbCheckResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<DeleteMongodbCheckRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<MongodbCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2770,8 +2817,8 @@ export const deleteMysqlCheck: API.OperationMethod<
   DeleteMysqlCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<DeleteMysqlCheckRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<MysqlCheckResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<DeleteMysqlCheckRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<MysqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2787,8 +2834,8 @@ export const deleteNetworkCheck: API.OperationMethod<
   DeleteNetworkCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<DeleteNetworkCheckRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<NetworkCheckResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<DeleteNetworkCheckRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<NetworkCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2804,8 +2851,8 @@ export const deletePingCheck: API.OperationMethod<
   DeletePingCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<DeletePingCheckRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<PingCheckResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<DeletePingCheckRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<PingCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2821,8 +2868,8 @@ export const deletePostgresqlCheck: API.OperationMethod<
   DeletePostgresqlCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<DeletePostgresqlCheckRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<PostgresqlCheckResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<DeletePostgresqlCheckRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<PostgresqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2838,8 +2885,8 @@ export const deleteRabbitmqCheck: API.OperationMethod<
   DeleteRabbitmqCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<DeleteRabbitmqCheckRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<RabbitmqCheckResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<DeleteRabbitmqCheckRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<RabbitmqCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2855,8 +2902,8 @@ export const deleteRedisCheck: API.OperationMethod<
   DeleteRedisCheckError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<DeleteRedisCheckRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<RedisCheckResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<DeleteRedisCheckRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<RedisCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2872,8 +2919,8 @@ export const deleteScrapeConfig: API.OperationMethod<
   DeleteScrapeConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<DeleteScrapeConfigRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<DeleteScrapeConfigResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<DeleteScrapeConfigRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<DeleteScrapeConfigResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2889,8 +2936,8 @@ export const deleteScrapeConfigs: API.OperationMethod<
   DeleteScrapeConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<DeleteScrapeConfigsRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ScrapeConfigsResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<DeleteScrapeConfigsRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2906,8 +2953,8 @@ export const getAlertConfigReceiver: API.OperationMethod<
   GetAlertConfigReceiverError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<GetAlertConfigReceiverRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<Receiver>,
+  input: __S(1296, __c81, 0) as any as S.Schema<GetAlertConfigReceiverRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<Receiver>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2923,8 +2970,8 @@ export const getAlertConfigRoute: API.OperationMethod<
   GetAlertConfigRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<GetAlertConfigRouteRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<GetAlertConfigRouteRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2940,8 +2987,8 @@ export const getAlertConfigs: API.OperationMethod<
   GetAlertConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<GetAlertConfigsRequest>,
-  output: __S(1348, __c84, 4) as any as S.Schema<GetAlertConfigsResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<GetAlertConfigsRequest>,
+  output: __S(1412, __c88, 4) as any as S.Schema<GetAlertConfigsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2957,8 +3004,8 @@ export const getAlertgroup: API.OperationMethod<
   GetAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<GetAlertgroupRequest>,
-  output: __S(1376, __c86, 0) as any as S.Schema<AlertGroupResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<GetAlertgroupRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<AlertGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2974,8 +3021,8 @@ export const getAlertRecord: API.OperationMethod<
   GetAlertRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<GetAlertRecordRequest>,
-  output: __S(1393, __c87, 1) as any as S.Schema<AlertRecordResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<GetAlertRecordRequest>,
+  output: __S(1457, __c91, 1) as any as S.Schema<AlertRecordResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2991,8 +3038,8 @@ export const getAlertrule: API.OperationMethod<
   GetAlertruleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<GetAlertruleRequest>,
-  output: __S(1409, __c88, 1) as any as S.Schema<AlertRuleResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<GetAlertruleRequest>,
+  output: __S(1473, __c92, 1) as any as S.Schema<AlertRuleResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3008,8 +3055,8 @@ export const getCredentials: API.OperationMethod<
   GetCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<GetCredentialsRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<GetCredentialsResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<GetCredentialsRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<GetCredentialsResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3025,8 +3072,8 @@ export const getCredentialsRemoteWriteConfig: API.OperationMethod<
   GetCredentialsRemoteWriteConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<GetCredentialsRemoteWriteConfigRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
+  input: __S(1504, __c94, 0) as any as S.Schema<GetCredentialsRemoteWriteConfigRequest>,
+  output: __S(1520, __c95, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3042,8 +3089,8 @@ export const getGrafanaConfigs: API.OperationMethod<
   GetGrafanaConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<GetGrafanaConfigsRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<GrafanaConfigs>,
+  input: __S(1536, __c96, 0) as any as S.Schema<GetGrafanaConfigsRequest>,
+  output: __S(1537, __c96, 1) as any as S.Schema<GrafanaConfigs>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3059,8 +3106,8 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(1507, __c94, 3) as any as S.Schema<GetInstanceResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(1571, __c98, 3) as any as S.Schema<GetInstanceResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3076,8 +3123,8 @@ export const getLogsAlertgroup: API.OperationMethod<
   GetLogsAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<GetLogsAlertgroupRequest>,
-  output: __S(1376, __c86, 0) as any as S.Schema<AlertGroupResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<GetLogsAlertgroupRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<AlertGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3093,8 +3140,8 @@ export const getLogsConfigs: API.OperationMethod<
   GetLogsConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<GetLogsConfigsRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<LogsConfigResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<GetLogsConfigsRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<LogsConfigResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3110,8 +3157,8 @@ export const getMetricsStorageRetention: API.OperationMethod<
   GetMetricsStorageRetentionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<GetMetricsStorageRetentionRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<GetMetricsStorageRetentionResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<GetMetricsStorageRetentionRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<GetMetricsStorageRetentionResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3127,8 +3174,8 @@ export const getScrapeConfig: API.OperationMethod<
   GetScrapeConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<GetScrapeConfigRequest>,
-  output: __S(1633, __c102, 1) as any as S.Schema<GetScrapeConfigResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<GetScrapeConfigRequest>,
+  output: __S(1697, __c106, 1) as any as S.Schema<GetScrapeConfigResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3144,8 +3191,8 @@ export const getTracesConfigs: API.OperationMethod<
   GetTracesConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<GetTracesConfigsRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<TracesConfigResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<GetTracesConfigsRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<TracesConfigResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3161,8 +3208,8 @@ export const listACL: API.OperationMethod<
   ListACLError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListACLRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<ListACLResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<ListACLRequest>,
+  output: __S(1729, __c108, 1) as any as S.Schema<ListACLResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3178,8 +3225,8 @@ export const listAlertConfigReceivers: API.OperationMethod<
   ListAlertConfigReceiversError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<ListAlertConfigReceiversRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<AlertConfigReceiversResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<ListAlertConfigReceiversRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3195,8 +3242,8 @@ export const listAlertConfigRoutes: API.OperationMethod<
   ListAlertConfigRoutesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<ListAlertConfigRoutesRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListAlertConfigRoutesRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3212,8 +3259,8 @@ export const listAlertgroups: API.OperationMethod<
   ListAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<ListAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<ListAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3229,8 +3276,8 @@ export const listAlertRecords: API.OperationMethod<
   ListAlertRecordsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListAlertRecordsRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<ListAlertRecordsRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3246,8 +3293,8 @@ export const listAlertrules: API.OperationMethod<
   ListAlertrulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListAlertrulesRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ListAlertrulesRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3263,8 +3310,8 @@ export const listBackupRetentions: API.OperationMethod<
   ListBackupRetentionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<ListBackupRetentionsRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<BackupRetentionResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ListBackupRetentionsRequest>,
+  output: __S(1825, __c114, 1) as any as S.Schema<BackupRetentionResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3280,8 +3327,8 @@ export const listBackups: API.OperationMethod<
   ListBackupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(1825, __c114, 1) as any as S.Schema<BackupResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<BackupResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3297,8 +3344,8 @@ export const listBackupSchedules: API.OperationMethod<
   ListBackupSchedulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<ListBackupSchedulesRequest>,
-  output: __S(1843, __c115, 3) as any as S.Schema<BackupScheduleResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<ListBackupSchedulesRequest>,
+  output: __S(1907, __c119, 3) as any as S.Schema<BackupScheduleResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3314,8 +3361,8 @@ export const listCertChecks: API.OperationMethod<
   ListCertChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<ListCertChecksRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<CertCheckResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<ListCertChecksRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<CertCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3331,8 +3378,8 @@ export const listCredentials: API.OperationMethod<
   ListCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ListCredentialsRequest>,
-  output: __S(1875, __c117, 3) as any as S.Schema<ListCredentialsResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<ListCredentialsRequest>,
+  output: __S(1939, __c121, 3) as any as S.Schema<ListCredentialsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3348,8 +3395,8 @@ export const listElasticsearchChecks: API.OperationMethod<
   ListElasticsearchChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ListElasticsearchChecksRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<ElasticsearchCheckResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<ListElasticsearchChecksRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<ElasticsearchCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3365,8 +3412,8 @@ export const listHttpChecks: API.OperationMethod<
   ListHttpChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ListHttpChecksRequest>,
-  output: __S(272, __c17, 0) as any as S.Schema<HttpCheckResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<ListHttpChecksRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<HttpCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3382,8 +3429,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(1923, __c120, 3) as any as S.Schema<ListInstancesResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(1987, __c124, 3) as any as S.Schema<ListInstancesResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3399,8 +3446,8 @@ export const listLogsAlertgroups: API.OperationMethod<
   ListLogsAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<ListLogsAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<ListLogsAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3416,8 +3463,8 @@ export const listMongodbChecks: API.OperationMethod<
   ListMongodbChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ListMongodbChecksRequest>,
-  output: __S(352, __c22, 0) as any as S.Schema<MongodbCheckResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<ListMongodbChecksRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<MongodbCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3433,8 +3480,8 @@ export const listMysqlChecks: API.OperationMethod<
   ListMysqlChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ListMysqlChecksRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<MysqlCheckResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<ListMysqlChecksRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<MysqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3450,8 +3497,8 @@ export const listNetworkChecks: API.OperationMethod<
   ListNetworkChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListNetworkChecksRequest>,
-  output: __S(432, __c27, 0) as any as S.Schema<NetworkCheckResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ListNetworkChecksRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<NetworkCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3467,8 +3514,8 @@ export const listOfferings: API.OperationMethod<
   ListOfferingsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<ListOfferingsRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<Offerings>,
+  input: __S(2096, __c131, 0) as any as S.Schema<ListOfferingsRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<Offerings>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3484,8 +3531,8 @@ export const listPingChecks: API.OperationMethod<
   ListPingChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<ListPingChecksRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<PingCheckResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<ListPingChecksRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<PingCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3501,8 +3548,8 @@ export const listPlans: API.OperationMethod<
   ListPlansError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<ListPlansRequest>,
-  output: __S(2097, __c131, 1) as any as S.Schema<PlansResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<ListPlansRequest>,
+  output: __S(2145, __c134, 1) as any as S.Schema<PlansResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3518,8 +3565,8 @@ export const listPostgresqlChecks: API.OperationMethod<
   ListPostgresqlChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<ListPostgresqlChecksRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<PostgresqlCheckResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<ListPostgresqlChecksRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<PostgresqlCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3535,8 +3582,8 @@ export const listRabbitmqChecks: API.OperationMethod<
   ListRabbitmqChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<ListRabbitmqChecksRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<RabbitmqCheckResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<ListRabbitmqChecksRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<RabbitmqCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3552,8 +3599,8 @@ export const listRedisChecks: API.OperationMethod<
   ListRedisChecksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<ListRedisChecksRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<RedisCheckResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<ListRedisChecksRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<RedisCheckResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3569,8 +3616,8 @@ export const listScrapeConfigs: API.OperationMethod<
   ListScrapeConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ListScrapeConfigsRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ListScrapeConfigsResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<ListScrapeConfigsRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ListScrapeConfigsResponse>,
   errors: [Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3586,8 +3633,8 @@ export const partialUpdateAlertgroups: API.OperationMethod<
   PartialUpdateAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<PartialUpdateAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<PartialUpdateAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3603,8 +3650,8 @@ export const partialUpdateAlertRecords: API.OperationMethod<
   PartialUpdateAlertRecordsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2210, __c138, 2) as any as S.Schema<PartialUpdateAlertRecordsRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(2258, __c141, 2) as any as S.Schema<PartialUpdateAlertRecordsRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3620,8 +3667,8 @@ export const partialUpdateAlertrules: API.OperationMethod<
   PartialUpdateAlertrulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2242, __c140, 2) as any as S.Schema<PartialUpdateAlertrulesRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(2290, __c143, 2) as any as S.Schema<PartialUpdateAlertrulesRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3637,8 +3684,8 @@ export const partialUpdateScrapeConfigs: API.OperationMethod<
   PartialUpdateScrapeConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2258, __c141, 2) as any as S.Schema<PartialUpdateScrapeConfigsRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ScrapeConfigsResponse>,
+  input: __S(2306, __c144, 2) as any as S.Schema<PartialUpdateScrapeConfigsRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3654,8 +3701,8 @@ export const restoreBackup: API.OperationMethod<
   RestoreBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<RestoreBackupRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(2320, __c145, 0) as any as S.Schema<RestoreBackupRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3671,8 +3718,8 @@ export const updateACL: API.OperationMethod<
   UpdateACLError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<UpdateACLRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(2336, __c146, 0) as any as S.Schema<UpdateACLRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3688,8 +3735,8 @@ export const updateAlertConfigReceiver: API.OperationMethod<
   UpdateAlertConfigReceiverError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<UpdateAlertConfigReceiverRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<AlertConfigReceiversResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<UpdateAlertConfigReceiverRequest>,
+  output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3705,8 +3752,8 @@ export const updateAlertConfigRoute: API.OperationMethod<
   UpdateAlertConfigRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<UpdateAlertConfigRouteRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<AlertConfigRouteResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<UpdateAlertConfigRouteRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3722,8 +3769,8 @@ export const updateAlertConfigs: API.OperationMethod<
   UpdateAlertConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2340, __c146, 4) as any as S.Schema<UpdateAlertConfigsRequest>,
-  output: __S(1348, __c84, 4) as any as S.Schema<UpdateAlertConfigsResponse>,
+  input: __S(2388, __c149, 4) as any as S.Schema<UpdateAlertConfigsRequest>,
+  output: __S(1412, __c88, 4) as any as S.Schema<UpdateAlertConfigsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3739,8 +3786,8 @@ export const updateAlertgroup: API.OperationMethod<
   UpdateAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<UpdateAlertgroupRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<UpdateAlertgroupRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3756,8 +3803,8 @@ export const updateAlertgroups: API.OperationMethod<
   UpdateAlertgroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<UpdateAlertgroupsRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<UpdateAlertgroupsRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3773,8 +3820,8 @@ export const updateAlertRecord: API.OperationMethod<
   UpdateAlertRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<UpdateAlertRecordRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<AlertRecordsResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<UpdateAlertRecordRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3790,8 +3837,8 @@ export const updateAlertrule: API.OperationMethod<
   UpdateAlertruleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<UpdateAlertruleRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<AlertRulesResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<UpdateAlertruleRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3811,8 +3858,8 @@ export const updateCredentialsRemoteWriteConfig: API.OperationMethod<
   UpdateCredentialsRemoteWriteConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<UpdateCredentialsRemoteWriteConfigRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
+  input: __S(144, __c9, 0) as any as S.Schema<UpdateCredentialsRemoteWriteConfigRequest>,
+  output: __S(1520, __c95, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3828,8 +3875,8 @@ export const updateGrafanaConfigs: API.OperationMethod<
   UpdateGrafanaConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<UpdateGrafanaConfigsRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(160, __c10, 0) as any as S.Schema<UpdateGrafanaConfigsRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3845,8 +3892,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<InstanceResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<InstanceResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3862,8 +3909,8 @@ export const updateLogsAlertgroup: API.OperationMethod<
   UpdateLogsAlertgroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<UpdateLogsAlertgroupRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<AlertGroupsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<UpdateLogsAlertgroupRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3879,8 +3926,8 @@ export const updateLogsConfigs: API.OperationMethod<
   UpdateLogsConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<UpdateLogsConfigsRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(208, __c13, 0) as any as S.Schema<UpdateLogsConfigsRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3896,8 +3943,8 @@ export const updateMetricsStorageRetention: API.OperationMethod<
   UpdateMetricsStorageRetentionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<UpdateMetricsStorageRetentionRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(224, __c14, 0) as any as S.Schema<UpdateMetricsStorageRetentionRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3913,8 +3960,8 @@ export const updateScrapeConfig: API.OperationMethod<
   UpdateScrapeConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<UpdateScrapeConfigRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ScrapeConfigsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<UpdateScrapeConfigRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3930,8 +3977,8 @@ export const updateTracesConfigs: API.OperationMethod<
   UpdateTracesConfigsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<UpdateTracesConfigsRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Message>,
+  input: __S(256, __c16, 0) as any as S.Schema<UpdateTracesConfigsRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3941,6 +3988,55 @@ export const updateTracesConfigs: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Message" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(32, __c2, 0));
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(48, __c3, 0)),
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "PermissionDenied" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3959,7 +4055,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateCertCheckRequest" });
   }
 }
-function __c1(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3969,18 +4065,18 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "CertCheckChildResponse" });
     case 1:
-      return S.Array(__S(16, __c1, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certCheck: S.optional(__S(16, __c1, 0)),
-          certChecks: __S(17, __c1, 1),
+          certCheck: S.optional(__S(112, __c7, 0)),
+          certChecks: __S(113, __c7, 1),
           message: S.String,
         }),
       ).annotate({ identifier: "CertCheckResponse" });
   }
 }
-function __c2(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4004,7 +4100,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UpdateAlertruleRequest" });
   }
 }
-function __c3(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4024,14 +4120,14 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateCredentialsRemoteWriteConfigRequest" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          genericOauth: S.optional(__S(1488, __c93, 0)),
+          genericOauth: S.optional(__S(1552, __c97, 0)),
           publicReadAccess: S.optional(S.Boolean),
           useStackitSso: S.optional(S.Boolean),
         }).pipe(
@@ -4045,7 +4141,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateGrafanaConfigsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4067,7 +4163,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4076,7 +4172,7 @@ function __c6(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           interval: S.optional(S.String),
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4088,7 +4184,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateLogsAlertgroupRequest" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4107,7 +4203,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateLogsConfigsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4128,7 +4224,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateMetricsStorageRetentionRequest" });
   }
 }
-function __c9(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4136,19 +4232,19 @@ function __c9(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
-          basicAuth: S.optional(__S(640, __c40, 0)),
+          basicAuth: S.optional(__S(736, __c46, 0)),
           bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           metricsPath: S.String,
-          metricsRelabelConfigs: S.optional(__S(642, __c40, 2)),
+          metricsRelabelConfigs: S.optional(__S(738, __c46, 2)),
           params: S.optional(S.Unknown),
           sampleLimit: S.optional(S.Number),
           scheme: S.String,
           scrapeInterval: S.String,
           scrapeTimeout: S.String,
-          staticConfigs: __S(644, __c40, 4),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          staticConfigs: __S(740, __c46, 4),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4160,7 +4256,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateScrapeConfigRequest" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4179,7 +4275,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateTracesConfigsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4207,13 +4303,13 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(177, __c11, 1),
+          credentials: __S(273, __c17, 1),
           message: S.String,
         }),
       ).annotate({ identifier: "CreateCredentialsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4234,7 +4330,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CreateElasticsearchCheckRequest" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4246,22 +4342,22 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ElasticsearchCheckChildResponse" });
     case 1:
-      return S.Array(__S(208, __c13, 0));
+      return S.Array(__S(304, __c19, 0));
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          elasticsearchCheck: S.optional(__S(208, __c13, 0)),
-          elasticsearchChecks: __S(209, __c13, 1),
+          elasticsearchCheck: S.optional(__S(304, __c19, 0)),
+          elasticsearchChecks: __S(305, __c19, 1),
           message: S.String,
         }),
       ).annotate({ identifier: "ElasticsearchCheckResponse" });
   }
 }
-function __c15(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4280,7 +4376,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateHttpCheckRequest" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4290,22 +4386,22 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "HttpCheckChildResponse" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
+      return S.Array(__S(352, __c22, 0));
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          httpCheck: S.optional(__S(256, __c16, 0)),
-          httpChecks: __S(257, __c16, 1),
+          httpCheck: S.optional(__S(352, __c22, 0)),
+          httpChecks: __S(353, __c22, 1),
           message: S.String,
         }),
       ).annotate({ identifier: "HttpCheckResponse" });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4334,7 +4430,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4343,7 +4439,7 @@ function __c19(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           interval: S.optional(S.String),
           name: S.String,
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4355,7 +4451,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateLogsAlertgroupsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4374,7 +4470,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateMongodbCheckRequest" });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4384,22 +4480,22 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "MongodbCheckChildResponse" });
     case 1:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(432, __c27, 0));
   }
 }
-function __c22(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          mongodbCheck: S.optional(__S(336, __c21, 0)),
-          mongodbChecks: __S(337, __c21, 1),
+          mongodbCheck: S.optional(__S(432, __c27, 0)),
+          mongodbChecks: __S(433, __c27, 1),
         }),
       ).annotate({ identifier: "MongodbCheckResponse" });
   }
 }
-function __c23(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4418,19 +4514,19 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateMysqlCheckRequest" });
   }
 }
-function __c24(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          mysqlCheck: S.optional(__S(336, __c21, 0)),
-          mysqlChecks: __S(337, __c21, 1),
+          mysqlCheck: S.optional(__S(432, __c27, 0)),
+          mysqlChecks: __S(433, __c27, 1),
         }),
       ).annotate({ identifier: "MysqlCheckResponse" });
   }
 }
-function __c25(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4449,7 +4545,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateNetworkCheckRequest" });
   }
 }
-function __c26(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4459,22 +4555,22 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "NetworkCheckChildResponse" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(512, __c32, 0));
   }
 }
-function __c27(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          networkCheck: S.optional(__S(416, __c26, 0)),
-          networkChecks: __S(417, __c26, 1),
+          networkCheck: S.optional(__S(512, __c32, 0)),
+          networkChecks: __S(513, __c32, 1),
         }),
       ).annotate({ identifier: "NetworkCheckResponse" });
   }
 }
-function __c28(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4493,19 +4589,19 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreatePingCheckRequest" });
   }
 }
-function __c29(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          pingCheck: S.optional(__S(256, __c16, 0)),
-          pingChecks: __S(257, __c16, 1),
+          pingCheck: S.optional(__S(352, __c22, 0)),
+          pingChecks: __S(353, __c22, 1),
         }),
       ).annotate({ identifier: "PingCheckResponse" });
   }
 }
-function __c30(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4524,19 +4620,19 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreatePostgresqlCheckRequest" });
   }
 }
-function __c31(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          postgresqlCheck: S.optional(__S(416, __c26, 0)),
-          postgresqlChecks: __S(417, __c26, 1),
+          postgresqlCheck: S.optional(__S(512, __c32, 0)),
+          postgresqlChecks: __S(513, __c32, 1),
         }),
       ).annotate({ identifier: "PostgresqlCheckResponse" });
   }
 }
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4557,7 +4653,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateRabbitmqCheckRequest" });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4569,18 +4665,18 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "RabbitMQCheckChildResponse" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(624, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          rabbitmqCheck: S.optional(__S(528, __c33, 0)),
-          rabbitmqChecks: __S(529, __c33, 1),
+          rabbitmqCheck: S.optional(__S(624, __c39, 0)),
+          rabbitmqChecks: __S(625, __c39, 1),
         }),
       ).annotate({ identifier: "RabbitmqCheckResponse" });
   }
 }
-function __c34(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4601,41 +4697,41 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateRedisCheckRequest" });
   }
 }
-function __c35(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          redisCheck: S.optional(__S(208, __c13, 0)),
-          redisChecks: __S(209, __c13, 1),
+          redisCheck: S.optional(__S(304, __c19, 0)),
+          redisChecks: __S(305, __c19, 1),
         }),
       ).annotate({ identifier: "RedisCheckResponse" });
   }
 }
-function __c36(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          basicAuth: S.optional(__S(640, __c40, 0)),
+          basicAuth: S.optional(__S(736, __c46, 0)),
           bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
-          httpSdConfigs: S.optional(__S(625, __c39, 1)),
+          httpSdConfigs: S.optional(__S(721, __c45, 1)),
           jobName: S.String,
           metricsPath: S.optional(S.String),
-          metricsRelabelConfigs: S.optional(__S(642, __c40, 2)),
-          oauth2: S.optional(__S(593, __c37, 1)),
+          metricsRelabelConfigs: S.optional(__S(738, __c46, 2)),
+          oauth2: S.optional(__S(689, __c43, 1)),
           params: S.optional(S.Unknown),
           sampleLimit: S.optional(S.Number),
           scheme: S.String,
           scrapeInterval: S.String,
           scrapeTimeout: S.String,
-          staticConfigs: __S(644, __c40, 4),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          staticConfigs: __S(740, __c46, 4),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4647,7 +4743,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateScrapeConfigRequest" });
   }
 }
-function __c37(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4660,8 +4756,8 @@ function __c37(j: number): any {
         S.Struct({
           clientId: S.String,
           clientSecret: S.String.pipe(T.SensitiveValue({})),
-          scopes: S.optional(__S(1008, __c63, 0)),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          scopes: S.optional(__S(16, __c1, 0)),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
           tokenUrl: S.String,
         }),
       ).annotate({ identifier: "CreateScrapeConfigRequestHttpSdConfigsItemOauth2" });
@@ -4675,15 +4771,15 @@ function __c37(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(__S(594, __c37, 2)),
-          oauth2: S.optional(__S(593, __c37, 1)),
+          basicAuth: S.optional(__S(690, __c43, 2)),
+          oauth2: S.optional(__S(689, __c43, 1)),
           refreshInterval: S.optional(S.String),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
           url: S.String,
         }),
       ).annotate({ identifier: "HTTPServiceSD" });
     case 4:
-      return S.Array(__S(595, __c37, 3));
+      return S.Array(__S(691, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4692,76 +4788,76 @@ function __c37(j: number): any {
           regex: S.optional(S.String),
           replacement: S.optional(S.String),
           separator: S.optional(S.String),
-          sourceLabels: __S(1008, __c63, 0),
+          sourceLabels: __S(16, __c1, 0),
           targetLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricsRelabelConfig" });
     case 6:
-      return S.Array(__S(597, __c37, 5));
+      return S.Array(__S(693, __c43, 5));
     case 7:
-      return S.Record(S.String, __S(1008, __c63, 0));
+      return S.Record(S.String, __S(16, __c1, 0));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1072, __c67, 0)),
-          targets: __S(1008, __c63, 0),
+          labels: S.optional(__S(1136, __c71, 0)),
+          targets: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "StaticConfigs" });
     case 9:
-      return S.Array(__S(600, __c37, 8));
+      return S.Array(__S(696, __c43, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(__S(594, __c37, 2)),
+          basicAuth: S.optional(__S(690, __c43, 2)),
           bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
-          httpSdConfigs: S.optional(__S(596, __c37, 4)),
+          httpSdConfigs: S.optional(__S(692, __c43, 4)),
           jobName: S.String,
           metricsPath: S.optional(S.String),
-          metricsRelabelConfigs: S.optional(__S(598, __c37, 6)),
-          oauth2: S.optional(__S(593, __c37, 1)),
-          params: S.optional(__S(599, __c37, 7)),
+          metricsRelabelConfigs: S.optional(__S(694, __c43, 6)),
+          oauth2: S.optional(__S(689, __c43, 1)),
+          params: S.optional(__S(695, __c43, 7)),
           sampleLimit: S.optional(S.Number),
           scheme: S.optional(S.String),
           scrapeInterval: S.String,
           scrapeTimeout: S.String,
-          staticConfigs: __S(601, __c37, 9),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          staticConfigs: __S(697, __c43, 9),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
         }),
       ).annotate({ identifier: "Job" });
   }
 }
-function __c38(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(602, __c37, 10));
+      return S.Array(__S(698, __c43, 10));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(608, __c38, 0),
+          data: __S(704, __c44, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "ScrapeConfigsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(__S(640, __c40, 0)),
-          oauth2: S.optional(__S(593, __c37, 1)),
+          basicAuth: S.optional(__S(736, __c46, 0)),
+          oauth2: S.optional(__S(689, __c43, 1)),
           refreshInterval: S.optional(S.String),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
           url: S.String,
         }),
       ).annotate({ identifier: "CreateScrapeConfigRequestHttpSdConfigsItem" });
     case 1:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(720, __c45, 0));
   }
 }
-function __c40(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4778,24 +4874,24 @@ function __c40(j: number): any {
           regex: S.optional(S.String),
           replacement: S.optional(S.String),
           separator: S.optional(S.String),
-          sourceLabels: S.optional(__S(1008, __c63, 0)),
+          sourceLabels: S.optional(__S(16, __c1, 0)),
           targetLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateScrapeConfigRequestMetricsRelabelConfigsItem" });
     case 2:
-      return S.Array(__S(641, __c40, 1));
+      return S.Array(__S(737, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           labels: S.optional(S.Unknown),
-          targets: __S(1008, __c63, 0),
+          targets: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "CreateScrapeConfigRequestStaticConfigsItem" });
     case 4:
-      return S.Array(__S(643, __c40, 3));
+      return S.Array(__S(739, __c46, 3));
   }
 }
-function __c41(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4814,7 +4910,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteAlertConfigReceiverRequest" });
   }
 }
-function __c42(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4833,7 +4929,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteAlertConfigRouteRequest" });
   }
 }
-function __c43(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4852,14 +4948,14 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteAlertgroupRequest" });
   }
 }
-function __c44(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          groupName: __S(1008, __c63, 0).pipe(T.Query()),
+          groupName: __S(16, __c1, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4871,7 +4967,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteAlertgroupsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4891,7 +4987,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteAlertRecordRequest" });
   }
 }
-function __c46(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4899,7 +4995,7 @@ function __c46(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
-          alertRecord: __S(1008, __c63, 0).pipe(T.Query()),
+          alertRecord: __S(16, __c1, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4911,17 +5007,17 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteAlertRecordsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          emailConfigs: S.optional(__S(817, __c51, 1)),
+          emailConfigs: S.optional(__S(913, __c57, 1)),
           name: S.String,
-          opsgenieConfigs: S.optional(__S(769, __c48, 1)),
-          webHookConfigs: S.optional(__S(819, __c51, 3)),
+          opsgenieConfigs: S.optional(__S(865, __c54, 1)),
+          webHookConfigs: S.optional(__S(915, __c57, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4933,7 +5029,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateAlertConfigReceiverRequest" });
   }
 }
-function __c48(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4946,7 +5042,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "CreateAlertConfigReceiverRequestOpsgenieConfigsItem" });
     case 1:
-      return S.Array(__S(768, __c48, 0));
+      return S.Array(__S(864, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4960,7 +5056,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "EmailConfig" });
     case 3:
-      return S.Array(__S(770, __c48, 2));
+      return S.Array(__S(866, __c54, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4971,36 +5067,36 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "WebHook" });
     case 5:
-      return S.Array(__S(772, __c48, 4));
+      return S.Array(__S(868, __c54, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          emailConfigs: S.optional(__S(771, __c48, 3)),
+          emailConfigs: S.optional(__S(867, __c54, 3)),
           name: S.String,
-          opsgenieConfigs: S.optional(__S(769, __c48, 1)),
-          webHookConfigs: S.optional(__S(773, __c48, 5)),
+          opsgenieConfigs: S.optional(__S(865, __c54, 1)),
+          webHookConfigs: S.optional(__S(869, __c54, 5)),
         }),
       ).annotate({ identifier: "Receivers" });
   }
 }
-function __c49(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(774, __c48, 6));
+      return S.Array(__S(870, __c54, 6));
   }
 }
-function __c50(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(784, __c49, 0),
+          data: __S(880, __c55, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertConfigReceiversResponse" });
   }
 }
-function __c51(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5015,7 +5111,7 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "CreateAlertConfigReceiverRequestEmailConfigsItem" });
     case 1:
-      return S.Array(__S(816, __c51, 0));
+      return S.Array(__S(912, __c57, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5026,10 +5122,10 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "CreateAlertConfigReceiverRequestWebHookConfigsItem" });
     case 3:
-      return S.Array(__S(818, __c51, 2));
+      return S.Array(__S(914, __c57, 2));
   }
 }
-function __c52(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5049,7 +5145,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteAlertruleRequest" });
   }
 }
-function __c53(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5057,7 +5153,7 @@ function __c53(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
-          alertName: __S(1008, __c63, 0).pipe(T.Query()),
+          alertName: __S(16, __c1, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5069,7 +5165,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteAlertrulesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5088,7 +5184,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteCertCheckRequest" });
   }
 }
-function __c55(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5107,7 +5203,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteCredentialsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5133,7 +5229,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CredentialsRemoteWriteDeleteResponse" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5152,7 +5248,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteElasticsearchCheckRequest" });
   }
 }
-function __c58(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5171,7 +5267,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DeleteHttpCheckRequest" });
   }
 }
-function __c59(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5189,7 +5285,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c60(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5208,7 +5304,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DeleteLogsAlertgroupRequest" });
   }
 }
-function __c61(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5227,7 +5323,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeleteMongodbCheckRequest" });
   }
 }
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5235,15 +5331,15 @@ function __c62(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
           match: S.optional(S.Unknown),
           matchRe: S.optional(S.Unknown),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           receiver: S.String,
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1090, __c68, 2)),
+          routes: S.optional(__S(1154, __c72, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5255,74 +5351,60 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateAlertConfigRouteRequest" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1024, __c64, 0));
-    case 1:
       return S.suspend(() =>
         S.Struct({
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
-          match: S.optional(__S(1072, __c67, 0)),
-          matchRe: S.optional(__S(1072, __c67, 0)),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          match: S.optional(__S(1136, __c71, 0)),
+          matchRe: S.optional(__S(1136, __c71, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           receiver: S.String,
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1040, __c65, 0)),
+          routes: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "RouteSerializer" });
+    case 1:
+      return S.Array(__S(1104, __c69, 0));
     case 2:
-      return S.Array(__S(1041, __c65, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
-          match: S.optional(__S(1072, __c67, 0)),
-          matchRe: S.optional(__S(1072, __c67, 0)),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          match: S.optional(__S(1136, __c71, 0)),
+          matchRe: S.optional(__S(1136, __c71, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           receiver: S.String,
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1042, __c65, 2)),
+          routes: S.optional(__S(1105, __c69, 1)),
         }),
       ).annotate({ identifier: "Route" });
   }
 }
-function __c66(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1043, __c65, 3),
+          data: __S(1106, __c69, 2),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertConfigRouteResponse" });
   }
 }
-function __c67(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c68(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5330,22 +5412,22 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
           match: S.optional(S.Unknown),
           matchRe: S.optional(S.Unknown),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           receiver: S.optional(S.String),
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1088, __c68, 0)),
+          routes: S.optional(__S(1152, __c72, 0)),
         }),
       ).annotate({ identifier: "CreateAlertConfigRouteRequestRoutesItem" });
     case 2:
-      return S.Array(__S(1089, __c68, 1));
+      return S.Array(__S(1153, __c72, 1));
   }
 }
-function __c69(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5364,7 +5446,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DeleteMysqlCheckRequest" });
   }
 }
-function __c70(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5383,7 +5465,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DeleteNetworkCheckRequest" });
   }
 }
-function __c71(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5402,7 +5484,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DeletePingCheckRequest" });
   }
 }
-function __c72(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5421,7 +5503,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DeletePostgresqlCheckRequest" });
   }
 }
-function __c73(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5440,7 +5522,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DeleteRabbitmqCheckRequest" });
   }
 }
-function __c74(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5459,7 +5541,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DeleteRedisCheckRequest" });
   }
 }
-function __c75(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5478,14 +5560,14 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DeleteScrapeConfigRequest" });
   }
 }
-function __c76(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          jobName: __S(1008, __c63, 0).pipe(T.Query()),
+          jobName: __S(16, __c1, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5497,7 +5579,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DeleteScrapeConfigsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5517,13 +5599,13 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(774, __c48, 6),
+          data: __S(870, __c54, 6),
           message: S.String,
         }),
       ).annotate({ identifier: "Receiver" });
   }
 }
-function __c78(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5542,7 +5624,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetAlertConfigRouteRequest" });
   }
 }
-function __c79(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5551,7 +5633,7 @@ function __c79(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           interval: S.optional(S.String),
           name: S.String,
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5563,45 +5645,45 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateAlertgroupsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           alert: S.optional(S.String),
-          annotations: S.optional(__S(1072, __c67, 0)),
+          annotations: S.optional(__S(1136, __c71, 0)),
           expr: S.String,
           for: S.optional(S.String),
-          labels: S.optional(__S(1072, __c67, 0)),
+          labels: S.optional(__S(1136, __c71, 0)),
           record: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertRuleRecord" });
     case 1:
-      return S.Array(__S(1280, __c80, 0));
+      return S.Array(__S(1344, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           interval: S.optional(S.String),
           name: S.String,
-          rules: __S(1281, __c80, 1),
+          rules: __S(1345, __c84, 1),
         }),
       ).annotate({ identifier: "AlertGroup" });
   }
 }
-function __c81(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1282, __c80, 2));
+      return S.Array(__S(1346, __c84, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1296, __c81, 0),
+          data: __S(1360, __c85, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertGroupsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5615,10 +5697,10 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "CreateAlertgroupsRequestRulesItem" });
     case 1:
-      return S.Array(__S(1312, __c82, 0));
+      return S.Array(__S(1376, __c86, 0));
   }
 }
-function __c83(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5636,7 +5718,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "GetAlertConfigsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5654,36 +5736,36 @@ function __c84(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          equal: S.optional(__S(1008, __c63, 0)),
-          sourceMatch: S.optional(__S(1072, __c67, 0)),
-          sourceMatchRe: S.optional(__S(1072, __c67, 0)),
-          sourceMatchers: S.optional(__S(1008, __c63, 0)),
-          targetMatch: S.optional(__S(1072, __c67, 0)),
-          targetMatchRe: S.optional(__S(1072, __c67, 0)),
-          targetMatchers: S.optional(__S(1008, __c63, 0)),
+          equal: S.optional(__S(16, __c1, 0)),
+          sourceMatch: S.optional(__S(1136, __c71, 0)),
+          sourceMatchRe: S.optional(__S(1136, __c71, 0)),
+          sourceMatchers: S.optional(__S(16, __c1, 0)),
+          targetMatch: S.optional(__S(1136, __c71, 0)),
+          targetMatchRe: S.optional(__S(1136, __c71, 0)),
+          targetMatchers: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "InhibitRules" });
     case 2:
-      return S.Array(__S(1345, __c84, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          global: S.optional(__S(1344, __c84, 0)),
-          inhibitRules: S.optional(__S(1346, __c84, 2)),
-          receivers: __S(784, __c49, 0),
-          route: __S(1043, __c65, 3),
+          global: S.optional(__S(1408, __c88, 0)),
+          inhibitRules: S.optional(__S(1410, __c88, 2)),
+          receivers: __S(880, __c55, 0),
+          route: __S(1106, __c69, 2),
         }),
       ).annotate({ identifier: "Alert" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1347, __c84, 3),
+          data: __S(1411, __c88, 3),
           message: S.String,
         }),
       ).annotate({ identifier: "GetAlertConfigsResponse" });
   }
 }
-function __c85(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5702,18 +5784,18 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GetAlertgroupRequest" });
   }
 }
-function __c86(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1282, __c80, 2),
+          data: __S(1346, __c84, 2),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertGroupResponse" });
   }
 }
-function __c87(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5734,13 +5816,13 @@ function __c87(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1584, __c99, 0),
+          data: __S(1648, __c103, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertRecordResponse" });
   }
 }
-function __c88(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5761,13 +5843,13 @@ function __c88(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1792, __c112, 0),
+          data: __S(1856, __c116, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertRuleResponse" });
   }
 }
-function __c89(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5787,7 +5869,7 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          credentialsInfo: S.optional(__S(1024, __c64, 0)),
+          credentialsInfo: S.optional(__S(32, __c2, 0)),
           id: S.String,
           message: S.String,
           name: S.String,
@@ -5795,7 +5877,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GetCredentialsResponse" });
   }
 }
-function __c90(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5814,7 +5896,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetCredentialsRemoteWriteConfigRequest" });
   }
 }
-function __c91(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5826,7 +5908,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "CredentialsRemoteWriteConfig" });
   }
 }
-function __c92(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5845,7 +5927,7 @@ function __c92(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          genericOauth: S.optional(__S(1488, __c93, 0)),
+          genericOauth: S.optional(__S(1552, __c97, 0)),
           message: S.String,
           publicReadAccess: S.optional(S.Boolean),
           useStackitSso: S.optional(S.Boolean),
@@ -5853,7 +5935,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GrafanaConfigs" });
   }
 }
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5874,7 +5956,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GrafanaOauth" });
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5942,7 +6024,7 @@ function __c94(j: number): any {
           otlpHttpLogsUrl: S.String,
           otlpHttpTracesUrl: S.String,
           otlpTracesUrl: S.String,
-          plan: __S(1505, __c94, 1),
+          plan: __S(1569, __c98, 1),
           pushMetricsUrl: S.String,
           targetsUrl: S.String,
           zipkinSpansUrl: S.String,
@@ -5954,11 +6036,11 @@ function __c94(j: number): any {
           dashboardUrl: S.String,
           error: S.optional(S.NullOr(S.String)),
           id: S.String,
-          instance: __S(1506, __c94, 2),
+          instance: __S(1570, __c98, 2),
           isUpdatable: S.optional(S.Boolean),
           message: S.String,
           name: S.optional(S.String),
-          parameters: S.optional(__S(1024, __c64, 0)),
+          parameters: S.optional(__S(32, __c2, 0)),
           planId: S.String,
           planName: S.String,
           planSchema: S.optional(S.String),
@@ -5968,7 +6050,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GetInstanceResponse" });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5987,7 +6069,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "GetLogsAlertgroupRequest" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6005,7 +6087,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "GetLogsConfigsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6016,13 +6098,13 @@ function __c97(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          config: __S(1552, __c97, 0),
+          config: __S(1616, __c101, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "LogsConfigResponse" });
   }
 }
-function __c98(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6044,32 +6126,32 @@ function __c98(j: number): any {
       ).annotate({ identifier: "CreateAlertRecordRequest" });
   }
 }
-function __c99(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           expr: S.String,
-          labels: S.optional(__S(1072, __c67, 0)),
+          labels: S.optional(__S(1136, __c71, 0)),
           record: S.String,
         }),
       ).annotate({ identifier: "AlertRecord" });
   }
 }
-function __c100(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1584, __c99, 0));
+      return S.Array(__S(1648, __c103, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1600, __c100, 0),
+          data: __S(1664, __c104, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertRecordsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6096,7 +6178,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GetMetricsStorageRetentionResponse" });
   }
 }
-function __c102(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6116,13 +6198,13 @@ function __c102(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(602, __c37, 10),
+          data: __S(698, __c43, 10),
           message: S.String,
         }),
       ).annotate({ identifier: "GetScrapeConfigResponse" });
   }
 }
-function __c103(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6140,7 +6222,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetTracesConfigsRequest" });
   }
 }
-function __c104(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6159,13 +6241,13 @@ function __c104(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acl: __S(1008, __c63, 0),
+          acl: __S(16, __c1, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "ListACLResponse" });
   }
 }
-function __c105(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6183,7 +6265,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListAlertConfigReceiversRequest" });
   }
 }
-function __c106(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6201,7 +6283,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ListAlertConfigRoutesRequest" });
   }
 }
-function __c107(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6219,7 +6301,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ListAlertgroupsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6238,7 +6320,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListAlertRecordsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6257,7 +6339,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ListAlertrulesRequest" });
   }
 }
-function __c110(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6285,7 +6367,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "BackupRetentionResponse" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6309,41 +6391,41 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CreateAlertrulesRequest" });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           alert: S.String,
-          annotations: S.optional(__S(1072, __c67, 0)),
+          annotations: S.optional(__S(1136, __c71, 0)),
           expr: S.String,
           for: S.optional(S.String),
-          labels: S.optional(__S(1072, __c67, 0)),
+          labels: S.optional(__S(1136, __c71, 0)),
         }),
       ).annotate({ identifier: "AlertRule" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1792, __c112, 0));
+      return S.Array(__S(1856, __c116, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1808, __c113, 0),
+          data: __S(1872, __c117, 0),
           message: S.String,
         }),
       ).annotate({ identifier: "AlertRulesResponse" });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          backupTarget: S.optional(__S(2016, __c126, 0).pipe(T.Query())),
+          backupTarget: S.optional(__S(2064, __c129, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6356,23 +6438,23 @@ function __c114(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          alertConfigBackups: __S(1008, __c63, 0),
-          alertRulesBackups: __S(1008, __c63, 0),
-          grafanaBackups: __S(1008, __c63, 0),
+          alertConfigBackups: __S(16, __c1, 0),
+          alertRulesBackups: __S(16, __c1, 0),
+          grafanaBackups: __S(16, __c1, 0),
           message: S.String,
-          scrapeConfigBackups: __S(1008, __c63, 0),
+          scrapeConfigBackups: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "BackupResponse" });
   }
 }
-function __c115(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          backupTarget: S.optional(__S(2016, __c126, 0).pipe(T.Query())),
+          backupTarget: S.optional(__S(2064, __c129, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6390,20 +6472,20 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "BackupSchedule" });
     case 2:
-      return S.Array(__S(1841, __c115, 1));
+      return S.Array(__S(1905, __c119, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          alertConfigBackupSchedules: S.optional(__S(1842, __c115, 2)),
-          alertRulesBackupSchedules: S.optional(__S(1842, __c115, 2)),
-          grafanaBackupSchedules: S.optional(__S(1842, __c115, 2)),
+          alertConfigBackupSchedules: S.optional(__S(1906, __c119, 2)),
+          alertRulesBackupSchedules: S.optional(__S(1906, __c119, 2)),
+          grafanaBackupSchedules: S.optional(__S(1906, __c119, 2)),
           message: S.String,
-          scrapeConfigBackupSchedules: S.optional(__S(1842, __c115, 2)),
+          scrapeConfigBackupSchedules: S.optional(__S(1906, __c119, 2)),
         }),
       ).annotate({ identifier: "BackupScheduleResponse" });
   }
 }
-function __c116(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6421,7 +6503,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ListCertChecksRequest" });
   }
 }
-function __c117(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6440,24 +6522,24 @@ function __c117(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          credentialsInfo: S.optional(__S(1024, __c64, 0)),
+          credentialsInfo: S.optional(__S(32, __c2, 0)),
           description: S.optional(S.String),
           id: S.String,
           name: S.String,
         }),
       ).annotate({ identifier: "ServiceKeysList" });
     case 2:
-      return S.Array(__S(1873, __c117, 1));
+      return S.Array(__S(1937, __c121, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(1874, __c117, 2),
+          credentials: __S(1938, __c121, 2),
           message: S.String,
         }),
       ).annotate({ identifier: "ListCredentialsResponse" });
   }
 }
-function __c118(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6475,7 +6557,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListElasticsearchChecksRequest" });
   }
 }
-function __c119(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6493,7 +6575,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ListHttpChecksRequest" });
   }
 }
-function __c120(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6521,17 +6603,17 @@ function __c120(j: number): any {
         }),
       ).annotate({ identifier: "ProjectInstanceFull" });
     case 2:
-      return S.Array(__S(1921, __c120, 1));
+      return S.Array(__S(1985, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(1922, __c120, 2),
+          instances: __S(1986, __c124, 2),
           message: S.String,
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c121(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6549,7 +6631,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ListLogsAlertgroupsRequest" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6567,7 +6649,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ListMongodbChecksRequest" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6585,14 +6667,14 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ListMysqlChecksRequest" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          backupTarget: S.optional(__S(2016, __c126, 0).pipe(T.Query())),
+          backupTarget: S.optional(__S(2064, __c129, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6604,23 +6686,13 @@ function __c124(j: number): any {
       ).annotate({ identifier: "CreateBackupRequest" });
   }
 }
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.String,
-        }),
-      ).annotate({ identifier: "Message" });
-  }
-}
-function __c126(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c127(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6638,7 +6710,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListNetworkChecksRequest" });
   }
 }
-function __c128(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6660,13 +6732,13 @@ function __c128(j: number): any {
           documentationUrl: S.String,
           imageUrl: S.String,
           name: S.String,
-          plans: __S(2065, __c129, 1),
-          tags: __S(1008, __c63, 0),
+          plans: __S(2113, __c132, 1),
+          tags: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "Offerings" });
   }
 }
-function __c129(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6696,10 +6768,10 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "Plan" });
     case 1:
-      return S.Array(__S(2064, __c129, 0));
+      return S.Array(__S(2112, __c132, 0));
   }
 }
-function __c130(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6717,7 +6789,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "ListPingChecksRequest" });
   }
 }
-function __c131(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6736,12 +6808,12 @@ function __c131(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.String,
-          plans: __S(2065, __c129, 1),
+          plans: __S(2113, __c132, 1),
         }),
       ).annotate({ identifier: "PlansResponse" });
   }
 }
-function __c132(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6759,7 +6831,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "ListPostgresqlChecksRequest" });
   }
 }
-function __c133(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6777,7 +6849,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "ListRabbitmqChecksRequest" });
   }
 }
-function __c134(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6795,7 +6867,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ListRedisChecksRequest" });
   }
 }
-function __c135(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6813,14 +6885,14 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ListScrapeConfigsRequest" });
   }
 }
-function __c136(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          body: __S(2193, __c137, 1).pipe(T.HttpBody()),
+          body: __S(2241, __c140, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6832,21 +6904,21 @@ function __c136(j: number): any {
       ).annotate({ identifier: "PartialUpdateAlertgroupsRequest" });
   }
 }
-function __c137(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           interval: S.optional(S.String),
           name: S.String,
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }),
       ).annotate({ identifier: "PartialUpdateAlertgroupsRequestBodyItem" });
     case 1:
-      return S.Array(__S(2192, __c137, 0));
+      return S.Array(__S(2240, __c140, 0));
   }
 }
-function __c138(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6857,14 +6929,14 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "PartialUpdateAlertRecordsRequestBodyItem" });
     case 1:
-      return S.Array(__S(2208, __c138, 0));
+      return S.Array(__S(2256, __c141, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
-          body: __S(2209, __c138, 1).pipe(T.HttpBody()),
+          body: __S(2257, __c141, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6876,14 +6948,14 @@ function __c138(j: number): any {
       ).annotate({ identifier: "PartialUpdateAlertRecordsRequest" });
   }
 }
-function __c139(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          backupTarget: S.optional(__S(2016, __c126, 0).pipe(T.Query())),
+          backupTarget: S.optional(__S(2064, __c129, 0).pipe(T.Query())),
           schedule: S.String,
         }).pipe(
           T.Http({
@@ -6903,7 +6975,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "BackupSchedulePostResponse" });
   }
 }
-function __c140(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6916,14 +6988,14 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "PartialUpdateAlertrulesRequestBodyItem" });
     case 1:
-      return S.Array(__S(2240, __c140, 0));
+      return S.Array(__S(2288, __c143, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
-          body: __S(2241, __c140, 1).pipe(T.HttpBody()),
+          body: __S(2289, __c143, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6935,37 +7007,37 @@ function __c140(j: number): any {
       ).annotate({ identifier: "PartialUpdateAlertrulesRequest" });
   }
 }
-function __c141(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          basicAuth: S.optional(__S(640, __c40, 0)),
+          basicAuth: S.optional(__S(736, __c46, 0)),
           bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
-          httpSdConfigs: S.optional(__S(625, __c39, 1)),
+          httpSdConfigs: S.optional(__S(721, __c45, 1)),
           jobName: S.String,
           metricsPath: S.optional(S.String),
-          metricsRelabelConfigs: S.optional(__S(642, __c40, 2)),
-          oauth2: S.optional(__S(593, __c37, 1)),
+          metricsRelabelConfigs: S.optional(__S(738, __c46, 2)),
+          oauth2: S.optional(__S(689, __c43, 1)),
           params: S.optional(S.Unknown),
           sampleLimit: S.optional(S.Number),
           scheme: S.String,
           scrapeInterval: S.String,
           scrapeTimeout: S.String,
-          staticConfigs: __S(644, __c40, 4),
-          tlsConfig: S.optional(__S(592, __c37, 0)),
+          staticConfigs: __S(740, __c46, 4),
+          tlsConfig: S.optional(__S(688, __c43, 0)),
         }),
       ).annotate({ identifier: "PartialUpdateScrapeConfigsRequestBodyItem" });
     case 1:
-      return S.Array(__S(2256, __c141, 0));
+      return S.Array(__S(2304, __c144, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          body: __S(2257, __c141, 1).pipe(T.HttpBody()),
+          body: __S(2305, __c144, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6977,7 +7049,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "PartialUpdateScrapeConfigsRequest" });
   }
 }
-function __c142(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6997,14 +7069,14 @@ function __c142(j: number): any {
       ).annotate({ identifier: "RestoreBackupRequest" });
   }
 }
-function __c143(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          acl: __S(1008, __c63, 0),
+          acl: __S(16, __c1, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7016,7 +7088,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "UpdateACLRequest" });
   }
 }
-function __c144(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7024,10 +7096,10 @@ function __c144(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           receiver: S.String.pipe(T.Label()),
-          emailConfigs: S.optional(__S(817, __c51, 1)),
+          emailConfigs: S.optional(__S(913, __c57, 1)),
           name: S.String,
-          opsgenieConfigs: S.optional(__S(769, __c48, 1)),
-          webHookConfigs: S.optional(__S(819, __c51, 3)),
+          opsgenieConfigs: S.optional(__S(865, __c54, 1)),
+          webHookConfigs: S.optional(__S(915, __c57, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7039,7 +7111,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "UpdateAlertConfigReceiverRequest" });
   }
 }
-function __c145(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7048,14 +7120,14 @@ function __c145(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           receiver: S.String.pipe(T.Label()),
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
           match: S.optional(S.Unknown),
           matchRe: S.optional(S.Unknown),
-          matchers: S.optional(__S(1008, __c63, 0)),
+          matchers: S.optional(__S(16, __c1, 0)),
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1090, __c68, 2)),
+          routes: S.optional(__S(1154, __c72, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7067,12 +7139,12 @@ function __c145(j: number): any {
       ).annotate({ identifier: "UpdateAlertConfigRouteRequest" });
   }
 }
-function __c146(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          equal: S.optional(__S(1008, __c63, 0)),
+          equal: S.optional(__S(16, __c1, 0)),
           sourceMatch: S.optional(S.Unknown),
           sourceMatchRe: S.optional(S.Unknown),
           targetMatch: S.optional(S.Unknown),
@@ -7082,26 +7154,26 @@ function __c146(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          emailConfigs: S.optional(__S(817, __c51, 1)),
+          emailConfigs: S.optional(__S(913, __c57, 1)),
           name: S.String,
-          opsgenieConfigs: S.optional(__S(769, __c48, 1)),
-          webHookConfigs: S.optional(__S(819, __c51, 3)),
+          opsgenieConfigs: S.optional(__S(865, __c54, 1)),
+          webHookConfigs: S.optional(__S(915, __c57, 3)),
         }),
       ).annotate({ identifier: "UpdateAlertConfigsRequestReceiversItem" });
     case 2:
-      return S.Array(__S(2337, __c146, 1));
+      return S.Array(__S(2385, __c149, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           continue: S.optional(S.Boolean),
-          groupBy: S.optional(__S(1008, __c63, 0)),
+          groupBy: S.optional(__S(16, __c1, 0)),
           groupInterval: S.optional(S.String),
           groupWait: S.optional(S.String),
           match: S.optional(S.Unknown),
           matchRe: S.optional(S.Unknown),
           receiver: S.String,
           repeatInterval: S.optional(S.String),
-          routes: S.optional(__S(1090, __c68, 2)),
+          routes: S.optional(__S(1154, __c72, 2)),
         }),
       ).annotate({ identifier: "UpdateAlertConfigsRequestRoute" });
     case 4:
@@ -7109,10 +7181,10 @@ function __c146(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          global: S.optional(__S(1344, __c84, 0)),
-          inhibitRules: S.optional(__S(2336, __c146, 0)),
-          receivers: __S(2338, __c146, 2),
-          route: __S(2339, __c146, 3),
+          global: S.optional(__S(1408, __c88, 0)),
+          inhibitRules: S.optional(__S(2384, __c149, 0)),
+          receivers: __S(2386, __c149, 2),
+          route: __S(2387, __c149, 3),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7124,7 +7196,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "UpdateAlertConfigsRequest" });
   }
 }
-function __c147(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7133,7 +7205,7 @@ function __c147(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           interval: S.optional(S.String),
-          rules: __S(1313, __c82, 1),
+          rules: __S(1377, __c86, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7145,14 +7217,14 @@ function __c147(j: number): any {
       ).annotate({ identifier: "UpdateAlertgroupRequest" });
   }
 }
-function __c148(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          body: __S(2193, __c137, 1).pipe(T.HttpBody()),
+          body: __S(2241, __c140, 1).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7164,7 +7236,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "UpdateAlertgroupsRequest" });
   }
 }
-function __c149(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

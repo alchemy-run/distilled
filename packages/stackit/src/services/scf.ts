@@ -32,14 +32,23 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -49,26 +58,47 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class OrgManagerGone
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<OrgManagerGone>()("OrgManagerGone", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 410 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface ApplyOrganizationQuotaRequest {
   projectId: string;
@@ -87,7 +117,7 @@ export interface CreateOrganizationRequest {
   projectId: string;
   region: string;
   name: string;
-  platformId?: string;
+  platformId?: string | undefined;
 }
 export interface OrganizationCreateResponse {
   guid: string;
@@ -121,8 +151,8 @@ export interface CreateOrgRoleRequest {
   region: string;
   organizationId: string;
   type: OrgRoleType | (string & {});
-  userGuid?: string;
-  userName?: string;
+  userGuid?: string | undefined;
+  userName?: string | undefined;
 }
 export interface OrgRoleResponse {
   guid: string;
@@ -159,8 +189,8 @@ export interface CreateSpaceRoleRequest {
   organizationId: string;
   spaceId: string;
   type: SpaceRoleType | (string & {});
-  userGuid?: string;
-  userName?: string;
+  userGuid?: string | undefined;
+  userName?: string | undefined;
 }
 export interface SpaceRoleCreateResponse {
   guid: string;
@@ -257,7 +287,7 @@ export interface Quota {
   domains: QuotaDomains;
   guid: string;
   name: string;
-  orgId?: string;
+  orgId?: string | undefined;
   platformId: string;
   projectId: string;
   region: string;
@@ -309,7 +339,7 @@ export interface GetPlatformRequest {
 }
 export interface Platforms {
   apiUrl: string;
-  consoleUrl?: string;
+  consoleUrl?: string | undefined;
   displayName: string;
   guid: string;
   region: string;
@@ -338,29 +368,29 @@ export interface ListOrganizationsRequest {
   projectId: string;
   region: string;
   /** Adds the details to the response that can be queried from the Cloud Controller API */
-  withDetails?: boolean;
+  withDetails?: boolean | undefined;
   /** In case `withDetails` is enabled, the organization list can be sorted by `name`. In order to sort by `name`, you have to set the value `name`. The default sort ordering is ascending. To specify descending order for `name` field, you have to append ` desc` suffix; for example `name desc`. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Which page is returned */
-  page?: number;
+  page?: number | undefined;
   /** Elements to be returned per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface Pagination {
-  totalPages?: number;
-  totalResults?: number;
+  totalPages?: number | undefined;
+  totalResults?: number | undefined;
 }
 export interface OrganizationsListItem {
-  createdAt?: string;
+  createdAt?: string | undefined;
   guid: string;
-  name?: string;
+  name?: string | undefined;
   platformId: string;
   projectId: string;
-  quotaId?: string;
+  quotaId?: string | undefined;
   region: string;
   status: string;
-  suspended?: boolean;
-  updatedAt?: string;
+  suspended?: boolean | undefined;
+  updatedAt?: string | undefined;
 }
 export type OrganizationsListResourcesList = Array<OrganizationsListItem>;
 export interface OrganizationsList {
@@ -378,9 +408,9 @@ export interface ListPlatformsRequest {
   projectId: string;
   region: string;
   /** Which page is returned */
-  page?: number;
+  page?: number | undefined;
   /** Elements to be returned per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type PlatformListResourcesList = Array<Platforms>;
 export interface PlatformList {
@@ -392,9 +422,9 @@ export interface ListSpacesRequest {
   region: string;
   organizationId: string;
   /** Which page is returned */
-  page?: number;
+  page?: number | undefined;
   /** Elements to be returned per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type SpacesListResourcesList = Array<Space>;
 export interface SpacesList {
@@ -405,8 +435,8 @@ export interface UpdateOrganizationRequest {
   projectId: string;
   region: string;
   organizationId: string;
-  name?: string;
-  suspended?: boolean;
+  name?: string | undefined;
+  suspended?: boolean | undefined;
 }
 export interface UpdateSpaceRequest {
   projectId: string;
@@ -414,6 +444,10 @@ export interface UpdateSpaceRequest {
   organizationId: string;
   spaceId: string;
   name: string;
+}
+export interface ErrorResponse {
+  code: string;
+  message: string;
 }
 export type ApplyOrganizationQuotaError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Apply an organization quota Change the organization quota of an organization. */
@@ -423,8 +457,8 @@ export const applyOrganizationQuota: API.OperationMethod<
   ApplyOrganizationQuotaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ApplyOrganizationQuotaRequest>,
-  output: __S(193, __c24, 1) as any as S.Schema<OrganizationQuota>,
+  input: __S(200, __c25, 0) as any as S.Schema<ApplyOrganizationQuotaRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<OrganizationQuota>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -440,8 +474,8 @@ export const createOrganization: API.OperationMethod<
   CreateOrganizationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<OrganizationCreateResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<OrganizationCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -457,8 +491,8 @@ export const createOrgManager: API.OperationMethod<
   CreateOrgManagerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<CreateOrgManagerRequest>,
-  output: __S(217, __c27, 1) as any as S.Schema<OrgManagerResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<CreateOrgManagerRequest>,
+  output: __S(225, __c28, 1) as any as S.Schema<OrgManagerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -474,8 +508,8 @@ export const createOrgRole: API.OperationMethod<
   CreateOrgRoleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<CreateOrgRoleRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<OrgRoleResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<CreateOrgRoleRequest>,
+  output: __S(233, __c29, 1) as any as S.Schema<OrgRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -491,8 +525,8 @@ export const createSpace: API.OperationMethod<
   CreateSpaceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<CreateSpaceRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<Space>,
+  input: __S(240, __c30, 0) as any as S.Schema<CreateSpaceRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<Space>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -508,8 +542,8 @@ export const createSpaceRole: API.OperationMethod<
   CreateSpaceRoleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateSpaceRoleRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<SpaceRoleCreateResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateSpaceRoleRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<SpaceRoleCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -525,8 +559,8 @@ export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<OrganizationDeleteResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<OrganizationDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -547,8 +581,8 @@ export const deleteOrgManager: API.OperationMethod<
   DeleteOrgManagerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteOrgManagerRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<OrgManagerDeleteResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<DeleteOrgManagerRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<OrgManagerDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound, OrgManagerGone, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -564,8 +598,8 @@ export const deleteSpace: API.OperationMethod<
   DeleteSpaceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteSpaceRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<SpaceDeleteResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteSpaceRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<SpaceDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -581,8 +615,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<Organization>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -598,8 +632,8 @@ export const getOrganizationQuota: API.OperationMethod<
   GetOrganizationQuotaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetOrganizationQuotaRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<Quota>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetOrganizationQuotaRequest>,
+  output: __S(76, __c9, 4) as any as S.Schema<Quota>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -615,8 +649,8 @@ export const getOrganizationUsageSummary: API.OperationMethod<
   GetOrganizationUsageSummaryError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetOrganizationUsageSummaryRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<OrganizationUsageSummary>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetOrganizationUsageSummaryRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<OrganizationUsageSummary>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -632,8 +666,8 @@ export const getOrgManager: API.OperationMethod<
   GetOrgManagerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetOrgManagerRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<OrgManager>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetOrgManagerRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<OrgManager>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -649,8 +683,8 @@ export const getPlatform: API.OperationMethod<
   GetPlatformError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetPlatformRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<Platforms>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetPlatformRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<Platforms>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -666,8 +700,8 @@ export const getPlatformQuota: API.OperationMethod<
   GetPlatformQuotaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetPlatformQuotaRequest>,
-  output: __S(68, __c8, 4) as any as S.Schema<Quota>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetPlatformQuotaRequest>,
+  output: __S(76, __c9, 4) as any as S.Schema<Quota>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -683,8 +717,8 @@ export const getSpace: API.OperationMethod<
   GetSpaceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetSpaceRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<Space>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetSpaceRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<Space>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -700,8 +734,8 @@ export const listOrganizationQuotas: API.OperationMethod<
   ListOrganizationQuotasError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListOrganizationQuotasRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<ListOrganizationQuotasResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<ListOrganizationQuotasRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<ListOrganizationQuotasResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -719,8 +753,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   OrganizationsListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(136, __c17, 0) as any as S.Schema<ListOrganizationsRequest>,
-    output: __S(139, __c17, 3) as any as S.Schema<OrganizationsList>,
+    input: __S(144, __c18, 0) as any as S.Schema<ListOrganizationsRequest>,
+    output: __S(147, __c18, 3) as any as S.Schema<OrganizationsList>,
     errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -745,8 +779,8 @@ export const listPlatformQuotas: API.OperationMethod<
   ListPlatformQuotasError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListPlatformQuotasRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<ListPlatformQuotasResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<ListPlatformQuotasRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<ListPlatformQuotasResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -764,8 +798,8 @@ export const listPlatforms: API.PaginatedOperationMethod<
   Platforms
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(160, __c20, 0) as any as S.Schema<ListPlatformsRequest>,
-    output: __S(162, __c20, 2) as any as S.Schema<PlatformList>,
+    input: __S(168, __c21, 0) as any as S.Schema<ListPlatformsRequest>,
+    output: __S(170, __c21, 2) as any as S.Schema<PlatformList>,
     errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -792,8 +826,8 @@ export const listSpaces: API.PaginatedOperationMethod<
   Space
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(168, __c21, 0) as any as S.Schema<ListSpacesRequest>,
-    output: __S(170, __c21, 2) as any as S.Schema<SpacesList>,
+    input: __S(176, __c22, 0) as any as S.Schema<ListSpacesRequest>,
+    output: __S(178, __c22, 2) as any as S.Schema<SpacesList>,
     errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -818,8 +852,8 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<Organization>,
+  input: __S(184, __c23, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -835,8 +869,8 @@ export const updateSpace: API.OperationMethod<
   UpdateSpaceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<UpdateSpaceRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<Space>,
+  input: __S(192, __c24, 0) as any as S.Schema<UpdateSpaceRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<Space>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -846,6 +880,17 @@ export const updateSpace: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -880,7 +925,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "SpaceRoleCreateResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -899,7 +944,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -918,7 +963,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteOrgManagerRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -928,7 +973,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "OrgManagerDeleteResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -948,7 +993,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteSpaceRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -967,7 +1012,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -986,7 +1031,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1006,7 +1051,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetOrganizationQuotaRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1042,23 +1087,23 @@ function __c8(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          apps: __S(64, __c8, 0),
+          apps: __S(72, __c9, 0),
           createdAt: S.String,
-          domains: __S(65, __c8, 1),
+          domains: __S(73, __c9, 1),
           guid: S.String,
           name: S.String,
           orgId: S.optional(S.String),
           platformId: S.String,
           projectId: S.String,
           region: S.String,
-          routes: __S(66, __c8, 2),
-          services: __S(67, __c8, 3),
+          routes: __S(74, __c9, 2),
+          services: __S(75, __c9, 3),
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "Quota" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1095,12 +1140,12 @@ function __c9(j: number): any {
           platformId: S.String,
           projectId: S.String,
           region: S.String,
-          usageSummary: __S(73, __c9, 1),
+          usageSummary: __S(81, __c10, 1),
         }),
       ).annotate({ identifier: "OrganizationUsageSummary" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1132,7 +1177,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "OrgManager" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1151,7 +1196,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetPlatformRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1166,7 +1211,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "Platforms" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1186,7 +1231,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetPlatformQuotaRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1206,7 +1251,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetSpaceRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1225,17 +1270,17 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListOrganizationQuotasRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(68, __c8, 4));
+      return S.Array(__S(76, __c9, 4));
     case 1:
-      return S.suspend(() => __S(128, __c16, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(136, __c17, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrganizationQuotasResponse",
       });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1271,17 +1316,17 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationsListItem" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(145, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(144, __c18, 0),
-          resources: __S(138, __c17, 2),
+          pagination: __S(152, __c19, 0),
+          resources: __S(146, __c18, 2),
         }),
       ).annotate({ identifier: "OrganizationsList" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1292,7 +1337,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1311,7 +1356,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListPlatformQuotasRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1330,17 +1375,17 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListPlatformsRequest" });
     case 1:
-      return S.Array(__S(96, __c12, 0));
+      return S.Array(__S(104, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(144, __c18, 0),
-          resources: __S(161, __c20, 1),
+          pagination: __S(152, __c19, 0),
+          resources: __S(169, __c21, 1),
         }),
       ).annotate({ identifier: "PlatformList" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1360,17 +1405,17 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListSpacesRequest" });
     case 1:
-      return S.Array(__S(240, __c30, 0));
+      return S.Array(__S(248, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(144, __c18, 0),
-          resources: __S(169, __c21, 1),
+          pagination: __S(152, __c19, 0),
+          resources: __S(177, __c22, 1),
         }),
       ).annotate({ identifier: "SpacesList" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1391,7 +1436,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1412,7 +1457,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpdateSpaceRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1442,7 +1487,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "OrganizationQuota" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1462,7 +1507,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateOrganizationRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1475,7 +1520,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "OrganizationCreateResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1508,7 +1553,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "OrgManagerResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1541,7 +1586,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "OrgRoleResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1561,7 +1606,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateSpaceRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

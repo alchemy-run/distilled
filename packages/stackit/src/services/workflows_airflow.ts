@@ -35,64 +35,106 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class InvalidSession
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidSession>()("InvalidSession", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, message: { includes: "Invalid JWT token" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface CreateConnectionRequest {
   connection_id: string;
   conn_type: string;
-  description?: string | null;
-  host?: string | null;
-  login?: string | null;
-  schema?: string | null;
-  port?: number | null;
-  password?: string | Redacted.Redacted<string> | null;
-  extra?: string | Redacted.Redacted<string> | null;
+  description?: string | null | undefined;
+  host?: string | null | undefined;
+  login?: string | null | undefined;
+  schema?: string | null | undefined;
+  port?: number | null | undefined;
+  password?: string | Redacted.Redacted<string> | null | undefined;
+  extra?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Connection serializer for responses. The API masks `password` as `***`. */
 export interface ConnectionResponse {
@@ -109,7 +151,7 @@ export interface ConnectionResponse {
 export interface CreateVariableRequest {
   key: string;
   value: string | Redacted.Redacted<string>;
-  description?: string | null;
+  description?: string | null | undefined;
 }
 /** Variable serializer for responses. */
 export interface VariableResponse {
@@ -219,12 +261,12 @@ export type ListDagRunsRequestStateList = Array<string>;
 export type ListDagRunsRequestOrderByList = Array<string>;
 export interface ListDagRunsRequest {
   dag_id: string;
-  limit?: number;
-  offset?: number;
-  run_type?: ListDagRunsRequestRunTypeList;
-  state?: ListDagRunsRequestStateList;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  run_type?: ListDagRunsRequestRunTypeList | undefined;
+  state?: ListDagRunsRequestStateList | undefined;
   /** Attributes to order by, multi criteria sort is supported. Prefix with `-` for descending order. Supported attributes: `id, state, dag_id, run_id, logical_date, run_after, start_date, end_date, updated_at, conf, duration, dag_run_id` */
-  order_by?: ListDagRunsRequestOrderByList;
+  order_by?: ListDagRunsRequestOrderByList | undefined;
 }
 export type DAGRunCollectionResponseDagRunsList = Array<DAGRunResponse>;
 /** DAG Run Collection serializer for responses. */
@@ -238,12 +280,12 @@ export type ListTaskInstancesRequestOrderByList = Array<string>;
 export interface ListTaskInstancesRequest {
   dag_id: string;
   dag_run_id: string;
-  task_id?: string;
-  state?: ListTaskInstancesRequestStateList;
-  limit?: number;
-  offset?: number;
+  task_id?: string | undefined;
+  state?: ListTaskInstancesRequestStateList | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
   /** Attributes to order by, multi criteria sort is supported. Prefix with `-` for descending order. Supported attributes: `id, state, duration, start_date, end_date, map_index, try_number, logical_date, run_after, data_interval_start, data_interval_end, rendered_map_index, operator, logical_date, run_after, data_interval_start, data_interval_end` */
-  order_by?: ListTaskInstancesRequestOrderByList;
+  order_by?: ListTaskInstancesRequestOrderByList | undefined;
 }
 /** All possible states that a Task Instance can be in. Note that None is also allowed, so always use this in a type hint with Optional. */
 export type TaskInstanceState =
@@ -294,7 +336,7 @@ export interface TaskInstanceResponse {
   executor_config: string;
   note: string | null;
   rendered_map_index: string | null;
-  rendered_fields?: TaskInstanceResponseRenderedFieldsMap;
+  rendered_fields?: TaskInstanceResponseRenderedFieldsMap | undefined;
   trigger: TaskInstanceResponseTriggerMap | null;
   triggerer_job: TaskInstanceResponseTriggererJobMap | null;
   dag_version: DagVersionResponse | null;
@@ -309,13 +351,13 @@ export interface PatchConnectionRequest {
   connection_key: string;
   connection_id: string;
   conn_type: string;
-  description?: string | null;
-  host?: string | null;
-  login?: string | null;
-  schema?: string | null;
-  port?: number | null;
-  password?: string | Redacted.Redacted<string> | null;
-  extra?: string | Redacted.Redacted<string> | null;
+  description?: string | null | undefined;
+  host?: string | null | undefined;
+  login?: string | null | undefined;
+  schema?: string | null | undefined;
+  port?: number | null | undefined;
+  password?: string | Redacted.Redacted<string> | null | undefined;
+  extra?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface PatchDagRequest {
   dag_id: string;
@@ -325,18 +367,22 @@ export interface PatchVariableRequest {
   variable_key: string;
   key: string;
   value: string | Redacted.Redacted<string>;
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type TriggerDagRunRequestConfMap = { [key: string]: unknown | undefined };
 export interface TriggerDagRunRequest {
   dag_id: string;
-  dag_run_id?: string | null;
-  data_interval_start?: string | null;
-  data_interval_end?: string | null;
+  dag_run_id?: string | null | undefined;
+  data_interval_start?: string | null | undefined;
+  data_interval_end?: string | null | undefined;
   logical_date: string | null;
-  run_after?: string | null;
-  conf?: TriggerDagRunRequestConfMap | null;
-  note?: string | null;
+  run_after?: string | null | undefined;
+  conf?: TriggerDagRunRequestConfMap | null | undefined;
+  note?: string | null | undefined;
+}
+/** FastAPI's failure body: `detail` is text, or an object or list describing the failure. */
+export interface ErrorResponse {
+  detail?: unknown | undefined;
 }
 export type CreateConnectionError =
   | Forbidden
@@ -351,8 +397,8 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<CreateConnectionRequest>,
-  output: __S(28, __c7, 0) as any as S.Schema<ConnectionResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<CreateConnectionRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<ConnectionResponse>,
   errors: [Forbidden, Conflict, UnprocessableEntity, InvalidSession, UnknownStackitError],
   protocol: WorkflowsAirflowProtocol,
   retry: Retry.Retry,
@@ -373,8 +419,8 @@ export const createVariable: API.OperationMethod<
   CreateVariableError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<CreateVariableRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<VariableResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<CreateVariableRequest>,
+  output: __S(40, __c10, 0) as any as S.Schema<VariableResponse>,
   errors: [Forbidden, Conflict, UnprocessableEntity, InvalidSession, UnknownStackitError],
   protocol: WorkflowsAirflowProtocol,
   retry: Retry.Retry,
@@ -396,8 +442,8 @@ export const getDag: API.OperationMethod<
   GetDagError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetDagRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<DAGResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetDagRequest>,
+  output: __S(54, __c13, 2) as any as S.Schema<DAGResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -425,8 +471,8 @@ export const getDagRun: API.OperationMethod<
   GetDagRunError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetDagRunRequest>,
-  output: __S(61, __c15, 1) as any as S.Schema<DAGRunResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetDagRunRequest>,
+  output: __S(65, __c16, 1) as any as S.Schema<DAGRunResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, InvalidSession, UnknownStackitError],
   protocol: WorkflowsAirflowProtocol,
   retry: Retry.Retry,
@@ -447,8 +493,8 @@ export const listDagRuns: API.OperationMethod<
   ListDagRunsError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListDagRunsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<DAGRunCollectionResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ListDagRunsRequest>,
+  output: __S(6, __c1, 2) as any as S.Schema<DAGRunCollectionResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, InvalidSession, UnknownStackitError],
   protocol: WorkflowsAirflowProtocol,
   retry: Retry.Retry,
@@ -469,8 +515,8 @@ export const listTaskInstances: API.OperationMethod<
   ListTaskInstancesError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ListTaskInstancesRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<TaskInstanceCollectionResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ListTaskInstancesRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<TaskInstanceCollectionResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, InvalidSession, UnknownStackitError],
   protocol: WorkflowsAirflowProtocol,
   retry: Retry.Retry,
@@ -492,8 +538,8 @@ export const patchConnection: API.OperationMethod<
   PatchConnectionError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<PatchConnectionRequest>,
-  output: __S(28, __c7, 0) as any as S.Schema<ConnectionResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<PatchConnectionRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<ConnectionResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -522,8 +568,8 @@ export const patchDag: API.OperationMethod<
   PatchDagError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<PatchDagRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<DAGResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<PatchDagRequest>,
+  output: __S(54, __c13, 2) as any as S.Schema<DAGResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -552,8 +598,8 @@ export const patchVariable: API.OperationMethod<
   PatchVariableError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<PatchVariableRequest>,
-  output: __S(36, __c9, 0) as any as S.Schema<VariableResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<PatchVariableRequest>,
+  output: __S(40, __c10, 0) as any as S.Schema<VariableResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -583,8 +629,8 @@ export const triggerDagRun: API.OperationMethod<
   TriggerDagRunError,
   WorkflowsAirflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<TriggerDagRunRequest>,
-  output: __S(61, __c15, 1) as any as S.Schema<DAGRunResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<TriggerDagRunRequest>,
+  output: __S(65, __c16, 1) as any as S.Schema<DAGRunResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -606,23 +652,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dag_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          run_type: S.optional(__S(44, __c11, 0).pipe(T.Query())),
-          state: S.optional(__S(44, __c11, 0).pipe(T.Query())),
-          order_by: S.optional(__S(44, __c11, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v2/dags/{dag_id}/dagRuns", code: 200 })),
-      ).annotate({ identifier: "ListDagRunsRequest" });
-    case 1:
-      return S.Array(__S(61, __c15, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          dag_runs: __S(1, __c0, 1),
-          total_entries: S.Number,
+          detail: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "DAGRunCollectionResponse" });
+      ).annotate({ identifier: "ErrorResponse" });
   }
 }
 function __c1(j: number): any {
@@ -631,12 +663,36 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dag_id: S.String.pipe(T.Label()),
-          dag_run_id: S.String.pipe(T.Label()),
-          task_id: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(__S(44, __c11, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          order_by: S.optional(__S(44, __c11, 0).pipe(T.Query())),
+          run_type: S.optional(__S(48, __c12, 0).pipe(T.Query())),
+          state: S.optional(__S(48, __c12, 0).pipe(T.Query())),
+          order_by: S.optional(__S(48, __c12, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v2/dags/{dag_id}/dagRuns", code: 200 })),
+      ).annotate({ identifier: "ListDagRunsRequest" });
+    case 1:
+      return S.Array(__S(65, __c16, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          dag_runs: __S(5, __c1, 1),
+          total_entries: S.Number,
+        }),
+      ).annotate({ identifier: "DAGRunCollectionResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dag_id: S.String.pipe(T.Label()),
+          dag_run_id: S.String.pipe(T.Label()),
+          task_id: S.optional(S.String.pipe(T.Query())),
+          state: S.optional(__S(48, __c12, 0).pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          order_by: S.optional(__S(48, __c12, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -678,24 +734,24 @@ function __c1(j: number): any {
           executor_config: S.String,
           note: S.NullOr(S.String),
           rendered_map_index: S.NullOr(S.String),
-          rendered_fields: S.optional(__S(56, __c14, 0)),
-          trigger: S.NullOr(__S(56, __c14, 0)),
-          triggerer_job: S.NullOr(__S(56, __c14, 0)),
-          dag_version: S.NullOr(__S(57, __c14, 1)),
+          rendered_fields: S.optional(__S(60, __c15, 0)),
+          trigger: S.NullOr(__S(60, __c15, 0)),
+          triggerer_job: S.NullOr(__S(60, __c15, 0)),
+          dag_version: S.NullOr(__S(61, __c15, 1)),
         }),
       ).annotate({ identifier: "TaskInstanceResponse" });
     case 2:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          task_instances: __S(6, __c1, 2),
+          task_instances: __S(10, __c2, 2),
           total_entries: S.Number,
         }),
       ).annotate({ identifier: "TaskInstanceCollectionResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -716,7 +772,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PatchConnectionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -727,7 +783,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "PatchDagRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -740,7 +796,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "PatchVariableRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -751,13 +807,13 @@ function __c5(j: number): any {
           data_interval_end: S.optional(S.NullOr(S.String)),
           logical_date: S.NullOr(S.String),
           run_after: S.optional(S.NullOr(S.String)),
-          conf: S.optional(S.NullOr(__S(56, __c14, 0))),
+          conf: S.optional(S.NullOr(__S(60, __c15, 0))),
           note: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/dags/{dag_id}/dagRuns", code: 200 })),
       ).annotate({ identifier: "TriggerDagRunRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -775,7 +831,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateConnectionRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -793,7 +849,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ConnectionResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -805,7 +861,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateVariableRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -818,7 +874,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "VariableResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -828,13 +884,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetDagRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -845,7 +901,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "DagTagResponse" });
     case 1:
-      return S.Array(__S(48, __c12, 0));
+      return S.Array(__S(52, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -863,7 +919,7 @@ function __c12(j: number): any {
           description: S.NullOr(S.String),
           timetable_summary: S.NullOr(S.String),
           timetable_description: S.NullOr(S.String),
-          tags: __S(49, __c12, 1),
+          tags: __S(53, __c13, 1),
           max_active_tasks: S.Number,
           max_active_runs: S.NullOr(S.Number),
           max_consecutive_failed_dag_runs: S.Number,
@@ -873,13 +929,13 @@ function __c12(j: number): any {
           next_dagrun_data_interval_start: S.NullOr(S.String),
           next_dagrun_data_interval_end: S.NullOr(S.String),
           next_dagrun_run_after: S.NullOr(S.String),
-          owners: __S(44, __c11, 0),
+          owners: __S(48, __c12, 0),
           file_token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "DAGResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -892,7 +948,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetDagRunRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -911,10 +967,10 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DagVersionResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(57, __c14, 1));
+      return S.Array(__S(61, __c15, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -933,9 +989,9 @@ function __c15(j: number): any {
           state: S.String,
           triggered_by: S.NullOr(S.String),
           triggering_user_name: S.NullOr(S.String),
-          conf: S.NullOr(__S(56, __c14, 0)),
+          conf: S.NullOr(__S(60, __c15, 0)),
           note: S.NullOr(S.String),
-          dag_versions: __S(60, __c15, 0),
+          dag_versions: __S(64, __c16, 0),
           bundle_version: S.NullOr(S.String),
           dag_display_name: S.String,
         }),

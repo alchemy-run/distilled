@@ -34,38 +34,59 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export type LabelsRequestMatchList = Array<string>;
 export interface LabelsRequest {
   /** Start of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds. */
-  start?: string;
+  start?: string | undefined;
   /** End of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds. */
-  end?: string;
+  end?: string | undefined;
   /** Series selector. Repeat it to select the union. */
-  match__?: LabelsRequestMatchList;
+  match__?: LabelsRequestMatchList | undefined;
   /** Maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type StringsOutputBodyStatus = "success" | "error";
 export type StringsOutputBodyDataList = Array<string>;
@@ -78,32 +99,32 @@ export interface StringsOutputBody {
   status: StringsOutputBodyStatus;
   data: StringsOutputBodyDataList;
   /** Warnings raised while executing the request. `data` is still set. */
-  warnings?: StringsOutputBodyWarningsList;
+  warnings?: StringsOutputBodyWarningsList | undefined;
   /** Info-level annotations raised while executing the request. */
-  infos?: StringsOutputBodyInfosList;
+  infos?: StringsOutputBodyInfosList | undefined;
 }
 export type LabelValuesRequestMatchList = Array<string>;
 export interface LabelValuesRequest {
   /** The label name. */
   name: string;
   /** Start of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds. */
-  start?: string;
+  start?: string | undefined;
   /** End of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds. */
-  end?: string;
+  end?: string | undefined;
   /** Series selector. Repeat it to select the union. */
-  match__?: LabelValuesRequestMatchList;
+  match__?: LabelValuesRequestMatchList | undefined;
   /** Maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface QueryRequest {
   /** The PromQL query to execute. */
   query: string;
   /** Evaluation time, as an RFC 3339 timestamp or a Unix timestamp in seconds. Defaults to now. */
-  time?: string;
+  time?: string | undefined;
   /** Evaluation timeout, such as `30s`. Capped by the server. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type QueryOutputBodyStatus = "success" | "error";
 export type QueryDataResultType = "vector" | "matrix" | "scalar" | "string";
@@ -116,7 +137,7 @@ export interface QueryData {
   /** For `vector`, a list of `{ metric, value }`. For `matrix`, a list of `{ metric, values }`. For `scalar` and `string`, `[<number: seconds since the epoch>, <string: value>]`. A native histogram has `histogram` or `histograms` in place of `value` or `values`. Check `resultType` before reading it. */
   result: QueryDataResultList;
   /** Query statistics, when asked for. */
-  stats?: QueryDataStatsMap;
+  stats?: QueryDataStatsMap | undefined;
 }
 /** Warnings raised while executing the request. `data` is still set. */
 export type QueryOutputBodyWarningsList = Array<string>;
@@ -127,9 +148,9 @@ export interface QueryOutputBody {
   status: QueryOutputBodyStatus;
   data: QueryData;
   /** Warnings raised while executing the request. `data` is still set. */
-  warnings?: QueryOutputBodyWarningsList;
+  warnings?: QueryOutputBodyWarningsList | undefined;
   /** Info-level annotations raised while executing the request. */
-  infos?: QueryOutputBodyInfosList;
+  infos?: QueryOutputBodyInfosList | undefined;
 }
 export interface QueryRangeRequest {
   /** The PromQL query to execute. */
@@ -141,9 +162,9 @@ export interface QueryRangeRequest {
   /** Resolution step, such as `30s`, or a number of seconds. */
   step: string;
   /** Evaluation timeout, such as `30s`. Capped by the server. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type QueryRangeOutputBodyStatus = "success" | "error";
 /** Warnings raised while executing the request. `data` is still set. */
@@ -155,20 +176,20 @@ export interface QueryRangeOutputBody {
   status: QueryRangeOutputBodyStatus;
   data: QueryData;
   /** Warnings raised while executing the request. `data` is still set. */
-  warnings?: QueryRangeOutputBodyWarningsList;
+  warnings?: QueryRangeOutputBodyWarningsList | undefined;
   /** Info-level annotations raised while executing the request. */
-  infos?: QueryRangeOutputBodyInfosList;
+  infos?: QueryRangeOutputBodyInfosList | undefined;
 }
 export type SeriesRequestMatchList = Array<string>;
 export interface SeriesRequest {
   /** Series selector. Repeat it to select the union. */
   match__: SeriesRequestMatchList;
   /** Start of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds. */
-  start?: string;
+  start?: string | undefined;
   /** End of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds. */
-  end?: string;
+  end?: string | undefined;
   /** Maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SeriesOutputBodyStatus = "success" | "error";
 export type SeriesOutputBodyDataItemMap = { [key: string]: string | undefined };
@@ -182,9 +203,14 @@ export interface SeriesOutputBody {
   status: SeriesOutputBodyStatus;
   data: SeriesOutputBodyDataList;
   /** Warnings raised while executing the request. `data` is still set. */
-  warnings?: SeriesOutputBodyWarningsList;
+  warnings?: SeriesOutputBodyWarningsList | undefined;
   /** Info-level annotations raised while executing the request. */
-  infos?: SeriesOutputBodyInfosList;
+  infos?: SeriesOutputBodyInfosList | undefined;
+}
+export interface ErrorResponse {
+  status?: string | undefined;
+  errorType?: string | undefined;
+  error?: string | undefined;
 }
 export type LabelsError = BadRequest | Forbidden | UnprocessableEntity | ObservabilityDataOpError;
 /** Gets label names. */
@@ -194,8 +220,8 @@ export const labels: API.OperationMethod<
   LabelsError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<LabelsRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<StringsOutputBody>,
+  input: __S(4, __c1, 0) as any as S.Schema<LabelsRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<StringsOutputBody>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -215,8 +241,8 @@ export const labelValues: API.OperationMethod<
   LabelValuesError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<LabelValuesRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<StringsOutputBody>,
+  input: __S(16, __c4, 0) as any as S.Schema<LabelValuesRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<StringsOutputBody>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -232,8 +258,8 @@ export const query: API.OperationMethod<
   QueryError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<QueryRequest>,
-  output: __S(23, __c5, 3) as any as S.Schema<QueryOutputBody>,
+  input: __S(20, __c5, 0) as any as S.Schema<QueryRequest>,
+  output: __S(27, __c6, 3) as any as S.Schema<QueryOutputBody>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -253,8 +279,8 @@ export const queryRange: API.OperationMethod<
   QueryRangeError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<QueryRangeRequest>,
-  output: __S(23, __c5, 3) as any as S.Schema<QueryRangeOutputBody>,
+  input: __S(28, __c7, 0) as any as S.Schema<QueryRangeRequest>,
+  output: __S(27, __c6, 3) as any as S.Schema<QueryRangeOutputBody>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -270,8 +296,8 @@ export const series: API.OperationMethod<
   SeriesError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<SeriesRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<SeriesOutputBody>,
+  input: __S(32, __c8, 0) as any as S.Schema<SeriesRequest>,
+  output: __S(35, __c8, 3) as any as S.Schema<SeriesOutputBody>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -285,12 +311,11 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          start: S.optional(S.String.pipe(T.Query())),
-          end: S.optional(S.String.pipe(T.Query())),
-          match__: S.optional(__S(8, __c2, 0).pipe(T.Query("match[]"))),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/labels", code: 200 })),
-      ).annotate({ identifier: "LabelsRequest" });
+          status: S.optional(S.String),
+          errorType: S.optional(S.String),
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
   }
 }
 function __c1(j: number): any {
@@ -298,21 +323,34 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.String,
-          data: __S(8, __c2, 0),
-          warnings: S.optional(__S(8, __c2, 0)),
-          infos: S.optional(__S(8, __c2, 0)),
-        }),
-      ).annotate({ identifier: "StringsOutputBody" });
+          start: S.optional(S.String.pipe(T.Query())),
+          end: S.optional(S.String.pipe(T.Query())),
+          match__: S.optional(__S(12, __c3, 0).pipe(T.Query("match[]"))),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/labels", code: 200 })),
+      ).annotate({ identifier: "LabelsRequest" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          data: __S(12, __c3, 0),
+          warnings: S.optional(__S(12, __c3, 0)),
+          infos: S.optional(__S(12, __c3, 0)),
+        }),
+      ).annotate({ identifier: "StringsOutputBody" });
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -320,13 +358,13 @@ function __c3(j: number): any {
           name: S.String.pipe(T.Label()),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
-          match__: S.optional(__S(8, __c2, 0).pipe(T.Query("match[]"))),
+          match__: S.optional(__S(12, __c3, 0).pipe(T.Query("match[]"))),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/label/{name}/values", code: 200 })),
       ).annotate({ identifier: "LabelValuesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -339,7 +377,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "QueryRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -349,22 +387,22 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resultType: S.String,
-          result: __S(20, __c5, 0),
-          stats: S.optional(__S(21, __c5, 1)),
+          result: __S(24, __c6, 0),
+          stats: S.optional(__S(25, __c6, 1)),
         }),
       ).annotate({ identifier: "QueryData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: __S(22, __c5, 2),
-          warnings: S.optional(__S(8, __c2, 0)),
-          infos: S.optional(__S(8, __c2, 0)),
+          data: __S(26, __c6, 2),
+          warnings: S.optional(__S(12, __c3, 0)),
+          infos: S.optional(__S(12, __c3, 0)),
         }),
       ).annotate({ identifier: "QueryOutputBody" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -379,12 +417,12 @@ function __c6(j: number): any {
       ).annotate({ identifier: "QueryRangeRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          match__: __S(8, __c2, 0).pipe(T.Query("match[]")),
+          match__: __S(12, __c3, 0).pipe(T.Query("match[]")),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -393,14 +431,14 @@ function __c7(j: number): any {
     case 1:
       return S.Record(S.String, S.String);
     case 2:
-      return S.Array(__S(29, __c7, 1));
+      return S.Array(__S(33, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: __S(30, __c7, 2),
-          warnings: S.optional(__S(8, __c2, 0)),
-          infos: S.optional(__S(8, __c2, 0)),
+          data: __S(34, __c8, 2),
+          warnings: S.optional(__S(12, __c3, 0)),
+          infos: S.optional(__S(12, __c3, 0)),
         }),
       ).annotate({ identifier: "SeriesOutputBody" });
   }

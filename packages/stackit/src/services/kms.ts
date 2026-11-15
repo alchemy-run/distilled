@@ -31,36 +31,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: HttpError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: HttpError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: HttpError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: HttpError | string;
+}
 
 export type CreateKeyRequestRegionId = "eu01";
 /** The access scope of the key. */
@@ -91,14 +119,14 @@ export interface CreateKeyRequest {
   regionId: CreateKeyRequestRegionId | (string & {});
   /** The key ring UUID. */
   keyRingId: string;
-  access_scope?: AccessScope | (string & {});
+  access_scope?: AccessScope | (string & {}) | undefined;
   algorithm: Algorithm | (string & {});
   /** A user chosen description to distinguish multiple keys. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple keys. Valid characters: letters, digits, underscores and hyphens. */
   displayName: string;
   /** States whether versions can be created or only imported. */
-  importOnly?: boolean;
+  importOnly?: boolean | undefined;
   protection: string;
   purpose: Purpose | (string & {});
 }
@@ -116,9 +144,9 @@ export interface Key {
   /** The date and time the creation of the key was triggered. */
   createdAt: string;
   /** This date is set when a key is pending deletion and refers to the scheduled date of deletion */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** A user chosen description to distinguish multiple keys. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple keys. */
   displayName: string;
   /** A auto generated unique id which identifies the keys. */
@@ -139,7 +167,7 @@ export interface CreateKeyRingRequest {
   /** The STACKIT region name the key ring is located in. */
   regionId: CreateKeyRingRequestRegionId | (string & {});
   /** A user chosen description to distinguish multiple key rings. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple key rings. Valid characters: letters, digits, underscores and hyphens. */
   displayName: string;
 }
@@ -149,7 +177,7 @@ export interface KeyRing {
   /** The date and time the creation of the key ring was triggered. */
   createdAt: string;
   /** A user chosen description to distinguish multiple key rings. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple key rings. */
   displayName: string;
   /** A auto generated unique id which identifies the key ring. */
@@ -177,10 +205,10 @@ export interface CreateWrappingKeyRequest {
   regionId: CreateWrappingKeyRequestRegionId | (string & {});
   /** The key ring UUID. */
   keyRingId: string;
-  access_scope?: AccessScope | (string & {});
+  access_scope?: AccessScope | (string & {}) | undefined;
   algorithm: WrappingAlgorithm | (string & {});
   /** A user chosen description to distinguish multiple wrapping keys. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple wrapping keys. Valid characters: letters, digits, underscores and hyphens. */
   displayName: string;
   protection: string;
@@ -199,7 +227,7 @@ export interface WrappingKey {
   /** The date and time the creation of the wrapping key was triggered. */
   createdAt: string;
   /** A user chosen description to distinguish multiple wrapping keys. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple wrapping keys. */
   displayName: string;
   /** The date and time the wrapping key will expire. */
@@ -210,7 +238,7 @@ export interface WrappingKey {
   keyRingId: string;
   protection: string;
   /** The public key of the wrapping key. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   purpose: WrappingPurpose;
   /** The current state of the wrapping key. */
   state: WrappingKeyState;
@@ -374,7 +402,7 @@ export interface Version {
   /** The date and time the creation of the key was triggered. */
   createdAt: string;
   /** The scheduled date when a version's key material will be erased completely from the backend */
-  destroyDate?: string;
+  destroyDate?: string | undefined;
   /** States whether versions is enabled or disabled. */
   disabled: boolean;
   /** The unique id of the key this version is assigned to. */
@@ -384,7 +412,7 @@ export interface Version {
   /** A sequential number which identifies the key versions. */
   number: number;
   /** The public key of the key version. Only present in asymmetric keys. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** The current state of the key. */
   state: VersionState;
 }
@@ -545,6 +573,10 @@ export interface VerifiedData {
   /** Whether or not the data has a valid signature. */
   valid: boolean;
 }
+export interface HttpError {
+  /** A string that gives a short information about what went wrong. */
+  message: string;
+}
 export type CreateKeyError = BadRequest | NotFound | StackitOpError;
 /** Create key Creates a new key for the given key ring. */
 export const createKey: API.OperationMethod<
@@ -553,8 +585,8 @@ export const createKey: API.OperationMethod<
   CreateKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<CreateKeyRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<Key>,
+  input: __S(84, __c21, 0) as any as S.Schema<CreateKeyRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<Key>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -570,8 +602,8 @@ export const createKeyRing: API.OperationMethod<
   CreateKeyRingError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<CreateKeyRingRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<KeyRing>,
+  input: __S(92, __c23, 0) as any as S.Schema<CreateKeyRingRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<KeyRing>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -587,8 +619,8 @@ export const createWrappingKey: API.OperationMethod<
   CreateWrappingKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<CreateWrappingKeyRequest>,
-  output: __S(100, __c25, 0) as any as S.Schema<WrappingKey>,
+  input: __S(100, __c25, 0) as any as S.Schema<CreateWrappingKeyRequest>,
+  output: __S(104, __c26, 0) as any as S.Schema<WrappingKey>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -604,8 +636,8 @@ export const decrypt: API.OperationMethod<
   DecryptError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<DecryptRequest>,
-  output: __S(105, __c26, 1) as any as S.Schema<DecryptedData>,
+  input: __S(108, __c27, 0) as any as S.Schema<DecryptRequest>,
+  output: __S(109, __c27, 1) as any as S.Schema<DecryptedData>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -621,8 +653,8 @@ export const deleteKey: API.OperationMethod<
   DeleteKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<DeleteKeyRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<DeleteKeyResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<DeleteKeyRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DeleteKeyResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -638,8 +670,8 @@ export const deleteKeyRing: API.OperationMethod<
   DeleteKeyRingError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<DeleteKeyRingRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<DeleteKeyRingResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<DeleteKeyRingRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DeleteKeyRingResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -655,8 +687,8 @@ export const deleteWrappingKey: API.OperationMethod<
   DeleteWrappingKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteWrappingKeyRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<DeleteWrappingKeyResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<DeleteWrappingKeyRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DeleteWrappingKeyResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -672,8 +704,8 @@ export const destroyVersion: API.OperationMethod<
   DestroyVersionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<DestroyVersionRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<DestroyVersionResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<DestroyVersionRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DestroyVersionResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -689,8 +721,8 @@ export const disableVersion: API.OperationMethod<
   DisableVersionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DisableVersionRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<DisableVersionResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<DisableVersionRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DisableVersionResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -706,8 +738,8 @@ export const enableVersion: API.OperationMethod<
   EnableVersionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<EnableVersionRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<EnableVersionResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<EnableVersionRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<EnableVersionResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -723,8 +755,8 @@ export const encrypt: API.OperationMethod<
   EncryptError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<EncryptRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<EncryptedData>,
+  input: __S(20, __c5, 0) as any as S.Schema<EncryptRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<EncryptedData>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -736,8 +768,8 @@ export type GetKeyError = BadRequest | NotFound | StackitOpError;
 /** Get key Returns the details for the given key. */
 export const getKey: API.OperationMethod<GetKeyRequest, Key, GetKeyError, StackitOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(20, __c5, 0) as any as S.Schema<GetKeyRequest>,
-    output: __S(84, __c21, 0) as any as S.Schema<Key>,
+    input: __S(24, __c6, 0) as any as S.Schema<GetKeyRequest>,
+    output: __S(88, __c22, 0) as any as S.Schema<Key>,
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -753,8 +785,8 @@ export const getKeyRing: API.OperationMethod<
   GetKeyRingError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetKeyRingRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<KeyRing>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetKeyRingRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<KeyRing>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -770,8 +802,8 @@ export const getVersion: API.OperationMethod<
   GetVersionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetVersionRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<Version>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetVersionRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<Version>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -787,8 +819,8 @@ export const getWrappingKey: API.OperationMethod<
   GetWrappingKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<GetWrappingKeyRequest>,
-  output: __S(100, __c25, 0) as any as S.Schema<WrappingKey>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetWrappingKeyRequest>,
+  output: __S(104, __c26, 0) as any as S.Schema<WrappingKey>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -804,8 +836,8 @@ export const importKey: API.OperationMethod<
   ImportKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<ImportKeyRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<Version>,
+  input: __S(44, __c11, 0) as any as S.Schema<ImportKeyRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<Version>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -821,8 +853,8 @@ export const listKeyRings: API.OperationMethod<
   ListKeyRingsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<ListKeyRingsRequest>,
-  output: __S(46, __c11, 2) as any as S.Schema<KeyRingList>,
+  input: __S(48, __c12, 0) as any as S.Schema<ListKeyRingsRequest>,
+  output: __S(50, __c12, 2) as any as S.Schema<KeyRingList>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -838,8 +870,8 @@ export const listKeys: API.OperationMethod<
   ListKeysError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<ListKeysRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<KeyList>,
+  input: __S(52, __c13, 0) as any as S.Schema<ListKeysRequest>,
+  output: __S(54, __c13, 2) as any as S.Schema<KeyList>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -855,8 +887,8 @@ export const listVersions: API.OperationMethod<
   ListVersionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<ListVersionsRequest>,
-  output: __S(54, __c13, 2) as any as S.Schema<VersionList>,
+  input: __S(56, __c14, 0) as any as S.Schema<ListVersionsRequest>,
+  output: __S(58, __c14, 2) as any as S.Schema<VersionList>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -872,8 +904,8 @@ export const listWrappingKeys: API.OperationMethod<
   ListWrappingKeysError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<ListWrappingKeysRequest>,
-  output: __S(58, __c14, 2) as any as S.Schema<WrappingKeyList>,
+  input: __S(60, __c15, 0) as any as S.Schema<ListWrappingKeysRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<WrappingKeyList>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -889,8 +921,8 @@ export const restoreKey: API.OperationMethod<
   RestoreKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<RestoreKeyRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<RestoreKeyResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<RestoreKeyRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<RestoreKeyResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -906,8 +938,8 @@ export const restoreVersion: API.OperationMethod<
   RestoreVersionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<RestoreVersionRequest>,
-  output: __S(112, __c28, 0) as any as S.Schema<RestoreVersionResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<RestoreVersionRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<RestoreVersionResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -923,8 +955,8 @@ export const rotateKey: API.OperationMethod<
   RotateKeyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<RotateKeyRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<Version>,
+  input: __S(72, __c18, 0) as any as S.Schema<RotateKeyRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<Version>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -936,8 +968,8 @@ export type SignError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Sign Sign data using the given key version as secret. */
 export const sign: API.OperationMethod<SignRequest, SignedData, SignError, StackitOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(72, __c18, 0) as any as S.Schema<SignRequest>,
-    output: __S(73, __c18, 1) as any as S.Schema<SignedData>,
+    input: __S(76, __c19, 0) as any as S.Schema<SignRequest>,
+    output: __S(77, __c19, 1) as any as S.Schema<SignedData>,
     errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -953,8 +985,8 @@ export const verify: API.OperationMethod<
   VerifyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<VerifyRequest>,
-  output: __S(77, __c19, 1) as any as S.Schema<VerifiedData>,
+  input: __S(80, __c20, 0) as any as S.Schema<VerifyRequest>,
+  output: __S(81, __c20, 1) as any as S.Schema<VerifiedData>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -964,6 +996,16 @@ export const verify: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "HttpError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -983,7 +1025,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteWrappingKeyRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1004,7 +1046,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DestroyVersionRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1025,7 +1067,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DisableVersionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1046,7 +1088,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "EnableVersionRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1074,7 +1116,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "EncryptedData" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1094,7 +1136,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetKeyRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1113,7 +1155,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetKeyRingRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1134,7 +1176,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetVersionRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1151,7 +1193,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "Version" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1171,7 +1213,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetWrappingKeyRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1193,7 +1235,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ImportKeyRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1210,16 +1252,16 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListKeyRingsRequest" });
     case 1:
-      return S.Array(__S(92, __c23, 0));
+      return S.Array(__S(96, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keyRings: __S(45, __c11, 1),
+          keyRings: __S(49, __c12, 1),
         }),
       ).annotate({ identifier: "KeyRingList" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1237,16 +1279,16 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListKeysRequest" });
     case 1:
-      return S.Array(__S(84, __c21, 0));
+      return S.Array(__S(88, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(49, __c12, 1),
+          keys: __S(53, __c13, 1),
         }),
       ).annotate({ identifier: "KeyList" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1265,16 +1307,16 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListVersionsRequest" });
     case 1:
-      return S.Array(__S(32, __c8, 0));
+      return S.Array(__S(36, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          versions: __S(53, __c13, 1),
+          versions: __S(57, __c14, 1),
         }),
       ).annotate({ identifier: "VersionList" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1292,16 +1334,16 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListWrappingKeysRequest" });
     case 1:
-      return S.Array(__S(100, __c25, 0));
+      return S.Array(__S(104, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          wrappingKeys: __S(57, __c14, 1),
+          wrappingKeys: __S(61, __c15, 1),
         }),
       ).annotate({ identifier: "WrappingKeyList" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1321,7 +1363,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "RestoreKeyRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1342,7 +1384,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "RestoreVersionRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1362,7 +1404,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RotateKeyRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1391,7 +1433,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "SignedData" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1420,7 +1462,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "VerifiedData" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1446,7 +1488,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateKeyRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1467,7 +1509,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "Key" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1487,7 +1529,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateKeyRingRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1501,7 +1543,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "KeyRing" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1526,7 +1568,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateWrappingKeyRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1547,7 +1589,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "WrappingKey" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1575,7 +1617,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DecryptedData" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1595,13 +1637,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteKeyRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteKeyResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

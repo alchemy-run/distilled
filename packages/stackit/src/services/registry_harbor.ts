@@ -31,90 +31,125 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 export interface Access {
   /** The resource of the access. Possible resources are listed here for system and project level https://github.com/goharbor/harbor/blob/main/src/common/rbac/const.go */
-  resource?: string;
+  resource?: string | undefined;
   /** The action of the access. Possible actions are *, pull, push, create, read, update, delete, list, operate, scanner-pull and stop. */
-  action?: string;
+  action?: string | undefined;
   /** The effect of the access */
-  effect?: string;
+  effect?: string | undefined;
 }
 export type RobotPermissionAccessList = Array<Access>;
 export interface RobotPermission {
   /** The kind of the permission */
-  kind?: string;
+  kind?: string | undefined;
   /** The namespace of the permission */
-  namespace?: string;
-  access?: RobotPermissionAccessList;
+  namespace?: string | undefined;
+  access?: RobotPermissionAccessList | undefined;
 }
 export type CreateRobotRequestPermissionsList = Array<RobotPermission>;
 export interface CreateRobotRequest {
   /** The name of the robot */
-  name?: string;
+  name?: string | undefined;
   /** The description of the robot */
-  description?: string;
+  description?: string | undefined;
   /** The secret of the robot */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The level of the robot, project or system */
-  level?: string;
+  level?: string | undefined;
   /** The disable status of the robot */
-  disable?: boolean;
+  disable?: boolean | undefined;
   /** The duration of the robot in days, duration must be either -1(Never) or a positive integer */
-  duration?: number;
-  permissions?: CreateRobotRequestPermissionsList;
+  duration?: number | undefined;
+  permissions?: CreateRobotRequestPermissionsList | undefined;
 }
 /** The response for robot account creation. */
 export interface RobotCreated {
   /** The ID of the robot */
-  id?: number;
+  id?: number | undefined;
   /** The name of the robot */
-  name?: string;
+  name?: string | undefined;
   /** The secret of the robot */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The creation time of the robot. */
-  creation_time?: string;
+  creation_time?: string | undefined;
   /** The expiration date of the robot */
-  expires_at?: number;
+  expires_at?: number | undefined;
 }
 export interface CreateTagRequest {
   /** The name of the project */
@@ -167,25 +202,25 @@ export interface GetArtifactRequest {
   /** The reference of the artifact, can be digest or tag */
   reference: string;
   /** The page number */
-  page?: number;
+  page?: number | undefined;
   /** The size of per page */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Specify whether the tags are inclued inside the returning artifacts */
-  with_tag?: boolean;
+  with_tag?: boolean | undefined;
   /** Specify whether the labels are inclued inside the returning artifacts */
-  with_label?: boolean;
+  with_label?: boolean | undefined;
   /** Specify whether the scan overview is inclued inside the returning artifacts */
-  with_scan_overview?: boolean;
+  with_scan_overview?: boolean | undefined;
   /** Specify whether the SBOM overview is included in returning artifact, when this option is true, the SBOM overview will be included in the response */
-  with_sbom_overview?: boolean;
+  with_sbom_overview?: boolean | undefined;
   /** Specify whether the accessories are included of the returning artifacts. */
-  with_accessory?: boolean;
+  with_accessory?: boolean | undefined;
   /** Specify whether the signature is inclued inside the returning artifacts */
-  with_signature?: boolean;
+  with_signature?: boolean | undefined;
   /** Specify whether the immutable status is inclued inside the tags of the returning artifacts. */
-  with_immutable_status?: boolean;
+  with_immutable_status?: boolean | undefined;
   /** A comma-separated lists of MIME types for the scan report or scan summary. The first mime type will be used when the report found for it. Currently the mime type supports 'application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0' and 'application/vnd.security.vulnerability.report; version=1.1' */
-  xAcceptVulnerabilities?: string;
+  xAcceptVulnerabilities?: string | undefined;
 }
 export type ExtraAttrs = { [key: string]: unknown | undefined };
 export type Annotations = { [key: string]: string | undefined };
@@ -193,72 +228,72 @@ export type Annotations = { [key: string]: string | undefined };
 export type PlatformOsFeaturesList = Array<string>;
 export interface Platform {
   /** The architecture that the artifact applys to */
-  architecture?: string;
+  architecture?: string | undefined;
   /** The OS that the artifact applys to */
-  os?: string;
+  os?: string | undefined;
   /** The version of the OS that the artifact applys to */
-  _os_version_?: string;
+  _os_version_?: string | undefined;
   /** The features of the OS that the artifact applys to */
-  _os_features_?: PlatformOsFeaturesList;
+  _os_features_?: PlatformOsFeaturesList | undefined;
   /** The variant of the CPU */
-  variant?: string;
+  variant?: string | undefined;
 }
 /** The download URLs */
 export type ReferenceUrlsList = Array<string>;
 export interface Reference {
   /** The parent ID of the reference */
-  parent_id?: number;
+  parent_id?: number | undefined;
   /** The child ID of the reference */
-  child_id?: number;
+  child_id?: number | undefined;
   /** The digest of the child artifact */
-  child_digest?: string;
-  platform?: Platform;
-  annotations?: Annotations;
+  child_digest?: string | undefined;
+  platform?: Platform | undefined;
+  annotations?: Annotations | undefined;
   /** The download URLs */
-  urls?: ReferenceUrlsList;
+  urls?: ReferenceUrlsList | undefined;
 }
 export type ArtifactReferencesList = Array<Reference>;
 export interface Tag {
   /** The ID of the tag */
-  id?: number;
+  id?: number | undefined;
   /** The ID of the repository that the tag belongs to */
-  repository_id?: number;
+  repository_id?: number | undefined;
   /** The ID of the artifact that the tag attached to */
-  artifact_id?: number;
+  artifact_id?: number | undefined;
   /** The name of the tag */
-  name?: string;
+  name?: string | undefined;
   /** The push time of the tag */
-  push_time?: string;
+  push_time?: string | undefined;
   /** The latest pull time of the tag */
-  pull_time?: string;
+  pull_time?: string | undefined;
   /** The immutable status of the tag */
-  immutable?: boolean;
+  immutable?: boolean | undefined;
 }
 export type ArtifactTagsList = Array<Tag>;
 export interface AdditionLink {
   /** The link of the addition */
-  href?: string;
+  href?: string | undefined;
   /** Determine whether the link is an absolute URL or not */
-  absolute?: boolean;
+  absolute?: boolean | undefined;
 }
 export type AdditionLinks = { [key: string]: AdditionLink | undefined };
 export interface Label {
   /** The ID of the label */
-  id?: number;
+  id?: number | undefined;
   /** The name the label */
-  name?: string;
+  name?: string | undefined;
   /** The description the label */
-  description?: string;
+  description?: string | undefined;
   /** The color the label */
-  color?: string;
+  color?: string | undefined;
   /** The scope the label */
-  scope?: string;
+  scope?: string | undefined;
   /** The ID of project that the label belongs to */
-  project_id?: number;
+  project_id?: number | undefined;
   /** The creation time the label */
-  creation_time?: string;
+  creation_time?: string | undefined;
   /** The update time of the label */
-  update_time?: string;
+  update_time?: string | undefined;
 }
 export type ArtifactLabelsList = Array<Label>;
 /** Numbers of the vulnerabilities with different severity */
@@ -266,203 +301,203 @@ export type VulnerabilitySummarySummaryMap = { [key: string]: number | undefined
 /** VulnerabilitySummary contains the total number of the foun d vulnerabilities number and numbers of each severity level. */
 export interface VulnerabilitySummary {
   /** The total number of the found vulnerabilities */
-  total?: number;
+  total?: number | undefined;
   /** The number of the fixable vulnerabilities */
-  fixable?: number;
+  fixable?: number | undefined;
   /** Numbers of the vulnerabilities with different severity */
-  summary?: VulnerabilitySummarySummaryMap;
+  summary?: VulnerabilitySummarySummaryMap | undefined;
 }
 export interface Scanner {
   /** Name of the scanner */
-  name?: string;
+  name?: string | undefined;
   /** Name of the scanner provider */
-  vendor?: string;
+  vendor?: string | undefined;
   /** Version of the scanner adapter */
-  version?: string;
+  version?: string | undefined;
 }
 /** The summary for the native report */
 export interface NativeReportSummary {
   /** id of the native scan report */
-  report_id?: string;
+  report_id?: string | undefined;
   /** The status of the report generating process */
-  scan_status?: string;
+  scan_status?: string | undefined;
   /** The overall severity */
-  severity?: string;
+  severity?: string | undefined;
   /** The seconds spent for generating the report */
-  duration?: number;
-  summary?: VulnerabilitySummary;
+  duration?: number | undefined;
+  summary?: VulnerabilitySummary | undefined;
   /** The start time of the scan process that generating report */
-  start_time?: string;
+  start_time?: string | undefined;
   /** The end time of the scan process that generating report */
-  end_time?: string;
+  end_time?: string | undefined;
   /** The complete percent of the scanning which value is between 0 and 100 */
-  complete_percent?: number;
-  scanner?: Scanner;
+  complete_percent?: number | undefined;
+  scanner?: Scanner | undefined;
 }
 /** The scan overview attached in the metadata of tag */
 export type ScanOverview = { [key: string]: NativeReportSummary | undefined };
 /** The generate SBOM overview information */
 export interface SBOMOverview {
   /** The start time of the generating sbom report task */
-  start_time?: string;
+  start_time?: string | undefined;
   /** The end time of the generating sbom report task */
-  end_time?: string;
+  end_time?: string | undefined;
   /** The status of the generating SBOM task */
-  scan_status?: string;
+  scan_status?: string | undefined;
   /** The digest of the generated SBOM accessory */
-  sbom_digest?: string;
+  sbom_digest?: string | undefined;
   /** id of the native scan report */
-  report_id?: string;
+  report_id?: string | undefined;
   /** Time in seconds required to create the report */
-  duration?: number;
-  scanner?: Scanner;
+  duration?: number | undefined;
+  scanner?: Scanner | undefined;
 }
 /** The accessory of the artifact */
 export interface Accessory {
   /** The ID of the accessory */
-  id?: number;
+  id?: number | undefined;
   /** The artifact id of the accessory */
-  artifact_id?: number;
+  artifact_id?: number | undefined;
   /** Going to be deprecated, use repo and digest for insteand. The subject artifact id of the accessory. */
-  subject_artifact_id?: number;
+  subject_artifact_id?: number | undefined;
   /** The subject artifact digest of the accessory */
-  subject_artifact_digest?: string;
+  subject_artifact_digest?: string | undefined;
   /** The subject artifact repository name of the accessory */
-  subject_artifact_repo?: string;
+  subject_artifact_repo?: string | undefined;
   /** The artifact size of the accessory */
-  size?: number;
+  size?: number | undefined;
   /** The artifact digest of the accessory */
-  digest?: string;
+  digest?: string | undefined;
   /** The artifact size of the accessory */
-  type?: string;
+  type?: string | undefined;
   /** The icon of the accessory */
-  icon?: string;
+  icon?: string | undefined;
   /** The creation time of the accessory */
-  creation_time?: string;
+  creation_time?: string | undefined;
 }
 export type ArtifactAccessoriesList = Array<Accessory>;
 export interface Artifact {
   /** The ID of the artifact */
-  id?: number;
+  id?: number | undefined;
   /** The type of the artifact, e.g. image, chart, etc */
-  type?: string;
+  type?: string | undefined;
   /** The media type of the artifact */
-  media_type?: string;
+  media_type?: string | undefined;
   /** The manifest media type of the artifact */
-  manifest_media_type?: string;
+  manifest_media_type?: string | undefined;
   /** The artifact_type in the manifest of the artifact */
-  artifact_type?: string;
+  artifact_type?: string | undefined;
   /** The ID of the project that the artifact belongs to */
-  project_id?: number;
+  project_id?: number | undefined;
   /** The ID of the repository that the artifact belongs to */
-  repository_id?: number;
+  repository_id?: number | undefined;
   /** The name of the repository that the artifact belongs to */
-  repository_name?: string;
+  repository_name?: string | undefined;
   /** The digest of the artifact */
-  digest?: string;
+  digest?: string | undefined;
   /** The size of the artifact */
-  size?: number;
+  size?: number | undefined;
   /** The digest of the icon */
-  icon?: string;
+  icon?: string | undefined;
   /** The push time of the artifact */
-  push_time?: string;
+  push_time?: string | undefined;
   /** The latest pull time of the artifact */
-  pull_time?: string;
-  extra_attrs?: ExtraAttrs;
-  annotations?: Annotations;
-  references?: ArtifactReferencesList;
-  tags?: ArtifactTagsList;
-  addition_links?: AdditionLinks;
-  labels?: ArtifactLabelsList;
+  pull_time?: string | undefined;
+  extra_attrs?: ExtraAttrs | undefined;
+  annotations?: Annotations | undefined;
+  references?: ArtifactReferencesList | undefined;
+  tags?: ArtifactTagsList | undefined;
+  addition_links?: AdditionLinks | undefined;
+  labels?: ArtifactLabelsList | undefined;
   /** The overview of the scan result. */
-  scan_overview?: ScanOverview;
+  scan_overview?: ScanOverview | undefined;
   /** The overview of the generating SBOM progress */
-  sbom_overview?: SBOMOverview;
-  accessories?: ArtifactAccessoriesList;
+  sbom_overview?: SBOMOverview | undefined;
+  accessories?: ArtifactAccessoriesList | undefined;
 }
 export interface GetProjectRequest {
   /** The name or id of the project */
   project_name_or_id: string;
   /** The flag to indicate whether the parameter which supports both name and id in the path is the name of the resource. When the X-Is-Resource-Name is false and the parameter can be converted to an integer, the parameter will be as an id, otherwise, it will be as a name. */
-  xIsResourceName?: boolean;
+  xIsResourceName?: boolean | undefined;
 }
 /** The list of role ID of the current user who triggered the API (for UI) */
 export type ProjectCurrentUserRoleIdsList = Array<number>;
 export interface ProjectMetadata {
   /** The public status of the project. The valid values are "true", "false". */
-  public?: string;
+  public?: string | undefined;
   /** Whether content trust is enabled or not. If it is enabled, user can't pull unsigned images from this project. The valid values are "true", "false". */
-  enable_content_trust?: string | null;
+  enable_content_trust?: string | null | undefined;
   /** Whether cosign content trust is enabled or not. If it is enabled, user can't pull images without cosign signature from this project. The valid values are "true", "false". */
-  enable_content_trust_cosign?: string | null;
+  enable_content_trust_cosign?: string | null | undefined;
   /** Whether prevent the vulnerable images from running. The valid values are "true", "false". */
-  prevent_vul?: string | null;
+  prevent_vul?: string | null | undefined;
   /** If the vulnerability is high than severity defined here, the images can't be pulled. The valid values are "none", "low", "medium", "high", "critical". */
-  severity?: string | null;
+  severity?: string | null | undefined;
   /** Whether scan images automatically when pushing. The valid values are "true", "false". */
-  auto_scan?: string | null;
+  auto_scan?: string | null | undefined;
   /** Whether generating SBOM automatically when pushing a subject artifact. The valid values are "true", "false". */
-  auto_sbom_generation?: string | null;
+  auto_sbom_generation?: string | null | undefined;
   /** Whether this project reuse the system level CVE allowlist as the allowlist of its own. The valid values are "true", "false". If it is set to "true" the actual allowlist associate with this project, if any, will be ignored. */
-  reuse_sys_cve_allowlist?: string | null;
+  reuse_sys_cve_allowlist?: string | null | undefined;
   /** The ID of the tag retention policy for the project */
-  retention_id?: string | null;
+  retention_id?: string | null | undefined;
   /** The bandwidth limit of proxy cache, in Kbps (kilobits per second). It limits the communication between Harbor and the upstream registry, not the client and the Harbor. */
-  proxy_speed_kb?: string | null;
+  proxy_speed_kb?: string | null | undefined;
   /** The max connection per artifact to the upstream registry in current proxy cache project, if it is -1, no limit to upstream registry connections */
-  max_upstream_conn?: string | null;
+  max_upstream_conn?: string | null | undefined;
   /** Whether to serve images from local cache when they are removed from the upstream registry. The valid values are "true", "false". */
-  proxy_cache_local_on_not_found?: string | null;
+  proxy_cache_local_on_not_found?: string | null | undefined;
 }
 /** The item in CVE allowlist */
 export interface CVEAllowlistItem {
   /** The ID of the CVE, such as "CVE-2019-10164" */
-  cve_id?: string;
+  cve_id?: string | undefined;
 }
 export type CVEAllowlistItemsList = Array<CVEAllowlistItem>;
 /** The CVE Allowlist for system or project */
 export interface CVEAllowlist {
   /** ID of the allowlist */
-  id?: number;
+  id?: number | undefined;
   /** ID of the project which the allowlist belongs to. For system level allowlist this attribute is zero. */
-  project_id?: number;
+  project_id?: number | undefined;
   /** the time for expiration of the allowlist, in the form of seconds since epoch. This is an optional attribute, if it's not set the CVE allowlist does not expire. */
-  expires_at?: number | null;
-  items?: CVEAllowlistItemsList;
+  expires_at?: number | null | undefined;
+  items?: CVEAllowlistItemsList | undefined;
   /** The creation time of the allowlist. */
-  creation_time?: string;
+  creation_time?: string | undefined;
   /** The update time of the allowlist. */
-  update_time?: string;
+  update_time?: string | undefined;
 }
 export interface Project {
   /** Project ID */
-  project_id?: number;
+  project_id?: number | undefined;
   /** The owner ID of the project always means the creator of the project. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** The name of the project. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of referenced registry when the project is a proxy cache project. */
-  registry_id?: number;
+  registry_id?: number | undefined;
   /** The creation time of the project. */
-  creation_time?: string;
+  creation_time?: string | undefined;
   /** The update time of the project. */
-  update_time?: string;
+  update_time?: string | undefined;
   /** A deletion mark of the project. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The owner name of the project. */
-  owner_name?: string;
+  owner_name?: string | undefined;
   /** Correspond to the UI about whether the project's publicity is updatable (for UI) */
-  togglable?: boolean;
+  togglable?: boolean | undefined;
   /** The role ID with highest permission of the current user who triggered the API (for UI). This attribute is deprecated and will be removed in future versions. */
-  current_user_role_id?: number;
+  current_user_role_id?: number | undefined;
   /** The list of role ID of the current user who triggered the API (for UI) */
-  current_user_role_ids?: ProjectCurrentUserRoleIdsList;
+  current_user_role_ids?: ProjectCurrentUserRoleIdsList | undefined;
   /** The number of the repositories under this project. */
-  repo_count?: number;
+  repo_count?: number | undefined;
   /** The metadata of the project. */
-  metadata?: ProjectMetadata;
+  metadata?: ProjectMetadata | undefined;
   /** The CVE allowlist of this project. */
-  cve_allowlist?: CVEAllowlist;
+  cve_allowlist?: CVEAllowlist | undefined;
 }
 export interface GetReportLogRequest {
   /** The name of the project */
@@ -483,21 +518,21 @@ export interface GetRepositoryRequest {
 }
 export interface Repository {
   /** The ID of the repository */
-  id?: number;
+  id?: number | undefined;
   /** The ID of the project that the repository belongs to */
-  project_id?: number;
+  project_id?: number | undefined;
   /** The name of the repository */
-  name?: string;
+  name?: string | undefined;
   /** The description of the repository */
-  description?: string;
+  description?: string | undefined;
   /** The count of the artifacts inside the repository */
-  artifact_count?: number;
+  artifact_count?: number | undefined;
   /** The count that the artifact inside the repository pulled */
-  pull_count?: number;
+  pull_count?: number | undefined;
   /** The creation time of the repository */
-  creation_time?: string | null;
+  creation_time?: string | null | undefined;
   /** The update time of the repository */
-  update_time?: string;
+  update_time?: string | undefined;
 }
 export interface GetRobotRequest {
   /** Robot ID */
@@ -506,32 +541,32 @@ export interface GetRobotRequest {
 export type RobotPermissionsList = Array<RobotPermission>;
 export interface Robot {
   /** The ID of the robot */
-  id?: number;
+  id?: number | undefined;
   /** The name of the robot */
-  name?: string;
+  name?: string | undefined;
   /** The description of the robot */
-  description?: string;
+  description?: string | undefined;
   /** The secret of the robot */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The level of the robot, project or system */
-  level?: string;
+  level?: string | undefined;
   /** The duration of the robot in days, duration must be either -1(Never) or a positive integer */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** The editable status of the robot */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** The disable status of the robot */
-  disable?: boolean;
+  disable?: boolean | undefined;
   /** The expiration date of the robot */
-  expires_at?: number;
-  permissions?: RobotPermissionsList;
+  expires_at?: number | undefined;
+  permissions?: RobotPermissionsList | undefined;
   /** The type of the robot creator, like local(harbor_user) or robot. */
-  creator_type?: string;
+  creator_type?: string | undefined;
   /** The reference of the robot creator, like the id of harbor user. */
-  creator_ref?: number;
+  creator_ref?: number | undefined;
   /** The creation time of the robot. */
-  creation_time?: string;
+  creation_time?: string | undefined;
   /** The update time of the robot. */
-  update_time?: string;
+  update_time?: string | undefined;
 }
 export interface GetVulnerabilitiesAdditionRequest {
   /** The name of the project */
@@ -541,7 +576,7 @@ export interface GetVulnerabilitiesAdditionRequest {
   /** The reference of the artifact, can be digest or tag */
   reference: string;
   /** A comma-separated lists of MIME types for the scan report or scan summary. The first mime type will be used when the report found for it. Currently the mime type supports 'application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0' and 'application/vnd.security.vulnerability.report; version=1.1' */
-  xAcceptVulnerabilities?: string;
+  xAcceptVulnerabilities?: string | undefined;
 }
 export type GetVulnerabilitiesAdditionResponse = unknown;
 export interface ListArtifactsRequest {
@@ -550,27 +585,27 @@ export interface ListArtifactsRequest {
   /** The name of the repository. If it contains slash, encode it twice over with URL encoding. e.g. a/b -> a%2Fb -> a%252Fb */
   repository_name: string;
   /** Query string to query resources. Supported query patterns are "exact match(k=v)", "fuzzy match(k=~v)", "range(k=[min~max])", "list with union releationship(k={v1 v2 v3})" and "list with intersetion relationship(k=(v1 v2 v3))". The value of range and list can be string(enclosed by " or '), integer or time(in format "2020-04-09 02:36:00"). All of these query patterns should be put in the query string "q=xxx" and splitted by ",". e.g. q=k1=v1,k2=~v2,k3=[min~max] */
-  q?: string;
+  q?: string | undefined;
   /** Sort the resource list in ascending or descending order. e.g. sort by field1 in ascending order and field2 in descending order with "sort=field1,-field2" */
-  sort?: string;
+  sort?: string | undefined;
   /** The page number */
-  page?: number;
+  page?: number | undefined;
   /** The size of per page */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Specify whether the tags are included inside the returning artifacts */
-  with_tag?: boolean;
+  with_tag?: boolean | undefined;
   /** Specify whether the labels are included inside the returning artifacts */
-  with_label?: boolean;
+  with_label?: boolean | undefined;
   /** Specify whether the scan overview is included inside the returning artifacts */
-  with_scan_overview?: boolean;
+  with_scan_overview?: boolean | undefined;
   /** Specify whether the SBOM overview is included in returning artifacts, when this option is true, the SBOM overview will be included in the response */
-  with_sbom_overview?: boolean;
+  with_sbom_overview?: boolean | undefined;
   /** Specify whether the immutable status is included inside the tags of the returning artifacts. Only works when setting "with_immutable_status=true" */
-  with_immutable_status?: boolean;
+  with_immutable_status?: boolean | undefined;
   /** Specify whether the accessories are included of the returning artifacts. Only works when setting "with_accessory=true" */
-  with_accessory?: boolean;
+  with_accessory?: boolean | undefined;
   /** A comma-separated lists of MIME types for the scan report or scan summary. The first mime type will be used when the report found for it. Currently the mime type supports 'application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0' and 'application/vnd.security.vulnerability.report; version=1.1' */
-  xAcceptVulnerabilities?: string;
+  xAcceptVulnerabilities?: string | undefined;
 }
 export type ListArtifactsResponseBodyList = Array<Artifact>;
 export type ListArtifactsResponse = ListArtifactsResponseBodyList;
@@ -578,25 +613,25 @@ export interface ListRepositoriesRequest {
   /** The name of the project */
   project_name: string;
   /** Query string to query resources. Supported query patterns are "exact match(k=v)", "fuzzy match(k=~v)", "range(k=[min~max])", "list with union releationship(k={v1 v2 v3})" and "list with intersetion relationship(k=(v1 v2 v3))". The value of range and list can be string(enclosed by " or '), integer or time(in format "2020-04-09 02:36:00"). All of these query patterns should be put in the query string "q=xxx" and splitted by ",". e.g. q=k1=v1,k2=~v2,k3=[min~max] */
-  q?: string;
+  q?: string | undefined;
   /** Sort the resource list in ascending or descending order. e.g. sort by field1 in ascending order and field2 in descending order with "sort=field1,-field2" */
-  sort?: string;
+  sort?: string | undefined;
   /** The page number */
-  page?: number;
+  page?: number | undefined;
   /** The size of per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListRepositoriesResponseBodyList = Array<Repository>;
 export type ListRepositoriesResponse = ListRepositoriesResponseBodyList;
 export interface ListRobotRequest {
   /** Query string to query resources. Supported query patterns are "exact match(k=v)", "fuzzy match(k=~v)", "range(k=[min~max])", "list with union releationship(k={v1 v2 v3})" and "list with intersetion relationship(k=(v1 v2 v3))". The value of range and list can be string(enclosed by " or '), integer or time(in format "2020-04-09 02:36:00"). All of these query patterns should be put in the query string "q=xxx" and splitted by ",". e.g. q=k1=v1,k2=~v2,k3=[min~max] */
-  q?: string;
+  q?: string | undefined;
   /** Sort the resource list in ascending or descending order. e.g. sort by field1 in ascending order and field2 in descending order with "sort=field1,-field2" */
-  sort?: string;
+  sort?: string | undefined;
   /** The page number */
-  page?: number;
+  page?: number | undefined;
   /** The size of per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListRobotResponseBodyList = Array<Robot>;
 export type ListRobotResponse = ListRobotResponseBodyList;
@@ -608,15 +643,15 @@ export interface ListTagsRequest {
   /** The reference of the artifact, can be digest or tag */
   reference: string;
   /** Query string to query resources. Supported query patterns are "exact match(k=v)", "fuzzy match(k=~v)", "range(k=[min~max])", "list with union releationship(k={v1 v2 v3})" and "list with intersetion relationship(k=(v1 v2 v3))". The value of range and list can be string(enclosed by " or '), integer or time(in format "2020-04-09 02:36:00"). All of these query patterns should be put in the query string "q=xxx" and splitted by ",". e.g. q=k1=v1,k2=~v2,k3=[min~max] */
-  q?: string;
+  q?: string | undefined;
   /** Sort the resource list in ascending or descending order. e.g. sort by field1 in ascending order and field2 in descending order with "sort=field1,-field2" */
-  sort?: string;
+  sort?: string | undefined;
   /** The page number */
-  page?: number;
+  page?: number | undefined;
   /** The size of per page */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Specify whether the immutable status is included inside the returning tags */
-  with_immutable_status?: boolean;
+  with_immutable_status?: boolean | undefined;
 }
 export type ListTagsResponseBodyList = Array<Tag>;
 export type ListTagsResponse = ListTagsResponseBodyList;
@@ -624,12 +659,12 @@ export interface RefreshSecRequest {
   /** Robot ID */
   robot_id: number;
   /** The secret of the robot */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The response for refresh/update robot account secret. */
 export interface RobotSec {
   /** The secret of the robot */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The scan type for the scan request. Two options are currently supported, vulnerability and sbom */
 export type ScanArtifactRequestScanType = "vulnerability" | "sbom";
@@ -641,7 +676,7 @@ export interface ScanArtifactRequest {
   /** The reference of the artifact, can be digest or tag */
   reference: string;
   /** The scan type for the scan request. Two options are currently supported, vulnerability and sbom */
-  scan_type?: ScanArtifactRequestScanType | (string & {});
+  scan_type?: ScanArtifactRequestScanType | (string & {}) | undefined;
 }
 export interface ScanArtifactResponse {}
 /** The scan type for the scan request. Two options are currently supported, vulnerability and sbom */
@@ -654,7 +689,7 @@ export interface StopScanArtifactRequest {
   /** The reference of the artifact, can be digest or tag */
   reference: string;
   /** The scan type for the scan request. Two options are currently supported, vulnerability and sbom */
-  scan_type?: StopScanArtifactRequestScanType | (string & {});
+  scan_type?: StopScanArtifactRequestScanType | (string & {}) | undefined;
 }
 export interface StopScanArtifactResponse {}
 export interface UpdateRepositoryRequest {
@@ -663,21 +698,21 @@ export interface UpdateRepositoryRequest {
   /** The name of the repository. If it contains slash, encode it twice over with URL encoding. e.g. a/b -> a%2Fb -> a%252Fb */
   repository_name: string;
   /** The ID of the repository */
-  id?: number;
+  id?: number | undefined;
   /** The ID of the project that the repository belongs to */
-  project_id?: number;
+  project_id?: number | undefined;
   /** The name of the repository */
-  name?: string;
+  name?: string | undefined;
   /** The description of the repository */
-  description?: string;
+  description?: string | undefined;
   /** The count of the artifacts inside the repository */
-  artifact_count?: number;
+  artifact_count?: number | undefined;
   /** The count that the artifact inside the repository pulled */
-  pull_count?: number;
+  pull_count?: number | undefined;
   /** The creation time of the repository */
-  creation_time?: string | null;
+  creation_time?: string | null | undefined;
   /** The update time of the repository */
-  update_time?: string;
+  update_time?: string | undefined;
 }
 export interface UpdateRepositoryResponse {}
 export type UpdateRobotRequestPermissionsList = Array<RobotPermission>;
@@ -685,34 +720,46 @@ export interface UpdateRobotRequest {
   /** Robot ID */
   robot_id: number;
   /** The ID of the robot */
-  id?: number;
+  id?: number | undefined;
   /** The name of the robot */
-  name?: string;
+  name?: string | undefined;
   /** The description of the robot */
-  description?: string;
+  description?: string | undefined;
   /** The secret of the robot */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** The level of the robot, project or system */
-  level?: string;
+  level?: string | undefined;
   /** The duration of the robot in days, duration must be either -1(Never) or a positive integer */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** The editable status of the robot */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** The disable status of the robot */
-  disable?: boolean;
+  disable?: boolean | undefined;
   /** The expiration date of the robot */
-  expires_at?: number;
-  permissions?: UpdateRobotRequestPermissionsList;
+  expires_at?: number | undefined;
+  permissions?: UpdateRobotRequestPermissionsList | undefined;
   /** The type of the robot creator, like local(harbor_user) or robot. */
-  creator_type?: string;
+  creator_type?: string | undefined;
   /** The reference of the robot creator, like the id of harbor user. */
-  creator_ref?: number;
+  creator_ref?: number | undefined;
   /** The creation time of the robot. */
-  creation_time?: string;
+  creation_time?: string | undefined;
   /** The update time of the robot. */
-  update_time?: string;
+  update_time?: string | undefined;
 }
 export interface UpdateRobotResponse {}
+/** a model for all the error response coming from harbor */
+export interface Error {
+  /** The error code */
+  code?: string | undefined;
+  /** The error message */
+  message?: string | undefined;
+}
+export type ErrorsErrorsList = Array<Error>;
+/** The error array that describe the errors got during the handling of request */
+export interface Errors {
+  errors?: ErrorsErrorsList | undefined;
+}
 export type CreateRobotError = BadRequest | Forbidden | NotFound | Conflict | HarborOpError;
 /** Create a robot account Create a robot account */
 export const createRobot: API.OperationMethod<
@@ -721,8 +768,8 @@ export const createRobot: API.OperationMethod<
   CreateRobotError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<CreateRobotRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<RobotCreated>,
+  input: __S(672, __c21, 0) as any as S.Schema<CreateRobotRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<RobotCreated>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -738,8 +785,8 @@ export const createTag: API.OperationMethod<
   CreateTagError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<CreateTagRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<CreateTagResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<CreateTagRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<CreateTagResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -755,8 +802,8 @@ export const deleteArtifact: API.OperationMethod<
   DeleteArtifactError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DeleteArtifactRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<DeleteArtifactResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteArtifactRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteArtifactResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -772,8 +819,8 @@ export const deleteRepository: API.OperationMethod<
   DeleteRepositoryError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteRepositoryRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<DeleteRepositoryResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteRepositoryRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteRepositoryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -789,8 +836,8 @@ export const deleteRobot: API.OperationMethod<
   DeleteRobotError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteRobotRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<DeleteRobotResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteRobotRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteRobotResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -806,8 +853,8 @@ export const deleteTag: API.OperationMethod<
   DeleteTagError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteTagRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<DeleteTagResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<DeleteTagRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<DeleteTagResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -823,8 +870,8 @@ export const getArtifact: API.OperationMethod<
   GetArtifactError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GetArtifactRequest>,
-  output: __S(82, __c2, 18) as any as S.Schema<Artifact>,
+  input: __S(64, __c2, 0) as any as S.Schema<GetArtifactRequest>,
+  output: __S(114, __c3, 18) as any as S.Schema<Artifact>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -840,8 +887,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(134, __c4, 6) as any as S.Schema<Project>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(166, __c5, 6) as any as S.Schema<Project>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -857,8 +904,8 @@ export const getReportLog: API.OperationMethod<
   GetReportLogError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetReportLogRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<GetReportLogResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetReportLogRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<GetReportLogResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -874,8 +921,8 @@ export const getRepository: API.OperationMethod<
   GetRepositoryError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetRepositoryRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<Repository>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetRepositoryRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<Repository>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -887,8 +934,8 @@ export type GetRobotError = Forbidden | NotFound | HarborOpError;
 /** Get a robot account This endpoint returns specific robot account information by robot ID. */
 export const getRobot: API.OperationMethod<GetRobotRequest, Robot, GetRobotError, HarborOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(256, __c8, 0) as any as S.Schema<GetRobotRequest>,
-    output: __S(288, __c9, 0) as any as S.Schema<Robot>,
+    input: __S(288, __c9, 0) as any as S.Schema<GetRobotRequest>,
+    output: __S(320, __c10, 0) as any as S.Schema<Robot>,
     errors: [Forbidden, NotFound, UnknownStackitError],
     protocol: HarborProtocol,
     retry: Retry.Retry,
@@ -904,8 +951,8 @@ export const getVulnerabilitiesAddition: API.OperationMethod<
   GetVulnerabilitiesAdditionError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetVulnerabilitiesAdditionRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<GetVulnerabilitiesAdditionResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetVulnerabilitiesAdditionRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<GetVulnerabilitiesAdditionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -921,8 +968,8 @@ export const listArtifacts: API.OperationMethod<
   ListArtifactsError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ListArtifactsRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<ListArtifactsResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListArtifactsRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<ListArtifactsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -938,8 +985,8 @@ export const listRepositories: API.OperationMethod<
   ListRepositoriesError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListRepositoriesRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<ListRepositoriesResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListRepositoriesRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<ListRepositoriesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -955,8 +1002,8 @@ export const listRobot: API.OperationMethod<
   ListRobotError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListRobotRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<ListRobotResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListRobotRequest>,
+  output: __S(450, __c14, 2) as any as S.Schema<ListRobotResponse>,
   errors: [BadRequest, NotFound, Forbidden, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -972,8 +1019,8 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(449, __c14, 1) as any as S.Schema<ListTagsResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<ListTagsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -989,8 +1036,8 @@ export const refreshSec: API.OperationMethod<
   RefreshSecError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<RefreshSecRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<RobotSec>,
+  input: __S(512, __c16, 0) as any as S.Schema<RefreshSecRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<RobotSec>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -1011,8 +1058,8 @@ export const scanArtifact: API.OperationMethod<
   ScanArtifactError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ScanArtifactRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ScanArtifactResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<ScanArtifactRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<ScanArtifactResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -1033,8 +1080,8 @@ export const stopScanArtifact: API.OperationMethod<
   StopScanArtifactError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<StopScanArtifactRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<StopScanArtifactResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<StopScanArtifactRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<StopScanArtifactResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -1050,8 +1097,8 @@ export const updateRepository: API.OperationMethod<
   UpdateRepositoryError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<UpdateRepositoryRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<UpdateRepositoryResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<UpdateRepositoryRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<UpdateRepositoryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -1067,8 +1114,8 @@ export const updateRobot: API.OperationMethod<
   UpdateRobotError,
   HarborOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<UpdateRobotRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<UpdateRobotResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<UpdateRobotRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<UpdateRobotResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: HarborProtocol,
   retry: Retry.Retry,
@@ -1078,6 +1125,25 @@ export const updateRobot: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "Errors" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1096,7 +1162,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1124,7 +1190,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetArtifactRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -1138,7 +1204,7 @@ function __c2(j: number): any {
           architecture: S.optional(S.String),
           os: S.optional(S.String),
           _os_version_: S.optional(S.String.pipe(T.Body("'os.version'"))),
-          _os_features_: S.optional(__S(66, __c2, 2).pipe(T.Body("'os.features'"))),
+          _os_features_: S.optional(__S(98, __c3, 2).pipe(T.Body("'os.features'"))),
           variant: S.optional(S.String),
         }),
       ).annotate({ identifier: "Platform" });
@@ -1148,13 +1214,13 @@ function __c2(j: number): any {
           parent_id: S.optional(S.Number),
           child_id: S.optional(S.Number),
           child_digest: S.optional(S.String),
-          platform: S.optional(__S(67, __c2, 3)),
-          annotations: S.optional(__S(65, __c2, 1)),
-          urls: S.optional(__S(66, __c2, 2)),
+          platform: S.optional(__S(99, __c3, 3)),
+          annotations: S.optional(__S(97, __c3, 1)),
+          urls: S.optional(__S(98, __c3, 2)),
         }),
       ).annotate({ identifier: "Reference" });
     case 5:
-      return S.Array(__S(68, __c2, 4));
+      return S.Array(__S(100, __c3, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1163,7 +1229,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "AdditionLink" });
     case 7:
-      return S.Record(S.String, __S(70, __c2, 6));
+      return S.Record(S.String, __S(102, __c3, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -1178,7 +1244,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 9:
-      return S.Array(__S(72, __c2, 8));
+      return S.Array(__S(104, __c3, 8));
     case 10:
       return S.Record(S.String, S.Number);
     case 11:
@@ -1186,7 +1252,7 @@ function __c2(j: number): any {
         S.Struct({
           total: S.optional(S.Number),
           fixable: S.optional(S.Number),
-          summary: S.optional(__S(74, __c2, 10)),
+          summary: S.optional(__S(106, __c3, 10)),
         }),
       ).annotate({ identifier: "VulnerabilitySummary" });
     case 12:
@@ -1204,15 +1270,15 @@ function __c2(j: number): any {
           scan_status: S.optional(S.String),
           severity: S.optional(S.String),
           duration: S.optional(S.Number),
-          summary: S.optional(__S(75, __c2, 11)),
+          summary: S.optional(__S(107, __c3, 11)),
           start_time: S.optional(S.String),
           end_time: S.optional(S.String),
           complete_percent: S.optional(S.Number),
-          scanner: S.optional(__S(76, __c2, 12)),
+          scanner: S.optional(__S(108, __c3, 12)),
         }),
       ).annotate({ identifier: "NativeReportSummary" });
     case 14:
-      return S.Record(S.String, __S(77, __c2, 13));
+      return S.Record(S.String, __S(109, __c3, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -1222,7 +1288,7 @@ function __c2(j: number): any {
           sbom_digest: S.optional(S.String),
           report_id: S.optional(S.String),
           duration: S.optional(S.Number),
-          scanner: S.optional(__S(76, __c2, 12)),
+          scanner: S.optional(__S(108, __c3, 12)),
         }),
       ).annotate({ identifier: "SBOMOverview" });
     case 16:
@@ -1241,7 +1307,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "Accessory" });
     case 17:
-      return S.Array(__S(80, __c2, 16));
+      return S.Array(__S(112, __c3, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -1258,20 +1324,20 @@ function __c2(j: number): any {
           icon: S.optional(S.String),
           push_time: S.optional(S.String),
           pull_time: S.optional(S.String),
-          extra_attrs: S.optional(__S(64, __c2, 0)),
-          annotations: S.optional(__S(65, __c2, 1)),
-          references: S.optional(__S(69, __c2, 5)),
-          tags: S.optional(__S(97, __c3, 1)),
-          addition_links: S.optional(__S(71, __c2, 7)),
-          labels: S.optional(__S(73, __c2, 9)),
-          scan_overview: S.optional(__S(78, __c2, 14)),
-          sbom_overview: S.optional(__S(79, __c2, 15)),
-          accessories: S.optional(__S(81, __c2, 17)),
+          extra_attrs: S.optional(__S(96, __c3, 0)),
+          annotations: S.optional(__S(97, __c3, 1)),
+          references: S.optional(__S(101, __c3, 5)),
+          tags: S.optional(__S(129, __c4, 1)),
+          addition_links: S.optional(__S(103, __c3, 7)),
+          labels: S.optional(__S(105, __c3, 9)),
+          scan_overview: S.optional(__S(110, __c3, 14)),
+          sbom_overview: S.optional(__S(111, __c3, 15)),
+          accessories: S.optional(__S(113, __c3, 17)),
         }),
       ).annotate({ identifier: "Artifact" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1286,10 +1352,10 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(128, __c4, 0));
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1324,14 +1390,14 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "CVEAllowlistItem" });
     case 4:
-      return S.Array(__S(131, __c4, 3));
+      return S.Array(__S(163, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
           project_id: S.optional(S.Number),
           expires_at: S.optional(S.NullOr(S.Number)),
-          items: S.optional(__S(132, __c4, 4)),
+          items: S.optional(__S(164, __c5, 4)),
           creation_time: S.optional(S.String),
           update_time: S.optional(S.String),
         }),
@@ -1349,15 +1415,15 @@ function __c4(j: number): any {
           owner_name: S.optional(S.String),
           togglable: S.optional(S.Boolean),
           current_user_role_id: S.optional(S.Number),
-          current_user_role_ids: S.optional(__S(129, __c4, 1)),
+          current_user_role_ids: S.optional(__S(161, __c5, 1)),
           repo_count: S.optional(S.Number),
-          metadata: S.optional(__S(130, __c4, 2)),
-          cve_allowlist: S.optional(__S(133, __c4, 5)),
+          metadata: S.optional(__S(162, __c5, 2)),
+          cve_allowlist: S.optional(__S(165, __c5, 5)),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1380,7 +1446,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1397,7 +1463,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetRepositoryRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1414,7 +1480,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "Repository" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1424,7 +1490,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetRobotRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1438,7 +1504,7 @@ function __c9(j: number): any {
           editable: S.optional(S.Boolean),
           disable: S.optional(S.Boolean),
           expires_at: S.optional(S.Number),
-          permissions: S.optional(__S(675, __c21, 3)),
+          permissions: S.optional(__S(707, __c22, 3)),
           creator_type: S.optional(S.String),
           creator_ref: S.optional(S.Number),
           creation_time: S.optional(S.String),
@@ -1447,7 +1513,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "Robot" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1470,7 +1536,7 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1497,14 +1563,14 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListArtifactsRequest" });
     case 1:
-      return S.Array(__S(82, __c2, 18));
+      return S.Array(__S(114, __c3, 18));
     case 2:
-      return S.suspend(() => __S(353, __c11, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(385, __c12, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListArtifactsResponse",
       });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1517,14 +1583,14 @@ function __c12(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_name}/repositories", code: 200 })),
       ).annotate({ identifier: "ListRepositoriesRequest" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
-      return S.suspend(() => __S(385, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(417, __c13, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRepositoriesResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1536,14 +1602,14 @@ function __c13(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/robots", code: 200 })),
       ).annotate({ identifier: "ListRobotRequest" });
     case 1:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(320, __c10, 0));
     case 2:
-      return S.suspend(() => __S(417, __c13, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(449, __c14, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRobotResponse",
       });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1565,12 +1631,12 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsRequest" });
     case 1:
-      return S.suspend(() => __S(97, __c3, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(129, __c4, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTagsResponse",
       });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1587,7 +1653,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "RobotSec" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1606,7 +1672,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ScanArtifactRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1625,7 +1691,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "StopScanArtifactRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1650,7 +1716,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateRepositoryRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1665,7 +1731,7 @@ function __c19(j: number): any {
           editable: S.optional(S.Boolean),
           disable: S.optional(S.Boolean),
           expires_at: S.optional(S.Number),
-          permissions: S.optional(__S(675, __c21, 3)),
+          permissions: S.optional(__S(707, __c22, 3)),
           creator_type: S.optional(S.String),
           creator_ref: S.optional(S.Number),
           creation_time: S.optional(S.String),
@@ -1674,7 +1740,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "UpdateRobotRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1685,7 +1751,7 @@ function __c20(j: number): any {
           level: S.optional(S.String),
           disable: S.optional(S.Boolean),
           duration: S.optional(S.Number),
-          permissions: S.optional(__S(675, __c21, 3)),
+          permissions: S.optional(__S(707, __c22, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/robots", code: 200 })),
       ).annotate({ identifier: "CreateRobotRequest" });
     case 1:
@@ -1700,7 +1766,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RobotCreated" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1711,20 +1777,20 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "Access" });
     case 1:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(704, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
           namespace: S.optional(S.String),
-          access: S.optional(__S(673, __c21, 1)),
+          access: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "RobotPermission" });
     case 3:
-      return S.Array(__S(674, __c21, 2));
+      return S.Array(__S(706, __c22, 2));
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1743,13 +1809,13 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateTagRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateTagResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1767,7 +1833,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteArtifactRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1784,7 +1850,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteRepositoryRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

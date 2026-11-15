@@ -30,15 +30,24 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -48,27 +57,48 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIForbiddenError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(48, __c3, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: APINotFound | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIValidationError | string;
+}
 
 /** ObjectFormatName of the underlying git repository */
 export type CreateCurrentUserRepositoryRequestObjectFormatName = "sha1" | "sha256";
@@ -80,122 +110,125 @@ export type CreateCurrentUserRepositoryRequestTrustModel =
   | "collaboratorcommitter";
 export interface CreateCurrentUserRepositoryRequest {
   /** Whether the repository should be auto-initialized? */
-  auto_init?: boolean;
+  auto_init?: boolean | undefined;
   /** DefaultBranch of the repository (used when initializes and in template) */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Description of the repository to create */
-  description?: string;
+  description?: string | undefined;
   /** Gitignores to use, separated by commas */
-  gitignores?: string;
+  gitignores?: string | undefined;
   /** Label-Set to use */
-  issue_labels?: string;
+  issue_labels?: string | undefined;
   /** License to use */
-  license?: string;
+  license?: string | undefined;
   /** Name of the repository to create */
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: CreateCurrentUserRepositoryRequestObjectFormatName | (string & {});
+  object_format_name?:
+    | CreateCurrentUserRepositoryRequestObjectFormatName
+    | (string & {})
+    | undefined;
   /** Whether the repository is private */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Readme of the repository to create */
-  readme?: string;
+  readme?: string | undefined;
   /** Whether the repository is template */
-  template?: boolean;
+  template?: boolean | undefined;
   /** TrustModel of the repository */
-  trust_model?: CreateCurrentUserRepositoryRequestTrustModel | (string & {});
+  trust_model?: CreateCurrentUserRepositoryRequestTrustModel | (string & {}) | undefined;
 }
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
   /** External Issue Tracker URL Format. Use the placeholders {user}, {repo} and {index} for the username, repository name and issue index. */
-  external_tracker_format?: string;
+  external_tracker_format?: string | undefined;
   /** External Issue Tracker issue regular expression */
-  external_tracker_regexp_pattern?: string;
+  external_tracker_regexp_pattern?: string | undefined;
   /** External Issue Tracker Number Format, either `numeric`, `alphanumeric`, or `regexp` */
-  external_tracker_style?: string;
+  external_tracker_style?: string | undefined;
   /** URL of external issue tracker. */
-  external_tracker_url?: string;
+  external_tracker_url?: string | undefined;
 }
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
   /** URL of external wiki. */
-  external_wiki_url?: string;
+  external_wiki_url?: string | undefined;
 }
 /** InternalTracker represents settings for internal tracker */
 export interface InternalTracker {
   /** Let only contributors track time (Built-in issue tracker) */
-  allow_only_contributors_to_track_time?: boolean;
+  allow_only_contributors_to_track_time?: boolean | undefined;
   /** Enable dependencies for issues and pull requests (Built-in issue tracker) */
-  enable_issue_dependencies?: boolean;
+  enable_issue_dependencies?: boolean | undefined;
   /** Enable time tracking (Built-in issue tracker) */
-  enable_time_tracker?: boolean;
+  enable_time_tracker?: boolean | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
-  id?: number;
+  id?: number | undefined;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 /** Permission represents a set of permissions */
 export interface Permission {
-  admin?: boolean;
-  pull?: boolean;
-  push?: boolean;
+  admin?: boolean | undefined;
+  pull?: boolean | undefined;
+  push?: boolean | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
-  id?: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
+  id?: number | undefined;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
-  username?: string;
-  visibility?: string;
-  website?: string;
+  username?: string | undefined;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 /** Deprecated: This variable should be replaced by UnitsMap and will be dropped in later versions. */
@@ -203,96 +236,96 @@ export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
-  id?: number;
-  includes_all_repositories?: boolean;
-  name?: string;
-  organization?: Organization;
-  permission?: TeamPermission;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
+  id?: number | undefined;
+  includes_all_repositories?: boolean | undefined;
+  name?: string | undefined;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
   /** Deprecated: This variable should be replaced by UnitsMap and will be dropped in later versions. */
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 export type RepoTransferTeamsList = Array<Team>;
 /** RepoTransfer represents a pending repo transfer */
 export interface RepoTransfer {
-  doer?: User;
-  recipient?: User;
-  teams?: RepoTransferTeamsList;
+  doer?: User | undefined;
+  recipient?: User | undefined;
+  teams?: RepoTransferTeamsList | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** Repository represents a repository */
 export interface Repository {
-  allow_fast_forward_only_merge?: boolean;
-  allow_merge_commits?: boolean;
-  allow_rebase?: boolean;
-  allow_rebase_explicit?: boolean;
-  allow_rebase_update?: boolean;
-  allow_squash_merge?: boolean;
+  allow_fast_forward_only_merge?: boolean | undefined;
+  allow_merge_commits?: boolean | undefined;
+  allow_rebase?: boolean | undefined;
+  allow_rebase_explicit?: boolean | undefined;
+  allow_rebase_update?: boolean | undefined;
+  allow_squash_merge?: boolean | undefined;
   archived: boolean;
-  archived_at?: string;
-  avatar_url?: string;
+  archived_at?: string | undefined;
+  avatar_url?: string | undefined;
   clone_url: string;
-  created_at?: string;
-  default_allow_maintainer_edit?: boolean;
+  created_at?: string | undefined;
+  default_allow_maintainer_edit?: boolean | undefined;
   default_branch: string;
-  default_delete_branch_after_merge?: boolean;
-  default_merge_style?: string;
-  default_update_style?: string;
+  default_delete_branch_after_merge?: boolean | undefined;
+  default_merge_style?: string | undefined;
+  default_update_style?: string | undefined;
   description: string;
   empty: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
-  fork?: boolean;
-  forks_count?: number;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
+  fork?: boolean | undefined;
+  forks_count?: number | undefined;
   full_name: string;
-  globally_editable_wiki?: boolean;
-  has_actions?: boolean;
-  has_issues?: boolean;
-  has_packages?: boolean;
-  has_projects?: boolean;
-  has_pull_requests?: boolean;
-  has_releases?: boolean;
+  globally_editable_wiki?: boolean | undefined;
+  has_actions?: boolean | undefined;
+  has_issues?: boolean | undefined;
+  has_packages?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
+  has_releases?: boolean | undefined;
   /** is the wiki enabled */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** have wiki pages ever been created */
-  has_wiki_contents?: boolean;
+  has_wiki_contents?: boolean | undefined;
   html_url: string;
   id: number;
-  ignore_whitespace_conflicts?: boolean;
-  internal?: boolean;
-  internal_tracker?: InternalTracker;
-  language?: string;
-  languages_url?: string;
-  link?: string;
-  mirror?: boolean;
-  mirror_interval?: string;
-  mirror_updated?: string;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
+  language?: string | undefined;
+  languages_url?: string | undefined;
+  link?: string | undefined;
+  mirror?: boolean | undefined;
+  mirror_interval?: string | undefined;
+  mirror_updated?: string | undefined;
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: RepositoryObjectFormatName;
-  open_issues_count?: number;
-  open_pr_counter?: number;
-  original_url?: string;
-  owner?: User;
-  parent?: Repository;
-  permissions?: Permission;
+  object_format_name?: RepositoryObjectFormatName | undefined;
+  open_issues_count?: number | undefined;
+  open_pr_counter?: number | undefined;
+  original_url?: string | undefined;
+  owner?: User | undefined;
+  parent?: Repository | undefined;
+  permissions?: Permission | undefined;
   private: boolean;
-  release_counter?: number;
-  repo_transfer?: RepoTransfer;
-  size?: number;
+  release_counter?: number | undefined;
+  repo_transfer?: RepoTransfer | undefined;
+  size?: number | undefined;
   ssh_url: string;
-  stars_count?: number;
-  template?: boolean;
-  topics?: RepositoryTopicsList;
-  updated_at?: string;
-  url?: string;
-  watchers_count?: number;
-  website?: string;
-  wiki_branch?: string;
-  wiki_clone_url?: string;
-  wiki_ssh_url?: string;
+  stars_count?: number | undefined;
+  template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
+  watchers_count?: number | undefined;
+  website?: string | undefined;
+  wiki_branch?: string | undefined;
+  wiki_clone_url?: string | undefined;
+  wiki_ssh_url?: string | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type CreateOrgRepositoryRequestObjectFormatName = "sha1" | "sha256";
@@ -306,29 +339,29 @@ export interface CreateOrgRepositoryRequest {
   /** name of organization */
   org: string;
   /** Whether the repository should be auto-initialized? */
-  auto_init?: boolean;
+  auto_init?: boolean | undefined;
   /** DefaultBranch of the repository (used when initializes and in template) */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Description of the repository to create */
-  description?: string;
+  description?: string | undefined;
   /** Gitignores to use, separated by commas */
-  gitignores?: string;
+  gitignores?: string | undefined;
   /** Label-Set to use */
-  issue_labels?: string;
+  issue_labels?: string | undefined;
   /** License to use */
-  license?: string;
+  license?: string | undefined;
   /** Name of the repository to create */
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: CreateOrgRepositoryRequestObjectFormatName | (string & {});
+  object_format_name?: CreateOrgRepositoryRequestObjectFormatName | (string & {}) | undefined;
   /** Whether the repository is private */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Readme of the repository to create */
-  readme?: string;
+  readme?: string | undefined;
   /** Whether the repository is template */
-  template?: boolean;
+  template?: boolean | undefined;
   /** TrustModel of the repository */
-  trust_model?: CreateOrgRepositoryRequestTrustModel | (string & {});
+  trust_model?: CreateOrgRepositoryRequestTrustModel | (string & {}) | undefined;
 }
 export interface DeleteRepositoryRequest {
   /** owner of the repo to delete */
@@ -350,71 +383,84 @@ export interface UpdateRepositoryRequest {
   /** name of the repo to edit */
   repo: string;
   /** either `true` to allow fast-forward-only merging pull requests, or `false` to prevent fast-forward-only merging. */
-  allow_fast_forward_only_merge?: boolean;
+  allow_fast_forward_only_merge?: boolean | undefined;
   /** either `true` to allow mark pr as merged manually, or `false` to prevent it. */
-  allow_manual_merge?: boolean;
+  allow_manual_merge?: boolean | undefined;
   /** either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits. */
-  allow_merge_commits?: boolean;
+  allow_merge_commits?: boolean | undefined;
   /** either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging. */
-  allow_rebase?: boolean;
+  allow_rebase?: boolean | undefined;
   /** either `true` to allow rebase with explicit merge commits (--no-ff), or `false` to prevent rebase with explicit merge commits. */
-  allow_rebase_explicit?: boolean;
+  allow_rebase_explicit?: boolean | undefined;
   /** either `true` to allow updating pull request branch by rebase, or `false` to prevent it. */
-  allow_rebase_update?: boolean;
+  allow_rebase_update?: boolean | undefined;
   /** either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** set to `true` to archive this repository. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** either `true` to enable AutodetectManualMerge, or `false` to prevent it. Note: In some special cases, misjudgments can occur. */
-  autodetect_manual_merge?: boolean;
+  autodetect_manual_merge?: boolean | undefined;
   /** set to `true` to allow edits from maintainers by default */
-  default_allow_maintainer_edit?: boolean;
+  default_allow_maintainer_edit?: boolean | undefined;
   /** sets the default branch for this repository. */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** set to `true` to delete pr branch after merge by default */
-  default_delete_branch_after_merge?: boolean;
+  default_delete_branch_after_merge?: boolean | undefined;
   /** set to a merge style to be used by this repository: "merge", "rebase", "rebase-merge", "squash", "fast-forward-only", "manually-merged", or "rebase-update-only". */
-  default_merge_style?: string;
+  default_merge_style?: string | undefined;
   /** set to a update style to be used by this repository: "rebase" or "merge" */
-  default_update_style?: string;
+  default_update_style?: string | undefined;
   /** a short description of the repository. */
-  description?: string;
+  description?: string | undefined;
   /** enable prune - remove obsolete remote-tracking references when mirroring */
-  enable_prune?: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
+  enable_prune?: boolean | undefined;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
   /** set the globally editable state of the wiki */
-  globally_editable_wiki?: boolean;
+  globally_editable_wiki?: boolean | undefined;
   /** either `true` to enable actions unit, or `false` to disable them. */
-  has_actions?: boolean;
+  has_actions?: boolean | undefined;
   /** either `true` to enable issues for this repository or `false` to disable them. */
-  has_issues?: boolean;
+  has_issues?: boolean | undefined;
   /** either `true` to enable packages unit, or `false` to disable them. */
-  has_packages?: boolean;
+  has_packages?: boolean | undefined;
   /** either `true` to enable project unit, or `false` to disable them. */
-  has_projects?: boolean;
+  has_projects?: boolean | undefined;
   /** either `true` to allow pull requests, or `false` to prevent pull request. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** either `true` to enable releases unit, or `false` to disable them. */
-  has_releases?: boolean;
+  has_releases?: boolean | undefined;
   /** either `true` to enable the wiki for this repository or `false` to disable it. */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** either `true` to ignore whitespace for conflicts, or `false` to not ignore whitespace. */
-  ignore_whitespace_conflicts?: boolean;
-  internal_tracker?: InternalTracker;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
   /** set to a string like `8h30m0s` to set the mirror interval time */
-  mirror_interval?: string;
+  mirror_interval?: string | undefined;
   /** name of the repository */
-  name?: string;
+  name?: string | undefined;
   /** either `true` to make the repository private or `false` to make it public. Note: you will get a 422 error if the organization restricts changing repository visibility to organization owners and a non-owner tries to change the value of private. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** either `true` to make this repository a template or `false` to make it a normal repository */
-  template?: boolean;
+  template?: boolean | undefined;
   /** a URL with more information about the repository. */
-  website?: string;
+  website?: string | undefined;
   /** sets the branch used for this repository's wiki. */
-  wiki_branch?: string;
+  wiki_branch?: string | undefined;
 }
+/** APIError is an api error with a message */
+export interface APIError {
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APIForbiddenError = APIError;
+export type APINotFoundErrorsList = Array<string>;
+export interface APINotFound {
+  errors?: APINotFoundErrorsList | undefined;
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APIValidationError = APIError;
 export type CreateCurrentUserRepositoryError =
   | BadRequest
   | Forbidden
@@ -428,8 +474,8 @@ export const createCurrentUserRepository: API.OperationMethod<
   CreateCurrentUserRepositoryError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<CreateCurrentUserRepositoryRequest>,
-  output: __S(58, __c3, 10) as any as S.Schema<Repository>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateCurrentUserRepositoryRequest>,
+  output: __S(105, __c6, 9) as any as S.Schema<Repository>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -451,8 +497,8 @@ export const createOrgRepository: API.OperationMethod<
   CreateOrgRepositoryError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateOrgRepositoryRequest>,
-  output: __S(58, __c3, 10) as any as S.Schema<Repository>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateOrgRepositoryRequest>,
+  output: __S(105, __c6, 9) as any as S.Schema<Repository>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -468,8 +514,8 @@ export const deleteRepository: API.OperationMethod<
   DeleteRepositoryError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<DeleteRepositoryRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<DeleteRepositoryResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<DeleteRepositoryRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<DeleteRepositoryResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -485,8 +531,8 @@ export const getCurrentUser: API.OperationMethod<
   GetCurrentUserError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetCurrentUserRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<User>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetCurrentUserRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<User>,
   errors: [Forbidden, UnknownStackitError],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -502,8 +548,8 @@ export const getRepository: API.OperationMethod<
   GetRepositoryError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetRepositoryRequest>,
-  output: __S(58, __c3, 10) as any as S.Schema<Repository>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetRepositoryRequest>,
+  output: __S(105, __c6, 9) as any as S.Schema<Repository>,
   errors: [NotFound, UnknownStackitError],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -519,8 +565,8 @@ export const updateRepository: API.OperationMethod<
   UpdateRepositoryError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<UpdateRepositoryRequest>,
-  output: __S(58, __c3, 10) as any as S.Schema<Repository>,
+  input: __S(16, __c1, 0) as any as S.Schema<UpdateRepositoryRequest>,
+  output: __S(105, __c6, 9) as any as S.Schema<Repository>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -530,6 +576,17 @@ export const updateRepository: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -552,8 +609,8 @@ function __c0(j: number): any {
           default_update_style: S.optional(S.String),
           description: S.optional(S.String),
           enable_prune: S.optional(S.Boolean),
-          external_tracker: S.optional(__S(48, __c3, 0)),
-          external_wiki: S.optional(__S(49, __c3, 1)),
+          external_tracker: S.optional(__S(96, __c6, 0)),
+          external_wiki: S.optional(__S(97, __c6, 1)),
           globally_editable_wiki: S.optional(S.Boolean),
           has_actions: S.optional(S.Boolean),
           has_issues: S.optional(S.Boolean),
@@ -563,7 +620,7 @@ function __c0(j: number): any {
           has_releases: S.optional(S.Boolean),
           has_wiki: S.optional(S.Boolean),
           ignore_whitespace_conflicts: S.optional(S.Boolean),
-          internal_tracker: S.optional(__S(50, __c3, 2)),
+          internal_tracker: S.optional(__S(98, __c6, 2)),
           mirror_interval: S.optional(S.String),
           name: S.optional(S.String),
           private: S.optional(S.Boolean),
@@ -574,7 +631,25 @@ function __c0(j: number): any {
       ).annotate({ identifier: "UpdateRepositoryRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(32, __c2, 0)),
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APINotFound" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -595,7 +670,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateCurrentUserRepositoryRequest" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -627,7 +702,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -678,10 +753,8 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "Organization" });
     case 5:
-      return S.Array(S.String);
-    case 6:
       return S.Record(S.String, S.String);
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           can_create_org_repo: S.optional(S.Boolean),
@@ -689,23 +762,23 @@ function __c3(j: number): any {
           id: S.optional(S.Number),
           includes_all_repositories: S.optional(S.Boolean),
           name: S.optional(S.String),
-          organization: S.optional(__S(52, __c3, 4)),
+          organization: S.optional(__S(100, __c6, 4)),
           permission: S.optional(S.String),
-          units: S.optional(__S(53, __c3, 5)),
-          units_map: S.optional(__S(54, __c3, 6)),
+          units: S.optional(__S(32, __c2, 0)),
+          units_map: S.optional(__S(101, __c6, 5)),
         }),
       ).annotate({ identifier: "Team" });
+    case 7:
+      return S.Array(__S(102, __c6, 6));
     case 8:
-      return S.Array(__S(55, __c3, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          doer: S.optional(__S(32, __c2, 0)),
-          recipient: S.optional(__S(32, __c2, 0)),
-          teams: S.optional(__S(56, __c3, 8)),
+          doer: S.optional(__S(80, __c5, 0)),
+          recipient: S.optional(__S(80, __c5, 0)),
+          teams: S.optional(__S(103, __c6, 7)),
         }),
       ).annotate({ identifier: "RepoTransfer" });
-    case 10:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           allow_fast_forward_only_merge: S.optional(S.Boolean),
@@ -726,8 +799,8 @@ function __c3(j: number): any {
           default_update_style: S.optional(S.String),
           description: S.String,
           empty: S.Boolean,
-          external_tracker: S.optional(__S(48, __c3, 0)),
-          external_wiki: S.optional(__S(49, __c3, 1)),
+          external_tracker: S.optional(__S(96, __c6, 0)),
+          external_wiki: S.optional(__S(97, __c6, 1)),
           fork: S.optional(S.Boolean),
           forks_count: S.optional(S.Number),
           full_name: S.String,
@@ -744,7 +817,7 @@ function __c3(j: number): any {
           id: S.Number,
           ignore_whitespace_conflicts: S.optional(S.Boolean),
           internal: S.optional(S.Boolean),
-          internal_tracker: S.optional(__S(50, __c3, 2)),
+          internal_tracker: S.optional(__S(98, __c6, 2)),
           language: S.optional(S.String),
           languages_url: S.optional(S.String),
           link: S.optional(S.String),
@@ -756,17 +829,17 @@ function __c3(j: number): any {
           open_issues_count: S.optional(S.Number),
           open_pr_counter: S.optional(S.Number),
           original_url: S.optional(S.String),
-          owner: S.optional(__S(32, __c2, 0)),
-          parent: S.optional(__S(58, __c3, 10)),
-          permissions: S.optional(__S(51, __c3, 3)),
+          owner: S.optional(__S(80, __c5, 0)),
+          parent: S.optional(__S(105, __c6, 9)),
+          permissions: S.optional(__S(99, __c6, 3)),
           private: S.Boolean,
           release_counter: S.optional(S.Number),
-          repo_transfer: S.optional(__S(57, __c3, 9)),
+          repo_transfer: S.optional(__S(104, __c6, 8)),
           size: S.optional(S.Number),
           ssh_url: S.String,
           stars_count: S.optional(S.Number),
           template: S.optional(S.Boolean),
-          topics: S.optional(__S(53, __c3, 5)),
+          topics: S.optional(__S(32, __c2, 0)),
           updated_at: S.optional(S.String),
           url: S.optional(S.String),
           watchers_count: S.optional(S.Number),
@@ -778,7 +851,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "Repository" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -800,7 +873,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateOrgRepositoryRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -813,7 +886,7 @@ function __c5(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteRepositoryResponse" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -821,7 +894,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetCurrentUserRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

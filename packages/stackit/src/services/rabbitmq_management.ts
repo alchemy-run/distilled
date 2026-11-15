@@ -34,26 +34,47 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: BadRequest2 | string;
+}
 
 export class InequivalentArguments
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InequivalentArguments>()("InequivalentArguments", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "inequivalent arg" } }],
-  ) {}
+  )
+{
+  declare readonly body?: BadRequest2 | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: NotFound2 | string;
+}
 
 export type CreateQueueBindingRequestArgumentsMap = { [key: string]: unknown | undefined };
 export interface CreateQueueBindingRequest {
@@ -63,8 +84,8 @@ export interface CreateQueueBindingRequest {
   exchange: string;
   /** Queue name. */
   queue: string;
-  routing_key?: string;
-  arguments?: CreateQueueBindingRequestArgumentsMap;
+  routing_key?: string | undefined;
+  arguments?: CreateQueueBindingRequestArgumentsMap | undefined;
 }
 export interface CreateQueueBindingResponse {}
 export interface DeleteExchangeRequest {
@@ -104,10 +125,10 @@ export interface Exchange {
   name: string;
   vhost: string;
   type: string;
-  durable?: boolean;
-  auto_delete?: boolean;
-  internal?: boolean;
-  arguments?: ExchangeArgumentsMap;
+  durable?: boolean | undefined;
+  auto_delete?: boolean | undefined;
+  internal?: boolean | undefined;
+  arguments?: ExchangeArgumentsMap | undefined;
 }
 /** `*_requeue_true` puts the messages back; `*_requeue_false` removes them. */
 export type GetMessagesRequestAckmode =
@@ -129,7 +150,7 @@ export interface GetMessagesRequest {
   /** `auto` returns the payload as a string when it is valid UTF-8, else as base64. */
   encoding: GetMessagesRequestEncoding | (string & {});
   /** Cut payloads larger than this many bytes. */
-  truncate?: number;
+  truncate?: number | undefined;
 }
 export type MessagePayloadEncoding = "string" | "base64";
 export type MessagePropertiesMap = { [key: string]: unknown | undefined };
@@ -148,26 +169,26 @@ export type GetMessagesResponseBodyList = Array<Message>;
 export type GetMessagesResponse = GetMessagesResponseBodyList;
 export interface GetOverviewRequest {}
 export interface ObjectTotals {
-  channels?: number;
-  connections?: number;
-  consumers?: number;
-  exchanges?: number;
-  queues?: number;
+  channels?: number | undefined;
+  connections?: number | undefined;
+  consumers?: number | undefined;
+  exchanges?: number | undefined;
+  queues?: number | undefined;
 }
 export interface QueueTotals {
-  messages?: number;
-  messages_ready?: number;
-  messages_unacknowledged?: number;
+  messages?: number | undefined;
+  messages_ready?: number | undefined;
+  messages_unacknowledged?: number | undefined;
 }
 export interface Overview {
-  cluster_name?: string;
-  product_name?: string;
-  product_version?: string;
-  rabbitmq_version?: string;
-  management_version?: string;
-  erlang_version?: string;
-  object_totals?: ObjectTotals;
-  queue_totals?: QueueTotals;
+  cluster_name?: string | undefined;
+  product_name?: string | undefined;
+  product_version?: string | undefined;
+  rabbitmq_version?: string | undefined;
+  management_version?: string | undefined;
+  erlang_version?: string | undefined;
+  object_totals?: ObjectTotals | undefined;
+  queue_totals?: QueueTotals | undefined;
 }
 export interface GetQueueRequest {
   /** Virtual host. The default one is `/`, sent encoded. */
@@ -180,18 +201,18 @@ export interface Queue {
   name: string;
   vhost: string;
   /** `classic`, `quorum` or `stream`. */
-  type?: string;
-  state?: string;
-  node?: string;
-  durable?: boolean;
-  auto_delete?: boolean;
-  exclusive?: boolean;
-  arguments?: QueueArgumentsMap;
+  type?: string | undefined;
+  state?: string | undefined;
+  node?: string | undefined;
+  durable?: boolean | undefined;
+  auto_delete?: boolean | undefined;
+  exclusive?: boolean | undefined;
+  arguments?: QueueArgumentsMap | undefined;
   /** Absent until the broker's first stats sample of the queue. */
-  messages?: number;
-  messages_ready?: number;
-  messages_unacknowledged?: number;
-  consumers?: number;
+  messages?: number | undefined;
+  messages_ready?: number | undefined;
+  messages_unacknowledged?: number | undefined;
+  consumers?: number | undefined;
 }
 export interface ListExchangesRequest {
   /** Virtual host. The default one is `/`, sent encoded. */
@@ -213,7 +234,7 @@ export interface QueueBinding {
   destination: string;
   destination_type: string;
   routing_key: string;
-  arguments?: QueueBindingArgumentsMap;
+  arguments?: QueueBindingArgumentsMap | undefined;
   /** Names this binding on delete. */
   properties_key: string;
 }
@@ -256,10 +277,10 @@ export interface PutExchangeRequest {
   exchange: string;
   /** `direct`, `fanout`, `topic`, `headers`, or a plugin's type. */
   type: string;
-  durable?: boolean;
-  auto_delete?: boolean;
-  internal?: boolean;
-  arguments?: PutExchangeRequestArgumentsMap;
+  durable?: boolean | undefined;
+  auto_delete?: boolean | undefined;
+  internal?: boolean | undefined;
+  arguments?: PutExchangeRequestArgumentsMap | undefined;
 }
 export interface PutExchangeResponse {}
 export type PutQueueRequestArgumentsMap = { [key: string]: unknown | undefined };
@@ -268,11 +289,15 @@ export interface PutQueueRequest {
   vhost: string;
   /** Queue name. */
   queue: string;
-  durable?: boolean;
-  auto_delete?: boolean;
-  arguments?: PutQueueRequestArgumentsMap;
+  durable?: boolean | undefined;
+  auto_delete?: boolean | undefined;
+  arguments?: PutQueueRequestArgumentsMap | undefined;
 }
 export interface PutQueueResponse {}
+export interface BadRequest2 {
+  message: string;
+}
+export type NotFound2 = BadRequest2;
 export type CreateQueueBindingError = BadRequest | NotFound | RabbitMQManagementOpError;
 /** Bind a queue to an exchange. */
 export const createQueueBinding: API.OperationMethod<
@@ -281,8 +306,8 @@ export const createQueueBinding: API.OperationMethod<
   CreateQueueBindingError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<CreateQueueBindingRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<CreateQueueBindingResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<CreateQueueBindingRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<CreateQueueBindingResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -298,8 +323,8 @@ export const deleteExchange: API.OperationMethod<
   DeleteExchangeError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<DeleteExchangeRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<DeleteExchangeResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<DeleteExchangeRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<DeleteExchangeResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -315,8 +340,8 @@ export const deleteQueue: API.OperationMethod<
   DeleteQueueError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<DeleteQueueRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<DeleteQueueResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<DeleteQueueRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<DeleteQueueResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -332,8 +357,8 @@ export const deleteQueueBinding: API.OperationMethod<
   DeleteQueueBindingError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<DeleteQueueBindingRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<DeleteQueueBindingResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<DeleteQueueBindingRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<DeleteQueueBindingResponse>,
   errors: [NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -349,8 +374,8 @@ export const getExchange: API.OperationMethod<
   GetExchangeError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetExchangeRequest>,
-  output: __S(64, __c16, 0) as any as S.Schema<Exchange>,
+  input: __S(64, __c16, 0) as any as S.Schema<GetExchangeRequest>,
+  output: __S(68, __c17, 0) as any as S.Schema<Exchange>,
   errors: [NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -366,8 +391,8 @@ export const getMessages: API.OperationMethod<
   GetMessagesError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetMessagesRequest>,
-  output: __S(71, __c17, 3) as any as S.Schema<GetMessagesResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<GetMessagesRequest>,
+  output: __S(75, __c18, 3) as any as S.Schema<GetMessagesResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -383,8 +408,8 @@ export const getOverview: API.OperationMethod<
   GetOverviewError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<GetOverviewRequest>,
-  output: __S(75, __c18, 3) as any as S.Schema<Overview>,
+  input: __S(76, __c19, 0) as any as S.Schema<GetOverviewRequest>,
+  output: __S(79, __c19, 3) as any as S.Schema<Overview>,
   errors: [UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -400,8 +425,8 @@ export const getQueue: API.OperationMethod<
   GetQueueError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetQueueRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<Queue>,
+  input: __S(4, __c1, 0) as any as S.Schema<GetQueueRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<Queue>,
   errors: [NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -417,8 +442,8 @@ export const listExchanges: API.OperationMethod<
   ListExchangesError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ListExchangesRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<ListExchangesResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<ListExchangesRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<ListExchangesResponse>,
   errors: [NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -434,8 +459,8 @@ export const listQueueBindings: API.OperationMethod<
   ListQueueBindingsError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListQueueBindingsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<ListQueueBindingsResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListQueueBindingsRequest>,
+  output: __S(19, __c4, 3) as any as S.Schema<ListQueueBindingsResponse>,
   errors: [NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -451,8 +476,8 @@ export const listQueues: API.OperationMethod<
   ListQueuesError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListQueuesRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<ListQueuesResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListQueuesRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<ListQueuesResponse>,
   errors: [NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -468,8 +493,8 @@ export const publishMessage: API.OperationMethod<
   PublishMessageError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<PublishMessageRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<PublishMessageResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<PublishMessageRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<PublishMessageResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -485,8 +510,8 @@ export const purgeQueue: API.OperationMethod<
   PurgeQueueError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<PurgeQueueRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<PurgeQueueResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<PurgeQueueRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<PurgeQueueResponse>,
   errors: [NotFound, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -506,8 +531,8 @@ export const putExchange: API.OperationMethod<
   PutExchangeError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<PutExchangeRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<PutExchangeResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<PutExchangeRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<PutExchangeResponse>,
   errors: [BadRequest, NotFound, InequivalentArguments, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -527,8 +552,8 @@ export const putQueue: API.OperationMethod<
   PutQueueError,
   RabbitMQManagementOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<PutQueueRequest>,
-  output: __S(40, __c10, 0) as any as S.Schema<PutQueueResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<PutQueueRequest>,
+  output: __S(44, __c11, 0) as any as S.Schema<PutQueueResponse>,
   errors: [BadRequest, NotFound, InequivalentArguments, UnknownStackitError],
   protocol: RabbitMQManagementProtocol,
   retry: Retry.Retry,
@@ -542,13 +567,23 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "BadRequest2" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           vhost: S.String.pipe(T.Label()),
           queue: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/api/queues/{vhost}/{queue}", code: 200 })),
       ).annotate({ identifier: "GetQueueRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -561,7 +596,7 @@ function __c1(j: number): any {
           durable: S.optional(S.Boolean),
           auto_delete: S.optional(S.Boolean),
           exclusive: S.optional(S.Boolean),
-          arguments: S.optional(__S(44, __c11, 0)),
+          arguments: S.optional(__S(48, __c12, 0)),
           messages: S.optional(S.Number),
           messages_ready: S.optional(S.Number),
           messages_unacknowledged: S.optional(S.Number),
@@ -570,7 +605,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Queue" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -579,14 +614,14 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/exchanges/{vhost}", code: 200 })),
       ).annotate({ identifier: "ListExchangesRequest" });
     case 1:
-      return S.Array(__S(64, __c16, 0));
+      return S.Array(__S(68, __c17, 0));
     case 2:
-      return S.suspend(() => __S(9, __c2, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13, __c3, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListExchangesResponse",
       });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -603,31 +638,15 @@ function __c3(j: number): any {
           destination: S.String,
           destination_type: S.String,
           routing_key: S.String,
-          arguments: S.optional(__S(44, __c11, 0)),
+          arguments: S.optional(__S(48, __c12, 0)),
           properties_key: S.String,
         }),
       ).annotate({ identifier: "QueueBinding" });
     case 2:
-      return S.Array(__S(13, __c3, 1));
+      return S.Array(__S(17, __c4, 1));
     case 3:
-      return S.suspend(() => __S(14, __c3, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18, __c4, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListQueueBindingsResponse",
-      });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vhost: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/queues/{vhost}", code: 200 })),
-      ).annotate({ identifier: "ListQueuesRequest" });
-    case 1:
-      return S.Array(__S(4, __c1, 0));
-    case 2:
-      return S.suspend(() => __S(17, __c4, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListQueuesResponse",
       });
   }
 }
@@ -637,8 +656,24 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vhost: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/queues/{vhost}", code: 200 })),
+      ).annotate({ identifier: "ListQueuesRequest" });
+    case 1:
+      return S.Array(__S(8, __c2, 0));
+    case 2:
+      return S.suspend(() => __S(21, __c5, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListQueuesResponse",
+      });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vhost: S.String.pipe(T.Label()),
           exchange: S.String.pipe(T.Label()),
-          properties: __S(44, __c11, 0),
+          properties: __S(48, __c12, 0),
           routing_key: S.String,
           payload: S.String,
           payload_encoding: S.String,
@@ -654,7 +689,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "PublishMessageResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -667,7 +702,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PurgeQueueRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -678,23 +713,9 @@ function __c7(j: number): any {
           durable: S.optional(S.Boolean),
           auto_delete: S.optional(S.Boolean),
           internal: S.optional(S.Boolean),
-          arguments: S.optional(__S(44, __c11, 0)),
+          arguments: S.optional(__S(48, __c12, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/exchanges/{vhost}/{exchange}", code: 200 })),
       ).annotate({ identifier: "PutExchangeRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vhost: S.String.pipe(T.Label()),
-          queue: S.String.pipe(T.Label()),
-          durable: S.optional(S.Boolean),
-          auto_delete: S.optional(S.Boolean),
-          arguments: S.optional(__S(44, __c11, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/api/queues/{vhost}/{queue}", code: 200 })),
-      ).annotate({ identifier: "PutQueueRequest" });
   }
 }
 function __c9(j: number): any {
@@ -703,10 +724,24 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           vhost: S.String.pipe(T.Label()),
+          queue: S.String.pipe(T.Label()),
+          durable: S.optional(S.Boolean),
+          auto_delete: S.optional(S.Boolean),
+          arguments: S.optional(__S(48, __c12, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/api/queues/{vhost}/{queue}", code: 200 })),
+      ).annotate({ identifier: "PutQueueRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vhost: S.String.pipe(T.Label()),
           exchange: S.String.pipe(T.Label()),
           queue: S.String.pipe(T.Label()),
           routing_key: S.optional(S.String),
-          arguments: S.optional(__S(44, __c11, 0)),
+          arguments: S.optional(__S(48, __c12, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -717,19 +752,19 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateQueueBindingRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateQueueBindingResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -740,7 +775,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteExchangeRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -751,7 +786,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteQueueRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -770,7 +805,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteQueueBindingRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -781,7 +816,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetExchangeRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -792,12 +827,12 @@ function __c16(j: number): any {
           durable: S.optional(S.Boolean),
           auto_delete: S.optional(S.Boolean),
           internal: S.optional(S.Boolean),
-          arguments: S.optional(__S(44, __c11, 0)),
+          arguments: S.optional(__S(48, __c12, 0)),
         }),
       ).annotate({ identifier: "Exchange" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -820,18 +855,18 @@ function __c17(j: number): any {
           exchange: S.String,
           routing_key: S.String,
           message_count: S.Number,
-          properties: __S(44, __c11, 0),
+          properties: __S(48, __c12, 0),
         }),
       ).annotate({ identifier: "Message" });
     case 2:
-      return S.Array(__S(69, __c17, 1));
+      return S.Array(__S(73, __c18, 1));
     case 3:
-      return S.suspend(() => __S(70, __c17, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(74, __c18, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMessagesResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -864,8 +899,8 @@ function __c18(j: number): any {
           rabbitmq_version: S.optional(S.String),
           management_version: S.optional(S.String),
           erlang_version: S.optional(S.String),
-          object_totals: S.optional(__S(73, __c18, 1)),
-          queue_totals: S.optional(__S(74, __c18, 2)),
+          object_totals: S.optional(__S(77, __c19, 1)),
+          queue_totals: S.optional(__S(78, __c19, 2)),
         }),
       ).annotate({ identifier: "Overview" });
   }

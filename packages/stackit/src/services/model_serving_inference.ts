@@ -36,27 +36,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface ChatMessageContentPartImageUrl {
   /** An image's URL, or a base64 data URI. */
@@ -66,8 +87,8 @@ export interface ChatMessageContentPartImageUrl {
 export interface ChatMessageContentPart {
   /** `text` or `image_url`. */
   type: string;
-  text?: string;
-  image_url?: ChatMessageContentPartImageUrl;
+  text?: string | undefined;
+  image_url?: ChatMessageContentPartImageUrl | undefined;
   [key: string]: unknown;
 }
 export type ChatMessageContentCase1List = Array<ChatMessageContentPart>;
@@ -88,11 +109,11 @@ export type ChatMessageToolCallsList = Array<ToolCall>;
 export interface ChatMessage {
   /** `system`, `user`, `assistant` or `tool`. */
   role: string;
-  content?: ChatMessageContent | null;
-  name?: string;
+  content?: ChatMessageContent | null | undefined;
+  name?: string | undefined;
   /** The call a `tool` message answers. */
-  tool_call_id?: string;
-  tool_calls?: ChatMessageToolCallsList;
+  tool_call_id?: string | undefined;
+  tool_calls?: ChatMessageToolCallsList | undefined;
 }
 export type CreateChatCompletionRequestMessagesList = Array<ChatMessage>;
 export type CreateChatCompletionRequestStopList = Array<string>;
@@ -100,9 +121,9 @@ export type CreateChatCompletionRequestStopList = Array<string>;
 export type ToolFunctionParametersMap = { [key: string]: unknown | undefined };
 export interface ToolFunction {
   name: string;
-  description?: string;
+  description?: string | undefined;
   /** The function's parameters as a JSON Schema. */
-  parameters?: ToolFunctionParametersMap;
+  parameters?: ToolFunctionParametersMap | undefined;
 }
 export interface Tool {
   /** `function`. */
@@ -114,69 +135,69 @@ export type CreateChatCompletionRequestToolsList = Array<Tool>;
 export type CreateChatCompletionRequestResponseFormatMap = { [key: string]: unknown | undefined };
 export interface StreamOptions {
   /** Whether the last chunk of a stream reports token usage. */
-  include_usage?: boolean;
+  include_usage?: boolean | undefined;
 }
 export interface CreateChatCompletionRequest {
   /** The model's full name, e.g. `openai/gpt-oss-20b`. */
   model: string;
   messages: CreateChatCompletionRequestMessagesList;
-  max_completion_tokens?: number;
-  max_tokens?: number;
-  temperature?: number;
-  top_p?: number;
-  seed?: number;
-  frequency_penalty?: number;
-  presence_penalty?: number;
-  stop?: CreateChatCompletionRequestStopList;
-  tools?: CreateChatCompletionRequestToolsList;
+  max_completion_tokens?: number | undefined;
+  max_tokens?: number | undefined;
+  temperature?: number | undefined;
+  top_p?: number | undefined;
+  seed?: number | undefined;
+  frequency_penalty?: number | undefined;
+  presence_penalty?: number | undefined;
+  stop?: CreateChatCompletionRequestStopList | undefined;
+  tools?: CreateChatCompletionRequestToolsList | undefined;
   /** `auto`, `none`, `required`, or an object naming one function. */
-  tool_choice?: unknown;
+  tool_choice?: unknown | undefined;
   /** `{ type: "json_schema", json_schema: ... }` asks for structured output. */
-  response_format?: CreateChatCompletionRequestResponseFormatMap;
+  response_format?: CreateChatCompletionRequestResponseFormatMap | undefined;
   /** Ask for server-sent events. `streamChatCompletion` always sets it, and `createChatCompletion` can't read that answer. */
-  stream?: boolean;
-  stream_options?: StreamOptions;
+  stream?: boolean | undefined;
+  stream_options?: StreamOptions | undefined;
 }
 export type ChatCompletionMessageToolCallsList = Array<ToolCall>;
 export interface ChatCompletionMessage {
-  role?: string;
-  content?: string | null;
-  refusal?: string | null;
+  role?: string | undefined;
+  content?: string | null | undefined;
+  refusal?: string | null | undefined;
   /** A reasoning model's chain of thought, on servers that split it from `content`. */
-  reasoning_content?: string | null;
-  tool_calls?: ChatCompletionMessageToolCallsList | null;
+  reasoning_content?: string | null | undefined;
+  tool_calls?: ChatCompletionMessageToolCallsList | null | undefined;
   [key: string]: unknown;
 }
 export interface ChatCompletionChoice {
-  index?: number;
+  index?: number | undefined;
   message: ChatCompletionMessage;
-  finish_reason?: string | null;
+  finish_reason?: string | null | undefined;
   [key: string]: unknown;
 }
 export type ChatCompletionChoicesList = Array<ChatCompletionChoice>;
 export interface UsagePromptTokensDetails {
-  cached_tokens?: number | null;
+  cached_tokens?: number | null | undefined;
   [key: string]: unknown;
 }
 export interface UsageCompletionTokensDetails {
-  reasoning_tokens?: number | null;
+  reasoning_tokens?: number | null | undefined;
   [key: string]: unknown;
 }
 export interface Usage {
-  prompt_tokens?: number;
-  completion_tokens?: number | null;
-  total_tokens?: number;
-  prompt_tokens_details?: UsagePromptTokensDetails | null;
-  completion_tokens_details?: UsageCompletionTokensDetails | null;
+  prompt_tokens?: number | undefined;
+  completion_tokens?: number | null | undefined;
+  total_tokens?: number | undefined;
+  prompt_tokens_details?: UsagePromptTokensDetails | null | undefined;
+  completion_tokens_details?: UsageCompletionTokensDetails | null | undefined;
   [key: string]: unknown;
 }
 export interface ChatCompletion {
-  id?: string;
-  object?: string;
-  created?: number;
-  model?: string;
+  id?: string | undefined;
+  object?: string | undefined;
+  created?: number | undefined;
+  model?: string | undefined;
   choices: ChatCompletionChoicesList;
-  usage?: Usage | null;
+  usage?: Usage | null | undefined;
   [key: string]: unknown;
 }
 export type EmbeddingsInputCase1List = Array<string>;
@@ -186,27 +207,27 @@ export type CreateEmbeddingsRequestMessagesList = Array<ChatMessage>;
 export interface CreateEmbeddingsRequest {
   /** The embedding model's full name, e.g. `intfloat/e5-mistral-7b-instruct`. */
   model: string;
-  input?: EmbeddingsInput;
+  input?: EmbeddingsInput | undefined;
   /** Multi-modal input instead of `input`: text and `image_url` parts. */
-  messages?: CreateEmbeddingsRequestMessagesList;
-  encoding_format?: string;
-  dimensions?: number;
+  messages?: CreateEmbeddingsRequestMessagesList | undefined;
+  encoding_format?: string | undefined;
+  dimensions?: number | undefined;
 }
 export type EmbeddingEmbeddingList = Array<number>;
 export interface Embedding {
-  index?: number;
-  object?: string;
+  index?: number | undefined;
+  object?: string | undefined;
   embedding: EmbeddingEmbeddingList;
   [key: string]: unknown;
 }
 export type EmbeddingsResponseDataList = Array<Embedding>;
 export interface EmbeddingsResponse {
-  id?: string;
-  object?: string;
-  created?: number;
-  model?: string;
+  id?: string | undefined;
+  object?: string | undefined;
+  created?: number | undefined;
+  model?: string | undefined;
   data: EmbeddingsResponseDataList;
-  usage?: Usage | null;
+  usage?: Usage | null | undefined;
   [key: string]: unknown;
 }
 export type StreamChatCompletionRequestMessagesList = Array<ChatMessage>;
@@ -218,64 +239,67 @@ export interface StreamChatCompletionRequest {
   /** The model's full name, e.g. `openai/gpt-oss-20b`. */
   model: string;
   messages: StreamChatCompletionRequestMessagesList;
-  max_completion_tokens?: number;
-  max_tokens?: number;
-  temperature?: number;
-  top_p?: number;
-  seed?: number;
-  frequency_penalty?: number;
-  presence_penalty?: number;
-  stop?: StreamChatCompletionRequestStopList;
-  tools?: StreamChatCompletionRequestToolsList;
+  max_completion_tokens?: number | undefined;
+  max_tokens?: number | undefined;
+  temperature?: number | undefined;
+  top_p?: number | undefined;
+  seed?: number | undefined;
+  frequency_penalty?: number | undefined;
+  presence_penalty?: number | undefined;
+  stop?: StreamChatCompletionRequestStopList | undefined;
+  tools?: StreamChatCompletionRequestToolsList | undefined;
   /** `auto`, `none`, `required`, or an object naming one function. */
-  tool_choice?: unknown;
+  tool_choice?: unknown | undefined;
   /** `{ type: "json_schema", json_schema: ... }` asks for structured output. */
-  response_format?: StreamChatCompletionRequestResponseFormatMap;
+  response_format?: StreamChatCompletionRequestResponseFormatMap | undefined;
   /** Ask for server-sent events. `streamChatCompletion` always sets it, and `createChatCompletion` can't read that answer. */
-  stream?: boolean;
-  stream_options?: StreamOptions;
+  stream?: boolean | undefined;
+  stream_options?: StreamOptions | undefined;
 }
 export interface ToolCallDeltaFunction {
-  name?: string | null;
-  arguments?: string | null;
+  name?: string | null | undefined;
+  arguments?: string | null | undefined;
   [key: string]: unknown;
 }
 export interface ToolCallDelta {
   index: number;
-  id?: string | null;
-  type?: string | null;
-  function?: ToolCallDeltaFunction | null;
+  id?: string | null | undefined;
+  type?: string | null | undefined;
+  function?: ToolCallDeltaFunction | null | undefined;
   [key: string]: unknown;
 }
 export type ChatCompletionDeltaToolCallsList = Array<ToolCallDelta>;
 export interface ChatCompletionDelta {
-  role?: string | null;
-  content?: string | null;
-  refusal?: string | null;
-  reasoning_content?: string | null;
-  tool_calls?: ChatCompletionDeltaToolCallsList | null;
+  role?: string | null | undefined;
+  content?: string | null | undefined;
+  refusal?: string | null | undefined;
+  reasoning_content?: string | null | undefined;
+  tool_calls?: ChatCompletionDeltaToolCallsList | null | undefined;
   [key: string]: unknown;
 }
 export interface ChatCompletionChunkChoice {
-  index?: number;
+  index?: number | undefined;
   delta: ChatCompletionDelta;
-  finish_reason?: string | null;
+  finish_reason?: string | null | undefined;
   [key: string]: unknown;
 }
 export type ChatCompletionChunkChoicesList = Array<ChatCompletionChunkChoice>;
 /** One server-sent event of a streamed reply. */
 export interface ChatCompletionChunk {
-  id?: string;
-  object?: string;
-  created?: number;
-  model?: string;
+  id?: string | undefined;
+  object?: string | undefined;
+  created?: number | undefined;
+  model?: string | undefined;
   choices: ChatCompletionChunkChoicesList;
-  usage?: Usage | null;
+  usage?: Usage | null | undefined;
   [key: string]: unknown;
 }
 /** The reply's chunks. `scripts/generate.ts` types `events` as a stream: the protocol decodes them. */
 export interface ChatCompletionEvents {
   readonly events: Stream.Stream<ChatCompletionChunk, ModelServingInferenceOpError>;
+}
+export interface ErrorResponse {
+  message: string;
 }
 export type CreateChatCompletionError =
   | BadRequest
@@ -289,8 +313,8 @@ export const createChatCompletion: API.OperationMethod<
   CreateChatCompletionError,
   ModelServingInferenceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateChatCompletionRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<ChatCompletion>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateChatCompletionRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<ChatCompletion>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: ModelServingInferenceProtocol,
   retry: Retry.Retry,
@@ -310,8 +334,8 @@ export const createEmbeddings: API.OperationMethod<
   CreateEmbeddingsError,
   ModelServingInferenceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateEmbeddingsRequest>,
-  output: __S(36, __c4, 4) as any as S.Schema<EmbeddingsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateEmbeddingsRequest>,
+  output: __S(44, __c5, 4) as any as S.Schema<EmbeddingsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: ModelServingInferenceProtocol,
   retry: Retry.Retry,
@@ -331,7 +355,7 @@ export const streamChatCompletion: API.OperationMethod<
   StreamChatCompletionError,
   ModelServingInferenceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<StreamChatCompletionRequest>,
+  input: __S(48, __c6, 0) as any as S.Schema<StreamChatCompletionRequest>,
   output: S.Any as any as S.Schema<ChatCompletionEvents>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: ModelServingInferenceStreamProtocol,
@@ -352,8 +376,18 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           model: S.String,
-          messages: __S(20, __c2, 4),
+          messages: __S(28, __c3, 4),
           max_completion_tokens: S.optional(S.Number),
           max_tokens: S.optional(S.Number),
           temperature: S.optional(S.Number),
@@ -361,12 +395,12 @@ function __c0(j: number): any {
           seed: S.optional(S.Number),
           frequency_penalty: S.optional(S.Number),
           presence_penalty: S.optional(S.Number),
-          stop: S.optional(__S(24, __c3, 0)),
-          tools: S.optional(__S(28, __c3, 4)),
+          stop: S.optional(__S(32, __c4, 0)),
+          tools: S.optional(__S(36, __c4, 4)),
           tool_choice: S.optional(S.Unknown),
-          response_format: S.optional(__S(25, __c3, 1)),
+          response_format: S.optional(__S(33, __c4, 1)),
           stream: S.optional(S.Boolean),
-          stream_options: S.optional(__S(29, __c3, 5)),
+          stream_options: S.optional(__S(37, __c4, 5)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/chat/completions", code: 200 })),
       ).annotate({ identifier: "CreateChatCompletionRequest" });
     case 1:
@@ -377,7 +411,7 @@ function __c0(j: number): any {
             content: S.optional(S.NullOr(S.String)),
             refusal: S.optional(S.NullOr(S.String)),
             reasoning_content: S.optional(S.NullOr(S.String)),
-            tool_calls: S.optional(S.NullOr(__S(18, __c2, 2))),
+            tool_calls: S.optional(S.NullOr(__S(26, __c3, 2))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -387,14 +421,14 @@ function __c0(j: number): any {
         S.StructWithRest(
           S.Struct({
             index: S.optional(S.Number),
-            message: __S(1, __c0, 1),
+            message: __S(9, __c1, 1),
             finish_reason: S.optional(S.NullOr(S.String)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ChatCompletionChoice" });
     case 3:
-      return S.Array(__S(2, __c0, 2));
+      return S.Array(__S(10, __c1, 2));
     case 4:
       return S.suspend(() =>
         S.StructWithRest(
@@ -403,15 +437,15 @@ function __c0(j: number): any {
             object: S.optional(S.String),
             created: S.optional(S.Number),
             model: S.optional(S.String),
-            choices: __S(3, __c0, 3),
-            usage: S.optional(S.NullOr(__S(10, __c1, 2))),
+            choices: __S(11, __c1, 3),
+            usage: S.optional(S.NullOr(__S(18, __c2, 2))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "ChatCompletion" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -438,15 +472,15 @@ function __c1(j: number): any {
             prompt_tokens: S.optional(S.Number),
             completion_tokens: S.optional(S.NullOr(S.Number)),
             total_tokens: S.optional(S.Number),
-            prompt_tokens_details: S.optional(S.NullOr(__S(8, __c1, 0))),
-            completion_tokens_details: S.optional(S.NullOr(__S(9, __c1, 1))),
+            prompt_tokens_details: S.optional(S.NullOr(__S(16, __c2, 0))),
+            completion_tokens_details: S.optional(S.NullOr(__S(17, __c2, 1))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Usage" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -460,11 +494,11 @@ function __c2(j: number): any {
         S.Struct({
           id: S.String,
           type: S.String,
-          function: __S(16, __c2, 0),
+          function: __S(24, __c3, 0),
         }),
       ).annotate({ identifier: "ToolCall" });
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(25, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -472,14 +506,14 @@ function __c2(j: number): any {
           content: S.optional(S.NullOr(S.Unknown)),
           name: S.optional(S.String),
           tool_call_id: S.optional(S.String),
-          tool_calls: S.optional(__S(18, __c2, 2)),
+          tool_calls: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "ChatMessage" });
     case 4:
-      return S.Array(__S(19, __c2, 3));
+      return S.Array(__S(27, __c3, 3));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -490,18 +524,18 @@ function __c3(j: number): any {
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          parameters: S.optional(__S(25, __c3, 1)),
+          parameters: S.optional(__S(33, __c4, 1)),
         }),
       ).annotate({ identifier: "ToolFunction" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          function: __S(26, __c3, 2),
+          function: __S(34, __c4, 2),
         }),
       ).annotate({ identifier: "Tool" });
     case 4:
-      return S.Array(__S(27, __c3, 3));
+      return S.Array(__S(35, __c4, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -510,14 +544,14 @@ function __c3(j: number): any {
       ).annotate({ identifier: "StreamOptions" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           model: S.String,
           input: S.optional(S.Unknown),
-          messages: S.optional(__S(20, __c2, 4)),
+          messages: S.optional(__S(28, __c3, 4)),
           encoding_format: S.optional(S.String),
           dimensions: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v1/embeddings", code: 200 })),
@@ -530,13 +564,13 @@ function __c4(j: number): any {
           S.Struct({
             index: S.optional(S.Number),
             object: S.optional(S.String),
-            embedding: __S(33, __c4, 1),
+            embedding: __S(41, __c5, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Embedding" });
     case 3:
-      return S.Array(__S(34, __c4, 2));
+      return S.Array(__S(42, __c5, 2));
     case 4:
       return S.suspend(() =>
         S.StructWithRest(
@@ -545,21 +579,21 @@ function __c4(j: number): any {
             object: S.optional(S.String),
             created: S.optional(S.Number),
             model: S.optional(S.String),
-            data: __S(35, __c4, 3),
-            usage: S.optional(S.NullOr(__S(10, __c1, 2))),
+            data: __S(43, __c5, 3),
+            usage: S.optional(S.NullOr(__S(18, __c2, 2))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "EmbeddingsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           model: S.String,
-          messages: __S(20, __c2, 4),
+          messages: __S(28, __c3, 4),
           max_completion_tokens: S.optional(S.Number),
           max_tokens: S.optional(S.Number),
           temperature: S.optional(S.Number),
@@ -567,12 +601,12 @@ function __c5(j: number): any {
           seed: S.optional(S.Number),
           frequency_penalty: S.optional(S.Number),
           presence_penalty: S.optional(S.Number),
-          stop: S.optional(__S(24, __c3, 0)),
-          tools: S.optional(__S(28, __c3, 4)),
+          stop: S.optional(__S(32, __c4, 0)),
+          tools: S.optional(__S(36, __c4, 4)),
           tool_choice: S.optional(S.Unknown),
-          response_format: S.optional(__S(25, __c3, 1)),
+          response_format: S.optional(__S(33, __c4, 1)),
           stream: S.optional(S.Boolean),
-          stream_options: S.optional(__S(29, __c3, 5)),
+          stream_options: S.optional(__S(37, __c4, 5)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/chat/completions", code: 200 })),
       ).annotate({ identifier: "StreamChatCompletionRequest" });
   }

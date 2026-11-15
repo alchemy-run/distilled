@@ -37,23 +37,39 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class JobNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<JobNotFound>()("JobNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, message: { includes: "Could not find a job" } }],
   ) {}
@@ -62,17 +78,31 @@ export class JobResultsNotReady
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<JobResultsNotReady>()("JobResultsNotReady", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "Can not fetch details for a job" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class LoginRefused
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<LoginRefused>()("LoginRefused", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface CancelJobRequest {
   /** Id of the job, from `SubmitSql`. */
@@ -101,45 +131,45 @@ export type JobJobState =
   | "INVALID_STATE";
 export type ReflectionRelationshipRelationship = "CONSIDERED" | "MATCHED" | "CHOSEN";
 export interface ReflectionRelationship {
-  datasetId?: string;
-  reflectionId?: string;
-  relationship?: ReflectionRelationshipRelationship;
+  datasetId?: string | undefined;
+  reflectionId?: string | undefined;
+  relationship?: ReflectionRelationshipRelationship | undefined;
 }
 export type JobAccelerationReflectionRelationshipsList = Array<ReflectionRelationship>;
 /** Present when the job could use a Reflection. */
 export interface JobAcceleration {
-  reflectionRelationships?: JobAccelerationReflectionRelationshipsList;
+  reflectionRelationships?: JobAccelerationReflectionRelationshipsList | undefined;
 }
 export interface Job {
   /** `COMPLETED`, `CANCELED` and `FAILED` are final. */
   jobState: JobJobState;
   /** Rows a `COMPLETED` job returned; otherwise 0. */
-  rowCount?: number;
+  rowCount?: number | undefined;
   /** Why a `FAILED` job failed; otherwise empty. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** When the job started, in UTC. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** When the job ended, in UTC. */
-  endedAt?: string;
-  acceleration?: JobAcceleration;
+  endedAt?: string | undefined;
+  acceleration?: JobAcceleration | undefined;
   /** Where the query came from: `REST` here. */
-  queryType?: string;
+  queryType?: string | undefined;
   /** Name of the workload management queue. */
-  queueName?: string;
+  queueName?: string | undefined;
   /** Id of the workload management queue. */
-  queueId?: string;
-  resourceSchedulingStartedAt?: string;
-  resourceSchedulingEndedAt?: string;
+  queueId?: string | undefined;
+  resourceSchedulingStartedAt?: string | undefined;
+  resourceSchedulingEndedAt?: string | undefined;
   /** Why a `CANCELED` job was canceled; otherwise empty. */
-  cancellationReason?: string;
+  cancellationReason?: string | undefined;
 }
 export interface GetJobResultsRequest {
   /** Id of the job, from `SubmitSql`. */
   id: string;
   /** Rows to skip. Defaults to 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Rows to return. Defaults to 100, at most 500. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ColumnTypeSubSchemaItemMap = { [key: string]: unknown | undefined };
 /** Members of a `LIST` or `STRUCT`, each with a `type` and, in a `STRUCT`, a `name`. */
@@ -148,11 +178,11 @@ export interface ColumnType {
   /** Name of the type, such as `INTEGER`, `VARCHAR`, `DECIMAL`, `LIST` or `STRUCT`. */
   name: string;
   /** Precision of a `DECIMAL`. */
-  precision?: number;
+  precision?: number | undefined;
   /** Scale of a `DECIMAL`. */
-  scale?: number;
+  scale?: number | undefined;
   /** Members of a `LIST` or `STRUCT`, each with a `type` and, in a `STRUCT`, a `name`. */
-  subSchema?: ColumnTypeSubSchemaList;
+  subSchema?: ColumnTypeSubSchemaList | undefined;
 }
 export interface Column {
   name: string;
@@ -181,24 +211,24 @@ export interface LoginResponse {
   /** The authentication token. Send it as `Authorization: Bearer <token>`. */
   token: string | Redacted.Redacted<string>;
   /** When the token expires, in milliseconds since the epoch. */
-  expires?: number;
+  expires?: number | undefined;
   /** Login name of the user. */
-  userName?: string;
+  userName?: string | undefined;
   /** Id of the user. */
-  userId?: string;
+  userId?: string | undefined;
   /** Whether the user is an administrator. */
-  admin?: boolean;
+  admin?: boolean | undefined;
   /** Dremio's version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Path of the container the statement runs in, starting with a source or space. */
 export type SubmitSqlRequestContextList = Array<string>;
 export type SqlReferenceType = "BRANCH" | "TAG" | "COMMIT";
 /** The branch, tag or commit of a Nessie source to query. */
 export interface SqlReference {
-  type?: SqlReferenceType | (string & {});
+  type?: SqlReferenceType | (string & {}) | undefined;
   /** The branch or tag name, or the commit hash. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The reference to query per Nessie source, by source name. A source left out runs on its default branch. */
 export type SubmitSqlRequestReferencesMap = { [key: string]: SqlReference | undefined };
@@ -206,13 +236,20 @@ export interface SubmitSqlRequest {
   /** The SQL statement to run. */
   sql: string;
   /** Path of the container the statement runs in, starting with a source or space. */
-  context?: SubmitSqlRequestContextList;
+  context?: SubmitSqlRequestContextList | undefined;
   /** The reference to query per Nessie source, by source name. A source left out runs on its default branch. */
-  references?: SubmitSqlRequestReferencesMap;
+  references?: SubmitSqlRequestReferencesMap | undefined;
 }
 export interface SubmitSqlResponse {
   /** Id of the job. */
   id: string;
+}
+/** The body of a failure. */
+export interface ErrorResponse {
+  /** Brief error message. */
+  errorMessage?: string | undefined;
+  /** Detailed error message. */
+  moreInfo?: string | undefined;
 }
 export type CancelJobError = BadRequest | Forbidden | JobNotFound | DremioOpError;
 /** Cancel a running job. The job stays readable, with `jobState` `CANCELED`. */
@@ -222,8 +259,8 @@ export const cancelJob: API.OperationMethod<
   CancelJobError,
   DremioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CancelJobRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<CancelJobResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CancelJobRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<CancelJobResponse>,
   errors: [BadRequest, Forbidden, JobNotFound, UnknownStackitError],
   protocol: DremioProtocol,
   retry: Retry.Retry,
@@ -235,8 +272,8 @@ export type GetJobError = BadRequest | Forbidden | JobNotFound | DremioOpError;
 /** Read a job's state. `COMPLETED`, `CANCELED` and `FAILED` are final; every other state means it is still running. */
 export const getJob: API.OperationMethod<GetJobRequest, Job, GetJobError, DremioOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(8, __c1, 0) as any as S.Schema<GetJobRequest>,
-    output: __S(12, __c1, 4) as any as S.Schema<Job>,
+    input: __S(16, __c2, 0) as any as S.Schema<GetJobRequest>,
+    output: __S(20, __c2, 4) as any as S.Schema<Job>,
     errors: [BadRequest, Forbidden, JobNotFound, UnknownStackitError],
     protocol: DremioProtocol,
     retry: Retry.Retry,
@@ -257,8 +294,8 @@ export const getJobResults: API.OperationMethod<
   GetJobResultsError,
   DremioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetJobResultsRequest>,
-  output: __S(22, __c2, 6) as any as S.Schema<JobResults>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetJobResultsRequest>,
+  output: __S(30, __c3, 6) as any as S.Schema<JobResults>,
   errors: [BadRequest, Forbidden, JobNotFound, JobResultsNotReady, UnknownStackitError],
   protocol: DremioProtocol,
   retry: Retry.Retry,
@@ -274,8 +311,8 @@ export const login: API.OperationMethod<
   LoginError,
   DremioLoginContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<LoginRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<LoginResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<LoginRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<LoginResponse>,
   errors: [LoginRefused, UnknownStackitError],
   protocol: DremioLoginProtocol,
   retry: Retry.Retry,
@@ -291,8 +328,8 @@ export const submitSql: API.OperationMethod<
   SubmitSqlError,
   DremioOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35, __c4, 3) as any as S.Schema<SubmitSqlRequest>,
-  output: __S(36, __c4, 4) as any as S.Schema<SubmitSqlResponse>,
+  input: __S(43, __c5, 3) as any as S.Schema<SubmitSqlRequest>,
+  output: __S(44, __c5, 4) as any as S.Schema<SubmitSqlResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: DremioProtocol,
   retry: Retry.Retry,
@@ -306,6 +343,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          errorMessage: S.optional(S.String),
+          moreInfo: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/api/v3/job/{id}/cancel", code: 200 })),
       ).annotate({ identifier: "CancelJobRequest" });
@@ -313,7 +361,7 @@ function __c0(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelJobResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -330,11 +378,11 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ReflectionRelationship" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          reflectionRelationships: S.optional(__S(10, __c1, 2)),
+          reflectionRelationships: S.optional(__S(18, __c2, 2)),
         }),
       ).annotate({ identifier: "JobAcceleration" });
     case 4:
@@ -345,7 +393,7 @@ function __c1(j: number): any {
           errorMessage: S.optional(S.String),
           startedAt: S.optional(S.String),
           endedAt: S.optional(S.String),
-          acceleration: S.optional(__S(11, __c1, 3)),
+          acceleration: S.optional(__S(19, __c2, 3)),
           queryType: S.optional(S.String),
           queueName: S.optional(S.String),
           queueId: S.optional(S.String),
@@ -356,7 +404,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Job" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -369,36 +417,36 @@ function __c2(j: number): any {
     case 1:
       return S.Record(S.String, S.Unknown);
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(25, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           precision: S.optional(S.Number),
           scale: S.optional(S.Number),
-          subSchema: S.optional(__S(18, __c2, 2)),
+          subSchema: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "ColumnType" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          type: __S(19, __c2, 3),
+          type: __S(27, __c3, 3),
         }),
       ).annotate({ identifier: "Column" });
     case 5:
-      return S.Array(__S(20, __c2, 4));
+      return S.Array(__S(28, __c3, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           rowCount: S.Number,
-          schema: __S(21, __c2, 5),
-          rows: __S(18, __c2, 2),
+          schema: __S(29, __c3, 5),
+          rows: __S(26, __c3, 2),
         }),
       ).annotate({ identifier: "JobResults" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -420,7 +468,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "LoginResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -432,13 +480,13 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "SqlReference" });
     case 2:
-      return S.Record(S.String, __S(33, __c4, 1));
+      return S.Record(S.String, __S(41, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           sql: S.String,
-          context: S.optional(__S(32, __c4, 0)),
-          references: S.optional(__S(34, __c4, 2)),
+          context: S.optional(__S(40, __c5, 0)),
+          references: S.optional(__S(42, __c5, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v3/sql", code: 200 })),
       ).annotate({ identifier: "SubmitSqlRequest" });
     case 4:

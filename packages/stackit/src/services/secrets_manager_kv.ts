@@ -36,44 +36,79 @@ export class AuthenticationLocked
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AuthenticationLocked>()("AuthenticationLocked", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 429, message: { includes: "temporarily locked" } }],
-  ) {}
+  )
+{
+  declare readonly body?: BadRequest2 | string;
+}
 
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: BadRequest2 | string;
+}
 
 export class CheckAndSetMismatch
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CheckAndSetMismatch>()("CheckAndSetMismatch", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "check-and-set parameter did not match" } }],
-  ) {}
+  )
+{
+  declare readonly body?: BadRequest2 | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Forbidden2 | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: NotFound2 | string;
+}
 
 export interface DeleteLatestSecretVersionRequest {
   /** Mount of the KV v2 engine. On STACKIT, the Secrets Manager instance id. */
@@ -117,7 +152,7 @@ export interface GetSecretRequest {
   /** Location of the secret, which may span several path segments. */
   secretPath: string;
   /** The version to read. 0 or omitted reads the latest. */
-  version?: number;
+  version?: number | undefined;
 }
 /** The key-value pairs of a secret version. */
 export type SecretData = { [key: string]: string | Redacted.Redacted<string> | undefined };
@@ -126,13 +161,13 @@ export type SecretVersionMetadataCustomMetadataMap = { [key: string]: string | u
 /** Metadata of one secret version. */
 export interface SecretVersionMetadata {
   /** When this version was created. */
-  created_time?: string;
+  created_time?: string | undefined;
   /** User-provided key-value pairs of the secret, shared by its versions. */
-  custom_metadata?: SecretVersionMetadataCustomMetadataMap | null;
+  custom_metadata?: SecretVersionMetadataCustomMetadataMap | null | undefined;
   /** When this version is or was deleted; empty when it isn't. */
-  deletion_time?: string;
+  deletion_time?: string | undefined;
   /** Whether this version's data was permanently destroyed. */
-  destroyed?: boolean;
+  destroyed?: boolean | undefined;
   /** The version number. */
   version: number;
 }
@@ -152,31 +187,31 @@ export interface GetSecretMetadataRequest {
 /** User-provided key-value pairs that are used to describe arbitrary and version-agnostic information about a secret. */
 export type SecretMetadataCustomMetadataMap = { [key: string]: string | undefined };
 export interface SecretVersionState {
-  created_time?: string;
-  deletion_time?: string;
-  destroyed?: boolean;
+  created_time?: string | undefined;
+  deletion_time?: string | undefined;
+  destroyed?: boolean | undefined;
 }
 /** State of each version, by version number. */
 export type SecretMetadataVersionsMap = { [key: string]: SecretVersionState | undefined };
 export interface SecretMetadata {
   /** Whether every write must set `cas`. */
-  cas_required?: boolean;
+  cas_required?: boolean | undefined;
   /** When the secret was created. */
-  created_time?: string;
+  created_time?: string | undefined;
   /** The latest version. */
   current_version: number;
   /** User-provided key-value pairs that are used to describe arbitrary and version-agnostic information about a secret. */
-  custom_metadata?: SecretMetadataCustomMetadataMap | null;
+  custom_metadata?: SecretMetadataCustomMetadataMap | null | undefined;
   /** The length of time before a version is deleted. */
-  delete_version_after?: string;
+  delete_version_after?: string | undefined;
   /** The number of versions to keep */
-  max_versions?: number;
+  max_versions?: number | undefined;
   /** The oldest version kept. */
-  oldest_version?: number;
+  oldest_version?: number | undefined;
   /** When the secret last changed. */
-  updated_time?: string;
+  updated_time?: string | undefined;
   /** State of each version, by version number. */
-  versions?: SecretMetadataVersionsMap;
+  versions?: SecretMetadataVersionsMap | undefined;
 }
 export interface GetSecretMetadataResponse {
   data: SecretMetadata;
@@ -216,13 +251,13 @@ export interface LoginAuth {
   /** The token, sent as `X-Vault-Token`. */
   client_token: string | Redacted.Redacted<string>;
   /** Accessor of the token. */
-  accessor?: string;
+  accessor?: string | undefined;
   /** Lifetime of the token in seconds. */
   lease_duration: number;
   /** Whether the token can be renewed. */
   renewable: boolean;
   /** Policies attached to the token. */
-  policies?: LoginAuthPoliciesList;
+  policies?: LoginAuthPoliciesList | undefined;
 }
 export interface LoginResponse {
   auth: LoginAuth;
@@ -236,7 +271,7 @@ export interface LoginWithUserpassRequest {
 /** Options of the write. */
 export interface PutSecretOptions {
   /** Check-and-set. 0 writes only if the key doesn't exist; a non-zero value writes only if it is the key's current version. */
-  cas?: number;
+  cas?: number | undefined;
 }
 export interface PutSecretRequest {
   /** Mount of the KV v2 engine. On STACKIT, the Secrets Manager instance id. */
@@ -244,7 +279,7 @@ export interface PutSecretRequest {
   /** Location of the secret, which may span several path segments. */
   secretPath: string;
   data: SecretData;
-  options?: PutSecretOptions;
+  options?: PutSecretOptions | undefined;
 }
 export interface PutSecretResponse {
   data: SecretVersionMetadata;
@@ -257,13 +292,13 @@ export interface PutSecretMetadataRequest {
   /** Location of the secret, which may span several path segments. */
   secretPath: string;
   /** If true the key will require the cas parameter to be set on all write requests. If false, the backend's configuration will be used. */
-  cas_required?: boolean;
+  cas_required?: boolean | undefined;
   /** User-provided key-value pairs that are used to describe arbitrary and version-agnostic information about a secret. */
-  custom_metadata?: PutSecretMetadataRequestCustomMetadataMap;
+  custom_metadata?: PutSecretMetadataRequestCustomMetadataMap | undefined;
   /** The length of time before a version is deleted. If not set, the backend's configured delete_version_after is used. Cannot be greater than the backend's delete_version_after. A zero duration clears the current setting. A negative duration will cause an error. */
-  delete_version_after?: string;
+  delete_version_after?: string | undefined;
   /** The number of versions to keep. If not set, the backend's configured max version is used. */
-  max_versions?: number;
+  max_versions?: number | undefined;
 }
 export interface PutSecretMetadataResponse {}
 /** The versions to act on. */
@@ -277,6 +312,11 @@ export interface UndeleteSecretVersionsRequest {
   versions: UndeleteSecretVersionsRequestVersionsList;
 }
 export interface UndeleteSecretVersionsResponse {}
+export interface BadRequest2 {
+  message: string;
+}
+export type Forbidden2 = BadRequest2;
+export type NotFound2 = BadRequest2;
 export type DeleteLatestSecretVersionError = BadRequest | Forbidden | NotFound | VaultOpError;
 /** Soft-delete the latest version of a secret. */
 export const deleteLatestSecretVersion: API.OperationMethod<
@@ -285,8 +325,8 @@ export const deleteLatestSecretVersion: API.OperationMethod<
   DeleteLatestSecretVersionError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DeleteLatestSecretVersionRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<DeleteLatestSecretVersionResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<DeleteLatestSecretVersionRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DeleteLatestSecretVersionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -302,8 +342,8 @@ export const deleteSecretMetadata: API.OperationMethod<
   DeleteSecretMetadataError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteSecretMetadataRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<DeleteSecretMetadataResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteSecretMetadataRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DeleteSecretMetadataResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -319,8 +359,8 @@ export const deleteSecretVersions: API.OperationMethod<
   DeleteSecretVersionsError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteSecretVersionsRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<DeleteSecretVersionsResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteSecretVersionsRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DeleteSecretVersionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -336,8 +376,8 @@ export const destroySecretVersions: API.OperationMethod<
   DestroySecretVersionsError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DestroySecretVersionsRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<DestroySecretVersionsResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<DestroySecretVersionsRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DestroySecretVersionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -353,8 +393,8 @@ export const getSecret: API.OperationMethod<
   GetSecretError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetSecretRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<GetSecretResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetSecretRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<GetSecretResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -370,8 +410,8 @@ export const getSecretMetadata: API.OperationMethod<
   GetSecretMetadataError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetSecretMetadataRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<GetSecretMetadataResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetSecretMetadataRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<GetSecretMetadataResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -387,8 +427,8 @@ export const listRootSecrets: API.OperationMethod<
   ListRootSecretsError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ListRootSecretsRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<ListSecretsResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<ListRootSecretsRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<ListSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -404,8 +444,8 @@ export const listSecrets: API.OperationMethod<
   ListSecretsError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListSecretsRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<ListSecretsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListSecretsRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<ListSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -421,8 +461,8 @@ export const loginWithAppRole: API.OperationMethod<
   LoginWithAppRoleError,
   VaultLoginContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<LoginWithAppRoleRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<LoginResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<LoginWithAppRoleRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<LoginResponse>,
   errors: [BadRequest, Forbidden, AuthenticationLocked, UnknownStackitError],
   protocol: VaultLoginProtocol,
   retry: Retry.Retry,
@@ -438,8 +478,8 @@ export const loginWithUserpass: API.OperationMethod<
   LoginWithUserpassError,
   VaultLoginContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<LoginWithUserpassRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<LoginResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<LoginWithUserpassRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<LoginResponse>,
   errors: [BadRequest, Forbidden, AuthenticationLocked, UnknownStackitError],
   protocol: VaultLoginProtocol,
   retry: Retry.Retry,
@@ -455,8 +495,8 @@ export const putSecret: API.OperationMethod<
   PutSecretError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(65, __c8, 1) as any as S.Schema<PutSecretRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<PutSecretResponse>,
+  input: __S(73, __c9, 1) as any as S.Schema<PutSecretRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<PutSecretResponse>,
   errors: [BadRequest, Forbidden, NotFound, CheckAndSetMismatch, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -472,8 +512,8 @@ export const putSecretMetadata: API.OperationMethod<
   PutSecretMetadataError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<PutSecretMetadataRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<PutSecretMetadataResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<PutSecretMetadataRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<PutSecretMetadataResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -489,8 +529,8 @@ export const undeleteSecretVersions: API.OperationMethod<
   UndeleteSecretVersionsError,
   VaultOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<UndeleteSecretVersionsRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<UndeleteSecretVersionsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<UndeleteSecretVersionsRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<UndeleteSecretVersionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: VaultProtocol,
   retry: Retry.Retry,
@@ -500,6 +540,16 @@ export const undeleteSecretVersions: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "BadRequest2" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -517,30 +567,30 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "SecretVersionState" });
     case 2:
-      return S.Record(S.String, __S(1, __c0, 1));
+      return S.Record(S.String, __S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           cas_required: S.optional(S.Boolean),
           created_time: S.optional(S.String),
           current_version: S.Number,
-          custom_metadata: S.optional(S.NullOr(__S(144, __c18, 0))),
+          custom_metadata: S.optional(S.NullOr(__S(152, __c19, 0))),
           delete_version_after: S.optional(S.String),
           max_versions: S.optional(S.Number),
           oldest_version: S.optional(S.Number),
           updated_time: S.optional(S.String),
-          versions: S.optional(__S(2, __c0, 2)),
+          versions: S.optional(__S(10, __c1, 2)),
         }),
       ).annotate({ identifier: "SecretMetadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(3, __c0, 3),
+          data: __S(11, __c1, 3),
         }),
       ).annotate({ identifier: "GetSecretMetadataResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -551,29 +601,29 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListRootSecretsRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(24, __c3, 0),
+          keys: __S(32, __c4, 0),
         }),
       ).annotate({ identifier: "ListSecretsData" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(16, __c2, 0),
+          data: __S(24, __c3, 0),
         }),
       ).annotate({ identifier: "ListSecretsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -585,7 +635,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ListSecretsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -596,7 +646,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "LoginWithAppRoleRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -605,18 +655,18 @@ function __c6(j: number): any {
           accessor: S.optional(S.String),
           lease_duration: S.Number,
           renewable: S.Boolean,
-          policies: S.optional(__S(24, __c3, 0)),
+          policies: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "LoginAuth" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          auth: __S(48, __c6, 0),
+          auth: __S(56, __c7, 0),
         }),
       ).annotate({ identifier: "LoginResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -627,7 +677,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "LoginWithUserpassRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -640,31 +690,16 @@ function __c8(j: number): any {
         S.Struct({
           mount: S.String.pipe(T.Label()),
           secretPath: S.String.pipe(T.Label()),
-          data: __S(152, __c19, 0),
-          options: S.optional(__S(64, __c8, 0)),
+          data: __S(160, __c20, 0),
+          options: S.optional(__S(72, __c9, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/{mount}/data/{secretPath+}", code: 200 })),
       ).annotate({ identifier: "PutSecretRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(153, __c19, 1),
+          data: __S(161, __c20, 1),
         }),
       ).annotate({ identifier: "PutSecretResponse" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          mount: S.String.pipe(T.Label()),
-          secretPath: S.String.pipe(T.Label()),
-          cas_required: S.optional(S.Boolean),
-          custom_metadata: S.optional(__S(144, __c18, 0)),
-          delete_version_after: S.optional(S.String),
-          max_versions: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/{mount}/metadata/{secretPath+}", code: 200 })),
-      ).annotate({ identifier: "PutSecretMetadataRequest" });
   }
 }
 function __c10(j: number): any {
@@ -674,12 +709,27 @@ function __c10(j: number): any {
         S.Struct({
           mount: S.String.pipe(T.Label()),
           secretPath: S.String.pipe(T.Label()),
-          versions: __S(120, __c15, 0),
+          cas_required: S.optional(S.Boolean),
+          custom_metadata: S.optional(__S(152, __c19, 0)),
+          delete_version_after: S.optional(S.String),
+          max_versions: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/{mount}/metadata/{secretPath+}", code: 200 })),
+      ).annotate({ identifier: "PutSecretMetadataRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mount: S.String.pipe(T.Label()),
+          secretPath: S.String.pipe(T.Label()),
+          versions: __S(128, __c16, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/{mount}/undelete/{secretPath+}", code: 200 })),
       ).annotate({ identifier: "UndeleteSecretVersionsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -690,7 +740,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteLatestSecretVersionRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -698,7 +748,7 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -709,37 +759,37 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteSecretMetadataRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           mount: S.String.pipe(T.Label()),
           secretPath: S.String.pipe(T.Label()),
-          versions: __S(120, __c15, 0),
+          versions: __S(128, __c16, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/{mount}/delete/{secretPath+}", code: 200 })),
       ).annotate({ identifier: "DeleteSecretVersionsRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
   }
 }
 function __c16(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           mount: S.String.pipe(T.Label()),
           secretPath: S.String.pipe(T.Label()),
-          versions: __S(120, __c15, 0),
+          versions: __S(128, __c16, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/{mount}/destroy/{secretPath+}", code: 200 })),
       ).annotate({ identifier: "DestroySecretVersionsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -752,25 +802,25 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(152, __c19, 0),
-          metadata: __S(153, __c19, 1),
+          data: __S(160, __c20, 0),
+          metadata: __S(161, __c20, 1),
         }),
       ).annotate({ identifier: "GetSecretData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(137, __c17, 1),
+          data: __S(145, __c18, 1),
         }),
       ).annotate({ identifier: "GetSecretResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.Unknown.pipe(/*@__PURE__*/ T.SensitiveValue({})));
@@ -778,7 +828,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created_time: S.optional(S.String),
-          custom_metadata: S.optional(S.NullOr(__S(144, __c18, 0))),
+          custom_metadata: S.optional(S.NullOr(__S(152, __c19, 0))),
           deletion_time: S.optional(S.String),
           destroyed: S.optional(S.Boolean),
           version: S.Number,

@@ -29,18 +29,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The stream's labels. */
 export type PushStreamStreamMap = { [key: string]: string | undefined };
@@ -71,11 +85,11 @@ export interface QueryRequest {
   /** The LogQL query. */
   query: string;
   /** Maximum number of log lines to return. Applies only to log queries. Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Evaluation time, as a nanosecond Unix epoch or an RFC 3339 timestamp. Defaults to now. */
-  time?: string;
+  time?: string | undefined;
   /** Order of log lines: `backward` is most recent first. Applies only to log queries. Defaults to `backward`. */
-  direction?: QueryRequestDirection | (string & {});
+  direction?: QueryRequestDirection | (string & {}) | undefined;
 }
 export type QueryDataResultType = "vector" | "scalar" | "streams" | "matrix";
 /** For `vector`, a list of `{ metric, value }`. For `scalar`, `[<number: seconds since the epoch>, <string: value>]`. Check `resultType` before reading it. */
@@ -87,7 +101,7 @@ export interface QueryData {
   /** For `vector`, a list of `{ metric, value }`. For `scalar`, `[<number: seconds since the epoch>, <string: value>]`. Check `resultType` before reading it. */
   result: QueryDataResultList;
   /** Query statistics, as Loki reports them. */
-  stats?: QueryDataStatsMap;
+  stats?: QueryDataStatsMap | undefined;
 }
 export interface QueryResponse {
   status: string;
@@ -98,19 +112,19 @@ export interface QueryRangeRequest {
   /** The LogQL query. */
   query: string;
   /** Maximum number of log lines to return. Applies only to log queries. Defaults to 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Start of the range, inclusive, as a nanosecond Unix epoch or an RFC 3339 timestamp. Defaults to one hour ago. */
-  start?: string;
+  start?: string | undefined;
   /** End of the range, exclusive, as a nanosecond Unix epoch or an RFC 3339 timestamp. Defaults to now. */
-  end?: string;
+  end?: string | undefined;
   /** A duration, such as `5m`, to compute `start` from `end`. An explicit `start` wins. */
-  since?: string;
+  since?: string | undefined;
   /** Resolution of a metric query, as a duration or a number of seconds. */
-  step?: string;
+  step?: string | undefined;
   /** Only for log queries: return entries at least this far apart, as a duration or a number of seconds. */
-  interval?: string;
+  interval?: string | undefined;
   /** Order of log lines: `backward` is most recent first. Applies only to log queries. Defaults to `backward`. */
-  direction?: QueryRangeRequestDirection | (string & {});
+  direction?: QueryRangeRequestDirection | (string & {}) | undefined;
 }
 export type QueryRangeDataResultType = "streams" | "matrix";
 /** The stream's labels, for `streams`. */
@@ -123,9 +137,9 @@ export type RangeResultValuesList = Array<RangeResultValuesItemList>;
 /** One stream of a `streams` result, or one series of a `matrix` result. */
 export interface RangeResult {
   /** The stream's labels, for `streams`. */
-  stream?: RangeResultStreamMap;
+  stream?: RangeResultStreamMap | undefined;
   /** The series' labels, for `matrix`. */
-  metric?: RangeResultMetricMap;
+  metric?: RangeResultMetricMap | undefined;
   /** For `streams`, `[<string: nanosecond Unix epoch>, <string: log line>]`. For `matrix`, `[<number: seconds since the epoch>, <string: value>]`. */
   values: RangeResultValuesList;
 }
@@ -136,18 +150,21 @@ export interface QueryRangeData {
   resultType: QueryRangeDataResultType;
   result: QueryRangeDataResultList;
   /** Query statistics, as Loki reports them. */
-  stats?: QueryRangeDataStatsMap;
+  stats?: QueryRangeDataStatsMap | undefined;
 }
 export interface QueryRangeResponse {
   status: string;
   data: QueryRangeData;
 }
+export interface ErrorResponse {
+  message?: string | undefined;
+}
 export type PushError = BadRequest | Forbidden | LokiOpError;
 /** Sends log lines to the instance. Needs a token with the `write` permission. */
 export const push: API.OperationMethod<PushRequest, PushResponse, PushError, LokiOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2, __c0, 2) as any as S.Schema<PushRequest>,
-    output: __S(8, __c1, 0) as any as S.Schema<PushResponse>,
+    input: __S(10, __c1, 2) as any as S.Schema<PushRequest>,
+    output: __S(16, __c2, 0) as any as S.Schema<PushResponse>,
     errors: [BadRequest, Forbidden, UnknownStackitError],
     protocol: LokiProtocol,
     retry: Retry.Retry,
@@ -163,8 +180,8 @@ export const pushOtlp: API.OperationMethod<
   PushOtlpError,
   LokiOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c4, 1) as any as S.Schema<PushOtlpRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<PushOtlpResponse>,
+  input: __S(41, __c5, 1) as any as S.Schema<PushOtlpRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<PushOtlpResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: LokiProtocol,
   retry: Retry.Retry,
@@ -176,8 +193,8 @@ export type QueryError = BadRequest | Forbidden | LokiOpError;
 /** Runs a metric LogQL query at one point in time. Refuses a log query with `BadRequest`: use `queryRange` for log lines. Needs a token with the `read` permission. */
 export const query: API.OperationMethod<QueryRequest, QueryResponse, QueryError, LokiOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(48, __c6, 0) as any as S.Schema<QueryRequest>,
-    output: __S(50, __c6, 2) as any as S.Schema<QueryResponse>,
+    input: __S(56, __c7, 0) as any as S.Schema<QueryRequest>,
+    output: __S(58, __c7, 2) as any as S.Schema<QueryResponse>,
     errors: [BadRequest, Forbidden, UnknownStackitError],
     protocol: LokiProtocol,
     retry: Retry.Retry,
@@ -193,8 +210,8 @@ export const queryRange: API.OperationMethod<
   QueryRangeError,
   LokiOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<QueryRangeRequest>,
-  output: __S(60, __c7, 4) as any as S.Schema<QueryRangeResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<QueryRangeRequest>,
+  output: __S(68, __c8, 4) as any as S.Schema<QueryRangeResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: LokiProtocol,
   retry: Retry.Retry,
@@ -208,59 +225,69 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          stream: __S(24, __c3, 0),
-          values: __S(25, __c3, 1),
+          message: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PushStream" });
-    case 1:
-      return S.Array(__S(0, __c0, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          streams: __S(1, __c0, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/loki/api/v1/push", code: 200 })),
-      ).annotate({ identifier: "PushRequest" });
+      ).annotate({ identifier: "ErrorResponse" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "PushResponse" });
+      return S.suspend(() =>
+        S.Struct({
+          stream: __S(32, __c4, 0),
+          values: __S(33, __c4, 1),
+        }),
+      ).annotate({ identifier: "PushStream" });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          streams: __S(9, __c1, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/loki/api/v1/push", code: 200 })),
+      ).annotate({ identifier: "PushRequest" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "PushResponse" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(S.Unknown);
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(40, __c5, 0));
+      return S.Record(S.String, S.String);
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          resourceLogs: __S(32, __c4, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/otlp/v1/logs", code: 200 })),
-      ).annotate({ identifier: "PushOtlpRequest" });
+      return S.Array(__S(24, __c3, 0));
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(__S(48, __c6, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceLogs: __S(40, __c5, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/otlp/v1/logs", code: 200 })),
+      ).annotate({ identifier: "PushOtlpRequest" });
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -275,20 +302,20 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resultType: S.String,
-          result: __S(16, __c2, 0),
-          stats: S.optional(__S(40, __c5, 0)),
+          result: __S(24, __c3, 0),
+          stats: S.optional(__S(48, __c6, 0)),
         }),
       ).annotate({ identifier: "QueryData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: __S(49, __c6, 1),
+          data: __S(57, __c7, 1),
         }),
       ).annotate({ identifier: "QueryResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -306,26 +333,26 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stream: S.optional(__S(24, __c3, 0)),
-          metric: S.optional(__S(24, __c3, 0)),
-          values: __S(25, __c3, 1),
+          stream: S.optional(__S(32, __c4, 0)),
+          metric: S.optional(__S(32, __c4, 0)),
+          values: __S(33, __c4, 1),
         }),
       ).annotate({ identifier: "RangeResult" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(65, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           resultType: S.String,
-          result: __S(58, __c7, 2),
-          stats: S.optional(__S(40, __c5, 0)),
+          result: __S(66, __c8, 2),
+          stats: S.optional(__S(48, __c6, 0)),
         }),
       ).annotate({ identifier: "QueryRangeData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: __S(59, __c7, 3),
+          data: __S(67, __c8, 3),
         }),
       ).annotate({ identifier: "QueryRangeResponse" });
   }

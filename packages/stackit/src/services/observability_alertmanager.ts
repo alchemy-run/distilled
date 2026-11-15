@@ -35,35 +35,56 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export type LabelSet = { [key: string]: string | undefined };
 export interface PostableAlert {
-  startsAt?: string;
-  endsAt?: string;
-  annotations?: LabelSet;
+  startsAt?: string | undefined;
+  endsAt?: string | undefined;
+  annotations?: LabelSet | undefined;
   labels: LabelSet;
-  generatorURL?: string;
+  generatorURL?: string | undefined;
 }
 export type PostableAlerts = Array<PostableAlert>;
 export interface CreateAlertRequest {
@@ -74,11 +95,11 @@ export interface Matcher {
   name: string;
   value: string;
   isRegex: boolean;
-  isEqual?: boolean;
+  isEqual?: boolean | undefined;
 }
 export type Matchers = Array<Matcher>;
 export interface CreateSilenceRequest {
-  id?: string;
+  id?: string | undefined;
   matchers: Matchers;
   startsAt: string;
   endsAt: string;
@@ -86,7 +107,7 @@ export interface CreateSilenceRequest {
   comment: string;
 }
 export interface CreateSilenceResponse {
-  silenceID?: string;
+  silenceID?: string | undefined;
 }
 export interface DeleteSilenceRequest {
   /** ID of the silence to get */
@@ -96,15 +117,15 @@ export interface DeleteSilenceResponse {}
 export type GetAlertGroupsRequestFilterList = Array<string>;
 export interface GetAlertGroupsRequest {
   /** Include active alerts within the returned groups. If false, excludes active alerts from groups and only shows suppressed (silenced or inhibited) alerts. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Include silenced alerts within the returned groups. If false, excludes silenced alerts from groups. Note that true (default) shows both silenced and non-silenced alerts. */
-  silenced?: boolean;
+  silenced?: boolean | undefined;
   /** Include inhibited alerts within the returned groups. If false, excludes inhibited alerts from groups. Note that true (default) shows both inhibited and non-inhibited alerts. */
-  inhibited?: boolean;
+  inhibited?: boolean | undefined;
   /** A matcher expression to filter alert groups. For example `alertname="MyAlert"`. It can be repeated to apply multiple matchers. */
-  filter?: GetAlertGroupsRequestFilterList;
+  filter?: GetAlertGroupsRequestFilterList | undefined;
   /** A regex matching receivers to filter alerts by */
-  receiver?: string;
+  receiver?: string | undefined;
 }
 export interface ReceiverReference {
   name: string;
@@ -129,7 +150,7 @@ export interface GettableAlert {
   endsAt: string;
   status: AlertStatus;
   labels: LabelSet;
-  generatorURL?: string;
+  generatorURL?: string | undefined;
 }
 export type AlertGroupAlertsList = Array<GettableAlert>;
 export interface AlertGroup {
@@ -143,24 +164,24 @@ export type GetAlertGroupsResponse = AlertGroups;
 export type GetAlertsRequestFilterList = Array<string>;
 export interface GetAlertsRequest {
   /** Include active alerts in results. If false, excludes active alerts and returns only suppressed (silenced or inhibited) alerts. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Include silenced alerts in results. If false, excludes silenced alerts. Note that true (default) shows both silenced and non-silenced alerts. */
-  silenced?: boolean;
+  silenced?: boolean | undefined;
   /** Include inhibited alerts in results. If false, excludes inhibited alerts. Note that true (default) shows both inhibited and non-inhibited alerts. */
-  inhibited?: boolean;
+  inhibited?: boolean | undefined;
   /** Include unprocessed alerts in results. If false, excludes unprocessed alerts. Note that true (default) shows both processed and unprocessed alerts. */
-  unprocessed?: boolean;
+  unprocessed?: boolean | undefined;
   /** A matcher expression to filter alerts. For example `alertname="MyAlert"`. It can be repeated to apply multiple matchers. */
-  filter?: GetAlertsRequestFilterList;
+  filter?: GetAlertsRequestFilterList | undefined;
   /** A regex matching receivers to filter alerts by */
-  receiver?: string;
+  receiver?: string | undefined;
 }
 export type GettableAlerts = Array<GettableAlert>;
 export type GetAlertsResponse = GettableAlerts;
 export interface GetReceiversRequest {}
 export interface Receiver {
   name: string;
-  labels?: LabelSet;
+  labels?: LabelSet | undefined;
 }
 export type GetReceiversResponseBodyList = Array<Receiver>;
 export type GetReceiversResponse = GetReceiversResponseBodyList;
@@ -185,13 +206,13 @@ export interface GettableSilence {
 export type GetSilencesRequestFilterList = Array<string>;
 export interface GetSilencesRequest {
   /** A matcher expression to filter silences. For example `alertname="MyAlert"`. It can be repeated to apply multiple matchers. */
-  filter?: GetSilencesRequestFilterList;
+  filter?: GetSilencesRequestFilterList | undefined;
   /** Include active silences in results. If false, excludes active silences. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Include expired silences in results. If false, excludes expired silences. */
-  expired?: boolean;
+  expired?: boolean | undefined;
   /** Include pending silences in results. If false, excludes pending silences. */
-  pending?: boolean;
+  pending?: boolean | undefined;
 }
 export type GettableSilences = Array<GettableSilence>;
 export type GetSilencesResponse = GettableSilences;
@@ -203,9 +224,9 @@ export interface PeerStatus {
 }
 export type ClusterStatusPeersList = Array<PeerStatus>;
 export interface ClusterStatus {
-  name?: string;
+  name?: string | undefined;
   status: ClusterStatusStatus;
-  peers?: ClusterStatusPeersList;
+  peers?: ClusterStatusPeersList | undefined;
 }
 export interface VersionInfo {
   version: string;
@@ -224,6 +245,9 @@ export interface AlertmanagerStatus {
   config: AlertmanagerConfig;
   uptime: string;
 }
+export interface ErrorResponse {
+  message?: string | undefined;
+}
 export type CreateAlertError = BadRequest | Forbidden | ObservabilityDataOpError;
 /** Create new Alerts */
 export const createAlert: API.OperationMethod<
@@ -232,8 +256,8 @@ export const createAlert: API.OperationMethod<
   CreateAlertError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c2, 2) as any as S.Schema<CreateAlertRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<CreateAlertResponse>,
+  input: __S(26, __c3, 2) as any as S.Schema<CreateAlertRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<CreateAlertResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -249,8 +273,8 @@ export const createSilence: API.OperationMethod<
   CreateSilenceError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateSilenceRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<CreateSilenceResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateSilenceRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<CreateSilenceResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -266,8 +290,8 @@ export const deleteSilence: API.OperationMethod<
   DeleteSilenceError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DeleteSilenceRequest>,
-  output: __S(24, __c3, 0) as any as S.Schema<DeleteSilenceResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<DeleteSilenceRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<DeleteSilenceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -283,8 +307,8 @@ export const getAlertGroups: API.OperationMethod<
   GetAlertGroupsError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetAlertGroupsRequest>,
-  output: __S(67, __c8, 3) as any as S.Schema<GetAlertGroupsResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetAlertGroupsRequest>,
+  output: __S(75, __c9, 3) as any as S.Schema<GetAlertGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -300,8 +324,8 @@ export const getAlerts: API.OperationMethod<
   GetAlertsError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetAlertsRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<GetAlertsResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetAlertsRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<GetAlertsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -317,8 +341,8 @@ export const getReceivers: API.OperationMethod<
   GetReceiversError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetReceiversRequest>,
-  output: __S(99, __c12, 3) as any as S.Schema<GetReceiversResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetReceiversRequest>,
+  output: __S(107, __c13, 3) as any as S.Schema<GetReceiversResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -334,8 +358,8 @@ export const getSilence: API.OperationMethod<
   GetSilenceError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetSilenceRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<GettableSilence>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetSilenceRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<GettableSilence>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -351,8 +375,8 @@ export const getSilences: API.OperationMethod<
   GetSilencesError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetSilencesRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<GetSilencesResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetSilencesRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<GetSilencesResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -368,8 +392,8 @@ export const getStatus: API.OperationMethod<
   GetStatusError,
   ObservabilityDataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetStatusRequest>,
-  output: __S(14, __c1, 6) as any as S.Schema<AlertmanagerStatus>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetStatusRequest>,
+  output: __S(22, __c2, 6) as any as S.Schema<AlertmanagerStatus>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: ObservabilityDataProtocol,
   retry: Retry.Retry,
@@ -383,21 +407,31 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(__S(88, __c11, 0).pipe(T.Query())),
           active: S.optional(S.Boolean.pipe(T.Query())),
           expired: S.optional(S.Boolean.pipe(T.Query())),
           pending: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/silences", code: 200 })),
       ).annotate({ identifier: "GetSilencesRequest" });
     case 1:
-      return S.Array(__S(113, __c14, 1));
+      return S.Array(__S(121, __c15, 1));
     case 2:
-      return S.suspend(() => __S(1, __c0, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9, __c1, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSilencesResponse",
       });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -411,13 +445,13 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "PeerStatus" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           status: S.String,
-          peers: S.optional(__S(10, __c1, 2)),
+          peers: S.optional(__S(18, __c2, 2)),
         }),
       ).annotate({ identifier: "ClusterStatus" });
     case 4:
@@ -440,55 +474,55 @@ function __c1(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          cluster: __S(11, __c1, 3),
-          versionInfo: __S(12, __c1, 4),
-          config: __S(13, __c1, 5),
+          cluster: __S(19, __c2, 3),
+          versionInfo: __S(20, __c2, 4),
+          config: __S(21, __c2, 5),
           uptime: S.String,
         }),
       ).annotate({ identifier: "AlertmanagerStatus" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           startsAt: S.optional(S.String),
           endsAt: S.optional(S.String),
-          annotations: S.optional(__S(32, __c4, 0)),
-          labels: __S(32, __c4, 0),
+          annotations: S.optional(__S(40, __c5, 0)),
+          labels: __S(40, __c5, 0),
           generatorURL: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostableAlert" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          body: __S(17, __c2, 1).pipe(T.HttpBody()),
+          body: __S(25, __c3, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/alerts", code: 200 })),
       ).annotate({ identifier: "CreateAlertRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateAlertResponse" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateAlertResponse" });
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          matchers: __S(49, __c6, 1),
+          matchers: __S(57, __c7, 1),
           startsAt: S.String,
           endsAt: S.String,
           createdBy: S.String,
@@ -503,7 +537,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateSilenceResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -515,10 +549,10 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "Matcher" });
     case 1:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(56, __c7, 0));
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -528,7 +562,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteSilenceRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -536,28 +570,28 @@ function __c8(j: number): any {
           active: S.optional(S.Boolean.pipe(T.Query())),
           silenced: S.optional(S.Boolean.pipe(T.Query())),
           inhibited: S.optional(S.Boolean.pipe(T.Query())),
-          filter: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          filter: S.optional(__S(88, __c11, 0).pipe(T.Query())),
           receiver: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/alerts/groups", code: 200 })),
       ).annotate({ identifier: "GetAlertGroupsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          labels: __S(32, __c4, 0),
-          routeLabels: __S(32, __c4, 0),
-          receiver: __S(72, __c9, 0),
-          alerts: __S(76, __c9, 4),
+          labels: __S(40, __c5, 0),
+          routeLabels: __S(40, __c5, 0),
+          receiver: __S(80, __c10, 0),
+          alerts: __S(84, __c10, 4),
         }),
       ).annotate({ identifier: "AlertGroup" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(73, __c9, 1));
     case 3:
-      return S.suspend(() => __S(66, __c8, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(74, __c9, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAlertGroupsResponse",
       });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -566,41 +600,41 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "ReceiverReference" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           state: S.String,
-          silencedBy: __S(80, __c10, 0),
-          inhibitedBy: __S(80, __c10, 0),
-          mutedBy: __S(80, __c10, 0),
+          silencedBy: __S(88, __c11, 0),
+          inhibitedBy: __S(88, __c11, 0),
+          mutedBy: __S(88, __c11, 0),
         }),
       ).annotate({ identifier: "AlertStatus" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          annotations: __S(32, __c4, 0),
-          receivers: __S(73, __c9, 1),
+          annotations: __S(40, __c5, 0),
+          receivers: __S(81, __c10, 1),
           fingerprint: S.String,
           startsAt: S.String,
           updatedAt: S.String,
           endsAt: S.String,
-          status: __S(74, __c9, 2),
-          labels: __S(32, __c4, 0),
+          status: __S(82, __c10, 2),
+          labels: __S(40, __c5, 0),
           generatorURL: S.optional(S.String),
         }),
       ).annotate({ identifier: "GettableAlert" });
     case 4:
-      return S.Array(__S(75, __c9, 3));
+      return S.Array(__S(83, __c10, 3));
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -609,17 +643,17 @@ function __c11(j: number): any {
           silenced: S.optional(S.Boolean.pipe(T.Query())),
           inhibited: S.optional(S.Boolean.pipe(T.Query())),
           unprocessed: S.optional(S.Boolean.pipe(T.Query())),
-          filter: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          filter: S.optional(__S(88, __c11, 0).pipe(T.Query())),
           receiver: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/alerts", code: 200 })),
       ).annotate({ identifier: "GetAlertsRequest" });
     case 1:
-      return S.suspend(() => __S(76, __c9, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(84, __c10, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAlertsResponse",
       });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -629,18 +663,18 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          labels: S.optional(__S(32, __c4, 0)),
+          labels: S.optional(__S(40, __c5, 0)),
         }),
       ).annotate({ identifier: "Receiver" });
     case 2:
-      return S.Array(__S(97, __c12, 1));
+      return S.Array(__S(105, __c13, 1));
     case 3:
-      return S.suspend(() => __S(98, __c12, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(106, __c13, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetReceiversResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -650,7 +684,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetSilenceRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -662,9 +696,9 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          status: __S(112, __c14, 0),
+          status: __S(120, __c15, 0),
           updatedAt: S.String,
-          matchers: __S(49, __c6, 1),
+          matchers: __S(57, __c7, 1),
           startsAt: S.String,
           endsAt: S.String,
           createdBy: S.String,

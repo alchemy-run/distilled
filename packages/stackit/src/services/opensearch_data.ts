@@ -34,14 +34,23 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class DocumentNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DocumentNotFound>()("DocumentNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       { status: 404, body: { "/found": false } },
@@ -54,14 +63,23 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class IndexNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<IndexNotFound>()("IndexNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "index_not_found_exception" } }],
   ) {}
@@ -70,6 +88,8 @@ export class VersionConflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VersionConflict>()("VersionConflict", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/error/type": "version_conflict_engine_exception" } }],
   ) {}
@@ -81,13 +101,13 @@ export interface AddDocumentRequest {
   /** Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`. */
   index: string;
   /** ID of the pipeline to use to preprocess incoming documents. If the index has a default ingest pipeline specified, then setting the value to `_none` disables the default ingest pipeline for this request. */
-  pipeline?: string;
+  pipeline?: string | undefined;
   /** If `true`, OpenSearch refreshes the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` do nothing with refreshes. */
-  refresh?: AddDocumentRequestRefresh | (string & {});
+  refresh?: AddDocumentRequestRefresh | (string & {}) | undefined;
   /** A custom value used to route operations to a specific shard. */
-  routing?: string;
+  routing?: string | undefined;
   /** Period the request waits for automatic index creation, dynamic mapping updates, and active shards, such as `30s`. */
-  timeout?: string;
+  timeout?: string | undefined;
   body: AddDocumentRequestBodyMap;
 }
 export type WriteResponseResult = "created" | "updated" | "deleted" | "not_found" | "noop";
@@ -98,8 +118,8 @@ export interface ShardStatistics {
   failed: number;
   successful: number;
   total: number;
-  skipped?: number;
-  failures?: ShardStatisticsFailuresList;
+  skipped?: number | undefined;
+  failures?: ShardStatisticsFailuresList | undefined;
 }
 /** The base response for write operations. */
 export interface WriteResponse {
@@ -110,22 +130,22 @@ export interface WriteResponse {
   _seq_no: number;
   _shards: ShardStatistics;
   _version: number;
-  forced_refresh?: boolean;
+  forced_refresh?: boolean | undefined;
 }
 export type BulkRequestRefresh = "true" | "false" | "wait_for";
 export interface BulkRequest {
   /** Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`. */
   index: string;
   /** ID of the pipeline to use to preprocess incoming documents. If the index has a default ingest pipeline specified, then setting the value to `_none` disables the default ingest pipeline for this request. */
-  pipeline?: string;
+  pipeline?: string | undefined;
   /** If `true`, OpenSearch refreshes the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` do nothing with refreshes. */
-  refresh?: BulkRequestRefresh | (string & {});
+  refresh?: BulkRequestRefresh | (string & {}) | undefined;
   /** A custom value used to route operations to a specific shard. */
-  routing?: string;
+  routing?: string | undefined;
   /** Period the request waits for automatic index creation, dynamic mapping updates, and active shards, such as `30s`. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** If `true`, the request's actions must target an index alias. */
-  require_alias?: boolean;
+  require_alias?: boolean | undefined;
   /** The actions as newline-delimited JSON, ending in a newline. Build it with `opensearchBulkBody`. */
   body: string;
 }
@@ -135,30 +155,30 @@ export interface ErrorCause {
   /** The type of error. */
   type: string;
   /** A human-readable explanation of the error, in English. */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** The error's cause, in the same shape. */
-  caused_by?: ErrorCauseCausedByMap;
+  caused_by?: ErrorCauseCausedByMap | undefined;
 }
 export interface BulkItemResult {
-  _id?: string | null;
+  _id?: string | null | undefined;
   _index: string;
   /** HTTP status code returned for the action. */
   status: number;
-  error?: ErrorCause;
+  error?: ErrorCause | undefined;
   /** Successful values are `created`, `deleted`, and `updated`. */
-  result?: string;
-  _primary_term?: number;
-  _seq_no?: number;
-  _shards?: ShardStatistics;
-  _version?: number;
-  forced_refresh?: boolean;
+  result?: string | undefined;
+  _primary_term?: number | undefined;
+  _seq_no?: number | undefined;
+  _shards?: ShardStatistics | undefined;
+  _version?: number | undefined;
+  forced_refresh?: boolean | undefined;
 }
 /** One action's result, under the action's name. */
 export interface BulkResponseItem {
-  index?: BulkItemResult;
-  create?: BulkItemResult;
-  update?: BulkItemResult;
-  delete?: BulkItemResult;
+  index?: BulkItemResult | undefined;
+  create?: BulkItemResult | undefined;
+  update?: BulkItemResult | undefined;
+  delete?: BulkItemResult | undefined;
 }
 export type BulkResponseItemsList = Array<BulkResponseItem>;
 export interface BulkResponse {
@@ -166,7 +186,7 @@ export interface BulkResponse {
   /** `true` if at least one action failed. */
   errors: boolean;
   items: BulkResponseItemsList;
-  ingest_took?: number;
+  ingest_took?: number | undefined;
 }
 export type DeleteDocumentRequestRefresh = "true" | "false" | "wait_for";
 export interface DeleteDocumentRequest {
@@ -175,15 +195,15 @@ export interface DeleteDocumentRequest {
   /** Unique identifier of the document. */
   id: string;
   /** Only perform the operation if the document has this primary term. */
-  if_primary_term?: number;
+  if_primary_term?: number | undefined;
   /** Only perform the operation if the document has this sequence number. */
-  if_seq_no?: number;
+  if_seq_no?: number | undefined;
   /** If `true`, OpenSearch refreshes the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` do nothing with refreshes. */
-  refresh?: DeleteDocumentRequestRefresh | (string & {});
+  refresh?: DeleteDocumentRequestRefresh | (string & {}) | undefined;
   /** A custom value used to route operations to a specific shard. */
-  routing?: string;
+  routing?: string | undefined;
   /** Period the request waits for automatic index creation, dynamic mapping updates, and active shards, such as `30s`. */
-  timeout?: string;
+  timeout?: string | undefined;
 }
 export interface GetDocumentRequest {
   /** Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`. */
@@ -191,21 +211,21 @@ export interface GetDocumentRequest {
   /** Unique identifier of the document. */
   id: string;
   /** `true` or `false` to return the `_source` field or not, or a comma-separated list of fields to return. */
-  _source?: string;
+  _source?: string | undefined;
   /** A comma-separated list of source fields to exclude in the response. */
-  _source_excludes?: string;
+  _source_excludes?: string | undefined;
   /** A comma-separated list of source fields to include in the response. */
-  _source_includes?: string;
+  _source_includes?: string | undefined;
   /** Specifies the node or shard the operation should be performed on. Random by default. */
-  preference?: string;
+  preference?: string | undefined;
   /** If `true`, the request is real time as opposed to near real time. */
-  realtime?: boolean;
+  realtime?: boolean | undefined;
   /** If `true`, OpenSearch refreshes the affected shards to make this operation visible to search. */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
   /** Target the specified primary shard. */
-  routing?: string;
+  routing?: string | undefined;
   /** Comma-separated list of stored fields to return. */
-  stored_fields?: string;
+  stored_fields?: string | undefined;
 }
 /** The document. */
 export type GetDocumentResponseSourceMap = { [key: string]: unknown | undefined };
@@ -216,13 +236,13 @@ export interface GetDocumentResponse {
   _id: string;
   found: boolean;
   /** The document. */
-  _source?: GetDocumentResponseSourceMap;
+  _source?: GetDocumentResponseSourceMap | undefined;
   /** Requested stored fields. */
-  fields?: GetDocumentResponseFieldsMap;
-  _routing?: string;
-  _version?: number;
-  _seq_no?: number;
-  _primary_term?: number;
+  fields?: GetDocumentResponseFieldsMap | undefined;
+  _routing?: string | undefined;
+  _version?: number | undefined;
+  _seq_no?: number | undefined;
+  _primary_term?: number | undefined;
 }
 export type IndexDocumentRequestOpType = "index" | "create";
 export type IndexDocumentRequestRefresh = "true" | "false" | "wait_for";
@@ -234,19 +254,19 @@ export interface IndexDocumentRequest {
   /** Unique identifier of the document. */
   id: string;
   /** Only perform the operation if the document has this primary term. */
-  if_primary_term?: number;
+  if_primary_term?: number | undefined;
   /** Only perform the operation if the document has this sequence number. */
-  if_seq_no?: number;
+  if_seq_no?: number | undefined;
   /** Set to `create` to only index the document if it does not already exist. If a document with the specified id already exists, the operation fails with `VersionConflict`. */
-  op_type?: IndexDocumentRequestOpType | (string & {});
+  op_type?: IndexDocumentRequestOpType | (string & {}) | undefined;
   /** ID of the pipeline to use to preprocess incoming documents. If the index has a default ingest pipeline specified, then setting the value to `_none` disables the default ingest pipeline for this request. */
-  pipeline?: string;
+  pipeline?: string | undefined;
   /** If `true`, OpenSearch refreshes the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` do nothing with refreshes. */
-  refresh?: IndexDocumentRequestRefresh | (string & {});
+  refresh?: IndexDocumentRequestRefresh | (string & {}) | undefined;
   /** A custom value used to route operations to a specific shard. */
-  routing?: string;
+  routing?: string | undefined;
   /** Period the request waits for automatic index creation, dynamic mapping updates, and active shards, such as `30s`. */
-  timeout?: string;
+  timeout?: string | undefined;
   body: IndexDocumentRequestBodyMap;
 }
 export type SearchRequestSearchType = "dfs_query_then_fetch" | "query_then_fetch";
@@ -274,57 +294,57 @@ export interface SearchRequest {
   /** Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`. */
   index: string;
   /** If `false`, the request returns an error if any wildcard expression, index alias, or `_all` value targets only missing or closed indexes. */
-  allow_no_indices?: boolean;
+  allow_no_indices?: boolean | undefined;
   /** Type of index that wildcard patterns can match. Supports comma-separated values, such as `open,hidden`. */
-  expand_wildcards?: string;
+  expand_wildcards?: string | undefined;
   /** If `false`, the request returns an error if it targets a missing or closed index. */
-  ignore_unavailable?: boolean;
+  ignore_unavailable?: boolean | undefined;
   /** Nodes and shards used for the search. Random by default. */
-  preference?: string;
+  preference?: string | undefined;
   /** A custom value used to route operations to a specific shard. */
-  routing?: string;
+  routing?: string | undefined;
   /** Customizable sequence of processing stages applied to search queries. */
-  search_pipeline?: string;
+  search_pipeline?: string | undefined;
   /** How distributed term frequencies are calculated for relevance scoring. */
-  search_type?: SearchRequestSearchType | (string & {});
+  search_type?: SearchRequestSearchType | (string & {}) | undefined;
   /** The query, in OpenSearch's query DSL. Omit it to match every document. */
-  query?: SearchRequestQueryMap;
+  query?: SearchRequestQueryMap | undefined;
   /** Number of hits to return. */
-  size?: number;
+  size?: number | undefined;
   /** Starting document offset. By default, you cannot page through more than 10,000 hits using `from` and `size`; use `search_after` beyond that. */
-  from?: number;
+  from?: number | undefined;
   /** Sort order: field names, or objects such as `{ "timestamp": "desc" }`. */
-  sort?: SearchRequestSortList;
+  sort?: SearchRequestSortList | undefined;
   /** `false` to leave the document out of each hit, or the list of fields to return. */
-  _source?: unknown;
+  _source?: unknown | undefined;
   /** Field patterns to return under each hit's `fields`. */
-  fields?: SearchRequestFieldsList;
+  fields?: SearchRequestFieldsList | undefined;
   /** The aggregations that are run as part of the search request, by name. */
-  aggregations?: SearchRequestAggregationsMap;
+  aggregations?: SearchRequestAggregationsMap | undefined;
   /** Alias of `aggregations`. */
-  aggs?: SearchRequestAggsMap;
+  aggs?: SearchRequestAggsMap | undefined;
   /** How to highlight matching fields. */
-  highlight?: SearchRequestHighlightMap;
+  highlight?: SearchRequestHighlightMap | undefined;
   /** A filter applied to the hits after aggregations are computed. */
-  post_filter?: SearchRequestPostFilterMap;
+  post_filter?: SearchRequestPostFilterMap | undefined;
   /** The `sort` values of the last hit of the previous page. */
-  search_after?: SearchRequestSearchAfterList;
+  search_after?: SearchRequestSearchAfterList | undefined;
   /** `true` to count every match, `false` to skip counting (then `hits.total` is absent), or the number to count up to. */
-  track_total_hits?: unknown;
+  track_total_hits?: unknown | undefined;
   /** Minimum `_score` for matching documents. */
-  min_score?: number;
+  min_score?: number | undefined;
   /** Collapse the hits by a field's value. */
-  collapse?: SearchRequestCollapseMap;
+  collapse?: SearchRequestCollapseMap | undefined;
   /** Suggesters, by name. */
-  suggest?: SearchRequestSuggestMap;
+  suggest?: SearchRequestSuggestMap | undefined;
   /** Maximum number of documents to collect for each shard. */
-  terminate_after?: number;
+  terminate_after?: number | undefined;
   /** How long to wait for a response from each shard, such as `30s`. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** If `true`, returns the sequence number and primary term of the last modification of each hit. */
-  seq_no_primary_term?: boolean;
+  seq_no_primary_term?: boolean | undefined;
   /** If `true`, returns the document version as part of a hit. */
-  version?: boolean;
+  version?: boolean | undefined;
 }
 export type TotalHitsRelation = "eq" | "gte";
 export interface TotalHits {
@@ -343,26 +363,26 @@ export interface Hit {
   _index: string;
   _id: string;
   /** Relevance score; `null` when sorting by something else. */
-  _score?: number | null;
+  _score?: number | null | undefined;
   /** The document. */
-  _source?: HitSourceMap;
+  _source?: HitSourceMap | undefined;
   /** Requested fields. */
-  fields?: HitFieldsMap;
+  fields?: HitFieldsMap | undefined;
   /** Highlighted snippets by field. */
-  highlight?: HitHighlightMap;
+  highlight?: HitHighlightMap | undefined;
   /** The sort values; pass the last hit's to `search_after`. */
-  sort?: HitSortList;
-  _routing?: string;
-  _version?: number;
-  _seq_no?: number;
-  _primary_term?: number;
+  sort?: HitSortList | undefined;
+  _routing?: string | undefined;
+  _version?: number | undefined;
+  _seq_no?: number | undefined;
+  _primary_term?: number | undefined;
   /** Names of the named queries that matched. */
-  matched_queries?: unknown;
+  matched_queries?: unknown | undefined;
 }
 export type HitsMetadataHitsList = Array<Hit>;
 export interface HitsMetadata {
-  total?: TotalHits;
-  max_score?: number | null;
+  total?: TotalHits | undefined;
+  max_score?: number | null | undefined;
   hits: HitsMetadataHitsList;
 }
 /** Aggregation results by name. */
@@ -376,9 +396,15 @@ export interface SearchResponse {
   _shards: ShardStatistics;
   hits: HitsMetadata;
   /** Aggregation results by name. */
-  aggregations?: SearchResponseAggregationsMap;
+  aggregations?: SearchResponseAggregationsMap | undefined;
   /** Suggester results by name. */
-  suggest?: SearchResponseSuggestMap;
+  suggest?: SearchResponseSuggestMap | undefined;
+}
+/** The base structure for error responses. */
+export interface ErrorResponse {
+  /** The error: an object, or a string on some security plugin failures. */
+  error?: unknown | undefined;
+  status?: number | undefined;
 }
 export type AddDocumentError = BadRequest | Forbidden | OpenSearchOpError;
 /** Adds a document to an index under an id OpenSearch generates. */
@@ -388,8 +414,8 @@ export const addDocument: API.OperationMethod<
   AddDocumentError,
   OpenSearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<AddDocumentRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<WriteResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<AddDocumentRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<WriteResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
@@ -401,8 +427,8 @@ export type BulkError = BadRequest | Forbidden | OpenSearchOpError;
 /** Allows to perform multiple index, create, update and delete operations in a single request. A failed action doesn't fail the request: check `errors` and each item. */
 export const bulk: API.OperationMethod<BulkRequest, BulkResponse, BulkError, OpenSearchOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(40, __c5, 0) as any as S.Schema<BulkRequest>,
-    output: __S(45, __c5, 5) as any as S.Schema<BulkResponse>,
+    input: __S(48, __c6, 0) as any as S.Schema<BulkRequest>,
+    output: __S(53, __c6, 5) as any as S.Schema<BulkResponse>,
     errors: [BadRequest, Forbidden, UnknownStackitError],
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
@@ -424,8 +450,8 @@ export const deleteDocument: API.OperationMethod<
   DeleteDocumentError,
   OpenSearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DeleteDocumentRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<WriteResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<DeleteDocumentRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<WriteResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -453,8 +479,8 @@ export const getDocument: API.OperationMethod<
   GetDocumentError,
   OpenSearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetDocumentRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<GetDocumentResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetDocumentRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<GetDocumentResponse>,
   errors: [BadRequest, Forbidden, IndexNotFound, DocumentNotFound, UnknownStackitError],
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
@@ -470,8 +496,8 @@ export const indexDocument: API.OperationMethod<
   IndexDocumentError,
   OpenSearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<IndexDocumentRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<WriteResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<IndexDocumentRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<WriteResponse>,
   errors: [BadRequest, Forbidden, VersionConflict, UnknownStackitError],
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
@@ -487,8 +513,8 @@ export const search: API.OperationMethod<
   SearchError,
   OpenSearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<SearchRequest>,
-  output: __S(6, __c0, 6) as any as S.Schema<SearchResponse>,
+  input: __S(9, __c1, 1) as any as S.Schema<SearchRequest>,
+  output: __S(14, __c1, 6) as any as S.Schema<SearchResponse>,
   errors: [BadRequest, Forbidden, IndexNotFound, UnknownStackitError],
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
@@ -498,6 +524,17 @@ export const search: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.Unknown),
+          status: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -512,21 +549,21 @@ function __c0(j: number): any {
           routing: S.optional(S.String.pipe(T.Query())),
           search_pipeline: S.optional(S.String.pipe(T.Query())),
           search_type: S.optional(S.String.pipe(T.Query())),
-          query: S.optional(__S(16, __c2, 0)),
+          query: S.optional(__S(24, __c3, 0)),
           size: S.optional(S.Number),
           from: S.optional(S.Number),
-          sort: S.optional(__S(0, __c0, 0)),
+          sort: S.optional(__S(8, __c1, 0)),
           _source: S.optional(S.Unknown),
-          fields: S.optional(__S(0, __c0, 0)),
-          aggregations: S.optional(__S(16, __c2, 0)),
-          aggs: S.optional(__S(16, __c2, 0)),
-          highlight: S.optional(__S(16, __c2, 0)),
-          post_filter: S.optional(__S(16, __c2, 0)),
-          search_after: S.optional(__S(0, __c0, 0)),
+          fields: S.optional(__S(8, __c1, 0)),
+          aggregations: S.optional(__S(24, __c3, 0)),
+          aggs: S.optional(__S(24, __c3, 0)),
+          highlight: S.optional(__S(24, __c3, 0)),
+          post_filter: S.optional(__S(24, __c3, 0)),
+          search_after: S.optional(__S(8, __c1, 0)),
           track_total_hits: S.optional(S.Unknown),
           min_score: S.optional(S.Number),
-          collapse: S.optional(__S(16, __c2, 0)),
-          suggest: S.optional(__S(16, __c2, 0)),
+          collapse: S.optional(__S(24, __c3, 0)),
+          suggest: S.optional(__S(24, __c3, 0)),
           terminate_after: S.optional(S.Number),
           timeout: S.optional(S.String),
           seq_no_primary_term: S.optional(S.Boolean),
@@ -546,10 +583,10 @@ function __c0(j: number): any {
           _index: S.String,
           _id: S.String,
           _score: S.optional(S.NullOr(S.Number)),
-          _source: S.optional(__S(16, __c2, 0)),
-          fields: S.optional(__S(16, __c2, 0)),
-          highlight: S.optional(__S(16, __c2, 0)),
-          sort: S.optional(__S(0, __c0, 0)),
+          _source: S.optional(__S(24, __c3, 0)),
+          fields: S.optional(__S(24, __c3, 0)),
+          highlight: S.optional(__S(24, __c3, 0)),
+          sort: S.optional(__S(8, __c1, 0)),
           _routing: S.optional(S.String),
           _version: S.optional(S.Number),
           _seq_no: S.optional(S.Number),
@@ -558,13 +595,13 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "Hit" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(11, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          total: S.optional(__S(2, __c0, 2)),
+          total: S.optional(__S(10, __c1, 2)),
           max_score: S.optional(S.NullOr(S.Number)),
-          hits: __S(4, __c0, 4),
+          hits: __S(12, __c1, 4),
         }),
       ).annotate({ identifier: "HitsMetadata" });
     case 6:
@@ -572,15 +609,15 @@ function __c0(j: number): any {
         S.Struct({
           took: S.Number,
           timed_out: S.Boolean,
-          _shards: __S(25, __c3, 1),
-          hits: __S(5, __c0, 5),
-          aggregations: S.optional(__S(16, __c2, 0)),
-          suggest: S.optional(__S(16, __c2, 0)),
+          _shards: __S(33, __c4, 1),
+          hits: __S(13, __c1, 5),
+          aggregations: S.optional(__S(24, __c3, 0)),
+          suggest: S.optional(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "SearchResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -590,21 +627,21 @@ function __c1(j: number): any {
           refresh: S.optional(S.String.pipe(T.Query())),
           routing: S.optional(S.String.pipe(T.Query())),
           timeout: S.optional(S.String.pipe(T.Query())),
-          body: __S(16, __c2, 0).pipe(T.HttpBody()),
+          body: __S(24, __c3, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/{index}/_doc", code: 200 })),
       ).annotate({ identifier: "AddDocumentRequest" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16, __c2, 0));
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(24, __c3, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -612,12 +649,12 @@ function __c3(j: number): any {
           successful: S.Number,
           total: S.Number,
           skipped: S.optional(S.Number),
-          failures: S.optional(__S(24, __c3, 0)),
+          failures: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "ShardStatistics" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -627,14 +664,14 @@ function __c4(j: number): any {
           _primary_term: S.Number,
           result: S.String,
           _seq_no: S.Number,
-          _shards: __S(25, __c3, 1),
+          _shards: __S(33, __c4, 1),
           _version: S.Number,
           forced_refresh: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WriteResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -660,7 +697,7 @@ function __c5(j: number): any {
         S.Struct({
           type: S.String,
           reason: S.optional(S.NullOr(S.String)),
-          caused_by: S.optional(__S(16, __c2, 0)),
+          caused_by: S.optional(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "ErrorCause" });
     case 2:
@@ -669,11 +706,11 @@ function __c5(j: number): any {
           _id: S.optional(S.NullOr(S.String)),
           _index: S.String,
           status: S.Number,
-          error: S.optional(__S(41, __c5, 1)),
+          error: S.optional(__S(49, __c6, 1)),
           result: S.optional(S.String),
           _primary_term: S.optional(S.Number),
           _seq_no: S.optional(S.Number),
-          _shards: S.optional(__S(25, __c3, 1)),
+          _shards: S.optional(__S(33, __c4, 1)),
           _version: S.optional(S.Number),
           forced_refresh: S.optional(S.Boolean),
         }),
@@ -681,26 +718,26 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(__S(42, __c5, 2)),
-          create: S.optional(__S(42, __c5, 2)),
-          update: S.optional(__S(42, __c5, 2)),
-          delete: S.optional(__S(42, __c5, 2)),
+          index: S.optional(__S(50, __c6, 2)),
+          create: S.optional(__S(50, __c6, 2)),
+          update: S.optional(__S(50, __c6, 2)),
+          delete: S.optional(__S(50, __c6, 2)),
         }),
       ).annotate({ identifier: "BulkResponseItem" });
     case 4:
-      return S.Array(__S(43, __c5, 3));
+      return S.Array(__S(51, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           took: S.Number,
           errors: S.Boolean,
-          items: __S(44, __c5, 4),
+          items: __S(52, __c6, 4),
           ingest_took: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BulkResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -716,7 +753,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteDocumentRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -739,8 +776,8 @@ function __c7(j: number): any {
           _index: S.String,
           _id: S.String,
           found: S.Boolean,
-          _source: S.optional(__S(16, __c2, 0)),
-          fields: S.optional(__S(16, __c2, 0)),
+          _source: S.optional(__S(24, __c3, 0)),
+          fields: S.optional(__S(24, __c3, 0)),
           _routing: S.optional(S.String),
           _version: S.optional(S.Number),
           _seq_no: S.optional(S.Number),
@@ -749,7 +786,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetDocumentResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -763,7 +800,7 @@ function __c8(j: number): any {
           refresh: S.optional(S.String.pipe(T.Query())),
           routing: S.optional(S.String.pipe(T.Query())),
           timeout: S.optional(S.String.pipe(T.Query())),
-          body: __S(16, __c2, 0).pipe(T.HttpBody()),
+          body: __S(24, __c3, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/{index}/_doc/{id}", code: 200 })),
       ).annotate({ identifier: "IndexDocumentRequest" });
   }

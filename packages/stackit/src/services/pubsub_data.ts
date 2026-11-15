@@ -30,6 +30,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -38,6 +40,8 @@ export class MessagesTooLarge
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MessagesTooLarge>()("MessagesTooLarge", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 413 }],
   ) {}
@@ -47,6 +51,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -96,9 +102,9 @@ export interface PullMessagesRequest {
   /** The Subscription UUID. */
   subscriptionId: string;
   /** The maximum number of messages to pull. */
-  pubSubMaxMessages?: number;
+  pubSubMaxMessages?: number | undefined;
   /** The maximum amount of milliseconds to keep an connection open, awaiting a new message on the server. */
-  pubSubLongPullDuration?: number;
+  pubSubLongPullDuration?: number | undefined;
   /** The topic UUID. Part of the host, not the path. */
   topicId: string;
   /** The STACKIT region name. Part of the host, not the path. */

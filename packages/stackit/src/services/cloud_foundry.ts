@@ -39,54 +39,89 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Errors | string;
+}
 
 /** Environment variables to be used for the App when running */
 export type CreateAppRequestEnvironmentVariablesMap = { [key: string]: string | undefined };
 /** List of the names of buildpacks, URLs from which they may be downloaded, or null to auto-detect a suitable buildpack during staging (applicable for buildpack and cnb lifecycles) */
 export type LifecycleDataBuildpacksList = Array<string>;
 export interface LifecycleDataCredentialsValue {
-  username?: string | null;
-  password?: string | Redacted.Redacted<string> | null;
-  token?: string | Redacted.Redacted<string>;
+  username?: string | null | undefined;
+  password?: string | Redacted.Redacted<string> | null | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Credentials used to download the configured buildpacks (applicable for cnb lifecycle) */
 export type LifecycleDataCredentialsMap = {
@@ -95,26 +130,26 @@ export type LifecycleDataCredentialsMap = {
 /** Data specific to the lifecycle */
 export interface LifecycleData {
   /** List of the names of buildpacks, URLs from which they may be downloaded, or null to auto-detect a suitable buildpack during staging (applicable for buildpack and cnb lifecycles) */
-  buildpacks?: LifecycleDataBuildpacksList;
+  buildpacks?: LifecycleDataBuildpacksList | undefined;
   /** The root filesystem to use with the buildpack, for example cflinuxfs4 (applicable for buildpack lifecycle) */
-  stack?: string | null;
+  stack?: string | null | undefined;
   /** Credentials used to download the configured buildpacks (applicable for cnb lifecycle) */
-  credentials?: LifecycleDataCredentialsMap;
+  credentials?: LifecycleDataCredentialsMap | undefined;
   [key: string]: unknown;
 }
 /** The lifecycle type defines how the application droplet is created and run. The following lifecycle types are supported: - buildpack: Traditional buildpacks for Cloud Foundry applications. - cnb: Cloud */
 export interface Lifecycle {
   /** Type of the lifecycle; valid values are buildpack, cnb, docker */
-  type?: string;
+  type?: string | undefined;
   /** Data specific to the lifecycle */
-  data?: LifecycleData;
+  data?: LifecycleData | undefined;
 }
 export interface Relationship {
   /** The GUID of the resource */
-  guid?: string;
+  guid?: string | undefined;
 }
 export interface RelationshipToOne {
-  data?: Relationship | null;
+  data?: Relationship | null | undefined;
 }
 export interface CreateAppRequestRelationships {
   /** A relationship to a space */
@@ -127,19 +162,19 @@ export type MetadataAnnotationsMap = { [key: string]: string | null | undefined 
 /** Metadata is a JSON object that contains information about a resource. It includes the GUID of the resource, the time the resource was created, the time the resource was last updated, and links to the */
 export interface Metadata {
   /** A set of key-value pairs that describe the resource. Labels are a JSON object that contains information about a resource. They are used to tag resources with metadata that can be used to filter and gr */
-  labels?: MetadataLabelsMap;
+  labels?: MetadataLabelsMap | undefined;
   /** A set of key-value pairs that describe the resource. Annotations are a JSON object that contains information about a resource. They are used to tag resources with metadata that can be used to filter a */
-  annotations?: MetadataAnnotationsMap;
+  annotations?: MetadataAnnotationsMap | undefined;
 }
 export interface CreateAppRequest {
   /** Name of the app */
   name: string;
   /** Environment variables to be used for the App when running */
-  environment_variables?: CreateAppRequestEnvironmentVariablesMap;
+  environment_variables?: CreateAppRequestEnvironmentVariablesMap | undefined;
   /** Provides the lifecycle object for the application */
-  lifecycle?: Lifecycle;
+  lifecycle?: Lifecycle | undefined;
   relationships: CreateAppRequestRelationships;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 /** Current desired state of the app */
 export type CreateAppResponseState = "STOPPED" | "STARTED";
@@ -147,85 +182,85 @@ export type CreateAppResponseState = "STOPPED" | "STARTED";
 export type Relationships = { [key: string]: RelationshipToOne | undefined };
 export interface CreateAppResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The name of the app */
-  name?: string;
+  name?: string | undefined;
   /** Current desired state of the app */
-  state?: CreateAppResponseState;
+  state?: CreateAppResponseState | undefined;
   /** Provides the default lifecycle object for the application. This lifecycle will be used when staging and running the application. The staging lifecycle can be overridden on builds */
-  lifecycle?: Lifecycle;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  lifecycle?: Lifecycle | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface CreateBuildRequest {
   package: Relationship;
-  lifecycle?: Lifecycle;
+  lifecycle?: Lifecycle | undefined;
   /** Memory in MB allocated for staging of the build */
-  staging_memory_in_mb?: number;
+  staging_memory_in_mb?: number | undefined;
   /** Disk space in MB allocated for staging of the build */
-  staging_disk_in_mb?: number;
+  staging_disk_in_mb?: number | undefined;
   /** Log rate limit in bytes per second allocated for staging of the build */
-  staging_log_rate_limit_bytes_per_second?: number;
-  metadata?: Metadata;
+  staging_log_rate_limit_bytes_per_second?: number | undefined;
+  metadata?: Metadata | undefined;
 }
 /** State of the build */
 export type CreateBuildResponseState = "STAGING" | "STAGED" | "FAILED";
 export interface CreateBuildResponseChecksum {
   /** Hashing algorithm for checksum; supported algorithms are sha256 and sha1 */
-  type?: string;
+  type?: string | undefined;
   /** Checksum of build */
-  value?: string;
+  value?: string | undefined;
 }
 /** The package that is the input to the staging process */
 export interface CreateBuildResponsePackage {
-  guid?: string;
+  guid?: string | undefined;
 }
 /** A resulting droplet from the staging process; `droplet` will be `null` if staging has not completed */
 export type CreateBuildResponseDroplet = CreateBuildResponsePackage;
 export interface CreateBuildResponseCreatedBy {
   /** The guid of the user that created the build */
-  guid?: string;
+  guid?: string | undefined;
   /** The name of the user that created the build */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The email of the user that created the build */
-  email?: string | null;
+  email?: string | null | undefined;
 }
 export interface CreateBuildResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** State of the build */
-  state?: CreateBuildResponseState;
+  state?: CreateBuildResponseState | undefined;
   /** Memory in MB allocated for staging of the build */
-  staging_memory_in_mb?: number | null;
+  staging_memory_in_mb?: number | null | undefined;
   /** Disk space in MB allocated for staging of the build */
-  staging_disk_in_mb?: number | null;
+  staging_disk_in_mb?: number | null | undefined;
   /** Log rate limit in bytes per second allocated for staging of the build */
-  staging_log_rate_limit_bytes_per_second?: number;
+  staging_log_rate_limit_bytes_per_second?: number | undefined;
   /** A string describing errors during the build process */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Provides the lifecycle object to use during staging; this will override the build's application's default lifecycle for this build */
-  lifecycle?: Lifecycle;
-  checksum?: CreateBuildResponseChecksum;
-  metadata?: Metadata;
-  relationships?: Relationships;
+  lifecycle?: Lifecycle | undefined;
+  checksum?: CreateBuildResponseChecksum | undefined;
+  metadata?: Metadata | undefined;
+  relationships?: Relationships | undefined;
   /** The package that is the input to the staging process */
-  package?: CreateBuildResponsePackage;
+  package?: CreateBuildResponsePackage | undefined;
   /** A resulting droplet from the staging process; `droplet` will be `null` if staging has not completed */
-  droplet?: CreateBuildResponsePackage | null;
-  created_by?: CreateBuildResponseCreatedBy;
+  droplet?: CreateBuildResponsePackage | null | undefined;
+  created_by?: CreateBuildResponseCreatedBy | undefined;
 }
 export type CreateDeploymentRequestStrategy = "rolling" | "canary";
 export interface CreateDeploymentRequestOptionsCanaryStepsItem {
   /** The percentage of instances to be deployed as part of the canary process in this step */
-  instance_weight?: number;
+  instance_weight?: number | undefined;
 }
 /** Array of steps defining the canary deployment progression */
 export type CreateDeploymentRequestOptionsCanaryStepsList =
@@ -233,29 +268,29 @@ export type CreateDeploymentRequestOptionsCanaryStepsList =
 /** Canary steps to use for the deployment. Only available for deployments with strategy 'canary'. */
 export interface CreateDeploymentRequestOptionsCanary {
   /** Array of steps defining the canary deployment progression */
-  steps?: CreateDeploymentRequestOptionsCanaryStepsList;
+  steps?: CreateDeploymentRequestOptionsCanaryStepsList | undefined;
 }
 export interface CreateDeploymentRequestOptions {
   /** The maximum number of instances that will be deployed simultaneously */
-  max_in_flight?: number;
+  max_in_flight?: number | undefined;
   /** The number of instances for the web process of the new droplet */
-  web_instances?: number;
+  web_instances?: number | undefined;
   /** The amount of memory in megabytes to allocate for the web process */
-  memory_in_mb?: number;
+  memory_in_mb?: number | undefined;
   /** The amount of disk space in megabytes to allocate for the web process */
-  disk_in_mb?: number;
+  disk_in_mb?: number | undefined;
   /** The log rate limit in bytes per second for the web process. A value of -1 indicates unlimited, 0 prevents any logs from being emitted. */
-  log_rate_limit_in_bytes_per_second?: number;
+  log_rate_limit_in_bytes_per_second?: number | undefined;
   /** Canary steps to use for the deployment. Only available for deployments with strategy 'canary'. */
-  canary?: CreateDeploymentRequestOptionsCanary;
+  canary?: CreateDeploymentRequestOptionsCanary | undefined;
 }
 export interface CreateDeploymentRequest {
-  relationships?: Relationships;
-  strategy?: CreateDeploymentRequestStrategy | (string & {});
-  options?: CreateDeploymentRequestOptions;
-  droplet?: Relationship;
-  revision?: Relationship;
-  metadata?: Metadata;
+  relationships?: Relationships | undefined;
+  strategy?: CreateDeploymentRequestStrategy | (string & {}) | undefined;
+  options?: CreateDeploymentRequestOptions | undefined;
+  droplet?: Relationship | undefined;
+  revision?: Relationship | undefined;
+  metadata?: Metadata | undefined;
 }
 /** The current status of the deployment */
 export type CreateDeploymentResponseStatusValue = "ACTIVE" | "FINALIZED";
@@ -269,16 +304,16 @@ export type CreateDeploymentResponseStatusReason =
   | "SUPERSEDED";
 export interface CreateDeploymentResponseStatusDetails {
   /** Timestamp of the last successful health check */
-  last_successful_healthcheck?: string;
+  last_successful_healthcheck?: string | undefined;
   /** Timestamp of last change to status.value or status.reason */
-  last_status_change?: string;
+  last_status_change?: string | undefined;
 }
 export interface CreateDeploymentResponseStatus {
   /** The current status of the deployment */
-  value?: CreateDeploymentResponseStatusValue;
+  value?: CreateDeploymentResponseStatusValue | undefined;
   /** The reason for the status of the deployment */
-  reason?: CreateDeploymentResponseStatusReason;
-  details?: CreateDeploymentResponseStatusDetails;
+  reason?: CreateDeploymentResponseStatusReason | undefined;
+  details?: CreateDeploymentResponseStatusDetails | undefined;
 }
 /** Strategy used for the deployment */
 export type CreateDeploymentResponseStrategy = "rolling" | "canary";
@@ -290,21 +325,21 @@ export type CreateDeploymentResponseOptionsCanaryStepsList =
 /** Configuration for canary deployments. Present when strategy is 'canary'. */
 export interface CreateDeploymentResponseOptionsCanary {
   /** Array of steps defining the canary deployment progression */
-  steps?: CreateDeploymentResponseOptionsCanaryStepsList;
+  steps?: CreateDeploymentResponseOptionsCanaryStepsList | undefined;
 }
 export interface CreateDeploymentResponseOptions {
   /** The maximum number of new instances to deploy simultaneously */
-  max_in_flight?: number;
+  max_in_flight?: number | undefined;
   /** The number of instances for the web process of the new droplet */
-  web_instances?: number;
+  web_instances?: number | undefined;
   /** The amount of memory in megabytes to allocate for the web process */
-  memory_in_mb?: number;
+  memory_in_mb?: number | undefined;
   /** The amount of disk space in megabytes to allocate for the web process */
-  disk_in_mb?: number;
+  disk_in_mb?: number | undefined;
   /** The log rate limit in bytes per second for the web process. A value of -1 indicates unlimited, 0 prevents any logs from being emitted. */
-  log_rate_limit_in_bytes_per_second?: number;
+  log_rate_limit_in_bytes_per_second?: number | undefined;
   /** Configuration for canary deployments. Present when strategy is 'canary'. */
-  canary?: CreateDeploymentResponseOptionsCanary;
+  canary?: CreateDeploymentResponseOptionsCanary | undefined;
 }
 /** The droplet guid that the deployment is transitioning the app to */
 export type CreateDeploymentResponseDroplet = CreateBuildResponsePackage;
@@ -312,48 +347,48 @@ export type CreateDeploymentResponseDroplet = CreateBuildResponsePackage;
 export type CreateDeploymentResponsePreviousDroplet = CreateBuildResponsePackage;
 export interface CreateDeploymentResponseNewProcessesItem {
   /** The GUID of the new process created as part of the deployment */
-  guid?: string;
+  guid?: string | undefined;
   /** The type of the new process created as part of the deployment */
-  type?: string;
+  type?: string | undefined;
 }
 export type CreateDeploymentResponseNewProcessesList =
   Array<CreateDeploymentResponseNewProcessesItem>;
 export interface CreateDeploymentResponseRevision {
   /** The revision the deployment is transitioning the app to */
-  guid?: string;
+  guid?: string | undefined;
   /** The version of the revision */
-  version?: number;
+  version?: number | undefined;
 }
 export interface CreateDeploymentResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
-  status?: CreateDeploymentResponseStatus;
+  updated_at?: string | undefined;
+  status?: CreateDeploymentResponseStatus | undefined;
   /** Strategy used for the deployment */
-  strategy?: CreateDeploymentResponseStrategy;
-  options?: CreateDeploymentResponseOptions;
+  strategy?: CreateDeploymentResponseStrategy | undefined;
+  options?: CreateDeploymentResponseOptions | undefined;
   /** The droplet guid that the deployment is transitioning the app to */
-  droplet?: CreateBuildResponsePackage;
+  droplet?: CreateBuildResponsePackage | undefined;
   /** The app's [current droplet guid](#get-current-droplet-association-for-an-app) before the deployment was created */
-  previous_droplet?: CreateBuildResponsePackage;
-  new_processes?: CreateDeploymentResponseNewProcessesList;
-  revision?: CreateDeploymentResponseRevision | null;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  previous_droplet?: CreateBuildResponsePackage | undefined;
+  new_processes?: CreateDeploymentResponseNewProcessesList | undefined;
+  revision?: CreateDeploymentResponseRevision | null | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 /** Type of the package; valid values are bits or docker. Required when creating a new package (when source_guid is not provided). Not required when copying a package (when source_guid is provided). */
 export type CreatePackageRequestType = "bits" | "docker";
 /** Data for package type */
 export interface CreatePackageRequestData {
   /** The registry address of the image (for docker packages) */
-  image?: string;
+  image?: string | undefined;
   /** The username for the image's registry (for docker packages) */
-  username?: string;
+  username?: string | undefined;
   /** The password for the image's registry (for docker packages) */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreatePackageRequestRelationships {
   /** A relationship to an app */
@@ -361,31 +396,31 @@ export interface CreatePackageRequestRelationships {
 }
 export interface CreatePackageRequest {
   /** Type of the package; valid values are bits or docker. Required when creating a new package (when source_guid is not provided). Not required when copying a package (when source_guid is provided). */
-  type?: CreatePackageRequestType | (string & {});
+  type?: CreatePackageRequestType | (string & {}) | undefined;
   /** Data for package type */
-  data?: CreatePackageRequestData;
+  data?: CreatePackageRequestData | undefined;
   relationships: CreatePackageRequestRelationships;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 /** Type of the package; valid values are bits or docker */
 export type CreatePackageResponseType = "bits" | "docker";
 export interface CreatePackageResponseDataChecksum {
   /** The checksum type, for example sha256 */
-  type?: string;
+  type?: string | undefined;
   /** The checksum value; this will be populated after bits are uploaded */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** Data for package type */
 export interface CreatePackageResponseData {
   /** If an error occurs this field will contain the error message */
-  error?: string | null;
-  checksum?: CreatePackageResponseDataChecksum;
+  error?: string | null | undefined;
+  checksum?: CreatePackageResponseDataChecksum | undefined;
   /** The registry address of the image */
-  image?: string;
+  image?: string | undefined;
   /** The username for the image's registry */
-  username?: string | null;
+  username?: string | null | undefined;
   /** The password for the image's registry */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** State of the package; valid states are AWAITING_UPLOAD, PROCESSING_UPLOAD, READY, FAILED, COPYING, or EXPIRED */
 export type CreatePackageResponseState =
@@ -397,51 +432,51 @@ export type CreatePackageResponseState =
   | "EXPIRED";
 export interface CreatePackageResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Type of the package; valid values are bits or docker */
-  type?: CreatePackageResponseType;
+  type?: CreatePackageResponseType | undefined;
   /** Data for package type */
-  data?: CreatePackageResponseData;
+  data?: CreatePackageResponseData | undefined;
   /** State of the package; valid states are AWAITING_UPLOAD, PROCESSING_UPLOAD, READY, FAILED, COPYING, or EXPIRED */
-  state?: CreatePackageResponseState;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  state?: CreatePackageResponseState | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface CreateRouteRequestRelationships {
   /** A relationship to the domain of the route */
-  domain?: RelationshipToOne;
+  domain?: RelationshipToOne | undefined;
   /** A relationship to the space containing the route; routes can only be mapped to destinations in that space */
-  space?: RelationshipToOne;
+  space?: RelationshipToOne | undefined;
 }
 export interface CreateRouteRequest {
   /** The host component for the route; not compatible with routes specifying the `tcp` protocol */
-  host?: string;
+  host?: string | undefined;
   /** The path component for the route; should begin with a `/` and not compatible with routes specifying the `tcp` protocol */
-  path?: string;
+  path?: string | undefined;
   /** The port the route will listen on; only compatible with routes leveraging a domain that supports the `tcp` protocol. For `tcp` domains, a port will be randomly assigned if not specified */
-  port?: number;
+  port?: number | undefined;
   relationships: CreateRouteRequestRelationships;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 export interface CreateRouteResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
-  protocol?: string;
-  host?: string;
-  path?: string;
-  port?: number | null;
+  updated_at?: string | undefined;
+  protocol?: string | undefined;
+  host?: string | undefined;
+  path?: string | undefined;
+  port?: number | null | undefined;
   /** Fully qualified path or address where the route directs traffic */
-  url?: string;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  url?: string | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 /** Type of the service credential binding. Valid values are key and app */
 export type CreateServiceCredentialBindingRequestType = "app" | "key";
@@ -450,24 +485,24 @@ export interface CreateServiceCredentialBindingRequestRelationships {
   /** The service instance to be bound */
   service_instance: RelationshipToOne;
   /** The app to be bound. Required when type is app */
-  app?: RelationshipToOne;
+  app?: RelationshipToOne | undefined;
 }
 export interface CreateServiceCredentialBindingRequest {
   /** Type of the service credential binding. Valid values are key and app */
   type: CreateServiceCredentialBindingRequestType | (string & {});
   /** Name of the service credential binding. name is optional when the type is app */
-  name?: string;
+  name?: string | undefined;
   /** Relationships for the service credential binding */
   relationships: CreateServiceCredentialBindingRequestRelationships;
   /** A JSON object that is passed to the service broker */
-  parameters?: unknown;
-  metadata?: Metadata;
+  parameters?: unknown | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface AsyncOperationResponse {
   /** The resource, when the API finished the operation before answering. */
-  guid?: string;
+  guid?: string | undefined;
   /** The job running the operation, when the API answered 202. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The type of service instance */
 export type CreateServiceInstanceRequestType = "managed" | "user-provided";
@@ -478,7 +513,7 @@ export interface CreateServiceInstanceRequestRelationships {
   /** The space in which to create the service instance */
   space: RelationshipToOne;
   /** The service plan from which to create the service instance */
-  service_plan?: RelationshipToOne;
+  service_plan?: RelationshipToOne | undefined;
 }
 export interface CreateServiceInstanceRequest {
   /** The type of service instance */
@@ -486,18 +521,18 @@ export interface CreateServiceInstanceRequest {
   /** Name of the service instance */
   name: string;
   /** A JSON object that is passed to the service broker */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** A JSON object that is made available to apps bound to this service instance (user-provided services only) */
-  credentials?: unknown;
+  credentials?: unknown | undefined;
   /** Tags are used by apps to identify service instances; they are shown in the app VCAP_SERVICES env */
-  tags?: CreateServiceInstanceRequestTagsList;
+  tags?: CreateServiceInstanceRequestTagsList | undefined;
   /** URL to which logs for bound applications will be streamed (user-provided services only) */
-  syslog_drain_url?: string;
+  syslog_drain_url?: string | undefined;
   /** URL to which requests for bound routes will be forwarded; must use the https protocol (user-provided services only) */
-  route_service_url?: string;
+  route_service_url?: string | undefined;
   /** Relationships for the service instance */
   relationships: CreateServiceInstanceRequestRelationships;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 export interface DeleteAppRequest {
   /** The unique identifier for the resource */
@@ -519,45 +554,45 @@ export interface DeleteServiceInstanceRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** If `true`, deletes the service instance and all associated resources without any interaction with the service broker. */
-  purge?: boolean;
+  purge?: boolean | undefined;
 }
 export interface GetApiRootRequest {}
 export interface Link {
-  href?: string;
-  method?: string;
+  href?: string | undefined;
+  method?: string | undefined;
 }
 export interface ApiRootLinks {
-  self?: Link;
-  cloud_controller_v3?: Link;
-  login?: Link;
-  uaa?: Link;
+  self?: Link | undefined;
+  cloud_controller_v3?: Link | undefined;
+  login?: Link | undefined;
+  uaa?: Link | undefined;
 }
 export interface ApiRoot {
-  links?: ApiRootLinks;
+  links?: ApiRootLinks | undefined;
 }
 export interface GetAppRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** Optionally include a list of unique related resources in the response */
-  include?: string;
+  include?: string | undefined;
 }
 /** Current desired state of the app */
 export type GetAppResponseState = "STOPPED" | "STARTED";
 export interface GetAppResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The name of the app */
-  name?: string;
+  name?: string | undefined;
   /** Current desired state of the app */
-  state?: GetAppResponseState;
+  state?: GetAppResponseState | undefined;
   /** Provides the default lifecycle object for the application. This lifecycle will be used when staging and running the application. The staging lifecycle can be overridden on builds */
-  lifecycle?: Lifecycle;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  lifecycle?: Lifecycle | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface GetBuildRequest {
   /** The unique identifier for the resource */
@@ -573,31 +608,31 @@ export type GetBuildResponseDroplet = CreateBuildResponsePackage;
 export type GetBuildResponseCreatedBy = CreateBuildResponseCreatedBy;
 export interface GetBuildResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** State of the build */
-  state?: GetBuildResponseState;
+  state?: GetBuildResponseState | undefined;
   /** Memory in MB allocated for staging of the build */
-  staging_memory_in_mb?: number | null;
+  staging_memory_in_mb?: number | null | undefined;
   /** Disk space in MB allocated for staging of the build */
-  staging_disk_in_mb?: number | null;
+  staging_disk_in_mb?: number | null | undefined;
   /** Log rate limit in bytes per second allocated for staging of the build */
-  staging_log_rate_limit_bytes_per_second?: number;
+  staging_log_rate_limit_bytes_per_second?: number | undefined;
   /** A string describing errors during the build process */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Provides the lifecycle object to use during staging; this will override the build's application's default lifecycle for this build */
-  lifecycle?: Lifecycle;
-  checksum?: CreateBuildResponseChecksum;
-  metadata?: Metadata;
-  relationships?: Relationships;
+  lifecycle?: Lifecycle | undefined;
+  checksum?: CreateBuildResponseChecksum | undefined;
+  metadata?: Metadata | undefined;
+  relationships?: Relationships | undefined;
   /** The package that is the input to the staging process */
-  package?: CreateBuildResponsePackage;
+  package?: CreateBuildResponsePackage | undefined;
   /** A resulting droplet from the staging process; `droplet` will be `null` if staging has not completed */
-  droplet?: CreateBuildResponsePackage | null;
-  created_by?: CreateBuildResponseCreatedBy;
+  droplet?: CreateBuildResponsePackage | null | undefined;
+  created_by?: CreateBuildResponseCreatedBy | undefined;
 }
 export interface GetCurrentDropletForAppRequest {
   /** The unique identifier for the resource */
@@ -605,45 +640,45 @@ export interface GetCurrentDropletForAppRequest {
 }
 export interface GetCurrentDropletForAppResponseChecksum {
   /** Hashing algorithm for checksum; supported algorithms are sha256 and sha1 */
-  type?: string;
+  type?: string | undefined;
   /** Checksum of the droplet */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetCurrentDropletForAppResponseBuildpacksItem {
   /** System buildpack name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Output during buildpack detect process */
-  detect_output?: string | null;
+  detect_output?: string | null | undefined;
   /** Version reported by the buildpack */
-  version?: string | null;
+  version?: string | null | undefined;
   /** Name reported by the buildpack */
-  buildpack_name?: string | null;
+  buildpack_name?: string | null | undefined;
 }
 export type GetCurrentDropletForAppResponseBuildpacksList =
   Array<GetCurrentDropletForAppResponseBuildpacksItem>;
 export interface GetCurrentDropletForAppResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** State of the droplet; valid states are AWAITING_UPLOAD, PROCESSING_UPLOAD, STAGED, COPYING, FAILED, or EXPIRED */
-  state?: string;
+  state?: string | undefined;
   /** A string describing the last error during the droplet lifecycle */
-  error?: string | null;
-  lifecycle?: Lifecycle;
+  error?: string | null | undefined;
+  lifecycle?: Lifecycle | undefined;
   /** Serialized JSON data resulting from staging for use when executing a droplet */
-  execution_metadata?: string | null;
+  execution_metadata?: string | null | undefined;
   /** The process types (keys) and associated start commands (values) that will be created when the droplet is executed */
-  process_types?: unknown;
-  metadata?: Metadata;
-  checksum?: GetCurrentDropletForAppResponseChecksum | null;
-  buildpacks?: GetCurrentDropletForAppResponseBuildpacksList | null;
+  process_types?: unknown | undefined;
+  metadata?: Metadata | undefined;
+  checksum?: GetCurrentDropletForAppResponseChecksum | null | undefined;
+  buildpacks?: GetCurrentDropletForAppResponseBuildpacksList | null | undefined;
   /** The root filesystem to use with the buildpack, for example cflinuxfs4 */
-  stack?: string | null;
+  stack?: string | null | undefined;
   /** Docker image name for Docker droplets */
-  image?: string | null;
+  image?: string | null | undefined;
 }
 export interface GetDeploymentRequest {
   /** The unique identifier for the resource */
@@ -662,10 +697,10 @@ export type GetDeploymentResponseStatusReason =
 export type GetDeploymentResponseStatusDetails = CreateDeploymentResponseStatusDetails;
 export interface GetDeploymentResponseStatus {
   /** The current status of the deployment */
-  value?: GetDeploymentResponseStatusValue;
+  value?: GetDeploymentResponseStatusValue | undefined;
   /** The reason for the status of the deployment */
-  reason?: GetDeploymentResponseStatusReason;
-  details?: CreateDeploymentResponseStatusDetails;
+  reason?: GetDeploymentResponseStatusReason | undefined;
+  details?: CreateDeploymentResponseStatusDetails | undefined;
 }
 /** Strategy used for the deployment */
 export type GetDeploymentResponseStrategy = "rolling" | "canary";
@@ -677,21 +712,21 @@ export type GetDeploymentResponseOptionsCanaryStepsList =
 /** Configuration for canary deployments. Present when strategy is 'canary'. */
 export interface GetDeploymentResponseOptionsCanary {
   /** Array of steps defining the canary deployment progression */
-  steps?: GetDeploymentResponseOptionsCanaryStepsList;
+  steps?: GetDeploymentResponseOptionsCanaryStepsList | undefined;
 }
 export interface GetDeploymentResponseOptions {
   /** The maximum number of new instances to deploy simultaneously */
-  max_in_flight?: number;
+  max_in_flight?: number | undefined;
   /** The number of instances for the web process of the new droplet */
-  web_instances?: number;
+  web_instances?: number | undefined;
   /** The amount of memory in megabytes to allocate for the web process */
-  memory_in_mb?: number;
+  memory_in_mb?: number | undefined;
   /** The amount of disk space in megabytes to allocate for the web process */
-  disk_in_mb?: number;
+  disk_in_mb?: number | undefined;
   /** The log rate limit in bytes per second for the web process. A value of -1 indicates unlimited, 0 prevents any logs from being emitted. */
-  log_rate_limit_in_bytes_per_second?: number;
+  log_rate_limit_in_bytes_per_second?: number | undefined;
   /** Configuration for canary deployments. Present when strategy is 'canary'. */
-  canary?: GetDeploymentResponseOptionsCanary;
+  canary?: GetDeploymentResponseOptionsCanary | undefined;
 }
 /** The droplet guid that the deployment is transitioning the app to */
 export type GetDeploymentResponseDroplet = CreateBuildResponsePackage;
@@ -702,23 +737,23 @@ export type GetDeploymentResponseNewProcessesList = Array<CreateDeploymentRespon
 export type GetDeploymentResponseRevision = CreateDeploymentResponseRevision;
 export interface GetDeploymentResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
-  status?: GetDeploymentResponseStatus;
+  updated_at?: string | undefined;
+  status?: GetDeploymentResponseStatus | undefined;
   /** Strategy used for the deployment */
-  strategy?: GetDeploymentResponseStrategy;
-  options?: GetDeploymentResponseOptions;
+  strategy?: GetDeploymentResponseStrategy | undefined;
+  options?: GetDeploymentResponseOptions | undefined;
   /** The droplet guid that the deployment is transitioning the app to */
-  droplet?: CreateBuildResponsePackage;
+  droplet?: CreateBuildResponsePackage | undefined;
   /** The app's [current droplet guid](#get-current-droplet-association-for-an-app) before the deployment was created */
-  previous_droplet?: CreateBuildResponsePackage;
-  new_processes?: GetDeploymentResponseNewProcessesList;
-  revision?: CreateDeploymentResponseRevision | null;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  previous_droplet?: CreateBuildResponsePackage | undefined;
+  new_processes?: GetDeploymentResponseNewProcessesList | undefined;
+  revision?: CreateDeploymentResponseRevision | null | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface GetEnvironmentVariablesForAppRequest {
   /** The unique identifier for the resource */
@@ -731,7 +766,7 @@ export type AppEnvironmentVariablesVarMap = {
 /** App environment variables with links */
 export interface AppEnvironmentVariables {
   /** Environment variables */
-  var?: AppEnvironmentVariablesVarMap;
+  var?: AppEnvironmentVariablesVarMap | undefined;
 }
 export interface GetJobRequest {
   /** The unique identifier for the resource */
@@ -741,35 +776,35 @@ export interface GetJobRequest {
 export type GetJobResponseState = "PROCESSING" | "COMPLETE" | "FAILED" | "POLLING";
 export interface Error {
   /** A numeric code for this error */
-  code?: number;
+  code?: number | undefined;
   /** Detailed description of the error */
-  detail?: string;
+  detail?: string | undefined;
   /** Name of the error */
-  title?: string;
+  title?: string | undefined;
 }
 /** Any errors encountered during job execution */
 export type GetJobResponseErrorsList = Array<Error>;
 export interface Warning {
   /** Description of the warning */
-  detail?: string;
+  detail?: string | undefined;
 }
 /** Any warnings encountered during job execution */
 export type GetJobResponseWarningsList = Array<Warning>;
 export interface GetJobResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The type of operation the job is performing */
-  operation?: string;
+  operation?: string | undefined;
   /** The current state of the job */
-  state?: GetJobResponseState;
+  state?: GetJobResponseState | undefined;
   /** Any errors encountered during job execution */
-  errors?: GetJobResponseErrorsList;
+  errors?: GetJobResponseErrorsList | undefined;
   /** Any warnings encountered during job execution */
-  warnings?: GetJobResponseWarningsList;
+  warnings?: GetJobResponseWarningsList | undefined;
 }
 export interface GetPackageRequest {
   /** The unique identifier for the resource */
@@ -790,19 +825,19 @@ export type GetPackageResponseState =
   | "EXPIRED";
 export interface GetPackageResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Type of the package; valid values are bits or docker */
-  type?: GetPackageResponseType;
+  type?: GetPackageResponseType | undefined;
   /** Data for package type */
-  data?: CreatePackageResponseData;
+  data?: CreatePackageResponseData | undefined;
   /** State of the package; valid states are AWAITING_UPLOAD, PROCESSING_UPLOAD, READY, FAILED, COPYING, or EXPIRED */
-  state?: GetPackageResponseState;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  state?: GetPackageResponseState | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface GetProcessForAppRequest {
   /** The unique identifier for the resource */
@@ -813,51 +848,51 @@ export interface GetProcessForAppRequest {
 export type HealthCheckType = "port" | "process" | "http";
 export interface HealthCheckData {
   /** The duration in seconds that health checks can fail before the process is restarted */
-  timeout?: number | null;
+  timeout?: number | null | undefined;
   /** The timeout in seconds for individual health check requests for http and port health checks */
-  invocation_timeout?: number | null;
+  invocation_timeout?: number | null | undefined;
   /** The interval in seconds between health check requests */
-  interval?: number | null;
+  interval?: number | null | undefined;
   /** The endpoint called to determine if the app is healthy; this key is only present for http health checks */
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 /** Health check configuration for a process */
 export interface HealthCheck {
   /** The type of health check to perform; valid values are http, port, and process; default is port */
-  type?: HealthCheckType | (string & {});
-  data?: HealthCheckData;
+  type?: HealthCheckType | (string & {}) | undefined;
+  data?: HealthCheckData | undefined;
 }
 export interface GetProcessForAppResponseRelationships {
-  app?: RelationshipToOne;
-  revision?: RelationshipToOne | null;
+  app?: RelationshipToOne | undefined;
+  revision?: RelationshipToOne | null | undefined;
 }
 export interface GetProcessForAppResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Random identifier that changes every time the process will be recreated in the runtime */
-  version?: string;
+  version?: string | undefined;
   /** Process type; a unique identifier for processes belonging to an app */
-  type?: string;
+  type?: string | undefined;
   /** The command used to start the process; use null to revert to the buildpack-detected or procfile-provided start command */
-  command?: string | null;
+  command?: string | null | undefined;
   /** The user used to run the process; use null to revert to the docker-detected or default 'vcap' user */
-  user?: string | null;
+  user?: string | null | undefined;
   /** The number of instances to run */
-  instances?: number;
+  instances?: number | undefined;
   /** The memory in MB allocated per instance */
-  memory_in_mb?: number | null;
+  memory_in_mb?: number | null | undefined;
   /** The disk in MB allocated per instance */
-  disk_in_mb?: number | null;
+  disk_in_mb?: number | null | undefined;
   /** The log rate in bytes per second allocated per instance */
-  log_rate_limit_in_bytes_per_second?: number;
-  health_check?: HealthCheck;
-  readiness_health_check?: HealthCheck;
-  relationships?: GetProcessForAppResponseRelationships;
-  metadata?: Metadata;
+  log_rate_limit_in_bytes_per_second?: number | undefined;
+  health_check?: HealthCheck | undefined;
+  readiness_health_check?: HealthCheck | undefined;
+  relationships?: GetProcessForAppResponseRelationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface GetProcessStatsForAppRequest {
   /** The unique identifier for the resource */
@@ -871,33 +906,33 @@ export type ProcessStatsResourcesItemState =
   | "DOWN"
   | "STOPPING";
 export interface ProcessStatsResourcesItemUsage {
-  time?: string;
-  cpu?: number;
-  mem?: number;
-  disk?: number;
-  log_rate?: number;
+  time?: string | undefined;
+  cpu?: number | undefined;
+  mem?: number | undefined;
+  disk?: number | undefined;
+  log_rate?: number | undefined;
 }
 export interface ProcessStatsResourcesItem {
-  type?: string;
-  index?: number;
-  state?: ProcessStatsResourcesItemState;
-  host?: string;
-  uptime?: number;
-  mem_quota?: number | null;
-  disk_quota?: number | null;
-  log_rate_limit?: number | null;
-  usage?: ProcessStatsResourcesItemUsage;
+  type?: string | undefined;
+  index?: number | undefined;
+  state?: ProcessStatsResourcesItemState | undefined;
+  host?: string | undefined;
+  uptime?: number | undefined;
+  mem_quota?: number | null | undefined;
+  disk_quota?: number | null | undefined;
+  log_rate_limit?: number | null | undefined;
+  usage?: ProcessStatsResourcesItemUsage | undefined;
 }
 export type ProcessStatsResourcesList = Array<ProcessStatsResourcesItem>;
 /** Statistics for a process */
 export interface ProcessStats {
-  resources?: ProcessStatsResourcesList;
+  resources?: ProcessStatsResourcesList | undefined;
 }
 export interface GetRoleRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** Optionally include additional related resources in the response; valid values are `user`, `space`, and `organization`. */
-  include?: string;
+  include?: string | undefined;
 }
 /** Role type. Possible values are: */
 export type GetRoleResponseType =
@@ -910,7 +945,7 @@ export type GetRoleResponseType =
   | "space_manager"
   | "space_supporter";
 export interface GetRoleResponseRelationshipsOrganization {
-  data?: Relationship | null;
+  data?: Relationship | null | undefined;
 }
 export type GetRoleResponseRelationshipsSpace = GetRoleResponseRelationshipsOrganization;
 export interface GetRoleResponseRelationshipsUserDataCase0 {
@@ -922,7 +957,7 @@ export interface GetRoleResponseRelationshipsUserDataCase1 {
   /** The username of the user */
   username: string;
   /** The identity provider for the user (e.g., 'ldap', 'saml'). Optional field to disambiguate the username. */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** User relationship data that can be specified either by GUID or by username and origin. When using username and origin, the set_roles_by_username feature flag must be enabled. */
 export type GetRoleResponseRelationshipsUserData =
@@ -930,52 +965,52 @@ export type GetRoleResponseRelationshipsUserData =
   | GetRoleResponseRelationshipsUserDataCase1;
 export interface GetRoleResponseRelationshipsUser {
   /** User relationship data that can be specified either by GUID or by username and origin. When using username and origin, the set_roles_by_username feature flag must be enabled. */
-  data?: GetRoleResponseRelationshipsUserData;
+  data?: GetRoleResponseRelationshipsUserData | undefined;
 }
 export interface GetRoleResponseRelationships {
-  organization?: GetRoleResponseRelationshipsOrganization;
-  space?: GetRoleResponseRelationshipsOrganization;
-  user?: GetRoleResponseRelationshipsUser;
+  organization?: GetRoleResponseRelationshipsOrganization | undefined;
+  space?: GetRoleResponseRelationshipsOrganization | undefined;
+  user?: GetRoleResponseRelationshipsUser | undefined;
   [key: string]: unknown;
 }
 export interface GetRoleResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Role type. Possible values are: */
-  type?: GetRoleResponseType;
-  relationships?: GetRoleResponseRelationships;
+  type?: GetRoleResponseType | undefined;
+  relationships?: GetRoleResponseRelationships | undefined;
 }
 export interface GetRouteRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** Optionally include a list of unique related resources in the response */
-  include?: string;
+  include?: string | undefined;
 }
 export interface GetRouteResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
-  protocol?: string;
-  host?: string;
-  path?: string;
-  port?: number | null;
+  updated_at?: string | undefined;
+  protocol?: string | undefined;
+  host?: string | undefined;
+  path?: string | undefined;
+  port?: number | null | undefined;
   /** Fully qualified path or address where the route directs traffic */
-  url?: string;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  url?: string | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface GetServiceCredentialBindingRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** Optionally include a list of unique related resources in the response */
-  include?: string;
+  include?: string | undefined;
 }
 /** Type of credential binding */
 export type AppCredentialBindingType = "app";
@@ -990,58 +1025,58 @@ export type ServiceCredentialBindingLastOperationState =
 /** The last operation object for service credential bindings */
 export interface ServiceCredentialBindingLastOperation {
   /** Type of the last operation */
-  type?: ServiceCredentialBindingLastOperationType;
+  type?: ServiceCredentialBindingLastOperationType | undefined;
   /** State of the last operation */
-  state?: ServiceCredentialBindingLastOperationState;
+  state?: ServiceCredentialBindingLastOperationState | undefined;
   /** A textual explanation associated with this state */
-  description?: string | null;
+  description?: string | null | undefined;
   /** When the last operation was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** When the last operation was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** Relationships for the credential binding */
 export interface AppCredentialBindingRelationships {
-  app?: RelationshipToOne;
-  service_instance?: RelationshipToOne;
+  app?: RelationshipToOne | undefined;
+  service_instance?: RelationshipToOne | undefined;
 }
 export interface AppCredentialBinding {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Type of credential binding */
   type: AppCredentialBindingType;
   /** Name of the credential binding */
-  name?: string | null;
-  last_operation?: ServiceCredentialBindingLastOperation;
+  name?: string | null | undefined;
+  last_operation?: ServiceCredentialBindingLastOperation | undefined;
   /** Relationships for the credential binding */
   relationships: AppCredentialBindingRelationships;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 /** Type of credential binding */
 export type KeyCredentialBindingType = "key";
 /** Relationships for the credential binding */
 export interface KeyCredentialBindingRelationships {
-  service_instance?: RelationshipToOne;
+  service_instance?: RelationshipToOne | undefined;
 }
 export interface KeyCredentialBinding {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Type of credential binding */
   type: KeyCredentialBindingType;
   /** Name of the credential binding */
-  name?: string;
-  last_operation?: ServiceCredentialBindingLastOperation;
+  name?: string | undefined;
+  last_operation?: ServiceCredentialBindingLastOperation | undefined;
   /** Relationships for the credential binding */
   relationships: KeyCredentialBindingRelationships;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 export type GetServiceCredentialBindingResponseBody = AppCredentialBinding | KeyCredentialBinding;
 export type GetServiceCredentialBindingResponse = GetServiceCredentialBindingResponseBody;
@@ -1049,7 +1084,7 @@ export interface GetServiceInstanceRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** Fields to include in the response */
-  fields?: unknown;
+  fields?: unknown | undefined;
 }
 /** Type of service instance */
 export type ManagedServiceInstanceType = "managed";
@@ -1057,9 +1092,9 @@ export type ManagedServiceInstanceType = "managed";
 export type ManagedServiceInstanceTagsList = Array<string>;
 export interface ManagedServiceInstanceMaintenanceInfo {
   /** Version of maintenance info */
-  version?: string;
+  version?: string | undefined;
   /** Description of maintenance info */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 /** Type of the last operation */
 export type ServiceInstanceLastOperationType = "create" | "update" | "delete";
@@ -1068,47 +1103,47 @@ export type ServiceInstanceLastOperationState = "initial" | "in progress" | "suc
 /** The last operation object for service instances */
 export interface ServiceInstanceLastOperation {
   /** Type of the last operation */
-  type?: ServiceInstanceLastOperationType;
+  type?: ServiceInstanceLastOperationType | undefined;
   /** State of the last operation */
-  state?: ServiceInstanceLastOperationState;
+  state?: ServiceInstanceLastOperationState | undefined;
   /** A textual explanation associated with this state */
-  description?: string | null;
+  description?: string | null | undefined;
   /** When the last operation was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** When the last operation was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** Relationships for the service instance */
 export interface ManagedServiceInstanceRelationships {
-  space?: RelationshipToOne;
-  service_plan?: RelationshipToOne;
+  space?: RelationshipToOne | undefined;
+  service_plan?: RelationshipToOne | undefined;
 }
 export interface ManagedServiceInstance {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Type of service instance */
   type: ManagedServiceInstanceType;
   /** Name of the service instance */
   name: string;
   /** Tags for the service instance */
-  tags?: ManagedServiceInstanceTagsList;
+  tags?: ManagedServiceInstanceTagsList | undefined;
   /** URL for syslog drain */
-  syslog_drain_url?: string | null;
+  syslog_drain_url?: string | null | undefined;
   /** URL for route service */
-  route_service_url?: string | null;
+  route_service_url?: string | null | undefined;
   /** URL for service dashboard */
-  dashboard_url?: string | null;
-  maintenance_info?: ManagedServiceInstanceMaintenanceInfo;
+  dashboard_url?: string | null | undefined;
+  maintenance_info?: ManagedServiceInstanceMaintenanceInfo | undefined;
   /** Whether an upgrade is available */
-  upgrade_available?: boolean;
-  last_operation?: ServiceInstanceLastOperation;
+  upgrade_available?: boolean | undefined;
+  last_operation?: ServiceInstanceLastOperation | undefined;
   /** Relationships for the service instance */
   relationships: ManagedServiceInstanceRelationships;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 /** Type of service instance */
 export type UserProvidedServiceInstanceType = "user-provided";
@@ -1116,28 +1151,28 @@ export type UserProvidedServiceInstanceType = "user-provided";
 export type UserProvidedServiceInstanceTagsList = Array<string>;
 /** Relationships for the service instance */
 export interface UserProvidedServiceInstanceRelationships {
-  space?: RelationshipToOne;
+  space?: RelationshipToOne | undefined;
 }
 export interface UserProvidedServiceInstance {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Type of service instance */
   type: UserProvidedServiceInstanceType;
   /** Name of the service instance */
   name: string;
   /** Tags for the service instance */
-  tags?: UserProvidedServiceInstanceTagsList;
+  tags?: UserProvidedServiceInstanceTagsList | undefined;
   /** URL for syslog drain */
-  syslog_drain_url?: string | null;
+  syslog_drain_url?: string | null | undefined;
   /** URL for route service */
-  route_service_url?: string | null;
+  route_service_url?: string | null | undefined;
   /** Relationships for the service instance */
   relationships: UserProvidedServiceInstanceRelationships;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 export type GetServiceInstanceResponseBody = ManagedServiceInstance | UserProvidedServiceInstance;
 export type GetServiceInstanceResponse = GetServiceInstanceResponseBody;
@@ -1150,22 +1185,22 @@ export type ServiceInstanceCredentialsMap = {
 };
 export type GetServiceInstanceCredentialsResponse = ServiceInstanceCredentialsMap;
 export interface RouteDestinationAppProcess {
-  type?: string;
+  type?: string | undefined;
 }
 export interface RouteDestinationApp {
-  guid?: string;
-  process?: RouteDestinationAppProcess;
+  guid?: string | undefined;
+  process?: RouteDestinationAppProcess | undefined;
 }
 /** A route destination is a specification for where traffic on a route should be directed. */
 export interface RouteDestination {
-  guid?: string;
-  app?: RouteDestinationApp;
-  weight?: number | null;
-  port?: number;
-  protocol?: string | null;
-  created_at?: string;
-  updated_at?: string | null;
-  metadata?: Metadata;
+  guid?: string | undefined;
+  app?: RouteDestinationApp | undefined;
+  weight?: number | null | undefined;
+  port?: number | undefined;
+  protocol?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
+  metadata?: Metadata | undefined;
 }
 /** List of destinations to add to route; destinations without `process.type` specified will get process type `"web"` by default */
 export type InsertDestinationsForRouteRequestDestinationsList = Array<RouteDestination>;
@@ -1173,115 +1208,115 @@ export interface InsertDestinationsForRouteRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** List of destinations to add to route; destinations without `process.type` specified will get process type `"web"` by default */
-  destinations?: InsertDestinationsForRouteRequestDestinationsList;
+  destinations?: InsertDestinationsForRouteRequestDestinationsList | undefined;
 }
 export type PaginationFirst = Link;
 export type PaginationLast = Link;
 /** Pagination is a technique used to divide a large set of results into smaller, more manageable sets. This allows clients to retrieve results in smaller chunks, reducing the amount of data transferred a */
 export interface Pagination {
   /** The total number of results available */
-  total_results?: number;
+  total_results?: number | undefined;
   /** The total number of pages available */
-  total_pages?: number;
-  first?: Link;
-  last?: Link;
+  total_pages?: number | undefined;
+  first?: Link | undefined;
+  last?: Link | undefined;
   /** The next page of results */
-  next?: Link | null;
+  next?: Link | null | undefined;
   /** The previous page of results */
-  previous?: Link | null;
+  previous?: Link | null | undefined;
 }
 export type RouteDestinationListDestinationsList = Array<RouteDestination>;
 /** A list of route destinations */
 export interface RouteDestinationList {
-  pagination?: Pagination;
-  destinations?: RouteDestinationListDestinationsList;
+  pagination?: Pagination | undefined;
+  destinations?: RouteDestinationListDestinationsList | undefined;
 }
 export type ListAppsRequestLifecycleType = "buildpack" | "cnb" | "docker";
 export interface ListAppsRequest {
   /** Page to display; valid values are integers >= 1 */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page, valid values are 1 through 5000 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Value to sort by. Defaults to ascending; prepend with `-` to sort descending. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  created_ats?: string;
+  created_ats?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  updated_ats?: string;
+  updated_ats?: string | undefined;
   /** A query string containing a list of [label selector](#labels-and-selectors) requirements */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Comma-delimited list of app GUIDs to filter by */
-  guids?: string;
+  guids?: string | undefined;
   /** Comma-delimited list of app names to filter by */
-  names?: string;
+  names?: string | undefined;
   /** Comma-delimited list of space GUIDs to filter by */
-  space_guids?: string;
+  space_guids?: string | undefined;
   /** Comma-delimited list of organization GUIDs to filter by */
-  organization_guids?: string;
+  organization_guids?: string | undefined;
   /** Comma-delimited list of stack names to filter by */
-  stacks?: string;
+  stacks?: string | undefined;
   /** Lifecycle type to filter by */
-  lifecycle_type?: ListAppsRequestLifecycleType | (string & {});
+  lifecycle_type?: ListAppsRequestLifecycleType | (string & {}) | undefined;
   /** Optionally include a list of unique related resources in the response */
-  include?: string;
+  include?: string | undefined;
 }
 /** Current desired state of the app */
 export type AppState = "STOPPED" | "STARTED";
 /** Apps represent the core entities in the Cloud Foundry environment. They are the deployable units that run your code. Each app can have multiple processes, routes, and services associated with it. Apps */
 export interface App {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The name of the app */
-  name?: string;
+  name?: string | undefined;
   /** Current desired state of the app */
-  state?: AppState;
+  state?: AppState | undefined;
   /** Provides the default lifecycle object for the application. This lifecycle will be used when staging and running the application. The staging lifecycle can be overridden on builds */
-  lifecycle?: Lifecycle;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  lifecycle?: Lifecycle | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export type AppListResourcesList = Array<App>;
 export interface AppList {
-  pagination?: Pagination;
+  pagination?: Pagination | undefined;
   resources: AppListResourcesList;
 }
 export interface ListDestinationsForRouteRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** Page to display; valid values are integers >= 1 */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page, valid values are 1 through 5000 */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListDomainsRequestOrderBy = "created_at" | "-created_at" | "updated_at" | "-updated_at";
 export interface ListDomainsRequest {
   /** Page to display; valid values are integers >= 1 */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page, valid values are 1 through 5000 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Value to sort by. Defaults to ascending; prepend with `-` to sort descending. Valid values are `created_at`, `updated_at` */
-  order_by?: ListDomainsRequestOrderBy | (string & {});
+  order_by?: ListDomainsRequestOrderBy | (string & {}) | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  created_ats?: string;
+  created_ats?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  updated_ats?: string;
+  updated_ats?: string | undefined;
   /** A query string containing a list of [label selector](#labels-and-selectors) requirements */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Comma-delimited list of guids to filter by */
-  guids?: string;
+  guids?: string | undefined;
   /** Comma-delimited list of domain names to filter by (case-insensitive) */
-  names?: string;
+  names?: string | undefined;
   /** Comma-delimited list of owning organization guids to filter by */
-  organization_guids?: string;
+  organization_guids?: string | undefined;
 }
 /** The router group the domain routes `tcp` traffic through; if set, the domain will only be available for `tcp` traffic */
 export interface DomainRouterGroup {
   /** The guid of the desired router group to route `tcp` traffic through; if set, the domain will only be available for `tcp` traffic */
-  guid?: string;
+  guid?: string | undefined;
 }
 export type DomainSupportedProtocolsItem = "http" | "tcp";
 /** Available protocols for routes using the domain, currently `http` and `tcp` */
@@ -1291,74 +1326,74 @@ export type DomainRoutePoliciesScope = "any" | "org" | "space";
 export type RelationshipToManyDataList = Array<Relationship>;
 /** Some relationships relate a resource to several other resources. For example, an isolation segment can be entitled to multiple organizations. */
 export interface RelationshipToMany {
-  data?: RelationshipToManyDataList;
+  data?: RelationshipToManyDataList | undefined;
 }
 /** Relationships to the organization the domain is scoped to and the organizations the domain is shared with */
 export interface DomainRelationships {
   /** The organization the domain is scoped to; if set, the domain will only be available in that organization; otherwise, the domain will be globally available */
-  organization?: RelationshipToOne;
+  organization?: RelationshipToOne | undefined;
   /** Organizations the domain is shared with; if set, the domain will be available in these organizations in addition to the organization the domain is scoped to */
-  shared_organizations?: RelationshipToMany;
+  shared_organizations?: RelationshipToMany | undefined;
 }
 /** Domains represent a [fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) that is used for application routes. */
 export interface Domain {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The name of the domain; must be between 3 ~ 253 characters and follow [RFC 1035](https://tools.ietf.org/html/rfc1035) */
-  name?: string;
+  name?: string | undefined;
   /** Whether the domain is used for internal (container-to-container) traffic */
-  internal?: boolean;
+  internal?: boolean | undefined;
   /** The router group the domain routes `tcp` traffic through; if set, the domain will only be available for `tcp` traffic */
-  router_group?: DomainRouterGroup | null;
+  router_group?: DomainRouterGroup | null | undefined;
   /** Available protocols for routes using the domain, currently `http` and `tcp` */
-  supported_protocols?: DomainSupportedProtocolsList;
+  supported_protocols?: DomainSupportedProtocolsList | undefined;
   /** When `true`, GoRouter enforces route policies for routes on this domain. This field only appears in the response when set to `true`. Set at creation only; cannot be changed on update */
-  enforce_route_policies?: boolean;
+  enforce_route_policies?: boolean | undefined;
   /** Operator-defined boundary for allowed callers: `any`, `org`, or `space`. Required when `enforce_route_policies` is `true`. This field only appears when `enforce_route_policies` is `true`. Set at creat */
-  route_policies_scope?: DomainRoutePoliciesScope;
+  route_policies_scope?: DomainRoutePoliciesScope | undefined;
   /** Relationships to the organization the domain is scoped to and the organizations the domain is shared with */
-  relationships?: DomainRelationships;
+  relationships?: DomainRelationships | undefined;
   /** Labels and annotations applied to the domain */
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 /** List of domains */
 export type DomainListResourcesList = Array<Domain>;
 /** A paginated list of domains */
 export interface DomainList {
   /** Pagination information for the list of domains */
-  pagination?: Pagination;
+  pagination?: Pagination | undefined;
   /** List of domains */
   resources: DomainListResourcesList;
 }
 export interface ListRolesRequest {
   /** Page to display; valid values are integers >= 1 */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page, valid values are 1 through 5000 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Value to sort by. Defaults to ascending; prepend with `-` to sort descending. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  created_ats?: string;
+  created_ats?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  updated_ats?: string;
+  updated_ats?: string | undefined;
   /** A query string containing a list of [label selector](#labels-and-selectors) requirements */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Comma-delimited list of role guids to filter by */
-  guids?: string;
+  guids?: string | undefined;
   /** Comma-delimited list of role types to filter by */
-  types?: string;
+  types?: string | undefined;
   /** Comma-delimited list of organization guids to filter by */
-  organization_guids?: string;
+  organization_guids?: string | undefined;
   /** Comma-delimited list of space guids to filter by */
-  space_guids?: string;
+  space_guids?: string | undefined;
   /** Comma-delimited list of user guids to filter by */
-  user_guids?: string;
+  user_guids?: string | undefined;
   /** Optionally include additional related resources in the response; valid values are `user`, `space`, and `organization`. */
-  include?: string;
+  include?: string | undefined;
 }
 /** Role type. Possible values are: */
 export type RoleType =
@@ -1381,222 +1416,222 @@ export type RoleRelationshipsUserData =
   | GetRoleResponseRelationshipsUserDataCase1;
 export interface RoleRelationshipsUser {
   /** User relationship data that can be specified either by GUID or by username and origin. When using username and origin, the set_roles_by_username feature flag must be enabled. */
-  data?: RoleRelationshipsUserData;
+  data?: RoleRelationshipsUserData | undefined;
 }
 export interface RoleRelationships {
-  organization?: GetRoleResponseRelationshipsOrganization;
-  space?: GetRoleResponseRelationshipsOrganization;
-  user?: RoleRelationshipsUser;
+  organization?: GetRoleResponseRelationshipsOrganization | undefined;
+  space?: GetRoleResponseRelationshipsOrganization | undefined;
+  user?: RoleRelationshipsUser | undefined;
   [key: string]: unknown;
 }
 /** Roles represent a set of permissions that can be granted to users. Roles are represented as a JSON object. */
 export interface Role {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Role type. Possible values are: */
-  type?: RoleType;
-  relationships?: RoleRelationships;
+  type?: RoleType | undefined;
+  relationships?: RoleRelationships | undefined;
 }
 export type ListRolesResponseResourcesList = Array<Role>;
 export interface ListRolesResponse {
-  pagination?: Pagination;
+  pagination?: Pagination | undefined;
   resources: ListRolesResponseResourcesList;
 }
 export interface ListRoutesRequest {
   /** Page to display; valid values are integers >= 1 */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page, valid values are 1 through 5000 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Value to sort by. Defaults to ascending; prepend with `-` to sort descending. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  created_ats?: string;
+  created_ats?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  updated_ats?: string;
+  updated_ats?: string | undefined;
   /** A query string containing a list of [label selector](#labels-and-selectors) requirements */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Comma-delimited list of protocols to filter by */
-  protocols?: string;
+  protocols?: string | undefined;
   /** Comma-delimited list of hosts to filter by */
-  hosts?: string;
+  hosts?: string | undefined;
   /** Comma-delimited list of paths to filter by */
-  paths?: string;
+  paths?: string | undefined;
   /** Comma-delimited list of ports to filter by */
-  ports?: string;
+  ports?: string | undefined;
   /** Comma-delimited list of domain GUIDs to filter by */
-  domain_guids?: string;
+  domain_guids?: string | undefined;
   /** Comma-delimited list of space GUIDs to filter by */
-  space_guids?: string;
+  space_guids?: string | undefined;
   /** Comma-delimited list of app GUIDs to filter by */
-  app_guids?: string;
+  app_guids?: string | undefined;
   /** Comma-delimited list of organization GUIDs to filter by */
-  organization_guids?: string;
+  organization_guids?: string | undefined;
   /** Comma-delimited list of service instance GUIDs to filter by */
-  service_instance_guids?: string;
+  service_instance_guids?: string | undefined;
   /** Optionally include a list of unique related resources in the response */
-  include?: string;
+  include?: string | undefined;
 }
 /** A route in Cloud Foundry is used to direct traffic from a URL to an application. */
 export interface Route {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
-  protocol?: string;
-  host?: string;
-  path?: string;
-  port?: number | null;
+  updated_at?: string | undefined;
+  protocol?: string | undefined;
+  host?: string | undefined;
+  path?: string | undefined;
+  port?: number | null | undefined;
   /** Fully qualified path or address where the route directs traffic */
-  url?: string;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  url?: string | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export type ListRoutesResponseResourcesList = Array<Route>;
 export interface ListRoutesResponse {
-  pagination?: Pagination;
+  pagination?: Pagination | undefined;
   resources: ListRoutesResponseResourcesList;
 }
 export type ListServiceCredentialBindingsRequestType = "app" | "key";
 export interface ListServiceCredentialBindingsRequest {
   /** Page to display; valid values are integers >= 1 */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page, valid values are 1 through 5000 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Value to sort by. Defaults to ascending; prepend with `-` to sort descending. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  created_ats?: string;
+  created_ats?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  updated_ats?: string;
+  updated_ats?: string | undefined;
   /** A query string containing a list of [label selector](#labels-and-selectors) requirements */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Comma-delimited list of service credential binding names to filter by */
-  names?: string;
+  names?: string | undefined;
   /** Comma-delimited list of service instance guids to filter by */
-  service_instance_guids?: string;
+  service_instance_guids?: string | undefined;
   /** Comma-delimited list of app guids to filter by */
-  app_guids?: string;
+  app_guids?: string | undefined;
   /** Type of credential binding to filter by. Valid values are 'app' or 'key' */
-  type?: ListServiceCredentialBindingsRequestType | (string & {});
+  type?: ListServiceCredentialBindingsRequestType | (string & {}) | undefined;
   /** Comma-delimited list of service instance names to filter by */
-  service_instance_names?: string;
+  service_instance_names?: string | undefined;
   /** Comma-delimited list of app names to filter by */
-  app_names?: string;
+  app_names?: string | undefined;
   /** Comma-delimited list of service plan guids to filter by */
-  service_plan_guids?: string;
+  service_plan_guids?: string | undefined;
   /** Comma-delimited list of service plan names to filter by */
-  service_plan_names?: string;
+  service_plan_names?: string | undefined;
   /** Comma-delimited list of service offering guids to filter by */
-  service_offering_guids?: string;
+  service_offering_guids?: string | undefined;
   /** Comma-delimited list of service offering names to filter by */
-  service_offering_names?: string;
+  service_offering_names?: string | undefined;
   /** Comma-delimited list of service credential binding guids to filter by */
-  guids?: string;
+  guids?: string | undefined;
   /** Optionally include a list of unique related resources in the response. Valid values are: `app`, `service_instance` */
-  include?: string;
+  include?: string | undefined;
 }
 export type ServiceCredentialBindingListResourcesItem = AppCredentialBinding | KeyCredentialBinding;
 export type ServiceCredentialBindingListResourcesList =
   Array<ServiceCredentialBindingListResourcesItem>;
 export interface ServiceCredentialBindingList {
-  pagination?: Pagination;
+  pagination?: Pagination | undefined;
   resources: ServiceCredentialBindingListResourcesList;
 }
 export type ListServiceInstancesRequestType = "managed" | "user-provided";
 export interface ListServiceInstancesRequest {
   /** Comma-delimited list of service instance names to filter by */
-  names?: string;
+  names?: string | undefined;
   /** Comma-delimited list of service instance guids to filter by */
-  guids?: string;
+  guids?: string | undefined;
   /** Filter by type; valid values are 'managed' and 'user-provided' */
-  type?: ListServiceInstancesRequestType | (string & {});
+  type?: ListServiceInstancesRequestType | (string & {}) | undefined;
   /** Comma-delimited list of space guids to filter by */
-  space_guids?: string;
+  space_guids?: string | undefined;
   /** Comma-delimited list of organization guids to filter by */
-  organization_guids?: string;
+  organization_guids?: string | undefined;
   /** Comma-delimited list of service plan guids to filter by */
-  service_plan_guids?: string;
+  service_plan_guids?: string | undefined;
   /** Comma-delimited list of service plan names to filter by */
-  service_plan_names?: string;
+  service_plan_names?: string | undefined;
   /** Page to display; valid values are integers >= 1 */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page, valid values are 1 through 5000 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Value to sort by. Defaults to ascending; prepend with `-` to sort descending. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** A query string containing a list of [label selector](#labels-and-selectors) requirements */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  created_ats?: string;
+  created_ats?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  updated_ats?: string;
+  updated_ats?: string | undefined;
   /** Fields to include in the response */
-  fields?: unknown;
+  fields?: unknown | undefined;
 }
 export type ServiceInstanceListResourcesItem = ManagedServiceInstance | UserProvidedServiceInstance;
 export type ServiceInstanceListResourcesList = Array<ServiceInstanceListResourcesItem>;
 export interface ServiceInstanceList {
-  pagination?: Pagination;
+  pagination?: Pagination | undefined;
   resources: ServiceInstanceListResourcesList;
 }
 export interface ListServicePlansRequest {
   /** Page to display; valid values are integers >= 1 */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page, valid values are 1 through 5000 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Value to sort by. Defaults to ascending; prepend with `-` to sort descending. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Comma-delimited list of service plan names to filter by */
-  names?: string;
+  names?: string | undefined;
   /** Filter by the `available` property; valid values are `true` or `false` */
-  available?: boolean;
+  available?: boolean | undefined;
   /** Comma-delimited list of service offering guids to filter by */
-  service_offering_guids?: string;
+  service_offering_guids?: string | undefined;
   /** Comma-delimited list of service instance guids to filter by */
-  service_instance_guids?: string;
+  service_instance_guids?: string | undefined;
   /** Comma-delimited list of space guids to filter by */
-  space_guids?: string;
+  space_guids?: string | undefined;
   /** Comma-delimited list of organization guids to filter by */
-  organization_guids?: string;
+  organization_guids?: string | undefined;
   /** Comma-delimited list of broker catalog IDs to filter by */
-  broker_catalog_ids?: string;
+  broker_catalog_ids?: string | undefined;
   /** Comma-delimited list of service broker GUIDs to filter by */
-  service_broker_guids?: string;
+  service_broker_guids?: string | undefined;
   /** Comma-delimited list of service broker names to filter by */
-  service_broker_names?: string;
+  service_broker_names?: string | undefined;
   /** Comma-delimited list of service offering names to filter by */
-  service_offering_names?: string;
+  service_offering_names?: string | undefined;
   /** Optionally include a list of unique related resources in the response */
-  include?: string;
+  include?: string | undefined;
   /** A query string containing a list of [label selector](#labels-and-selectors) requirements */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Fields to include in the response */
-  fields?: unknown;
+  fields?: unknown | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  created_ats?: string;
+  created_ats?: string | undefined;
   /** Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators). */
-  updated_ats?: string;
+  updated_ats?: string | undefined;
 }
 export interface ServicePlan {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
-  service_offering_guid?: string;
-  service_offering_name?: string;
-  metadata?: Metadata;
+  updated_at?: string | undefined;
+  service_offering_guid?: string | undefined;
+  service_offering_name?: string | undefined;
+  metadata?: Metadata | undefined;
 }
 export type ServicePlanListResourcesList = Array<ServicePlan>;
 export interface ServicePlanList {
-  pagination?: Pagination;
+  pagination?: Pagination | undefined;
   resources: ServicePlanListResourcesList;
 }
 export interface RemoveDestinationForRouteRequest {
@@ -1612,57 +1647,57 @@ export interface RequestTokenRequest {
   username: string;
   password: string | Redacted.Redacted<string>;
   /** `jwt` for a JWT access token. */
-  token_format?: string;
+  token_format?: string | undefined;
 }
 export interface TokenResponse {
   access_token: string | Redacted.Redacted<string>;
-  token_type?: string;
+  token_type?: string | undefined;
   expires_in: number;
-  refresh_token?: string | Redacted.Redacted<string>;
-  scope?: string;
-  jti?: string;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
+  scope?: string | undefined;
+  jti?: string | undefined;
 }
 export interface ScaleProcessForAppRequest {
   /** The unique identifier for the resource */
   guid: string;
   type: string;
   /** The number of instances to run */
-  instances?: number | null;
+  instances?: number | null | undefined;
   /** The memory in MB allocated per instance */
-  memory_in_mb?: number | null;
+  memory_in_mb?: number | null | undefined;
   /** The disk in MB allocated per instance */
-  disk_in_mb?: number | null;
+  disk_in_mb?: number | null | undefined;
   /** The log rate limit in bytes per second per instance */
-  log_rate_limit_in_bytes_per_second?: number | null;
+  log_rate_limit_in_bytes_per_second?: number | null | undefined;
 }
 export type ScaleProcessForAppResponseRelationships = GetProcessForAppResponseRelationships;
 export interface ScaleProcessForAppResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Random identifier that changes every time the process will be recreated in the runtime */
-  version?: string;
+  version?: string | undefined;
   /** Process type; a unique identifier for processes belonging to an app */
-  type?: string;
+  type?: string | undefined;
   /** The command used to start the process; use null to revert to the buildpack-detected or procfile-provided start command */
-  command?: string | null;
+  command?: string | null | undefined;
   /** The user used to run the process; use null to revert to the docker-detected or default 'vcap' user */
-  user?: string | null;
+  user?: string | null | undefined;
   /** The number of instances to run */
-  instances?: number;
+  instances?: number | undefined;
   /** The memory in MB allocated per instance */
-  memory_in_mb?: number | null;
+  memory_in_mb?: number | null | undefined;
   /** The disk in MB allocated per instance */
-  disk_in_mb?: number | null;
+  disk_in_mb?: number | null | undefined;
   /** The log rate in bytes per second allocated per instance */
-  log_rate_limit_in_bytes_per_second?: number;
-  health_check?: HealthCheck;
-  readiness_health_check?: HealthCheck;
-  relationships?: GetProcessForAppResponseRelationships;
-  metadata?: Metadata;
+  log_rate_limit_in_bytes_per_second?: number | undefined;
+  health_check?: HealthCheck | undefined;
+  readiness_health_check?: HealthCheck | undefined;
+  relationships?: GetProcessForAppResponseRelationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface SetCurrentDropletForAppRequest {
   /** The unique identifier for the resource */
@@ -1677,19 +1712,19 @@ export interface StartAppRequest {
 export type StartAppResponseState = "STOPPED" | "STARTED";
 export interface StartAppResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The name of the app */
-  name?: string;
+  name?: string | undefined;
   /** Current desired state of the app */
-  state?: StartAppResponseState;
+  state?: StartAppResponseState | undefined;
   /** Provides the default lifecycle object for the application. This lifecycle will be used when staging and running the application. The staging lifecycle can be overridden on builds */
-  lifecycle?: Lifecycle;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  lifecycle?: Lifecycle | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 /** Environment variables to be used for the App when running */
 export type UpdateAppRequestEnvironmentVariablesMap = { [key: string]: string | undefined };
@@ -1697,30 +1732,30 @@ export interface UpdateAppRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** Name of the app */
-  name?: string;
+  name?: string | undefined;
   /** Environment variables to be used for the App when running */
-  environment_variables?: UpdateAppRequestEnvironmentVariablesMap;
+  environment_variables?: UpdateAppRequestEnvironmentVariablesMap | undefined;
   /** Lifecycle to be used when updating the app; note `data` is a required field in lifecycle if lifecycle is updated. `type` may NOT be changed from its current value. */
-  lifecycle?: Lifecycle;
-  metadata?: Metadata;
+  lifecycle?: Lifecycle | undefined;
+  metadata?: Metadata | undefined;
 }
 /** Current desired state of the app */
 export type UpdateAppResponseState = "STOPPED" | "STARTED";
 export interface UpdateAppResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The name of the app */
-  name?: string;
+  name?: string | undefined;
   /** Current desired state of the app */
-  state?: UpdateAppResponseState;
+  state?: UpdateAppResponseState | undefined;
   /** Provides the default lifecycle object for the application. This lifecycle will be used when staging and running the application. The staging lifecycle can be overridden on builds */
-  lifecycle?: Lifecycle;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  lifecycle?: Lifecycle | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 /** Environment variables to inject; keys and values must be strings */
 export type UpdateEnvironmentVariablesForAppRequestVarMap = {
@@ -1730,75 +1765,75 @@ export interface UpdateEnvironmentVariablesForAppRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** Environment variables to inject; keys and values must be strings */
-  var?: UpdateEnvironmentVariablesForAppRequestVarMap;
+  var?: UpdateEnvironmentVariablesForAppRequestVarMap | undefined;
 }
 export interface UpdateProcessRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** The command used to start the process; use null to revert to the buildpack-detected or procfile-provided start command */
-  command?: string | null;
+  command?: string | null | undefined;
   /** The health check to perform on the process */
-  health_check?: HealthCheck;
+  health_check?: HealthCheck | undefined;
   /** The readiness health check to perform on the process */
-  readiness_health_check?: HealthCheck;
-  metadata?: Metadata;
+  readiness_health_check?: HealthCheck | undefined;
+  metadata?: Metadata | undefined;
 }
 export type UpdateProcessResponseRelationships = GetProcessForAppResponseRelationships;
 export interface UpdateProcessResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Random identifier that changes every time the process will be recreated in the runtime */
-  version?: string;
+  version?: string | undefined;
   /** Process type; a unique identifier for processes belonging to an app */
-  type?: string;
+  type?: string | undefined;
   /** The command used to start the process; use null to revert to the buildpack-detected or procfile-provided start command */
-  command?: string | null;
+  command?: string | null | undefined;
   /** The user used to run the process; use null to revert to the docker-detected or default 'vcap' user */
-  user?: string | null;
+  user?: string | null | undefined;
   /** The number of instances to run */
-  instances?: number;
+  instances?: number | undefined;
   /** The memory in MB allocated per instance */
-  memory_in_mb?: number | null;
+  memory_in_mb?: number | null | undefined;
   /** The disk in MB allocated per instance */
-  disk_in_mb?: number | null;
+  disk_in_mb?: number | null | undefined;
   /** The log rate in bytes per second allocated per instance */
-  log_rate_limit_in_bytes_per_second?: number;
-  health_check?: HealthCheck;
-  readiness_health_check?: HealthCheck;
-  relationships?: GetProcessForAppResponseRelationships;
-  metadata?: Metadata;
+  log_rate_limit_in_bytes_per_second?: number | undefined;
+  health_check?: HealthCheck | undefined;
+  readiness_health_check?: HealthCheck | undefined;
+  relationships?: GetProcessForAppResponseRelationships | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface UpdateRouteRequest {
   /** The unique identifier for the resource */
   guid: string;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
 }
 export interface UpdateRouteResponse {
   /** The unique identifier for the resource */
-  guid?: string;
+  guid?: string | undefined;
   /** The ISO8601 compatible date and time when resource was created */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The ISO8601 compatible date and time when resource was last updated */
-  updated_at?: string;
-  protocol?: string;
-  host?: string;
-  path?: string;
-  port?: number | null;
+  updated_at?: string | undefined;
+  protocol?: string | undefined;
+  host?: string | undefined;
+  path?: string | undefined;
+  port?: number | null | undefined;
   /** Fully qualified path or address where the route directs traffic */
-  url?: string;
-  relationships?: Relationships;
-  metadata?: Metadata;
+  url?: string | undefined;
+  relationships?: Relationships | undefined;
+  metadata?: Metadata | undefined;
 }
 /** Tags are used by apps to identify service instances; they are shown in the app VCAP_SERVICES env */
 export type UpdateServiceInstanceRequestTagsList = Array<string>;
 /** Relationships for the service instance */
 export interface UpdateServiceInstanceRequestRelationships {
   /** The service plan from which to create the service instance */
-  service_plan?: RelationshipToOne;
+  service_plan?: RelationshipToOne | undefined;
 }
 /** If provided, must have the `version` field; `version` must be a semantic version value and it must match the `version` in the `maintenance_info` for the service instance plan in the updated broker cat */
 export interface UpdateServiceInstanceRequestMaintenanceInfo {
@@ -1809,22 +1844,27 @@ export interface UpdateServiceInstanceRequest {
   /** The unique identifier for the resource */
   guid: string;
   /** Name of the service instance */
-  name?: string;
+  name?: string | undefined;
   /** A JSON object that is passed to the service broker (managed services only) */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** A JSON object that is made available to apps bound to this service instance (user-provided services only) */
-  credentials?: unknown;
+  credentials?: unknown | undefined;
   /** Tags are used by apps to identify service instances; they are shown in the app VCAP_SERVICES env */
-  tags?: UpdateServiceInstanceRequestTagsList;
+  tags?: UpdateServiceInstanceRequestTagsList | undefined;
   /** URL to which logs for bound applications will be streamed (user-provided services only) */
-  syslog_drain_url?: string;
+  syslog_drain_url?: string | undefined;
   /** URL to which requests for bound routes will be forwarded; must use the https protocol (user-provided services only) */
-  route_service_url?: string;
+  route_service_url?: string | undefined;
   /** Relationships for the service instance */
-  relationships?: UpdateServiceInstanceRequestRelationships;
+  relationships?: UpdateServiceInstanceRequestRelationships | undefined;
   /** If provided, must have the `version` field; `version` must be a semantic version value and it must match the `version` in the `maintenance_info` for the service instance plan in the updated broker cat */
-  maintenance_info?: UpdateServiceInstanceRequestMaintenanceInfo;
-  metadata?: Metadata;
+  maintenance_info?: UpdateServiceInstanceRequestMaintenanceInfo | undefined;
+  metadata?: Metadata | undefined;
+}
+export type ErrorsErrorsList = Array<Error>;
+/** An error response will always return a list of error objects. Errors appear on the job resource for asynchronous operations. */
+export interface Errors {
+  errors?: ErrorsErrorsList | undefined;
 }
 export type CreateAppError =
   | BadRequest
@@ -1839,8 +1879,8 @@ export const createApp: API.OperationMethod<
   CreateAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(737, __c46, 1) as any as S.Schema<CreateAppRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<CreateAppResponse>,
+  input: __S(753, __c47, 1) as any as S.Schema<CreateAppRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<CreateAppResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -1861,8 +1901,8 @@ export const createBuild: API.OperationMethod<
   CreateBuildError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CreateBuildRequest>,
-  output: __S(913, __c57, 1) as any as S.Schema<CreateBuildResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<CreateBuildRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<CreateBuildResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -1883,8 +1923,8 @@ export const createDeployment: API.OperationMethod<
   CreateDeploymentError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<CreateDeploymentRequest>,
-  output: __S(969, __c60, 9) as any as S.Schema<CreateDeploymentResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<CreateDeploymentRequest>,
+  output: __S(985, __c61, 9) as any as S.Schema<CreateDeploymentResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -1905,8 +1945,8 @@ export const createPackage: API.OperationMethod<
   CreatePackageError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(978, __c61, 2) as any as S.Schema<CreatePackageRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<CreatePackageResponse>,
+  input: __S(994, __c62, 2) as any as S.Schema<CreatePackageRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<CreatePackageResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -1927,8 +1967,8 @@ export const createRoute: API.OperationMethod<
   CreateRouteError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1009, __c63, 1) as any as S.Schema<CreateRouteRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<CreateRouteResponse>,
+  input: __S(1025, __c64, 1) as any as S.Schema<CreateRouteRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<CreateRouteResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -1949,8 +1989,8 @@ export const createServiceCredentialBinding: API.OperationMethod<
   CreateServiceCredentialBindingError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateServiceCredentialBindingRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<AsyncOperationResponse>,
+  input: __S(17, __c1, 1) as any as S.Schema<CreateServiceCredentialBindingRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<AsyncOperationResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -1971,8 +2011,8 @@ export const createServiceInstance: API.OperationMethod<
   CreateServiceInstanceError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c2, 1) as any as S.Schema<CreateServiceInstanceRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<AsyncOperationResponse>,
+  input: __S(49, __c3, 1) as any as S.Schema<CreateServiceInstanceRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<AsyncOperationResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -1988,8 +2028,8 @@ export const deleteApp: API.OperationMethod<
   DeleteAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<DeleteAppRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<AsyncOperationResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<DeleteAppRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<AsyncOperationResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2005,8 +2045,8 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<AsyncOperationResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<AsyncOperationResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2022,8 +2062,8 @@ export const deleteRoute: API.OperationMethod<
   DeleteRouteError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<DeleteRouteRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<AsyncOperationResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<DeleteRouteRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<AsyncOperationResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2043,8 +2083,8 @@ export const deleteServiceCredentialBinding: API.OperationMethod<
   DeleteServiceCredentialBindingError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DeleteServiceCredentialBindingRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<AsyncOperationResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<DeleteServiceCredentialBindingRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<AsyncOperationResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2064,8 +2104,8 @@ export const deleteServiceInstance: API.OperationMethod<
   DeleteServiceInstanceError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<DeleteServiceInstanceRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<AsyncOperationResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<DeleteServiceInstanceRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<AsyncOperationResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2081,8 +2121,8 @@ export const getApiRoot: API.OperationMethod<
   GetApiRootError,
   CloudFoundryRootContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetApiRootRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<ApiRoot>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetApiRootRequest>,
+  output: __S(146, __c9, 2) as any as S.Schema<ApiRoot>,
   errors: [NotFound, UnknownStackitError],
   protocol: CloudFoundryRootProtocol,
   retry: Retry.Retry,
@@ -2098,8 +2138,8 @@ export const getApp: API.OperationMethod<
   GetAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetAppRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<GetAppResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetAppRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<GetAppResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2115,8 +2155,8 @@ export const getBuild: API.OperationMethod<
   GetBuildError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetBuildRequest>,
-  output: __S(913, __c57, 1) as any as S.Schema<GetBuildResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetBuildRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<GetBuildResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2132,8 +2172,8 @@ export const getCurrentDropletForApp: API.OperationMethod<
   GetCurrentDropletForAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetCurrentDropletForAppRequest>,
-  output: __S(195, __c12, 3) as any as S.Schema<GetCurrentDropletForAppResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetCurrentDropletForAppRequest>,
+  output: __S(211, __c13, 3) as any as S.Schema<GetCurrentDropletForAppResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2149,8 +2189,8 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(969, __c60, 9) as any as S.Schema<GetDeploymentResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(985, __c61, 9) as any as S.Schema<GetDeploymentResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2166,8 +2206,8 @@ export const getEnvironmentVariablesForApp: API.OperationMethod<
   GetEnvironmentVariablesForAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetEnvironmentVariablesForAppRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<AppEnvironmentVariables>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetEnvironmentVariablesForAppRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<AppEnvironmentVariables>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2189,8 +2229,8 @@ export const getJob: API.OperationMethod<
   GetJobError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(261, __c16, 5) as any as S.Schema<GetJobResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(275, __c17, 3) as any as S.Schema<GetJobResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2206,8 +2246,8 @@ export const getPackage: API.OperationMethod<
   GetPackageError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetPackageRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<GetPackageResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetPackageRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<GetPackageResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2223,8 +2263,8 @@ export const getProcessForApp: API.OperationMethod<
   GetProcessForAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetProcessForAppRequest>,
-  output: __S(307, __c19, 3) as any as S.Schema<GetProcessForAppResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetProcessForAppRequest>,
+  output: __S(323, __c20, 3) as any as S.Schema<GetProcessForAppResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2240,8 +2280,8 @@ export const getProcessStatsForApp: API.OperationMethod<
   GetProcessStatsForAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetProcessStatsForAppRequest>,
-  output: __S(324, __c20, 4) as any as S.Schema<ProcessStats>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetProcessStatsForAppRequest>,
+  output: __S(340, __c21, 4) as any as S.Schema<ProcessStats>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2257,8 +2297,8 @@ export const getRole: API.OperationMethod<
   GetRoleError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetRoleRequest>,
-  output: __S(339, __c21, 3) as any as S.Schema<GetRoleResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetRoleRequest>,
+  output: __S(355, __c22, 3) as any as S.Schema<GetRoleResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2274,8 +2314,8 @@ export const getRoute: API.OperationMethod<
   GetRouteError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetRouteRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<GetRouteResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetRouteRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<GetRouteResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2291,8 +2331,8 @@ export const getServiceCredentialBinding: API.OperationMethod<
   GetServiceCredentialBindingError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetServiceCredentialBindingRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<GetServiceCredentialBindingResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetServiceCredentialBindingRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<GetServiceCredentialBindingResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2308,8 +2348,8 @@ export const getServiceInstance: API.OperationMethod<
   GetServiceInstanceError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetServiceInstanceRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<GetServiceInstanceResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetServiceInstanceRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<GetServiceInstanceResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2325,8 +2365,8 @@ export const getServiceInstanceCredentials: API.OperationMethod<
   GetServiceInstanceCredentialsError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetServiceInstanceCredentialsRequest>,
-  output: __S(402, __c25, 2) as any as S.Schema<GetServiceInstanceCredentialsResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetServiceInstanceCredentialsRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<GetServiceInstanceCredentialsResponse>,
   errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2347,8 +2387,8 @@ export const insertDestinationsForRoute: API.OperationMethod<
   InsertDestinationsForRouteError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<InsertDestinationsForRouteRequest>,
-  output: __S(452, __c28, 4) as any as S.Schema<RouteDestinationList>,
+  input: __S(432, __c27, 0) as any as S.Schema<InsertDestinationsForRouteRequest>,
+  output: __S(468, __c29, 4) as any as S.Schema<RouteDestinationList>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2371,8 +2411,8 @@ export const listApps: API.PaginatedOperationMethod<
   App
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(464, __c29, 0) as any as S.Schema<ListAppsRequest>,
-    output: __S(466, __c29, 2) as any as S.Schema<AppList>,
+    input: __S(480, __c30, 0) as any as S.Schema<ListAppsRequest>,
+    output: __S(482, __c30, 2) as any as S.Schema<AppList>,
     errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
     protocol: CloudFoundryProtocol,
     retry: Retry.Retry,
@@ -2397,8 +2437,8 @@ export const listDestinationsForRoute: API.OperationMethod<
   ListDestinationsForRouteError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListDestinationsForRouteRequest>,
-  output: __S(452, __c28, 4) as any as S.Schema<RouteDestinationList>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListDestinationsForRouteRequest>,
+  output: __S(468, __c29, 4) as any as S.Schema<RouteDestinationList>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2421,8 +2461,8 @@ export const listDomains: API.PaginatedOperationMethod<
   Domain
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(496, __c31, 0) as any as S.Schema<ListDomainsRequest>,
-    output: __S(503, __c31, 7) as any as S.Schema<DomainList>,
+    input: __S(512, __c32, 0) as any as S.Schema<ListDomainsRequest>,
+    output: __S(519, __c32, 7) as any as S.Schema<DomainList>,
     errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
     protocol: CloudFoundryProtocol,
     retry: Retry.Retry,
@@ -2454,8 +2494,8 @@ export const listRoles: API.PaginatedOperationMethod<
   Role
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(512, __c32, 0) as any as S.Schema<ListRolesRequest>,
-    output: __S(517, __c32, 5) as any as S.Schema<ListRolesResponse>,
+    input: __S(528, __c33, 0) as any as S.Schema<ListRolesRequest>,
+    output: __S(533, __c33, 5) as any as S.Schema<ListRolesResponse>,
     errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
     protocol: CloudFoundryProtocol,
     retry: Retry.Retry,
@@ -2487,8 +2527,8 @@ export const listRoutes: API.PaginatedOperationMethod<
   Route
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(528, __c33, 0) as any as S.Schema<ListRoutesRequest>,
-    output: __S(530, __c33, 2) as any as S.Schema<ListRoutesResponse>,
+    input: __S(544, __c34, 0) as any as S.Schema<ListRoutesRequest>,
+    output: __S(546, __c34, 2) as any as S.Schema<ListRoutesResponse>,
     errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
     protocol: CloudFoundryProtocol,
     retry: Retry.Retry,
@@ -2520,8 +2560,8 @@ export const listServiceCredentialBindings: API.PaginatedOperationMethod<
   ServiceCredentialBindingListResourcesItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(544, __c34, 0) as any as S.Schema<ListServiceCredentialBindingsRequest>,
-    output: __S(546, __c34, 2) as any as S.Schema<ServiceCredentialBindingList>,
+    input: __S(560, __c35, 0) as any as S.Schema<ListServiceCredentialBindingsRequest>,
+    output: __S(562, __c35, 2) as any as S.Schema<ServiceCredentialBindingList>,
     errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
     protocol: CloudFoundryProtocol,
     retry: Retry.Retry,
@@ -2553,8 +2593,8 @@ export const listServiceInstances: API.PaginatedOperationMethod<
   ServiceInstanceListResourcesItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(560, __c35, 0) as any as S.Schema<ListServiceInstancesRequest>,
-    output: __S(562, __c35, 2) as any as S.Schema<ServiceInstanceList>,
+    input: __S(576, __c36, 0) as any as S.Schema<ListServiceInstancesRequest>,
+    output: __S(578, __c36, 2) as any as S.Schema<ServiceInstanceList>,
     errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
     protocol: CloudFoundryProtocol,
     retry: Retry.Retry,
@@ -2586,8 +2626,8 @@ export const listServicePlans: API.PaginatedOperationMethod<
   ServicePlan
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(576, __c36, 0) as any as S.Schema<ListServicePlansRequest>,
-    output: __S(579, __c36, 3) as any as S.Schema<ServicePlanList>,
+    input: __S(592, __c37, 0) as any as S.Schema<ListServicePlansRequest>,
+    output: __S(595, __c37, 3) as any as S.Schema<ServicePlanList>,
     errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownStackitError],
     protocol: CloudFoundryProtocol,
     retry: Retry.Retry,
@@ -2616,8 +2656,8 @@ export const removeDestinationForRoute: API.OperationMethod<
   RemoveDestinationForRouteError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<RemoveDestinationForRouteRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<RemoveDestinationForRouteResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<RemoveDestinationForRouteRequest>,
+  output: __S(609, __c38, 1) as any as S.Schema<RemoveDestinationForRouteResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2633,8 +2673,8 @@ export const requestToken: API.OperationMethod<
   RequestTokenError,
   CloudFoundryRootContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<RequestTokenRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<TokenResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<RequestTokenRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<TokenResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: CloudFoundryLoginProtocol,
   retry: Retry.Retry,
@@ -2654,8 +2694,8 @@ export const scaleProcessForApp: API.OperationMethod<
   ScaleProcessForAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ScaleProcessForAppRequest>,
-  output: __S(307, __c19, 3) as any as S.Schema<ScaleProcessForAppResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<ScaleProcessForAppRequest>,
+  output: __S(323, __c20, 3) as any as S.Schema<ScaleProcessForAppResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2675,8 +2715,8 @@ export const setCurrentDropletForApp: API.OperationMethod<
   SetCurrentDropletForAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<SetCurrentDropletForAppRequest>,
-  output: __S(849, __c53, 1) as any as S.Schema<RelationshipToOne>,
+  input: __S(656, __c41, 0) as any as S.Schema<SetCurrentDropletForAppRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<RelationshipToOne>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2692,8 +2732,8 @@ export const startApp: API.OperationMethod<
   StartAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<StartAppRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<StartAppResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<StartAppRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<StartAppResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2715,8 +2755,8 @@ export const updateApp: API.OperationMethod<
   UpdateAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<UpdateAppRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<UpdateAppResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<UpdateAppRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UpdateAppResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2736,8 +2776,8 @@ export const updateEnvironmentVariablesForApp: API.OperationMethod<
   UpdateEnvironmentVariablesForAppError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<UpdateEnvironmentVariablesForAppRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<AppEnvironmentVariables>,
+  input: __S(704, __c44, 0) as any as S.Schema<UpdateEnvironmentVariablesForAppRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<AppEnvironmentVariables>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2759,8 +2799,8 @@ export const updateProcess: API.OperationMethod<
   UpdateProcessError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<UpdateProcessRequest>,
-  output: __S(307, __c19, 3) as any as S.Schema<UpdateProcessResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<UpdateProcessRequest>,
+  output: __S(323, __c20, 3) as any as S.Schema<UpdateProcessResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2782,8 +2822,8 @@ export const updateRoute: API.OperationMethod<
   UpdateRouteError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<UpdateRouteRequest>,
-  output: __S(1024, __c64, 0) as any as S.Schema<UpdateRouteResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<UpdateRouteRequest>,
+  output: __S(1040, __c65, 0) as any as S.Schema<UpdateRouteResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2805,8 +2845,8 @@ export const updateServiceInstance: API.OperationMethod<
   UpdateServiceInstanceError,
   CloudFoundryOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(882, __c55, 2) as any as S.Schema<UpdateServiceInstanceRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<AsyncOperationResponse>,
+  input: __S(898, __c56, 2) as any as S.Schema<UpdateServiceInstanceRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<AsyncOperationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: CloudFoundryProtocol,
   retry: Retry.Retry,
@@ -2820,8 +2860,28 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          service_instance: __S(849, __c53, 1),
-          app: S.optional(__S(849, __c53, 1)),
+          code: S.optional(S.Number),
+          detail: S.optional(S.String),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "Errors" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          service_instance: __S(865, __c54, 1),
+          app: S.optional(__S(865, __c54, 1)),
         }),
       ).annotate({ identifier: "CreateServiceCredentialBindingRequestRelationships" });
     case 1:
@@ -2829,14 +2889,14 @@ function __c0(j: number): any {
         S.Struct({
           type: S.String,
           name: S.optional(S.String),
-          relationships: __S(0, __c0, 0),
+          relationships: __S(16, __c1, 0),
           parameters: S.optional(S.Unknown),
-          metadata: S.optional(__S(832, __c52, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/service_credential_bindings", code: 200 })),
       ).annotate({ identifier: "CreateServiceCredentialBindingRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2847,13 +2907,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "AsyncOperationResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          space: __S(849, __c53, 1),
-          service_plan: S.optional(__S(849, __c53, 1)),
+          space: __S(865, __c54, 1),
+          service_plan: S.optional(__S(865, __c54, 1)),
         }),
       ).annotate({ identifier: "CreateServiceInstanceRequestRelationships" });
     case 1:
@@ -2863,16 +2923,16 @@ function __c2(j: number): any {
           name: S.String,
           parameters: S.optional(S.Unknown),
           credentials: S.optional(S.Unknown),
-          tags: S.optional(__S(784, __c49, 0)),
+          tags: S.optional(__S(800, __c50, 0)),
           syslog_drain_url: S.optional(S.String),
           route_service_url: S.optional(S.String),
-          relationships: __S(32, __c2, 0),
-          metadata: S.optional(__S(832, __c52, 0)),
+          relationships: __S(48, __c3, 0),
+          metadata: S.optional(__S(848, __c53, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/service_instances", code: 200 })),
       ).annotate({ identifier: "CreateServiceInstanceRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2882,7 +2942,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteAppRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2892,7 +2952,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteRoleRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2902,7 +2962,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteRouteRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2914,7 +2974,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteServiceCredentialBindingRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2925,7 +2985,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteServiceInstanceRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2934,21 +2994,21 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(144, __c9, 0)),
-          cloud_controller_v3: S.optional(__S(144, __c9, 0)),
-          login: S.optional(__S(144, __c9, 0)),
-          uaa: S.optional(__S(144, __c9, 0)),
+          self: S.optional(__S(160, __c10, 0)),
+          cloud_controller_v3: S.optional(__S(160, __c10, 0)),
+          login: S.optional(__S(160, __c10, 0)),
+          uaa: S.optional(__S(160, __c10, 0)),
         }),
       ).annotate({ identifier: "ApiRootLinks" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          links: S.optional(__S(129, __c8, 1)),
+          links: S.optional(__S(145, __c9, 1)),
         }),
       ).annotate({ identifier: "ApiRoot" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2959,7 +3019,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "Link" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2970,7 +3030,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetAppRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2980,7 +3040,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetBuildRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2998,7 +3058,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "GetCurrentDropletForAppResponseBuildpacksItem" });
     case 2:
-      return S.Array(__S(193, __c12, 1));
+      return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3007,19 +3067,19 @@ function __c12(j: number): any {
           updated_at: S.optional(S.String),
           state: S.optional(S.String),
           error: S.optional(S.NullOr(S.String)),
-          lifecycle: S.optional(__S(803, __c50, 3)),
+          lifecycle: S.optional(__S(819, __c51, 3)),
           execution_metadata: S.optional(S.NullOr(S.String)),
           process_types: S.optional(S.Unknown),
-          metadata: S.optional(__S(832, __c52, 0)),
-          checksum: S.optional(S.NullOr(__S(928, __c58, 0))),
-          buildpacks: S.optional(S.NullOr(__S(194, __c12, 2))),
+          metadata: S.optional(__S(848, __c53, 0)),
+          checksum: S.optional(S.NullOr(__S(944, __c59, 0))),
+          buildpacks: S.optional(S.NullOr(__S(210, __c13, 2))),
           stack: S.optional(S.NullOr(S.String)),
           image: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetCurrentDropletForAppResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3029,7 +3089,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetDeploymentRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3039,19 +3099,19 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetEnvironmentVariablesForAppRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          var: S.optional(__S(240, __c15, 0)),
+          var: S.optional(__S(256, __c16, 0)),
         }),
       ).annotate({ identifier: "AppEnvironmentVariables" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3062,22 +3122,12 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
-          detail: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Error" });
-    case 2:
-      return S.Array(__S(257, __c16, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           detail: S.optional(S.String),
         }),
       ).annotate({ identifier: "Warning" });
-    case 4:
-      return S.Array(__S(259, __c16, 3));
-    case 5:
+    case 2:
+      return S.Array(__S(273, __c17, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           guid: S.optional(S.String),
@@ -3085,13 +3135,13 @@ function __c16(j: number): any {
           updated_at: S.optional(S.String),
           operation: S.optional(S.String),
           state: S.optional(S.String),
-          errors: S.optional(__S(258, __c16, 2)),
-          warnings: S.optional(__S(260, __c16, 4)),
+          errors: S.optional(__S(1, __c0, 1)),
+          warnings: S.optional(__S(274, __c17, 2)),
         }),
       ).annotate({ identifier: "GetJobResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3101,7 +3151,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetPackageRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3112,7 +3162,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetProcessForAppRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3127,14 +3177,14 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(304, __c19, 0)),
+          data: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "HealthCheck" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          app: S.optional(__S(849, __c53, 1)),
-          revision: S.optional(S.NullOr(__S(849, __c53, 1))),
+          app: S.optional(__S(865, __c54, 1)),
+          revision: S.optional(S.NullOr(__S(865, __c54, 1))),
         }),
       ).annotate({ identifier: "GetProcessForAppResponseRelationships" });
     case 3:
@@ -3151,15 +3201,15 @@ function __c19(j: number): any {
           memory_in_mb: S.optional(S.NullOr(S.Number)),
           disk_in_mb: S.optional(S.NullOr(S.Number)),
           log_rate_limit_in_bytes_per_second: S.optional(S.Number),
-          health_check: S.optional(__S(305, __c19, 1)),
-          readiness_health_check: S.optional(__S(305, __c19, 1)),
-          relationships: S.optional(__S(306, __c19, 2)),
-          metadata: S.optional(__S(832, __c52, 0)),
+          health_check: S.optional(__S(321, __c20, 1)),
+          readiness_health_check: S.optional(__S(321, __c20, 1)),
+          relationships: S.optional(__S(322, __c20, 2)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "GetProcessForAppResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3191,20 +3241,20 @@ function __c20(j: number): any {
           mem_quota: S.optional(S.NullOr(S.Number)),
           disk_quota: S.optional(S.NullOr(S.Number)),
           log_rate_limit: S.optional(S.NullOr(S.Number)),
-          usage: S.optional(__S(321, __c20, 1)),
+          usage: S.optional(__S(337, __c21, 1)),
         }),
       ).annotate({ identifier: "ProcessStatsResourcesItem" });
     case 3:
-      return S.Array(__S(322, __c20, 2));
+      return S.Array(__S(338, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(323, __c20, 3)),
+          resources: S.optional(__S(339, __c21, 3)),
         }),
       ).annotate({ identifier: "ProcessStats" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3223,9 +3273,9 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            organization: S.optional(__S(849, __c53, 1)),
-            space: S.optional(__S(849, __c53, 1)),
-            user: S.optional(__S(337, __c21, 1)),
+            organization: S.optional(__S(865, __c54, 1)),
+            space: S.optional(__S(865, __c54, 1)),
+            user: S.optional(__S(353, __c22, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -3237,12 +3287,12 @@ function __c21(j: number): any {
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           type: S.optional(S.String),
-          relationships: S.optional(__S(338, __c21, 2)),
+          relationships: S.optional(__S(354, __c22, 2)),
         }),
       ).annotate({ identifier: "GetRoleResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3253,7 +3303,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetRouteRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3270,7 +3320,7 @@ function __c23(j: number): any {
       });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3285,7 +3335,7 @@ function __c24(j: number): any {
       });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3298,20 +3348,9 @@ function __c25(j: number): any {
     case 1:
       return S.Record(S.String, /*@__PURE__*/ S.Unknown.pipe(/*@__PURE__*/ T.SensitiveValue({})));
     case 2:
-      return S.suspend(() => __S(401, __c25, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(417, __c26, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetServiceInstanceCredentialsResponse",
       });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guid: S.String.pipe(T.Label()),
-          destinations: S.optional(__S(451, __c28, 3)),
-        }).pipe(T.Http({ method: "POST", uri: "/v3/routes/{guid}/destinations", code: 200 })),
-      ).annotate({ identifier: "InsertDestinationsForRouteRequest" });
   }
 }
 function __c27(j: number): any {
@@ -3319,17 +3358,28 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          guid: S.String.pipe(T.Label()),
+          destinations: S.optional(__S(467, __c29, 3)),
+        }).pipe(T.Http({ method: "POST", uri: "/v3/routes/{guid}/destinations", code: 200 })),
+      ).annotate({ identifier: "InsertDestinationsForRouteRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           total_results: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          first: S.optional(__S(144, __c9, 0)),
-          last: S.optional(__S(144, __c9, 0)),
-          next: S.optional(S.NullOr(__S(144, __c9, 0))),
-          previous: S.optional(S.NullOr(__S(144, __c9, 0))),
+          first: S.optional(__S(160, __c10, 0)),
+          last: S.optional(__S(160, __c10, 0)),
+          next: S.optional(S.NullOr(__S(160, __c10, 0))),
+          previous: S.optional(S.NullOr(__S(160, __c10, 0))),
         }),
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3341,34 +3391,34 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guid: S.optional(S.String),
-          process: S.optional(__S(448, __c28, 0)),
+          process: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "RouteDestinationApp" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           guid: S.optional(S.String),
-          app: S.optional(__S(449, __c28, 1)),
+          app: S.optional(__S(465, __c29, 1)),
           weight: S.optional(S.NullOr(S.Number)),
           port: S.optional(S.Number),
           protocol: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(__S(832, __c52, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "RouteDestination" });
     case 3:
-      return S.Array(__S(450, __c28, 2));
+      return S.Array(__S(466, __c29, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(432, __c27, 0)),
-          destinations: S.optional(__S(451, __c28, 3)),
+          pagination: S.optional(__S(448, __c28, 0)),
+          destinations: S.optional(__S(467, __c29, 3)),
         }),
       ).annotate({ identifier: "RouteDestinationList" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3389,17 +3439,17 @@ function __c29(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/apps", code: 200 })),
       ).annotate({ identifier: "ListAppsRequest" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(768, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(432, __c27, 0)),
-          resources: __S(465, __c29, 1),
+          pagination: S.optional(__S(448, __c28, 0)),
+          resources: __S(481, __c30, 1),
         }),
       ).annotate({ identifier: "AppList" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3411,7 +3461,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListDestinationsForRouteRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3430,18 +3480,18 @@ function __c31(j: number): any {
     case 1:
       return S.Array(S.String);
     case 2:
-      return S.Array(__S(848, __c53, 0));
+      return S.Array(__S(864, __c54, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(498, __c31, 2)),
+          data: S.optional(__S(514, __c32, 2)),
         }),
       ).annotate({ identifier: "RelationshipToMany" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          organization: S.optional(__S(849, __c53, 1)),
-          shared_organizations: S.optional(__S(499, __c31, 3)),
+          organization: S.optional(__S(865, __c54, 1)),
+          shared_organizations: S.optional(__S(515, __c32, 3)),
         }),
       ).annotate({ identifier: "DomainRelationships" });
     case 5:
@@ -3452,26 +3502,26 @@ function __c31(j: number): any {
           updated_at: S.optional(S.String),
           name: S.optional(S.String),
           internal: S.optional(S.Boolean),
-          router_group: S.optional(S.NullOr(__S(848, __c53, 0))),
-          supported_protocols: S.optional(__S(497, __c31, 1)),
+          router_group: S.optional(S.NullOr(__S(864, __c54, 0))),
+          supported_protocols: S.optional(__S(513, __c32, 1)),
           enforce_route_policies: S.optional(S.Boolean),
           route_policies_scope: S.optional(S.String),
-          relationships: S.optional(__S(500, __c31, 4)),
-          metadata: S.optional(__S(832, __c52, 0)),
+          relationships: S.optional(__S(516, __c32, 4)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "Domain" });
     case 6:
-      return S.Array(__S(501, __c31, 5));
+      return S.Array(__S(517, __c32, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(432, __c27, 0)),
-          resources: __S(502, __c31, 6),
+          pagination: S.optional(__S(448, __c28, 0)),
+          resources: __S(518, __c32, 6),
         }),
       ).annotate({ identifier: "DomainList" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3500,9 +3550,9 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            organization: S.optional(__S(849, __c53, 1)),
-            space: S.optional(__S(849, __c53, 1)),
-            user: S.optional(__S(513, __c32, 1)),
+            organization: S.optional(__S(865, __c54, 1)),
+            space: S.optional(__S(865, __c54, 1)),
+            user: S.optional(__S(529, __c33, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -3514,21 +3564,21 @@ function __c32(j: number): any {
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           type: S.optional(S.String),
-          relationships: S.optional(__S(514, __c32, 2)),
+          relationships: S.optional(__S(530, __c33, 2)),
         }),
       ).annotate({ identifier: "Role" });
     case 4:
-      return S.Array(__S(515, __c32, 3));
+      return S.Array(__S(531, __c33, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(432, __c27, 0)),
-          resources: __S(516, __c32, 4),
+          pagination: S.optional(__S(448, __c28, 0)),
+          resources: __S(532, __c33, 4),
         }),
       ).annotate({ identifier: "ListRolesResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3552,17 +3602,17 @@ function __c33(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/routes", code: 200 })),
       ).annotate({ identifier: "ListRoutesRequest" });
     case 1:
-      return S.Array(__S(1024, __c64, 0));
+      return S.Array(__S(1040, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(432, __c27, 0)),
-          resources: __S(529, __c33, 1),
+          pagination: S.optional(__S(448, __c28, 0)),
+          resources: __S(545, __c34, 1),
         }),
       ).annotate({ identifier: "ListRoutesResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3592,13 +3642,13 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(432, __c27, 0)),
-          resources: __S(545, __c34, 1),
+          pagination: S.optional(__S(448, __c28, 0)),
+          resources: __S(561, __c35, 1),
         }),
       ).annotate({ identifier: "ServiceCredentialBindingList" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3624,13 +3674,13 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(432, __c27, 0)),
-          resources: __S(561, __c35, 1),
+          pagination: S.optional(__S(448, __c28, 0)),
+          resources: __S(577, __c36, 1),
         }),
       ).annotate({ identifier: "ServiceInstanceList" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3663,21 +3713,21 @@ function __c36(j: number): any {
           updated_at: S.optional(S.String),
           service_offering_guid: S.optional(S.String),
           service_offering_name: S.optional(S.String),
-          metadata: S.optional(__S(832, __c52, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "ServicePlan" });
     case 2:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(593, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(432, __c27, 0)),
-          resources: __S(578, __c36, 2),
+          pagination: S.optional(__S(448, __c28, 0)),
+          resources: __S(594, __c37, 2),
         }),
       ).annotate({ identifier: "ServicePlanList" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3698,7 +3748,7 @@ function __c37(j: number): any {
       });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3729,7 +3779,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "TokenResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3750,13 +3800,13 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ScaleProcessForAppRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           guid: S.String.pipe(T.Label()),
-          data: __S(848, __c53, 0),
+          data: __S(864, __c54, 0),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3767,7 +3817,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "SetCurrentDropletForAppRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3777,31 +3827,18 @@ function __c41(j: number): any {
       ).annotate({ identifier: "StartAppRequest" });
   }
 }
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guid: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          environment_variables: S.optional(__S(768, __c48, 0)),
-          lifecycle: S.optional(__S(803, __c50, 3)),
-          metadata: S.optional(__S(832, __c52, 0)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v3/apps/{guid}", code: 200 })),
-      ).annotate({ identifier: "UpdateAppRequest" });
-  }
-}
 function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           guid: S.String.pipe(T.Label()),
-          var: S.optional(__S(816, __c51, 0)),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/v3/apps/{guid}/environment_variables", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateEnvironmentVariablesForAppRequest" });
+          name: S.optional(S.String),
+          environment_variables: S.optional(__S(784, __c49, 0)),
+          lifecycle: S.optional(__S(819, __c51, 3)),
+          metadata: S.optional(__S(848, __c53, 0)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v3/apps/{guid}", code: 200 })),
+      ).annotate({ identifier: "UpdateAppRequest" });
   }
 }
 function __c44(j: number): any {
@@ -3810,12 +3847,11 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guid: S.String.pipe(T.Label()),
-          command: S.optional(S.NullOr(S.String)),
-          health_check: S.optional(__S(305, __c19, 1)),
-          readiness_health_check: S.optional(__S(305, __c19, 1)),
-          metadata: S.optional(__S(832, __c52, 0)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v3/processes/{guid}", code: 200 })),
-      ).annotate({ identifier: "UpdateProcessRequest" });
+          var: S.optional(__S(832, __c52, 0)),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/v3/apps/{guid}/environment_variables", code: 200 }),
+        ),
+      ).annotate({ identifier: "UpdateEnvironmentVariablesForAppRequest" });
   }
 }
 function __c45(j: number): any {
@@ -3824,9 +3860,12 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guid: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(832, __c52, 0)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v3/routes/{guid}", code: 200 })),
-      ).annotate({ identifier: "UpdateRouteRequest" });
+          command: S.optional(S.NullOr(S.String)),
+          health_check: S.optional(__S(321, __c20, 1)),
+          readiness_health_check: S.optional(__S(321, __c20, 1)),
+          metadata: S.optional(__S(848, __c53, 0)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v3/processes/{guid}", code: 200 })),
+      ).annotate({ identifier: "UpdateProcessRequest" });
   }
 }
 function __c46(j: number): any {
@@ -3834,22 +3873,33 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          space: __S(849, __c53, 1),
+          guid: S.String.pipe(T.Label()),
+          metadata: S.optional(__S(848, __c53, 0)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v3/routes/{guid}", code: 200 })),
+      ).annotate({ identifier: "UpdateRouteRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          space: __S(865, __c54, 1),
         }),
       ).annotate({ identifier: "CreateAppRequestRelationships" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          environment_variables: S.optional(__S(768, __c48, 0)),
-          lifecycle: S.optional(__S(803, __c50, 3)),
-          relationships: __S(736, __c46, 0),
-          metadata: S.optional(__S(832, __c52, 0)),
+          environment_variables: S.optional(__S(784, __c49, 0)),
+          lifecycle: S.optional(__S(819, __c51, 3)),
+          relationships: __S(752, __c47, 0),
+          metadata: S.optional(__S(848, __c53, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/apps", code: 200 })),
       ).annotate({ identifier: "CreateAppRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3859,26 +3909,26 @@ function __c47(j: number): any {
           updated_at: S.optional(S.String),
           name: S.optional(S.String),
           state: S.optional(S.String),
-          lifecycle: S.optional(__S(803, __c50, 3)),
-          relationships: S.optional(__S(864, __c54, 0)),
-          metadata: S.optional(__S(832, __c52, 0)),
+          lifecycle: S.optional(__S(819, __c51, 3)),
+          relationships: S.optional(__S(880, __c55, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "CreateAppResponse" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
   }
 }
 function __c49(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, S.String);
   }
 }
 function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3889,14 +3939,14 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "LifecycleDataCredentialsValue" });
     case 1:
-      return S.Record(S.String, __S(800, __c50, 0));
+      return S.Record(S.String, __S(816, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            buildpacks: S.optional(__S(784, __c49, 0)),
+            buildpacks: S.optional(__S(800, __c50, 0)),
             stack: S.optional(S.NullOr(S.String)),
-            credentials: S.optional(__S(801, __c50, 1)),
+            credentials: S.optional(__S(817, __c51, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -3905,29 +3955,29 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(802, __c50, 2)),
+          data: S.optional(__S(818, __c51, 2)),
         }),
       ).annotate({ identifier: "Lifecycle" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
   }
 }
 function __c52(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(816, __c51, 0)),
-          annotations: S.optional(__S(816, __c51, 0)),
+          labels: S.optional(__S(832, __c52, 0)),
+          annotations: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "Metadata" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3938,23 +3988,23 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(848, __c53, 0))),
+          data: S.optional(S.NullOr(__S(864, __c54, 0))),
         }),
       ).annotate({ identifier: "RelationshipToOne" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(849, __c53, 1));
   }
 }
 function __c55(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, __S(865, __c54, 1));
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          service_plan: S.optional(__S(849, __c53, 1)),
+          service_plan: S.optional(__S(865, __c54, 1)),
         }),
       ).annotate({ identifier: "UpdateServiceInstanceRequestRelationships" });
     case 1:
@@ -3970,32 +4020,32 @@ function __c55(j: number): any {
           name: S.optional(S.String),
           parameters: S.optional(S.Unknown),
           credentials: S.optional(S.Unknown),
-          tags: S.optional(__S(784, __c49, 0)),
+          tags: S.optional(__S(800, __c50, 0)),
           syslog_drain_url: S.optional(S.String),
           route_service_url: S.optional(S.String),
-          relationships: S.optional(__S(880, __c55, 0)),
-          maintenance_info: S.optional(__S(881, __c55, 1)),
-          metadata: S.optional(__S(832, __c52, 0)),
+          relationships: S.optional(__S(896, __c56, 0)),
+          maintenance_info: S.optional(__S(897, __c56, 1)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v3/service_instances/{guid}", code: 200 })),
       ).annotate({ identifier: "UpdateServiceInstanceRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          package: __S(848, __c53, 0),
-          lifecycle: S.optional(__S(803, __c50, 3)),
+          package: __S(864, __c54, 0),
+          lifecycle: S.optional(__S(819, __c51, 3)),
           staging_memory_in_mb: S.optional(S.Number),
           staging_disk_in_mb: S.optional(S.Number),
           staging_log_rate_limit_bytes_per_second: S.optional(S.Number),
-          metadata: S.optional(__S(832, __c52, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/builds", code: 200 })),
       ).annotate({ identifier: "CreateBuildRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4016,18 +4066,18 @@ function __c57(j: number): any {
           staging_disk_in_mb: S.optional(S.NullOr(S.Number)),
           staging_log_rate_limit_bytes_per_second: S.optional(S.Number),
           error: S.optional(S.NullOr(S.String)),
-          lifecycle: S.optional(__S(803, __c50, 3)),
-          checksum: S.optional(__S(928, __c58, 0)),
-          metadata: S.optional(__S(832, __c52, 0)),
-          relationships: S.optional(__S(864, __c54, 0)),
-          package: S.optional(__S(848, __c53, 0)),
-          droplet: S.optional(S.NullOr(__S(848, __c53, 0))),
-          created_by: S.optional(__S(912, __c57, 0)),
+          lifecycle: S.optional(__S(819, __c51, 3)),
+          checksum: S.optional(__S(944, __c59, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
+          relationships: S.optional(__S(880, __c55, 0)),
+          package: S.optional(__S(864, __c54, 0)),
+          droplet: S.optional(S.NullOr(__S(864, __c54, 0))),
+          created_by: S.optional(__S(928, __c58, 0)),
         }),
       ).annotate({ identifier: "CreateBuildResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4038,22 +4088,22 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CreateBuildResponseChecksum" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          relationships: S.optional(__S(864, __c54, 0)),
+          relationships: S.optional(__S(880, __c55, 0)),
           strategy: S.optional(S.String),
-          options: S.optional(__S(963, __c60, 3)),
-          droplet: S.optional(__S(848, __c53, 0)),
-          revision: S.optional(__S(848, __c53, 0)),
-          metadata: S.optional(__S(832, __c52, 0)),
+          options: S.optional(__S(979, __c61, 3)),
+          droplet: S.optional(__S(864, __c54, 0)),
+          revision: S.optional(__S(864, __c54, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/deployments", code: 200 })),
       ).annotate({ identifier: "CreateDeploymentRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4062,11 +4112,11 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "CreateDeploymentRequestOptionsCanaryStepsItem" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(976, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          steps: S.optional(__S(961, __c60, 1)),
+          steps: S.optional(__S(977, __c61, 1)),
         }),
       ).annotate({ identifier: "CreateDeploymentRequestOptionsCanary" });
     case 3:
@@ -4077,7 +4127,7 @@ function __c60(j: number): any {
           memory_in_mb: S.optional(S.Number),
           disk_in_mb: S.optional(S.Number),
           log_rate_limit_in_bytes_per_second: S.optional(S.Number),
-          canary: S.optional(__S(962, __c60, 2)),
+          canary: S.optional(__S(978, __c61, 2)),
         }),
       ).annotate({ identifier: "CreateDeploymentRequestOptions" });
     case 4:
@@ -4092,7 +4142,7 @@ function __c60(j: number): any {
         S.Struct({
           value: S.optional(S.String),
           reason: S.optional(S.String),
-          details: S.optional(__S(964, __c60, 4)),
+          details: S.optional(__S(980, __c61, 4)),
         }),
       ).annotate({ identifier: "CreateDeploymentResponseStatus" });
     case 6:
@@ -4103,7 +4153,7 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "CreateDeploymentResponseNewProcessesItem" });
     case 7:
-      return S.Array(__S(966, __c60, 6));
+      return S.Array(__S(982, __c61, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -4117,20 +4167,20 @@ function __c60(j: number): any {
           guid: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          status: S.optional(__S(965, __c60, 5)),
+          status: S.optional(__S(981, __c61, 5)),
           strategy: S.optional(S.String),
-          options: S.optional(__S(963, __c60, 3)),
-          droplet: S.optional(__S(848, __c53, 0)),
-          previous_droplet: S.optional(__S(848, __c53, 0)),
-          new_processes: S.optional(__S(967, __c60, 7)),
-          revision: S.optional(S.NullOr(__S(968, __c60, 8))),
-          relationships: S.optional(__S(864, __c54, 0)),
-          metadata: S.optional(__S(832, __c52, 0)),
+          options: S.optional(__S(979, __c61, 3)),
+          droplet: S.optional(__S(864, __c54, 0)),
+          previous_droplet: S.optional(__S(864, __c54, 0)),
+          new_processes: S.optional(__S(983, __c61, 7)),
+          revision: S.optional(S.NullOr(__S(984, __c61, 8))),
+          relationships: S.optional(__S(880, __c55, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "CreateDeploymentResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4143,21 +4193,21 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          app: __S(849, __c53, 1),
+          app: __S(865, __c54, 1),
         }),
       ).annotate({ identifier: "CreatePackageRequestRelationships" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(976, __c61, 0)),
-          relationships: __S(977, __c61, 1),
-          metadata: S.optional(__S(832, __c52, 0)),
+          data: S.optional(__S(992, __c62, 0)),
+          relationships: __S(993, __c62, 1),
+          metadata: S.optional(__S(848, __c53, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/packages", code: 200 })),
       ).annotate({ identifier: "CreatePackageRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4170,7 +4220,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           error: S.optional(S.NullOr(S.String)),
-          checksum: S.optional(__S(992, __c62, 0)),
+          checksum: S.optional(__S(1008, __c63, 0)),
           image: S.optional(S.String),
           username: S.optional(S.NullOr(S.String)),
           password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
@@ -4183,21 +4233,21 @@ function __c62(j: number): any {
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           type: S.optional(S.String),
-          data: S.optional(__S(993, __c62, 1)),
+          data: S.optional(__S(1009, __c63, 1)),
           state: S.optional(S.String),
-          relationships: S.optional(__S(864, __c54, 0)),
-          metadata: S.optional(__S(832, __c52, 0)),
+          relationships: S.optional(__S(880, __c55, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "CreatePackageResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domain: S.optional(__S(849, __c53, 1)),
-          space: S.optional(__S(849, __c53, 1)),
+          domain: S.optional(__S(865, __c54, 1)),
+          space: S.optional(__S(865, __c54, 1)),
         }),
       ).annotate({ identifier: "CreateRouteRequestRelationships" });
     case 1:
@@ -4206,13 +4256,13 @@ function __c63(j: number): any {
           host: S.optional(S.String),
           path: S.optional(S.String),
           port: S.optional(S.Number),
-          relationships: __S(1008, __c63, 0),
-          metadata: S.optional(__S(832, __c52, 0)),
+          relationships: __S(1024, __c64, 0),
+          metadata: S.optional(__S(848, __c53, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/routes", code: 200 })),
       ).annotate({ identifier: "CreateRouteRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4225,8 +4275,8 @@ function __c64(j: number): any {
           path: S.optional(S.String),
           port: S.optional(S.NullOr(S.Number)),
           url: S.optional(S.String),
-          relationships: S.optional(__S(864, __c54, 0)),
-          metadata: S.optional(__S(832, __c52, 0)),
+          relationships: S.optional(__S(880, __c55, 0)),
+          metadata: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "CreateRouteResponse" });
   }
