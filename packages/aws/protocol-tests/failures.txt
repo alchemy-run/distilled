@@ -1,0 +1,260 @@
+# Smithy AWS protocol test cases the AWS SDK fails today (see README.md).
+# packages/aws/test/protocol-tests.test.ts fails on a failing case missing
+# from this list, and on a case in this list that passes: delete its line
+# when a fix makes it pass.
+#
+# One case per line: the case id and its kind, (request), (response) or
+# (error), grouped by cause.
+
+# The `@endpoint` host prefix: the runtime skips it for a custom endpoint
+# (s3/src/protocol.ts), and these cases set one.
+AwsJson10EndpointTrait (request)
+AwsJson10EndpointTraitWithHostLabel (request)
+AwsJson11EndpointTrait (request)
+AwsJson11EndpointTraitWithHostLabel (request)
+AwsQueryEndpointTrait (request)
+AwsQueryEndpointTraitWithHostLabel (request)
+Ec2QueryEndpointTrait (request)
+Ec2QueryEndpointTraitWithHostLabel (request)
+RestJsonEndpointTrait (request)
+RestJsonEndpointTraitWithHostLabel (request)
+RestXmlEndpointTrait (request)
+RestXmlEndpointTraitWithHostLabel (request)
+RestXmlEndpointTraitWithHostLabelAndHttpBinding (request)
+
+# `@requestCompression` is not implemented: no gzip body or Content-Encoding.
+SDKAppendedGzipAfterProvidedEncoding_restJson1 (request)
+SDKAppendedGzipAfterProvidedEncoding_restXml (request)
+SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_0 (request)
+SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_1 (request)
+SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsQuery (request)
+SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query (request)
+SDKAppliedContentEncoding_awsJson1_0 (request)
+SDKAppliedContentEncoding_awsJson1_1 (request)
+SDKAppliedContentEncoding_awsQuery (request)
+SDKAppliedContentEncoding_ec2Query (request)
+SDKAppliedContentEncoding_restJson1 (request)
+SDKAppliedContentEncoding_restXml (request)
+
+# `@default` values are not filled in, and missing required members are not
+# set to their zero values.
+AwsJson10ClientErrorCorrectsWhenServerFailsToSerializeRequiredValues (response)
+AwsJson10ClientErrorCorrectsWithDefaultValuesWhenServerFailsToSerializeRequiredValues (response)
+AwsJson10ClientPopulatesDefaultValuesInInput (request)
+AwsJson10ClientPopulatesDefaultsValuesWhenMissingInResponse (response)
+AwsJson10ClientPopulatesNestedDefaultValuesWhenMissing (request)
+AwsJson10ClientPopulatesNestedDefaultsWhenMissingInResponseBody (response)
+RestJsonClientPopulatesDefaultValuesInInput (request)
+RestJsonClientPopulatesDefaultsValuesWhenMissingInResponse (response)
+RestJsonClientPopulatesNestedDefaultValuesWhenMissing (request)
+RestJsonClientPopulatesNestedDefaultsWhenMissingInResponseBody (response)
+
+# NaN and Infinity are sent as null, and decoded as strings.
+AwsJson10SupportsInfinityFloatInputs (request)
+AwsJson10SupportsInfinityFloatInputs (response)
+AwsJson10SupportsNaNFloatInputs (request)
+AwsJson10SupportsNaNFloatInputs (response)
+AwsJson10SupportsNegativeInfinityFloatInputs (request)
+AwsJson10SupportsNegativeInfinityFloatInputs (response)
+AwsJson11SupportsInfinityFloatInputs (request)
+AwsJson11SupportsInfinityFloatInputs (response)
+AwsJson11SupportsNaNFloatInputs (request)
+AwsJson11SupportsNaNFloatInputs (response)
+AwsJson11SupportsNegativeInfinityFloatInputs (request)
+AwsJson11SupportsNegativeInfinityFloatInputs (response)
+RestJsonSupportsInfinityFloatInputs (request)
+RestJsonSupportsInfinityFloatInputs (response)
+RestJsonSupportsNaNFloatInputs (request)
+RestJsonSupportsNaNFloatInputs (response)
+RestJsonSupportsNegativeInfinityFloatInputs (request)
+RestJsonSupportsNegativeInfinityFloatInputs (response)
+
+# `@sparse` lists and maps: a null element is refused on input and dropped
+# on output.
+AwsJson11SparseListsDeserializeNull (response)
+AwsJson11SparseListsSerializeNull (request)
+AwsJson11SparseMapsDeserializeNullValues (response)
+AwsJson11SparseMapsSerializeNullValues (request)
+RestJsonDeserializesSparseNullMapValues (response)
+RestJsonDeserializesSparseSetMapAndRetainsNull (response)
+RestJsonSerializesSparseNullMapValues (request)
+RestJsonSerializesSparseSetMapAndRetainsNull (request)
+RestJsonSparseListsSerializeNull (request)
+RestJsonSparseListsSerializeNull (response)
+
+# List-valued headers are joined with "," (Smithy: ", ") and are not split
+# when decoded.
+InputAndOutputWithBooleanHeaders (request)
+InputAndOutputWithBooleanHeaders (response)
+InputAndOutputWithEnumHeaders (request)
+InputAndOutputWithEnumHeaders (response)
+InputAndOutputWithNumericHeaders (request)
+InputAndOutputWithNumericHeaders (response)
+InputAndOutputWithStringHeaders (request)
+InputAndOutputWithStringHeaders (response)
+InputAndOutputWithTimestampHeaders (request)
+InputAndOutputWithTimestampHeaders (response)
+RestJsonInputAndOutputWithBooleanHeaders (request)
+RestJsonInputAndOutputWithBooleanHeaders (response)
+RestJsonInputAndOutputWithEnumHeaders (request)
+RestJsonInputAndOutputWithEnumHeaders (response)
+RestJsonInputAndOutputWithIntEnumHeaders (request)
+RestJsonInputAndOutputWithIntEnumHeaders (response)
+RestJsonInputAndOutputWithNumericHeaders (request)
+RestJsonInputAndOutputWithNumericHeaders (response)
+RestJsonInputAndOutputWithQuotedStringHeaders (request)
+RestJsonInputAndOutputWithQuotedStringHeaders (response)
+RestJsonInputAndOutputWithStringHeaders (request)
+RestJsonInputAndOutputWithStringHeaders (response)
+RestJsonInputAndOutputWithTimestampHeaders (request)
+RestJsonInputAndOutputWithTimestampHeaders (response)
+
+# Timestamps: labels and query values use the wrong format, and date-time
+# values carry ".000" milliseconds.
+AllQueryStringTypes (request)
+Ec2TimestampsInput (request)
+HttpRequestLabelEscaping (request)
+HttpRequestWithLabelsAndTimestampFormat (request)
+InputWithHeadersAndAllParams (request)
+QueryTimestampsInput (request)
+RestJsonHttpRequestLabelEscaping (request)
+RestJsonHttpRequestWithLabelsAndTimestampFormat (request)
+RestJsonInputWithHeadersAndAllParams (request)
+RestJsonJsonTimestampsWithDateTimeFormat (request)
+RestJsonJsonTimestampsWithDateTimeOnTargetFormat (request)
+RestJsonTimestampFormatHeaders (request)
+RestJsonTimestampFormatHeaders (response)
+TimestampFormatHeaders (request)
+TimestampFormatHeaders (response)
+XmlTimestamps (request)
+XmlTimestampsWithDateTimeFormat (request)
+XmlTimestampsWithDateTimeOnTargetFormat (request)
+serializes_timestamp_shapes_with_iso8601_timestampformat (request)
+
+# Content-Type is sent with no body, and a payload's `@mediaType` is ignored.
+HttpPayloadTraitsWithMediaTypeWithBlob (request)
+RestJsonEnumPayloadRequest (request)
+RestJsonHttpGetWithHeaderMemberNoModeledBody (request)
+RestJsonHttpGetWithNoInput (request)
+RestJsonHttpGetWithNoModeledBody (request)
+RestJsonHttpPayloadTraitsWithBlob (request)
+RestJsonHttpPayloadTraitsWithMediaTypeWithBlob (request)
+RestJsonHttpPostWithNoInput (request)
+RestJsonHttpPostWithNoModeledBody (request)
+RestJsonHttpWithPostHeaderMemberNoModeledBody (request)
+RestJsonStreamingTraitsWithMediaTypeWithBlob (request)
+RestJsonStringPayloadRequest (request)
+
+# awsJson applies `@jsonName`, which only restJson1 honours; restJson1 ignores
+# it on union members.
+AwsJson10ComplexError (error)
+AwsJson11ComplexError (error)
+PostUnionWithJsonNameRequest1 (request)
+PostUnionWithJsonNameRequest2 (request)
+PostUnionWithJsonNameResponse1 (response)
+PostUnionWithJsonNameResponse2 (response)
+serializes_structure_members_with_locationname_traits (request)
+
+# XML maps, flattened or nested, are not encoded or decoded.
+Ec2XmlEnums (response)
+Ec2XmlIntEnums (response)
+FlatNestedXmlMapRequest (request)
+FlatNestedXmlMapResponse (response)
+FlattenedXmlMap (request)
+FlattenedXmlMap (response)
+FlattenedXmlMapWithXmlName (request)
+FlattenedXmlMapWithXmlName (response)
+NestedXmlMapRequest (request)
+NestedXmlMapResponse (response)
+NestedXmlMapWithXmlNameDeserializes (response)
+NestedXmlMapWithXmlNameSerializes (request)
+QueryQueryFlattenedXmlMap (response)
+QueryQueryFlattenedXmlMapWithXmlName (response)
+QueryQueryFlattenedXmlMapWithXmlNamespace (response)
+QueryXmlEmptySelfClosedMaps (response)
+RestXmlFlattenedXmlMapWithXmlNamespace (response)
+RestXmlXmlMapWithXmlNamespace (request)
+RestXmlXmlMapWithXmlNamespace (response)
+XmlEmptyMaps (response)
+XmlEmptySelfClosedMaps (response)
+XmlEnums (request)
+XmlEnums (response)
+XmlIntEnums (request)
+XmlIntEnums (response)
+XmlMaps (request)
+XmlMaps (response)
+XmlMapsXmlName (request)
+XmlMapsXmlName (response)
+
+# XML lists: list members are concatenated into one text node on input, and
+# some list shapes are not decoded.
+Ec2XmlLists (response)
+EmptyQueryLists (request)
+QueryXmlLists (response)
+XmlEmptyLists (response)
+XmlLists (request)
+XmlLists (response)
+
+# XML unions are not encoded or decoded.
+RestXmlHttpPayloadWithUnion (request)
+RestXmlHttpPayloadWithUnion (response)
+XmlUnionsWithBooleanMember (request)
+XmlUnionsWithBooleanMember (response)
+XmlUnionsWithStringMember (request)
+XmlUnionsWithStringMember (response)
+XmlUnionsWithStructMember (request)
+XmlUnionsWithStructMember (response)
+XmlUnionsWithUnionMember (request)
+XmlUnionsWithUnionMember (response)
+
+# XML namespaces and `@xmlName` on the input structure are not written.
+BodyWithXmlName (request)
+BodyWithXmlName (response)
+Ec2XmlNamespaces (response)
+HttpPayloadWithXmlNamespaceAndPrefix (request)
+QueryXmlNamespaces (response)
+XmlNamespaceSimpleScalarProperties (request)
+XmlNamespaces (request)
+XmlNamespaces (response)
+
+# Empty values: an empty string, blob or prefix-header map in a response is
+# dropped, and an absent streaming body comes back as an empty one.
+Ec2SimpleScalarProperties (response)
+Ec2XmlEmptyBlobs (response)
+Ec2XmlEmptySelfClosedBlobs (response)
+HttpPrefixHeadersAreNotPresent (response)
+QuerySimpleScalarProperties (response)
+QueryXmlEmptyBlobs (response)
+QueryXmlEmptySelfClosedBlobs (response)
+RestJsonStreamingTraitsWithNoBlobBody (response)
+
+# A non-streaming blob `@httpPayload` is sent base64-encoded.
+HttpPayloadTraitsWithBlob (request)
+HttpPayloadTraitsWithBlob (response)
+RestJsonTestPayloadBlob (request)
+
+# An empty structure `@httpPayload` is sent with no body; Smithy expects "{}".
+RestJsonHttpWithEmptyStructurePayload (request)
+RestJsonHttpWithHeadersButNoPayload (request)
+
+# `@httpQueryParams` values replace a named `@httpQuery` member of the same
+# key.
+RestJsonQueryPrecedence (request)
+RestXmlQueryPrecedence (request)
+
+# `@awsQueryCompatible`: the x-amzn-query-mode header is not sent.
+QueryCompatibleAwsJson10CborSendsQueryModeHeader (request)
+
+# `@httpChecksumRequired`: no Content-MD5 header.
+RestJsonHttpChecksumRequired (request)
+
+# `@httpPrefixHeaders` with an empty prefix is not decoded.
+HttpEmptyPrefixHeadersResponseClient (response)
+
+# An output member with `@httpQuery` is not read from the body, where the
+# response carries it.
+IgnoreQueryParamsInResponse (response)
+
+# `@mediaType("application/json")` header strings are not base64-encoded.
+MediaTypeHeaderInputBase64 (request)
+MediaTypeHeaderOutputBase64 (response)
