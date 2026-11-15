@@ -27,8 +27,10 @@ import {
   getMapKeyValueAST,
   isArrayAST,
   isBooleanAST,
+  isDateAST,
   isMapAST,
   isNumberAST,
+  isStringAST,
 } from "@distilled.cloud/s3/util/ast";
 import { errorBody, inputEncoderSync } from "@distilled.cloud/s3/util/codec";
 import { sanitizeErrorCode } from "@distilled.cloud/s3/util/error";
@@ -353,6 +355,8 @@ function serializeValue(
 /** What deserializing a value of a schema needs to know about it, read once per schema. */
 interface ValuePlan {
   readonly map: boolean;
+  /** Strings and blobs: an empty element is an empty value. */
+  readonly string: boolean;
   readonly array: boolean;
   readonly number: boolean;
   readonly boolean: boolean;
@@ -372,6 +376,7 @@ const valuePlanOf = (ast: AST.AST): ValuePlan => {
     const element = array ? getArrayElementAST(ast) : undefined;
     plan = {
       map,
+      string: isStringAST(ast) && !isDateAST(ast),
       array,
       number: isNumberAST(ast),
       boolean: isBooleanAST(ast),
@@ -391,8 +396,9 @@ const isEmptyObject = (value: object): boolean => {
 };
 
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
-  if (value == null || value === "") return undefined;
+  if (value == null) return undefined;
   const plan = valuePlanOf(ast);
+  if (value === "") return plan.string ? "" : undefined;
 
   // Handle maps - must check before general object handling
   if (plan.map) {
