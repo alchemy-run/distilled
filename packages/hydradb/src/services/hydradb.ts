@@ -31,6 +31,8 @@ export class ContentTooLarge
     /*@__PURE__*/ S.TaggedError<ContentTooLarge>()("ContentTooLarge", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 413 }],
   ) {}
@@ -41,6 +43,8 @@ export class DatabaseAlreadyExists
     /*@__PURE__*/ S.TaggedError<DatabaseAlreadyExists>()("DatabaseAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/error/code": "DATABASE_ALREADY_EXISTS" } }],
   ) {}
@@ -51,6 +55,8 @@ export class DatabaseNotFound
     /*@__PURE__*/ S.TaggedError<DatabaseNotFound>()("DatabaseNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/code": "DATABASE_NOT_FOUND" } }],
   ) {}
@@ -61,6 +67,8 @@ export class DatabaseNotReady
     /*@__PURE__*/ S.TaggedError<DatabaseNotReady>()("DatabaseNotReady", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422, body: { "/error/code": "TENANT_INFRA_NOT_READY" } }],
   ) {}
@@ -70,6 +78,8 @@ export class UnsupportedMediaType
     /*@__PURE__*/ S.TaggedError<UnsupportedMediaType>()("UnsupportedMediaType", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 415 }],
   ) {}

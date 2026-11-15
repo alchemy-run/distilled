@@ -1300,7 +1300,7 @@ importers:
         version: link:../core
       effect:
         specifier: 'catalog:'
-        version: 4.1.2
+        version: 4.1.4
     devDependencies:
       '@distilled.cloud/dev':
         specifier: workspace:*
