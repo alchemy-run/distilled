@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -303,6 +304,7 @@ export const describeReportCreation: API.OperationMethod<
     InvalidParameterException,
     ThrottledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportCreation",
@@ -348,6 +350,7 @@ export const getComplianceSummary: API.PaginatedOperationMethod<
     InvalidParameterException,
     ThrottledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceSummary",
@@ -409,6 +412,7 @@ export const getResources: API.PaginatedOperationMethod<
     PaginationTokenExpiredException,
     ThrottledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResources",
@@ -454,6 +458,7 @@ export const getTagKeys: API.PaginatedOperationMethod<
     PaginationTokenExpiredException,
     ThrottledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTagKeys",
@@ -498,6 +503,7 @@ export const getTagValues: API.PaginatedOperationMethod<
     PaginationTokenExpiredException,
     ThrottledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTagValues",
@@ -534,6 +540,7 @@ export const listRequiredTags: API.PaginatedOperationMethod<
     PaginationTokenExpiredException,
     ThrottledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRequiredTags",
@@ -592,6 +599,7 @@ export const startReportCreation: API.OperationMethod<
     InvalidParameterException,
     ThrottledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReportCreation",
@@ -665,6 +673,7 @@ export const tagResources: API.OperationMethod<
   input: __S(49, __c3, 1) as any as S.Schema<TagResourcesInput>,
   output: __S(66, __c4, 2) as any as S.Schema<TagResourcesOutput>,
   errors: [InternalServiceException, InvalidParameterException, ThrottledException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResources",
@@ -718,6 +727,7 @@ export const untagResources: API.OperationMethod<
   input: __S(80, __c5, 0) as any as S.Schema<UntagResourcesInput>,
   output: __S(66, __c4, 2) as any as S.Schema<UntagResourcesOutput>,
   errors: [InternalServiceException, InvalidParameterException, ThrottledException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResources",

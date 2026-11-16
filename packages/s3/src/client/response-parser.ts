@@ -12,16 +12,18 @@
  * This is independently testable without making HTTP requests.
  */
 
+import type { DeclaredError, DeclaredErrorClass } from "@distilled.cloud/core/protocol";
 import {
   checkResponse,
   ResponseValidation,
   withholdActual,
 } from "@distilled.cloud/core/response-validation";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { restoreStack, suppressStack } from "@distilled.cloud/core/telemetry";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import type * as SchemaIssue from "effect/SchemaIssue";
-import { COMMON_ERRORS, InternalError, ParseError, UnknownAwsError } from "../errors.ts";
+import { InternalError, ParseError, UnknownAwsError } from "../errors.ts";
 import {
   getAwsQueryError,
   getHttpError,
@@ -48,8 +50,20 @@ export interface ResponseParserOptions {
   operation?: string;
 }
 
-/** A generated error class: constructible from its members, with a lite `ast`. */
-type ErrorClass = (new (props: Record<string, unknown>) => unknown) & { readonly ast: any };
+/**
+ * A class the operation or its service declares: constructible from its
+ * members, with a lite `ast`.
+ */
+type ErrorClass = DeclaredErrorClass & { readonly ast: any };
+
+/**
+ * What a response parser fails with besides an instance of a declared
+ * class: a response it can't read or that does not match its schema
+ * (`ParseError`), an error code no declared class answers to
+ * (`UnknownAwsError`), a 5xx without an error code (`InternalError`), and a
+ * protocol module that did not load (`SdkError`).
+ */
+export type ResponseParseError = ParseError | UnknownAwsError | InternalError | SdkError;
 
 export type ResponseParser<A, R> = (response: Response) => Effect.Effect<A, SchemaIssue.Issue, R>;
 
@@ -85,7 +99,7 @@ const matchesMessage = (matcher: SyntheticErrorTrait["message"], message: string
 /** The outcome of decoding a 2xx response: the value, or the error the call fails with. */
 export type Decoded =
   | { readonly ok: true; readonly value: unknown }
-  | { readonly ok: false; readonly error: unknown };
+  | { readonly ok: false; readonly error: ParseError };
 
 /**
  * The success path of {@link makeResponseParser} without effects, for an
@@ -145,6 +159,10 @@ export const makeSuccessDecoder = (
  *
  * Expensive work (protocol discovery, preprocessing) is done once at creation time.
  *
+ * A failed response is matched against the classes the parser is given:
+ * the operation's `errors` and its `serviceErrors`. The parser names no
+ * service error class itself.
+ *
  * @param operation - The operation (with input/output schemas and protocol annotations)
  * @param options - Optional overrides
  * @returns A function that parses responses
@@ -152,7 +170,12 @@ export const makeSuccessDecoder = (
 export const makeResponseParser = <A>(
   operation: Operation<any, any, any>,
   options?: ResponseParserOptions,
-): ((response: Response) => Effect.Effect<any, never, never>) => {
+): ((response: Response) => Effect.Effect<any, DeclaredError | ResponseParseError>) => {
+  // The classes arrive untyped (`Operation` predates core's Protocol); here
+  // they become what they are, the declared classes.
+  const operationErrors: ReadonlyArray<ErrorClass> = operation.errors ?? [];
+  const serviceErrors: ReadonlyArray<ErrorClass> = operation.serviceErrors ?? [];
+  const declaredErrors = [...operationErrors, ...serviceErrors];
   const inputAst = operation.input.ast;
   const outputAst = operation.output.ast;
 
@@ -193,10 +216,10 @@ export const makeResponseParser = <A>(
     if (queryError?.code) errorSchemas.set(queryError.code, err);
   };
 
-  // Register common errors first, then operation-specific errors so that a
-  // service-specific schema (e.g. scheduler's `ValidationException` with a
-  // `Message` field) takes precedence over the field-less common error of the
-  // same name. Otherwise the common error would clobber the specific one in
+  // Register the service's errors first, then the operation's own, so that an
+  // operation's schema (e.g. scheduler's `ValidationException` with a
+  // `Message` field) takes precedence over the field-less service error of the
+  // same name. Otherwise the service's error would clobber the specific one in
   // the map and the decoded error would drop its message/data.
   // Synthetic errors (from spec patches) carve a new tag out of an existing
   // wire error using a message predicate. They are matched BEFORE the plain
@@ -209,26 +232,21 @@ export const makeResponseParser = <A>(
   }> = [];
 
   // Filled on the first error response: a successful call never needs it, and
-  // registering reads every error class's AST (24 common + the operation's).
+  // registering reads every error class's AST (the service's + the operation's).
   let errorsRegistered = false;
   const registerErrors = () => {
     if (errorsRegistered) return;
     errorsRegistered = true;
-    for (const err of COMMON_ERRORS) {
-      registerError(err);
+    for (const err of [...serviceErrors, ...operationErrors]) {
+      if (getSyntheticError(err.ast) === undefined) registerError(err);
     }
-    for (const err of operation.errors ?? []) {
+    for (const err of declaredErrors) {
       const synthetic = getSyntheticError(err.ast);
-      if (synthetic) {
-        syntheticErrors.push({ schema: err, trait: synthetic });
-      } else {
-        registerError(err);
-      }
+      if (synthetic) syntheticErrors.push({ schema: err, trait: synthetic });
     }
   };
 
   // Return a function that parses responses
-  // @ts-expect-error
   return Effect.fnUntraced(function* (response: Response) {
     const protocol = yield* handler;
     // Success path
@@ -296,7 +314,7 @@ export const makeResponseParser = <A>(
     // errors by their smithy.api#httpError status, but only when exactly one
     // declared error carries the response status.
     if (errorSchema === undefined && errorCode === "") {
-      const statusMatches = (operation.errors ?? []).filter(
+      const statusMatches = declaredErrors.filter(
         (err) => getHttpError(err.ast) === response.status,
       );
       if (statusMatches.length === 1) {
@@ -362,7 +380,7 @@ export const makeResponseParser = <A>(
       // its members, converted as far as they fit (sensitive ones
       // `Redacted`), like the class would hold them.
       const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
-      let decoded: unknown;
+      let decoded: DeclaredError;
       try {
         const saved = suppressStack();
         try {
@@ -371,10 +389,12 @@ export const makeResponseParser = <A>(
           restoreStack(saved);
         }
       } catch {
+        // Not an instance, by design: the same tag and the members that fit,
+        // so the cast states what callers match on.
         decoded = {
           _tag: schemaTag,
           ...(decode(errorSchema.ast, data) as Record<string, unknown>),
-        };
+        } as unknown as DeclaredError;
       }
       // Ensure the JS `Error.message` carries the service's message. The
       // generator tags exactly one member per error class as the canonical

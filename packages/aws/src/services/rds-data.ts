@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -615,6 +616,7 @@ export const batchExecuteStatement: API.OperationMethod<
     StatementTimeoutException,
     TransactionNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExecuteStatement",
@@ -673,6 +675,7 @@ export const beginTransaction: API.OperationMethod<
     StatementTimeoutException,
     TransactionNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BeginTransaction",
@@ -725,6 +728,7 @@ export const commitTransaction: API.OperationMethod<
     StatementTimeoutException,
     TransactionNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CommitTransaction",
@@ -759,6 +763,7 @@ export const executeSql: API.OperationMethod<
     InternalServerErrorException,
     ServiceUnavailableError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteSql",
@@ -817,6 +822,7 @@ export const executeStatement: API.OperationMethod<
     TransactionNotFoundException,
     UnsupportedResultException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStatement",
@@ -869,6 +875,7 @@ export const rollbackTransaction: API.OperationMethod<
     StatementTimeoutException,
     TransactionNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackTransaction",

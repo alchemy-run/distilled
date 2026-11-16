@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -350,6 +351,7 @@ export const createRule: API.OperationMethod<
   input: __S(20, __c5, 0) as any as S.Schema<CreateRuleRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<CreateRuleResponse>,
   errors: [InternalServerException, ServiceQuotaExceededException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
@@ -381,6 +383,7 @@ export const deleteRule: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
@@ -405,6 +408,7 @@ export const getRule: API.OperationMethod<
   input: __S(44, __c11, 0) as any as S.Schema<GetRuleRequest>,
   output: __S(48, __c12, 0) as any as S.Schema<GetRuleResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
@@ -426,6 +430,7 @@ export const listRules: API.PaginatedOperationMethod<
   input: __S(52, __c13, 0) as any as S.Schema<ListRulesRequest>,
   output: __S(55, __c13, 3) as any as S.Schema<ListRulesResponse>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRules",
@@ -456,6 +461,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(56, __c14, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(57, __c14, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -490,6 +496,7 @@ export const lockRule: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LockRule",
@@ -520,6 +527,7 @@ export const tagResource: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -551,6 +559,7 @@ export const unlockRule: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlockRule",
@@ -575,6 +584,7 @@ export const untagResource: API.OperationMethod<
   input: __S(13, __c3, 1) as any as S.Schema<UntagResourceRequest>,
   output: __S(40, __c10, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -610,6 +620,7 @@ export const updateRule: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",

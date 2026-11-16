@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -370,6 +371,7 @@ export const getClip: API.OperationMethod<
     ResourceNotFoundException,
     UnsupportedStreamMediaTypeException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClip",
@@ -530,6 +532,7 @@ export const getDASHStreamingSessionURL: API.OperationMethod<
     ResourceNotFoundException,
     UnsupportedStreamMediaTypeException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDASHStreamingSessionURL",
@@ -730,6 +733,7 @@ export const getHLSStreamingSessionURL: API.OperationMethod<
     ResourceNotFoundException,
     UnsupportedStreamMediaTypeException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHLSStreamingSessionURL",
@@ -764,6 +768,7 @@ export const getImages: API.PaginatedOperationMethod<
     NotAuthorizedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImages",
@@ -827,6 +832,7 @@ export const getMediaForFragmentList: API.OperationMethod<
     NotAuthorizedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaForFragmentList",
@@ -887,6 +893,7 @@ export const listFragments: API.PaginatedOperationMethod<
     NotAuthorizedException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFragments",

@@ -21,7 +21,7 @@ const NO_OP_ERROR: Record<string, string> = {
   aws: "re-exports @distilled.cloud/s3's errors, whose CommonErrors include ParseError",
   "expo-eas": "GraphQL Query SDK; errors are typed per root by core/graphql",
   linear: "GraphQL Query SDK; errors are typed per root by core/graphql",
-  s3: "hand-written protocols; ParseError is part of CommonErrors in src/errors.ts",
+  s3: "hand-written protocols; ParseError is part of CommonErrors (src/errors.ts) through AwsProtocolError",
   railway: "GraphQL Query SDK; errors are typed per root by core/graphql",
 };
 
@@ -86,8 +86,8 @@ describe("every SDK", () => {
   });
 
   test("s3 keeps ParseError in CommonErrors", () => {
-    const errors = read("s3", "src/errors.ts")!;
-    expect(errors).toMatch(/export class ParseError\b/);
-    expect(/export type CommonErrors =([^;]*);/.exec(errors)?.[1]).toMatch(/\bParseError\b/);
+    expect(read("s3", "src/errors.ts")).toMatch(/export class ParseError\b/);
+    // Through `AwsProtocolError`, the errors the protocol declares.
+    expect(reachable(typeAliases("s3"), "CommonErrors")).toContain("ParseError");
   });
 });

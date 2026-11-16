@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -213,6 +214,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -249,6 +251,7 @@ export const putDeploymentParameter: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeploymentParameter",
@@ -283,6 +286,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -317,6 +321,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

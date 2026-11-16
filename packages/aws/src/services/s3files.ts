@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -494,8 +495,8 @@ export const createAccessPoint: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
-    ThrottlingException,
   ],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPoint",
@@ -528,8 +529,8 @@ export const createFileSystem: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
-    ThrottlingException,
   ],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileSystem",
@@ -562,8 +563,8 @@ export const createMountTarget: API.OperationMethod<
     ResourceNotFoundException,
     ServiceQuotaExceededException,
     ValidationException,
-    ThrottlingException,
   ],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMountTarget",
@@ -594,8 +595,8 @@ export const deleteAccessPoint: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
-    ThrottlingException,
   ],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPoint",
@@ -626,8 +627,8 @@ export const deleteFileSystem: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
-    ThrottlingException,
   ],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystem",
@@ -652,12 +653,8 @@ export const deleteFileSystemPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<DeleteFileSystemPolicyRequest>,
   output: __S(112, __c28, 0) as any as S.Schema<DeleteFileSystemPolicyResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystemPolicy",
@@ -688,8 +685,8 @@ export const deleteMountTarget: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
-    ThrottlingException,
   ],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMountTarget",
@@ -714,12 +711,8 @@ export const getAccessPoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetAccessPointRequest>,
   output: __S(76, __c19, 0) as any as S.Schema<GetAccessPointResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPoint",
@@ -744,12 +737,8 @@ export const getFileSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetFileSystemRequest>,
   output: __S(92, __c23, 0) as any as S.Schema<GetFileSystemResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFileSystem",
@@ -774,12 +763,8 @@ export const getFileSystemPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetFileSystemPolicyRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<GetFileSystemPolicyResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFileSystemPolicy",
@@ -804,12 +789,8 @@ export const getMountTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetMountTargetRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<GetMountTargetResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMountTarget",
@@ -834,12 +815,8 @@ export const getSynchronizationConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetSynchronizationConfigurationRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<GetSynchronizationConfigurationResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSynchronizationConfiguration",
@@ -865,12 +842,8 @@ export const listAccessPoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<ListAccessPointsRequest>,
   output: __S(39, __c9, 3) as any as S.Schema<ListAccessPointsResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessPoints",
@@ -901,7 +874,8 @@ export const listFileSystems: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<ListFileSystemsRequest>,
   output: __S(43, __c10, 3) as any as S.Schema<ListFileSystemsResponse>,
-  errors: [InternalServerException, ValidationException, ThrottlingException],
+  errors: [InternalServerException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFileSystems",
@@ -933,12 +907,8 @@ export const listMountTargets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<ListMountTargetsRequest>,
   output: __S(47, __c11, 3) as any as S.Schema<ListMountTargetsResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMountTargets",
@@ -970,12 +940,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(49, __c12, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1006,12 +972,8 @@ export const putFileSystemPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<PutFileSystemPolicyRequest>,
   output: __S(112, __c28, 0) as any as S.Schema<PutFileSystemPolicyResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFileSystemPolicy",
@@ -1042,8 +1004,8 @@ export const putSynchronizationConfiguration: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
-    ThrottlingException,
   ],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSynchronizationConfiguration",
@@ -1068,12 +1030,8 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(112, __c28, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1098,12 +1056,8 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(112, __c28, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1128,12 +1082,8 @@ export const updateMountTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<UpdateMountTargetRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<UpdateMountTargetResponse>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: awsServiceErrorsWith(ThrottlingException),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMountTarget",

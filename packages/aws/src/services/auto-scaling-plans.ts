@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -418,6 +419,7 @@ export const createScalingPlan: API.OperationMethod<
     LimitExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScalingPlan",
@@ -454,6 +456,7 @@ export const deleteScalingPlan: API.OperationMethod<
     ObjectNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScalingPlan",
@@ -484,6 +487,7 @@ export const describeScalingPlanResources: API.OperationMethod<
     InvalidNextTokenException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingPlanResources",
@@ -514,6 +518,7 @@ export const describeScalingPlans: API.OperationMethod<
     InvalidNextTokenException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingPlans",
@@ -541,6 +546,7 @@ export const getScalingPlanResourceForecastData: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetScalingPlanResourceForecastDataRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<GetScalingPlanResourceForecastDataResponse>,
   errors: [InternalServiceException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScalingPlanResourceForecastData",
@@ -574,6 +580,7 @@ export const updateScalingPlan: API.OperationMethod<
     ObjectNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScalingPlan",

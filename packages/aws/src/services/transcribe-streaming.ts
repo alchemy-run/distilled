@@ -7,6 +7,7 @@ import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -972,6 +973,7 @@ export const getMedicalScribeStream: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedicalScribeStream",
@@ -1016,6 +1018,7 @@ export const startCallAnalyticsStreamTranscription: API.OperationMethod<
     LimitExceededException,
     ServiceUnavailableException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCallAnalyticsStreamTranscription",
@@ -1076,6 +1079,7 @@ export const startMedicalScribeStream: API.OperationMethod<
     LimitExceededException,
     ServiceUnavailableException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalScribeStream",
@@ -1122,6 +1126,7 @@ export const startMedicalStreamTranscription: API.OperationMethod<
     LimitExceededException,
     ServiceUnavailableException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalStreamTranscription",
@@ -1165,6 +1170,7 @@ export const startStreamTranscription: API.OperationMethod<
     LimitExceededException,
     ServiceUnavailableException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamTranscription",

@@ -5,6 +5,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -327,6 +328,7 @@ export const batchDeleteAttributes: API.OperationMethod<
   input: __S(2, __c0, 2) as any as S.Schema<BatchDeleteAttributesRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<BatchDeleteAttributesResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAttributes",
@@ -365,6 +367,7 @@ export const batchPutAttributes: API.OperationMethod<
     NumberSubmittedAttributesExceeded,
     NumberSubmittedItemsExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutAttributes",
@@ -387,6 +390,7 @@ export const createDomain: API.OperationMethod<
   input: __S(16, __c4, 0) as any as S.Schema<CreateDomainRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<CreateDomainResponse>,
   errors: [InvalidParameterValue, MissingParameter, NumberDomainsExceeded],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
@@ -410,6 +414,7 @@ export const deleteAttributes: API.OperationMethod<
   input: __S(20, __c5, 0) as any as S.Schema<DeleteAttributesRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<DeleteAttributesResponse>,
   errors: [AttributeDoesNotExist, InvalidParameterValue, MissingParameter, NoSuchDomain],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributes",
@@ -428,6 +433,7 @@ export const deleteDomain: API.OperationMethod<
   input: __S(28, __c7, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<DeleteDomainResponse>,
   errors: [MissingParameter],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
@@ -446,6 +452,7 @@ export const domainMetadata: API.OperationMethod<
   input: __S(32, __c8, 0) as any as S.Schema<DomainMetadataRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<DomainMetadataResponse>,
   errors: [MissingParameter, NoSuchDomain],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DomainMetadata",
@@ -468,6 +475,7 @@ export const getAttributes: API.OperationMethod<
   input: __S(37, __c9, 1) as any as S.Schema<GetAttributesRequest>,
   output: __S(38, __c9, 2) as any as S.Schema<GetAttributesResponse>,
   errors: [InvalidParameterValue, MissingParameter, NoSuchDomain],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttributes",
@@ -487,6 +495,7 @@ export const listDomains: API.PaginatedOperationMethod<
   input: __S(44, __c11, 0) as any as S.Schema<ListDomainsRequest>,
   output: __S(46, __c11, 2) as any as S.Schema<ListDomainsResponse>,
   errors: [InvalidNextToken, InvalidParameterValue],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomains",
@@ -527,6 +536,7 @@ export const putAttributes: API.OperationMethod<
     NumberDomainBytesExceeded,
     NumberItemAttributesExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributes",
@@ -566,6 +576,7 @@ export const select: API.PaginatedOperationMethod<
     RequestTimeout,
     TooManyRequestedAttributes,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Select",

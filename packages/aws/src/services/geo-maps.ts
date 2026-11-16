@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -380,6 +381,7 @@ export const getGlyphs: API.OperationMethod<
   input: __S(2, __c1, 0) as any as S.Schema<GetGlyphsRequest>,
   output: __S(4, __c2, 0) as any as S.Schema<GetGlyphsResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlyphs",
@@ -402,6 +404,7 @@ export const getSprites: API.OperationMethod<
   input: __S(6, __c3, 0) as any as S.Schema<GetSpritesRequest>,
   output: __S(4, __c2, 0) as any as S.Schema<GetSpritesResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSprites",
@@ -440,6 +443,7 @@ export const getStaticMap: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStaticMap",
@@ -462,6 +466,7 @@ export const getStyleDescriptor: API.OperationMethod<
   input: __S(12, __c6, 0) as any as S.Schema<GetStyleDescriptorRequest>,
   output: __S(4, __c2, 0) as any as S.Schema<GetStyleDescriptorResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStyleDescriptor",
@@ -496,6 +501,7 @@ export const getTile: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTile",

@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -551,6 +552,7 @@ export const createSavingsPlan: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSavingsPlan",
@@ -581,6 +583,7 @@ export const deleteQueuedSavingsPlan: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueuedSavingsPlan",
@@ -605,6 +608,7 @@ export const describeSavingsPlanRates: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<DescribeSavingsPlanRatesRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<DescribeSavingsPlanRatesResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSavingsPlanRates",
@@ -628,6 +632,7 @@ export const describeSavingsPlans: API.OperationMethod<
   input: __S(104, __c13, 0) as any as S.Schema<DescribeSavingsPlansRequest>,
   output: __S(107, __c13, 3) as any as S.Schema<DescribeSavingsPlansResponse>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSavingsPlans",
@@ -651,6 +656,7 @@ export const describeSavingsPlansOfferingRates: API.OperationMethod<
   input: __S(120, __c15, 0) as any as S.Schema<DescribeSavingsPlansOfferingRatesRequest>,
   output: __S(126, __c15, 6) as any as S.Schema<DescribeSavingsPlansOfferingRatesResponse>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSavingsPlansOfferingRates",
@@ -674,6 +680,7 @@ export const describeSavingsPlansOfferings: API.OperationMethod<
   input: __S(129, __c16, 1) as any as S.Schema<DescribeSavingsPlansOfferingsRequest>,
   output: __S(132, __c16, 4) as any as S.Schema<DescribeSavingsPlansOfferingsResponse>,
   errors: [InternalServerException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSavingsPlansOfferings",
@@ -698,6 +705,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -728,6 +736,7 @@ export const returnSavingsPlan: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReturnSavingsPlan",
@@ -758,6 +767,7 @@ export const tagResource: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -782,6 +792,7 @@ export const untagResource: API.OperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

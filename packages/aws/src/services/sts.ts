@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -640,6 +641,7 @@ export const assumeRole: API.OperationMethod<
     PackedPolicyTooLargeException,
     RegionDisabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRole",
@@ -797,6 +799,7 @@ export const assumeRoleWithSAML: API.OperationMethod<
     PackedPolicyTooLargeException,
     RegionDisabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoleWithSAML",
@@ -950,6 +953,7 @@ export const assumeRoleWithWebIdentity: API.OperationMethod<
     PackedPolicyTooLargeException,
     RegionDisabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoleWithWebIdentity",
@@ -990,6 +994,7 @@ export const assumeRoot: API.OperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<AssumeRootRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<AssumeRootResponse>,
   errors: [ExpiredTokenException, RegionDisabledException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoot",
@@ -1040,6 +1045,7 @@ export const decodeAuthorizationMessage: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<DecodeAuthorizationMessageRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<DecodeAuthorizationMessageResponse>,
   errors: [InvalidAuthorizationMessageException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecodeAuthorizationMessage",
@@ -1079,6 +1085,7 @@ export const getAccessKeyInfo: API.OperationMethod<
   input: __S(80, __c10, 0) as any as S.Schema<GetAccessKeyInfoRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<GetAccessKeyInfoResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessKeyInfo",
@@ -1107,6 +1114,7 @@ export const getCallerIdentity: API.OperationMethod<
   input: __S(88, __c11, 0) as any as S.Schema<GetCallerIdentityRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<GetCallerIdentityResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCallerIdentity",
@@ -1134,6 +1142,7 @@ export const getDelegatedAccessToken: API.OperationMethod<
   input: __S(96, __c12, 0) as any as S.Schema<GetDelegatedAccessTokenRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<GetDelegatedAccessTokenResponse>,
   errors: [ExpiredTradeInTokenException, PackedPolicyTooLargeException, RegionDisabledException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegatedAccessToken",
@@ -1252,6 +1261,7 @@ export const getFederationToken: API.OperationMethod<
     PackedPolicyTooLargeException,
     RegionDisabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFederationToken",
@@ -1326,6 +1336,7 @@ export const getSessionToken: API.OperationMethod<
   input: __S(112, __c14, 0) as any as S.Schema<GetSessionTokenRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<GetSessionTokenResponse>,
   errors: [RegionDisabledException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionToken",
@@ -1358,6 +1369,7 @@ export const getWebIdentityToken: API.OperationMethod<
     OutboundWebIdentityFederationDisabledException,
     SessionDurationEscalationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebIdentityToken",

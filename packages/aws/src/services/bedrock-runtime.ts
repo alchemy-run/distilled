@@ -10,6 +10,7 @@ import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1971,6 +1972,7 @@ export const applyGuardrail: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyGuardrail",
@@ -2027,6 +2029,7 @@ export const converse: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Converse",
@@ -2118,6 +2121,7 @@ export const converseStream: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConverseStream",
@@ -2211,6 +2215,7 @@ export const countTokens: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountTokens",
@@ -2241,6 +2246,7 @@ export const getAsyncInvoke: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsyncInvoke",
@@ -2273,6 +2279,7 @@ export const invokeGuardrailChecks: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeGuardrailChecks",
@@ -2323,6 +2330,7 @@ export const invokeModel: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModel",
@@ -2369,6 +2377,7 @@ export const invokeModelWithBidirectionalStream: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithBidirectionalStream",
@@ -2425,6 +2434,7 @@ export const invokeModelWithResponseStream: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithResponseStream",
@@ -2456,6 +2466,7 @@ export const listAsyncInvokes: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAsyncInvokes",
@@ -2504,6 +2515,7 @@ export const startAsyncInvoke: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAsyncInvoke",
