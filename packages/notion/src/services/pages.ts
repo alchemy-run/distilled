@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNotionError } from "../errors.ts";
+import { NotionServiceErrors } from "../errors.ts";
 import { NotionProtocol, type NotionOpError, type NotionOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2623,7 +2623,8 @@ export const createPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreatePageRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<CreatePageResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2640,7 +2641,8 @@ export const getPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetPageRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<GetPageResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2657,7 +2659,8 @@ export const getPageMarkdown: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetPageMarkdownRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<PageMarkdownResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2674,7 +2677,8 @@ export const getPageProperty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetPagePropertyRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<GetPagePropertyResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2691,7 +2695,8 @@ export const movePage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<MovePageRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<MovePageResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2708,7 +2713,8 @@ export const updatePage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<UpdatePageRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<UpdatePageResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2725,7 +2731,8 @@ export const updatePageMarkdown: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78, __c9, 6) as any as S.Schema<UpdatePageMarkdownRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<PageMarkdownResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

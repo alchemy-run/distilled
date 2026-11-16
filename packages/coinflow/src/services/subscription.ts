@@ -31,6 +31,7 @@ export class PreconditionRequired
     /*@__PURE__*/ S.TaggedError<PreconditionRequired>()("PreconditionRequired", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 428 }],
   ) {}
@@ -40,6 +41,7 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -813,7 +815,6 @@ export type BlockchainETH = "eth";
 export type BlockchainPOLYGON = "polygon";
 export type BlockchainBASE = "base";
 export type BlockchainARBITRUM = "arbitrum";
-export type BlockchainSTELLAR = "stellar";
 export type BlockchainMONAD = "monad";
 export type BlockchainTEMPO = "tempo";
 export type OperationalBlockchain =
@@ -822,7 +823,6 @@ export type OperationalBlockchain =
   | BlockchainPOLYGON
   | BlockchainBASE
   | BlockchainARBITRUM
-  | BlockchainSTELLAR
   | BlockchainMONAD
   | BlockchainTEMPO;
 export interface SubscriptionPlan {

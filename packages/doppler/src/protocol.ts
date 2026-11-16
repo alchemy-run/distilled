@@ -1,12 +1,14 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { Protocol } from "@distilled.cloud/core/protocol";
+import {
+  restProtocol,
+  unknownErrorProps,
+  type RestProtocolError,
+} from "@distilled.cloud/core/protocol-rest";
 /**
  * DopplerProtocol -- hand-written.
  *
  * Doppler speaks plain bearer-authenticated JSON REST (no response envelope),
- * so the whole protocol is one `makeRestProtocol` call from
+ * so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <token>` + base URL
@@ -21,72 +23,77 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownDopplerError, DopplerParseError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import { UnknownDopplerError, DopplerParseError, type DopplerServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Doppler operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * DopplerOpError, DopplerOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * The errors declared on Doppler's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link DopplerParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownDopplerError}), and core's
+ * REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type DopplerOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownDopplerError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | DopplerParseError
-  | InvalidInput
-  | SdkError;
+export type DopplerProtocolError = RestProtocolError | DopplerParseError | UnknownDopplerError;
+
+/**
+ * What every generated Doppler operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, DopplerOpError, DopplerOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
+ */
+export type DopplerOpError = DopplerServiceError | DopplerProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Doppler operation. */
 export type DopplerOpContext = Credentials | HttpClient.HttpClient;
 
-export const DopplerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    // Download negotiates its default format from Accept; without it the
-    // API returns 415 unless the caller explicitly supplies format=json.
-    Accept: "application/json",
-  }),
-  // Doppler's error body is `{ messages?: string[], message?: string,
-  // success?: boolean }`. The factory's default envelope covers `message`;
-  // `messages[0]` is the form most endpoints actually send.
-  errorEnvelope: (body) => {
-    if (body === null || typeof body !== "object") return undefined;
-    const rec = body as Record<string, unknown>;
-    const code =
-      typeof rec.code === "string"
-        ? rec.code
-        : typeof rec.error === "string"
-          ? rec.error
-          : undefined;
-    const fromMessages = Array.isArray(rec.messages)
-      ? rec.messages.find((m) => typeof m === "string")
-      : undefined;
-    const message =
-      typeof rec.message === "string"
-        ? rec.message
-        : typeof fromMessages === "string"
-          ? fromMessages
-          : undefined;
-    if (code === undefined && message === undefined) return undefined;
-    return { code, message };
-  },
-  unknownError: (info) => new UnknownDopplerError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
-});
+// The annotations are the check: everything a protocol fails with, besides
+// the errors an operation and the service declare, must be listed there.
+export const DopplerProtocol: Protocol<DopplerProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      // Download negotiates its default format from Accept; without it the
+      // API returns 415 unless the caller explicitly supplies format=json.
+      Accept: "application/json",
+    }),
+    // Doppler's error body is `{ messages?: string[], message?: string,
+    // success?: boolean }`. The factory's default envelope covers `message`;
+    // `messages[0]` is the form most endpoints actually send.
+    errorEnvelope: (body) => {
+      if (body === null || typeof body !== "object") return undefined;
+      const rec = body as Record<string, unknown>;
+      const code =
+        typeof rec.code === "string"
+          ? rec.code
+          : typeof rec.error === "string"
+            ? rec.error
+            : undefined;
+      const fromMessages = Array.isArray(rec.messages)
+        ? rec.messages.find((m) => typeof m === "string")
+        : undefined;
+      const message =
+        typeof rec.message === "string"
+          ? rec.message
+          : typeof fromMessages === "string"
+            ? fromMessages
+            : undefined;
+      if (code === undefined && message === undefined) return undefined;
+      return { code, message };
+    },
+    unknownError: (info) => new UnknownDopplerError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
+  });
 
 /** Unauthenticated browser-login operations never resolve or send credentials. */
 export type DopplerPublicOpContext = HttpClient.HttpClient;
-export const DopplerPublicProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol({
+export const DopplerPublicProtocol: Protocol<DopplerProtocolError> = /*@__PURE__*/ restProtocol({
   credentials: /*@__PURE__*/ Effect.succeed(undefined),
   baseUrl: () => "https://api.doppler.com",
   headers: () => ({ Accept: "application/json" }),

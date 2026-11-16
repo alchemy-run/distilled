@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -859,6 +860,7 @@ export const createWebhook: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -876,6 +878,7 @@ export const deleteWebhook: API.OperationMethod<
   input: __S(4, __c2, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(5, __c2, 1) as any as S.Schema<DeleteWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -893,6 +896,7 @@ export const getWebhook: API.OperationMethod<
   input: __S(6, __c3, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(7, __c3, 1) as any as S.Schema<GetWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -910,6 +914,7 @@ export const getWebhooks: API.OperationMethod<
   input: __S(8, __c4, 0) as any as S.Schema<GetWebhooksRequest>,
   output: __S(9, __c4, 1) as any as S.Schema<GetWebhooksResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

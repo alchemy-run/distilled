@@ -36,6 +36,9 @@ export class Credentials
     "AzureCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   bearerToken: /*@__PURE__*/ EffectConfig.Redacted("AZURE_BEARER_TOKEN"),
   subscriptionId: /*@__PURE__*/ EffectConfig.String("AZURE_SUBSCRIPTION_ID"),

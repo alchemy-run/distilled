@@ -31,6 +31,7 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -40,6 +41,7 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -49,6 +51,7 @@ export class PreconditionFailed
     /*@__PURE__*/ S.TaggedError<PreconditionFailed>()("PreconditionFailed", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 412 }],
   ) {}
@@ -58,6 +61,7 @@ export class UpgradeRequired
     /*@__PURE__*/ S.TaggedError<UpgradeRequired>()("UpgradeRequired", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 426 }],
   ) {}
@@ -77,6 +81,7 @@ export class VerificationRequired
           readonly message?: string;
         }>,
       ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 451 }],
   ) {}
@@ -613,16 +618,12 @@ export interface CustomPayInFeeConfig {
   lineItemLabel: string;
 }
 export type CustomPayInFeesConfig = Array<CustomPayInFeeConfig>;
-export interface IMerchantStringWalletsStellar {
-  usdcPayer: string;
-}
 export interface IMerchantStringWalletsEvm {
   usdcPayer: string;
   feePayer: string;
 }
 export type IMerchantStringWalletsSolana = IMerchantStringWalletsEvm;
 export interface IMerchantStringWallets {
-  stellar: IMerchantStringWalletsStellar;
   evm: IMerchantStringWalletsEvm;
   solana: IMerchantStringWalletsEvm;
 }
@@ -630,6 +631,7 @@ export interface IMerchantStringWallets {
 export type MerchantScope =
   | "admin"
   | "editor"
+  | "payouts"
   | "chargeback"
   | "chargeback_analyst"
   | "chargeback_analyst_read"
@@ -893,15 +895,19 @@ export interface HighnoteMerchantSettings {
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
   /** Set when onboardBusiness (the ProductApplication submission) succeeded. A re-run while underwriting is still Pending must not re-submit the application -- Highnote rejects duplicates, which would overwrite a healthy Pending status with an error. */
   applicationSubmittedAt?: string | undefined;
 }
 /** From T, pick a set of properties whose keys are in the union K */
-export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId {
+export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled {
   merchantAcceptorId?: string | undefined;
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
 }
 export interface PayarcMerchantArgs {
   apiKey: string | Redacted.Redacted<string>;
@@ -1306,7 +1312,7 @@ export interface CardSettings {
   crbMerchantArgs?: CrbMerchantSettings | undefined;
   highnoteMerchantArgs?: HighnoteMerchantSettings | undefined;
   highnote2MerchantArgs?:
-    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId
+    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled
     | undefined;
   payarcMerchantArgs?: PayarcMerchantArgs | undefined;
   threeDSArgs?: ThreeDSArgs | undefined;
@@ -1753,6 +1759,14 @@ export interface IMerchantStringWithdrawFeePayment {
   paysSwapFees?: boolean | undefined;
   paysWithdrawFees?: boolean | undefined;
 }
+export type CardNameMatchResult =
+  | "match"
+  | "partial_match"
+  | "no_match"
+  | "unverified"
+  | "not_supported";
+/** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+export type IMerchantStringAniBlockedResultsList = Array<CardNameMatchResult>;
 export type PayoutProviderOption = "aptpay" | "coinfx" | "checkbook" | "BRAID" | "brale" | "mock";
 export type IMerchantStringBankPayoutProviderList = Array<PayoutProviderOption>;
 export type IbanPayoutProvider = "merge" | "mock" | "ivy" | "conduit";
@@ -2272,6 +2286,8 @@ export interface IMerchantString {
   withdrawFeePayment?: IMerchantStringWithdrawFeePayment | undefined;
   pushToCardEnabled: boolean;
   requireAniCheck: boolean;
+  /** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+  aniBlockedResults?: IMerchantStringAniBlockedResultsList | undefined;
   /** Opts AptPay push to card into credit cards; other providers stay debit-only. */
   allowCreditForPushToCard?: boolean | undefined;
   bankPayoutProvider?: IMerchantStringBankPayoutProviderList | undefined;
@@ -3161,7 +3177,6 @@ export interface GetTransactionRequest {
   bankAccountDetails?: BankAccountConfirmationDetails | undefined;
   address?: AddressOptionalState | undefined;
   userLocation?: IUserLocation | undefined;
-  minUsdc?: Cents | undefined;
   /** For Solana currency token transactions, the public key of the wallet owner that will sign the transaction. This will replace the public key associated with the user wallet. */
   ownerOverride?: string | undefined;
   /** The web3 wallet of the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -3365,6 +3380,56 @@ export type WithdrawValidateKycResponse200InvalidFieldsList = Array<string>;
 export interface WithdrawValidateKycResponse200 {
   invalidFields: WithdrawValidateKycResponse200InvalidFieldsList;
   valid: boolean;
+}
+export interface AdditionalVerification {
+  name: string;
+  link: string;
+  reference: string;
+  vendor: VerificationVendor;
+  sessionToken?: string | Redacted.Redacted<string> | undefined;
+}
+/** Additional links which can be hosted in an iframe or redirect the user to complete verification. */
+export type WithdrawerVerificationRequiredResponseAdditionalVerificationLinksList =
+  Array<AdditionalVerification>;
+/** List of reasons as to why the verification was rejected. */
+export type WithdrawerVerificationRequiredResponseRejectionReasonsList = Array<string>;
+export type IWithdrawerWalletsList = Array<IWallet>;
+export type IWithdrawerMerchant = string | IMerchantString;
+export interface IWithdrawer {
+  _id: string;
+  wallet: string;
+  blockchain: Blockchain;
+  wallets?: IWithdrawerWalletsList | undefined;
+  email: string;
+  availability: IAvailability;
+  currency: Currency;
+  originalCurrency?: WithdrawCurrency | undefined;
+  merchant: IWithdrawerMerchant;
+  verification: Verification;
+  riskScoreOverride: boolean;
+  country: string;
+  geoBlockOverride?: IGeoBlockOverride | undefined;
+  /** When true, this withdrawer is exempt from the merchant `banDuplicateAccounts` re-use check, so it may add an account that another withdrawer already uses without being blocked (423 `PAYMENT_METHOD_IN_USE`). */
+  blockCardReuseExempt?: boolean | undefined;
+  createdAt?: string | undefined;
+}
+export interface WithdrawerVerificationRequiredResponse {
+  verification: Verification;
+  /** Link which can be hosted in an iframe or redirect the user to complete verification. */
+  verificationLink?: string | undefined;
+  /** Link where the user will be redirected to upon successful verification. */
+  redirectLink?: string | undefined;
+  /** Additional links which can be hosted in an iframe or redirect the user to complete verification. */
+  additionalVerificationLinks?:
+    | WithdrawerVerificationRequiredResponseAdditionalVerificationLinksList
+    | undefined;
+  /** List of reasons as to why the verification was rejected. */
+  rejectionReasons?: WithdrawerVerificationRequiredResponseRejectionReasonsList | undefined;
+  withdrawer: IWithdrawer;
+}
+export interface GetTransactionRequestUnavailableForLegalReasonsError {
+  verificationLink: string;
+  message: string;
 }
 export type AddApplePayError = CoinflowOpError;
 /** Link Apple Pay Card Adds an Apple Pay card to the withdrawer's account which they can push funds to from the CF wallet. The `ApplePayResponseObject` is decrypted and the underlying card is BIN checked to ensure it is a debit card eligible for push-to-card. Returns the token to pass as the `account` on the payout endpoints. */
@@ -3871,8 +3936,8 @@ export const getTransaction: API.OperationMethod<
   GetTransactionError,
   CoinflowOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1025, __c32, 1) as any as S.Schema<GetTransactionRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<GetWithdrawTransactionResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetTransactionRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<GetWithdrawTransactionResponse>,
   errors: [PreconditionFailed, VerificationRequired, UnknownCoinflowError],
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
@@ -4781,12 +4846,6 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cents: S.Number,
-        }),
-      ).annotate({ identifier: "Cents" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           amount: S.Number,
           merchantId: S.String,
           speed: S.String,
@@ -4796,13 +4855,12 @@ function __c32(j: number): any {
           bankAccountDetails: S.optional(__S(1057, __c33, 1)),
           address: S.optional(__S(1058, __c33, 2)),
           userLocation: S.optional(__S(833, __c26, 1)),
-          minUsdc: S.optional(__S(1024, __c32, 0)),
           ownerOverride: S.optional(S.String),
           authWallet: S.String.pipe(T.Header("x-coinflow-auth-wallet")),
           authBlockchain: S.String.pipe(T.Header("x-coinflow-auth-blockchain")),
         }).pipe(T.Http({ method: "POST", uri: "/withdraw/transaction", code: 200 })),
       ).annotate({ identifier: "GetTransactionRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           transactions: __S(1312, __c41, 0),

@@ -30,6 +30,9 @@ export class Credentials
     "ArgocdCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** Layer from a redacted bearer token + optional instance URL. */
 export const fromToken = (config: {
   readonly token: Redacted.Redacted<string>;

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2319,7 +2319,8 @@ export const AttachContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AttachContainerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ContainerAttachResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2336,7 +2337,8 @@ export const CGProfileCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65, __c2, 1) as any as S.Schema<CGProfileCreateOrUpdateRequest>,
   output: __S(98, __c3, 2) as any as S.Schema<CGProfileCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2353,7 +2355,8 @@ export const ConnectSandboxGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ConnectSandboxGroupRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<SandboxGroupAccessToken>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2370,7 +2373,8 @@ export const ContainerGroupsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1313, __c41, 1) as any as S.Schema<ContainerGroupsCreateOrUpdateRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<ContainerGroupsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2387,7 +2391,8 @@ export const DeleteCGProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<DeleteCGProfileRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<DeleteCGProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2404,7 +2409,8 @@ export const DeleteContainerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<DeleteContainerGroupRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<DeleteContainerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2421,7 +2427,8 @@ export const DeleteNGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<DeleteNGroupRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DeleteNGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2438,7 +2445,8 @@ export const DeleteSandboxGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<DeleteSandboxGroupRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<DeleteSandboxGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2455,7 +2463,8 @@ export const DeleteSubnetServiceAssociationLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<DeleteSubnetServiceAssociationLinkRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<DeleteSubnetServiceAssociationLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2472,7 +2481,8 @@ export const ExecuteContainerCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2209, __c69, 1) as any as S.Schema<ExecuteContainerCommandRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ContainerExecResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2489,7 +2499,8 @@ export const GetCGProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetCGProfileRequest>,
   output: __S(98, __c3, 2) as any as S.Schema<GetCGProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2506,7 +2517,8 @@ export const GetCGProfileByRevisionNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetCGProfileByRevisionNumberRequest>,
   output: __S(98, __c3, 2) as any as S.Schema<GetCGProfileByRevisionNumberResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2523,7 +2535,8 @@ export const GetContainerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetContainerGroupRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<GetContainerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2548,7 +2561,8 @@ export const GetContainerGroupOutboundNetworkDependenciesEndpoints: API.Operatio
     __c15,
     1,
   ) as any as S.Schema<GetContainerGroupOutboundNetworkDependenciesEndpointsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2565,7 +2579,8 @@ export const GetNGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetNGroupRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<GetNGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2582,7 +2597,8 @@ export const GetSandboxGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetSandboxGroupRequest>,
   output: __S(640, __c20, 0) as any as S.Schema<GetSandboxGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2599,7 +2615,8 @@ export const ListCGProfileAllRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListCGProfileAllRevisionsRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<ContainerGroupProfileListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2616,7 +2633,8 @@ export const ListCGProfileByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListCGProfileByResourceGroupRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<ContainerGroupProfileListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2633,7 +2651,8 @@ export const ListCGProfileBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListCGProfileBySubscriptionRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<ContainerGroupProfileListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2650,7 +2669,8 @@ export const ListContainerGroupByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListContainerGroupByResourceGroupRequest>,
   output: __S(867, __c27, 3) as any as S.Schema<ContainerGroupListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2667,7 +2687,8 @@ export const ListContainerGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListContainerGroupsRequest>,
   output: __S(867, __c27, 3) as any as S.Schema<ContainerGroupListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2684,7 +2705,8 @@ export const ListContainerLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListContainerLogsRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<Logs>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2701,7 +2723,8 @@ export const ListLocationCachedImages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListLocationCachedImagesRequest>,
   output: __S(995, __c31, 3) as any as S.Schema<CachedImagesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2718,7 +2741,8 @@ export const ListLocationCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListLocationCapabilitiesRequest>,
   output: __S(1028, __c32, 4) as any as S.Schema<CapabilitiesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2735,7 +2759,8 @@ export const ListLocationUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListLocationUsageRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<UsageListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2752,7 +2777,8 @@ export const ListNGroupByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListNGroupByResourceGroupRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<NGroupsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2769,7 +2795,8 @@ export const ListNGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListNGroupsRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<NGroupsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2786,7 +2813,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1188, __c37, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2803,7 +2831,8 @@ export const ListSandboxGroupByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListSandboxGroupByResourceGroupRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<SandboxGroupListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2820,7 +2849,8 @@ export const ListSandboxGroupBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListSandboxGroupBySubscriptionRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<SandboxGroupListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2837,7 +2867,8 @@ export const NGroupsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<NGroupsCreateOrUpdateRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<NGroupsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2854,7 +2885,8 @@ export const RestartContainerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<RestartContainerGroupRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<RestartContainerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2871,7 +2903,8 @@ export const RestartNGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<RestartNGroupRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<RestartNGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2888,7 +2921,8 @@ export const SandboxGroupsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1665, __c52, 1) as any as S.Schema<SandboxGroupsCreateOrUpdateRequest>,
   output: __S(1666, __c52, 2) as any as S.Schema<SandboxGroupsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2905,7 +2939,8 @@ export const StartContainerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<StartContainerGroupRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<StartContainerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2922,7 +2957,8 @@ export const StartNGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<StartNGroupRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<StartNGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2939,7 +2975,8 @@ export const StopContainerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<StopContainerGroupRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<StopContainerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2956,7 +2993,8 @@ export const StopNGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<StopNGroupRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<StopNGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2973,7 +3011,8 @@ export const UpdateCGProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<UpdateCGProfileRequest>,
   output: __S(98, __c3, 2) as any as S.Schema<UpdateCGProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2990,7 +3029,8 @@ export const UpdateContainerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<UpdateContainerGroupRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<UpdateContainerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3007,7 +3047,8 @@ export const UpdateNGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<UpdateNGroupRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<UpdateNGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3024,7 +3065,8 @@ export const UpdateSandboxGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<UpdateSandboxGroupRequest>,
   output: __S(1985, __c62, 1) as any as S.Schema<UpdateSandboxGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

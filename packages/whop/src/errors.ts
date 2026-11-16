@@ -34,8 +34,9 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
+import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 /**
  * HTTP 402 -- the call is well-formed but the money isn't there: an ad
@@ -45,12 +46,15 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  *
  * Operations that declare a `402` also generate their own `PaymentRequired`
  * class in their service module (from the spec's per-operation error list);
- * this is the one the protocol's status map falls back to everywhere else.
+ * this is the one the service's error list falls back to everywhere else.
  */
 export class PaymentRequired
-  extends /*@__PURE__*/ Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
-    message: Schema.String,
-  }).pipe(Category.withBadRequestError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
+      message: Schema.String,
+    }).pipe(Category.withBadRequestError),
+    [{ status: 402 }],
+  ) {}
 
 /**
  * Unknown Whop error -- returned when a failed response's HTTP status has no
@@ -82,3 +86,12 @@ export type ClientErrors = UnknownWhopError | WhopParseError | PaymentRequired;
  * plus the client-level fallback/decode errors.
  */
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;
+
+/**
+ * The errors declared on the Whop service: any operation can return them, and
+ * every generated operation lists them as its `serviceErrors`. Each of core's
+ * status classes, and {@link PaymentRequired} for 402, matched by its status
+ * like an operation's own errors.
+ */
+export const WhopServiceErrors = [...API_ERRORS, PaymentRequired] as const;
+export type WhopServiceError = InstanceType<(typeof WhopServiceErrors)[number]>;

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1022,7 +1022,8 @@ export const AlertRuleResourcesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AlertRuleResourcesCreateOrUpdateRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<AlertRuleResourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1039,7 +1040,8 @@ export const CreateSharedPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25, __c3, 1) as any as S.Schema<CreateSharedPrivateLinkResourceRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<CreateSharedPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1056,7 +1058,8 @@ export const DeleteAlertRuleResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DeleteAlertRuleResourceRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<DeleteAlertRuleResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1073,7 +1076,8 @@ export const DeleteSharedPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<DeleteSharedPrivateLinkResourceRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<DeleteSharedPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1090,7 +1094,8 @@ export const DeleteTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<DeleteTargetRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<DeleteTargetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1107,7 +1112,8 @@ export const DeleteWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<DeleteWatcherRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<DeleteWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1124,7 +1130,8 @@ export const GetAlertRuleResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetAlertRuleResourceRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<GetAlertRuleResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1141,7 +1148,8 @@ export const GetHealthValidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<GetHealthValidationRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<GetHealthValidationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1158,7 +1166,8 @@ export const GetSharedPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<GetSharedPrivateLinkResourceRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<GetSharedPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1175,7 +1184,8 @@ export const GetTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetTargetRequest>,
   output: __S(301, __c37, 5) as any as S.Schema<GetTargetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1192,7 +1202,8 @@ export const GetWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetWatcherRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<GetWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1209,7 +1220,8 @@ export const ListAlertRuleResourceByParent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListAlertRuleResourceByParentRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<AlertRuleResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1226,7 +1238,8 @@ export const ListHealthValidationByParent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListHealthValidationByParentRequest>,
   output: __S(74, __c9, 2) as any as S.Schema<HealthValidationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1243,7 +1256,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1260,7 +1274,8 @@ export const ListSharedPrivateLinkResourceByWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListSharedPrivateLinkResourceByWatcherRequest>,
   output: __S(90, __c11, 2) as any as S.Schema<SharedPrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1277,7 +1292,8 @@ export const ListTargetByWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListTargetByWatcherRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<TargetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1294,7 +1310,8 @@ export const ListWatcherByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListWatcherByResourceGroupRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<WatcherListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1311,7 +1328,8 @@ export const ListWatcherBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListWatcherBySubscriptionRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<WatcherListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1328,7 +1346,8 @@ export const StartHealthValidationValidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<StartHealthValidationValidationRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<StartHealthValidationValidationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1345,7 +1364,8 @@ export const StartWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<StartWatcherRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<StartWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1362,7 +1382,8 @@ export const StopWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<StopWatcherRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<StopWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1379,7 +1400,8 @@ export const TargetsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(180, __c22, 4) as any as S.Schema<TargetsCreateOrUpdateRequest>,
   output: __S(301, __c37, 5) as any as S.Schema<TargetsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1396,7 +1418,8 @@ export const UpdateWatcher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(186, __c23, 2) as any as S.Schema<UpdateWatcherRequest>,
   output: __S(187, __c23, 3) as any as S.Schema<UpdateWatcherResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1413,7 +1436,8 @@ export const WatchersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(201, __c25, 1) as any as S.Schema<WatchersCreateOrUpdateRequest>,
   output: __S(202, __c25, 2) as any as S.Schema<WatchersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

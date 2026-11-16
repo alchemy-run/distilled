@@ -36,17 +36,21 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
+import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 /**
  * HTTP 419 -- `AuthenticationTimeoutException`: the token expired. The spec
  * lets a catalog send this instead of 401; refresh the token and retry.
  */
 export class AuthenticationTimeout
-  extends /*@__PURE__*/ Schema.TaggedError<AuthenticationTimeout>()("AuthenticationTimeout", {
-    message: Schema.String,
-  }).pipe(Category.withAuthError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<AuthenticationTimeout>()("AuthenticationTimeout", {
+      message: Schema.String,
+    }).pipe(Category.withAuthError),
+    [{ status: 419 }],
+  ) {}
 
 /**
  * Unknown Iceberg error -- a failed response nothing else matched. `code` is
@@ -88,3 +92,12 @@ export type DefaultErrors =
   | CoreConflict
   | CoreUnprocessableEntity
   | ClientErrors;
+
+/**
+ * The errors declared on the Iceberg service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes, and {@link AuthenticationTimeout} for 419, matched by
+ * its status like an operation's own errors.
+ */
+export const IcebergServiceErrors = [...API_ERRORS, AuthenticationTimeout] as const;
+export type IcebergServiceError = InstanceType<(typeof IcebergServiceErrors)[number]>;

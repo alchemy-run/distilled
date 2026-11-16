@@ -21,7 +21,7 @@
  *
  * program.pipe(
  *   Effect.provide(
- *     Layer.mergeAll(FetchHttpClient.layer, Boxd.CredentialsFromEnv, Boxd.BoxdProtocol),
+ *     Layer.mergeAll(FetchHttpClient.layer, Boxd.CredentialsFromEnv),
  *   ),
  *   Effect.runPromise,
  * );

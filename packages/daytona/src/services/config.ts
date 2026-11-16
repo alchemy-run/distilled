@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDaytonaError } from "../errors.ts";
+import { DaytonaServiceErrors } from "../errors.ts";
 import { DaytonaProtocol, type DaytonaOpError, type DaytonaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -157,7 +157,8 @@ export const getConfigControllerConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetConfigControllerConfigRequest>,
   output: __S(9, __c0, 9) as any as S.Schema<DaytonaConfiguration>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

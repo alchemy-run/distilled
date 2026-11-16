@@ -39,6 +39,9 @@ export class Credentials
     "EntireCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   token: /*@__PURE__*/ EffectConfig.Redacted("ENTIRE_TOKEN"),
   coreBaseUrl: /*@__PURE__*/ EffectConfig.String("ENTIRE_CORE_BASE_URL").pipe(

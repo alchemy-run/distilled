@@ -37,7 +37,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Iceberg.CredentialsFromEnv,
-  Iceberg.IcebergProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -79,7 +78,6 @@ const Catalog = Iceberg.fromCatalogConfig({
 });
 
 program.pipe(
-  Effect.provide(Iceberg.IcebergProtocol),
   Effect.provide(Catalog),
   Effect.provide(FetchHttpClient.layer),
   Effect.runPromise,

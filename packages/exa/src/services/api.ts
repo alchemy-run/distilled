@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownExaError } from "../errors.ts";
+import { ExaServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { ExaProtocol, type ExaOpError, type ExaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -3548,7 +3548,8 @@ export const answer: API.OperationMethod<AnswerRequest, AnswerResponse, AnswerEr
   /*@__PURE__*/ API.make(() => ({
     input: __S(2369, __c74, 1) as any as S.Schema<AnswerRequest>,
     output: __S(2372, __c74, 4) as any as S.Schema<AnswerResponse>,
-    errors: [BadRequest, PaymentRequired, Forbidden, UnknownExaError],
+    errors: [BadRequest, PaymentRequired, Forbidden],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3565,7 +3566,8 @@ export const batchMonitors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2785, __c87, 1) as any as S.Schema<BatchMonitorsRequest>,
   output: __S(2786, __c87, 2) as any as S.Schema<BatchMonitorsResponse>,
-  errors: [BadRequest, Forbidden, UnknownExaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3582,7 +3584,8 @@ export const cancelAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<CancelAgentRunRequest>,
   output: __S(2925, __c91, 13) as any as S.Schema<AgentRun>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3599,7 +3602,8 @@ export const cancelBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<CancelBatchRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<Batch>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3616,7 +3620,8 @@ export const cancelWebset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CancelWebsetRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<Webset>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3633,7 +3638,8 @@ export const cancelWebsetsEnrichment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CancelWebsetsEnrichmentRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<WebsetEnrichment>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3650,7 +3656,8 @@ export const cancelWebsetsSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CancelWebsetsSearchRequest>,
   output: __S(171, __c5, 11) as any as S.Schema<WebsetSearch>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3667,7 +3674,8 @@ export const createAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<CreateAgentRunRequest>,
   output: __S(2925, __c91, 13) as any as S.Schema<AgentRun>,
-  errors: [BadRequest, Forbidden, UnknownExaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3684,7 +3692,8 @@ export const createBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(546, __c17, 2) as any as S.Schema<CreateBatchRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<Batch>,
-  errors: [BadRequest, Forbidden, UnknownExaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3701,7 +3710,8 @@ export const createImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(578, __c18, 2) as any as S.Schema<CreateImportRequest>,
   output: __S(579, __c18, 3) as any as S.Schema<CreateImportResponse>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3718,7 +3728,8 @@ export const createMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(609, __c19, 1) as any as S.Schema<CreateMonitorRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<CreateSearchMonitorResponse>,
-  errors: [BadRequest, Forbidden, UnknownExaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3735,7 +3746,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<Webhook>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3752,7 +3764,8 @@ export const createWebset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(837, __c26, 5) as any as S.Schema<CreateWebsetRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<Webset>,
-  errors: [Conflict, UnknownExaError],
+  errors: [Conflict],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3769,7 +3782,8 @@ export const createWebsetMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<CreateWebsetMonitorRequest>,
   output: __S(259, __c8, 3) as any as S.Schema<Monitor>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3786,7 +3800,8 @@ export const createWebsetsEnrichment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<CreateWebsetsEnrichmentRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<WebsetEnrichment>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3803,7 +3818,8 @@ export const createWebsetsSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<CreateWebsetsSearchRequest>,
   output: __S(171, __c5, 11) as any as S.Schema<WebsetSearch>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3820,7 +3836,8 @@ export const deleteAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<DeleteAgentRunRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<DeleteAgentRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3837,7 +3854,8 @@ export const deleteBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteBatchRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<DeletedBatch>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3854,7 +3872,8 @@ export const deleteImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<DeleteImportRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<Import>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3871,7 +3890,8 @@ export const deleteMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteMonitorRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<SearchMonitor>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3888,7 +3908,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<Webhook>,
-  errors: [NotFound, UnknownExaError],
+  errors: [NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3905,7 +3926,8 @@ export const deleteWebset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<DeleteWebsetRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<Webset>,
-  errors: [NotFound, UnknownExaError],
+  errors: [NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3922,7 +3944,8 @@ export const deleteWebsetMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<DeleteWebsetMonitorRequest>,
   output: __S(259, __c8, 3) as any as S.Schema<Monitor>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3939,7 +3962,8 @@ export const deleteWebsetsEnrichment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<DeleteWebsetsEnrichmentRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<WebsetEnrichment>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3956,7 +3980,8 @@ export const deleteWebsetsItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<DeleteWebsetsItemRequest>,
   output: __S(1318, __c41, 6) as any as S.Schema<WebsetItem>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3973,7 +3998,8 @@ export const getAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetAgentRunRequest>,
   output: __S(2925, __c91, 13) as any as S.Schema<AgentRun>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3986,7 +4012,8 @@ export const getBatch: API.OperationMethod<GetBatchRequest, Batch, GetBatchError
   /*@__PURE__*/ API.make(() => ({
     input: __S(1376, __c43, 0) as any as S.Schema<GetBatchRequest>,
     output: __S(2977, __c93, 1) as any as S.Schema<Batch>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4003,7 +4030,8 @@ export const getContents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetContentsRequest>,
   output: __S(1424, __c44, 16) as any as S.Schema<ContentsResponse>,
-  errors: [BadRequest, PaymentRequired, Forbidden, UnknownExaError],
+  errors: [BadRequest, PaymentRequired, Forbidden],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4020,7 +4048,8 @@ export const getEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetEventRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<GetEventResponse>,
-  errors: [NotFound, UnknownExaError],
+  errors: [NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4037,7 +4066,8 @@ export const getImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetImportRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<Import>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4054,7 +4084,8 @@ export const getMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetMonitorRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<SearchMonitor>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4071,7 +4102,8 @@ export const getRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetRunRequest>,
   output: __S(1605, __c50, 5) as any as S.Schema<SearchMonitorRun>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4088,7 +4120,8 @@ export const getTeamsMe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetTeamsMeRequest>,
   output: __S(1635, __c51, 3) as any as S.Schema<WebsetsTeamInfo>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4105,7 +4138,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<Webhook>,
-  errors: [NotFound, UnknownExaError],
+  errors: [NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4122,7 +4156,8 @@ export const getWebset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetWebsetRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<GetWebsetResponse>,
-  errors: [NotFound, UnknownExaError],
+  errors: [NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4139,7 +4174,8 @@ export const getWebsetMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetWebsetMonitorRequest>,
   output: __S(259, __c8, 3) as any as S.Schema<Monitor>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4156,7 +4192,8 @@ export const getWebsetMonitorRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetWebsetMonitorRunRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<MonitorRun>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4173,7 +4210,8 @@ export const getWebsetsEnrichment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetWebsetsEnrichmentRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<WebsetEnrichment>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4190,7 +4228,8 @@ export const getWebsetsItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetWebsetsItemRequest>,
   output: __S(1318, __c41, 6) as any as S.Schema<WebsetItem>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4207,7 +4246,8 @@ export const getWebsetsSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GetWebsetsSearchRequest>,
   output: __S(171, __c5, 11) as any as S.Schema<WebsetSearch>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4226,7 +4266,8 @@ export const listAgentRunEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(1920, __c60, 0) as any as S.Schema<ListAgentRunEventsRequest>,
     output: __S(1923, __c60, 3) as any as S.Schema<AgentRunEventList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4254,7 +4295,8 @@ export const listAgentRuns: API.PaginatedOperationMethod<
   () => ({
     input: __S(1952, __c61, 0) as any as S.Schema<ListAgentRunsRequest>,
     output: __S(1954, __c61, 2) as any as S.Schema<AgentRunList>,
-    errors: [BadRequest, Forbidden, UnknownExaError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4282,7 +4324,8 @@ export const listBatches: API.PaginatedOperationMethod<
   () => ({
     input: __S(1984, __c62, 0) as any as S.Schema<ListBatchesRequest>,
     output: __S(1986, __c62, 2) as any as S.Schema<BatchList>,
-    errors: [BadRequest, Forbidden, UnknownExaError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4310,7 +4353,8 @@ export const listEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(2016, __c63, 0) as any as S.Schema<ListEventsRequest>,
     output: __S(2018, __c63, 2) as any as S.Schema<ListEventsResponse>,
-    errors: [UnknownExaError],
+    errors: [],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4338,7 +4382,8 @@ export const listImports: API.PaginatedOperationMethod<
   () => ({
     input: __S(2048, __c64, 0) as any as S.Schema<ListImportsRequest>,
     output: __S(2049, __c64, 1) as any as S.Schema<ListImportsResponse>,
-    errors: [UnknownExaError],
+    errors: [],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4366,7 +4411,8 @@ export const listMonitors: API.PaginatedOperationMethod<
   () => ({
     input: __S(2080, __c65, 0) as any as S.Schema<ListMonitorsRequest>,
     output: __S(2082, __c65, 2) as any as S.Schema<ListSearchMonitorsResponse>,
-    errors: [BadRequest, Forbidden, UnknownExaError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4394,7 +4440,8 @@ export const listRuns: API.PaginatedOperationMethod<
   () => ({
     input: __S(2112, __c66, 0) as any as S.Schema<ListRunsRequest>,
     output: __S(2114, __c66, 2) as any as S.Schema<ListSearchMonitorRunsResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4422,7 +4469,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
   () => ({
     input: __S(2144, __c67, 0) as any as S.Schema<ListWebhooksRequest>,
     output: __S(2146, __c67, 2) as any as S.Schema<ListWebhooksResponse>,
-    errors: [UnknownExaError],
+    errors: [],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4450,7 +4498,8 @@ export const listWebhooksAttempts: API.PaginatedOperationMethod<
   () => ({
     input: __S(2176, __c68, 0) as any as S.Schema<ListWebhooksAttemptsRequest>,
     output: __S(2179, __c68, 3) as any as S.Schema<ListWebhookAttemptsResponse>,
-    errors: [UnknownExaError],
+    errors: [],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4476,7 +4525,8 @@ export const listWebsetMonitorRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListWebsetMonitorRunsRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<ListMonitorRunsResponse>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4495,7 +4545,8 @@ export const listWebsetMonitors: API.PaginatedOperationMethod<
   () => ({
     input: __S(2240, __c70, 0) as any as S.Schema<ListWebsetMonitorsRequest>,
     output: __S(2241, __c70, 1) as any as S.Schema<ListMonitorsResponse>,
-    errors: [UnknownExaError],
+    errors: [],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4523,7 +4574,8 @@ export const listWebsets: API.PaginatedOperationMethod<
   () => ({
     input: __S(2272, __c71, 0) as any as S.Schema<ListWebsetsRequest>,
     output: __S(2274, __c71, 2) as any as S.Schema<ListWebsetsResponse>,
-    errors: [UnknownExaError],
+    errors: [],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4551,7 +4603,8 @@ export const listWebsetsItems: API.PaginatedOperationMethod<
   () => ({
     input: __S(2304, __c72, 0) as any as S.Schema<ListWebsetsItemsRequest>,
     output: __S(2305, __c72, 1) as any as S.Schema<ListWebsetItemResponse>,
-    errors: [UnknownExaError],
+    errors: [],
+    serviceErrors: ExaServiceErrors,
     protocol: ExaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4577,7 +4630,8 @@ export const previewWebset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<PreviewWebsetRequest>,
   output: __S(2342, __c73, 6) as any as S.Schema<PreviewWebsetResponse>,
-  errors: [UnprocessableEntity, UnknownExaError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4594,7 +4648,8 @@ export const search: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2497, __c78, 1) as any as S.Schema<SearchRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<SearchResponse2>,
-  errors: [BadRequest, PaymentRequired, Forbidden, UnknownExaError],
+  errors: [BadRequest, PaymentRequired, Forbidden],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4611,7 +4666,8 @@ export const stopAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<StopAgentRunRequest>,
   output: __S(2925, __c91, 13) as any as S.Schema<AgentRun>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4628,7 +4684,8 @@ export const triggerMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<TriggerMonitorRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<TriggerSearchMonitorResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4645,7 +4702,8 @@ export const updateImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<UpdateImportRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<Import>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4662,7 +4720,8 @@ export const updateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2627, __c82, 3) as any as S.Schema<UpdateMonitorRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<SearchMonitor>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4679,7 +4738,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<Webhook>,
-  errors: [NotFound, UnknownExaError],
+  errors: [NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4696,7 +4756,8 @@ export const updateWebset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<UpdateWebsetRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<Webset>,
-  errors: [NotFound, UnknownExaError],
+  errors: [NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4713,7 +4774,8 @@ export const updateWebsetMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateWebsetMonitorRequest>,
   output: __S(259, __c8, 3) as any as S.Schema<Monitor>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4730,7 +4792,8 @@ export const updateWebsetsEnrichment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<UpdateWebsetsEnrichmentRequest>,
   output: __S(2753, __c86, 1) as any as S.Schema<UpdateWebsetsEnrichmentResponse>,
-  errors: [UnknownExaError],
+  errors: [],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

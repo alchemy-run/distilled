@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2319,7 +2319,8 @@ export const DeleteExternalAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteExternalAuthRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteExternalAuthResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2336,7 +2337,8 @@ export const DeleteHcpOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteHcpOpenShiftClusterRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteHcpOpenShiftClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2353,7 +2355,8 @@ export const DeleteNodePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteNodePoolRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteNodePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2370,7 +2373,8 @@ export const DeleteOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteOpenShiftClusterRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteOpenShiftClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2387,7 +2391,8 @@ export const ExternalAuthsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1313, __c41, 1) as any as S.Schema<ExternalAuthsCreateOrUpdateRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<ExternalAuthsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2404,7 +2409,8 @@ export const GetExternalAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetExternalAuthRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<GetExternalAuthResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2421,7 +2427,8 @@ export const GetHcpOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetHcpOpenShiftClusterRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetHcpOpenShiftClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2438,7 +2445,8 @@ export const GetHcpOpenShiftVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetHcpOpenShiftVersionRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<GetHcpOpenShiftVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2455,7 +2463,8 @@ export const GetHcpOperatorIdentityRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetHcpOperatorIdentityRoleSetRequest>,
   output: __S(1797, __c56, 5) as any as S.Schema<GetHcpOperatorIdentityRoleSetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2472,7 +2481,8 @@ export const GetNodePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetNodePoolRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<GetNodePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2489,7 +2499,8 @@ export const GetOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetOpenShiftClusterRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<GetOpenShiftClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2506,7 +2517,8 @@ export const GetOpenShiftVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetOpenShiftVersionRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<GetOpenShiftVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2523,7 +2535,8 @@ export const GetPlatformWorkloadIdentityRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetPlatformWorkloadIdentityRoleSetRequest>,
   output: __S(323, __c10, 3) as any as S.Schema<GetPlatformWorkloadIdentityRoleSetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2540,7 +2553,8 @@ export const HcpOpenShiftClustersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(356, __c11, 4) as any as S.Schema<HcpOpenShiftClustersCreateOrUpdateRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<HcpOpenShiftClustersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2557,7 +2571,8 @@ export const HcpOpenShiftClustersRequestAdminCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<HcpOpenShiftClustersRequestAdminCredentialRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<HcpOpenShiftClusterAdminCredential>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2574,7 +2589,8 @@ export const ListExternalAuthByParent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ListExternalAuthByParentRequest>,
   output: __S(482, __c15, 2) as any as S.Schema<ExternalAuthListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2591,7 +2607,8 @@ export const ListHcpOpenShiftClusterByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<ListHcpOpenShiftClusterByResourceGroupRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<HcpOpenShiftClusterListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2608,7 +2625,8 @@ export const ListHcpOpenShiftClusterBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListHcpOpenShiftClusterBySubscriptionRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<HcpOpenShiftClusterListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2625,7 +2643,8 @@ export const ListHcpOpenShiftVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListHcpOpenShiftVersionsRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<HcpOpenShiftVersionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2642,7 +2661,8 @@ export const ListHcpOperatorIdentityRoleSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListHcpOperatorIdentityRoleSetsRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<HcpOperatorIdentityRoleSetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2659,7 +2679,8 @@ export const ListNodePoolByParent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListNodePoolByParentRequest>,
   output: __S(706, __c22, 2) as any as S.Schema<NodePoolListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2676,7 +2697,8 @@ export const ListOpenShiftClusterAdminCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListOpenShiftClusterAdminCredentialsRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<OpenShiftClusterAdminKubeconfig>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2693,7 +2715,8 @@ export const ListOpenShiftClusterByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListOpenShiftClusterByResourceGroupRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<OpenShiftClusterList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2710,7 +2733,8 @@ export const ListOpenShiftClusterCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListOpenShiftClusterCredentialsRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<OpenShiftClusterCredentials>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2727,7 +2751,8 @@ export const ListOpenShiftClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListOpenShiftClustersRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<OpenShiftClusterList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2744,7 +2769,8 @@ export const ListOpenShiftVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListOpenShiftVersionsRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<OpenShiftVersionList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2761,7 +2787,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(932, __c29, 4) as any as S.Schema<OperationList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2778,7 +2805,8 @@ export const ListPlatformWorkloadIdentityRoleSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListPlatformWorkloadIdentityRoleSetsRequest>,
   output: __S(962, __c30, 2) as any as S.Schema<PlatformWorkloadIdentityRoleSetList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2795,7 +2823,8 @@ export const NodePoolsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(993, __c31, 1) as any as S.Schema<NodePoolsCreateOrUpdateRequest>,
   output: __S(994, __c31, 2) as any as S.Schema<NodePoolsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2812,7 +2841,8 @@ export const OpenShiftClustersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<OpenShiftClustersCreateOrUpdateRequest>,
   output: __S(1066, __c33, 10) as any as S.Schema<OpenShiftClustersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2829,7 +2859,8 @@ export const RevokeHcpOpenShiftClusterCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<RevokeHcpOpenShiftClusterCredentialsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RevokeHcpOpenShiftClusterCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2846,7 +2877,8 @@ export const UpdateExternalAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1158, __c36, 6) as any as S.Schema<UpdateExternalAuthRequest>,
   output: __S(1159, __c36, 7) as any as S.Schema<UpdateExternalAuthResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2863,7 +2895,8 @@ export const UpdateHcpOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1193, __c37, 9) as any as S.Schema<UpdateHcpOpenShiftClusterRequest>,
   output: __S(1194, __c37, 10) as any as S.Schema<UpdateHcpOpenShiftClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2880,7 +2913,8 @@ export const UpdateNodePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1249, __c39, 1) as any as S.Schema<UpdateNodePoolRequest>,
   output: __S(1250, __c39, 2) as any as S.Schema<UpdateNodePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2897,7 +2931,8 @@ export const UpdateOpenShiftCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<UpdateOpenShiftClusterRequest>,
   output: __S(1066, __c33, 10) as any as S.Schema<UpdateOpenShiftClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

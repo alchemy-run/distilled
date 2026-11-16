@@ -1,16 +1,15 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ClerkProtocol -- hand-written.
  *
  * Clerk speaks bearer-authenticated JSON REST (no response envelope), so the
- * protocol is one `makeRestProtocol` call from `core/protocol-rest`:
+ * protocol is one `restProtocol` call from `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <secret>` +
  *             `Clerk-API-Version` + base URL (default
@@ -24,31 +23,36 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
   Credentials,
   PlatformCredentials,
-  type Config,
-  type PlatformConfig,
+  type CredentialsError,
+  type PlatformCredentialsError,
 } from "./credentials.ts";
-import { UnknownClerkError, ClerkParseError } from "./errors.ts";
+import { UnknownClerkError, ClerkParseError, type ClerkServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Clerk operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, ClerkOpError,
- * ClerkOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * The errors declared on Clerk's protocol: what the code that builds requests
+ * and reads responses fails with. A response that does not match its schema
+ * ({@link ClerkParseError}), a failed response that neither the operation nor
+ * the service declares ({@link UnknownClerkError}), and core's REST errors (a
+ * bad path label, a request that can't be built, the transport).
+ */
+export type ClerkProtocolError = RestProtocolError | ClerkParseError | UnknownClerkError;
+
+/**
+ * What every generated Clerk operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, ClerkOpError, ClerkOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
 export type ClerkOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownClerkError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | ClerkParseError
-  | InvalidInput
-  | SdkError;
+  | ClerkServiceError
+  | ClerkProtocolError
+  | CredentialsError
+  | PlatformCredentialsError;
 
 /** Context (requirements) shared by every generated Clerk operation. */
 export type ClerkOpContext = Credentials | HttpClient.HttpClient;
@@ -87,35 +91,40 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const ClerkProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    "Clerk-API-Version": creds.apiVersion,
-  }),
-  errorEnvelope,
-  unknownError: (info) => new UnknownClerkError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new ClerkParseError({ body, cause }),
-});
-
-/**
- * Platform JSON REST protocol using a supplied bearer access token.
- * Accepts a host or /v1 base URL and does not send the Backend API version header.
- */
-export const ClerkPlatformProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<PlatformConfig>({
-    credentials: /*@__PURE__*/ Effect.flatMap(PlatformCredentials, (resolve) => resolve),
-    baseUrl: (creds) => {
-      const baseUrl = creds.apiBaseUrl.replace(/\/+$/, "");
-      return baseUrl.endsWith("/v1") ? baseUrl : `${baseUrl}/v1`;
-    },
+// The annotations are the check: everything a protocol fails with, besides
+// the errors an operation and the service declare, must be listed there.
+export const ClerkProtocol: Protocol<ClerkProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => ({
       Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      "Clerk-API-Version": creds.apiVersion,
     }),
     errorEnvelope,
     unknownError: (info) => new UnknownClerkError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new ClerkParseError({ body, cause }),
   });
+
+/**
+ * Platform JSON REST protocol using a supplied bearer access token.
+ * Accepts a host or /v1 base URL and does not send the Backend API version header.
+ */
+export const ClerkPlatformProtocol: Protocol<
+  ClerkProtocolError | PlatformCredentialsError,
+  PlatformCredentials
+> = /*@__PURE__*/ restProtocol({
+  credentials: /*@__PURE__*/ Effect.flatten(PlatformCredentials),
+  baseUrl: (creds) => {
+    const baseUrl = creds.apiBaseUrl.replace(/\/+$/, "");
+    return baseUrl.endsWith("/v1") ? baseUrl : `${baseUrl}/v1`;
+  },
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope,
+  unknownError: (info) => new UnknownClerkError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new ClerkParseError({ body, cause }),
+});

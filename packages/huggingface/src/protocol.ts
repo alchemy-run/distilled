@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * HuggingFaceProtocol -- the shared bearer-REST protocol instantiated for the
  * Hugging Face Hub.
@@ -24,24 +22,39 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownHuggingFaceError, type DefaultErrors, HuggingFaceParseError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import {
+  UnknownHuggingFaceError,
+  HuggingFaceParseError,
+  type HuggingFaceServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Hugging Face operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * HuggingFaceOpError, HuggingFaceOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * The errors declared on Hugging Face's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link HuggingFaceParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownHuggingFaceError}), and
+ * core's REST errors (a bad path label, a request that can't be built, the
+ * transport).
+ */
+export type HuggingFaceProtocolError =
+  | RestProtocolError
+  | HuggingFaceParseError
+  | UnknownHuggingFaceError;
+
+/**
+ * What every generated Hugging Face operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, HuggingFaceOpError, HuggingFaceOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
 export type HuggingFaceOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+  | HuggingFaceServiceError
+  | HuggingFaceProtocolError
+  | CredentialsError;
 
 /** Context (requirements) shared by every generated Hugging Face operation. */
 export type HuggingFaceOpContext = Credentials | HttpClient.HttpClient;
@@ -64,18 +77,20 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const HuggingFaceProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // Resolved on the CALLING fiber per request (the layer is memoized per
-    // process); the Credentials service holds an effect, so a token rotated
-    // between calls is picked up without rebuilding the layer.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.token)}`,
-    }),
-    errorEnvelope,
-    statusMap: HTTP_STATUS_MAP,
-    unknownError: (info) => new UnknownHuggingFaceError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new HuggingFaceParseError({ body, cause }),
-  });
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const HuggingFaceProtocol: Protocol<
+  HuggingFaceProtocolError | CredentialsError,
+  Credentials
+> = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect, so a token rotated between calls is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.token)}`,
+  }),
+  errorEnvelope,
+  unknownError: (info) => new UnknownHuggingFaceError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new HuggingFaceParseError({ body, cause }),
+});

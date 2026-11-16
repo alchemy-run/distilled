@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -288,6 +289,7 @@ export const createWarehouseMigration: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateWarehouseMigrationRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<WarehouseMigration>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -305,6 +307,7 @@ export const createWarehouseMigrationsItemsSkip: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<CreateWarehouseMigrationsItemsSkipRequest>,
   output: __S(57, __c3, 9) as any as S.Schema<WarehouseMigrationItem>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -322,6 +325,7 @@ export const getWarehouseMigration: API.OperationMethod<
   input: __S(80, __c5, 0) as any as S.Schema<GetWarehouseMigrationRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<WarehouseMigration>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -339,6 +343,7 @@ export const listWarehouseMigrations: API.OperationMethod<
   input: __S(96, __c6, 0) as any as S.Schema<ListWarehouseMigrationsRequest>,
   output: __S(98, __c6, 2) as any as S.Schema<PaginatedWarehouseMigrationList>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -356,6 +361,7 @@ export const listWarehouseMigrationsItems: API.OperationMethod<
   input: __S(112, __c7, 0) as any as S.Schema<ListWarehouseMigrationsItemsRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<PaginatedWarehouseMigrationItemList>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -373,6 +379,7 @@ export const warehouseMigrationsConnectLinkRetrieve: API.OperationMethod<
   input: __S(128, __c8, 0) as any as S.Schema<WarehouseMigrationsConnectLinkRetrieveRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<WarehouseMigrationConnectLink>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -390,6 +397,7 @@ export const warehouseMigrationsDestroy: API.OperationMethod<
   input: __S(144, __c9, 0) as any as S.Schema<WarehouseMigrationsDestroyRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<WarehouseMigrationsDestroyResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -407,6 +415,7 @@ export const warehouseMigrationsItemsBulkSkipCreate: API.OperationMethod<
   input: __S(160, __c10, 0) as any as S.Schema<WarehouseMigrationsItemsBulkSkipCreateRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<WarehouseMigrationSkipItemsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -424,6 +433,7 @@ export const warehouseMigrationsRefreshCreate: API.OperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<WarehouseMigrationsRefreshCreateRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<WarehouseMigration>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

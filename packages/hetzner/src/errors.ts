@@ -41,8 +41,9 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
+import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 /**
  * HTTP 405 -- `method_not_allowed`: the route exists but not for this method.
@@ -50,9 +51,12 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * is a bug report rather than something to branch on.
  */
 export class MethodNotAllowed
-  extends /*@__PURE__*/ Schema.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
-    message: Schema.String,
-  }).pipe(Category.withBadRequestError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
+      message: Schema.String,
+    }).pipe(Category.withBadRequestError),
+    [{ status: 405 }],
+  ) {}
 
 /**
  * HTTP 410 -- `deprecated_api_endpoint`: the endpoint's functionality was
@@ -63,9 +67,12 @@ export class MethodNotAllowed
  * regeneration. The error `details` carry a changelog link.
  */
 export class Gone
-  extends /*@__PURE__*/ Schema.TaggedError<Gone>()("Gone", {
-    message: Schema.String,
-  }).pipe(Category.withNotFoundError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<Gone>()("Gone", {
+      message: Schema.String,
+    }).pipe(Category.withNotFoundError),
+    [{ status: 410 }],
+  ) {}
 
 /**
  * HTTP 412 -- `resource_unavailable`: the resource itself is fine, but what
@@ -75,9 +82,12 @@ export class Gone
  * marked retryable; a different Location or Server type is the fix.
  */
 export class PreconditionFailed
-  extends /*@__PURE__*/ Schema.TaggedError<PreconditionFailed>()("PreconditionFailed", {
-    message: Schema.String,
-  }).pipe(Category.withConflictError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<PreconditionFailed>()("PreconditionFailed", {
+      message: Schema.String,
+    }).pipe(Category.withConflictError),
+    [{ status: 412 }],
+  ) {}
 
 /**
  * Unknown Hetzner error -- returned when a failed response's HTTP status has
@@ -129,3 +139,18 @@ export type DefaultErrors =
   | CoreUnprocessableEntity
   | CoreLocked
   | ClientErrors;
+
+/**
+ * The errors declared on the Hetzner service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes, and {@link MethodNotAllowed} for 405, {@link Gone}
+ * for 410 and {@link PreconditionFailed} for 412, matched by their status like
+ * an operation's own errors.
+ */
+export const HetznerServiceErrors = [
+  ...API_ERRORS,
+  MethodNotAllowed,
+  Gone,
+  PreconditionFailed,
+] as const;
+export type HetznerServiceError = InstanceType<(typeof HetznerServiceErrors)[number]>;

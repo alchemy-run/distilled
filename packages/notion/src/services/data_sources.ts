@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNotionError } from "../errors.ts";
+import { NotionServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { NotionProtocol, type NotionOpError, type NotionOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1991,7 +1991,8 @@ export const createDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14, __c0, 14) as any as S.Schema<CreateDataSourceRequest>,
   output: __S(15, __c0, 15) as any as S.Schema<CreateDataSourceResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2008,7 +2009,8 @@ export const getDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<GetDataSourceRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<GetDataSourceResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2027,7 +2029,8 @@ export const listDataSourceTemplates: API.PaginatedOperationMethod<
   () => ({
     input: __S(48, __c3, 0) as any as S.Schema<ListDataSourceTemplatesRequest>,
     output: __S(51, __c3, 3) as any as S.Schema<ListDataSourceTemplatesResponse>,
-    errors: [UnknownNotionError],
+    errors: [],
+    serviceErrors: NotionServiceErrors,
     protocol: NotionProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2054,7 +2057,8 @@ export const queryDataSource: API.PaginatedOperationMethod<
   () => ({
     input: __S(66, __c4, 2) as any as S.Schema<QueryDataSourceRequest>,
     output: __S(69, __c4, 5) as any as S.Schema<PageOrDataSourceListResponse>,
-    errors: [UnknownNotionError],
+    errors: [],
+    serviceErrors: NotionServiceErrors,
     protocol: NotionProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2079,7 +2083,8 @@ export const updateDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81, __c5, 1) as any as S.Schema<UpdateDataSourceRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<UpdateDataSourceResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

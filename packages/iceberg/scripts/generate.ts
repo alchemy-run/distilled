@@ -110,6 +110,7 @@ const spec = (model: any): SdkSpec => ({
     contextType: "IcebergOpContext",
     commonErrorType: "IcebergOpError",
     commonErrorClasses: [],
+    serviceErrors: "IcebergServiceErrors",
     protocol: "IcebergProtocol",
     retry: "Retry.Retry",
   },

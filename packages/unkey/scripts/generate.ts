@@ -70,7 +70,9 @@ const unkeySpec: SdkSpec = {
   operationDecl: {
     contextType: "UnkeyOpContext",
     commonErrorType: "UnkeyOpError",
-    commonErrorClasses: ["UnknownUnkeyError"],
+    // UnknownUnkeyError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "UnkeyServiceErrors",
     protocol: "UnkeyProtocol",
     retry: "Retry.Retry",
   },

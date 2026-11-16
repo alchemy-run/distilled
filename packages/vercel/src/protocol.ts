@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  type RestProtocolError,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * VercelProtocol -- the shared bearer-REST protocol instantiated for Vercel.
  *
@@ -22,30 +20,27 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import {
-  Gone,
-  PaymentRequired,
-  UnknownVercelError,
-  type DefaultErrors,
-  VercelParseError,
-} from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import { UnknownVercelError, VercelParseError, type VercelServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Vercel operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, VercelOpError,
- * VercelOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * The errors declared on Vercel's protocol: what the code that builds requests
+ * and reads responses fails with. A response that does not match its schema
+ * ({@link VercelParseError}), a failed response that neither the operation nor
+ * the service declares ({@link UnknownVercelError}), and core's REST errors (a
+ * bad path label, a request that can't be built, the transport).
  */
-export type VercelOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type VercelProtocolError = RestProtocolError | VercelParseError | UnknownVercelError;
+
+/**
+ * What every generated Vercel operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, VercelOpError, VercelOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
+ */
+export type VercelOpError = VercelServiceError | VercelProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Vercel operation. */
 export type VercelOpContext = Credentials | HttpClient.HttpClient;
@@ -66,25 +61,24 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const VercelProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect, so a token rotated
-  // between calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.token)}`,
-  }),
-  errorEnvelope,
-  // Core's shared map plus the two statuses Vercel uses that it doesn't
-  // cover: 402 (billing) and 410 (retired path version). Both are declared
-  // so broadly in the spec that leaving them unmapped would funnel routine
-  // failures into UnknownVercelError.
-  statusMap: {
-    ...HTTP_STATUS_MAP,
-    402: PaymentRequired,
-    410: Gone,
-  },
-  unknownError: (info) => new UnknownVercelError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new VercelParseError({ body, cause }),
-});
+// A failed status becomes the class the service declares for it
+// (`VercelServiceErrors`: core's status classes, and the two statuses Vercel
+// uses that core has no class for: 402, billing, and 410, a retired path
+// version. Both are declared so broadly in the spec that leaving them out
+// would funnel routine failures into UnknownVercelError).
+//
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const VercelProtocol: Protocol<VercelProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // Resolved on the CALLING fiber per request; the Credentials service holds
+    // an effect, so a token rotated between calls is picked up.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.token)}`,
+    }),
+    errorEnvelope,
+    unknownError: (info) => new UnknownVercelError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new VercelParseError({ body, cause }),
+  });

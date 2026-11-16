@@ -30,6 +30,9 @@ export class Credentials
     "WorkosCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.String("WORKOS_API_KEY"),
   apiBaseUrl: /*@__PURE__*/ EffectConfig.String("WORKOS_API_URL").pipe(

@@ -31,7 +31,7 @@ const program = Effect.gen(function* () {
   return { markdown: page.content.markdown, viewer: session.sessionViewerUrl };
 });
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, Steel.CredentialsFromEnv, Steel.SteelProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, Steel.CredentialsFromEnv);
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```

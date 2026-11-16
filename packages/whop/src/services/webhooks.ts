@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { WhopServiceErrors } from "../errors.ts";
 import { paginateRelay } from "../pagination.ts";
 import { WhopProtocol, type WhopOpError, type WhopOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -925,6 +926,7 @@ export const createWebhook: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<Webhook>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -942,6 +944,7 @@ export const deleteWebhook: API.OperationMethod<
   input: __S(80, __c10, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<DeleteWebhookResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -966,6 +969,7 @@ export const deliveriesWebhook: API.PaginatedOperationMethod<
     input: __S(88, __c11, 0) as any as S.Schema<DeliveriesWebhookRequest>,
     output: __S(93, __c11, 5) as any as S.Schema<DeliveriesWebhookResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+    serviceErrors: WhopServiceErrors,
     protocol: WhopProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -993,6 +997,7 @@ export const getWebhook: API.OperationMethod<
   input: __S(96, __c12, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<Webhook>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1012,6 +1017,7 @@ export const listWebhookDeliveries: API.PaginatedOperationMethod<
     input: __S(104, __c13, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
     output: __S(107, __c13, 3) as any as S.Schema<ListWebhookDeliveriesResponse>,
     errors: [Forbidden, NotFound],
+    serviceErrors: WhopServiceErrors,
     protocol: WhopProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1041,6 +1047,7 @@ export const listWebhooks: API.PaginatedOperationMethod<
     input: __S(16, __c2, 0) as any as S.Schema<ListWebhooksRequest>,
     output: __S(19, __c2, 3) as any as S.Schema<ListWebhooksResponse>,
     errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: WhopServiceErrors,
     protocol: WhopProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1068,6 +1075,7 @@ export const replayWebhook: API.OperationMethod<
   input: __S(25, __c3, 1) as any as S.Schema<ReplayWebhookRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<ReplayWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1085,6 +1093,7 @@ export const replayWebhookDelivery: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<ReplayWebhookDeliveryRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<ReplayWebhookDeliveryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1102,6 +1111,7 @@ export const testWebhook: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<TestWebhookRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<TestWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1119,6 +1129,7 @@ export const updateWebhook: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<Webhook>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

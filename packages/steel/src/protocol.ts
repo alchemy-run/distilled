@@ -1,11 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * SteelProtocol -- the shared REST protocol instantiated for the Steel API.
  *
@@ -21,26 +20,27 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { SteelParseError, UnknownSteelError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import { SteelParseError, UnknownSteelError, type SteelServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Steel operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, SteelOpError,
- * SteelOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * The errors declared on Steel's protocol: what the code that builds requests
+ * and reads responses fails with. A response that does not match its schema
+ * ({@link SteelParseError}), a failed response that neither the operation nor
+ * the service declares ({@link UnknownSteelError}), and core's REST errors (a
+ * bad path label, a request that can't be built, the transport).
  */
-export type SteelOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownSteelError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | SteelParseError
-  | InvalidInput
-  | SdkError;
+export type SteelProtocolError = RestProtocolError | SteelParseError | UnknownSteelError;
+
+/**
+ * What every generated Steel operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, SteelOpError, SteelOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
+ */
+export type SteelOpError = SteelServiceError | SteelProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Steel operation. */
 export type SteelOpContext = Credentials | HttpClient.HttpClient;
@@ -62,15 +62,17 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const SteelProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber per request, so a rotated key is picked up
-  // without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.baseUrl,
-  headers: (creds) => ({
-    "steel-api-key": Redacted.value(creds.apiKey),
-  }),
-  errorEnvelope,
-  unknownError: (info) => new UnknownSteelError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new SteelParseError({ body, cause }),
-});
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const SteelProtocol: Protocol<SteelProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // Resolved on the calling fiber per request, so a rotated key is picked up.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.baseUrl,
+    headers: (creds) => ({
+      "steel-api-key": Redacted.value(creds.apiKey),
+    }),
+    errorEnvelope,
+    unknownError: (info) => new UnknownSteelError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new SteelParseError({ body, cause }),
+  });

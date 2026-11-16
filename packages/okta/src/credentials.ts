@@ -32,6 +32,9 @@ export class Credentials
     "OktaCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
 /** Layer from an SSWS API token + org base URL. */

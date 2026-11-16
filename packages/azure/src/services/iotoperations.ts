@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3730,7 +3730,8 @@ export const AkriConnectorCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AkriConnectorCreateOrUpdateRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AkriConnectorCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3747,7 +3748,8 @@ export const AkriConnectorTemplateCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c5, 1) as any as S.Schema<AkriConnectorTemplateCreateOrUpdateRequest>,
   output: __S(162, __c5, 2) as any as S.Schema<AkriConnectorTemplateCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3764,7 +3766,8 @@ export const AkriServiceCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<AkriServiceCreateOrUpdateRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<AkriServiceCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3781,7 +3784,8 @@ export const BrokerAuthenticationCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1345, __c42, 1) as any as S.Schema<BrokerAuthenticationCreateOrUpdateRequest>,
   output: __S(1346, __c42, 2) as any as S.Schema<BrokerAuthenticationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3798,7 +3802,8 @@ export const BrokerAuthorizationCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2049, __c64, 1) as any as S.Schema<BrokerAuthorizationCreateOrUpdateRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<BrokerAuthorizationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3815,7 +3820,8 @@ export const BrokerCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2465, __c77, 1) as any as S.Schema<BrokerCreateOrUpdateRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<BrokerCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3832,7 +3838,8 @@ export const BrokerListenerCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2785, __c87, 1) as any as S.Schema<BrokerListenerCreateOrUpdateRequest>,
   output: __S(2786, __c87, 2) as any as S.Schema<BrokerListenerCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3849,7 +3856,8 @@ export const DataflowCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2849, __c89, 1) as any as S.Schema<DataflowCreateOrUpdateRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<DataflowCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3866,7 +3874,8 @@ export const DataflowEndpointCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2945, __c92, 1) as any as S.Schema<DataflowEndpointCreateOrUpdateRequest>,
   output: __S(2946, __c92, 2) as any as S.Schema<DataflowEndpointCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3883,7 +3892,8 @@ export const DataflowGraphCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3041, __c95, 1) as any as S.Schema<DataflowGraphCreateOrUpdateRequest>,
   output: __S(3042, __c95, 2) as any as S.Schema<DataflowGraphCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3900,7 +3910,8 @@ export const DataflowProfileCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(385, __c12, 1) as any as S.Schema<DataflowProfileCreateOrUpdateRequest>,
   output: __S(386, __c12, 2) as any as S.Schema<DataflowProfileCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3917,7 +3928,8 @@ export const DeleteAkriConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteAkriConnectorRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteAkriConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3934,7 +3946,8 @@ export const DeleteAkriConnectorTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteAkriConnectorTemplateRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteAkriConnectorTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3951,7 +3964,8 @@ export const DeleteAkriService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteAkriServiceRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteAkriServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3968,7 +3982,8 @@ export const DeleteBroker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteBrokerRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteBrokerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3985,7 +4000,8 @@ export const DeleteBrokerAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteBrokerAuthenticationRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteBrokerAuthenticationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4002,7 +4018,8 @@ export const DeleteBrokerAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteBrokerAuthorizationRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteBrokerAuthorizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4019,7 +4036,8 @@ export const DeleteBrokerListener: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteBrokerListenerRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteBrokerListenerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4036,7 +4054,8 @@ export const DeleteDataflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteDataflowRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteDataflowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4053,7 +4072,8 @@ export const DeleteDataflowEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeleteDataflowEndpointRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteDataflowEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4070,7 +4090,8 @@ export const DeleteDataflowGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<DeleteDataflowGraphRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteDataflowGraphResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4087,7 +4108,8 @@ export const DeleteDataflowProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<DeleteDataflowProfileRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteDataflowProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4104,7 +4126,8 @@ export const DeleteInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<DeleteInstanceRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4121,7 +4144,8 @@ export const DeleteRegistryEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<DeleteRegistryEndpointRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteRegistryEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4138,7 +4162,8 @@ export const GetAkriConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetAkriConnectorRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<GetAkriConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4155,7 +4180,8 @@ export const GetAkriConnectorTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetAkriConnectorTemplateRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<GetAkriConnectorTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4172,7 +4198,8 @@ export const GetAkriService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetAkriServiceRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<GetAkriServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4189,7 +4216,8 @@ export const GetBroker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetBrokerRequest>,
   output: __S(1184, __c37, 0) as any as S.Schema<GetBrokerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4206,7 +4234,8 @@ export const GetBrokerAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetBrokerAuthenticationRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<GetBrokerAuthenticationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4223,7 +4252,8 @@ export const GetBrokerAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetBrokerAuthorizationRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<GetBrokerAuthorizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4240,7 +4270,8 @@ export const GetBrokerListener: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetBrokerListenerRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<GetBrokerListenerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4257,7 +4288,8 @@ export const GetDataflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetDataflowRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<GetDataflowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4274,7 +4306,8 @@ export const GetDataflowEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetDataflowEndpointRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<GetDataflowEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4291,7 +4324,8 @@ export const GetDataflowGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetDataflowGraphRequest>,
   output: __S(1632, __c51, 0) as any as S.Schema<GetDataflowGraphResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4308,7 +4342,8 @@ export const GetDataflowProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetDataflowProfileRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<GetDataflowProfileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4325,7 +4360,8 @@ export const GetInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<GetInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4342,7 +4378,8 @@ export const GetRegistryEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetRegistryEndpointRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<GetRegistryEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4359,7 +4396,8 @@ export const InstanceCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1921, __c60, 1) as any as S.Schema<InstanceCreateOrUpdateRequest>,
   output: __S(1922, __c60, 2) as any as S.Schema<InstanceCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4376,7 +4414,8 @@ export const ListAkriConnectorByTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListAkriConnectorByTemplateRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<AkriConnectorResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4393,7 +4432,8 @@ export const ListAkriConnectorTemplateByInstanceResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListAkriConnectorTemplateByInstanceResourceRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<AkriConnectorTemplateResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4410,7 +4450,8 @@ export const ListAkriServiceByInstanceResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListAkriServiceByInstanceResourceRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<AkriServiceResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4427,7 +4468,8 @@ export const ListBrokerAuthenticationByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListBrokerAuthenticationByResourceGroupRequest>,
   output: __S(2146, __c67, 2) as any as S.Schema<BrokerAuthenticationResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4444,7 +4486,8 @@ export const ListBrokerAuthorizationByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListBrokerAuthorizationByResourceGroupRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<BrokerAuthorizationResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4461,7 +4504,8 @@ export const ListBrokerByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListBrokerByResourceGroupRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<BrokerResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4478,7 +4522,8 @@ export const ListBrokerListenerByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListBrokerListenerByResourceGroupRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<BrokerListenerResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4495,7 +4540,8 @@ export const ListDataflowByProfileResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListDataflowByProfileResourceRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<DataflowResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4512,7 +4558,8 @@ export const ListDataflowEndpointByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListDataflowEndpointByResourceGroupRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<DataflowEndpointResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4529,7 +4576,8 @@ export const ListDataflowGraphByDataflowProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListDataflowGraphByDataflowProfileRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<DataflowGraphResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4546,7 +4594,8 @@ export const ListDataflowProfileByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListDataflowProfileByResourceGroupRequest>,
   output: __S(2370, __c74, 2) as any as S.Schema<DataflowProfileResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4563,7 +4612,8 @@ export const ListInstanceByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListInstanceByResourceGroupRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<InstanceResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4580,7 +4630,8 @@ export const ListInstanceBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListInstanceBySubscriptionRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<InstanceResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4597,7 +4648,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2660, __c83, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4614,7 +4666,8 @@ export const ListRegistryEndpointByInstanceResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListRegistryEndpointByInstanceResourceRequest>,
   output: __S(2690, __c84, 2) as any as S.Schema<RegistryEndpointResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4631,7 +4684,8 @@ export const RegistryEndpointCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2721, __c85, 1) as any as S.Schema<RegistryEndpointCreateOrUpdateRequest>,
   output: __S(2722, __c85, 2) as any as S.Schema<RegistryEndpointCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4648,7 +4702,8 @@ export const UpdateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

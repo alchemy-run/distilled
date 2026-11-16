@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownClickHouseCloudError } from "../errors.ts";
+import { ClickHouseCloudServiceErrors } from "../errors.ts";
 import {
   ClickHouseCloudProtocol,
   type ClickHouseCloudOpError,
@@ -3733,7 +3733,8 @@ export const createClickStackAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateClickStackAlertRequest>,
   output: __S(56, __c1, 24) as any as S.Schema<ClickStackAlertResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3750,7 +3751,8 @@ export const createClickStackDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreateClickStackDashboardRequest>,
   output: __S(488, __c15, 8) as any as S.Schema<ClickStackDashboardResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3767,7 +3769,8 @@ export const createClickStackRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<CreateClickStackRoleRequest>,
   output: __S(1032, __c32, 8) as any as S.Schema<ClickStackRole>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3784,7 +3787,8 @@ export const createClickStackSavedSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<CreateClickStackSavedSearchRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<ClickStackSavedSearch>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3801,7 +3805,8 @@ export const createClickStackSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<CreateClickStackSourceRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<CreateClickStackSourceResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3818,7 +3823,8 @@ export const createClickStackWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<CreateClickStackWebhookRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<CreateClickStackWebhookResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3835,7 +3841,8 @@ export const deleteClickStackAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DeleteClickStackAlertRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackAlertResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3852,7 +3859,8 @@ export const deleteClickStackDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<DeleteClickStackDashboardRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackDashboardResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3869,7 +3877,8 @@ export const deleteClickStackRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<DeleteClickStackRoleRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackRoleResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3886,7 +3895,8 @@ export const deleteClickStackSavedSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteClickStackSavedSearchRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackSavedSearchResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3903,7 +3913,8 @@ export const deleteClickStackSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DeleteClickStackSourceRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackSourceResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3920,7 +3931,8 @@ export const deleteClickStackWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteClickStackWebhookRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<DeleteClickStackWebhookResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3937,7 +3949,8 @@ export const getClickStackAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetClickStackAlertRequest>,
   output: __S(56, __c1, 24) as any as S.Schema<ClickStackAlertResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3954,7 +3967,8 @@ export const getClickStackDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetClickStackDashboardRequest>,
   output: __S(488, __c15, 8) as any as S.Schema<ClickStackDashboardResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3971,7 +3985,8 @@ export const getClickStackRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetClickStackRoleRequest>,
   output: __S(1032, __c32, 8) as any as S.Schema<ClickStackRole>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3988,7 +4003,8 @@ export const getClickStackSavedSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetClickStackSavedSearchRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<ClickStackSavedSearch>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4005,7 +4021,8 @@ export const getClickStackSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetClickStackSourceRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<GetClickStackSourceResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4022,7 +4039,8 @@ export const listClickStackAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(385, __c12, 1) as any as S.Schema<ListClickStackAlertsRequest>,
   output: __S(387, __c12, 3) as any as S.Schema<ListClickStackAlertsResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4039,7 +4057,8 @@ export const listClickStackDashboards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListClickStackDashboardsRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<ListClickStackDashboardsResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4056,7 +4075,8 @@ export const listClickStackRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListClickStackRolesRequest>,
   output: __S(674, __c21, 2) as any as S.Schema<ListClickStackRolesResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4073,7 +4093,8 @@ export const listClickStackSavedSearches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListClickStackSavedSearchesRequest>,
   output: __S(706, __c22, 2) as any as S.Schema<ListClickStackSavedSearchesResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4090,7 +4111,8 @@ export const listClickStackSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListClickStackSourcesRequest>,
   output: __S(738, __c23, 2) as any as S.Schema<ListClickStackSourcesResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4107,7 +4129,8 @@ export const listClickStackWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListClickStackWebhooksRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<ListClickStackWebhooksResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4124,7 +4147,8 @@ export const updateClickStackAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<UpdateClickStackAlertRequest>,
   output: __S(56, __c1, 24) as any as S.Schema<ClickStackAlertResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4141,7 +4165,8 @@ export const updateClickStackDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<UpdateClickStackDashboardRequest>,
   output: __S(488, __c15, 8) as any as S.Schema<ClickStackDashboardResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4158,7 +4183,8 @@ export const updateClickStackRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<UpdateClickStackRoleRequest>,
   output: __S(1032, __c32, 8) as any as S.Schema<ClickStackRole>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4175,7 +4201,8 @@ export const updateClickStackSavedSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<UpdateClickStackSavedSearchRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<ClickStackSavedSearch>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4192,7 +4219,8 @@ export const updateClickStackSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<UpdateClickStackSourceRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<UpdateClickStackSourceResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4209,7 +4237,8 @@ export const updateClickStackWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<UpdateClickStackWebhookRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<UpdateClickStackWebhookResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4226,7 +4255,8 @@ export const validateClickStackDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ValidateClickStackDashboardRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<ClickStackValidateDashboardResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4243,7 +4273,8 @@ export const validateClickStackWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ValidateClickStackWebhookRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<ClickStackValidateWebhookResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

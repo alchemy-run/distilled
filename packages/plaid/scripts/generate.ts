@@ -66,7 +66,9 @@ const plaidSpec: SdkSpec = {
   operationDecl: {
     contextType: "PlaidOpContext",
     commonErrorType: "PlaidOpError",
-    commonErrorClasses: ["UnknownPlaidError"],
+    // UnknownPlaidError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "PlaidServiceErrors",
     protocol: "PlaidProtocol",
     retry: "Retry.Retry",
   },

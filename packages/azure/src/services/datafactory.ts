@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -22107,7 +22107,8 @@ export const AddDataFlowDebugSessionDataFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9, __c0, 9) as any as S.Schema<AddDataFlowDebugSessionDataFlowRequest>,
   output: __S(10, __c0, 10) as any as S.Schema<AddDataFlowToDebugSessionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22124,7 +22125,8 @@ export const CancelPipelineRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<CancelPipelineRunRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<CancelPipelineRunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22141,7 +22143,8 @@ export const CancelTriggerRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<CancelTriggerRunRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<CancelTriggerRunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22158,7 +22161,8 @@ export const ChangeDataCaptureCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ChangeDataCaptureCreateOrUpdateRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<ChangeDataCaptureCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22175,7 +22179,8 @@ export const ChangeDataCaptureStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ChangeDataCaptureStatusRequest>,
   output: __S(2369, __c74, 1) as any as S.Schema<ChangeDataCaptureStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22192,7 +22197,8 @@ export const CreateDataFlowDebugSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2817, __c88, 1) as any as S.Schema<CreateDataFlowDebugSessionRequest>,
   output: __S(2818, __c88, 2) as any as S.Schema<CreateDataFlowDebugSessionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22213,7 +22219,8 @@ export const CreateIntegrationRuntimeLinkedIntegrationRuntime: API.OperationMeth
     0,
   ) as any as S.Schema<CreateIntegrationRuntimeLinkedIntegrationRuntimeRequest>,
   output: __S(3840, __c120, 0) as any as S.Schema<IntegrationRuntimeStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22230,7 +22237,8 @@ export const CreatePipelineRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<CreatePipelineRunRequest>,
   output: __S(4289, __c134, 1) as any as S.Schema<CreateRunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22247,7 +22255,8 @@ export const CredentialOperationsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<CredentialOperationsCreateOrUpdateRequest>,
   output: __S(4709, __c147, 5) as any as S.Schema<CredentialOperationsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22264,7 +22273,8 @@ export const DataFlowDebugSessionQueryByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<DataFlowDebugSessionQueryByFactoryRequest>,
   output: __S(5091, __c159, 3) as any as S.Schema<QueryDataFlowDebugSessionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22281,7 +22291,8 @@ export const DataFlowsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<DataFlowsCreateOrUpdateRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<DataFlowsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22298,7 +22309,8 @@ export const DatasetsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DatasetsCreateOrUpdateRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<DatasetsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22315,7 +22327,8 @@ export const DeleteChangeDataCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteChangeDataCaptureRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteChangeDataCaptureResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22332,7 +22345,8 @@ export const DeleteCredentialOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DeleteCredentialOperationRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteCredentialOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22349,7 +22363,8 @@ export const DeleteDataFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DeleteDataFlowRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteDataFlowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22366,7 +22381,8 @@ export const DeleteDataFlowDebugSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<DeleteDataFlowDebugSessionRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteDataFlowDebugSessionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22383,7 +22399,8 @@ export const DeleteDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<DeleteDatasetRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteDatasetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22400,7 +22417,8 @@ export const DeleteFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<DeleteFactoryRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteFactoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22417,7 +22435,8 @@ export const DeleteGlobalParameter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<DeleteGlobalParameterRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteGlobalParameterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22434,7 +22453,8 @@ export const DeleteIntegrationRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<DeleteIntegrationRuntimeRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteIntegrationRuntimeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22451,7 +22471,8 @@ export const DeleteIntegrationRuntimeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<DeleteIntegrationRuntimeNodeRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteIntegrationRuntimeNodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22468,7 +22489,8 @@ export const DeleteLinkedService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<DeleteLinkedServiceRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteLinkedServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22485,7 +22507,8 @@ export const DeleteManagedPrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<DeleteManagedPrivateEndpointRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteManagedPrivateEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22502,7 +22525,8 @@ export const DeletePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DeletePipelineRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeletePipelineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22519,7 +22543,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22536,7 +22561,8 @@ export const DeleteTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<DeleteTriggerRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<DeleteTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22553,7 +22579,8 @@ export const DisableIntegrationRuntimeInteractiveQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<DisableIntegrationRuntimeInteractiveQueryRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<DisableIntegrationRuntimeInteractiveQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22570,7 +22597,8 @@ export const EnableIntegrationRuntimeInteractiveQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<EnableIntegrationRuntimeInteractiveQueryRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<EnableIntegrationRuntimeInteractiveQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22587,7 +22615,8 @@ export const ExecuteDataFlowDebugSessionCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1697, __c53, 1) as any as S.Schema<ExecuteDataFlowDebugSessionCommandRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<DataFlowDebugCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22604,7 +22633,8 @@ export const ExposureControlQueryFeatureValuesByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1730, __c54, 2) as any as S.Schema<ExposureControlQueryFeatureValuesByFactoryRequest>,
   output: __S(1732, __c54, 4) as any as S.Schema<ExposureControlBatchResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22621,7 +22651,8 @@ export const FactoriesConfigureFactoryRepo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<FactoriesConfigureFactoryRepoRequest>,
   output: __S(1952, __c61, 0) as any as S.Schema<FactoriesConfigureFactoryRepoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22638,7 +22669,8 @@ export const FactoriesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2081, __c65, 1) as any as S.Schema<FactoriesCreateOrUpdateRequest>,
   output: __S(1952, __c61, 0) as any as S.Schema<FactoriesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22655,7 +22687,8 @@ export const GetChangeDataCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetChangeDataCaptureRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<GetChangeDataCaptureResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22672,7 +22705,8 @@ export const GetCredentialOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<GetCredentialOperationRequest>,
   output: __S(4709, __c147, 5) as any as S.Schema<GetCredentialOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22689,7 +22723,8 @@ export const GetDataFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetDataFlowRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<GetDataFlowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22706,7 +22741,8 @@ export const GetDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetDatasetRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<GetDatasetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22723,7 +22759,8 @@ export const GetExposureControlFeatureValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<GetExposureControlFeatureValueRequest>,
   output: __S(1760, __c55, 0) as any as S.Schema<ExposureControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22740,7 +22777,8 @@ export const GetExposureControlFeatureValueByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetExposureControlFeatureValueByFactoryRequest>,
   output: __S(1760, __c55, 0) as any as S.Schema<ExposureControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22757,7 +22795,8 @@ export const GetFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<GetFactoryRequest>,
   output: __S(1952, __c61, 0) as any as S.Schema<GetFactoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22774,7 +22813,8 @@ export const GetFactoryDataPlaneAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetFactoryDataPlaneAccessRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<AccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22791,7 +22831,8 @@ export const GetFactoryGitHubAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetFactoryGitHubAccessTokenRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<GitHubAccessTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22808,7 +22849,8 @@ export const GetGlobalParameter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<GetGlobalParameterRequest>,
   output: __S(2464, __c77, 0) as any as S.Schema<GetGlobalParameterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22825,7 +22867,8 @@ export const GetIntegrationRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetIntegrationRuntimeRequest>,
   output: __S(2528, __c79, 0) as any as S.Schema<GetIntegrationRuntimeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22842,7 +22885,8 @@ export const GetIntegrationRuntimeConnectionInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<GetIntegrationRuntimeConnectionInfoRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<IntegrationRuntimeConnectionInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22859,7 +22903,8 @@ export const GetIntegrationRuntimeMonitoringData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<GetIntegrationRuntimeMonitoringDataRequest>,
   output: __S(2595, __c81, 3) as any as S.Schema<IntegrationRuntimeMonitoringData>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22876,7 +22921,8 @@ export const GetIntegrationRuntimeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetIntegrationRuntimeNodeRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<SelfHostedIntegrationRuntimeNode>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22893,7 +22939,8 @@ export const GetIntegrationRuntimeNodeIpAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetIntegrationRuntimeNodeIpAddressRequest>,
   output: __S(2657, __c83, 1) as any as S.Schema<IntegrationRuntimeNodeIpAddress>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22910,7 +22957,8 @@ export const GetIntegrationRuntimeObjectMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetIntegrationRuntimeObjectMetadataRequest>,
   output: __S(2701, __c84, 13) as any as S.Schema<SsisObjectMetadataListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22927,7 +22975,8 @@ export const GetIntegrationRuntimeStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<GetIntegrationRuntimeStatusRequest>,
   output: __S(3840, __c120, 0) as any as S.Schema<IntegrationRuntimeStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22944,7 +22993,8 @@ export const GetLinkedService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<GetLinkedServiceRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<GetLinkedServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22961,7 +23011,8 @@ export const GetManagedPrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<GetManagedPrivateEndpointRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<GetManagedPrivateEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22978,7 +23029,8 @@ export const GetManagedVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<GetManagedVirtualNetworkRequest>,
   output: __S(3041, __c95, 1) as any as S.Schema<GetManagedVirtualNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22995,7 +23047,8 @@ export const GetPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<GetPipelineRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<GetPipelineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23012,7 +23065,8 @@ export const GetPipelineRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<GetPipelineRunRequest>,
   output: __S(3457, __c108, 1) as any as S.Schema<PipelineRun>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23029,7 +23083,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(3523, __c110, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23046,7 +23101,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(3556, __c111, 4) as any as S.Schema<PrivateLinkResourcesWrapper>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23063,7 +23119,8 @@ export const GetTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<GetTriggerRequest>,
   output: __S(3644, __c113, 28) as any as S.Schema<GetTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23080,7 +23137,8 @@ export const GetTriggerEventSubscriptionStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<GetTriggerEventSubscriptionStatusRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<TriggerSubscriptionOperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23097,7 +23155,8 @@ export const GlobalParametersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<GlobalParametersCreateOrUpdateRequest>,
   output: __S(2464, __c77, 0) as any as S.Schema<GlobalParametersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23114,7 +23173,8 @@ export const IntegrationRuntimesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<IntegrationRuntimesCreateOrUpdateRequest>,
   output: __S(2528, __c79, 0) as any as S.Schema<IntegrationRuntimesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23131,7 +23191,8 @@ export const IntegrationRuntimesUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<IntegrationRuntimesUpgradeRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<IntegrationRuntimesUpgradeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23148,7 +23209,8 @@ export const LinkedServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<LinkedServicesCreateOrUpdateRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<LinkedServicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23165,7 +23227,8 @@ export const ListChangeDataCaptureByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<ListChangeDataCaptureByFactoryRequest>,
   output: __S(3971, __c124, 3) as any as S.Schema<ChangeDataCaptureListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23182,7 +23245,8 @@ export const ListCredentialOperationByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<ListCredentialOperationByFactoryRequest>,
   output: __S(4002, __c125, 2) as any as S.Schema<CredentialListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23199,7 +23263,8 @@ export const ListDataFlowByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<ListDataFlowByFactoryRequest>,
   output: __S(4034, __c126, 2) as any as S.Schema<DataFlowListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23216,7 +23281,8 @@ export const ListDatasetByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<ListDatasetByFactoryRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<DatasetListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23233,7 +23299,8 @@ export const ListFactories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<ListFactoriesRequest>,
   output: __S(4130, __c129, 2) as any as S.Schema<FactoryListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23250,7 +23317,8 @@ export const ListFactoryByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<ListFactoryByResourceGroupRequest>,
   output: __S(4130, __c129, 2) as any as S.Schema<FactoryListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23267,7 +23335,8 @@ export const ListGlobalParameterByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<ListGlobalParameterByFactoryRequest>,
   output: __S(4194, __c131, 2) as any as S.Schema<GlobalParameterListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23284,7 +23353,8 @@ export const ListIntegrationRuntimeAuthKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<ListIntegrationRuntimeAuthKeysRequest>,
   output: __S(4256, __c133, 0) as any as S.Schema<IntegrationRuntimeAuthKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23301,7 +23371,8 @@ export const ListIntegrationRuntimeByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<ListIntegrationRuntimeByFactoryRequest>,
   output: __S(4322, __c135, 2) as any as S.Schema<IntegrationRuntimeListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23326,7 +23397,8 @@ export const ListIntegrationRuntimeOutboundNetworkDependenciesEndpoints: API.Ope
     __c136,
     7,
   ) as any as S.Schema<IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23343,7 +23415,8 @@ export const ListLinkedServiceByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<ListLinkedServiceByFactoryRequest>,
   output: __S(4386, __c137, 2) as any as S.Schema<LinkedServiceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23360,7 +23433,8 @@ export const ListManagedPrivateEndpointByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<ListManagedPrivateEndpointByFactoryRequest>,
   output: __S(4418, __c138, 2) as any as S.Schema<ManagedPrivateEndpointListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23377,7 +23451,8 @@ export const ListManagedVirtualNetworkByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<ListManagedVirtualNetworkByFactoryRequest>,
   output: __S(4450, __c139, 2) as any as S.Schema<ManagedVirtualNetworkListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23394,7 +23469,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(4494, __c140, 14) as any as S.Schema<OperationListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23411,7 +23487,8 @@ export const ListPipelineByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<ListPipelineByFactoryRequest>,
   output: __S(4515, __c141, 3) as any as S.Schema<PipelineListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23428,7 +23505,8 @@ export const ListPrivateEndPointConnectionByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<ListPrivateEndPointConnectionByFactoryRequest>,
   output: __S(4546, __c142, 2) as any as S.Schema<PrivateEndpointConnectionListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23445,7 +23523,8 @@ export const ListTriggerByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<ListTriggerByFactoryRequest>,
   output: __S(4577, __c143, 1) as any as S.Schema<TriggerListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23462,7 +23541,8 @@ export const ManagedPrivateEndpointsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4641, __c145, 1) as any as S.Schema<ManagedPrivateEndpointsCreateOrUpdateRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<ManagedPrivateEndpointsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23479,7 +23559,8 @@ export const ManagedVirtualNetworksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4737, __c148, 1) as any as S.Schema<ManagedVirtualNetworksCreateOrUpdateRequest>,
   output: __S(3041, __c95, 1) as any as S.Schema<ManagedVirtualNetworksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23496,7 +23577,8 @@ export const PipelineRunsQueryByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<PipelineRunsQueryByFactoryRequest>,
   output: __S(4770, __c149, 2) as any as S.Schema<PipelineRunsQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23513,7 +23595,8 @@ export const PipelinesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<PipelinesCreateOrUpdateRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<PipelinesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23530,7 +23613,8 @@ export const PrivateEndpointConnectionCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4865, __c152, 1) as any as S.Schema<PrivateEndpointConnectionCreateOrUpdateRequest>,
   output: __S(3523, __c110, 3) as any as S.Schema<PrivateEndpointConnectionCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23547,7 +23631,8 @@ export const RefreshIntegrationRuntimeObjectMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<RefreshIntegrationRuntimeObjectMetadataRequest>,
   output: __S(4897, __c153, 1) as any as S.Schema<SsisObjectMetadataStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23564,7 +23649,8 @@ export const RegenerateIntegrationRuntimeAuthKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<RegenerateIntegrationRuntimeAuthKeyRequest>,
   output: __S(4256, __c133, 0) as any as S.Schema<IntegrationRuntimeAuthKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23581,7 +23667,8 @@ export const RemoveIntegrationRuntimeLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<RemoveIntegrationRuntimeLinksRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<RemoveIntegrationRuntimeLinksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23598,7 +23685,8 @@ export const RunActivityRunsQueryByPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<RunActivityRunsQueryByPipelineRequest>,
   output: __S(4995, __c156, 3) as any as S.Schema<ActivityRunsQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23615,7 +23703,8 @@ export const StartChangeDataCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<StartChangeDataCaptureRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<StartChangeDataCaptureResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23632,7 +23721,8 @@ export const StartIntegrationRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<StartIntegrationRuntimeRequest>,
   output: __S(5057, __c158, 1) as any as S.Schema<StartIntegrationRuntimeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23649,7 +23739,8 @@ export const StartTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<StartTriggerRequest>,
   output: __S(5152, __c161, 0) as any as S.Schema<StartTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23666,7 +23757,8 @@ export const StopChangeDataCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<StopChangeDataCaptureRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<StopChangeDataCaptureResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23683,7 +23775,8 @@ export const StopIntegrationRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<StopIntegrationRuntimeRequest>,
   output: __S(5217, __c163, 1) as any as S.Schema<StopIntegrationRuntimeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23700,7 +23793,8 @@ export const StopTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<StopTriggerRequest>,
   output: __S(5152, __c161, 0) as any as S.Schema<StopTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23717,7 +23811,8 @@ export const SubscribeTriggerToEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<SubscribeTriggerToEventsRequest>,
   output: __S(5312, __c166, 0) as any as S.Schema<SubscribeTriggerToEventsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23734,7 +23829,8 @@ export const SyncIntegrationRuntimeCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<SyncIntegrationRuntimeCredentialsRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<SyncIntegrationRuntimeCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23751,7 +23847,8 @@ export const TriggerRunsQueryByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<TriggerRunsQueryByFactoryRequest>,
   output: __S(5379, __c168, 3) as any as S.Schema<TriggerRunsQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23768,7 +23865,8 @@ export const TriggerRunsRerun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<TriggerRunsRerunRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<TriggerRunsRerunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23785,7 +23883,8 @@ export const TriggersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<TriggersCreateOrUpdateRequest>,
   output: __S(3644, __c113, 28) as any as S.Schema<TriggersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23802,7 +23901,8 @@ export const TriggersQueryByFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<TriggersQueryByFactoryRequest>,
   output: __S(5473, __c171, 1) as any as S.Schema<TriggerQueryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23819,7 +23919,8 @@ export const UnsubscribeTriggerFromEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<UnsubscribeTriggerFromEventsRequest>,
   output: __S(5312, __c166, 0) as any as S.Schema<UnsubscribeTriggerFromEventsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23836,7 +23937,8 @@ export const UpdateFactory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(929, __c29, 1) as any as S.Schema<UpdateFactoryRequest>,
   output: __S(1952, __c61, 0) as any as S.Schema<UpdateFactoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23853,7 +23955,8 @@ export const UpdateIntegrationRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<UpdateIntegrationRuntimeRequest>,
   output: __S(2528, __c79, 0) as any as S.Schema<UpdateIntegrationRuntimeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23870,7 +23973,8 @@ export const UpdateIntegrationRuntimeNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<UpdateIntegrationRuntimeNodeRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<SelfHostedIntegrationRuntimeNode>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

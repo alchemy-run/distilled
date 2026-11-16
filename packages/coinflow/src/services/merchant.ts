@@ -31,6 +31,7 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -40,6 +41,7 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -49,6 +51,7 @@ export class PaymentRequired
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
   ) {}
@@ -68,6 +71,7 @@ export class VerificationRequired
           readonly message?: string;
         }>,
       ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 451 }],
   ) {}
@@ -581,16 +585,12 @@ export interface CustomPayInFeeConfig {
   lineItemLabel: string;
 }
 export type CustomPayInFeesConfig = Array<CustomPayInFeeConfig>;
-export interface IMerchantStringWalletsStellar {
-  usdcPayer: string;
-}
 export interface IMerchantStringWalletsEvm {
   usdcPayer: string;
   feePayer: string;
 }
 export type IMerchantStringWalletsSolana = IMerchantStringWalletsEvm;
 export interface IMerchantStringWallets {
-  stellar: IMerchantStringWalletsStellar;
   evm: IMerchantStringWalletsEvm;
   solana: IMerchantStringWalletsEvm;
 }
@@ -598,6 +598,7 @@ export interface IMerchantStringWallets {
 export type MerchantScope =
   | "admin"
   | "editor"
+  | "payouts"
   | "chargeback"
   | "chargeback_analyst"
   | "chargeback_analyst_read"
@@ -861,15 +862,19 @@ export interface HighnoteMerchantSettings {
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
   /** Set when onboardBusiness (the ProductApplication submission) succeeded. A re-run while underwriting is still Pending must not re-submit the application -- Highnote rejects duplicates, which would overwrite a healthy Pending status with an error. */
   applicationSubmittedAt?: string | undefined;
 }
 /** From T, pick a set of properties whose keys are in the union K */
-export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId {
+export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled {
   merchantAcceptorId?: string | undefined;
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
 }
 export interface PayarcMerchantArgs {
   apiKey: string | Redacted.Redacted<string>;
@@ -1274,7 +1279,7 @@ export interface CardSettings {
   crbMerchantArgs?: CrbMerchantSettings | undefined;
   highnoteMerchantArgs?: HighnoteMerchantSettings | undefined;
   highnote2MerchantArgs?:
-    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId
+    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled
     | undefined;
   payarcMerchantArgs?: PayarcMerchantArgs | undefined;
   threeDSArgs?: ThreeDSArgs | undefined;
@@ -1721,6 +1726,14 @@ export interface IMerchantStringWithdrawFeePayment {
   paysSwapFees?: boolean | undefined;
   paysWithdrawFees?: boolean | undefined;
 }
+export type CardNameMatchResult =
+  | "match"
+  | "partial_match"
+  | "no_match"
+  | "unverified"
+  | "not_supported";
+/** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+export type IMerchantStringAniBlockedResultsList = Array<CardNameMatchResult>;
 export type PayoutProviderOption = "aptpay" | "coinfx" | "checkbook" | "BRAID" | "brale" | "mock";
 export type IMerchantStringBankPayoutProviderList = Array<PayoutProviderOption>;
 export type IbanPayoutProvider = "merge" | "mock" | "ivy" | "conduit";
@@ -2239,6 +2252,8 @@ export interface IMerchantString {
   withdrawFeePayment?: IMerchantStringWithdrawFeePayment | undefined;
   pushToCardEnabled: boolean;
   requireAniCheck: boolean;
+  /** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+  aniBlockedResults?: IMerchantStringAniBlockedResultsList | undefined;
   /** Opts AptPay push to card into credit cards; other providers stay debit-only. */
   allowCreditForPushToCard?: boolean | undefined;
   bankPayoutProvider?: IMerchantStringBankPayoutProviderList | undefined;
@@ -2921,7 +2936,6 @@ export type BlockchainETH = "eth";
 export type BlockchainPOLYGON = "polygon";
 export type BlockchainBASE = "base";
 export type BlockchainARBITRUM = "arbitrum";
-export type BlockchainSTELLAR = "stellar";
 export type BlockchainMONAD = "monad";
 export type BlockchainTEMPO = "tempo";
 export type OperationalBlockchain =
@@ -2930,7 +2944,6 @@ export type OperationalBlockchain =
   | BlockchainPOLYGON
   | BlockchainBASE
   | BlockchainARBITRUM
-  | BlockchainSTELLAR
   | BlockchainMONAD
   | BlockchainTEMPO;
 export interface PaymentListResponseOutstanding {
@@ -6290,6 +6303,7 @@ export interface PickIWithdrawExcludeKeyofIWithdrawProvider {
   /** Optional end-user address to send a failed-withdraw refund to instead of the originating wallet. Copied from the CryptoWithdrawSession at creation. */
   returnAddress?: string | undefined;
   returnCurrency?: string | undefined;
+  embeddedTransferId?: string | undefined;
   returnGlideSessionId?: string | undefined;
   userId?: string | undefined;
   detailMessage?: string | undefined;
@@ -7089,6 +7103,7 @@ export interface MerchantCapabilities {
   companyCardsEnabled: boolean;
   hasManagedAccounts: boolean;
   cryptoPayoutsEnabled: boolean;
+  firstPartyDirectCryptoPayoutsEnabled: boolean;
 }
 export interface AdditionalVerification {
   name: string;
@@ -7747,6 +7762,10 @@ export interface UpdateCustomWithdrawalFeesRequest {
   global: CustomWithdrawFeeValue;
   lineItemLabel: string;
   isBundled: boolean;
+}
+export interface PayoutFromDelegatedSettlementWalletRequestUnavailableForLegalReasonsError {
+  verificationLink: string;
+  message: string;
 }
 export type AcceptChargebackError = CoinflowOpError;
 /** Accept chargeback */
@@ -11560,6 +11579,7 @@ function __c36(j: number): any {
           returnedAt: S.optional(S.String),
           returnAddress: S.optional(S.String),
           returnCurrency: S.optional(S.String),
+          embeddedTransferId: S.optional(S.String),
           returnGlideSessionId: S.optional(S.String),
           userId: S.optional(S.String),
           detailMessage: S.optional(S.String),
@@ -12507,6 +12527,7 @@ function __c52(j: number): any {
           companyCardsEnabled: S.Boolean,
           hasManagedAccounts: S.Boolean,
           cryptoPayoutsEnabled: S.Boolean,
+          firstPartyDirectCryptoPayoutsEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "MerchantCapabilities" });
     case 2:

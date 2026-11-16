@@ -29,7 +29,6 @@
  *     Layer.mergeAll(
  *       FetchHttpClient.layer,
  *       Scaleway.CredentialsFromEnv,
- *       Scaleway.ScalewayProtocol,
  *     ),
  *   ),
  *   Effect.runPromise,

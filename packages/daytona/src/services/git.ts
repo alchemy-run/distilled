@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDaytonaError } from "../errors.ts";
+import { DaytonaServiceErrors } from "../errors.ts";
 import { DaytonaProtocol, type DaytonaOpError, type DaytonaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -308,7 +308,8 @@ export const addFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<AddFilesRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<AddFilesResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -325,7 +326,8 @@ export const addRemote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<AddRemoteRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<AddRemoteResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -342,7 +344,8 @@ export const authenticate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<AuthenticateRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<AuthenticateResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -359,7 +362,8 @@ export const checkoutBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<CheckoutBranchRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<CheckoutBranchResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -376,7 +380,8 @@ export const cloneRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<CloneRepositoryRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<CloneRepositoryResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -393,7 +398,8 @@ export const commitChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<CommitChangesRequest>,
   output: __S(77, __c19, 1) as any as S.Schema<GitCommitResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -410,7 +416,8 @@ export const configureUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<ConfigureUserRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<ConfigureUserResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -427,7 +434,8 @@ export const createBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<CreateBranchRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<CreateBranchResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -444,7 +452,8 @@ export const deleteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<DeleteBranchRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<DeleteBranchResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -461,7 +470,8 @@ export const getCommitHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetCommitHistoryRequest>,
   output: __S(19, __c4, 3) as any as S.Schema<GetCommitHistoryResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -478,7 +488,8 @@ export const getGitConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetGitConfigRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<GitConfigResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -495,7 +506,8 @@ export const getStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetStatusRequest>,
   output: __S(27, __c6, 3) as any as S.Schema<GitStatus>,
-  errors: [GitReferenceNotFound, UnknownDaytonaError],
+  errors: [GitReferenceNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -512,7 +524,8 @@ export const initRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<InitRepositoryRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<InitRepositoryResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -529,7 +542,8 @@ export const listBranches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListBranchesRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<ListBranchResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -546,7 +560,8 @@ export const listRemotes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<ListRemotesRequest>,
   output: __S(39, __c9, 3) as any as S.Schema<ListRemotesResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -563,7 +578,8 @@ export const pullChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<PullChangesRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<PullChangesResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -580,7 +596,8 @@ export const pushChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<PushChangesRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<PushChangesResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -597,7 +614,8 @@ export const resetChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<ResetChangesRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<ResetChangesResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -614,7 +632,8 @@ export const restoreFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<RestoreFilesRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<RestoreFilesResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -631,7 +650,8 @@ export const setGitConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<SetGitConfigRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<SetGitConfigResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

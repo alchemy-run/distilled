@@ -8,7 +8,7 @@ import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import { type Config, credentials, fromCatalogConfig } from "../src/credentials.ts";
 import { AuthenticationTimeout, Forbidden, NotFound } from "../src/errors.ts";
-import { baseUrlFor, IcebergProtocol, type IcebergOpContext } from "../src/protocol.ts";
+import { baseUrlFor, type IcebergOpContext } from "../src/protocol.ts";
 import {
   CommitStateUnknownException,
   getConfig,
@@ -59,11 +59,7 @@ const run = <A, E>(
   },
 ) => {
   const { client, requests } = makeClient(respond);
-  const layer = Layer.mergeAll(
-    Layer.succeed(HttpClient.HttpClient, client),
-    credentials(config),
-    IcebergProtocol,
-  );
+  const layer = Layer.mergeAll(Layer.succeed(HttpClient.HttpClient, client), credentials(config));
   return Effect.runPromise(Effect.result(effect.pipe(Effect.provide(layer)))).then((result) => ({
     result,
     requests,

@@ -40,6 +40,9 @@ export class Credentials
     "DiscordCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // DISCORD_BOT_TOKEN is the spelling discord.js and most hosting platforms
   // use; DISCORD_TOKEN is the fallback.
