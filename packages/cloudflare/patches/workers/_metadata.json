@@ -1,5 +1,5 @@
 {
-  "description": "Key dictionary / op aliases for workers (mined from distilled)",
+  "description": "Key dictionary / op aliases for workers (mined from distilled). cache_options is keyed by its TS name cacheOptions: the mined v0 entry cache -> cache_options renamed the per-export `cache` key of Worker exports, which the API names `cache`.",
   "patches": [
     {
       "op": "add",
@@ -14,7 +14,7 @@
         "bodyPart": "body_part",
         "bucketName": "bucket_name",
         "bytesRead": "bytes_read",
-        "cache": "cache_options",
+        "cacheOptions": "cache_options",
         "capnpSchema": "capnp_schema",
         "certId": "cert_id",
         "certificateId": "certificate_id",
