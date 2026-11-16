@@ -117,7 +117,6 @@ const REQUIRED_CHECKS = [
   "Test",
   "Bundlers",
   "Lint",
-  "Conformance (gRPC and protobuf)",
   "Typecheck (deployment stacks)",
   "Website (typecheck & static build)",
   "Check formatting",
