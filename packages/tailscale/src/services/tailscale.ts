@@ -285,7 +285,7 @@ export interface BatchUpdateCustomDevicePostureAttributesRequest {
   /** An optional comment indicating why attributes are being set, which will be added to the audit log. */
   comment?: string | undefined;
 }
-export type BatchUpdateCustomDevicePostureAttributesResponse = unknown;
+export type BatchUpdateCustomDevicePostureAttributesResponse = unknown | null;
 export interface CreateDeviceInvitesRequestBodyItem {
   /** Whether the invite can be accepted more than once. When set to `true`, it results in an invite that can be accepted up to 1,000 times. */
   multiUse?: boolean | undefined;
@@ -4243,7 +4243,7 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "BatchUpdateCustomDevicePostureAttributesRequest" });
     case 4:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
         identifier: "BatchUpdateCustomDevicePostureAttributesResponse",
       });
   }

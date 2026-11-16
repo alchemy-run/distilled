@@ -23,7 +23,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Discord.CredentialsFromEnv,
-  Discord.DiscordProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

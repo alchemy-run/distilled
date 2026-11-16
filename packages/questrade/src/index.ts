@@ -22,7 +22,7 @@
  *
  * program.pipe(
  *   Effect.provide(
- *     Layer.mergeAll(FetchHttpClient.layer, Questrade.CredentialsFromEnv, Questrade.QuestradeProtocol),
+ *     Layer.mergeAll(FetchHttpClient.layer, Questrade.CredentialsFromEnv),
  *   ),
  *   Effect.runPromise,
  * );

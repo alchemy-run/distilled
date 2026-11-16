@@ -24,7 +24,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   S2.CredentialsFromEnv,
-  S2.S2Protocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

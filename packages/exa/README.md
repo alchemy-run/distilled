@@ -31,7 +31,7 @@ const program = Effect.gen(function* () {
   return (contents.results ?? []).map((page) => ({ title: page.title, text: page.text }));
 });
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv, Exa.ExaProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv);
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
