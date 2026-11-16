@@ -29,6 +29,9 @@ export class Credentials
     "MailchimpCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** The data-centre suffix of an API key (`abc123-us21` -> `us21`). */
 export const serverPrefixFromApiKey = (apiKey: string): string | undefined => {
   const dash = apiKey.lastIndexOf("-");
@@ -117,6 +120,14 @@ export class TransactionalCredentials
     TransactionalCredentials,
     Effect.Effect<TransactionalConfig, ConfigError>
   >()("MailchimpTransactionalCredentials") {}
+
+/**
+ * What resolving the Transactional credentials can fail with: declared on
+ * {@link TransactionalCredentials}.
+ */
+export type TransactionalCredentialsError = Effect.Error<
+  (typeof TransactionalCredentials)["Service"]
+>;
 
 const resolveTransactional = (config: {
   readonly apiKey: string | Redacted.Redacted<string>;
