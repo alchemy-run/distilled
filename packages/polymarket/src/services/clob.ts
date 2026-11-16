@@ -458,7 +458,7 @@ export interface RebatedFees {
   rebated_fees_usdc: string;
 }
 export type GetCurrentRebatedFeesResponseBodyList = Array<RebatedFees>;
-export type GetCurrentRebatedFeesResponse = GetCurrentRebatedFeesResponseBodyList;
+export type GetCurrentRebatedFeesResponse = GetCurrentRebatedFeesResponseBodyList | null;
 export interface GetCurrentRewardsRequest {
   /** If true, returns sponsored reward configurations instead of standard ones */
   sponsored?: boolean | undefined;
@@ -3065,7 +3065,7 @@ function __c26(j: number): any {
     case 2:
       return S.Array(__S(209, __c26, 1));
     case 3:
-      return S.suspend(() => __S(210, __c26, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(210, __c26, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCurrentRebatedFeesResponse",
       });
   }
