@@ -22,20 +22,6 @@ RestXmlEndpointTrait (request)
 RestXmlEndpointTraitWithHostLabel (request)
 RestXmlEndpointTraitWithHostLabelAndHttpBinding (request)
 
-# `@requestCompression` is not implemented: no gzip body or Content-Encoding.
-SDKAppendedGzipAfterProvidedEncoding_restJson1 (request)
-SDKAppendedGzipAfterProvidedEncoding_restXml (request)
-SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_0 (request)
-SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_1 (request)
-SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsQuery (request)
-SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query (request)
-SDKAppliedContentEncoding_awsJson1_0 (request)
-SDKAppliedContentEncoding_awsJson1_1 (request)
-SDKAppliedContentEncoding_awsQuery (request)
-SDKAppliedContentEncoding_ec2Query (request)
-SDKAppliedContentEncoding_restJson1 (request)
-SDKAppliedContentEncoding_restXml (request)
-
 # `@default` values are not filled in, and missing required members are not
 # set to their zero values.
 AwsJson10ClientErrorCorrectsWhenServerFailsToSerializeRequiredValues (response)

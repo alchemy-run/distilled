@@ -73,6 +73,14 @@ const applyHttpChecksum: MiddlewareFn = (schema, request) =>
     loadOwnModule(() => (checksumModule ??= import("./middleware/checksum.ts"))),
     (m) => m.applyHttpChecksum(schema, request),
   );
+
+/** Request compression middleware, loaded on the first request that needs it. */
+let compressionModule: Promise<typeof import("./middleware/compression.ts")> | undefined;
+const applyRequestCompression: MiddlewareFn = (schema, request) =>
+  Effect.flatMap(
+    loadOwnModule(() => (compressionModule ??= import("./middleware/compression.ts"))),
+    (m) => m.applyRequestCompression(schema, request),
+  );
 import type { RuleSetObject } from "./rules-engine/expression.ts";
 
 // The annotation machinery (pipeable builders usable as S.Class annotation
@@ -384,6 +392,30 @@ export const AwsProtocolsHttpChecksum = (trait: AwsProtocolsHttpChecksumTrait) =
     { symbol: middlewareSymbol, value },
   ];
   (fn as any)[awsProtocolsHttpChecksumSymbol] = value;
+  (fn as any)[middlewareSymbol] = value;
+  return fn as Annotation;
+};
+
+/** smithy.api#requestCompression - gzip the request body, with embedded middleware */
+export const requestCompressionSymbol = "distilled-aws/smithy.api#requestCompression" as const;
+export interface RequestCompressionTrait {
+  encodings: string[];
+}
+export const RequestCompression = (trait: RequestCompressionTrait) => {
+  const value: MiddlewareAnnotationValue & RequestCompressionTrait = {
+    ...trait,
+    middleware: applyRequestCompression,
+  };
+  const fn = <A extends Annotatable>(schema: A): A =>
+    schema.annotate({
+      [requestCompressionSymbol]: value,
+      [middlewareSymbol]: [...(getMiddlewareList(schema) || []), value],
+    }) as A;
+  (fn as any)[annotationMetaSymbol] = [
+    { symbol: requestCompressionSymbol, value },
+    { symbol: middlewareSymbol, value },
+  ];
+  (fn as any)[requestCompressionSymbol] = value;
   (fn as any)[middlewareSymbol] = value;
   return fn as Annotation;
 };
@@ -1167,6 +1199,9 @@ export const getAwsProtocolsHttpChecksum = (
   ast: AST.AST,
 ): AwsProtocolsHttpChecksumTrait | undefined =>
   getAnnotationUnwrap<AwsProtocolsHttpChecksumTrait>(ast, awsProtocolsHttpChecksumSymbol);
+
+export const getRequestCompression = (ast: AST.AST): RequestCompressionTrait | undefined =>
+  getAnnotationUnwrap<RequestCompressionTrait>(ast, requestCompressionSymbol);
 
 export const hasHttpChecksumRequired = (ast: AST.AST): boolean =>
   hasAnnotation(ast, httpChecksumRequiredSymbol);

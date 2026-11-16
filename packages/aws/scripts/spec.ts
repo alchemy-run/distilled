@@ -450,6 +450,7 @@ interface OperationInputTraits {
     responseAlgorithms?: string[];
   };
   staticContextParams?: Record<string, { value: unknown }>;
+  requestCompression?: { encodings: string[] };
 }
 
 /**
@@ -499,6 +500,9 @@ function collectOperationInputTraits(model: SmithyModel): {
         uri: httpTrait.uri ?? "/",
         httpChecksum: httpChecksumTrait,
         staticContextParams: staticContextParamsTrait,
+        requestCompression: shape.traits?.["smithy.api#requestCompression"] as
+          | OperationInputTraits["requestCompression"]
+          | undefined,
       };
 
       // Operations with `smithy.api#Unit` inputs get a synthesized
@@ -1940,6 +1944,12 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
             );
             classAnnotations.push("svc", "auth", "proto", "ver");
             if (endpointRuleSet) classAnnotations.push("rules");
+            // Before the checksum, which covers the compressed body.
+            if (opTraits.requestCompression) {
+              classAnnotations.push(
+                `T.RequestCompression(${JSON.stringify(opTraits.requestCompression)})`,
+              );
+            }
             if (opTraits.httpChecksum) {
               classAnnotations.push(httpChecksumAnnotation(opTraits.httpChecksum));
             }
@@ -2142,6 +2152,11 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           const overrideAnnotations: string[] = [
             `T.Http({ method: "${overrideTraits.method}", uri: "${overrideTraits.uri}" })`,
           ];
+          if (overrideTraits.requestCompression) {
+            overrideAnnotations.push(
+              `T.RequestCompression(${JSON.stringify(overrideTraits.requestCompression)})`,
+            );
+          }
           if (overrideTraits.httpChecksum) {
             overrideAnnotations.push(httpChecksumAnnotation(overrideTraits.httpChecksum));
           }
