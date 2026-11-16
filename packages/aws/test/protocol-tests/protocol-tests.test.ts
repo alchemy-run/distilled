@@ -562,9 +562,21 @@ for (const serviceId of SERVICES) {
           });
           expect(failureOf(exit)).toBeUndefined();
           const value = Exit.isSuccess(exit) ? exit.value : undefined;
-          expect(await canonical(value)).toEqual(
-            await canonical(toRuntime(shapes, outputId, c.params ?? {})),
-          );
+          const actual = (await canonical(value)) as Record<string, unknown> | undefined;
+          const expected = (await canonical(toRuntime(shapes, outputId, c.params ?? {}))) as
+            | Record<string, unknown>
+            | undefined;
+          // A streaming member the case leaves out is an empty stream: the SDK
+          // always returns one (S3 GetObject of an empty object).
+          for (const [name, member] of Object.entries(typeOf(shapes, outputId).members ?? {})) {
+            const streaming = typeOf(shapes, member.target).traits?.["smithy.api#streaming"];
+            if (streaming === undefined || actual === undefined || expected?.[name] !== undefined) {
+              continue;
+            }
+            expect(actual[name], `${name}: an empty stream`).toEqual({ bytes: "" });
+            delete actual[name];
+          }
+          expect(actual).toEqual(expected);
         });
       }
     }
