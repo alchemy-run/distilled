@@ -39,7 +39,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Predicate from "effect/Predicate";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
 import { UnknownGithubError, GithubParseError, type GithubServiceError } from "./errors.ts";
 
 /**
@@ -131,19 +131,7 @@ export const rateLimited = (info: RestErrorInfo): TooManyRequests | undefined =>
 // (`GithubServiceErrors`: core's status classes, and `Gone` for 410 --
 // GitHub uses it far more than most APIs: issues disabled, deleted migration
 // archives).
-//
-// The type arguments are written out because `credentials` is the service
-// key: a key is also an effect (of the service), so the compiler can't tell
-// which of the option's two forms it is given.
-const RestProtocol = /*@__PURE__*/ restProtocol<
-  Config,
-  CredentialsError,
-  Credentials,
-  never,
-  TooManyRequests,
-  UnknownGithubError,
-  GithubParseError
->({
+const RestProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the CALLING fiber per request; the Credentials service holds
   // an effect so rotating tokens (GitHub App installation tokens expire
   // hourly) Just Work.

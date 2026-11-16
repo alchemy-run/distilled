@@ -918,6 +918,34 @@ export const restLayerMethods = <C>(options: RestProtocolOptions<C>) => {
 };
 
 /**
+ * {@link restProtocol}'s options for one form of `credentials`. The service
+ * key and the effect are separate signatures: a key is also an effect (of
+ * the service), so one signature for both could not tell which it is given.
+ */
+type TypedRestOptions<
+  CredentialsSource,
+  Credentials,
+  RouteError,
+  ClassifiedError,
+  UnknownError,
+  ParseError,
+> = Omit<
+  RestProtocolOptions<
+    Credentials,
+    never,
+    never,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError
+  >,
+  "statusMap" | "credentials"
+> & {
+  /** See {@link RestProtocolOptions.credentials}. */
+  readonly credentials: CredentialsSource;
+};
+
+/**
  * The typed protocol for a simple REST JSON API (core/protocol). Assign the
  * result to a module-level const in the provider's `protocol.ts`, typed with
  * the errors the SDK's protocol declares:
@@ -931,7 +959,7 @@ export const restLayerMethods = <C>(options: RestProtocolOptions<C>) => {
  * options and {@link RestProtocolError} fail with; the annotation makes the
  * compiler check that list.
  */
-export const restProtocol = <
+export function restProtocol<
   Credentials,
   CredentialsError = never,
   CredentialsRequirements = never,
@@ -939,6 +967,48 @@ export const restProtocol = <
   ClassifiedError = never,
   UnknownError = never,
   ParseError = never,
+>(
+  options: TypedRestOptions<
+    Context.Key<CredentialsRequirements, Effect.Effect<Credentials, CredentialsError>>,
+    Credentials,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError
+  >,
+): Protocol<
+  CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
+  CredentialsRequirements
+>;
+export function restProtocol<
+  Credentials,
+  CredentialsError = never,
+  CredentialsRequirements = never,
+  RouteError = never,
+  ClassifiedError = never,
+  UnknownError = never,
+  ParseError = never,
+>(
+  options: TypedRestOptions<
+    Effect.Effect<Credentials, CredentialsError, CredentialsRequirements>,
+    Credentials,
+    RouteError,
+    ClassifiedError,
+    UnknownError,
+    ParseError
+  >,
+): Protocol<
+  CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
+  CredentialsRequirements
+>;
+export function restProtocol<
+  Credentials,
+  CredentialsError,
+  CredentialsRequirements,
+  RouteError,
+  ClassifiedError,
+  UnknownError,
+  ParseError,
 >(
   options: Omit<
     RestProtocolOptions<
@@ -955,7 +1025,9 @@ export const restProtocol = <
 ): Protocol<
   CredentialsError | RouteError | ClassifiedError | UnknownError | ParseError | RestProtocolError,
   CredentialsRequirements
-> => restProtocolMethods(options);
+> {
+  return restProtocolMethods(options);
+}
 
 /**
  * The older form of {@link restProtocol}: a `Layer<Protocol>`, whose type
