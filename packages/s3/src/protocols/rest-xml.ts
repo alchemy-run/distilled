@@ -700,22 +700,23 @@ function deserializeValue(ast: AST.AST, value: unknown, flattened = false): unkn
   if (value == null) return undefined;
   const plan = valuePlanOf(ast);
 
-  // Maps; an empty element reads as absent, like an empty list
+  // Maps; an empty wrapper element is an empty map
   const map = plan.map;
   if (map) {
-    if (value === "") return undefined;
+    if (value === "") return flattened ? undefined : {};
     return readXmlMap(value, flattened, map.keyTag, map.valueTag, (v) =>
       deserializeValue(map.value, v),
     );
   }
   if (!plan.structure) value = elementText(value);
 
-  // An empty XML element can represent a present structure, but not a map.
+  // An empty element is a present structure, or an empty list.
   if (
     value === "" ||
     (typeof value === "object" && !Array.isArray(value) && isEmptyObject(value as object))
   ) {
     if (plan.structure) return {};
+    if (plan.array) return [];
     return value === "" && plan.string ? "" : undefined;
   }
 

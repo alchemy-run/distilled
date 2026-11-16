@@ -398,12 +398,13 @@ const isEmptyObject = (value: object): boolean => {
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
   if (value == null) return undefined;
   const plan = valuePlanOf(ast);
-  if (value === "") return plan.string ? "" : undefined;
 
-  // Handle maps - must check before general object handling
+  // Handle maps - must check before general object handling. An empty
+  // element is an empty map.
   if (plan.map) {
-    return deserializeMap(ast, value, false);
+    return value === "" ? {} : deserializeMap(ast, value, false);
   }
+  if (value === "") return plan.string ? "" : undefined;
   value = elementText(value);
 
   // Handle arrays
