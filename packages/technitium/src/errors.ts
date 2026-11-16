@@ -31,6 +31,7 @@ export {
 } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { API_ERRORS } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** A call failed with `status: "error"`. `message` is Technitium's `errorMessage`. */
@@ -60,3 +61,17 @@ export class TechnitiumParseError
     body: Schema.Unknown,
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
+
+/**
+ * The errors declared on the Technitium service: any operation can return them, and every
+ * generated operation lists them as its `serviceErrors`. The envelope's errors
+ * ({@link TechnitiumError}, {@link TwoFactorAuthRequired}), and each of core's status classes:
+ * `Forbidden` and `Unauthorized` for the envelope, and the class for the status of a non-2xx
+ * response.
+ */
+export const TechnitiumServiceErrors = [
+  ...API_ERRORS,
+  TechnitiumError,
+  TwoFactorAuthRequired,
+] as const;
+export type TechnitiumServiceError = InstanceType<(typeof TechnitiumServiceErrors)[number]>;

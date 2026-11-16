@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTechnitiumError } from "../errors.ts";
+import { TechnitiumServiceErrors } from "../errors.ts";
 import {
   TechnitiumProtocol,
   type TechnitiumOpError,
@@ -683,7 +683,8 @@ export const createApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateApiTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateApiTokenResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "CreateApiToken",
@@ -699,7 +700,8 @@ export const createGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateGroupRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<CreateGroupResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "CreateGroup",
@@ -715,7 +717,8 @@ export const createSsoUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<CreateSsoUserRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<CreateSsoUserResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "CreateSsoUser",
@@ -731,7 +734,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(124, __c31, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<CreateUserResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "CreateUser",
@@ -747,7 +751,8 @@ export const deleteCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(148, __c37, 0) as any as S.Schema<DeleteClusterRequest>,
   output: __S(152, __c38, 0) as any as S.Schema<DeleteClusterResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeleteCluster",
@@ -763,7 +768,8 @@ export const deleteGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(156, __c39, 0) as any as S.Schema<DeleteGroupRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeleteGroup",
@@ -779,7 +785,8 @@ export const deleteSecondaryNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(164, __c41, 0) as any as S.Schema<DeleteSecondaryNodeRequest>,
   output: __S(172, __c43, 0) as any as S.Schema<DeleteSecondaryNodeResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeleteSecondaryNode",
@@ -795,7 +802,8 @@ export const deleteSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(180, __c45, 0) as any as S.Schema<DeleteSessionRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<DeleteSessionResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeleteSession",
@@ -811,7 +819,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c46, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeleteUser",
@@ -827,7 +836,8 @@ export const getClusterState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(188, __c47, 0) as any as S.Schema<GetClusterStateRequest>,
   output: __S(191, __c47, 3) as any as S.Schema<GetClusterStateResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetClusterState",
@@ -843,7 +853,8 @@ export const getGroupDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetGroupDetailsRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<GetGroupDetailsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetGroupDetails",
@@ -859,7 +870,8 @@ export const getPermissionDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetPermissionDetailsRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<GetPermissionDetailsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetPermissionDetails",
@@ -875,7 +887,8 @@ export const getSsoConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetSsoConfigRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<GetSsoConfigResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetSsoConfig",
@@ -891,7 +904,8 @@ export const getUserDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<GetUserDetailsRequest>,
   output: __S(41, __c10, 1) as any as S.Schema<GetUserDetailsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetUserDetails",
@@ -907,7 +921,8 @@ export const initializeAndJoinCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<InitializeAndJoinClusterRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<InitializeAndJoinClusterResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "InitializeAndJoinCluster",
@@ -923,7 +938,8 @@ export const initializeCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<InitializeClusterRequest>,
   output: __S(172, __c43, 0) as any as S.Schema<InitializeClusterResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "InitializeCluster",
@@ -939,7 +955,8 @@ export const joinCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<JoinClusterRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<JoinClusterResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "JoinCluster",
@@ -955,7 +972,8 @@ export const leaveCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<LeaveClusterRequest>,
   output: __S(152, __c38, 0) as any as S.Schema<LeaveClusterResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "LeaveCluster",
@@ -971,7 +989,8 @@ export const listGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<ListGroupsRequest>,
   output: __S(70, __c17, 2) as any as S.Schema<ListGroupsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ListGroups",
@@ -987,7 +1006,8 @@ export const listPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<ListPermissionsRequest>,
   output: __S(75, __c18, 3) as any as S.Schema<ListPermissionsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ListPermissions",
@@ -1003,7 +1023,8 @@ export const listSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<ListSessionsRequest>,
   output: __S(85, __c21, 1) as any as S.Schema<ListSessionsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ListSessions",
@@ -1019,7 +1040,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(90, __c22, 2) as any as S.Schema<ListUsersResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ListUsers",
@@ -1035,7 +1057,8 @@ export const notify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<NotifyRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<NotifyResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "Notify",
@@ -1051,7 +1074,8 @@ export const promoteToPrimary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<PromoteToPrimaryRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<PromoteToPrimaryResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "PromoteToPrimary",
@@ -1067,7 +1091,8 @@ export const removeSecondaryNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<RemoveSecondaryNodeRequest>,
   output: __S(172, __c43, 0) as any as S.Schema<RemoveSecondaryNodeResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "RemoveSecondaryNode",
@@ -1083,7 +1108,8 @@ export const resyncCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<ResyncClusterRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<ResyncClusterResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ResyncCluster",
@@ -1099,7 +1125,8 @@ export const setClusterOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<SetClusterOptionsRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<SetClusterOptionsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetClusterOptions",
@@ -1115,7 +1142,8 @@ export const setGroupDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<SetGroupDetailsRequest>,
   output: __S(113, __c28, 1) as any as S.Schema<SetGroupDetailsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetGroupDetails",
@@ -1131,7 +1159,8 @@ export const setPermissionDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(116, __c29, 0) as any as S.Schema<SetPermissionDetailsRequest>,
   output: __S(117, __c29, 1) as any as S.Schema<SetPermissionDetailsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetPermissionDetails",
@@ -1147,7 +1176,8 @@ export const setSsoConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c30, 0) as any as S.Schema<SetSsoConfigRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<SetSsoConfigResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetSsoConfig",
@@ -1163,7 +1193,8 @@ export const setSsoUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c32, 0) as any as S.Schema<SetSsoUserRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<SetSsoUserResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetSsoUser",
@@ -1179,7 +1210,8 @@ export const setUserDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(132, __c33, 0) as any as S.Schema<SetUserDetailsRequest>,
   output: __S(133, __c33, 1) as any as S.Schema<SetUserDetailsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetUserDetails",
@@ -1195,7 +1227,8 @@ export const updateNodeIpAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c34, 0) as any as S.Schema<UpdateNodeIpAddressesRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<UpdateNodeIpAddressesResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "UpdateNodeIpAddresses",
@@ -1211,7 +1244,8 @@ export const updatePrimaryNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(140, __c35, 0) as any as S.Schema<UpdatePrimaryNodeRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<UpdatePrimaryNodeResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "UpdatePrimaryNode",
@@ -1227,7 +1261,8 @@ export const updateSecondaryNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c36, 0) as any as S.Schema<UpdateSecondaryNodeRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<UpdateSecondaryNodeResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "UpdateSecondaryNode",
