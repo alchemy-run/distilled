@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNpmError } from "../errors.ts";
+import { NpmServiceErrors } from "../errors.ts";
 import { NpmProtocol, type NpmOpError, type NpmOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -275,7 +275,8 @@ export const createToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CreateTokenRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CreateTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownNpmError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NpmServiceErrors,
   protocol: NpmProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -292,7 +293,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<DeleteTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNpmError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NpmServiceErrors,
   protocol: NpmProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -309,7 +311,8 @@ export const listTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListTokensRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<ListTokensResponse>,
-  errors: [UnknownNpmError],
+  errors: [],
+  serviceErrors: NpmServiceErrors,
   protocol: NpmProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

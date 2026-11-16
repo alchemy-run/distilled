@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2190,7 +2190,8 @@ export const cancelSmsBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelSmsBatchRequest>,
   output: __S(10, __c2, 2) as any as S.Schema<SmsBatch>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2207,7 +2208,8 @@ export const createSmsBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<CreateSmsBatchRequest>,
   output: __S(10, __c2, 2) as any as S.Schema<SmsBatch>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2224,7 +2226,8 @@ export const createSmsEstimate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(164, __c41, 0) as any as S.Schema<CreateSmsEstimateRequest>,
   output: __S(165, __c41, 1) as any as S.Schema<SmsJobEstimate>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2241,7 +2244,8 @@ export const createSmsHlr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c52, 0) as any as S.Schema<CreateSmsHlrRequest>,
   output: __S(212, __c53, 0) as any as S.Schema<SmsSmsSendingReport>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2258,7 +2262,8 @@ export const createSmsJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(268, __c67, 0) as any as S.Schema<CreateSmsJobRequest>,
   output: __S(212, __c53, 0) as any as S.Schema<SmsSmsSendingReport>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2275,7 +2280,8 @@ export const createSmsPhonebook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c82, 0) as any as S.Schema<CreateSmsPhonebookRequest>,
   output: __S(332, __c83, 0) as any as S.Schema<CreateSmsPhonebookResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2292,7 +2298,8 @@ export const createSmsPhonebookPhonebookContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(388, __c97, 0) as any as S.Schema<CreateSmsPhonebookPhonebookContactRequest>,
   output: __S(389, __c97, 1) as any as S.Schema<CreateSmsPhonebookPhonebookContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2309,7 +2316,8 @@ export const createSmsReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(436, __c109, 0) as any as S.Schema<CreateSmsReceiverRequest>,
   output: __S(440, __c110, 0) as any as S.Schema<SmsReceiver>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2326,7 +2334,8 @@ export const createSmsReceiverClean: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(484, __c121, 0) as any as S.Schema<CreateSmsReceiverCleanRequest>,
   output: __S(488, __c122, 0) as any as S.Schema<SmsReceiversAsynchronousCleanReport>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2343,7 +2352,8 @@ export const createSmsSender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c136, 0) as any as S.Schema<CreateSmsSenderRequest>,
   output: __S(332, __c83, 0) as any as S.Schema<CreateSmsSenderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2360,7 +2370,8 @@ export const createSmsSenderDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<CreateSmsSenderDocumentRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<SmsSenderDocument>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2377,7 +2388,8 @@ export const createSmsSmppPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<CreateSmsSmppPasswordRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<CreateSmsSmppPasswordResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2394,7 +2406,8 @@ export const createSmsTemplatesControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<CreateSmsTemplatesControlRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<CreateSmsTemplatesControlResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2411,7 +2424,8 @@ export const createSmsTemplatesControlRelaunchValidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(132, __c33, 0) as any as S.Schema<CreateSmsTemplatesControlRelaunchValidationRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<CreateSmsTemplatesControlRelaunchValidationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2428,7 +2442,8 @@ export const createSmsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c34, 0) as any as S.Schema<CreateSmsUserRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<CreateSmsUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2445,7 +2460,8 @@ export const createSmsUserJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(140, __c35, 0) as any as S.Schema<CreateSmsUserJobRequest>,
   output: __S(212, __c53, 0) as any as S.Schema<SmsSmsSendingReport>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2462,7 +2478,8 @@ export const createSmsUserReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c36, 0) as any as S.Schema<CreateSmsUserReceiverRequest>,
   output: __S(440, __c110, 0) as any as S.Schema<SmsReceiver>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2479,7 +2496,8 @@ export const createSmsUserReceiverClean: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(148, __c37, 0) as any as S.Schema<CreateSmsUserReceiverCleanRequest>,
   output: __S(488, __c122, 0) as any as S.Schema<SmsReceiversAsynchronousCleanReport>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2496,7 +2514,8 @@ export const createSmsVirtualNumberChatAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c38, 0) as any as S.Schema<CreateSmsVirtualNumberChatAccessRequest>,
   output: __S(156, __c39, 0) as any as S.Schema<SmsChatAccess>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2513,7 +2532,8 @@ export const createSmsVirtualNumberJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c40, 0) as any as S.Schema<CreateSmsVirtualNumberJobRequest>,
   output: __S(212, __c53, 0) as any as S.Schema<SmsSmsSendingReport>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2530,7 +2550,8 @@ export const deleteSmsBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c42, 0) as any as S.Schema<DeleteSmsBatchRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsBatchResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2547,7 +2568,8 @@ export const deleteSmsBlacklist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(172, __c43, 0) as any as S.Schema<DeleteSmsBlacklistRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsBlacklistResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2564,7 +2586,8 @@ export const deleteSmsIncoming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c44, 0) as any as S.Schema<DeleteSmsIncomingRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsIncomingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2581,7 +2604,8 @@ export const deleteSmsJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(180, __c45, 0) as any as S.Schema<DeleteSmsJobRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsJobResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2598,7 +2622,8 @@ export const deleteSmsOutgoing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c46, 0) as any as S.Schema<DeleteSmsOutgoingRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsOutgoingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2615,7 +2640,8 @@ export const deleteSmsPhonebook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(188, __c47, 0) as any as S.Schema<DeleteSmsPhonebookRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsPhonebookResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2632,7 +2658,8 @@ export const deleteSmsPhonebookPhonebookContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c48, 0) as any as S.Schema<DeleteSmsPhonebookPhonebookContactRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsPhonebookPhonebookContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2649,7 +2676,8 @@ export const deleteSmsReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(196, __c49, 0) as any as S.Schema<DeleteSmsReceiverRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsReceiverResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2666,7 +2694,8 @@ export const deleteSmsSender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c50, 0) as any as S.Schema<DeleteSmsSenderRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsSenderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2683,7 +2712,8 @@ export const deleteSmsTemplatesControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(204, __c51, 0) as any as S.Schema<DeleteSmsTemplatesControlRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsTemplatesControlResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2700,7 +2730,8 @@ export const deleteSmsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(220, __c55, 0) as any as S.Schema<DeleteSmsUserRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2717,7 +2748,8 @@ export const deleteSmsUserIncoming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c56, 0) as any as S.Schema<DeleteSmsUserIncomingRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsUserIncomingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2734,7 +2766,8 @@ export const deleteSmsUserJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(228, __c57, 0) as any as S.Schema<DeleteSmsUserJobRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsUserJobResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2751,7 +2784,8 @@ export const deleteSmsUserOutgoing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c58, 0) as any as S.Schema<DeleteSmsUserOutgoingRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsUserOutgoingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2768,7 +2802,8 @@ export const deleteSmsUserReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(236, __c59, 0) as any as S.Schema<DeleteSmsUserReceiverRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsUserReceiverResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2785,7 +2820,8 @@ export const deleteSmsVirtualNumberChatAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c60, 0) as any as S.Schema<DeleteSmsVirtualNumberChatAccessRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsVirtualNumberChatAccessResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2802,7 +2838,8 @@ export const deleteSmsVirtualNumberIncoming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(244, __c61, 0) as any as S.Schema<DeleteSmsVirtualNumberIncomingRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsVirtualNumberIncomingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2819,7 +2856,8 @@ export const deleteSmsVirtualNumberJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c62, 0) as any as S.Schema<DeleteSmsVirtualNumberJobRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsVirtualNumberJobResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2836,7 +2874,8 @@ export const deleteSmsVirtualNumberOutgoing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(252, __c63, 0) as any as S.Schema<DeleteSmsVirtualNumberOutgoingRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteSmsVirtualNumberOutgoingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2853,7 +2892,8 @@ export const getSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c64, 0) as any as S.Schema<GetSmsRequest>,
   output: __S(257, __c64, 1) as any as S.Schema<SmsAccountWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2870,7 +2910,8 @@ export const getSmsBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c68, 0) as any as S.Schema<GetSmsBatchRequest>,
   output: __S(10, __c2, 2) as any as S.Schema<SmsBatch>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2887,7 +2928,8 @@ export const getSmsBatchStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(276, __c69, 0) as any as S.Schema<GetSmsBatchStatisticsRequest>,
   output: __S(277, __c69, 1) as any as S.Schema<SmsBatchStatistics>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2904,7 +2946,8 @@ export const getSmsBlacklist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c70, 0) as any as S.Schema<GetSmsBlacklistRequest>,
   output: __S(281, __c70, 1) as any as S.Schema<SmsBlacklist>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2921,7 +2964,8 @@ export const getSmsDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(284, __c71, 0) as any as S.Schema<GetSmsDocumentRequest>,
   output: __S(332, __c83, 0) as any as S.Schema<GetSmsDocumentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2938,7 +2982,8 @@ export const getSmsHlr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c72, 0) as any as S.Schema<GetSmsHlrRequest>,
   output: __S(289, __c72, 1) as any as S.Schema<SmsHlrLookupNumber>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2955,7 +3000,8 @@ export const getSmsHlrOperator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(292, __c73, 0) as any as S.Schema<GetSmsHlrOperatorRequest>,
   output: __S(296, __c74, 0) as any as S.Schema<SmsHlr>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2972,7 +3018,8 @@ export const getSmsIncoming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(300, __c75, 0) as any as S.Schema<GetSmsIncomingRequest>,
   output: __S(304, __c76, 0) as any as S.Schema<SmsIncoming>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2989,7 +3036,8 @@ export const getSmsJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(308, __c77, 0) as any as S.Schema<GetSmsJobRequest>,
   output: __S(312, __c78, 0) as any as S.Schema<SmsJob>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3006,7 +3054,8 @@ export const getSmsOutgoing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(316, __c79, 0) as any as S.Schema<GetSmsOutgoingRequest>,
   output: __S(320, __c80, 0) as any as S.Schema<SmsOutgoing>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3023,7 +3072,8 @@ export const getSmsOutgoingHlr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(324, __c81, 0) as any as S.Schema<GetSmsOutgoingHlrRequest>,
   output: __S(296, __c74, 0) as any as S.Schema<SmsHlr>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3040,7 +3090,8 @@ export const getSmsPhonebook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c84, 0) as any as S.Schema<GetSmsPhonebookRequest>,
   output: __S(337, __c84, 1) as any as S.Schema<SmsPhonebook>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3057,7 +3108,8 @@ export const getSmsPhonebookExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(340, __c85, 0) as any as S.Schema<GetSmsPhonebookExportRequest>,
   output: __S(341, __c85, 1) as any as S.Schema<TelephonyPcsFile>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3074,7 +3126,8 @@ export const getSmsPhonebookPhonebookContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c86, 0) as any as S.Schema<GetSmsPhonebookPhonebookContactRequest>,
   output: __S(345, __c86, 1) as any as S.Schema<SmsPhonebookContact>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3091,7 +3144,8 @@ export const getSmsPtts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(348, __c87, 0) as any as S.Schema<GetSmsPttsRequest>,
   output: __S(349, __c87, 1) as any as S.Schema<SmsPttDetails>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3108,7 +3162,8 @@ export const getSmsRateDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c88, 0) as any as S.Schema<GetSmsRateDestinationsRequest>,
   output: __S(353, __c88, 1) as any as S.Schema<SmsDestinationRates>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3125,7 +3180,8 @@ export const getSmsReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c90, 0) as any as S.Schema<GetSmsReceiverRequest>,
   output: __S(440, __c110, 0) as any as S.Schema<SmsReceiver>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3142,7 +3198,8 @@ export const getSmsReceiverCsv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(364, __c91, 0) as any as S.Schema<GetSmsReceiverCsvRequest>,
   output: __S(332, __c83, 0) as any as S.Schema<GetSmsReceiverCsvResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3159,7 +3216,8 @@ export const getSmsSender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c92, 0) as any as S.Schema<GetSmsSenderRequest>,
   output: __S(369, __c92, 1) as any as S.Schema<SmsSender>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3176,7 +3234,8 @@ export const getSmsSenderDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(372, __c93, 0) as any as S.Schema<GetSmsSenderDocumentRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<SmsSenderDocument>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3193,7 +3252,8 @@ export const getSmsServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c94, 0) as any as S.Schema<GetSmsServiceInfosRequest>,
   output: __S(380, __c95, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3210,7 +3270,8 @@ export const getSmsSmppSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c98, 0) as any as S.Schema<GetSmsSmppSettingsRequest>,
   output: __S(395, __c98, 3) as any as S.Schema<SmsSettings>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3227,7 +3288,8 @@ export const getSmsTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(396, __c99, 0) as any as S.Schema<GetSmsTaskRequest>,
   output: __S(397, __c99, 1) as any as S.Schema<SmsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3244,7 +3306,8 @@ export const getSmsTemplatesControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c100, 0) as any as S.Schema<GetSmsTemplatesControlRequest>,
   output: __S(401, __c100, 1) as any as S.Schema<SmsTemplateControl>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3261,7 +3324,8 @@ export const getSmsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(404, __c101, 0) as any as S.Schema<GetSmsUserRequest>,
   output: __S(405, __c101, 1) as any as S.Schema<SmsUser>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3278,7 +3342,8 @@ export const getSmsUserDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(412, __c103, 0) as any as S.Schema<GetSmsUserDocumentRequest>,
   output: __S(332, __c83, 0) as any as S.Schema<GetSmsUserDocumentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3295,7 +3360,8 @@ export const getSmsUserIncoming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c104, 0) as any as S.Schema<GetSmsUserIncomingRequest>,
   output: __S(304, __c76, 0) as any as S.Schema<SmsIncoming>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3312,7 +3378,8 @@ export const getSmsUserJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(420, __c105, 0) as any as S.Schema<GetSmsUserJobRequest>,
   output: __S(312, __c78, 0) as any as S.Schema<SmsJob>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3329,7 +3396,8 @@ export const getSmsUserOutgoing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c106, 0) as any as S.Schema<GetSmsUserOutgoingRequest>,
   output: __S(320, __c80, 0) as any as S.Schema<SmsOutgoing>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3346,7 +3414,8 @@ export const getSmsUserOutgoingHlr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(428, __c107, 0) as any as S.Schema<GetSmsUserOutgoingHlrRequest>,
   output: __S(296, __c74, 0) as any as S.Schema<SmsHlr>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3363,7 +3432,8 @@ export const getSmsUserReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c108, 0) as any as S.Schema<GetSmsUserReceiverRequest>,
   output: __S(440, __c110, 0) as any as S.Schema<SmsReceiver>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3380,7 +3450,8 @@ export const getSmsUserReceiverCsv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(444, __c111, 0) as any as S.Schema<GetSmsUserReceiverCsvRequest>,
   output: __S(332, __c83, 0) as any as S.Schema<GetSmsUserReceiverCsvResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3397,7 +3468,8 @@ export const getSmsVirtualNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c112, 0) as any as S.Schema<GetSmsVirtualNumberRequest>,
   output: __S(449, __c112, 1) as any as S.Schema<SmsVirtualNumberGenericServiceWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3414,7 +3486,8 @@ export const getSmsVirtualNumberByNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(452, __c113, 0) as any as S.Schema<GetSmsVirtualNumberByNumberRequest>,
   output: __S(453, __c113, 1) as any as S.Schema<SmsVirtualNumber>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3431,7 +3504,8 @@ export const getSmsVirtualNumberChatAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c114, 0) as any as S.Schema<GetSmsVirtualNumberChatAccessRequest>,
   output: __S(156, __c39, 0) as any as S.Schema<SmsChatAccess>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3448,7 +3522,8 @@ export const getSmsVirtualNumberIncoming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(460, __c115, 0) as any as S.Schema<GetSmsVirtualNumberIncomingRequest>,
   output: __S(304, __c76, 0) as any as S.Schema<SmsIncoming>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3465,7 +3540,8 @@ export const getSmsVirtualNumberJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c116, 0) as any as S.Schema<GetSmsVirtualNumberJobRequest>,
   output: __S(465, __c116, 1) as any as S.Schema<SmsVirtualNumberJob>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3482,7 +3558,8 @@ export const getSmsVirtualNumberOutgoing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(468, __c117, 0) as any as S.Schema<GetSmsVirtualNumberOutgoingRequest>,
   output: __S(320, __c80, 0) as any as S.Schema<SmsOutgoing>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3499,7 +3576,8 @@ export const getSmsVirtualNumberOutgoingHlr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c118, 0) as any as S.Schema<GetSmsVirtualNumberOutgoingHlrRequest>,
   output: __S(296, __c74, 0) as any as S.Schema<SmsHlr>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3516,7 +3594,8 @@ export const getSmsVirtualNumberServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(476, __c119, 0) as any as S.Schema<GetSmsVirtualNumberServiceInfosRequest>,
   output: __S(380, __c95, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3533,7 +3612,8 @@ export const importSmsPhonebook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c120, 0) as any as S.Schema<ImportSmsPhonebookRequest>,
   output: __S(481, __c120, 1) as any as S.Schema<TelephonyTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3550,7 +3630,8 @@ export const listSms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(492, __c123, 0) as any as S.Schema<ListSmsRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3567,7 +3648,8 @@ export const listSmsBatches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(504, __c126, 0) as any as S.Schema<ListSmsBatchesRequest>,
   output: __S(506, __c126, 2) as any as S.Schema<ListSmsBatchesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3584,7 +3666,8 @@ export const listSmsBlacklists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(508, __c127, 0) as any as S.Schema<ListSmsBlacklistsRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsBlacklistsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3601,7 +3684,8 @@ export const listSmsExceptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c128, 0) as any as S.Schema<ListSmsExceptionsRequest>,
   output: __S(515, __c128, 3) as any as S.Schema<ListSmsExceptionsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3618,7 +3702,8 @@ export const listSmsHlr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(516, __c129, 0) as any as S.Schema<ListSmsHlrRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsHlrResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3635,7 +3720,8 @@ export const listSmsIncoming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(524, __c131, 0) as any as S.Schema<ListSmsIncomingRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsIncomingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3652,7 +3738,8 @@ export const listSmsJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c132, 0) as any as S.Schema<ListSmsJobsRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsJobsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3669,7 +3756,8 @@ export const listSmsOutgoing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(532, __c133, 0) as any as S.Schema<ListSmsOutgoingRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsOutgoingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3686,7 +3774,8 @@ export const listSmsPhonebookPhonebookContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c134, 0) as any as S.Schema<ListSmsPhonebookPhonebookContactRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsPhonebookPhonebookContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3703,7 +3792,8 @@ export const listSmsPhonebooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(540, __c135, 0) as any as S.Schema<ListSmsPhonebooksRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsPhonebooksResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3720,7 +3810,8 @@ export const listSmsRatePacks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(548, __c137, 0) as any as S.Schema<ListSmsRatePacksRequest>,
   output: __S(551, __c137, 3) as any as S.Schema<ListSmsRatePacksResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3737,7 +3828,8 @@ export const listSmsReceivers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c138, 0) as any as S.Schema<ListSmsReceiversRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsReceiversResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3754,7 +3846,8 @@ export const listSmsSeeOffers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(556, __c139, 0) as any as S.Schema<ListSmsSeeOffersRequest>,
   output: __S(559, __c139, 3) as any as S.Schema<ListSmsSeeOffersResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3771,7 +3864,8 @@ export const listSmsSenderDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c140, 0) as any as S.Schema<ListSmsSenderDocumentsRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsSenderDocumentsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3788,7 +3882,8 @@ export const listSmsSenders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(564, __c141, 0) as any as S.Schema<ListSmsSendersRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsSendersResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3805,7 +3900,8 @@ export const listSmsSendersAvailableForValidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c142, 0) as any as S.Schema<ListSmsSendersAvailableForValidationRequest>,
   output: __S(571, __c142, 3) as any as S.Schema<ListSmsSendersAvailableForValidationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3822,7 +3918,8 @@ export const listSmsSmppAllowedIPs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(572, __c143, 0) as any as S.Schema<ListSmsSmppAllowedIPsRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsSmppAllowedIPsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3839,7 +3936,8 @@ export const listSmsTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c144, 0) as any as S.Schema<ListSmsTaskRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3856,7 +3954,8 @@ export const listSmsTemplatesControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(580, __c145, 0) as any as S.Schema<ListSmsTemplatesControlRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsTemplatesControlResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3873,7 +3972,8 @@ export const listSmsUserIncoming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(584, __c146, 0) as any as S.Schema<ListSmsUserIncomingRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsUserIncomingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3890,7 +3990,8 @@ export const listSmsUserJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListSmsUserJobsRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsUserJobsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3907,7 +4008,8 @@ export const listSmsUserOutgoing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListSmsUserOutgoingRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsUserOutgoingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3924,7 +4026,8 @@ export const listSmsUserReceivers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListSmsUserReceiversRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsUserReceiversResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3941,7 +4044,8 @@ export const listSmsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<ListSmsUsersRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsUsersResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3958,7 +4062,8 @@ export const listSmsVirtualNumberIncoming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<ListSmsVirtualNumberIncomingRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsVirtualNumberIncomingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3975,7 +4080,8 @@ export const listSmsVirtualNumberJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<ListSmsVirtualNumberJobsRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsVirtualNumberJobsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3992,7 +4098,8 @@ export const listSmsVirtualNumberOutgoing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<ListSmsVirtualNumberOutgoingRequest>,
   output: __S(520, __c130, 0) as any as S.Schema<ListSmsVirtualNumberOutgoingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4009,7 +4116,8 @@ export const listSmsVirtualNumbers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<ListSmsVirtualNumbersRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsVirtualNumbersResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4026,7 +4134,8 @@ export const listSmsVirtualNumbers2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<ListSmsVirtualNumbersRequest2>,
   output: __S(500, __c125, 0) as any as S.Schema<ListSmsVirtualNumbersResponse2>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4039,7 +4148,8 @@ export const putSms: API.OperationMethod<PutSmsRequest, PutSmsResponse, PutSmsEr
   /*@__PURE__*/ API.make(() => ({
     input: __S(60, __c15, 0) as any as S.Schema<PutSmsRequest>,
     output: __S(68, __c17, 0) as any as S.Schema<PutSmsResponse>,
-    errors: [UnknownOvhError],
+    errors: [],
+    serviceErrors: OvhServiceErrors,
     protocol: OvhProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4056,7 +4166,8 @@ export const putSmsBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<PutSmsBatchRequest>,
   output: __S(10, __c2, 2) as any as S.Schema<SmsBatch>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4073,7 +4184,8 @@ export const putSmsPhonebook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<PutSmsPhonebookRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsPhonebookResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4090,7 +4202,8 @@ export const putSmsPhonebookPhonebookContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<PutSmsPhonebookPhonebookContactRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsPhonebookPhonebookContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4107,7 +4220,8 @@ export const putSmsReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<PutSmsReceiverRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsReceiverResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4124,7 +4238,8 @@ export const putSmsSender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<PutSmsSenderRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsSenderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4141,7 +4256,8 @@ export const putSmsSenderDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<PutSmsSenderDocumentRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsSenderDocumentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4158,7 +4274,8 @@ export const putSmsServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<PutSmsServiceInfosRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4175,7 +4292,8 @@ export const putSmsSmppAllowedIPs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<PutSmsSmppAllowedIPsRequest>,
   output: __S(500, __c125, 0) as any as S.Schema<PutSmsSmppAllowedIPsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4192,7 +4310,8 @@ export const putSmsTemplatesControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<PutSmsTemplatesControlRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsTemplatesControlResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4209,7 +4328,8 @@ export const putSmsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<PutSmsUserRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4226,7 +4346,8 @@ export const putSmsUserReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(116, __c29, 0) as any as S.Schema<PutSmsUserReceiverRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsUserReceiverResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4243,7 +4364,8 @@ export const putSmsVirtualNumberServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c30, 0) as any as S.Schema<PutSmsVirtualNumberServiceInfosRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<PutSmsVirtualNumberServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4260,7 +4382,8 @@ export const transferSmsCredits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(124, __c31, 0) as any as S.Schema<TransferSmsCreditsRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<TransferSmsCreditsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4277,7 +4400,8 @@ export const validateSmsSender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c32, 0) as any as S.Schema<ValidateSmsSenderRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<ValidateSmsSenderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

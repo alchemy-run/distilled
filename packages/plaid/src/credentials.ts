@@ -33,6 +33,9 @@ export class Credentials
     "PlaidCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const resolveBaseUrl = (config: {
   readonly apiBaseUrl?: string;
   readonly env?: string;
