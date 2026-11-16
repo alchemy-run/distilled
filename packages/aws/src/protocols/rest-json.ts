@@ -29,7 +29,7 @@ import {
   extractJsonErrorData,
   sanitizeErrorCode,
 } from "@distilled.cloud/s3/util/error";
-import { headerReader } from "@distilled.cloud/s3/util/headers";
+import { headerReader, notBase64 } from "@distilled.cloud/s3/util/headers";
 import { extractStaticQueryParams } from "@distilled.cloud/s3/util/query-params";
 import { applyHttpTrait, bindInputToRequest } from "@distilled.cloud/s3/util/serialize-input";
 import {
@@ -123,7 +123,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
         name,
         header,
         headerLower: header.toLowerCase(),
-        read: headerReader(prop.type),
+        read: headerReader(prop.type, getMediaType(prop)),
       });
     } else if (prefix !== undefined) {
       // An empty prefix binds every response header (Smithy
@@ -286,9 +286,13 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     return eventBody === undefined ? built : Effect.map(eventBody, (body) => ({ ...built, body }));
   };
 
-  /** The members bound to the status code and headers. */
-  const bindResponse = (response: Response): Record<string, unknown> => {
+  /**
+   * The members bound to the status code and headers, or {@link Unreadable}
+   * with them as read when a `@mediaType` header is not base64.
+   */
+  const bindResponse = (response: Response): Record<string, unknown> | Unreadable => {
     const result: Record<string, unknown> = {};
+    let notBase64Header: string | undefined;
 
     // Extract HTTP response status code if bound to a property
     if (responseCodePropName) {
@@ -299,7 +303,9 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     for (const hp of headerProps) {
       const v = response.headers[hp.headerLower] ?? response.headers[hp.header];
       if (v !== undefined) {
-        result[hp.name] = hp.read(v);
+        const read = hp.read(v);
+        if (read === notBase64) notBase64Header ??= hp.header;
+        result[hp.name] = read === notBase64 ? v : read;
       }
     }
 
@@ -313,7 +319,14 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       }
       if (Object.keys(prefixed).length) result[php.name] = prefixed;
     }
-    return result;
+    return notBase64Header === undefined
+      ? result
+      : new Unreadable(
+          new ParseError({
+            message: `Response header ${notBase64Header} is not base64, as its @mediaType requires`,
+          }),
+          result,
+        );
   };
 
   return {
@@ -324,6 +337,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       // Streaming and blob payloads; everything else is read as text.
       if (!outputPayloadProp?.isStreaming && !outputPayloadProp?.isBlob) return undefined;
       const result = bindResponse(response);
+      if (result instanceof Unreadable) return Effect.succeed(result);
 
       if (outputPayloadProp.isStreaming) {
         if (outputPayloadProp.isEventStream && response.body) {
@@ -411,6 +425,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
 
   function deserializeText(response: TextResponse): unknown {
     const result = bindResponse(response);
+    if (result instanceof Unreadable) return result;
     const bodyText = response.body;
 
     // A string httpPayload is the body as-is, not a JSON document.

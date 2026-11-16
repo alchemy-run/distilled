@@ -59,7 +59,7 @@ import {
 import { fromBase64, toBase64 } from "../util/base64.ts";
 import { errorBody, inputEncoderSync } from "../util/codec.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
-import { headerReader } from "../util/headers.ts";
+import { headerReader, notBase64 } from "../util/headers.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
 import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
 import {
@@ -160,7 +160,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         name,
         header,
         headerLower: header.toLowerCase(),
-        read: headerReader(prop.type),
+        read: headerReader(prop.type, getMediaType(prop)),
       });
     } else if (prefixHeader !== undefined) {
       // An empty prefix binds every response header.
@@ -234,9 +234,13 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     return request;
   };
 
-  /** The members bound to the status code and headers. */
-  const bindResponse = (response: Response): Record<string, unknown> => {
+  /**
+   * The members bound to the status code and headers, or {@link Unreadable}
+   * with them as read when a `@mediaType` header is not base64.
+   */
+  const bindResponse = (response: Response): Record<string, unknown> | Unreadable => {
     const result: Record<string, unknown> = {};
+    let notBase64Header: string | undefined;
 
     // Extract HTTP response status code if bound to a property
     if (responseCodePropName) {
@@ -247,7 +251,9 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     for (const hp of headerProps) {
       const v = response.headers[hp.headerLower] ?? response.headers[hp.header];
       if (v !== undefined) {
-        result[hp.name] = hp.read(v);
+        const read = hp.read(v);
+        if (read === notBase64) notBase64Header ??= hp.header;
+        result[hp.name] = read === notBase64 ? v : read;
       }
     }
 
@@ -261,7 +267,14 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
       }
       result[php.name] = prefixed;
     }
-    return result;
+    return notBase64Header === undefined
+      ? result
+      : new Unreadable(
+          new ParseError({
+            message: `Response header ${notBase64Header} is not base64, as its @mediaType requires`,
+          }),
+          result,
+        );
   };
 
   return {
@@ -272,6 +285,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
       // Streaming and blob output payloads; everything else is read as text.
       if (!outputPayloadProp?.isStreaming && !outputPayloadProp?.isBlob) return undefined;
       const result = bindResponse(response);
+      if (result instanceof Unreadable) return Effect.succeed(result);
       if (!outputPayloadProp.isStreaming) {
         // A blob payload is the body's bytes, base64 for the schema decoder.
         return Effect.map(readStreamAsBytes(response.body), (bytes) => {
@@ -402,6 +416,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
 
   function deserializeText(response: TextResponse): unknown {
     const result = bindResponse(response);
+    if (result instanceof Unreadable) return result;
     const bodyText = response.body;
 
     // Handle httpPayload property

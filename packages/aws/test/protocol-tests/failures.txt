@@ -114,7 +114,3 @@ QueryCompatibleAwsJson10CborSendsQueryModeHeader (request)
 
 # `@httpChecksumRequired`: no Content-MD5 header.
 RestJsonHttpChecksumRequired (request)
-
-# `@mediaType("application/json")` header strings are not base64-encoded.
-MediaTypeHeaderInputBase64 (request)
-MediaTypeHeaderOutputBase64 (response)
