@@ -24,19 +24,34 @@ import {
   getArrayElementAST,
   getEncodedPropertySignatures,
   getIdentifier,
+  getMapKeyValueAST,
   isArrayAST,
   isBooleanAST,
+  isMapAST,
   isNumberAST,
 } from "@distilled.cloud/s3/util/ast";
 import { errorBody, inputEncoderSync } from "@distilled.cloud/s3/util/codec";
 import { sanitizeErrorCode } from "@distilled.cloud/s3/util/error";
 import { readStreamAsText } from "@distilled.cloud/s3/util/stream";
-import { extractXmlRoot, parseXml, readXml, unwrapArrayValue } from "@distilled.cloud/s3/util/xml";
+import {
+  elementText,
+  extractXmlRoot,
+  parseXml,
+  readXml,
+  readXmlMap,
+  unwrapArrayValue,
+} from "@distilled.cloud/s3/util/xml";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import { ParseError } from "../errors.ts";
-import { getEc2QueryName, getServiceVersion, getXmlNameProp, hasXmlAttribute } from "../traits.ts";
+import {
+  getEc2QueryName,
+  getServiceVersion,
+  getXmlName,
+  getXmlNameProp,
+  hasXmlAttribute,
+} from "../traits.ts";
 
 // =============================================================================
 // Protocol Export
@@ -278,6 +293,8 @@ function serializeValue(
 
 /** What deserializing a value of a schema needs to know about it, read once per schema. */
 interface ValuePlan {
+  /** Maps: the key and value schemas. */
+  readonly map: { readonly key: AST.AST; readonly value: AST.AST } | undefined;
   readonly array: boolean;
   readonly number: boolean;
   readonly boolean: boolean;
@@ -292,9 +309,11 @@ const valuePlans = /*@__PURE__*/ new WeakMap<AST.AST, ValuePlan>();
 const valuePlanOf = (ast: AST.AST): ValuePlan => {
   let plan = valuePlans.get(ast);
   if (plan === undefined) {
-    const array = isArrayAST(ast);
+    const kv = isMapAST(ast) ? getMapKeyValueAST(ast) : undefined;
+    const array = !kv && isArrayAST(ast);
     const element = array ? getArrayElementAST(ast) : undefined;
     plan = {
+      map: kv && { key: kv.keyAST, value: kv.valueAST },
       array,
       number: isNumberAST(ast),
       boolean: isBooleanAST(ast),
@@ -312,6 +331,19 @@ const ITEM_MEMBER = ["item", "member"];
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
   if (value == null || value === "") return undefined;
   const plan = valuePlanOf(ast);
+
+  // Maps: <entry><key>K</key><value>V</value></entry>
+  const map = plan.map;
+  if (map) {
+    return readXmlMap(
+      value,
+      false,
+      getXmlName(map.key) ?? "key",
+      getXmlName(map.value) ?? "value",
+      (v) => deserializeValue(map.value, v),
+    );
+  }
+  value = elementText(value);
 
   // Handle arrays
   if (plan.array) {
