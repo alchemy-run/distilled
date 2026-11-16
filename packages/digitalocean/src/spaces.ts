@@ -83,8 +83,15 @@ export const layerS3Keys = (
           name: `distilled-spaces-${options.bucket}-${Date.now()}`,
           grants: [{ bucket: options.bucket, permission: options.permission ?? "readwrite" }],
         });
+        // A finalizer can't fail, so a key that could not be deleted is
+        // logged with its id: it stays valid until someone deletes it.
         yield* Effect.addFinalizer(() =>
-          deleteSpacesKey({ access_key: key.access_key }).pipe(Effect.ignore),
+          deleteSpacesKey({ access_key: key.access_key }).pipe(
+            Effect.ignore({
+              log: "Warn",
+              message: `Could not delete the temporary Spaces key ${key.access_key}; it stays valid until you delete it in DigitalOcean.`,
+            }),
+          ),
         );
         return {
           accessKeyId: Redacted.make(key.access_key),
