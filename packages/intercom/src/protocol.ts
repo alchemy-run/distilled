@@ -1,16 +1,15 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * IntercomProtocol -- hand-written.
  *
  * Intercom speaks bearer-authenticated JSON REST (no response envelope), so
- * the protocol is one `makeRestProtocol` call from `core/protocol-rest`:
+ * the protocol is one `restProtocol` call from `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <access token>` +
  *             `Intercom-Version` + base URL (default
@@ -25,26 +24,28 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownIntercomError, IntercomParseError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import { UnknownIntercomError, IntercomParseError, type IntercomServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Intercom operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * IntercomOpError, IntercomOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * The errors declared on Intercom's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link IntercomParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownIntercomError}), and
+ * core's REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type IntercomOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownIntercomError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | IntercomParseError
-  | InvalidInput
-  | SdkError;
+export type IntercomProtocolError = RestProtocolError | IntercomParseError | UnknownIntercomError;
+
+/**
+ * What every generated Intercom operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, IntercomOpError, IntercomOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
+ */
+export type IntercomOpError = IntercomServiceError | IntercomProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Intercom operation. */
 export type IntercomOpContext = Credentials | HttpClient.HttpClient;
@@ -76,17 +77,20 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const IntercomProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    Accept: "application/json",
-    "Intercom-Version": creds.apiVersion,
-  }),
-  errorEnvelope,
-  unknownError: (info) => new UnknownIntercomError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new IntercomParseError({ body, cause }),
-});
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const IntercomProtocol: Protocol<IntercomProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      Accept: "application/json",
+      "Intercom-Version": creds.apiVersion,
+    }),
+    errorEnvelope,
+    unknownError: (info) => new UnknownIntercomError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new IntercomParseError({ body, cause }),
+  });

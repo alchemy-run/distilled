@@ -34,6 +34,9 @@ export class Credentials
     "ModrinthCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** Layer from an optional API token + optional base URL / User-Agent. */
 export const fromApiKey = (config: {
   readonly apiKey?: Redacted.Redacted<string>;

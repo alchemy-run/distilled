@@ -1,11 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * HydraDBProtocol -- the shared REST protocol instantiated for the HydraDB
  * v2 API.
@@ -31,31 +30,31 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { HydraDBParseError, UnknownHydraDBError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import { HydraDBParseError, UnknownHydraDBError, type HydraDBServiceError } from "./errors.ts";
 
 /** The API version this SDK is generated against (the spec's `API-Version` global header). */
 export const API_VERSION = "2";
 
 /**
- * Error channel shared by every generated HydraDB operation: the spec types
- * failures only as a per-operation status list against one shared envelope,
- * so every operation can fail with any of core's status classes. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * HydraDBOpError, HydraDBOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * The errors declared on HydraDB's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link HydraDBParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownHydraDBError}), and core's
+ * REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type HydraDBOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownHydraDBError
-  | HydraDBParseError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type HydraDBProtocolError = RestProtocolError | HydraDBParseError | UnknownHydraDBError;
+
+/**
+ * What every generated HydraDB operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, HydraDBOpError, HydraDBOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
+ */
+export type HydraDBOpError = HydraDBServiceError | HydraDBProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated HydraDB operation. */
 export type HydraDBOpContext = Credentials | HttpClient.HttpClient;
@@ -101,17 +100,20 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const HydraDBProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request, so a key rotated between
-  // calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    "API-Version": API_VERSION,
-  }),
-  errorEnvelope,
-  transformResponse: unwrapData,
-  unknownError: (info) => new UnknownHydraDBError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new HydraDBParseError({ body, cause }),
-});
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const HydraDBProtocol: Protocol<HydraDBProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // Resolved on the CALLING fiber per request, so a key rotated between calls
+    // is picked up.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      "API-Version": API_VERSION,
+    }),
+    errorEnvelope,
+    transformResponse: unwrapData,
+    unknownError: (info) => new UnknownHydraDBError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new HydraDBParseError({ body, cause }),
+  });
