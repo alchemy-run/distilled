@@ -48,6 +48,9 @@ export class Credentials
     Effect.Effect<Config, ConfigError | GithubAppAuthError>
   >()("GithubCredentials") {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `GITHUB_TOKEN` is what Actions injects; `GH_TOKEN` is the gh CLI's
   // spelling. Either works, GITHUB_TOKEN first.
