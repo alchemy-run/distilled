@@ -1033,6 +1033,30 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
   // Import refs aliased only where a generated schema name conflicts.
   const credsRef = allSchemaNames.has("Credentials") ? "Creds" : "Credentials";
   const commonErrorsRef = allSchemaNames.has("CommonErrors") ? "CommonErr" : "CommonErrors";
+  const serviceErrorsRef = allSchemaNames.has("AwsServiceErrors")
+    ? "AwsSvcErrors"
+    : "AwsServiceErrors";
+
+  // The errors the service shape declares: any of its operations can return
+  // them. `inheritServiceErrors` has copied them into each operation's list,
+  // which is what the per-operation error type is written from. At runtime
+  // they are the service's: every operation's `serviceErrors` is the list
+  // every AWS service has, then these, and its own `errors` leaves them out.
+  const serviceErrorNames = [
+    ...new Set<string>(
+      ((serviceShape.errors ?? []) as Array<{ target: string }>).map((e) => formatName(e.target)),
+    ),
+  ];
+  const serviceErrors =
+    serviceErrorNames.length === 0
+      ? serviceErrorsRef
+      : `awsServiceErrorsWith(${serviceErrorNames.join(", ")})`;
+  const serviceErrorsImport =
+    serviceErrorNames.length > 0
+      ? 'import { awsServiceErrorsWith } from "../errors.ts";'
+      : serviceErrorsRef === "AwsSvcErrors"
+        ? 'import { AwsServiceErrors as AwsSvcErrors } from "../errors.ts";'
+        : 'import { AwsServiceErrors } from "../errors.ts";';
   const regionInputRef = allSchemaNames.has("RegionInput") ? "CallRegion" : "RegionInput";
 
   const errorShapeIds = collectErrorShapeIds(model);
@@ -2190,7 +2214,8 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           errorNames.push(n);
         }
       }
-      const operationErrors = errorNames.length === 0 ? "[]" : `[${errorNames.join(", ")}]`;
+      const ownErrorNames = errorNames.filter((n) => !serviceErrorNames.includes(n));
+      const operationErrors = ownErrorNames.length === 0 ? "[]" : `[${ownErrorNames.join(", ")}]`;
 
       // Operation-level pagination merged over service-level defaults
       // (operations may specify partial pagination and inherit the rest).
@@ -2220,6 +2245,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
         `input: ${input}`,
         `output: ${output}`,
         `errors: ${operationErrors}`,
+        `serviceErrors: ${serviceErrors}`,
         `protocol: AwsProtocol`,
         `retry: Retry`,
         `operationName: ${JSON.stringify(opName)}`,
@@ -2289,7 +2315,6 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
         commonErrorsRef === "CommonErr"
           ? 'import type { CommonErrors as CommonErr } from "../errors.ts";'
           : 'import type { CommonErrors } from "../errors.ts";';
-
       // Placeholder imports are resolved by postProcess based on usage.
       // Sensitive schemas import directly from sensitive.ts to avoid the
       // traits.ts↔protocol circular dependency.
@@ -2309,6 +2334,7 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           ? 'import type { RegionInput as CallRegion } from "../region.ts";'
           : 'import type { RegionInput } from "../region.ts";',
         commonErrorsImport,
+        "__SERVICE_ERRORS_IMPORT__",
         "__SENSITIVE_IMPORT__",
       ].join("\n");
 
@@ -2395,6 +2421,8 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
         'import * as C from "../category.ts";',
         /\bC\.with/,
       );
+      // The service's error list is a value only operations read.
+      replacePlaceholder("__SERVICE_ERRORS_IMPORT__", serviceErrorsImport, /\bserviceErrors: /);
       const usesSensitiveString = /\bSensitiveString\b/.test(fileContents);
       const usesSensitiveBlob = /\bSensitiveBlob\b/.test(fileContents);
       if (usesSensitiveString && usesSensitiveBlob) {

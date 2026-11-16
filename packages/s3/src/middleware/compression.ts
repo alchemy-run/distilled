@@ -21,7 +21,7 @@ export const MIN_COMPRESSION_SIZE_BYTES = 10240;
 export const applyRequestCompression = (
   schema: S.Top,
   request: ProtocolRequest,
-): Effect.Effect<ProtocolRequest> => {
+): Effect.Effect<ProtocolRequest, SdkError> => {
   const body = request.body;
   if (
     body === undefined ||
@@ -43,11 +43,9 @@ export const applyRequestCompression = (
 
 /**
  * gzip with the Compression Streams API (Node, Bun, workerd and browsers).
- * A failure is an {@link SdkError}, which every operation declares; the
- * middleware type carries only `InvalidInput`, as for the other effects that
- * fail with it (see `loadOwnModule` in traits.ts).
+ * A failure is an {@link SdkError}, which the protocol declares.
  */
-const gzip = (bytes: Uint8Array): Effect.Effect<Uint8Array> =>
+const gzip = (bytes: Uint8Array): Effect.Effect<Uint8Array, SdkError> =>
   Effect.tryPromise({
     try: async () =>
       new Uint8Array(
@@ -61,4 +59,4 @@ const gzip = (bytes: Uint8Array): Effect.Effect<Uint8Array> =>
       new SdkError({
         message: `gzip compression of the request body failed: ${cause instanceof Error ? cause.message : String(cause)}`,
       }),
-  }) as Effect.Effect<Uint8Array, never>;
+  });

@@ -1,15 +1,12 @@
-import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as S from "@distilled.cloud/core/schema-lite-typed";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { UnknownErrorFields } from "@distilled.cloud/core/unknown-error";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Category from "./category.ts";
 import type * as Credentials from "./credentials.ts";
 // Imported from the leaf module, not `traits.ts`: that one imports every
 // protocol, and each protocol imports this file, so the annotation would not
 // yet exist when these classes are built. See error-message.ts.
 import * as T from "./error-message.ts";
-import type * as SigV4 from "./sigv4.ts";
+import type { AwsProtocolError } from "./protocol.ts";
 
 /**
  * The canonical message member every error class carries.
@@ -197,7 +194,14 @@ export class ParseError
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 
-export const COMMON_ERRORS = [
+/**
+ * The errors declared on every AWS service: any operation can return them
+ * without listing them. Every generated operation has this list as its
+ * `serviceErrors` (a service whose Smithy model declares errors of its own
+ * adds them after these), and the protocol matches a failed response's
+ * error code against the operation's own classes and these.
+ */
+export const AwsServiceErrors = [
   AccessDeniedException,
   ExpiredTokenException,
   IncompleteSignature,
@@ -219,47 +223,29 @@ export const COMMON_ERRORS = [
   ValidationException,
 ] as const;
 
-export type CommonAwsError =
-  | AccessDeniedException
-  | ExpiredTokenException
-  | IncompleteSignature
-  | InternalFailure
-  | MalformedHttpRequestException
-  | NotAuthorized
-  | OptInRequired
-  | RequestAbortedException
-  | RequestEntityTooLargeException
-  | RequestExpired
-  | RequestTimeoutException
-  | ServiceUnavailable
-  | ThrottlingException
-  | UnrecognizedClientException
-  | UnknownOperationException
-  | ValidationError
-  | ValidationException
-  | OperationAborted;
+/**
+ * The `serviceErrors` of a service whose Smithy model declares errors of
+ * its own: {@link AwsServiceErrors}, then the service's.
+ */
+export const awsServiceErrorsWith = <
+  const Own extends ReadonlyArray<abstract new (...args: any) => unknown>,
+>(
+  ...own: Own
+): readonly [...typeof AwsServiceErrors, ...Own] => [...AwsServiceErrors, ...own];
+
+/** An instance of one of {@link AwsServiceErrors}. */
+export type AwsServiceError = InstanceType<(typeof AwsServiceErrors)[number]>;
+
+/** The errors every AWS service declares, under their earlier name. */
+export type CommonAwsError = AwsServiceError;
 
 /**
- * All error types that can be returned by AWS operations.
- *
- * `HttpClientError` belongs here because `API.make` puts it in every
- * operation's error channel (the request can fail before any AWS response
- * exists -- DNS, TLS, connection reset). Leaving it out made each generated
- * operation's declared type narrower than what it can actually fail with.
- * `ProviderError` is whatever the provided `Credentials`, `Region` and
- * `Endpoint` layers can fail with (nothing, for keys given directly; see
- * `ProviderErrors`). `InvalidInput` is a path
- * or host label that would address another resource, refused before
- * anything is signed.
+ * What every AWS operation fails with besides its own errors: the errors
+ * its service declares ({@link AwsServiceError}), the errors the protocol
+ * declares (`AwsProtocolError`: a response it can't read, an error code no
+ * class answers to, an input it refuses, an endpoint or a signature it
+ * can't build, a failed request), and what the provided `Credentials`,
+ * `Region` and `Endpoint` layers fail with (`ProviderError`: nothing, for
+ * keys given directly; see `ProviderErrors`).
  */
-export type CommonErrors =
-  | UnknownAwsError
-  | ParseError
-  | InvalidInput
-  | SdkError
-  | CommonAwsError
-  | EndpointError
-  | NoMatchingRuleError
-  | SigV4.SigningError
-  | Credentials.ProviderError
-  | HttpClientError.HttpClientError;
+export type CommonErrors = AwsServiceError | AwsProtocolError | Credentials.ProviderError;
