@@ -57,6 +57,9 @@ export class Credentials
     "AcmeCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /**
  * Credentials from the environment:
  *
