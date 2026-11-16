@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNamespaceLabsError } from "../errors.ts";
+import { NamespaceLabsServiceErrors } from "../errors.ts";
 import {
   NamespaceLabsProtocol,
   type NamespaceLabsOpError,
@@ -165,8 +165,8 @@ export const ensureBazelCache: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

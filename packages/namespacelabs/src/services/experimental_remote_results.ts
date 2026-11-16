@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNamespaceLabsError } from "../errors.ts";
+import { NamespaceLabsServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   NamespaceLabsProtocol,
@@ -524,8 +524,8 @@ export const downloadPrepare: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -558,8 +558,8 @@ export const expireResult: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -592,8 +592,8 @@ export const fetchResult: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -626,8 +626,8 @@ export const finalizeUploadResult: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -662,8 +662,8 @@ export const listResults: API.PaginatedOperationMethod<
       NotFound,
       AlreadyExists,
       ResourceExhausted,
-      UnknownNamespaceLabsError,
     ],
+    serviceErrors: NamespaceLabsServiceErrors,
     protocol: NamespaceLabsProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -704,8 +704,8 @@ export const prepareUploadResult: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
