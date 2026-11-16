@@ -6,22 +6,6 @@
 # One case per line: the case id and its kind, (request), (response) or
 # (error), grouped by cause.
 
-# The `@endpoint` host prefix: the runtime skips it for a custom endpoint
-# (s3/src/protocol.ts), and these cases set one.
-AwsJson10EndpointTrait (request)
-AwsJson10EndpointTraitWithHostLabel (request)
-AwsJson11EndpointTrait (request)
-AwsJson11EndpointTraitWithHostLabel (request)
-AwsQueryEndpointTrait (request)
-AwsQueryEndpointTraitWithHostLabel (request)
-Ec2QueryEndpointTrait (request)
-Ec2QueryEndpointTraitWithHostLabel (request)
-RestJsonEndpointTrait (request)
-RestJsonEndpointTraitWithHostLabel (request)
-RestXmlEndpointTrait (request)
-RestXmlEndpointTraitWithHostLabel (request)
-RestXmlEndpointTraitWithHostLabelAndHttpBinding (request)
-
 # `@default` values are not filled in, and missing required members are not
 # set to their zero values.
 AwsJson10ClientErrorCorrectsWhenServerFailsToSerializeRequiredValues (response)

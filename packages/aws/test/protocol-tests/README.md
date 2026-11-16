@@ -14,6 +14,8 @@ Cases that apply only to servers are skipped. `rpcv2Cbor` is not run: the runtim
 
 `failures.txt` lists the cases the runtime fails today, grouped by cause. The test fails on a failing case missing from the list, and on a listed case that passes, so a fix has to delete its lines.
 
+Request cases on operations with an `@endpoint` host prefix are skipped too. The runner sends every call to one custom endpoint, and the runtime adds no host prefix to a custom endpoint: an emulator or proxy serves every operation on the host it names.
+
 ## Updating
 
 `model.json` is the protocol tests' Smithy model as JSON, with mixins flattened. The generator reads only JSON, and Smithy publishes the tests as `.smithy` files, so `update.sh` converts them with the Smithy CLI. It needs `curl` and `unzip`; the CLI brings its own Java runtime.
