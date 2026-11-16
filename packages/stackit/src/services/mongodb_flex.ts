@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -661,7 +661,8 @@ export const cloneInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<CloneInstanceRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<CloneInstanceResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -678,7 +679,8 @@ export const createInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<CreateInstanceRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<CreateInstanceResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -695,7 +697,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<CreateUserResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -712,7 +715,8 @@ export const deleteInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<DeleteInstanceRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<DeleteInstanceResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -729,7 +733,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -746,7 +751,8 @@ export const getBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetBackupRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<GetBackupResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -763,7 +769,8 @@ export const getInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<InstanceResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -780,7 +787,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<GetUserRequest>,
   output: __S(18, __c1, 2) as any as S.Schema<GetUserResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -797,7 +805,8 @@ export const listAdvisorSlowQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<ListAdvisorSlowQueriesRequest>,
   output: __S(35, __c2, 3) as any as S.Schema<HandlersInstancesSlowQueriesResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -814,7 +823,8 @@ export const listBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ListBackupsRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<ListBackupsResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -831,7 +841,8 @@ export const listFlavors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ListFlavorsRequest>,
   output: __S(67, __c4, 3) as any as S.Schema<ListFlavorsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -848,7 +859,8 @@ export const listInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ListInstancesRequest>,
   output: __S(83, __c5, 3) as any as S.Schema<ListInstancesResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -865,7 +877,8 @@ export const listMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListMetricsRequest>,
   output: __S(103, __c6, 7) as any as S.Schema<ListMetricsResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -882,7 +895,8 @@ export const listRestoreJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListRestoreJobsRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<ListRestoreJobsResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -899,7 +913,8 @@ export const listStorages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListStoragesRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<ListStoragesResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -916,7 +931,8 @@ export const listSuggestedIndexes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListSuggestedIndexesRequest>,
   output: __S(171, __c10, 11) as any as S.Schema<HandlersInstancesSuggestedIndexesResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -933,7 +949,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(179, __c11, 3) as any as S.Schema<ListUsersResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -950,7 +967,8 @@ export const listVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListVersionsRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<ListVersionsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -967,7 +985,8 @@ export const partialUpdateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<PartialUpdateInstanceRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -984,7 +1003,8 @@ export const partialUpdateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<PartialUpdateUserRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<PartialUpdateUserResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1001,7 +1021,8 @@ export const resetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ResetUserRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<User>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1018,7 +1039,8 @@ export const restoreInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<RestoreInstanceRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<RestoreInstanceResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1035,7 +1057,8 @@ export const updateBackupSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<UpdateBackupScheduleRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<BackupSchedule>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1052,7 +1075,8 @@ export const updateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1069,7 +1093,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<UpdateUserResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

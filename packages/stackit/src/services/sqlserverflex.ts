@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -864,7 +864,8 @@ export const createDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(225, __c28, 1) as any as S.Schema<CreateDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -886,7 +887,8 @@ export const createInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(234, __c29, 2) as any as S.Schema<CreateInstanceRequest>,
   output: __S(235, __c29, 3) as any as S.Schema<CreateInstanceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -908,7 +910,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(265, __c33, 1) as any as S.Schema<CreateUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -925,7 +928,8 @@ export const deleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -942,7 +946,8 @@ export const deleteInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<DeleteInstanceRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<DeleteInstanceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -959,7 +964,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -976,7 +982,8 @@ export const getBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetBackupRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<GetBackupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -993,7 +1000,8 @@ export const getDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetDatabaseRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<GetDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1010,7 +1018,8 @@ export const getInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(35, __c4, 3) as any as S.Schema<GetInstanceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1027,7 +1036,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetUserRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<GetUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1044,7 +1054,8 @@ export const listBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListBackupsRequest>,
   output: __S(52, __c6, 4) as any as S.Schema<ListBackupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1061,7 +1072,8 @@ export const listCollations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListCollationsRequest>,
   output: __S(67, __c8, 3) as any as S.Schema<ListCollationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1078,7 +1090,8 @@ export const listCompatibilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListCompatibilitiesRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<ListCompatibilityResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1099,7 +1112,8 @@ export const listCurrentRunningRestoreJobs2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ListCurrentRunningRestoreJobsRequest>,
   output: __S(83, __c10, 3) as any as S.Schema<ListCurrentRunningRestoreJobs>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1116,7 +1130,8 @@ export const listDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListDatabasesRequest>,
   output: __S(91, __c11, 3) as any as S.Schema<ListDatabasesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1133,7 +1148,8 @@ export const listFlavors2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListFlavorsRequest>,
   output: __S(99, __c12, 3) as any as S.Schema<ListFlavorsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1150,7 +1166,8 @@ export const listInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListInstancesRequest>,
   output: __S(115, __c14, 3) as any as S.Schema<ListInstancesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1167,7 +1184,8 @@ export const listRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListRolesRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<ListRolesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1184,7 +1202,8 @@ export const listStorages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListStoragesRequest>,
   output: __S(130, __c16, 2) as any as S.Schema<ListStoragesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1201,7 +1220,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(139, __c17, 3) as any as S.Schema<ListUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1218,7 +1238,8 @@ export const listVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListVersionsRequest>,
   output: __S(147, __c18, 3) as any as S.Schema<ListVersionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1240,7 +1261,8 @@ export const partialUpdateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(153, __c19, 1) as any as S.Schema<PartialUpdateInstanceRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<PartialUpdateInstanceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1262,7 +1284,8 @@ export const resetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ResetUserRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<ResetUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1279,7 +1302,8 @@ export const restoreDatabaseFromBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<RestoreDatabaseFromBackupRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<RestoreDatabaseFromBackupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1301,7 +1325,8 @@ export const triggerBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<TriggerBackupRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<TriggerBackupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1323,7 +1348,8 @@ export const triggerRestore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<TriggerRestoreRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<TriggerRestoreResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1345,7 +1371,8 @@ export const updateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(209, __c26, 1) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1367,7 +1394,8 @@ export const updateInstanceProtection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<UpdateInstanceProtectionRequest>,
   output: __S(217, __c27, 1) as any as S.Schema<UpdateInstanceProtectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

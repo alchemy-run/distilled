@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -391,7 +391,8 @@ export const createAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<CreateAccessPolicyRequest>,
   output: __S(56, __c14, 0) as any as S.Schema<AccessPolicy>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -408,7 +409,8 @@ export const createAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<CreateAccessTokenRequest>,
   output: __S(64, __c16, 0) as any as S.Schema<AccessToken>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -425,7 +427,8 @@ export const createLogsInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<CreateLogsInstanceRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<LogsInstance>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -442,7 +445,8 @@ export const deleteAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<DeleteAccessPolicyRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<DeleteAccessPolicyResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -459,7 +463,8 @@ export const deleteAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<DeleteAccessTokenRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<DeleteAccessTokenResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -476,7 +481,8 @@ export const deleteAllAccessPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<DeleteAllAccessPoliciesRequest>,
   output: __S(93, __c23, 1) as any as S.Schema<AccessPolicyList>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -493,7 +499,8 @@ export const deleteAllAccessTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<DeleteAllAccessTokensRequest>,
   output: __S(101, __c25, 1) as any as S.Schema<AccessTokenList>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -510,7 +517,8 @@ export const deleteAllExpiredAccessTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteAllExpiredAccessTokensRequest>,
   output: __S(101, __c25, 1) as any as S.Schema<AccessTokenList>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -527,7 +535,8 @@ export const deleteLogsInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<DeleteLogsInstanceRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<DeleteLogsInstanceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -544,7 +553,8 @@ export const getAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GetAccessPolicyRequest>,
   output: __S(56, __c14, 0) as any as S.Schema<AccessPolicy>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -561,7 +571,8 @@ export const getAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetAccessTokenRequest>,
   output: __S(64, __c16, 0) as any as S.Schema<AccessToken>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -578,7 +589,8 @@ export const getLogsInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetLogsInstanceRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<LogsInstance>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -595,7 +607,8 @@ export const listAccessPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListAccessPoliciesRequest>,
   output: __S(93, __c23, 1) as any as S.Schema<AccessPolicyList>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -612,7 +625,8 @@ export const listAccessTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListAccessTokensRequest>,
   output: __S(101, __c25, 1) as any as S.Schema<AccessTokenList>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -629,7 +643,8 @@ export const listLogsInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListLogsInstancesRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<LogsInstancesList>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -646,7 +661,8 @@ export const updateAccessPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<UpdateAccessPolicyRequest>,
   output: __S(56, __c14, 0) as any as S.Schema<AccessPolicy>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -663,7 +679,8 @@ export const updateAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UpdateAccessTokenRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<UpdateAccessTokenResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -680,7 +697,8 @@ export const updateLogsInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<UpdateLogsInstanceRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<LogsInstance>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
