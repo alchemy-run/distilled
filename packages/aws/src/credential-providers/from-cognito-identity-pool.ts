@@ -4,7 +4,6 @@
  */
 import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import { createLazyProvider, regionFromEnv } from "../credentials-service.ts";
 import type { RegionName } from "../region.ts";
 import {
@@ -90,6 +89,12 @@ export interface FromCognitoIdentityPoolOptions {
   readonly region?: string;
 }
 
+/** Cognito's answer for an identity id this caller can't use. */
+const rejectsIdentity = (error: CredentialSourceError): boolean => {
+  const tag = (error.cause as { readonly _tag?: unknown } | undefined)?._tag;
+  return tag === "ResourceNotFoundException" || tag === "NotAuthorizedException";
+};
+
 /**
  * Credentials for an identity pool: `GetId` for the identity id, then
  * `GetCredentialsForIdentity`. The identity id is cached, and a cached id
@@ -134,10 +139,15 @@ export const cognitoIdentityPoolSource = (
 
     const cached = cacheKey ? yield* cache.get(cacheKey) : undefined;
     if (cached) {
-      const credentials = yield* Effect.option(getCredentialsForIdentity(cached, region, options));
-      if (Option.isSome(credentials)) return credentials.value;
+      const credentials = yield* getCredentialsForIdentity(cached, region, options).pipe(
+        Effect.catch((error) =>
+          rejectsIdentity(error) ? Effect.succeed(undefined) : Effect.fail(error),
+        ),
+      );
+      if (credentials) return credentials;
       // The pool no longer knows the cached id (it was deleted, or belongs
-      // to another pool): forget it and mint a new one.
+      // to another pool): forget it and mint a new one. Any other failure
+      // (throttling, a network error) keeps the id and fails this call.
       if (cacheKey) yield* cache.remove(cacheKey);
     }
     const identityId = yield* getId;
