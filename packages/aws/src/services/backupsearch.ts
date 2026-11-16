@@ -187,13 +187,13 @@ export interface BackupCreationTimeFilter {
 export type ResourceArnList = string[];
 export type RecoveryPoint = string;
 export type RecoveryPointArnList = string[];
-export type TagMap = { [key: string]: string | undefined };
+export type TagMap = { [key: string]: string | null | undefined };
 export interface SearchScope {
   BackupResourceTypes: ResourceType[];
   BackupResourceCreationTime?: BackupCreationTimeFilter | undefined;
   SourceResourceArns?: string[] | undefined;
   BackupResourceArns?: string[] | undefined;
-  BackupResourceTags?: { [key: string]: string | undefined } | undefined;
+  BackupResourceTags?: { [key: string]: string | null | undefined } | undefined;
 }
 export type StringConditionOperator =
   | "EQUALS_TO"
@@ -384,10 +384,10 @@ export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | null | undefined } | undefined;
 }
 export interface StartSearchJobInput {
-  Tags?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | null | undefined } | undefined;
   Name?: string | undefined;
   EncryptionKeyArn?: string | undefined;
   ClientToken?: string | undefined;
@@ -404,7 +404,7 @@ export interface StartSearchResultExportJobInput {
   SearchJobIdentifier: string;
   ExportSpecification: ExportSpecification;
   ClientToken?: string | undefined;
-  Tags?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | null | undefined } | undefined;
   RoleArn?: string | undefined;
 }
 export interface StartSearchResultExportJobOutput {
@@ -417,7 +417,7 @@ export interface StopSearchJobInput {
 export interface StopSearchJobOutput {}
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags: { [key: string]: string | undefined };
+  Tags: { [key: string]: string | null | undefined };
 }
 export interface TagResourceResponse {}
 export type TagKeys = string[];
@@ -1184,7 +1184,7 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional)).pipe(
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String).pipe(S.optional)).pipe(
         /*@__PURE__*/ T.Sparse(),
       );
   }

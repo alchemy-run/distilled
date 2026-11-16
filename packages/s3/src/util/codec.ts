@@ -170,7 +170,7 @@ const fits = (n: Node, v: unknown, wire: boolean): boolean => {
     case "Objects":
       if (!isRecord(v)) return false;
       for (const m of shapeOf(n).members)
-        if (!m.optional && v[wire ? m.wire : m.name] === undefined) return false;
+        if (!m.optional && v[wire ? m.wire : m.name] == null) return false;
       return true;
     case "Arrays":
       return Array.isArray(v);
@@ -187,6 +187,20 @@ const fits = (n: Node, v: unknown, wire: boolean): boolean => {
  * it to tell a modeled event that does not match from an unmodeled one.
  */
 export const fitsWire = (n: Node, v: unknown): boolean => fits(n, v, true);
+
+/** Whether `null` is a value of the type `n` (a `@sparse` list element or map value). */
+const acceptsNull = (n: Node): boolean => {
+  switch (n._tag) {
+    case "Suspend":
+      return acceptsNull(n.thunk!());
+    case "Union":
+      return n.types!.some(acceptsNull);
+    case "Null":
+      return true;
+    default:
+      return false;
+  }
+};
 
 const expected = (n: Node): string =>
   n._tag === "Literal" ? JSON.stringify(n.literal) : n._tag.toLowerCase();
@@ -318,7 +332,7 @@ export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =
       return decodeObjects(n, v, exact);
     case "Arrays":
       return Array.isArray(v) || exact
-        ? convertArray(n, v, (t, x) => decode(t, x, exact))
+        ? convertArray(n, withoutNulls(n, v), (t, x) => decode(t, x, exact))
         : asRead(n, v);
     case "Union":
       return decodeUnion(n, v, exact);
@@ -352,6 +366,14 @@ const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): u
   return exact ? fail(codec === "epoch-seconds" ? "epoch seconds" : "a date string", v) : v;
 };
 
+/** A list's elements without the nulls a list that is not `@sparse` cannot hold. */
+const withoutNulls = (n: Node, v: unknown): unknown => {
+  const element = n.rest?.[0];
+  return Array.isArray(v) && element && !acceptsNull(element) && v.includes(null)
+    ? v.filter((x) => x !== null)
+    : v;
+};
+
 const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
   if (!isRecord(v)) return exact ? fail("an object", v) : asRead(n, v);
   const shape = shapeOf(n);
@@ -359,7 +381,8 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
   for (const m of shape.members) {
     const x = v[m.wire];
     try {
-      if (x === undefined) {
+      // JSON sends null for an absent member.
+      if (x == null) {
         if (exact && !m.optional) fail("a value", x);
         continue;
       }
@@ -373,6 +396,8 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
     for (const key of Object.keys(v)) {
       if (shape.wireKeys.has(key)) continue;
       const x = v[key];
+      // A map that is not `@sparse` has no null values.
+      if (x === null && !acceptsNull(index.type)) continue;
       try {
         out[key] = decode(index.type, x, exact);
       } catch (e) {
@@ -381,7 +406,7 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
     }
   else if (exact === "closed" && shape.members.length > 0)
     for (const key of Object.keys(v))
-      if (!shape.wireKeys.has(key) && v[key] !== undefined)
+      if (!shape.wireKeys.has(key) && v[key] != null)
         throw within(new CodecError("no value (the schema does not model this key)", v[key]), key);
   return out;
 };

@@ -391,7 +391,7 @@ export type CaseRuleDescription = string;
 export type Deleted = boolean;
 export type CreatedTime = Date;
 export type LastModifiedTime = Date;
-export type Tags = { [key: string]: string | undefined };
+export type Tags = { [key: string]: string | null | undefined };
 export interface GetCaseRuleResponse {
   caseRuleId: string;
   name: string;
@@ -401,7 +401,7 @@ export interface GetCaseRuleResponse {
   deleted?: boolean | undefined;
   createdTime?: Date | undefined;
   lastModifiedTime?: Date | undefined;
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
 }
 export type BatchGetCaseRuleList = GetCaseRuleResponse[];
 export interface CaseRuleError {
@@ -440,7 +440,7 @@ export interface GetFieldResponse {
   description?: string | undefined;
   type: string;
   namespace: string;
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
   deleted?: boolean | undefined;
   createdTime?: Date | undefined;
   lastModifiedTime?: Date | undefined;
@@ -692,7 +692,7 @@ export interface GetCaseResponse {
   fields: FieldValue[];
   templateId: string;
   nextToken?: string | undefined;
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
 }
 export interface GetCaseAuditEventsRequest {
   caseId: string;
@@ -745,7 +745,7 @@ export interface AuditEventField {
   oldValue?: AuditEventFieldValueUnion | undefined;
   newValue: AuditEventFieldValueUnion;
 }
-export type AuditEventFieldList = AuditEventField[];
+export type AuditEventFieldList = (AuditEventField | null)[];
 export type IamPrincipalArn = string;
 export interface AuditEventPerformedBy {
   user?: UserUnion | undefined;
@@ -761,14 +761,14 @@ export interface AuditEvent {
   type: string;
   relatedItemType?: string | undefined;
   performedTime: Date;
-  fields: AuditEventField[];
+  fields: (AuditEventField | null)[];
   performedBy?: AuditEventPerformedBy | undefined;
   mergeMetadata?: AuditMergeMetadata | undefined;
 }
-export type AuditEventsList = AuditEvent[];
+export type AuditEventsList = (AuditEvent | null)[];
 export interface GetCaseAuditEventsResponse {
   nextToken?: string | undefined;
-  auditEvents: AuditEvent[];
+  auditEvents: (AuditEvent | null)[];
 }
 export interface GetCaseEventConfigurationRequest {
   domainId: string;
@@ -799,7 +799,7 @@ export interface GetDomainResponse {
   name: string;
   createdTime: Date;
   domainStatus: string;
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
 }
 export interface GetLayoutRequest {
   domainId: string;
@@ -810,7 +810,7 @@ export interface GetLayoutResponse {
   layoutArn: string;
   name: string;
   content: LayoutContent;
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
   deleted?: boolean | undefined;
   createdTime?: Date | undefined;
   lastModifiedTime?: Date | undefined;
@@ -837,7 +837,7 @@ export interface GetTemplateResponse {
   description?: string | undefined;
   layoutConfiguration?: LayoutConfiguration | undefined;
   requiredFields?: RequiredField[] | undefined;
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
   status: string;
   deleted?: boolean | undefined;
   createdTime?: Date | undefined;
@@ -944,7 +944,7 @@ export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
 }
 export type TemplateStatusFilters = string[];
 export interface ListTemplatesRequest {
@@ -1193,12 +1193,12 @@ export interface SearchAllRelatedItemsResponseItem {
   associationTime: Date;
   content: RelatedItemContent;
   performedBy?: UserUnion | undefined;
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
 }
-export type SearchAllRelatedItemsResponseItemList = SearchAllRelatedItemsResponseItem[];
+export type SearchAllRelatedItemsResponseItemList = (SearchAllRelatedItemsResponseItem | null)[];
 export interface SearchAllRelatedItemsResponse {
   nextToken?: string | undefined;
-  relatedItems: SearchAllRelatedItemsResponseItem[];
+  relatedItems: (SearchAllRelatedItemsResponseItem | null)[];
 }
 export type SearchTagKey = string;
 export interface TagValue {
@@ -1237,13 +1237,13 @@ export interface SearchCasesResponseItem {
   caseId: string;
   templateId: string;
   fields: FieldValue[];
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
 }
-export type SearchCasesResponseItemList = SearchCasesResponseItem[];
+export type SearchCasesResponseItemList = (SearchCasesResponseItem | null)[];
 export type TotalCount = number;
 export interface SearchCasesResponse {
   nextToken?: string | undefined;
-  cases: SearchCasesResponseItem[];
+  cases: (SearchCasesResponseItem | null)[];
   totalCount?: number | undefined;
 }
 export interface SearchRelatedItemsRequest {
@@ -1258,13 +1258,13 @@ export interface SearchRelatedItemsResponseItem {
   type: string;
   associationTime: Date;
   content: RelatedItemContent;
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
   performedBy?: UserUnion | undefined;
 }
-export type SearchRelatedItemsResponseItemList = SearchRelatedItemsResponseItem[];
+export type SearchRelatedItemsResponseItemList = (SearchRelatedItemsResponseItem | null)[];
 export interface SearchRelatedItemsResponse {
   nextToken?: string | undefined;
-  relatedItems: SearchRelatedItemsResponseItem[];
+  relatedItems: (SearchRelatedItemsResponseItem | null)[];
 }
 export interface FieldsConfiguration {
   fieldIds: FieldIdentifier[];
@@ -1288,7 +1288,7 @@ export interface StartMergeCasesRequest {
 export interface StartMergeCasesResponse {}
 export interface TagResourceRequest {
   arn: string;
-  tags: { [key: string]: string | undefined };
+  tags: { [key: string]: string | null | undefined };
 }
 export interface TagResourceResponse {}
 export type TagKey = string;
@@ -1351,7 +1351,7 @@ export interface UpdateRelatedItemResponse {
   type: string;
   content: RelatedItemContent;
   associationTime: Date;
-  tags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | null | undefined } | undefined;
   lastUpdatedUser?: UserUnion | undefined;
   createdBy?: UserUnion | undefined;
 }
@@ -3819,7 +3819,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "AuditEventField" });
     case 2:
-      return S.Array(__S(353, __c22, 1)).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(353, __c22, 1))).pipe(/*@__PURE__*/ T.Sparse());
     case 3:
       return S.suspend(() =>
         S.Struct({ user: S.optional(__S(896, __c56, 0)), iamPrincipalArn: S.String }),
@@ -3841,7 +3841,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "AuditEvent" });
     case 6:
-      return S.Array(__S(357, __c22, 5)).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(357, __c22, 5))).pipe(/*@__PURE__*/ T.Sparse());
     case 7:
       return S.suspend(() =>
         S.Struct({ nextToken: S.optional(S.String), auditEvents: __S(358, __c22, 6) }),
@@ -4319,7 +4319,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "SearchAllRelatedItemsResponseItem" });
     case 4:
-      return S.Array(__S(611, __c38, 3)).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(611, __c38, 3))).pipe(/*@__PURE__*/ T.Sparse());
     case 5:
       return S.suspend(() =>
         S.Struct({ nextToken: S.optional(S.String), relatedItems: __S(612, __c38, 4) }),
@@ -4505,7 +4505,7 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "SearchCasesResponseItem" });
     case 8:
-      return S.Array(__S(679, __c42, 7)).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(679, __c42, 7))).pipe(/*@__PURE__*/ T.Sparse());
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -4552,7 +4552,7 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "SearchRelatedItemsResponseItem" });
     case 2:
-      return S.Array(__S(689, __c43, 1)).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(689, __c43, 1))).pipe(/*@__PURE__*/ T.Sparse());
     case 3:
       return S.suspend(() =>
         S.Struct({ nextToken: S.optional(S.String), relatedItems: __S(690, __c43, 2) }),
@@ -5087,7 +5087,7 @@ function __c65(j: number): any {
 function __c66(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional)).pipe(
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String).pipe(S.optional)).pipe(
         /*@__PURE__*/ T.Sparse(),
       );
   }

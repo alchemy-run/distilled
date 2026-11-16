@@ -2472,11 +2472,11 @@ export interface ColumnInformation {
 }
 export type ColumnInformationList = ColumnInformation[];
 export type ColumnValue = string;
-export type Result = string[];
-export type RowList = string[][];
+export type Result = (string | null)[];
+export type RowList = (string | null)[][];
 export interface GetQueryResultsResponse {
   columnInfo?: ColumnInformation[] | undefined;
-  rows?: string[][] | undefined;
+  rows?: (string | null)[][] | undefined;
   nextToken?: string | undefined;
 }
 export type GetSearchResultsRequestMaxResultsInteger = number;
@@ -9524,7 +9524,7 @@ function __c1(j: number): any {
     case 2:
       return S.Array(__S(17, __c1, 1));
     case 3:
-      return S.Array(S.String).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(S.String)).pipe(/*@__PURE__*/ T.Sparse());
     case 4:
       return S.Array(__S(19, __c1, 3));
     case 5:
