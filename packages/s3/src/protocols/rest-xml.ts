@@ -162,7 +162,8 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         headerLower: header.toLowerCase(),
         read: headerReader(prop.type),
       });
-    } else if (prefixHeader) {
+    } else if (prefixHeader !== undefined) {
+      // An empty prefix binds every response header.
       prefixHeaderProps.push({ name, prefix: prefixHeader.toLowerCase() });
     } else if (hasHttpPayload(prop)) {
       const unwrapped = unwrapUnion(prop.type);
