@@ -8,7 +8,7 @@ The AWS runtime's wire protocols (`awsJson1_0`, `awsJson1_1`, `awsQuery`, `ec2Qu
 2. It replays each `httpRequestTests` case: it calls the operation with the case's params through a fake `HttpClient` and compares the request it sends.
 3. It replays each `httpResponseTests` case: the fake `HttpClient` returns the case's response, and the test compares what the operation returns, or the typed error it fails with.
 
-Cases that apply only to servers are skipped. `rpcv2Cbor` is not run: the runtime has no CBOR protocol.
+Cases that apply only to servers are skipped, and so are cases tagged `defaults`: they expect the client to fill in `@default` values the caller or the server left out, and the SDK sends and returns only the values it was given (the AWS SDK for JavaScript skips them too). `rpcv2Cbor` is not run: the runtime has no CBOR protocol.
 
 ## Expected failures
 

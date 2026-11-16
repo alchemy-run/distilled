@@ -77,6 +77,7 @@ interface TestCase {
   readonly id: string;
   readonly protocol: string;
   readonly appliesTo?: "client" | "server";
+  readonly tags?: ReadonlyArray<string>;
   readonly params?: Record<string, unknown>;
   readonly body?: string;
   readonly bodyMediaType?: string;
@@ -478,7 +479,12 @@ for (const serviceId of SERVICES) {
   const service = shapes[serviceId]!;
   const protocol = Object.keys(service.traits ?? {}).find((k) => k.startsWith("aws.protocols#"))!;
   const name = shapeName(serviceId);
-  const applies = (c: TestCase) => c.protocol === protocol && c.appliesTo !== "server";
+  // Cases tagged `defaults` expect the client to fill in a member's
+  // `@default` when the caller or the server leaves it out. The SDK sends and
+  // returns only the values it was given, as the AWS SDK for JavaScript does
+  // (it skips these cases too).
+  const applies = (c: TestCase) =>
+    c.protocol === protocol && c.appliesTo !== "server" && !c.tags?.includes("defaults");
 
   const operations = Object.entries(shapes).filter(([, s]) => s.type === "operation");
 
