@@ -665,6 +665,12 @@
       "path": "./packages/boat-dev/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/boxd/tsconfig.json"
+    },
+    {
+      "path": "./packages/boxd/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/notion/tsconfig.json"
     },
     {
