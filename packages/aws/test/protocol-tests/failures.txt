@@ -109,11 +109,6 @@ XmlNamespaceSimpleScalarProperties (request)
 # SDKs (S3 GetObject of an empty object); the case expects no member.
 RestJsonStreamingTraitsWithNoBlobBody (response)
 
-# `@httpQueryParams` values replace a named `@httpQuery` member of the same
-# key.
-RestJsonQueryPrecedence (request)
-RestXmlQueryPrecedence (request)
-
 # `@awsQueryCompatible`: the x-amzn-query-mode header is not sent.
 QueryCompatibleAwsJson10CborSendsQueryModeHeader (request)
 
