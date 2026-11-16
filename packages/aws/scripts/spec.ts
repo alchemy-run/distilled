@@ -481,9 +481,15 @@ function collectOperationInputTraits(model: SmithyModel): {
         method: "POST",
         uri: "/",
       };
-      const httpChecksumTrait = shape.traits?.["aws.protocols#httpChecksum"] as
-        | OperationInputTraits["httpChecksum"]
-        | undefined;
+      // `@httpChecksumRequired` asks for the checksum `httpChecksum` sends
+      // when one is required: Content-MD5 of a buffered body.
+      const httpChecksumTrait =
+        (shape.traits?.["aws.protocols#httpChecksum"] as
+          | OperationInputTraits["httpChecksum"]
+          | undefined) ??
+        (shape.traits?.["smithy.api#httpChecksumRequired"] != null
+          ? { requestChecksumRequired: true }
+          : undefined);
       const staticContextParamsTrait = shape.traits?.["smithy.rules#staticContextParams"] as
         | Record<string, { value: unknown }>
         | undefined;
