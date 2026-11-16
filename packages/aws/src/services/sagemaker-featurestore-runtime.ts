@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -303,6 +304,7 @@ export const batchGetRecord: API.OperationMethod<
   input: __S(34, __c4, 2) as any as S.Schema<BatchGetRecordRequest>,
   output: __S(39, __c4, 7) as any as S.Schema<BatchGetRecordResponse>,
   errors: [AccessForbidden, InternalFailure, ServiceUnavailable, ValidationError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRecord",
@@ -336,6 +338,7 @@ export const batchWriteRecord: API.OperationMethod<
   input: __S(58, __c7, 2) as any as S.Schema<BatchWriteRecordRequest>,
   output: __S(61, __c7, 5) as any as S.Schema<BatchWriteRecordResponse>,
   errors: [AccessForbidden, InternalFailure, ResourceNotFound, ServiceUnavailable, ValidationError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWriteRecord",
@@ -398,6 +401,7 @@ export const deleteRecord: API.OperationMethod<
     ValidationError,
     FeatureGroupNotFound,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecord",
@@ -434,6 +438,7 @@ export const getRecord: API.OperationMethod<
     ValidationError,
     FeatureGroupNotFound,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecord",
@@ -463,6 +468,7 @@ export const listRecords: API.PaginatedOperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<ListRecordsRequest>,
   output: __S(9, __c1, 1) as any as S.Schema<ListRecordsResponse>,
   errors: [AccessForbidden, InternalFailure, ResourceNotFound, ServiceUnavailable, ValidationError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecords",
@@ -519,6 +525,7 @@ export const putRecord: API.OperationMethod<
     ValidationError,
     FeatureGroupNotFound,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
@@ -573,6 +580,7 @@ export const updateRecord: API.OperationMethod<
     ServiceUnavailable,
     ValidationError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecord",

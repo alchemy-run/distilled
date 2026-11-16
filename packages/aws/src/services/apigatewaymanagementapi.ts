@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -155,6 +156,7 @@ export const deleteConnection: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<DeleteConnectionRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteConnectionResponse>,
   errors: [ForbiddenException, GoneException, LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
@@ -179,6 +181,7 @@ export const getConnection: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<GetConnectionRequest>,
   output: __S(10, __c2, 2) as any as S.Schema<GetConnectionResponse>,
   errors: [ForbiddenException, GoneException, LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
@@ -204,6 +207,7 @@ export const postToConnection: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<PostToConnectionRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PostToConnectionResponse>,
   errors: [ForbiddenException, GoneException, LimitExceededException, PayloadTooLargeException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostToConnection",

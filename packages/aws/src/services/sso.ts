@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -202,6 +203,7 @@ export const getRoleCredentials: API.OperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoleCredentials",
@@ -233,6 +235,7 @@ export const listAccountRoles: API.PaginatedOperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccountRoles",
@@ -272,6 +275,7 @@ export const listAccounts: API.PaginatedOperationMethod<
     TooManyRequestsException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccounts",
@@ -315,6 +319,7 @@ export const logout: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<LogoutRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<LogoutResponse>,
   errors: [InvalidRequestException, TooManyRequestsException, UnauthorizedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Logout",

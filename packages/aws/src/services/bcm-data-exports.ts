@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -437,6 +438,7 @@ export const createExport: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExport",
@@ -467,6 +469,7 @@ export const deleteExport: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExport",
@@ -497,6 +500,7 @@ export const getExecution: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecution",
@@ -527,6 +531,7 @@ export const getExport: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
@@ -551,6 +556,7 @@ export const getTable: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetTableRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<GetTableResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
@@ -582,6 +588,7 @@ export const listExecutions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExecutions",
@@ -613,6 +620,7 @@ export const listExports: API.PaginatedOperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<ListExportsRequest>,
   output: __S(19, __c2, 3) as any as S.Schema<ListExportsResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExports",
@@ -644,6 +652,7 @@ export const listTables: API.PaginatedOperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<ListTablesRequest>,
   output: __S(29, __c3, 5) as any as S.Schema<ListTablesResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTables",
@@ -682,6 +691,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -714,6 +724,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -746,6 +757,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -776,6 +788,7 @@ export const updateExport: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExport",

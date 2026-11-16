@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -261,6 +262,7 @@ export const createConfigurationSet: API.OperationMethod<
     LimitExceededException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSet",
@@ -295,6 +297,7 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
     NotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetEventDestination",
@@ -325,6 +328,7 @@ export const deleteConfigurationSet: API.OperationMethod<
     NotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
@@ -355,6 +359,7 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
     NotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
@@ -385,6 +390,7 @@ export const getConfigurationSetEventDestinations: API.OperationMethod<
     NotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationSetEventDestinations",
@@ -409,6 +415,7 @@ export const listConfigurationSets: API.OperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<ListConfigurationSetsRequest>,
   output: __S(10, __c1, 2) as any as S.Schema<ListConfigurationSetsResponse>,
   errors: [BadRequestException, InternalServiceErrorException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationSets",
@@ -433,6 +440,7 @@ export const sendVoiceMessage: API.OperationMethod<
   input: __S(19, __c2, 3) as any as S.Schema<SendVoiceMessageRequest>,
   output: __S(20, __c2, 4) as any as S.Schema<SendVoiceMessageResponse>,
   errors: [BadRequestException, InternalServiceErrorException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendVoiceMessage",
@@ -463,6 +471,7 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
     NotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetEventDestination",

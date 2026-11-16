@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -214,6 +215,7 @@ export const getExport: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetExportRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<GetExportResponse>,
   errors: [InvalidParameterValueException, NoSuchExportException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
@@ -239,6 +241,7 @@ export const listExports: API.PaginatedOperationMethod<
   input: __S(4, __c1, 0) as any as S.Schema<ListExportsRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<ListExportsResponse>,
   errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchDomainException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExports",
@@ -277,6 +280,7 @@ export const startDomainExport: API.OperationMethod<
     NoSuchDomainException,
     NumberExportsLimitExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainExport",

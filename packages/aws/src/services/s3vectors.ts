@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -475,12 +476,14 @@ export const createIndex: API.OperationMethod<
     NotFoundException,
     ServiceQuotaExceededException,
     ServiceUnavailableException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
@@ -515,16 +518,14 @@ export const createVectorBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<CreateVectorBucketInput>,
   output: __S(25, __c6, 1) as any as S.Schema<CreateVectorBucketOutput>,
-  errors: [
-    ConflictException,
-    ServiceQuotaExceededException,
-    ServiceUnavailableException,
+  errors: [ConflictException, ServiceQuotaExceededException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVectorBucket",
@@ -556,15 +557,14 @@ export const deleteIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<DeleteIndexInput>,
   output: __S(32, __c8, 0) as any as S.Schema<DeleteIndexOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
@@ -597,16 +597,14 @@ export const deleteVectorBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<DeleteVectorBucketInput>,
   output: __S(32, __c8, 0) as any as S.Schema<DeleteVectorBucketOutput>,
-  errors: [
-    ConflictException,
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorBucket",
@@ -638,15 +636,14 @@ export const deleteVectorBucketPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<DeleteVectorBucketPolicyInput>,
   output: __S(32, __c8, 0) as any as S.Schema<DeleteVectorBucketPolicyOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorBucketPolicy",
@@ -683,18 +680,20 @@ export const deleteVectors: API.OperationMethod<
   input: __S(44, __c11, 0) as any as S.Schema<DeleteVectorsInput>,
   output: __S(32, __c8, 0) as any as S.Schema<DeleteVectorsOutput>,
   errors: [
-    AccessDeniedException,
     KmsDisabledException,
     KmsInvalidKeyUsageException,
     KmsInvalidStateException,
     KmsNotFoundException,
     NotFoundException,
     ServiceUnavailableException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectors",
@@ -726,15 +725,14 @@ export const getIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<GetIndexInput>,
   output: __S(50, __c12, 2) as any as S.Schema<GetIndexOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
@@ -766,15 +764,14 @@ export const getVectorBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<GetVectorBucketInput>,
   output: __S(54, __c13, 2) as any as S.Schema<GetVectorBucketOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorBucket",
@@ -806,15 +803,14 @@ export const getVectorBucketPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetVectorBucketPolicyInput>,
   output: __S(57, __c14, 1) as any as S.Schema<GetVectorBucketPolicyOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorBucketPolicy",
@@ -857,12 +853,14 @@ export const getVectors: API.OperationMethod<
     KmsNotFoundException,
     NotFoundException,
     ServiceUnavailableException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectors",
@@ -895,15 +893,14 @@ export const listIndexes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<ListIndexesInput>,
   output: __S(75, __c18, 3) as any as S.Schema<ListIndexesOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIndexes",
@@ -943,15 +940,14 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<ListTagsForResourceInput>,
   output: __S(77, __c19, 1) as any as S.Schema<ListTagsForResourceOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -983,14 +979,14 @@ export const listVectorBuckets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<ListVectorBucketsInput>,
   output: __S(83, __c20, 3) as any as S.Schema<ListVectorBucketsOutput>,
-  errors: [
-    ServiceUnavailableException,
+  errors: [ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVectorBuckets",
@@ -1035,15 +1031,14 @@ export const listVectors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<ListVectorsInput>,
   output: __S(85, __c21, 1) as any as S.Schema<ListVectorsOutput>,
-  errors: [
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    NotFoundException,
-    ServiceUnavailableException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVectors",
@@ -1081,15 +1076,14 @@ export const putVectorBucketDefaultIndexMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<PutVectorBucketDefaultIndexModeInput>,
   output: __S(32, __c8, 0) as any as S.Schema<PutVectorBucketDefaultIndexModeOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectorBucketDefaultIndexMode",
@@ -1121,15 +1115,14 @@ export const putVectorBucketPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<PutVectorBucketPolicyInput>,
   output: __S(32, __c8, 0) as any as S.Schema<PutVectorBucketPolicyOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectorBucketPolicy",
@@ -1171,7 +1164,6 @@ export const putVectors: API.OperationMethod<
   input: __S(98, __c24, 2) as any as S.Schema<PutVectorsInput>,
   output: __S(32, __c8, 0) as any as S.Schema<PutVectorsOutput>,
   errors: [
-    AccessDeniedException,
     KmsDisabledException,
     KmsInvalidKeyUsageException,
     KmsInvalidStateException,
@@ -1179,11 +1171,14 @@ export const putVectors: API.OperationMethod<
     NotFoundException,
     ServiceQuotaExceededException,
     ServiceUnavailableException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectors",
@@ -1233,12 +1228,14 @@ export const queryVectors: API.PaginatedOperationMethod<
     KmsNotFoundException,
     NotFoundException,
     ServiceUnavailableException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "QueryVectors",
@@ -1274,16 +1271,14 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<TagResourceInput>,
   output: __S(32, __c8, 0) as any as S.Schema<TagResourceOutput>,
-  errors: [
-    ConflictException,
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1318,16 +1313,14 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<UntagResourceInput>,
   output: __S(32, __c8, 0) as any as S.Schema<UntagResourceOutput>,
-  errors: [
-    ConflictException,
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [ConflictException, NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1359,15 +1352,14 @@ export const updateIndexMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<UpdateIndexModeInput>,
   output: __S(32, __c8, 0) as any as S.Schema<UpdateIndexModeOutput>,
-  errors: [
-    NotFoundException,
-    ServiceUnavailableException,
+  errors: [NotFoundException, ServiceUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     RequestTimeoutException,
     TooManyRequestsException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexMode",
