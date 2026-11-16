@@ -39,8 +39,10 @@ import type * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import { ParseError } from "../errors.ts";
 import {
+  getAnnotationUnwrap,
   getAwsApiService,
   getEventSchema,
+  protocolSymbol,
   isOutputEventStream,
   isStreamingType,
   eventStreamWith,
@@ -78,6 +80,9 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
 
     // Build X-Amz-Target from the identifier structure
     const targetHeader = buildXAmzTarget(inputAst, operationName);
+    const queryCompatible =
+      getAnnotationUnwrap<{ awsQueryCompatible?: boolean }>(inputAst, protocolSymbol)
+        ?.awsQueryCompatible === true;
 
     // Check for streaming output member (event stream)
     let streamingOutputProp:
@@ -112,6 +117,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
           "X-Amz-Target": targetHeader,
         },
       };
+      if (queryCompatible) request.headers["x-amzn-query-mode"] = "true";
 
       request.body = JSON.stringify(encoded ?? {});
 
