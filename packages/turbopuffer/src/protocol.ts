@@ -1,12 +1,14 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { Protocol } from "@distilled.cloud/core/protocol";
+import {
+  restProtocol,
+  unknownErrorProps,
+  type RestProtocolError,
+} from "@distilled.cloud/core/protocol-rest";
 /**
  * TurbopufferProtocol -- hand-written.
  *
  * turbopuffer speaks plain bearer-authenticated JSON REST (no response
- * envelope), so the whole protocol is one `makeRestProtocol` call from
+ * envelope), so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
@@ -20,41 +22,58 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownTurbopufferError, TurbopufferParseError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import {
+  UnknownTurbopufferError,
+  TurbopufferParseError,
+  type TurbopufferServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated turbopuffer operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * TurbopufferOpError, TurbopufferOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * The errors declared on turbopuffer's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link TurbopufferParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownTurbopufferError}), and
+ * core's REST errors (a bad path label, a request that can't be built, the
+ * transport).
+ */
+export type TurbopufferProtocolError =
+  | RestProtocolError
+  | TurbopufferParseError
+  | UnknownTurbopufferError;
+
+/**
+ * What every generated turbopuffer operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, TurbopufferOpError, TurbopufferOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
 export type TurbopufferOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownTurbopufferError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | TurbopufferParseError
-  | InvalidInput
-  | SdkError;
+  | TurbopufferServiceError
+  | TurbopufferProtocolError
+  | CredentialsError;
 
 /** Context (requirements) shared by every generated turbopuffer operation. */
 export type TurbopufferOpContext = Credentials | HttpClient.HttpClient;
 
-export const TurbopufferProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    // turbopuffer's error body is `{ status: "error", error: string }` -- the
-    // factory's default lenient envelope maps `error` -> `message`.
-    unknownError: (info) => new UnknownTurbopufferError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new TurbopufferParseError({ body, cause }),
-  });
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const TurbopufferProtocol: Protocol<
+  TurbopufferProtocolError | CredentialsError,
+  Credentials
+> = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  // turbopuffer's error body is `{ status: "error", error: string }` -- the
+  // factory's default lenient envelope maps `error` -> `message`.
+  unknownError: (info) => new UnknownTurbopufferError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new TurbopufferParseError({ body, cause }),
+});

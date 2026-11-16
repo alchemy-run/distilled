@@ -1,7 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { Protocol } from "@distilled.cloud/core/protocol";
+import {
+  restProtocol,
+  unknownErrorProps,
+  type RestProtocolError,
+} from "@distilled.cloud/core/protocol-rest";
 /**
  * TypesenseProtocol -- the shared bearer/header-auth REST factory from core,
  * instantiated with Typesense's specifics:
@@ -17,35 +19,49 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
-import { type Config, Credentials, formatHeaders } from "./credentials.ts";
-import { type DefaultErrors, UnknownTypesenseError, TypesenseParseError } from "./errors.ts";
+import { Credentials, formatHeaders, type CredentialsError } from "./credentials.ts";
+import {
+  UnknownTypesenseError,
+  TypesenseParseError,
+  type TypesenseServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Typesense operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * TypesenseOpError, TypesenseOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * The errors declared on Typesense's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link TypesenseParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownTypesenseError}), and
+ * core's REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type TypesenseOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type TypesenseProtocolError =
+  | RestProtocolError
+  | TypesenseParseError
+  | UnknownTypesenseError;
+
+/**
+ * What every generated Typesense operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, TypesenseOpError, TypesenseOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
+ */
+export type TypesenseOpError = TypesenseServiceError | TypesenseProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Typesense operation. */
 export type TypesenseOpContext = Credentials | HttpClient.HttpClient;
 
-export const TypesenseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber, per request -- the Credentials service
-  // holds an effect, so lazily-resolved keys Just Work.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: formatHeaders,
-  // Typesense's ApiResponse error body is `{ message }` -- covered by the
-  // factory's default envelope reader.
-  unknownError: (info) => new UnknownTypesenseError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new TypesenseParseError({ body, cause }),
-});
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const TypesenseProtocol: Protocol<TypesenseProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // Resolved on the calling fiber, per request -- the Credentials service
+    // holds an effect, so lazily-resolved keys Just Work.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: formatHeaders,
+    // Typesense's ApiResponse error body is `{ message }` -- covered by the
+    // factory's default envelope reader.
+    unknownError: (info) => new UnknownTypesenseError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new TypesenseParseError({ body, cause }),
+  });

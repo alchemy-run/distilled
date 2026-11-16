@@ -85,7 +85,9 @@ const spacetimedbSpec: SdkSpec = {
   operationDecl: {
     contextType: "SpacetimeDBOpContext",
     commonErrorType: "SpacetimeDBOpError",
-    commonErrorClasses: ["UnknownSpacetimeDBError"],
+    // UnknownSpacetimeDBError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "SpacetimeDBServiceErrors",
     protocol: "SpacetimeDBProtocol",
     retry: "Retry.Retry",
   },
