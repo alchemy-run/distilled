@@ -8593,7 +8593,7 @@ function __c26(j: number): any {
               bodyPart: "body_part",
               bucketName: "bucket_name",
               bytesRead: "bytes_read",
-              cache: "cache_options",
+              cacheOptions: "cache_options",
               capnpSchema: "capnp_schema",
               certId: "cert_id",
               certificateId: "certificate_id",
