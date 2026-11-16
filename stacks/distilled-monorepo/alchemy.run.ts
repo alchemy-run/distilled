@@ -240,10 +240,6 @@ export default Alchemy.Stack(
       mergeQueue: {
         mergeMethod: "SQUASH",
         groupingStrategy: "ALLGREEN",
-        // At 1 the queue built a stack's bottom PR alone. Its squash commit
-        // then conflicted with the next PR, and the queue ejected the rest of
-        // the stack (stack 1155, 2026-11-14). A stack must fit in one build,
-        // and stack 1297 has 27 PRs, so build GitHub's maximum.
         maxEntriesToBuild: 100,
         minEntriesToMerge: 1,
         maxEntriesToMerge: 8,
