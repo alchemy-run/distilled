@@ -3353,10 +3353,10 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AuthenticationToken: S.optional(SensitiveString).pipe(T.HttpHeader("Authentication")),
-          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTime"),
           ),
-          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTime"),
           ),
           OrganizationId: S.optional(S.String).pipe(T.HttpQuery("organizationId")),

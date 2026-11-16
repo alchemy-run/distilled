@@ -2008,10 +2008,10 @@ function __c15(j: number): any {
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           JobStatus: S.optional(S.String).pipe(T.HttpQuery("jobStatus")),
           JobName: S.optional(S.String).pipe(T.HttpQuery("jobName")),
-          SubmittedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          SubmittedAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("submittedAfter"),
           ),
-          SubmittedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          SubmittedBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("submittedBefore"),
           ),
         }).pipe(

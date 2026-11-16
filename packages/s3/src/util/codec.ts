@@ -33,6 +33,7 @@ import type { Operation } from "../client/operation.ts";
 import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
 import { toBase64 } from "./base64.ts";
+import { formatDateTime } from "./timestamp.ts";
 
 /** A value that does not fit its schema. */
 export class CodecError extends Error {
@@ -234,7 +235,7 @@ const encodeCodec = (codec: CodecKind, n: Node, v: unknown): unknown => {
   // Whole seconds: some services reject fractional epoch values (IoT
   // SiteWise GetAssetPropertyAggregates: "The date can only be in seconds.").
   if (codec === "epoch-seconds") return Math.floor(v.getTime() / 1000);
-  return codec === "http-date" ? v.toUTCString() : v.toISOString();
+  return codec === "http-date" ? v.toUTCString() : formatDateTime(v);
 };
 
 const encodeObjects = (n: Node, v: unknown): unknown => {

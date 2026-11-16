@@ -14711,9 +14711,9 @@ function __c4(j: number): any {
           PartsCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-mp-parts-count")),
           TagCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-tagging-count")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),
@@ -15336,9 +15336,9 @@ function __c20(j: number): any {
           PartsCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-mp-parts-count")),
           TagCount: S.optional(S.Number).pipe(T.HttpHeader("x-amz-tagging-count")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),
@@ -16872,9 +16872,9 @@ function __c60(j: number): any {
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
           Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),
@@ -18025,9 +18025,9 @@ function __c78(j: number): any {
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-legal-hold"),
           ),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-retain-until-date")),
           PartsCount: S.optional(S.Number).pipe(
             T.HttpHeader("x-amz-fwd-header-x-amz-mp-parts-count"),
           ),
@@ -18312,9 +18312,9 @@ function __c82(j: number): any {
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
           Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),
@@ -18659,9 +18659,9 @@ function __c90(j: number): any {
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
           Tagging: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging")),
           ObjectLockMode: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-lock-mode")),
-          ObjectLockRetainUntilDate: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-            T.HttpHeader("x-amz-object-lock-retain-until-date"),
-          ),
+          ObjectLockRetainUntilDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpHeader("x-amz-object-lock-retain-until-date")),
           ObjectLockLegalHoldStatus: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-object-lock-legal-hold"),
           ),

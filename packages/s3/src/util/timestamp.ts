@@ -7,6 +7,12 @@
 import type { TimestampFormatType } from "../traits.ts";
 
 /**
+ * An ISO 8601 date-time without fractional seconds when they are zero
+ * (`2019-12-16T23:48:18Z`), as the AWS SDKs send it.
+ */
+export const formatDateTime = (date: Date): string => date.toISOString().replace(".000Z", "Z");
+
+/**
  * Format a timestamp according to the specified format.
  *
  * @param date - The date to format
@@ -20,6 +26,6 @@ export function formatTimestamp(date: Date, format: TimestampFormatType = "date-
       return String(Math.floor(date.getTime() / 1000));
     case "date-time":
     default:
-      return date.toISOString();
+      return formatDateTime(date);
   }
 }

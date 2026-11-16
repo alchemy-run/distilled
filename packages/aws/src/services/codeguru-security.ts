@@ -896,7 +896,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          date: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("date")),
+          date: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(T.HttpQuery("date")),
         }).pipe(
           T.all(T.Http({ method: "GET", uri: "/metrics/summary" }), svc, auth, proto, ver, rules),
         ),
@@ -977,8 +977,12 @@ function __c4(j: number): any {
         S.Struct({
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-          startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startDate")),
-          endDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endDate")),
+          startDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startDate"),
+          ),
+          endDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endDate"),
+          ),
         }).pipe(
           T.all(T.Http({ method: "GET", uri: "/metrics/findings" }), svc, auth, proto, ver, rules),
         ),
