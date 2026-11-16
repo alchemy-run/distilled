@@ -27,8 +27,10 @@ import {
   getMapKeyValueAST,
   isArrayAST,
   isBooleanAST,
+  isDateAST,
   isMapAST,
   isNumberAST,
+  isStringAST,
 } from "@distilled.cloud/s3/util/ast";
 import { errorBody, inputEncoderSync } from "@distilled.cloud/s3/util/codec";
 import { sanitizeErrorCode } from "@distilled.cloud/s3/util/error";
@@ -295,6 +297,8 @@ function serializeValue(
 interface ValuePlan {
   /** Maps: the key and value schemas. */
   readonly map: { readonly key: AST.AST; readonly value: AST.AST } | undefined;
+  /** Strings and blobs: an empty element is an empty value. */
+  readonly string: boolean;
   readonly array: boolean;
   readonly number: boolean;
   readonly boolean: boolean;
@@ -314,6 +318,7 @@ const valuePlanOf = (ast: AST.AST): ValuePlan => {
     const element = array ? getArrayElementAST(ast) : undefined;
     plan = {
       map: kv && { key: kv.keyAST, value: kv.valueAST },
+      string: isStringAST(ast) && !isDateAST(ast),
       array,
       number: isNumberAST(ast),
       boolean: isBooleanAST(ast),
@@ -329,8 +334,9 @@ const MEMBER_ITEM = ["member", "item"];
 const ITEM_MEMBER = ["item", "member"];
 
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
-  if (value == null || value === "") return undefined;
+  if (value == null) return undefined;
   const plan = valuePlanOf(ast);
+  if (value === "") return plan.string ? "" : undefined;
 
   // Maps: <entry><key>K</key><value>V</value></entry>
   const map = plan.map;

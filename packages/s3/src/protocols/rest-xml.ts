@@ -234,7 +234,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
       }
     }
 
-    // Extract prefix header properties
+    // Extract prefix header properties; no matching header is an empty map
     for (const php of prefixHeaderProps) {
       const prefixed: Record<string, string> = {};
       for (const [k, v] of Object.entries(response.headers)) {
@@ -242,7 +242,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
           prefixed[k.slice(php.prefix.length)] = v;
         }
       }
-      if (Object.keys(prefixed).length) result[php.name] = prefixed;
+      result[php.name] = prefixed;
     }
     return result;
   };
