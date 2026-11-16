@@ -159,7 +159,15 @@ export const XmlAttribute = () => makeAnnotation(xmlAttributeSymbol, true);
 
 /** smithy.api#xmlNamespace - XML namespace URI for the element */
 export const xmlNamespaceSymbol = "distilled-aws/xml-namespace" as const;
-export const XmlNamespace = (uri: string) => makeAnnotation(xmlNamespaceSymbol, uri);
+/** smithy.api#xmlNamespace `prefix` - the namespace is declared as `xmlns:prefix` */
+export const xmlNamespacePrefixSymbol = "distilled-aws/xml-namespace-prefix" as const;
+export const XmlNamespace = (uri: string, prefix?: string) =>
+  prefix === undefined
+    ? makeAnnotation(xmlNamespaceSymbol, uri)
+    : all(
+        makeAnnotation(xmlNamespaceSymbol, uri),
+        makeAnnotation(xmlNamespacePrefixSymbol, prefix),
+      );
 
 // =============================================================================
 // JSON Serialization Traits (smithy.api#json*)
@@ -936,6 +944,45 @@ export const getPropAnnotation = <T>(
   const propAnnot = prop.annotations?.[symbol] as T | undefined;
   if (propAnnot !== undefined) return propAnnot;
   return getAnnotationUnwrap(prop.type, symbol);
+};
+
+/**
+ * An annotation of the member itself: on the property, or on its schema
+ * through an optional wrapper, but not on the shape it targets. A
+ * structure's own `@xmlName` names it only as a document root.
+ */
+export const getMemberAnnotation = <T>(
+  prop: AST.PropertySignature,
+  symbol: string | symbol,
+): T | undefined => {
+  // @ts-expect-error
+  const propAnnot = prop.annotations?.[symbol] as T | undefined;
+  if (propAnnot !== undefined) return propAnnot;
+  return getOwnAnnotation(prop.type, symbol);
+};
+
+/**
+ * An annotation of this schema node, through an optional wrapper and an
+ * encoding, without entering a suspended (structure) schema.
+ */
+export const getOwnAnnotation = <T>(ast: AST.AST, symbol: string | symbol): T | undefined => {
+  const direct = (ast.annotations as Record<string | symbol, unknown> | undefined)?.[symbol] as
+    | T
+    | undefined;
+  if (direct !== undefined) return direct;
+  if (ast.encoding && ast.encoding.length > 0) {
+    const encoded = (
+      ast.encoding[0].to?.annotations as Record<string | symbol, unknown> | undefined
+    )?.[symbol] as T | undefined;
+    if (encoded !== undefined) return encoded;
+  }
+  if (ast._tag === "Union") {
+    const nonNullishTypes = ast.types.filter(
+      (t) => t._tag !== "Undefined" && !(t._tag === "Literal" && t.literal === null),
+    );
+    if (nonNullishTypes.length === 1) return getOwnAnnotation(nonNullishTypes[0], symbol);
+  }
+  return undefined;
 };
 
 export const hasPropAnnotation = (

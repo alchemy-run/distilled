@@ -19543,7 +19543,12 @@ function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Grantee: S.optional(__S(1888, __c118, 0)), Permission: S.optional(S.String) }),
+        S.Struct({
+          Grantee: S.optional(__S(1888, __c118, 0))
+            .pipe(T.XmlNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi"))
+            .annotate({ identifier: "Grantee" }),
+          Permission: S.optional(S.String),
+        }),
       ).annotate({ identifier: "Grant" });
     case 1:
       return S.Array(
@@ -20116,7 +20121,12 @@ function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Grantee: S.optional(__S(1888, __c118, 0)), Permission: S.optional(S.String) }),
+        S.Struct({
+          Grantee: S.optional(__S(1888, __c118, 0))
+            .pipe(T.XmlNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi"))
+            .annotate({ identifier: "Grantee" }),
+          Permission: S.optional(S.String),
+        }),
       ).annotate({ identifier: "TargetGrant" });
     case 1:
       return S.Array(

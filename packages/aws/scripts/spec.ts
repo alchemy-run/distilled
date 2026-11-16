@@ -204,6 +204,16 @@ const reservedNewtypeNames = new Set([
 
 type SmithyTraits = Record<string, unknown> | undefined;
 
+interface XmlNamespaceTrait {
+  readonly uri: string;
+  readonly prefix?: string;
+}
+
+const xmlNamespaceAnnotation = (ns: XmlNamespaceTrait): string =>
+  ns.prefix === undefined
+    ? `T.XmlNamespace(${JSON.stringify(ns.uri)})`
+    : `T.XmlNamespace(${JSON.stringify(ns.uri)}, ${JSON.stringify(ns.prefix)})`;
+
 /**
  * Collect serialization-relevant trait annotations from a Smithy traits
  * object (structure members, list members, map key/value). `memberName` is
@@ -248,6 +258,9 @@ function collectSerializationTraits(traits: SmithyTraits, memberName?: string): 
   }
   if (traits["smithy.api#xmlAttribute"] != null) {
     pipes.push(`T.XmlAttribute()`);
+  }
+  if (traits["smithy.api#xmlNamespace"] != null) {
+    pipes.push(xmlNamespaceAnnotation(traits["smithy.api#xmlNamespace"] as XmlNamespaceTrait));
   }
   // smithy.api#jsonName - handled at struct level via S.encodeKeys, not per-field
   // smithy.api#timestampFormat - applied to the inner schema, not as a pipe
@@ -1837,12 +1850,12 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
 
           const xmlName = def.traits?.["smithy.api#xmlName"] as string | undefined;
           const structXmlNamespace = def.traits?.["smithy.api#xmlNamespace"] as
-            | { uri: string }
+            | XmlNamespaceTrait
             | undefined;
           // Structure-level xmlNamespace overrides service-level; the
           // service namespace applies only to op I/O schemas.
           const xmlNamespaceRef = structXmlNamespace
-            ? `T.XmlNamespace("${structXmlNamespace.uri}")`
+            ? xmlNamespaceAnnotation(structXmlNamespace)
             : serviceXmlNamespace && (isOperationInput || isOperationOutput)
               ? "ns"
               : undefined;
