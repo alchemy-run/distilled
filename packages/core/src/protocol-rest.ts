@@ -856,8 +856,9 @@ const restMethods = <
  * The class core has for `status`, when the operation or its service
  * declares it: a list of declared errors can hold core's status classes
  * (`Unauthorized`, `TooManyRequests`, ...), which are matched by status.
+ * For a protocol that reads failed responses itself.
  */
-const declaredStatusClass = (
+export const declaredStatusClass = (
   status: number,
   declared: ReadonlyArray<DeclaredErrorClass>,
 ): DeclaredErrorClass | undefined => {
