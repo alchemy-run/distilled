@@ -24,7 +24,6 @@
  * const Live = Layer.mergeAll(
  *   FetchHttpClient.layer,
  *   Convex.CredentialsFromEnv,
- *   Convex.ConvexProtocol,
  * );
  *
  * program.pipe(Effect.provide(Live), Effect.runPromise);

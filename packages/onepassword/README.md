@@ -43,7 +43,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Onepassword.ConnectCredentialsFromEnv,
-  Onepassword.ConnectProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -69,7 +68,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Onepassword.EventsCredentialsFromEnv,
-  Onepassword.EventsProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -89,9 +87,7 @@ const program = Users.suspendUser({
 });
 
 // The credentials request the access token through the HttpClient.
-const Live = Layer.mergeAll(Onepassword.UsersCredentialsFromEnv, Onepassword.UsersProtocol).pipe(
-  Layer.provideMerge(FetchHttpClient.layer),
-);
+const Live = Onepassword.UsersCredentialsFromEnv.pipe(Layer.provideMerge(FetchHttpClient.layer));
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
