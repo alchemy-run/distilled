@@ -14112,10 +14112,18 @@ function __c116(j: number): any {
       ).annotate({ identifier: "MetadataRecord" });
     case 13:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Fetch: __S(3657, __c114, 9) }),
-        /*@__PURE__*/ S.Struct({ Analysis: __S(3671, __c114, 23) }),
-        /*@__PURE__*/ S.Struct({ Observation: __S(3723, __c116, 11) }),
-        /*@__PURE__*/ S.Struct({ Metadata: __S(3724, __c116, 12) }),
+        /*@__PURE__*/ S.Struct({ Fetch: __S(3657, __c114, 9) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Fetch: "fetch" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Analysis: __S(3671, __c114, 23) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Analysis: "analysis" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Observation: __S(3723, __c116, 11) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Observation: "observation" }),
+        ),
+        /*@__PURE__*/ S.Struct({ Metadata: __S(3724, __c116, 12) }).pipe(
+          /*@__PURE__*/ S.encodeKeys({ Metadata: "metadata" }),
+        ),
       ]);
     case 14:
       return S.suspend(() =>
