@@ -54,6 +54,7 @@ import {
   getOutputEventPayloadMap,
   getHttpPrefixHeaders,
   getHttpQuery,
+  getMediaType,
   getPropAnnotations,
   getServiceVersion,
   hasHttpLabel,
@@ -175,6 +176,10 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       !hasHttpPayload(prop),
   );
 
+  // The @mediaType of the input's payload member: its Content-Type.
+  const payloadMember = getEncodedPropertySignatures(inputAst).find(hasHttpPayload);
+  const payloadMediaType = payloadMember ? getMediaType(payloadMember) : undefined;
+
   const serialize = (input: unknown): Serialized => {
     const encoded = encodeInput(input);
 
@@ -225,13 +230,13 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
         request.hasStreamingInput = true;
         // Default to octet-stream for streaming payloads, unless user set explicitly
         if (!userSetContentType) {
-          request.headers["Content-Type"] = "application/octet-stream";
+          request.headers["Content-Type"] = payloadMediaType ?? "application/octet-stream";
         }
       } else if (isRawPayload(payloadAst)) {
         request.body = payloadValue as string;
-        // Default to JSON for raw payloads unless user set explicitly
+        // A string payload is text unless its @mediaType says otherwise.
         if (!userSetContentType) {
-          request.headers["Content-Type"] = "application/json";
+          request.headers["Content-Type"] = payloadMediaType ?? "text/plain";
         }
       } else {
         request.body = JSON.stringify(payloadValue);
@@ -246,17 +251,15 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       if (!userSetContentType) {
         request.headers["Content-Type"] = "application/json";
       }
-    } else {
-      if (hasBodyCapableInputMembers) {
-        // Body-capable members exist but none were set: send an explicit
-        // empty JSON document, matching AWS SDK v3 / botocore.
-        request.body = "{}";
-      }
-      // No body members set - default JSON content type for consistency
+    } else if (hasBodyCapableInputMembers) {
+      // Body-capable members exist but none were set: send an explicit
+      // empty JSON document, matching AWS SDK v3 / botocore.
+      request.body = "{}";
       if (!userSetContentType) {
         request.headers["Content-Type"] = "application/json";
       }
     }
+    // A request with no body has no Content-Type.
 
     // Apply API Gateway customizations
     if (isApiGatewayService) {
