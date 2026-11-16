@@ -66,6 +66,18 @@ const TestProtocol: Protocol<TestProtocolError, TestCreds> = restProtocol(option
 export const undeclared: Protocol<RestProtocolError | TestUnknownError, TestCreds> =
   restProtocol(options);
 
+// `credentials` as the service key, the distilled convention: the options
+// are inferred as they are for an effect.
+class KeyedCreds extends Context.Service<KeyedCreds, Effect.Effect<Creds, TestUnknownError>>()(
+  "ProtocolTest/KeyedCreds",
+) {}
+
+export const Keyed: Protocol<TestProtocolError, KeyedCreds> = restProtocol({
+  ...options,
+  credentials: KeyedCreds,
+  baseUrl: (creds) => `https://${creds.host}`,
+});
+
 // =============================================================================
 // A hand-written protocol
 // =============================================================================
