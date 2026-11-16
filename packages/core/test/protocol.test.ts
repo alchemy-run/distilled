@@ -1,30 +1,27 @@
 /**
- * A typed protocol (core/protocol): `API.make` runs it and reads the SDK's
- * service errors and protocol errors from its type, and the compiler checks
- * each group. The `@ts-expect-error` lines are the compile-time half.
+ * A typed protocol (core/protocol). An operation's errors are declared in
+ * three places: on the operation (`errors`), on its service
+ * (`serviceErrors`) and on its protocol (the protocol's type). `API.make`
+ * adds them together, and the compiler checks what the protocol declares.
+ * The `@ts-expect-error` lines are the compile-time half.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
-import type { NotFound } from "../src/errors.ts";
-import {
-  restProtocol,
-  type HttpStatusError,
-  type RestProtocolError,
-} from "../src/protocol-rest.ts";
+import { TooManyRequests, Unauthorized } from "../src/errors.ts";
+import { restProtocol, type RestProtocolError } from "../src/protocol-rest.ts";
 import type { Protocol } from "../src/protocol.ts";
 import * as S from "../src/schema.ts";
 import { SdkError } from "../src/sdk-error.ts";
 import * as T from "../src/trait.ts";
 
 // =============================================================================
-// An SDK: its credentials, its two unions, its protocol
+// An SDK: its credentials, its service's errors, its protocol's errors
 // =============================================================================
 
 interface Creds {
@@ -41,17 +38,17 @@ class TestParseError extends Schema.TaggedError<TestParseError>()("TestParseErro
   cause: Schema.Unknown,
 }) {}
 
-/** Group 2: what the server can answer on any operation. */
-type TestServiceError = HttpStatusError | TestUnknownError;
-/** Group 3: what the SDK's own code fails with. */
-type TestProtocolError = RestProtocolError | TestParseError;
+/** Declared on the service: any operation can return them. */
+const TestServiceErrors = [Unauthorized, TooManyRequests] as const;
+type TestServiceError = InstanceType<(typeof TestServiceErrors)[number]>;
 
-const credentials = Effect.gen(function* () {
-  return yield* TestCreds;
-});
+/** Declared on the protocol: what its own code fails with. */
+type TestProtocolError = RestProtocolError | TestParseError | TestUnknownError;
 
 const options = {
-  credentials,
+  credentials: Effect.gen(function* () {
+    return yield* TestCreds;
+  }),
   baseUrl: (creds: Creds) => {
     if (creds.host === "") throw new Error("no host");
     return `https://${creds.host}`;
@@ -62,59 +59,35 @@ const options = {
   parseError: (info: { readonly cause: unknown }) => new TestParseError({ cause: info.cause }),
 };
 
-const TestProtocol: Protocol<TestServiceError, TestProtocolError, TestCreds> =
-  restProtocol(options);
+const TestProtocol: Protocol<TestProtocolError, TestCreds> = restProtocol(options);
 
-// A status class the protocol builds is missing from the service errors.
-// @ts-expect-error NotFound is not listed
-export const missingServiceError: Protocol<
-  Exclude<TestServiceError, NotFound>,
-  TestProtocolError,
-  TestCreds
-> = restProtocol(options);
-
-// The parse error is missing from the protocol errors.
+// The protocol fails with a class its type does not declare.
 // @ts-expect-error TestParseError is not listed
-export const missingProtocolError: Protocol<TestServiceError, RestProtocolError, TestCreds> =
-  restProtocol(options);
-
-// The parse error is listed, but as a service error.
-// @ts-expect-error TestParseError is a protocol error
-export const wrongGroup: Protocol<TestServiceError | TestParseError, RestProtocolError, TestCreds> =
+export const undeclared: Protocol<RestProtocolError | TestUnknownError, TestCreds> =
   restProtocol(options);
 
 // =============================================================================
 // A hand-written protocol
 // =============================================================================
 
-class RateLimited extends Schema.TaggedError<RateLimited>()("RateLimited", {
-  message: Schema.String,
-}) {}
-
-export const HandWritten: Protocol<TestUnknownError, SdkError> = {
+export const HandWritten: Protocol<TestUnknownError | SdkError> = {
   encode: () => Effect.fail(new SdkError({ message: "not built" })),
   decode: ({ response, errors }) => {
+    // A class the operation or its service declares.
     const Declared = errors[0];
-    // One of the operation's own classes: an operation error.
     if (Declared) return Effect.fail(new Declared({ message: "declared" }));
     return Effect.fail(new TestUnknownError({ status: response.status }));
   },
 };
 
-export const failsOutsideTheGroups: Protocol<TestUnknownError, SdkError> = {
+export const buildsServiceError: Protocol<TestUnknownError | SdkError> = {
   encode: () => Effect.fail(new SdkError({ message: "not built" })),
-  // @ts-expect-error RateLimited is in neither union and is not an operation error
-  decode: () => Effect.fail(new RateLimited({ message: "new" })),
-};
-
-export const encodeFailsWithServiceError: Protocol<TestUnknownError, SdkError> = {
-  // @ts-expect-error nothing was sent, so encode has protocol errors only
-  encode: () => Effect.fail(new TestUnknownError({ status: 0 })),
-  decode: () => Effect.succeed(undefined),
+  // @ts-expect-error Unauthorized is the service's to declare; the protocol gets it in `errors`
+  decode: () => Effect.fail(new Unauthorized({ message: "401" })),
 };
 
 // =============================================================================
-// An operation
+// Operations
 // =============================================================================
 
 class ThingLocked extends T.applyErrorMatchers(
@@ -127,9 +100,17 @@ const ThingInput = S.Struct({ id: S.String.pipe(T.Label()) }).pipe(
 );
 const ThingOutput = S.Struct({ id: S.optional(S.String) });
 
-// No error annotation: the operation's errors come from its `errors` list
-// (group 1) and from the protocol's type (groups 2 and 3).
+// No error annotation: the compiler adds the three places together.
 const getThing = API.make(() => ({
+  input: ThingInput,
+  output: ThingOutput,
+  errors: [ThingLocked],
+  serviceErrors: TestServiceErrors,
+  protocol: TestProtocol,
+}));
+
+// An operation that leaves the service's errors out does not get them.
+const getThingAlone = API.make(() => ({
   input: ThingInput,
   output: ThingOutput,
   errors: [ThingLocked],
@@ -137,10 +118,13 @@ const getThing = API.make(() => ({
 }));
 
 type Same<A, B> = [A] extends [B] ? ([B] extends [A] ? true : false) : false;
-type GetThingError = Effect.Error<ReturnType<typeof getThing>>;
-export const threeGroups: Same<
-  GetThingError,
-  ThingLocked | TestServiceError | TestProtocolError | HttpClientError.HttpClientError
+export const threePlaces: Same<
+  Effect.Error<ReturnType<typeof getThing>>,
+  ThingLocked | TestServiceError | TestProtocolError
+> = true;
+export const twoPlaces: Same<
+  Effect.Error<ReturnType<typeof getThingAlone>>,
+  ThingLocked | TestProtocolError
 > = true;
 export const requirements: Same<
   Effect.Services<ReturnType<typeof getThing>>,
@@ -163,37 +147,54 @@ const respond = (status: number, body: unknown) =>
     ),
   );
 
-const call = (status: number, body: unknown, host = "api.test") =>
+const call = (
+  op: typeof getThing | typeof getThingAlone,
+  status: number,
+  body: unknown,
+  host = "api.test",
+) =>
   Effect.runPromise(
     Effect.result(
-      getThing({ id: "t1" }).pipe(
+      op({ id: "t1" }).pipe(
         Effect.provide(Layer.mergeAll(respond(status, body), Layer.succeed(TestCreds, { host }))),
       ),
     ),
   );
 
-const tagOf = async (status: number, body: unknown, host?: string) => {
-  const result = await call(status, body, host);
+const tagOf = async (
+  op: typeof getThing | typeof getThingAlone,
+  status: number,
+  body: unknown,
+  host?: string,
+) => {
+  const result = await call(op, status, body, host);
   if (result._tag !== "Failure") throw new Error("expected a failure");
   return result.failure._tag;
 };
 
 describe("a typed protocol", () => {
   test("API.make runs an operation that names it", async () => {
-    const result = await call(200, { id: "t1" });
+    const result = await call(getThing, 200, { id: "t1" });
     expect(result._tag === "Success" && result.success).toEqual({ id: "t1" });
   });
 
-  test("a declared status fails with the operation's own error", async () => {
-    expect(await tagOf(409, { message: "locked" })).toBe("ThingLocked");
+  test("a status the operation declares fails with the operation's error", async () => {
+    expect(await tagOf(getThing, 409, { message: "locked" })).toBe("ThingLocked");
   });
 
-  test("an undeclared status fails with a service error", async () => {
-    expect(await tagOf(404, { message: "gone" })).toBe("NotFound");
-    expect(await tagOf(418, { message: "teapot" })).toBe("TestUnknownError");
+  test("a status the service declares fails with the service's error", async () => {
+    expect(await tagOf(getThing, 401, { message: "no" })).toBe("Unauthorized");
+    expect(await tagOf(getThing, 429, { message: "slow" })).toBe("TooManyRequests");
   });
 
-  test("a baseUrl that throws fails with SdkError, a protocol error", async () => {
-    expect(await tagOf(200, {}, "")).toBe("SdkError");
+  test("a status nothing declares fails with the protocol's errors", async () => {
+    expect(await tagOf(getThing, 404, { message: "gone" })).toBe("TestUnknownError");
+    expect(await tagOf(getThing, 520, { message: "proxy" })).toBe("InternalServerError");
+    // The service's errors only reach an operation that lists them.
+    expect(await tagOf(getThingAlone, 401, { message: "no" })).toBe("TestUnknownError");
+  });
+
+  test("a baseUrl that throws fails with SdkError", async () => {
+    expect(await tagOf(getThing, 200, {}, "")).toBe("SdkError");
   });
 });

@@ -245,7 +245,7 @@ const protocolContext = <PE, PR>(
 };
 
 /** An operation's `protocol`, in either form (see {@link OperationConfig.protocol}). */
-type AnyProtocol = Layer.Layer<Protocol, any, any> | TypedProtocol<any, any, any>;
+type AnyProtocol = Layer.Layer<Protocol, any, any> | TypedProtocol<any, any>;
 
 const isProtocolLayer = (protocol: AnyProtocol): protocol is Layer.Layer<Protocol, any, any> =>
   Layer.isLayer(protocol);
@@ -253,7 +253,8 @@ const isProtocolLayer = (protocol: AnyProtocol): protocol is Layer.Layer<Protoco
 /**
  * A protocol's methods as `API.make` runs them: a typed protocol, or the
  * service a protocol layer builds. `API.make` passes the operation's own
- * error classes to either one, and types each operation from its config.
+ * and its service's error classes to either one, and types each operation
+ * from its config.
  */
 interface ProtocolMethods {
   readonly encode: (args: any) => Effect.Effect<HttpClientRequest.HttpClientRequest, any, any>;
@@ -277,38 +278,31 @@ const protocolOf = (prepared: Prepared): Effect.Effect<ProtocolMethods, any, any
     : Effect.succeed((prepared.service = protocol));
 };
 
-/**
- * A typed protocol as an operation's config takes it: `Errors` is its
- * service errors and protocol errors together, which is what `API.make`
- * adds to the operation's own errors. Written member by member so that
- * `Errors` is read from what the methods fail with.
- */
-type TypedProtocolWith<Errors, Requirements> = {
-  readonly [Method in keyof TypedProtocol<Errors, Errors, Requirements>]: TypedProtocol<
-    Errors,
-    Errors,
-    Requirements
-  >[Method];
-};
-
 export interface OperationConfig<
   I extends S.Top,
   O extends S.Top,
   PE,
   PR,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
+  SE extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
 > {
   input?: I;
   output?: O;
+  /** The errors declared on the operation: only this operation returns them. */
   errors?: E;
+  /**
+   * The errors declared on the operation's service: the same list on every
+   * operation of the service. The protocol matches a failed response
+   * against the operation's classes, then these.
+   */
+  serviceErrors?: SE;
   /**
    * What encodes and decodes this operation's wire format, in one of two
    * forms:
    *
    * - A typed protocol (core/protocol): an object whose type states the
-   *   service errors and protocol errors of the SDK. `PE` is both groups
-   *   and `PR` what its methods read, so the operation's type gets them
-   *   from the protocol.
+   *   errors the protocol declares (`PE`) and what its methods read
+   *   (`PR`), so the operation's type gets them from the protocol.
    * - A protocol layer, the older form, which states neither: its SDK
    *   writes `<Sdk>OpError` on each operation by hand. Built once per
    *   process and shared across all operations that reference the same
@@ -317,7 +311,7 @@ export interface OperationConfig<
    * Either one resolves call-dependent services (credentials etc.) inside
    * encode/decode, on the calling fiber.
    */
-  protocol: Layer.Layer<Protocol, PE, PR> | TypedProtocolWith<PE, PR>;
+  protocol: Layer.Layer<Protocol, PE, PR> | TypedProtocol<PE, PR>;
   /**
    * SDK-specific retry service tag (see `core/retry`). When provided and the
    * caller's context carries a policy under this tag, every call is retried
@@ -577,7 +571,12 @@ const prepare = (state: OperationState): Prepared => {
     config: cfg,
     inputAst: cfg.input!.ast,
     outputAst: cfg.output!.ast,
-    errors: cfg.errors ?? [],
+    // What the protocol matches a failed response against: the operation's
+    // declared classes, then its service's.
+    errors:
+      cfg.serviceErrors === undefined
+        ? (cfg.errors ?? [])
+        : [...(cfg.errors ?? []), ...cfg.serviceErrors],
     compiled: undefined,
     service: undefined,
   });
@@ -778,12 +777,13 @@ export function make<
   PE,
   PR,
   const E extends readonly ApiErrorClass[] = readonly [],
+  const SE extends readonly ApiErrorClass[] = readonly [],
 >(
-  configFn: () => OperationConfig<I, O, PE, PR, E>,
+  configFn: () => OperationConfig<I, O, PE, PR, E, SE>,
 ): OperationMethod<
   S.Schema.Type<I>,
   S.Schema.Type<O>,
-  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  InstanceType<E[number]> | InstanceType<SE[number]> | PE | HttpClientError.HttpClientError,
   PR | HttpClient.HttpClient
 > {
   return makeOperation({ configFn }, OperationProto);
@@ -848,7 +848,8 @@ export interface PaginatedOperationConfig<
   PE,
   PR,
   E extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
-> extends OperationConfig<I, O, PE, PR, E> {
+  SE extends readonly ApiErrorClass[] = readonly ApiErrorClass[],
+> extends OperationConfig<I, O, PE, PR, E, SE> {
   /** How to advance between pages (mirrors the `smithy.api#paginated` trait). */
   pagination: Pagination.PaginatedTrait;
 }
@@ -925,13 +926,14 @@ export function makePaginated<
   PE,
   PR,
   const E extends readonly ApiErrorClass[] = readonly [],
+  const SE extends readonly ApiErrorClass[] = readonly [],
 >(
-  configFn: () => PaginatedOperationConfig<I, O, PE, PR, E>,
+  configFn: () => PaginatedOperationConfig<I, O, PE, PR, E, SE>,
   strategy?: Pagination.PaginationStrategy,
 ): PaginatedOperationMethod<
   S.Schema.Type<I>,
   S.Schema.Type<O>,
-  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  InstanceType<E[number]> | InstanceType<SE[number]> | PE | HttpClientError.HttpClientError,
   PR | HttpClient.HttpClient
 > {
   return makeOperation(strategy ? { configFn, strategy } : { configFn }, PaginatedOperationProto);
@@ -1042,12 +1044,13 @@ export function makeStreaming<
   PE,
   PR,
   const E extends readonly ApiErrorClass[] = readonly [],
+  const SE extends readonly ApiErrorClass[] = readonly [],
 >(
-  configFn: () => OperationConfig<I, O, PE, PR, E>,
+  configFn: () => OperationConfig<I, O, PE, PR, E, SE>,
 ): StreamingOperationMethod<
   S.Schema.Type<I>,
   S.Schema.Type<O>,
-  InstanceType<E[number]> | PE | HttpClientError.HttpClientError,
+  InstanceType<E[number]> | InstanceType<SE[number]> | PE | HttpClientError.HttpClientError,
   PR | HttpClient.HttpClient
 > {
   return makeOperation({ configFn }, StreamingOperationProto);

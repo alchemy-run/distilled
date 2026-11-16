@@ -559,6 +559,13 @@ export interface SdkSpec {
     readonly commonErrorType: string;
     /** Error classes appended to every op's `errors: [...]` list. */
     readonly commonErrorClasses: readonly string[];
+    /**
+     * The errors declared on the service: the name of a list of error
+     * classes that `../errors.ts` exports. Every operation gets it as its
+     * `serviceErrors`, next to its own `errors`. For an SDK whose protocol
+     * is a typed protocol (core/protocol).
+     */
+    readonly serviceErrors?: string;
     readonly protocol: string;
     /** The retry tag expression (e.g. `Retry.Retry`). Omit to disable retries. */
     readonly retry?: string;
@@ -1452,6 +1459,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         `  input: ${ctx.inputName},\n` +
         `  output: ${ctx.outputSchema},\n` +
         `  errors: [${errList.join(", ")}],\n` +
+        (decl.serviceErrors ? `  serviceErrors: ${decl.serviceErrors},\n` : "") +
         `  protocol: ${protocol},\n` +
         (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
@@ -1825,8 +1833,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       (ctx.hasPaginated && pagImports.length
         ? `import { ${pagImports.join(", ")} } from "../pagination.ts";\n`
         : "") +
-      (decl.commonErrorClasses.length
-        ? `import { ${[...decl.commonErrorClasses].sort().join(", ")} } from "../errors.ts";\n`
+      (decl.commonErrorClasses.length || decl.serviceErrors
+        ? `import { ${[
+            ...decl.commonErrorClasses,
+            ...(decl.serviceErrors ? [decl.serviceErrors] : []),
+          ]
+            .sort()
+            .join(", ")} } from "../errors.ts";\n`
         : "") +
       (retryNs ? `import * as ${retryNs} from "../retry.ts";\n\n` : "\n") +
       // Re-exported so inferred provider types downstream can always name them.

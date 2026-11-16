@@ -28,8 +28,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields, type ConfigError } from "@distilled.cloud/core/errors";
-import type { HttpStatusError, RestProtocolError } from "@distilled.cloud/core/protocol-rest";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown Neon error -- returned when nothing else matches the failure. */
@@ -47,17 +46,9 @@ export class NeonParseError
   }).pipe(Category.withParseError) {}
 
 /**
- * Neon's service errors (group 2 of an operation's errors, see
- * core/protocol): what the server can answer on any operation. A status no
- * operation declares becomes its core class, and anything else
- * {@link UnknownNeonError}.
+ * The errors declared on the Neon service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Today
+ * that is each of core's status classes (401, 403, 404, 429, the 5xx ...).
  */
-export type NeonServiceError = HttpStatusError | UnknownNeonError;
-
-/**
- * Neon's protocol errors (group 3): what the SDK's own code fails with. The
- * server did not send them. Core's REST errors (a bad path label, a request
- * that can't be built, the transport), a response that does not match its
- * schema, and credentials that can't be read.
- */
-export type NeonProtocolError = RestProtocolError | NeonParseError | ConfigError;
+export const NeonServiceErrors = API_ERRORS;
+export type NeonServiceError = InstanceType<(typeof NeonServiceErrors)[number]>;

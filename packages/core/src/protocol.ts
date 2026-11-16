@@ -1,26 +1,23 @@
 /**
- * What a protocol is, typed by the errors of an operation.
+ * What a protocol is, typed by the errors it declares.
  *
- * Every operation fails with three groups of errors:
+ * An operation fails with three groups of errors, each named for where it
+ * is declared:
  *
- *   1. operation errors  the classes in the operation's own `errors` list
- *   2. service errors    what the server can answer on any operation of the
- *                        SDK (`Unauthorized`, `TooManyRequests`, the 5xx
- *                        classes, `Unknown<Sdk>Error`)
- *   3. protocol errors   what the SDK's own code fails with; the server did
- *                        not send them (`<Sdk>ParseError`, `HttpClientError`,
- *                        `InvalidInput`, `SdkError`, `ConfigError`)
+ *   1. on the operation  its `errors` list
+ *   2. on the service    its `serviceErrors` list, the same for every
+ *                        operation of the service
+ *   3. on the protocol   the {@link Protocol}'s own error type: what the
+ *                        code that builds requests and reads responses
+ *                        fails with (a response it can't parse, mostly)
  *
- * A {@link Protocol} states groups 2 and 3 in its type, and `API.make` adds
- * them to every operation that names it, next to the operation's own group
- * 1. An SDK writes the two groups once, as `<Sdk>ServiceError` and
- * `<Sdk>ProtocolError`, and types its protocol with them:
+ * `API.make` adds the three together. A protocol never names an error of
+ * groups 1 and 2: it receives their classes, matches a failed response
+ * against them, and fails with the instance as a {@link DeclaredError}.
+ * Everything else it fails with has to be in its own type, so the compiler
+ * checks group 3:
  *
- *   export const NeonProtocol: Protocol<NeonServiceError, NeonProtocolError, Credentials> =
- *     restProtocol({ ... });
- *
- * The compiler then checks each group on its own: a failure of the protocol
- * that neither union lists, or that sits in the wrong one, does not compile.
+ *   export const NeonProtocol: Protocol<NeonProtocolError, Credentials> = restProtocol({ ... });
  *
  * Types only: this module has no runtime code.
  */
@@ -31,20 +28,20 @@ import type * as AST from "effect/SchemaAST";
 import type * as Stream from "effect/Stream";
 import type { PreparedOperation, ProtocolOperationConfig } from "./api.ts";
 
-declare const operationError: unique symbol;
+declare const declaredError: unique symbol;
 
 /**
- * Group 1 as a protocol sees it: an instance of one of the classes in the
- * operation's `errors` list. A protocol gets those classes as
- * {@link OperationErrorClass} and can only construct one and fail with it;
- * `API.make` puts the real classes in the operation's error type.
+ * An error of group 1 or 2 as a protocol sees it: an instance of a class
+ * that the operation or its service declares. A protocol can construct one
+ * from a {@link DeclaredErrorClass} and fail with it; `API.make` puts the
+ * real classes in the operation's error type.
  */
-export interface OperationError {
-  readonly [operationError]: true;
+export interface DeclaredError {
+  readonly [declaredError]: true;
 }
 
-/** A class from the operation's `errors` list, as its protocol receives it. */
-export type OperationErrorClass = new (props: any) => OperationError;
+/** A class that the operation or its service declares, as a protocol receives it. */
+export type DeclaredErrorClass = new (props: any) => DeclaredError;
 
 /** What {@link Protocol.encode} receives. */
 export interface EncodeArgs {
@@ -58,34 +55,34 @@ export interface EncodeArgs {
 export interface DecodeArgs {
   readonly response: HttpClientResponse.HttpClientResponse;
   readonly outputAst: AST.AST;
-  /** The operation's own error classes, matched against the response. */
-  readonly errors: ReadonlyArray<OperationErrorClass>;
+  /** The operation's declared classes, then its service's. */
+  readonly errors: ReadonlyArray<DeclaredErrorClass>;
   /** The operation's config (the same object on every call of the operation). */
   readonly config: ProtocolOperationConfig;
 }
 
 /** One operation as {@link Protocol.call} and {@link Protocol.stream} see it. */
 export interface Operation extends Omit<PreparedOperation, "errors"> {
-  /** The operation's own error classes, matched against the response. */
-  readonly errors: ReadonlyArray<OperationErrorClass>;
+  /** The operation's declared classes, then its service's. */
+  readonly errors: ReadonlyArray<DeclaredErrorClass>;
 }
 
 /**
  * How an SDK turns an input into an HTTP request and a response into an
- * output. `ServiceError` is group 2, `ProtocolError` is group 3, and
+ * output. `ProtocolError` is what the protocol declares (group 3), and
  * `Requirements` is what its methods read from the calling fiber
  * (credentials, a region).
  *
- * A request that was not sent has no answer from the server, so `encode`
- * fails with protocol errors only.
+ * A request that was not sent has no response to match, so `encode` fails
+ * with the protocol's errors only.
  */
-export interface Protocol<ServiceError, ProtocolError, Requirements = never> {
+export interface Protocol<ProtocolError, Requirements = never> {
   readonly encode: (
     args: EncodeArgs,
   ) => Effect.Effect<HttpClientRequest.HttpClientRequest, ProtocolError, Requirements>;
   readonly decode: (
     args: DecodeArgs,
-  ) => Effect.Effect<unknown, OperationError | ServiceError | ProtocolError, Requirements>;
+  ) => Effect.Effect<unknown, DeclaredError | ProtocolError, Requirements>;
   /**
    * Optional whole call. When present, `API.make` runs a call as
    * `call(operation, input)` in place of encode, send, decode. It reads the
@@ -95,7 +92,7 @@ export interface Protocol<ServiceError, ProtocolError, Requirements = never> {
   readonly call?: (
     operation: Operation,
     input: unknown,
-  ) => Effect.Effect<unknown, OperationError | ServiceError | ProtocolError, Requirements>;
+  ) => Effect.Effect<unknown, DeclaredError | ProtocolError, Requirements>;
   /**
    * Server streaming (see `API.makeStreaming`): each response message as it
    * arrives. A protocol that can't stream leaves it out.
@@ -103,5 +100,5 @@ export interface Protocol<ServiceError, ProtocolError, Requirements = never> {
   readonly stream?: (
     operation: Operation,
     input: unknown,
-  ) => Stream.Stream<unknown, OperationError | ServiceError | ProtocolError, Requirements>;
+  ) => Stream.Stream<unknown, DeclaredError | ProtocolError, Requirements>;
 }
