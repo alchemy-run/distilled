@@ -7,13 +7,12 @@
  * lifetime has passed; {@link withAuthToken} does the same for any
  * `Credentials`.
  */
-import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Clock from "effect/Clock";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { authTokenError, Credentials, type Config } from "./credentials.ts";
 import * as Retry from "./retry.ts";
 import { getAuthToken } from "./services/auth.ts";
 
@@ -40,11 +39,6 @@ const expiryOf = (jwt: string): number | undefined => {
     return undefined;
   }
 };
-
-const messageOf = (cause: unknown): string =>
-  typeof cause === "object" && cause !== null && "message" in cause
-    ? String((cause as { message: unknown }).message)
-    : String(cause);
 
 /**
  * Add Modal's auth token to every request made with the `Credentials` (and
@@ -82,7 +76,7 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
           Effect.provideService(Credentials, Effect.succeed(config)),
           Effect.provideService(HttpClient.HttpClient, http),
         );
-        if (!token) return yield* Effect.fail("Modal returned an empty auth token");
+        if (!token) return yield* Effect.fail(new Error("Modal returned an empty auth token"));
         const now = (yield* Clock.currentTimeMillis) / 1000;
         const expiresAt = expiryOf(token) ?? now + FALLBACK_LIFETIME_SECONDS;
         cached = {
@@ -122,11 +116,7 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
                         Effect.logWarning("Could not refresh the Modal auth token", cause),
                         current.token,
                       )
-                    : Effect.fail(
-                        new ConfigError({
-                          message: `Could not get a Modal auth token: ${messageOf(cause)}`,
-                        }),
-                      ),
+                    : Effect.fail(authTokenError(cause)),
                 ),
               );
         return { ...config, authToken: Redacted.make(token) };
