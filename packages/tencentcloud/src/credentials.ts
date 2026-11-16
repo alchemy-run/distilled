@@ -42,6 +42,9 @@ export class Credentials
     "TencentCloudCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   secretId: /*@__PURE__*/ EffectConfig.String("TENCENTCLOUD_SECRET_ID"),
   secretKey: /*@__PURE__*/ EffectConfig.Redacted("TENCENTCLOUD_SECRET_KEY"),

@@ -43,7 +43,9 @@ const spec: SdkSpec = {
     // No per-operation error classes: every failure is a string code in the
     // response envelope, and TencentCloudProtocol picks the class from the
     // documented common codes (see src/errors.ts).
-    commonErrorClasses: ["UnknownTencentCloudError"],
+    // UnknownTencentCloudError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "TencentCloudServiceErrors",
     protocol: "TencentCloudProtocol",
     retry: "Retry.Retry",
   },
