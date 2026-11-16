@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * HetznerProtocol -- the shared bearer-REST protocol instantiated for Hetzner
  * Cloud.
@@ -34,31 +32,28 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import {
-  Gone,
-  MethodNotAllowed,
-  PreconditionFailed,
-  UnknownHetznerError,
-  type DefaultErrors,
-  HetznerParseError,
-} from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import { UnknownHetznerError, HetznerParseError, type HetznerServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Hetzner operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * HetznerOpError, HetznerOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * The errors declared on Hetzner's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link HetznerParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownHetznerError}), and core's
+ * REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type HetznerOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type HetznerProtocolError = RestProtocolError | HetznerParseError | UnknownHetznerError;
+
+/**
+ * What every generated Hetzner operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, HetznerOpError, HetznerOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
+ */
+export type HetznerOpError = HetznerServiceError | HetznerProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Hetzner operation. */
 export type HetznerOpContext = Credentials | HttpClient.HttpClient;
@@ -88,27 +83,25 @@ const errorDetails = (body: unknown): unknown => {
   return (err as Record<string, unknown>).details ?? undefined;
 };
 
-export const HetznerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect, so a token rotated
-  // between calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.token)}`,
-  }),
-  errorEnvelope,
-  // Core's shared map plus the three statuses in Hetzner's documented
-  // error table that it doesn't cover: 405, 410 and 412. Leaving them
-  // unmapped would funnel a sold-out Server type (412) into the same
-  // UnknownHetznerError as a genuinely unrecognized failure.
-  statusMap: {
-    ...HTTP_STATUS_MAP,
-    405: MethodNotAllowed,
-    410: Gone,
-    412: PreconditionFailed,
-  },
-  unknownError: (info) =>
-    new UnknownHetznerError({ ...unknownErrorProps(info), details: errorDetails(info.body) }),
-  parseError: ({ body, cause }) => new HetznerParseError({ body, cause }),
-});
+// A failed status becomes the class the service declares for it
+// (`HetznerServiceErrors`: core's status classes plus the three statuses in
+// Hetzner's documented error table that core has no class for: 405, 410 and
+// 412. Leaving them out would funnel a sold-out Server type (412) into the
+// same UnknownHetznerError as a genuinely unrecognized failure).
+//
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const HetznerProtocol: Protocol<HetznerProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // Resolved on the CALLING fiber per request; the Credentials service holds
+    // an effect, so a token rotated between calls is picked up.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.token)}`,
+    }),
+    errorEnvelope,
+    unknownError: (info) =>
+      new UnknownHetznerError({ ...unknownErrorProps(info), details: errorDetails(info.body) }),
+    parseError: ({ body, cause }) => new HetznerParseError({ body, cause }),
+  });

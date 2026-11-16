@@ -44,6 +44,9 @@ export class Credentials
     "ExaCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.Redacted("EXA_API_KEY"),
   serviceApiKey: /*@__PURE__*/ EffectConfig.Redacted("EXA_SERVICE_API_KEY").pipe(

@@ -34,6 +34,9 @@ export class Credentials
     "HetznerCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `HCLOUD_TOKEN` / `HCLOUD_ENDPOINT` are what the `hcloud` CLI, the
   // Terraform provider and the official Go library read.

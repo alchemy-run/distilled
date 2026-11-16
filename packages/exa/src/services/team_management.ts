@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownExaError } from "../errors.ts";
+import { ExaServiceErrors } from "../errors.ts";
 import { ExaTeamManagementProtocol, type ExaOpError, type ExaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -395,7 +395,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<CreateApiKeyResponse>,
-  errors: [BadRequest, UnknownExaError],
+  errors: [BadRequest],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -412,7 +413,8 @@ export const deleteApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<DeleteApiKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -429,7 +431,8 @@ export const getApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetApiKeyRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<GetApiKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownExaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -446,7 +449,8 @@ export const getApiKeyUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetApiKeyUsageRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<GetApiKeyUsageResponse>,
-  errors: [BadRequest, NotFound, UnknownExaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -463,7 +467,8 @@ export const getTeamCredits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetTeamCreditsRequest>,
   output: __S(83, __c10, 3) as any as S.Schema<GetTeamCreditsResponse>,
-  errors: [NotFound, UnknownExaError],
+  errors: [NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -480,7 +485,8 @@ export const listApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListApiKeysRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<ListApiKeysResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -497,7 +503,8 @@ export const revokePreviousApiKeySecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<RevokePreviousApiKeySecretRequest>,
   output: __S(18, __c2, 2) as any as S.Schema<RevokePreviousApiKeySecretResponse>,
-  errors: [Forbidden, NotFound, UnknownExaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -514,7 +521,8 @@ export const rotateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<RotateApiKeyRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<RotateApiKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -531,7 +539,8 @@ export const updateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<UpdateApiKeyRequest>,
   output: __S(34, __c4, 2) as any as S.Schema<UpdateApiKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ExaServiceErrors,
   protocol: ExaTeamManagementProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

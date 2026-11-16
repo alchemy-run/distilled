@@ -34,6 +34,9 @@ export class Credentials
     "GustoCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** Layer from a redacted access token + optional base URL and API version. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;

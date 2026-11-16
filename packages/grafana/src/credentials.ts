@@ -33,6 +33,9 @@ export class Credentials
     "GrafanaCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** Layer from a redacted service-account token + optional instance URL / org. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;

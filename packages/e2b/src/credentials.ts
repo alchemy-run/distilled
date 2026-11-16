@@ -52,6 +52,9 @@ export class Credentials
     "E2BCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.Redacted("E2B_API_KEY").pipe(EffectConfig.option),
   accessToken: /*@__PURE__*/ EffectConfig.Redacted("E2B_ACCESS_TOKEN").pipe(EffectConfig.option),

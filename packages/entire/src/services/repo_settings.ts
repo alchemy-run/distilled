@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownEntireError } from "../errors.ts";
+import { EntireServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { EntireCellProtocol, type EntireOpError, type EntireOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -126,7 +126,8 @@ export const deleteRepoSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<DeleteRepoSecretRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<DeleteRepoSecretResponse>,
-  errors: [RepoNotInRegion, UnknownEntireError],
+  errors: [RepoNotInRegion],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -145,7 +146,8 @@ export const listRepoSecrets: API.PaginatedOperationMethod<
   () => ({
     input: __S(12, __c3, 0) as any as S.Schema<ListRepoSecretsRequest>,
     output: __S(15, __c3, 3) as any as S.Schema<RepoSecretsListOutputBody>,
-    errors: [RepoNotInRegion, UnknownEntireError],
+    errors: [RepoNotInRegion],
+    serviceErrors: EntireServiceErrors,
     protocol: EntireCellProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -170,7 +172,8 @@ export const setRepoSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<SetRepoSecretRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<SetRepoSecretResponse>,
-  errors: [RepoNotInRegion, UnknownEntireError],
+  errors: [RepoNotInRegion],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -187,7 +190,8 @@ export const updateRepoPublicSharing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<UpdateRepoPublicSharingRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<PublicSharingOutputBody>,
-  errors: [RepoNotInRegion, UnknownEntireError],
+  errors: [RepoNotInRegion],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -204,7 +208,8 @@ export const updateRepoRunnerSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<UpdateRepoRunnerSettingsRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<RunnerSettingsOutputBody>,
-  errors: [RepoNotInRegion, UnknownEntireError],
+  errors: [RepoNotInRegion],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -221,7 +226,8 @@ export const updateRepoTrailSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<UpdateRepoTrailSettingsRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<TrailSettingsOutputBody>,
-  errors: [RepoNotInRegion, UnknownEntireError],
+  errors: [RepoNotInRegion],
+  serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -57,7 +57,9 @@ const grafanaSpec: SdkSpec = {
   operationDecl: {
     contextType: "GrafanaOpContext",
     commonErrorType: "GrafanaOpError",
-    commonErrorClasses: ["UnknownGrafanaError"],
+    // UnknownGrafanaError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "GrafanaServiceErrors",
     protocol: "GrafanaProtocol",
     retry: "Retry.Retry",
   },
