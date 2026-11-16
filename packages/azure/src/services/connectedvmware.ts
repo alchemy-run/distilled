@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2481,7 +2481,8 @@ export const CreateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateClusterRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<Cluster>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2498,7 +2499,8 @@ export const CreateDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<CreateDatastoreRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<Datastore>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2515,7 +2517,8 @@ export const CreateHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<CreateHostRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<Host>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2532,7 +2535,8 @@ export const CreateInventoryItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(569, __c35, 9) as any as S.Schema<CreateInventoryItemRequest>,
   output: __S(606, __c37, 14) as any as S.Schema<CreateInventoryItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2549,7 +2553,8 @@ export const CreateResourcePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<CreateResourcePoolRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<ResourcePool>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2566,7 +2571,8 @@ export const CreateVCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1073, __c67, 1) as any as S.Schema<CreateVCenterRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<VCenter>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2583,7 +2589,8 @@ export const CreateVirtualMachineTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<CreateVirtualMachineTemplateRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<VirtualMachineTemplate>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2600,7 +2607,8 @@ export const CreateVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<CreateVirtualNetworkRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<VirtualNetwork>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2617,7 +2625,8 @@ export const CreateVMInstanceGuestAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1377, __c86, 1) as any as S.Schema<CreateVMInstanceGuestAgentRequest>,
   output: __S(1395, __c87, 3) as any as S.Schema<CreateVMInstanceGuestAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2640,7 +2649,8 @@ export const DeleteCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<DeleteClusterRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<DeleteClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2657,7 +2667,8 @@ export const DeleteDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteDatastoreRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<DeleteDatastoreResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2674,7 +2685,8 @@ export const DeleteHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteHostRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<DeleteHostResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2691,7 +2703,8 @@ export const DeleteInventoryItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteInventoryItemRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<DeleteInventoryItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2708,7 +2721,8 @@ export const DeleteResourcePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteResourcePoolRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<DeleteResourcePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2725,7 +2739,8 @@ export const DeleteVCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<DeleteVCenterRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<DeleteVCenterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2742,7 +2757,8 @@ export const DeleteVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<DeleteVirtualMachineInstanceRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<DeleteVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2765,7 +2781,8 @@ export const DeleteVirtualMachineTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<DeleteVirtualMachineTemplateRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<DeleteVirtualMachineTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2782,7 +2799,8 @@ export const DeleteVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteVirtualNetworkRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<DeleteVirtualNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2799,7 +2817,8 @@ export const DeleteVMInstanceGuestAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteVMInstanceGuestAgentRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<DeleteVMInstanceGuestAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2822,7 +2841,8 @@ export const GetCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetClusterRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<Cluster>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2839,7 +2859,8 @@ export const GetDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetDatastoreRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<Datastore>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2852,7 +2873,8 @@ export const GetHost: API.OperationMethod<GetHostRequest, Host, GetHostError, Az
   /*@__PURE__*/ API.make(() => ({
     input: __S(368, __c23, 0) as any as S.Schema<GetHostRequest>,
     output: __S(337, __c21, 1) as any as S.Schema<Host>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2869,7 +2891,8 @@ export const GetInventoryItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetInventoryItemRequest>,
   output: __S(606, __c37, 14) as any as S.Schema<GetInventoryItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2886,7 +2909,8 @@ export const GetResourcePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetResourcePoolRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<ResourcePool>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2903,7 +2927,8 @@ export const GetVCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<GetVCenterRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<VCenter>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2920,7 +2945,8 @@ export const GetVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetVirtualMachineInstanceRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<GetVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2943,7 +2969,8 @@ export const GetVirtualMachineTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetVirtualMachineTemplateRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<VirtualMachineTemplate>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2960,7 +2987,8 @@ export const GetVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetVirtualNetworkRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<VirtualNetwork>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2977,7 +3005,8 @@ export const GetVMInstanceGuestAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetVMInstanceGuestAgentRequest>,
   output: __S(1395, __c87, 3) as any as S.Schema<GetVMInstanceGuestAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3000,7 +3029,8 @@ export const GetVmInstanceHybridIdentityMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetVmInstanceHybridIdentityMetadataRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<GetVmInstanceHybridIdentityMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3023,7 +3053,8 @@ export const ListClusterByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<ClustersList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3040,7 +3071,8 @@ export const ListClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListClustersRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<ClustersList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3057,7 +3089,8 @@ export const ListDatastoreByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListDatastoreByResourceGroupRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<DatastoresList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3074,7 +3107,8 @@ export const ListDatastores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<ListDatastoresRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<DatastoresList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3091,7 +3125,8 @@ export const ListHostByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListHostByResourceGroupRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<HostsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3108,7 +3143,8 @@ export const ListHosts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListHostsRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<HostsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3125,7 +3161,8 @@ export const ListInventoryItemByVCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<ListInventoryItemByVCenterRequest>,
   output: __S(754, __c47, 2) as any as S.Schema<InventoryItemsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3142,7 +3179,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(772, __c48, 4) as any as S.Schema<OperationsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3159,7 +3197,8 @@ export const ListResourcePoolByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ListResourcePoolByResourceGroupRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<ResourcePoolsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3176,7 +3215,8 @@ export const ListResourcePools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListResourcePoolsRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<ResourcePoolsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3193,7 +3233,8 @@ export const ListVCenterByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListVCenterByResourceGroupRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<VCentersList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3210,7 +3251,8 @@ export const ListVCenters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListVCentersRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<VCentersList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3227,7 +3269,8 @@ export const ListVirtualMachineInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ListVirtualMachineInstancesRequest>,
   output: __S(914, __c57, 2) as any as S.Schema<VirtualMachineInstancesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3250,7 +3293,8 @@ export const ListVirtualMachineTemplateByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ListVirtualMachineTemplateByResourceGroupRequest>,
   output: __S(945, __c59, 1) as any as S.Schema<VirtualMachineTemplatesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3267,7 +3311,8 @@ export const ListVirtualMachineTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<ListVirtualMachineTemplatesRequest>,
   output: __S(945, __c59, 1) as any as S.Schema<VirtualMachineTemplatesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3284,7 +3329,8 @@ export const ListVirtualNetworkByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListVirtualNetworkByResourceGroupRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<VirtualNetworksList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3301,7 +3347,8 @@ export const ListVirtualNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<ListVirtualNetworksRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<VirtualNetworksList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3318,7 +3365,8 @@ export const ListVMInstanceGuestAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<ListVMInstanceGuestAgentsRequest>,
   output: __S(1026, __c64, 2) as any as S.Schema<GuestAgentList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3341,7 +3389,8 @@ export const ListVmInstanceHybridIdentityMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<ListVmInstanceHybridIdentityMetadataRequest>,
   output: __S(1042, __c65, 2) as any as S.Schema<VmInstanceHybridIdentityMetadataList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3364,7 +3413,8 @@ export const RestartVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<RestartVirtualMachineInstanceRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<RestartVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3387,7 +3437,8 @@ export const StartVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<StartVirtualMachineInstanceRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<StartVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3410,7 +3461,8 @@ export const StopVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<StopVirtualMachineInstanceRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<StopVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3433,7 +3485,8 @@ export const UpdateCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<UpdateClusterRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<Cluster>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3450,7 +3503,8 @@ export const UpdateDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<UpdateDatastoreRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<Datastore>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3467,7 +3521,8 @@ export const UpdateHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<UpdateHostRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<Host>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3484,7 +3539,8 @@ export const UpdateResourcePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<UpdateResourcePoolRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<ResourcePool>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3501,7 +3557,8 @@ export const UpdateVCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<UpdateVCenterRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<VCenter>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3518,7 +3575,8 @@ export const UpdateVirtualMachineInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1220, __c76, 4) as any as S.Schema<UpdateVirtualMachineInstanceRequest>,
   output: __S(1221, __c76, 5) as any as S.Schema<UpdateVirtualMachineInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3541,7 +3599,8 @@ export const UpdateVirtualMachineTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<UpdateVirtualMachineTemplateRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<VirtualMachineTemplate>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3558,7 +3617,8 @@ export const UpdateVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<UpdateVirtualNetworkRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<VirtualNetwork>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3575,7 +3635,8 @@ export const VirtualMachineInstancesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1335, __c83, 7) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

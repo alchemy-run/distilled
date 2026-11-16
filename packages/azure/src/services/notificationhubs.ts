@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1393,7 +1393,8 @@ export const CheckNamespaceAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CheckNamespaceAvailabilityRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CheckNamespaceAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1418,7 +1419,8 @@ export const CheckNotificationHubNotificationHubAvailability: API.OperationMetho
     __c1,
     0,
   ) as any as S.Schema<CheckNotificationHubNotificationHubAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1435,7 +1437,8 @@ export const DeleteNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteNamespaceRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteNamespaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1452,7 +1455,8 @@ export const DeleteNamespaceAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<DeleteNamespaceAuthorizationRuleRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteNamespaceAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1469,7 +1473,8 @@ export const DeleteNotificationHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<DeleteNotificationHubRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteNotificationHubResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1486,7 +1491,8 @@ export const DeleteNotificationHubAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<DeleteNotificationHubAuthorizationRuleRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteNotificationHubAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1503,7 +1509,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1520,7 +1527,8 @@ export const GetNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetNamespaceRequest>,
   output: __S(789, __c49, 5) as any as S.Schema<GetNamespaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1537,7 +1545,8 @@ export const GetNamespaceAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<GetNamespaceAuthorizationRuleRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<GetNamespaceAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1554,7 +1563,8 @@ export const GetNamespacePnsCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<GetNamespacePnsCredentialsRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<GetNamespacePnsCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1571,7 +1581,8 @@ export const GetNotificationHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetNotificationHubRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetNotificationHubResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1588,7 +1599,8 @@ export const GetNotificationHubAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetNotificationHubAuthorizationRuleRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<GetNotificationHubAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1605,7 +1617,8 @@ export const GetNotificationHubPnsCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetNotificationHubPnsCredentialsRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<GetNotificationHubPnsCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1622,7 +1635,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(755, __c47, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1639,7 +1653,8 @@ export const GetPrivateEndpointConnectionGroupId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetPrivateEndpointConnectionGroupIdRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<GetPrivateEndpointConnectionGroupIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1656,7 +1671,8 @@ export const ListNamespaceAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ListNamespaceAllRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<NamespaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1673,7 +1689,8 @@ export const ListNamespaceAuthorizationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListNamespaceAuthorizationRulesRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<SharedAccessAuthorizationRuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1690,7 +1707,8 @@ export const ListNamespaceKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListNamespaceKeysRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ResourceListKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1707,7 +1725,8 @@ export const ListNamespaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListNamespacesRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<NamespaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1724,7 +1743,8 @@ export const ListNotificationHubAuthorizationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListNotificationHubAuthorizationRulesRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<SharedAccessAuthorizationRuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1741,7 +1761,8 @@ export const ListNotificationHubKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListNotificationHubKeysRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ResourceListKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1758,7 +1779,8 @@ export const ListNotificationHubs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListNotificationHubsRequest>,
   output: __S(386, __c24, 2) as any as S.Schema<NotificationHubListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1775,7 +1797,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(412, __c25, 12) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1792,7 +1815,8 @@ export const ListPrivateEndpointConnectionGroupIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListPrivateEndpointConnectionGroupIdsRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1809,7 +1833,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<PrivateEndpointConnectionResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1826,7 +1851,8 @@ export const NamespacesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<NamespacesCreateOrUpdateRequest>,
   output: __S(789, __c49, 5) as any as S.Schema<NamespacesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1843,7 +1869,8 @@ export const NamespacesCreateOrUpdateAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<NamespacesCreateOrUpdateAuthorizationRuleRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<NamespacesCreateOrUpdateAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1860,7 +1887,8 @@ export const NotificationHubsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<NotificationHubsCreateOrUpdateRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<NotificationHubsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1885,7 +1913,8 @@ export const NotificationHubsCreateOrUpdateAuthorizationRule: API.OperationMetho
     __c55,
     0,
   ) as any as S.Schema<NotificationHubsCreateOrUpdateAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1902,7 +1931,8 @@ export const RegenerateNamespaceKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<RegenerateNamespaceKeysRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ResourceListKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1919,7 +1949,8 @@ export const RegenerateNotificationHubKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<RegenerateNotificationHubKeysRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ResourceListKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1936,7 +1967,8 @@ export const SendNotificationHubsDebug: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<SendNotificationHubsDebugRequest>,
   output: __S(612, __c38, 4) as any as S.Schema<SendNotificationHubsDebugResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1953,7 +1985,8 @@ export const UpdateNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<UpdateNamespaceRequest>,
   output: __S(789, __c49, 5) as any as S.Schema<UpdateNamespaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1970,7 +2003,8 @@ export const UpdateNotificationHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<UpdateNotificationHubRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<UpdateNotificationHubResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1987,7 +2021,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(658, __c41, 2) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
   output: __S(755, __c47, 3) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

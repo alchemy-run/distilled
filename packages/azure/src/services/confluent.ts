@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1924,7 +1924,8 @@ export const AccessListRoleBindingNameList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AccessListRoleBindingNameListRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AccessRoleBindingNameListSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1941,7 +1942,8 @@ export const ClusterCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ClusterCreateOrUpdateRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<ClusterCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1958,7 +1960,8 @@ export const ConnectorCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ConnectorCreateOrUpdateRequest>,
   output: __S(378, __c23, 10) as any as S.Schema<ConnectorCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1975,7 +1978,8 @@ export const CreateAccessRoleBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<CreateAccessRoleBindingRequest>,
   output: __S(608, __c38, 0) as any as S.Schema<RoleBindingRecord>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1992,7 +1996,8 @@ export const CreateMarketplaceAgreement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<CreateMarketplaceAgreementRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<ConfluentAgreementResource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2009,7 +2014,8 @@ export const CreateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<CreateOrganizationRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<CreateOrganizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2026,7 +2032,8 @@ export const CreateOrganizationAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<CreateOrganizationAPIKeyRequest>,
   output: __S(964, __c60, 4) as any as S.Schema<APIKeyRecord>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2043,7 +2050,8 @@ export const CreateTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<CreateTopicRequest>,
   output: __S(997, __c62, 5) as any as S.Schema<CreateTopicResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2060,7 +2068,8 @@ export const DeleteAccessRoleBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<DeleteAccessRoleBindingRequest>,
   output: __S(1024, __c64, 0) as any as S.Schema<DeleteAccessRoleBindingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2077,7 +2086,8 @@ export const DeleteCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<DeleteClusterRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2094,7 +2104,8 @@ export const DeleteConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteConnectorRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2111,7 +2122,8 @@ export const DeleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2128,7 +2140,8 @@ export const DeleteOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteOrganizationRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteOrganizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2145,7 +2158,8 @@ export const DeleteOrganizationClusterAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteOrganizationClusterAPIKeyRequest>,
   output: __S(1024, __c64, 0) as any as S.Schema<DeleteOrganizationClusterAPIKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2162,7 +2176,8 @@ export const DeleteTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<DeleteTopicRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<DeleteTopicResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2179,7 +2194,8 @@ export const EnvironmentCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<EnvironmentCreateOrUpdateRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<EnvironmentCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2196,7 +2212,8 @@ export const GetConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<GetConnectorRequest>,
   output: __S(378, __c23, 10) as any as S.Schema<GetConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2213,7 +2230,8 @@ export const GetOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<GetOrganizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2230,7 +2248,8 @@ export const GetOrganizationClusterAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetOrganizationClusterAPIKeyRequest>,
   output: __S(964, __c60, 4) as any as S.Schema<APIKeyRecord>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2247,7 +2266,8 @@ export const GetOrganizationClusterById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetOrganizationClusterByIdRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<GetOrganizationClusterByIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2264,7 +2284,8 @@ export const GetOrganizationEnvironmentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetOrganizationEnvironmentByIdRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<GetOrganizationEnvironmentByIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2281,7 +2302,8 @@ export const GetOrganizationSchemaRegistryClusterById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetOrganizationSchemaRegistryClusterByIdRequest>,
   output: __S(419, __c26, 3) as any as S.Schema<SchemaRegistryClusterRecord>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2298,7 +2320,8 @@ export const GetTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetTopicRequest>,
   output: __S(997, __c62, 5) as any as S.Schema<GetTopicResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2315,7 +2338,8 @@ export const InviteAccessUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(449, __c28, 1) as any as S.Schema<InviteAccessUserRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<InvitationRecord>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2332,7 +2356,8 @@ export const ListAccessClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListAccessClustersRequest>,
   output: __S(486, __c30, 6) as any as S.Schema<AccessListClusterSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2349,7 +2374,8 @@ export const ListAccessEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListAccessEnvironmentsRequest>,
   output: __S(499, __c31, 3) as any as S.Schema<AccessListEnvironmentsSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2366,7 +2392,8 @@ export const ListAccessInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListAccessInvitationsRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<AccessListInvitationsSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2383,7 +2410,8 @@ export const ListAccessRoleBindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListAccessRoleBindingsRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<AccessListRoleBindingsSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2400,7 +2428,8 @@ export const ListAccessServiceAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListAccessServiceAccountsRequest>,
   output: __S(547, __c34, 3) as any as S.Schema<AccessListServiceAccountsSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2417,7 +2446,8 @@ export const ListAccessUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListAccessUsersRequest>,
   output: __S(563, __c35, 3) as any as S.Schema<AccessListUsersSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2434,7 +2464,8 @@ export const ListConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListConnectorRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<ListConnectorsSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2451,7 +2482,8 @@ export const ListMarketplaceAgreements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListMarketplaceAgreementsRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<ConfluentAgreementResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2468,7 +2500,8 @@ export const ListOrganizationByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListOrganizationByResourceGroupRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2485,7 +2518,8 @@ export const ListOrganizationBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<ListOrganizationBySubscriptionRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2502,7 +2536,8 @@ export const ListOrganizationClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListOrganizationClustersRequest>,
   output: __S(706, __c44, 2) as any as S.Schema<ListClustersSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2519,7 +2554,8 @@ export const ListOrganizationEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ListOrganizationEnvironmentsRequest>,
   output: __S(722, __c45, 2) as any as S.Schema<GetEnvironmentsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2536,7 +2572,8 @@ export const ListOrganizationOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListOrganizationOperationsRequest>,
   output: __S(740, __c46, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2553,7 +2590,8 @@ export const ListOrganizationRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<ListOrganizationRegionsRequest>,
   output: __S(757, __c47, 5) as any as S.Schema<ListRegionsSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2570,7 +2608,8 @@ export const ListOrganizationSchemaRegistryClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListOrganizationSchemaRegistryClustersRequest>,
   output: __S(770, __c48, 2) as any as S.Schema<ListSchemaRegistryClustersResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2587,7 +2626,8 @@ export const ListTopics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ListTopicsRequest>,
   output: __S(786, __c49, 2) as any as S.Schema<ListTopicsSuccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2604,7 +2644,8 @@ export const UpdateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<UpdateOrganizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2621,7 +2662,8 @@ export const ValidateValidationOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ValidateValidationOrganizationRequest>,
   output: __S(304, __c19, 0) as any as S.Schema<ValidateValidationOrganizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2638,7 +2680,8 @@ export const ValidateValidationOrganizationV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ValidateValidationOrganizationV2Request>,
   output: __S(865, __c54, 1) as any as S.Schema<ValidationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

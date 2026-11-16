@@ -71,7 +71,9 @@ const azureSpec: SdkSpec = {
   operationDecl: {
     contextType: "AzureOpContext",
     commonErrorType: "AzureOpError",
-    commonErrorClasses: ["UnknownAzureError"],
+    // UnknownAzureError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "AzureServiceErrors",
     protocol: "AzureProtocol",
     retry: "Retry.Retry",
   },

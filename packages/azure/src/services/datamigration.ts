@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2980,7 +2980,8 @@ export const CancelDatabaseMigrationsSqlDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelDatabaseMigrationsSqlDbRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelDatabaseMigrationsSqlDbResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2997,7 +2998,8 @@ export const CancelDatabaseMigrationsSqlMi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CancelDatabaseMigrationsSqlMiRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelDatabaseMigrationsSqlMiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3014,7 +3016,8 @@ export const CancelDatabaseMigrationsSqlVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<CancelDatabaseMigrationsSqlVmRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelDatabaseMigrationsSqlVmResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3031,7 +3034,8 @@ export const CancelServiceTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<CancelServiceTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<CancelServiceTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3048,7 +3052,8 @@ export const CancelTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CancelTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<CancelTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3065,7 +3070,8 @@ export const CheckServiceChildrenNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<CheckServiceChildrenNameAvailabilityRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<CheckServiceChildrenNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3082,7 +3088,8 @@ export const CheckServiceNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<CheckServiceNameAvailabilityRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<CheckServiceNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3099,7 +3106,8 @@ export const CheckServiceStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<CheckServiceStatusRequest>,
   output: __S(1569, __c98, 1) as any as S.Schema<CheckServiceStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3124,7 +3132,8 @@ export const CreateDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod
     __c113,
     0,
   ) as any as S.Schema<CreateDatabaseMigrationsMongoToCosmosDbRUMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3149,7 +3158,8 @@ export const CreateDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMet
     __c113,
     0,
   ) as any as S.Schema<CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3166,7 +3176,8 @@ export const DatabaseMigrationsSqlDbCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<DatabaseMigrationsSqlDbCreateOrUpdateRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<DatabaseMigrationsSqlDbCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3183,7 +3194,8 @@ export const DatabaseMigrationsSqlMiCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DatabaseMigrationsSqlMiCreateOrUpdateRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DatabaseMigrationsSqlMiCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3200,7 +3212,8 @@ export const DatabaseMigrationsSqlMiCutover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DatabaseMigrationsSqlMiCutoverRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DatabaseMigrationsSqlMiCutoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3217,7 +3230,8 @@ export const DatabaseMigrationsSqlVmCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DatabaseMigrationsSqlVmCreateOrUpdateRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DatabaseMigrationsSqlVmCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3234,7 +3248,8 @@ export const DatabaseMigrationsSqlVmCutover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DatabaseMigrationsSqlVmCutoverRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DatabaseMigrationsSqlVmCutoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3259,7 +3274,8 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod
     __c15,
     0,
   ) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3284,7 +3300,8 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMet
     __c15,
     0,
   ) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3301,7 +3318,8 @@ export const DeleteDatabaseMigrationsSqlDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlDbRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlDbResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3318,7 +3336,8 @@ export const DeleteDatabaseMigrationsSqlMi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlMiRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlMiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3335,7 +3354,8 @@ export const DeleteDatabaseMigrationsSqlVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlVmRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteDatabaseMigrationsSqlVmResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3352,7 +3372,8 @@ export const DeleteFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteFileRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3369,7 +3390,8 @@ export const DeleteMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DeleteMigrationServiceRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<DeleteMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3386,7 +3408,8 @@ export const DeleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3403,7 +3426,8 @@ export const DeleteService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3420,7 +3444,8 @@ export const DeleteServiceTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteServiceTaskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteServiceTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3437,7 +3462,8 @@ export const DeleteSqlMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<DeleteSqlMigrationServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSqlMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3454,7 +3480,8 @@ export const DeleteSqlMigrationServiceNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<DeleteSqlMigrationServiceNodeRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<DeleteNode>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3471,7 +3498,8 @@ export const DeleteTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<DeleteTaskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3488,7 +3516,8 @@ export const FilesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<FilesCreateOrUpdateRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<FilesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3509,7 +3538,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbRUMongo: API.OperationMethod<
     __c113,
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbRUMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3530,7 +3560,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbRUMongoForScope: API.OperationM
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<DatabaseMigrationCosmosDbMongoListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3555,7 +3586,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongo: API.OperationMethod
     __c113,
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3576,7 +3608,8 @@ export const GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScope: API.Operati
     0,
   ) as any as S.Schema<GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<DatabaseMigrationCosmosDbMongoListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3593,7 +3626,8 @@ export const GetDatabaseMigrationsSqlDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetDatabaseMigrationsSqlDbRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<GetDatabaseMigrationsSqlDbResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3610,7 +3644,8 @@ export const GetDatabaseMigrationsSqlMi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetDatabaseMigrationsSqlMiRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<GetDatabaseMigrationsSqlMiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3627,7 +3662,8 @@ export const GetDatabaseMigrationsSqlVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<GetDatabaseMigrationsSqlVmRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<GetDatabaseMigrationsSqlVmResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3644,7 +3680,8 @@ export const GetFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetFileRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<GetFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3661,7 +3698,8 @@ export const GetMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetMigrationServiceRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<GetMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3678,7 +3716,8 @@ export const GetProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(805, __c50, 5) as any as S.Schema<GetProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3695,7 +3734,8 @@ export const GetService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetServiceRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<GetServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3712,7 +3752,8 @@ export const GetServiceTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<GetServiceTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<GetServiceTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3729,7 +3770,8 @@ export const GetSqlMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<GetSqlMigrationServiceRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<GetSqlMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3746,7 +3788,8 @@ export const GetTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<GetTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<GetTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3763,7 +3806,8 @@ export const ListFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ListFilesRequest>,
   output: __S(930, __c58, 2) as any as S.Schema<ListFilesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3780,7 +3824,8 @@ export const ListMigrationServiceByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ListMigrationServiceByResourceGroupRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<MigrationServiceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3797,7 +3842,8 @@ export const ListMigrationServiceBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListMigrationServiceBySubscriptionRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<MigrationServiceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3814,7 +3860,8 @@ export const ListMigrationServiceMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<ListMigrationServiceMigrationsRequest>,
   output: __S(996, __c62, 4) as any as S.Schema<DatabaseMigrationBaseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3831,7 +3878,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1012, __c63, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3848,7 +3896,8 @@ export const ListProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(1042, __c65, 2) as any as S.Schema<ListProjectsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3865,7 +3914,8 @@ export const ListResourceSkusSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<ListResourceSkusSkusRequest>,
   output: __S(1065, __c66, 9) as any as S.Schema<ListResourceSkusSkusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3882,7 +3932,8 @@ export const ListServiceByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ListServiceByResourceGroupRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<ListServiceByResourceGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3899,7 +3950,8 @@ export const ListServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<ListServicesRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<ListServicesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3916,7 +3968,8 @@ export const ListServiceSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<ListServiceSkusRequest>,
   output: __S(1172, __c73, 4) as any as S.Schema<ListServiceSkusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3933,7 +3986,8 @@ export const ListServiceTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<ListServiceTasksRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<ListServiceTasksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3950,7 +4004,8 @@ export const ListSqlMigrationServiceAuthKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<ListSqlMigrationServiceAuthKeysRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<AuthenticationKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3967,7 +4022,8 @@ export const ListSqlMigrationServiceByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<ListSqlMigrationServiceByResourceGroupRequest>,
   output: __S(1249, __c78, 1) as any as S.Schema<SqlMigrationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3984,7 +4040,8 @@ export const ListSqlMigrationServiceBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<ListSqlMigrationServiceBySubscriptionRequest>,
   output: __S(1249, __c78, 1) as any as S.Schema<SqlMigrationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4001,7 +4058,8 @@ export const ListSqlMigrationServiceMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ListSqlMigrationServiceMigrationsRequest>,
   output: __S(1284, __c80, 4) as any as S.Schema<DatabaseMigrationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4018,7 +4076,8 @@ export const ListSqlMigrationServiceMonitoringData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<ListSqlMigrationServiceMonitoringDataRequest>,
   output: __S(1299, __c81, 3) as any as S.Schema<IntegrationRuntimeMonitoringData>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4035,7 +4094,8 @@ export const ListTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<ListTasksRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<ListTasksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4052,7 +4112,8 @@ export const ListUsages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<ListUsagesRequest>,
   output: __S(1348, __c84, 4) as any as S.Schema<ListUsagesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4069,7 +4130,8 @@ export const MigrationServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<MigrationServicesCreateOrUpdateRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<MigrationServicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4086,7 +4148,8 @@ export const ProjectsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<ProjectsCreateOrUpdateRequest>,
   output: __S(805, __c50, 5) as any as S.Schema<ProjectsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4103,7 +4166,8 @@ export const ReadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<ReadFileRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<ReadFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4120,7 +4184,8 @@ export const ReadFileWrite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<ReadFileWriteRequest>,
   output: __S(1424, __c89, 0) as any as S.Schema<ReadFileWriteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4137,7 +4202,8 @@ export const RegenerateSqlMigrationServiceAuthKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<RegenerateSqlMigrationServiceAuthKeysRequest>,
   output: __S(1457, __c91, 1) as any as S.Schema<RegenAuthKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4154,7 +4220,8 @@ export const RetryDatabaseMigrationsSqlDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<RetryDatabaseMigrationsSqlDbRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RetryDatabaseMigrationsSqlDbResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4171,7 +4238,8 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<ServicesCreateOrUpdateRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<ServicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4188,7 +4256,8 @@ export const ServiceTasksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<ServiceTasksCreateOrUpdateRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<ServiceTasksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4205,7 +4274,8 @@ export const SqlMigrationServicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<SqlMigrationServicesCreateOrUpdateRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<SqlMigrationServicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4222,7 +4292,8 @@ export const StartService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<StartServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4239,7 +4310,8 @@ export const StopService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<StopServiceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StopServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4256,7 +4328,8 @@ export const TasksCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<TasksCommandRequest>,
   output: __S(565, __c35, 5) as any as S.Schema<TasksCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4273,7 +4346,8 @@ export const TasksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<TasksCreateOrUpdateRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<TasksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4290,7 +4364,8 @@ export const UpdateFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<UpdateFileRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<UpdateFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4307,7 +4382,8 @@ export const UpdateMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<UpdateMigrationServiceRequest>,
   output: __S(1681, __c105, 1) as any as S.Schema<UpdateMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4324,7 +4400,8 @@ export const UpdateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(805, __c50, 5) as any as S.Schema<UpdateProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4341,7 +4418,8 @@ export const UpdateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<UpdateServiceRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<UpdateServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4358,7 +4436,8 @@ export const UpdateServiceTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<UpdateServiceTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<UpdateServiceTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4375,7 +4454,8 @@ export const UpdateSqlMigrationService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<UpdateSqlMigrationServiceRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<UpdateSqlMigrationServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4392,7 +4472,8 @@ export const UpdateTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<UpdateTaskRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<UpdateTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
