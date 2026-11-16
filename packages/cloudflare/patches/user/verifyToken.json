@@ -22,6 +22,9 @@
       "value": [
         {
           "target": "com.cloudflare.user#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.user#InvalidApiToken"
         }
       ]
     }
