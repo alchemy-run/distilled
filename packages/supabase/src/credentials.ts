@@ -26,6 +26,9 @@ export class Credentials
     "SupabaseCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   accessToken: /*@__PURE__*/ EffectConfig.String("SUPABASE_ACCESS_TOKEN"),
 });

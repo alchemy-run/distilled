@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -4467,7 +4467,8 @@ export const BigQueryDatasetsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<BigQueryDatasetsCreateOrReplaceRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<BigQueryDatasetsCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4484,7 +4485,8 @@ export const CloudFunctionsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c5, 1) as any as S.Schema<CloudFunctionsCreateOrReplaceRequest>,
   output: __S(162, __c5, 2) as any as S.Schema<CloudFunctionsCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4501,7 +4503,8 @@ export const ComputeInstancesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(865, __c27, 1) as any as S.Schema<ComputeInstancesCreateOrReplaceRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<ComputeInstancesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4523,7 +4526,8 @@ export const ContainerClustersCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1377, __c43, 1) as any as S.Schema<ContainerClustersCreateOrReplaceRequest>,
   output: __S(1378, __c43, 2) as any as S.Schema<ContainerClustersCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4545,7 +4549,8 @@ export const DeleteBigQueryDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<DeleteBigQueryDatasetRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DeleteBigQueryDatasetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4562,7 +4567,8 @@ export const DeleteCloudFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<DeleteCloudFunctionRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DeleteCloudFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4579,7 +4585,8 @@ export const DeleteComputeInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<DeleteComputeInstanceRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DeleteComputeInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4601,7 +4608,8 @@ export const DeleteContainerCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<DeleteContainerClusterRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DeleteContainerClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4623,7 +4631,8 @@ export const DeleteSQLAdminInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<DeleteSQLAdminInstanceRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DeleteSQLAdminInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4640,7 +4649,8 @@ export const DeleteStorageBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<DeleteStorageBucketRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DeleteStorageBucketResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4657,7 +4667,8 @@ export const GetBigQueryDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetBigQueryDatasetRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<GetBigQueryDatasetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4674,7 +4685,8 @@ export const GetCloudFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetCloudFunctionRequest>,
   output: __S(320, __c10, 0) as any as S.Schema<GetCloudFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4691,7 +4703,8 @@ export const GetComputeInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetComputeInstanceRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<GetComputeInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4713,7 +4726,8 @@ export const GetContainerCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetContainerClusterRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<GetContainerClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4735,7 +4749,8 @@ export const GetSQLAdminInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetSQLAdminInstanceRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<GetSQLAdminInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4752,7 +4767,8 @@ export const GetStorageBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetStorageBucketRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<GetStorageBucketResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4769,7 +4785,8 @@ export const ListBigQueryDatasetByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListBigQueryDatasetByResourceGroupRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<BigQueryDatasetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4786,7 +4803,8 @@ export const ListBigQueryDatasetBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListBigQueryDatasetBySubscriptionRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<BigQueryDatasetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4803,7 +4821,8 @@ export const ListCloudFunctionByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListCloudFunctionByResourceGroupRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<CloudFunctionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4820,7 +4839,8 @@ export const ListCloudFunctionBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListCloudFunctionBySubscriptionRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<CloudFunctionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4837,7 +4857,8 @@ export const ListComputeInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListComputeInstancesRequest>,
   output: __S(994, __c31, 2) as any as S.Schema<ComputeInstanceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4859,7 +4880,8 @@ export const ListContainerClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListContainerClustersRequest>,
   output: __S(1026, __c32, 2) as any as S.Schema<ContainerClusterListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4881,7 +4903,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4898,7 +4921,8 @@ export const ListSQLAdminInstanceByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListSQLAdminInstanceByResourceGroupRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<SQLAdminInstanceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4915,7 +4939,8 @@ export const ListSQLAdminInstanceBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListSQLAdminInstanceBySubscriptionRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<SQLAdminInstanceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4932,7 +4957,8 @@ export const ListStorageBucketByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListStorageBucketByResourceGroupRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<StorageBucketListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4949,7 +4975,8 @@ export const ListStorageBucketBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListStorageBucketBySubscriptionRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<StorageBucketListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4966,7 +4993,8 @@ export const SQLAdminInstancesCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1281, __c40, 1) as any as S.Schema<SQLAdminInstancesCreateOrReplaceRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<SQLAdminInstancesCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4983,7 +5011,8 @@ export const StorageBucketsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1313, __c41, 1) as any as S.Schema<StorageBucketsCreateOrReplaceRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<StorageBucketsCreateOrReplaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5000,7 +5029,8 @@ export const UpdateBigQueryDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<UpdateBigQueryDatasetRequest>,
   output: __S(1345, __c42, 1) as any as S.Schema<UpdateBigQueryDatasetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5017,7 +5047,8 @@ export const UpdateCloudFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<UpdateCloudFunctionRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<UpdateCloudFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5034,7 +5065,8 @@ export const UpdateSQLAdminInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<UpdateSQLAdminInstanceRequest>,
   output: __S(1601, __c50, 1) as any as S.Schema<UpdateSQLAdminInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5051,7 +5083,8 @@ export const UpdateStorageBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<UpdateStorageBucketRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<UpdateStorageBucketResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

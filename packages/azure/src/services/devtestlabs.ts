@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -5339,7 +5339,8 @@ export const AddVirtualMachineDataDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddVirtualMachineDataDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AddVirtualMachineDataDiskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5356,7 +5357,8 @@ export const ApplyVirtualMachineArtifacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ApplyVirtualMachineArtifactsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ApplyVirtualMachineArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5373,7 +5375,8 @@ export const ArtifactSourcesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(785, __c49, 1) as any as S.Schema<ArtifactSourcesCreateOrUpdateRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<ArtifactSourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5390,7 +5393,8 @@ export const AttachDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<AttachDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<AttachDiskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5407,7 +5411,8 @@ export const ClaimLabAnyVm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ClaimLabAnyVmRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClaimLabAnyVmResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5424,7 +5429,8 @@ export const ClaimVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<ClaimVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClaimVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5441,7 +5447,8 @@ export const ClaimVirtualMachinesUn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ClaimVirtualMachinesUnRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClaimVirtualMachinesUnResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5458,7 +5465,8 @@ export const CostsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2177, __c136, 1) as any as S.Schema<CostsCreateOrUpdateRequest>,
   output: __S(2202, __c137, 10) as any as S.Schema<CostsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5475,7 +5483,8 @@ export const CreateLabEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<CreateLabEnvironmentRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateLabEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5492,7 +5501,8 @@ export const CustomImagesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2705, __c169, 1) as any as S.Schema<CustomImagesCreateOrUpdateRequest>,
   output: __S(2706, __c169, 2) as any as S.Schema<CustomImagesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5509,7 +5519,8 @@ export const DeleteArtifactSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeleteArtifactSourceRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteArtifactSourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5526,7 +5537,8 @@ export const DeleteCustomImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteCustomImageRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteCustomImageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5543,7 +5555,8 @@ export const DeleteDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<DeleteDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDiskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5560,7 +5573,8 @@ export const DeleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5577,7 +5591,8 @@ export const DeleteFormulas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<DeleteFormulasRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteFormulasResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5594,7 +5609,8 @@ export const DeleteGlobalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<DeleteGlobalScheduleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteGlobalScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5611,7 +5627,8 @@ export const DeleteLab: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<DeleteLabRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteLabResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5628,7 +5645,8 @@ export const DeleteNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<DeleteNotificationChannelRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteNotificationChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5645,7 +5663,8 @@ export const DeletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<DeletePolicyRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeletePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5662,7 +5681,8 @@ export const DeleteSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<DeleteScheduleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5679,7 +5699,8 @@ export const DeleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteSecretResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5696,7 +5717,8 @@ export const DeleteServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<DeleteServiceFabricRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteServiceFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5713,7 +5735,8 @@ export const DeleteServiceFabricSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<DeleteServiceFabricScheduleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteServiceFabricScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5730,7 +5753,8 @@ export const DeleteServiceRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<DeleteServiceRunnerRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteServiceRunnerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5747,7 +5771,8 @@ export const DeleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5764,7 +5789,8 @@ export const DeleteVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<DeleteVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5781,7 +5807,8 @@ export const DeleteVirtualMachineSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<DeleteVirtualMachineScheduleRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<DeleteVirtualMachineScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5798,7 +5825,8 @@ export const DeleteVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<DeleteVirtualNetworkRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteVirtualNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5815,7 +5843,8 @@ export const DetachDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<DetachDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DetachDiskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5832,7 +5861,8 @@ export const DetachVirtualMachineDataDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<DetachVirtualMachineDataDiskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DetachVirtualMachineDataDiskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5849,7 +5879,8 @@ export const DisksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1025, __c64, 1) as any as S.Schema<DisksCreateOrUpdateRequest>,
   output: __S(1026, __c64, 2) as any as S.Schema<DisksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5866,7 +5897,8 @@ export const EnvironmentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1057, __c66, 1) as any as S.Schema<EnvironmentsCreateOrUpdateRequest>,
   output: __S(1058, __c66, 2) as any as S.Schema<EnvironmentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5883,7 +5915,8 @@ export const ExecuteGlobalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<ExecuteGlobalScheduleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExecuteGlobalScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5900,7 +5933,8 @@ export const ExecuteSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ExecuteScheduleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExecuteScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5917,7 +5951,8 @@ export const ExecuteServiceFabricSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ExecuteServiceFabricScheduleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExecuteServiceFabricScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5934,7 +5969,8 @@ export const ExecuteVirtualMachineSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<ExecuteVirtualMachineScheduleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExecuteVirtualMachineScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5951,7 +5987,8 @@ export const ExportLabResourceUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<ExportLabResourceUsageRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ExportLabResourceUsageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5968,7 +6005,8 @@ export const FormulasCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1170, __c73, 2) as any as S.Schema<FormulasCreateOrUpdateRequest>,
   output: __S(1171, __c73, 3) as any as S.Schema<FormulasCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5985,7 +6023,8 @@ export const GenerateArtifactArmTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GenerateArtifactArmTemplateRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<ArmTemplateInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6002,7 +6041,8 @@ export const GetArmTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetArmTemplateRequest>,
   output: __S(1267, __c79, 3) as any as S.Schema<GetArmTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6019,7 +6059,8 @@ export const GetArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetArtifactRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<GetArtifactResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6036,7 +6077,8 @@ export const GetArtifactSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<GetArtifactSourceRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<GetArtifactSourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6053,7 +6095,8 @@ export const GetCost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<GetCostRequest>,
   output: __S(2202, __c137, 10) as any as S.Schema<GetCostResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6070,7 +6113,8 @@ export const GetCustomImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetCustomImageRequest>,
   output: __S(1376, __c86, 0) as any as S.Schema<GetCustomImageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6087,7 +6131,8 @@ export const GetDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<GetDiskRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<GetDiskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6104,7 +6149,8 @@ export const GetEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(1440, __c90, 0) as any as S.Schema<GetEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6121,7 +6167,8 @@ export const GetFormulas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetFormulasRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<GetFormulasResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6138,7 +6185,8 @@ export const GetGlobalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetGlobalScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GetGlobalScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6155,7 +6203,8 @@ export const GetLab: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<GetLabRequest>,
   output: __S(1552, __c97, 0) as any as S.Schema<GetLabResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6172,7 +6221,8 @@ export const GetNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<GetNotificationChannelRequest>,
   output: __S(1587, __c99, 3) as any as S.Schema<GetNotificationChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6189,7 +6239,8 @@ export const GetOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<GetOperationRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<OperationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6206,7 +6257,8 @@ export const GetPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<GetPolicyRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<GetPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6223,7 +6275,8 @@ export const GetSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GetScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6240,7 +6293,8 @@ export const GetSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetSecretRequest>,
   output: __S(1728, __c108, 0) as any as S.Schema<GetSecretResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6257,7 +6311,8 @@ export const GetServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<GetServiceFabricRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<GetServiceFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6274,7 +6329,8 @@ export const GetServiceFabricSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<GetServiceFabricScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GetServiceFabricScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6291,7 +6347,8 @@ export const GetServiceRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<GetServiceRunnerRequest>,
   output: __S(1843, __c115, 3) as any as S.Schema<GetServiceRunnerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6308,7 +6365,8 @@ export const GetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetUserRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<GetUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6325,7 +6383,8 @@ export const GetVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<GetVirtualMachineRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<GetVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6342,7 +6401,8 @@ export const GetVirtualMachineRdpFileContents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<GetVirtualMachineRdpFileContentsRequest>,
   output: __S(1953, __c122, 1) as any as S.Schema<RdpConnection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6359,7 +6419,8 @@ export const GetVirtualMachineSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<GetVirtualMachineScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GetVirtualMachineScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6376,7 +6437,8 @@ export const GetVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<GetVirtualNetworkRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<GetVirtualNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6393,7 +6455,8 @@ export const GlobalSchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<GlobalSchedulesCreateOrUpdateRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<GlobalSchedulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6410,7 +6473,8 @@ export const GlobalSchedulesRetarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<GlobalSchedulesRetargetRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<GlobalSchedulesRetargetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6427,7 +6491,8 @@ export const ImportLabVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ImportLabVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ImportLabVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6444,7 +6509,8 @@ export const LabsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2098, __c131, 2) as any as S.Schema<LabsCreateOrUpdateRequest>,
   output: __S(2099, __c131, 3) as any as S.Schema<LabsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6461,7 +6527,8 @@ export const LabsGenerateUploadUri: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<LabsGenerateUploadUriRequest>,
   output: __S(2113, __c132, 1) as any as S.Schema<GenerateUploadUriResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6478,7 +6545,8 @@ export const ListArmTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<ListArmTemplatesRequest>,
   output: __S(2130, __c133, 2) as any as S.Schema<ArmTemplateList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6495,7 +6563,8 @@ export const ListArtifacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListArtifactsRequest>,
   output: __S(2146, __c134, 2) as any as S.Schema<ArtifactList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6512,7 +6581,8 @@ export const ListArtifactSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListArtifactSourcesRequest>,
   output: __S(2162, __c135, 2) as any as S.Schema<ArtifactSourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6529,7 +6599,8 @@ export const ListCustomImages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListCustomImagesRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<CustomImageList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6546,7 +6617,8 @@ export const ListDisks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<ListDisksRequest>,
   output: __S(2226, __c139, 2) as any as S.Schema<DiskList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6563,7 +6635,8 @@ export const ListEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(2242, __c140, 2) as any as S.Schema<DtlEnvironmentList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6580,7 +6653,8 @@ export const ListFormulas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ListFormulasRequest>,
   output: __S(2258, __c141, 2) as any as S.Schema<FormulaList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6597,7 +6671,8 @@ export const ListGalleryImages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<ListGalleryImagesRequest>,
   output: __S(2276, __c142, 4) as any as S.Schema<GalleryImageList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6614,7 +6689,8 @@ export const ListGlobalScheduleByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<ListGlobalScheduleByResourceGroupRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6631,7 +6707,8 @@ export const ListGlobalScheduleBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<ListGlobalScheduleBySubscriptionRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6648,7 +6725,8 @@ export const ListLabByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<ListLabByResourceGroupRequest>,
   output: __S(2353, __c147, 1) as any as S.Schema<LabList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6665,7 +6743,8 @@ export const ListLabBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<ListLabBySubscriptionRequest>,
   output: __S(2353, __c147, 1) as any as S.Schema<LabList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6682,7 +6761,8 @@ export const ListLabVhds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<ListLabVhdsRequest>,
   output: __S(2387, __c149, 3) as any as S.Schema<LabVhdList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6699,7 +6779,8 @@ export const ListNotificationChannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<ListNotificationChannelsRequest>,
   output: __S(2546, __c159, 2) as any as S.Schema<NotificationChannelList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6716,7 +6797,8 @@ export const ListPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<ListPoliciesRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<PolicyList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6733,7 +6815,8 @@ export const ListProviderOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2576, __c161, 0) as any as S.Schema<ListProviderOperationsRequest>,
   output: __S(2580, __c161, 4) as any as S.Schema<ListProviderOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6750,7 +6833,8 @@ export const ListScheduleApplicable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<ListScheduleApplicableRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6767,7 +6851,8 @@ export const ListSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<ListSchedulesRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6784,7 +6869,8 @@ export const ListSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<ListSecretsRequest>,
   output: __S(2626, __c164, 2) as any as S.Schema<SecretList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6801,7 +6887,8 @@ export const ListServiceFabricApplicableSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<ListServiceFabricApplicableSchedulesRequest>,
   output: __S(1761, __c110, 1) as any as S.Schema<ListServiceFabricApplicableSchedulesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6818,7 +6905,8 @@ export const ListServiceFabrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<ListServiceFabricsRequest>,
   output: __S(2658, __c166, 2) as any as S.Schema<ServiceFabricList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6835,7 +6923,8 @@ export const ListServiceFabricSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<ListServiceFabricSchedulesRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6852,7 +6941,8 @@ export const ListUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(2690, __c168, 2) as any as S.Schema<UserList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6869,7 +6959,8 @@ export const ListVirtualMachineApplicableSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<ListVirtualMachineApplicableSchedulesRequest>,
   output: __S(1761, __c110, 1) as any as S.Schema<ListVirtualMachineApplicableSchedulesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6886,7 +6977,8 @@ export const ListVirtualMachines: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<ListVirtualMachinesRequest>,
   output: __S(2754, __c172, 2) as any as S.Schema<LabVirtualMachineList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6903,7 +6995,8 @@ export const ListVirtualMachineSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<ListVirtualMachineSchedulesRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<ScheduleList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6920,7 +7013,8 @@ export const ListVirtualNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<ListVirtualNetworksRequest>,
   output: __S(2786, __c174, 2) as any as S.Schema<VirtualNetworkList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6937,7 +7031,8 @@ export const NotificationChannelsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2801, __c175, 1) as any as S.Schema<NotificationChannelsCreateOrUpdateRequest>,
   output: __S(1587, __c99, 3) as any as S.Schema<NotificationChannelsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6954,7 +7049,8 @@ export const NotifyNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c176, 0) as any as S.Schema<NotifyNotificationChannelRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<NotifyNotificationChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6971,7 +7067,8 @@ export const PoliciesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2833, __c177, 1) as any as S.Schema<PoliciesCreateOrUpdateRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<PoliciesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6988,7 +7085,8 @@ export const PolicySetsEvaluatePolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2850, __c178, 2) as any as S.Schema<PolicySetsEvaluatePoliciesRequest>,
   output: __S(2854, __c178, 6) as any as S.Schema<EvaluatePoliciesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7005,7 +7103,8 @@ export const RedeployVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2864, __c179, 0) as any as S.Schema<RedeployVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RedeployVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7022,7 +7121,8 @@ export const ResizeVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<ResizeVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ResizeVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7039,7 +7139,8 @@ export const RestartVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<RestartVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RestartVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7056,7 +7157,8 @@ export const SchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<SchedulesCreateOrUpdateRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<SchedulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7073,7 +7175,8 @@ export const SecretsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c10, 1) as any as S.Schema<SecretsCreateOrUpdateRequest>,
   output: __S(162, __c10, 2) as any as S.Schema<SecretsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7090,7 +7193,8 @@ export const ServiceFabricSchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ServiceFabricSchedulesCreateOrUpdateRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<ServiceFabricSchedulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7107,7 +7211,8 @@ export const ServiceFabricsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c12, 1) as any as S.Schema<ServiceFabricsCreateOrUpdateRequest>,
   output: __S(194, __c12, 2) as any as S.Schema<ServiceFabricsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7124,7 +7229,8 @@ export const ServiceRunnersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(209, __c13, 1) as any as S.Schema<ServiceRunnersCreateOrUpdateRequest>,
   output: __S(1843, __c115, 3) as any as S.Schema<ServiceRunnersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7141,7 +7247,8 @@ export const StartServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<StartServiceFabricRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartServiceFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7158,7 +7265,8 @@ export const StartVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<StartVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StartVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7175,7 +7283,8 @@ export const StopServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<StopServiceFabricRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StopServiceFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7192,7 +7301,8 @@ export const StopVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<StopVirtualMachineRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<StopVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7209,7 +7319,8 @@ export const TransferVirtualMachineDisks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<TransferVirtualMachineDisksRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TransferVirtualMachineDisksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7226,7 +7337,8 @@ export const UpdateArtifactSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<UpdateArtifactSourceRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<UpdateArtifactSourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7243,7 +7355,8 @@ export const UpdateCustomImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<UpdateCustomImageRequest>,
   output: __S(1376, __c86, 0) as any as S.Schema<UpdateCustomImageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7260,7 +7373,8 @@ export const UpdateDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<UpdateDiskRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<UpdateDiskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7277,7 +7391,8 @@ export const UpdateEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<UpdateEnvironmentRequest>,
   output: __S(1440, __c90, 0) as any as S.Schema<UpdateEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7294,7 +7409,8 @@ export const UpdateFormulas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<UpdateFormulasRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<UpdateFormulasResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7311,7 +7427,8 @@ export const UpdateGlobalSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<UpdateGlobalScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<UpdateGlobalScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7328,7 +7445,8 @@ export const UpdateLab: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<UpdateLabRequest>,
   output: __S(1552, __c97, 0) as any as S.Schema<UpdateLabResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7345,7 +7463,8 @@ export const UpdateNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<UpdateNotificationChannelRequest>,
   output: __S(1587, __c99, 3) as any as S.Schema<UpdateNotificationChannelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7362,7 +7481,8 @@ export const UpdatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<UpdatePolicyRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<UpdatePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7379,7 +7499,8 @@ export const UpdateSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<UpdateScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<UpdateScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7396,7 +7517,8 @@ export const UpdateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<UpdateSecretRequest>,
   output: __S(1728, __c108, 0) as any as S.Schema<UpdateSecretResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7413,7 +7535,8 @@ export const UpdateServiceFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<UpdateServiceFabricRequest>,
   output: __S(1792, __c112, 0) as any as S.Schema<UpdateServiceFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7430,7 +7553,8 @@ export const UpdateServiceFabricSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<UpdateServiceFabricScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<UpdateServiceFabricScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7447,7 +7571,8 @@ export const UpdateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<UpdateUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7464,7 +7589,8 @@ export const UpdateVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<UpdateVirtualMachineRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<UpdateVirtualMachineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7481,7 +7607,8 @@ export const UpdateVirtualMachineSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<UpdateVirtualMachineScheduleRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<UpdateVirtualMachineScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7498,7 +7625,8 @@ export const UpdateVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<UpdateVirtualNetworkRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<UpdateVirtualNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7515,7 +7643,8 @@ export const UsersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(609, __c38, 1) as any as S.Schema<UsersCreateOrUpdateRequest>,
   output: __S(610, __c38, 2) as any as S.Schema<UsersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7532,7 +7661,8 @@ export const VirtualMachineSchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<VirtualMachineSchedulesCreateOrUpdateRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<VirtualMachineSchedulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7549,7 +7679,8 @@ export const VirtualMachinesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(657, __c41, 1) as any as S.Schema<VirtualMachinesCreateOrUpdateRequest>,
   output: __S(658, __c41, 2) as any as S.Schema<VirtualMachinesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7566,7 +7697,8 @@ export const VirtualNetworksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(673, __c42, 1) as any as S.Schema<VirtualNetworksCreateOrUpdateRequest>,
   output: __S(674, __c42, 2) as any as S.Schema<VirtualNetworksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -60,6 +60,7 @@ const spec: SdkSpec = {
     contextType: "SupabaseOpContext",
     commonErrorType: "SupabaseOpError",
     commonErrorClasses: [],
+    serviceErrors: "SupabaseServiceErrors",
     protocol: "SupabaseProtocol",
     retry: "Retry.Retry",
   },
