@@ -28,7 +28,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Resend.CredentialsFromEnv,
-  Resend.ResendProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

@@ -29,7 +29,6 @@
  * const Live = Layer.mergeAll(
  *   FetchHttpClient.layer,
  *   Notion.CredentialsFromEnv,
- *   Notion.NotionProtocol,
  * );
  *
  * program.pipe(Effect.provide(Live), Effect.runPromise);
