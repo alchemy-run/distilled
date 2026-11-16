@@ -26,7 +26,7 @@ const program = Effect.gen(function* () {
   return { packages: objects.map((result) => result.package?.name), isPublic };
 });
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, Npm.CredentialsFromEnv, Npm.NpmProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, Npm.CredentialsFromEnv);
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```

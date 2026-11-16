@@ -29,7 +29,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Convex.CredentialsFromEnv,
-  Convex.ConvexProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -67,8 +66,6 @@ const program = Effect.gen(function* () {
 
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
-  Convex.ConvexDeploymentProtocol,
-  Convex.ConvexFunctionsProtocol,
   Convex.fromDeployment({
     url: "https://happy-otter-123.convex.cloud",
     token: Redacted.make(process.env.CONVEX_ACCESS_TOKEN!),

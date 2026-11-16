@@ -19,7 +19,7 @@
  * const program = Api.search({ query: "Effect TypeScript", numResults: 3 });
  *
  * program.pipe(
- *   Effect.provide(Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv, Exa.ExaProtocol)),
+ *   Effect.provide(Layer.mergeAll(FetchHttpClient.layer, Exa.CredentialsFromEnv)),
  *   Effect.runPromise,
  * );
  * ```
