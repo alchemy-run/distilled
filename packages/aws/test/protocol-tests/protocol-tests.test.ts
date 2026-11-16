@@ -4,9 +4,6 @@
  * is replayed through a fake HttpClient. A request case checks the request
  * the operation sends; a response case checks what the operation decodes
  * from the canned response, a result or a typed error.
- *
- * Cases in failures.txt are expected to fail: a case missing from it that
- * fails, and a case in it that passes, both fail this file.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -30,15 +27,6 @@ const dir = import.meta.dirname;
 const generatedDir = path.join(dir, ".generated");
 const model: { shapes: Record<string, Shape> } = JSON.parse(
   fs.readFileSync(path.join(dir, "model.json"), "utf8"),
-);
-
-/** `failures.txt`: one case id per line, `#` starts a comment. */
-const expectedFailures = new Set(
-  fs
-    .readFileSync(path.join(dir, "failures.txt"), "utf8")
-    .split("\n")
-    .map((line) => line.replace(/#.*/, "").trim())
-    .filter((line) => line !== ""),
 );
 
 /** The test services of the protocols the runtime implements. */
@@ -455,13 +443,8 @@ const lowerFirst = (name: string) => name.charAt(0).toLowerCase() + name.slice(1
 const shapeName = (id: string) => id.split("#")[1]!;
 const header = (headers: Record<string, string>, name: string) => headers[name.toLowerCase()];
 
-const registered = new Set<string>();
-
-/** A request case and a response case can share an id. */
-const register = (id: string, run: () => Promise<void>) => {
-  registered.add(id);
-  return expectedFailures.has(id) ? test.fails(id, run) : test(id, run);
-};
+/** A request case and a response case can share an id: the name says which. */
+const register = (id: string, run: () => Promise<void>) => test(id, run);
 
 // Idempotency tokens the client fills in: the cases expect this one.
 beforeAll(() => {
@@ -617,7 +600,3 @@ for (const serviceId of SERVICES) {
     }
   });
 }
-
-test("failures.txt lists only cases that exist", () => {
-  expect([...expectedFailures].filter((id) => !registered.has(id))).toEqual([]);
-});

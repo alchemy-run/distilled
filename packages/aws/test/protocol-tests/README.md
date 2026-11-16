@@ -10,10 +10,6 @@ The AWS runtime's wire protocols (`awsJson1_0`, `awsJson1_1`, `awsQuery`, `ec2Qu
 
 Cases that apply only to servers are skipped, and so are cases tagged `defaults`: they expect the client to fill in `@default` values the caller or the server left out, and the SDK sends and returns only the values it was given (the AWS SDK for JavaScript skips them too). `rpcv2Cbor` is not run: the runtime has no CBOR protocol.
 
-## Expected failures
-
-`failures.txt` lists the cases the runtime fails today, grouped by cause. The test fails on a failing case missing from the list, and on a listed case that passes, so a fix has to delete its lines.
-
 Request cases on operations with an `@endpoint` host prefix are skipped too. The runner sends every call to one custom endpoint, and the runtime adds no host prefix to a custom endpoint: an emulator or proxy serves every operation on the host it names.
 
 ## Updating
@@ -24,4 +20,4 @@ Request cases on operations with an `@endpoint` host prefix are skipped too. The
 packages/aws/test/protocol-tests/update.sh
 ```
 
-To move to a new release, change `SMITHY_VERSION` in `update.sh` and the artifact version in `smithy-build.json`, run it, then update `failures.txt` from the test's output.
+To move to a new release, change `SMITHY_VERSION` in `update.sh` and the artifact version in `smithy-build.json`, run it, then fix what the test reports.
