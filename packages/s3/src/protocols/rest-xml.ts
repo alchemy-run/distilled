@@ -56,6 +56,7 @@ import {
   isStringAST,
   unwrapUnion,
 } from "../util/ast.ts";
+import { fromBase64, toBase64 } from "../util/base64.ts";
 import { errorBody, inputEncoderSync } from "../util/codec.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
 import { headerReader } from "../util/headers.ts";
@@ -64,6 +65,7 @@ import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
 import {
   convertStreamingInput,
   readableToEffectStream,
+  readStreamAsBytes,
   readStreamAsText,
   type StreamBody,
 } from "../util/stream.ts";
@@ -108,6 +110,8 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
       getIdentifier(payloadProp.type))
     : undefined;
   const payloadIsStreaming = payloadProp ? isStreamingType(payloadProp.type) : false;
+  // A non-streaming blob payload (T.Blob): the body's raw bytes.
+  const payloadIsBlob = payloadProp ? getIdentifier(payloadProp.type) === "Blob" : false;
   const payloadMediaType = payloadProp ? getMediaType(payloadProp) : undefined;
   // A document root carries its shape's namespace, or the service's.
   const inputXmlNamespace = rootNs(inputAst);
@@ -132,6 +136,8 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     isEventStream: boolean;
     eventSchema?: S.Schema<unknown>;
     isRawString: boolean;
+    /** A non-streaming blob (T.Blob): the raw body bytes, base64 on the wire side. */
+    isBlob: boolean;
     xmlName?: string;
   };
 
@@ -168,6 +174,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         isEventStream,
         eventSchema: isEventStream ? getEventSchema(prop.type) : undefined,
         isRawString: unwrapped._tag === "Union" || unwrapped._tag === "String",
+        isBlob: getIdentifier(prop.type) === "Blob",
         // Use property name as fallback when type annotations aren't preserved
         // (e.g., when using Schema.pipe to add HttpPayload annotation)
         xmlName: getXmlNameFromAST(prop.type) ?? getIdentifier(prop.type) ?? name,
@@ -199,6 +206,12 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         // A blob payload's @mediaType is its Content-Type, unless a header member set one.
         if (payloadMediaType !== undefined && request.headers["Content-Type"] === undefined) {
           request.headers["Content-Type"] = payloadMediaType;
+        }
+      } else if (payloadIsBlob) {
+        // The encoder made the bytes base64; the body is the bytes.
+        request.body = fromBase64(payloadValue as string);
+        if (request.headers["Content-Type"] === undefined) {
+          request.headers["Content-Type"] = payloadMediaType ?? "application/octet-stream";
         }
       } else if (typeof payloadValue === "string") {
         request.body = payloadValue;
@@ -255,9 +268,16 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     deserializeText,
 
     deserializeStream: (response) => {
-      // Streaming output payload; everything else is read as text.
-      if (!outputPayloadProp?.isStreaming) return undefined;
+      // Streaming and blob output payloads; everything else is read as text.
+      if (!outputPayloadProp?.isStreaming && !outputPayloadProp?.isBlob) return undefined;
       const result = bindResponse(response);
+      if (!outputPayloadProp.isStreaming) {
+        // A blob payload is the body's bytes, base64 for the schema decoder.
+        return Effect.map(readStreamAsBytes(response.body), (bytes) => {
+          if (bytes.byteLength > 0) result[outputPayloadProp.name] = toBase64(bytes);
+          return result;
+        });
+      }
       if (outputPayloadProp.isEventStream && response.body) {
         // Parse event stream with XML payload parser
         const xmlPayloadParser: PayloadParser = (payload: Uint8Array) => {

@@ -82,9 +82,6 @@ RestJsonSerializesSparseSetMapAndRetainsNull (request)
 RestJsonSparseListsSerializeNull (request)
 RestJsonSparseListsSerializeNull (response)
 
-# Content-Type is sent with no body, and a payload's `@mediaType` is ignored.
-RestJsonHttpPayloadTraitsWithBlob (request)
-
 # awsJson applies `@jsonName`, which only restJson1 honours; restJson1 ignores
 # it on union members.
 AwsJson10ComplexError (error)
@@ -111,11 +108,6 @@ XmlNamespaceSimpleScalarProperties (request)
 # An empty streaming body comes back as an empty stream, as in the AWS
 # SDKs (S3 GetObject of an empty object); the case expects no member.
 RestJsonStreamingTraitsWithNoBlobBody (response)
-
-# A non-streaming blob `@httpPayload` is sent base64-encoded.
-HttpPayloadTraitsWithBlob (request)
-HttpPayloadTraitsWithBlob (response)
-RestJsonTestPayloadBlob (request)
 
 # An empty structure `@httpPayload` is sent with no body; Smithy expects "{}".
 RestJsonHttpWithEmptyStructurePayload (request)
