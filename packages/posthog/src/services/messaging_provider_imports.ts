@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -148,6 +149,7 @@ export const createMessagingProviderImport: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateMessagingProviderImportRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<ProviderImportRun>,
   errors: [BadRequest, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -165,6 +167,7 @@ export const getMessagingProviderImport: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<GetMessagingProviderImportRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<ProviderImportRun>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -182,6 +185,7 @@ export const listMessagingProviderImports: API.OperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<ListMessagingProviderImportsRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<ListMessagingProviderImportsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -199,6 +203,7 @@ export const listMessagingProviderImportsProviders: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<ListMessagingProviderImportsProvidersRequest>,
   output: __S(37, __c4, 5) as any as S.Schema<ListMessagingProviderImportsProvidersResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

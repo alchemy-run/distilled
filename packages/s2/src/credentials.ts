@@ -48,6 +48,9 @@ export class Credentials
     "S2Credentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `S2_ACCESS_TOKEN` / `S2_BASIN` are what the official `s2` CLI reads.
   token: /*@__PURE__*/ EffectConfig.Redacted("S2_ACCESS_TOKEN"),

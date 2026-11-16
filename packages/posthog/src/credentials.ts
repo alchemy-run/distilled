@@ -34,6 +34,9 @@ export class Credentials
     "PosthogCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.Redacted("POSTHOG_API_KEY"),
   apiBaseUrl: /*@__PURE__*/ EffectConfig.String("POSTHOG_HOST").pipe(

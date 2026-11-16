@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -117,6 +118,7 @@ export const createMessagingSupabaseAuthEmailsStarterTemplate: API.OperationMeth
   ) as any as S.Schema<CreateMessagingSupabaseAuthEmailsStarterTemplateRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<SupabaseAuthEmailSettings>,
   errors: [BadRequest],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -134,6 +136,7 @@ export const getMessagingSupabaseAuthEmailsSettings: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<GetMessagingSupabaseAuthEmailsSettingsRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<SupabaseAuthEmailSettings>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -151,6 +154,7 @@ export const messagingSupabaseAuthEmailsSettingsDestroy: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<MessagingSupabaseAuthEmailsSettingsDestroyRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<SupabaseAuthEmailSettings>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -172,6 +176,7 @@ export const updateMessagingSupabaseAuthEmailsSettingsPartial: API.OperationMeth
   ) as any as S.Schema<UpdateMessagingSupabaseAuthEmailsSettingsPartialRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<SupabaseAuthEmailSettings>,
   errors: [BadRequest],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

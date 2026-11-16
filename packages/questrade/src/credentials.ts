@@ -48,6 +48,9 @@ export class Credentials
     "QuestradeCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** One redemption of a refresh token. */
 export interface Tokens {
   readonly accessToken: Redacted.Redacted<string>;

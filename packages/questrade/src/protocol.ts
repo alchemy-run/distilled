@@ -1,7 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { Protocol } from "@distilled.cloud/core/protocol";
+import {
+  restProtocol,
+  unknownErrorProps,
+  type RestProtocolError,
+} from "@distilled.cloud/core/protocol-rest";
 /**
  * Questrade protocol -- the shared REST protocol with Questrade's auth.
  *
@@ -17,34 +19,48 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { QuestradeParseError, UnknownQuestradeError, type DefaultErrors } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import {
+  QuestradeParseError,
+  UnknownQuestradeError,
+  type QuestradeServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Questrade operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * QuestradeOpError, QuestradeOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * The errors declared on Questrade's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link QuestradeParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownQuestradeError}), and
+ * core's REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type QuestradeOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type QuestradeProtocolError =
+  | RestProtocolError
+  | QuestradeParseError
+  | UnknownQuestradeError;
+
+/**
+ * What every generated Questrade operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, QuestradeOpError, QuestradeOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
+ */
+export type QuestradeOpError = QuestradeServiceError | QuestradeProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Questrade operation. */
 export type QuestradeOpContext = Credentials | HttpClient.HttpClient;
 
-export const QuestradeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the calling fiber per request, so a refreshed token is
-  // picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiServer,
-  headers: (creds) => ({ authorization: `Bearer ${Redacted.value(creds.accessToken)}` }),
-  unknownError: (info) => new UnknownQuestradeError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new QuestradeParseError({ body, cause }),
-});
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const QuestradeProtocol: Protocol<QuestradeProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // Resolved on the calling fiber per request, so a refreshed token is picked
+    // up.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiServer,
+    headers: (creds) => ({ authorization: `Bearer ${Redacted.value(creds.accessToken)}` }),
+    unknownError: (info) => new UnknownQuestradeError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new QuestradeParseError({ body, cause }),
+  });

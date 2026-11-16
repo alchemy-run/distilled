@@ -1,17 +1,16 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * PorkbunProtocol -- hand-written.
  *
  * Porkbun speaks JSON REST authenticated with `X-API-Key` /
  * `X-Secret-API-Key` (no success envelope), so the whole protocol is one
- * `makeRestProtocol` call from `core/protocol-rest`:
+ * `restProtocol` call from `core/protocol-rest`:
  *
  *   request:  credentials -> `X-API-Key` + `X-Secret-API-Key` + base URL
  *             (default https://api.porkbun.com/api/json/v3), resolved from
@@ -25,25 +24,27 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
-import { Credentials, formatHeaders, type Config } from "./credentials.ts";
-import { UnknownPorkbunError, PorkbunParseError } from "./errors.ts";
+import { Credentials, formatHeaders, type CredentialsError } from "./credentials.ts";
+import { UnknownPorkbunError, PorkbunParseError, type PorkbunServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Porkbun operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * PorkbunOpError, PorkbunOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * The errors declared on Porkbun's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link PorkbunParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownPorkbunError}), and core's
+ * REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type PorkbunOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownPorkbunError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | PorkbunParseError
-  | InvalidInput
-  | SdkError;
+export type PorkbunProtocolError = RestProtocolError | PorkbunParseError | UnknownPorkbunError;
+
+/**
+ * What every generated Porkbun operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, PorkbunOpError, PorkbunOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
+ */
+export type PorkbunOpError = PorkbunServiceError | PorkbunProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Porkbun operation. */
 export type PorkbunOpContext = Credentials | HttpClient.HttpClient;
@@ -63,13 +64,16 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const PorkbunProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => formatHeaders(creds),
-  errorEnvelope,
-  unknownError: (info) => new UnknownPorkbunError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new PorkbunParseError({ body, cause }),
-});
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const PorkbunProtocol: Protocol<PorkbunProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => formatHeaders(creds),
+    errorEnvelope,
+    unknownError: (info) => new UnknownPorkbunError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new PorkbunParseError({ body, cause }),
+  });
