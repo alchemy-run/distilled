@@ -94,13 +94,14 @@ export class OAuthRefreshError
     cause?: unknown;
   }> {}
 
-export type CredentialsError = ConfigError | OAuthRefreshError;
-
 export class Credentials
   extends /*@__PURE__*/ Context.Service<
     Credentials,
-    Effect.Effect<ResolvedCredentials, CredentialsError, never>
+    Effect.Effect<ResolvedCredentials, ConfigError | OAuthRefreshError>
   >()("CloudflareCredentials") {}
+
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
 
 const resolveApiBaseUrl = (apiBaseUrl?: string): string => apiBaseUrl ?? DEFAULT_API_BASE_URL;
 
