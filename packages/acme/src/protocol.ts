@@ -42,6 +42,7 @@ import {
   validateResponse,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, labelSymbol } from "@distilled.cloud/core/trait";
 import * as Effect from "effect/Effect";
 import type * as HttpBody from "effect/http/HttpBody";
@@ -88,7 +89,13 @@ export type AcmeProtocolError =
  * `API.OperationMethod<I, O, AcmeOpError, AcmeOpContext>` explicitly so the
  * compiler never infers these back out of the schema generics.
  */
-export type AcmeOpError = AcmeServiceError | AcmeProtocolError | CredentialsError;
+export type AcmeOpError =
+  | AcmeServiceError
+  | AcmeProtocolError
+  | CredentialsError
+  // Not the protocol's: core fails a call with it when the operation can't
+  // be loaded (`API.make`), and its type does not say so yet.
+  | SdkError;
 
 /** Context (requirements) shared by every generated ACME operation. */
 export type AcmeOpContext = Credentials | HttpClient.HttpClient;
