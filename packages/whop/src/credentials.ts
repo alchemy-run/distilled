@@ -59,6 +59,9 @@ export class Credentials
     "WhopCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `WHOP_API_KEY` is what Whop's dashboard, CLI and app templates emit.
   apiKey: /*@__PURE__*/ EffectConfig.String("WHOP_API_KEY"),
