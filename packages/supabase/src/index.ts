@@ -22,6 +22,7 @@ export {
   DEFAULT_API_BASE_URL,
   type Config,
   Credentials,
+  type CredentialsError,
   CredentialsFromEnv,
   credentials,
   formatHeaders,
@@ -46,6 +47,8 @@ export {
   UnknownSupabaseError,
   FreeProjectLimitReached,
   SupabaseParseError,
+  SupabaseServiceErrors,
+  type SupabaseServiceError,
   type ClientErrors,
   type DefaultErrors,
 } from "./errors.ts";
