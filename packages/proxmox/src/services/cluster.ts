@@ -193,7 +193,7 @@ export interface DeleteClusterSdnVnetsByVnetIpsRequest {
   ip: string;
   mac?: string | undefined;
   vnet: string;
-  zone: string;
+  zone?: string | undefined;
 }
 export type DeleteClusterSdnVnetsByVnetIpsResponse = null;
 export interface DeleteClusterSdnVnetsByVnetSubnetsBySubnetRequest {
@@ -793,6 +793,7 @@ export type GetClusterCephResult = Array<GetClusterCephResultItem>;
 export type GetClusterCephResponse = GetClusterCephResult;
 export interface GetClusterCephFlagsRequest {}
 export type GetClusterCephFlagsResultItemName =
+  | "noautoscale"
   | "nobackfill"
   | "nodeep-scrub"
   | "nodown"
@@ -812,6 +813,7 @@ export interface GetClusterCephFlagsResultItem {
 export type GetClusterCephFlagsResult = Array<GetClusterCephFlagsResultItem>;
 export type GetClusterCephFlagsResponse = GetClusterCephFlagsResult;
 export type GetClusterCephFlagsByFlagRequestFlag =
+  | "noautoscale"
   | "nobackfill"
   | "nodeep-scrub"
   | "nodown"
@@ -1568,6 +1570,7 @@ export type GetClusterNotificationsMatchersResultItemTarget = Array<string>;
 export interface GetClusterNotificationsMatchersResultItem {
   comment?: string | undefined;
   disable?: boolean | 0 | 1 | undefined;
+  expression?: string | undefined;
   "invert-match"?: boolean | 0 | 1 | undefined;
   "match-calendar"?: GetClusterNotificationsMatchersResultItemMatchCalendar | undefined;
   "match-field"?: GetClusterNotificationsMatchersResultItemMatchField | undefined;
@@ -1581,6 +1584,7 @@ export type GetClusterNotificationsMatchersResult =
   Array<GetClusterNotificationsMatchersResultItem>;
 export type GetClusterNotificationsMatchersResponse = GetClusterNotificationsMatchersResult;
 export interface GetClusterNotificationsMatchersByNameRequest {
+  "migrate-to-expression"?: boolean | 0 | 1 | undefined;
   name: string;
 }
 export type GetClusterNotificationsMatchersByNameResultMatchCalendar = Array<string>;
@@ -1592,6 +1596,7 @@ export interface GetClusterNotificationsMatchersByNameResult {
   comment?: string | undefined;
   digest?: string | undefined;
   disable?: boolean | 0 | 1 | undefined;
+  expression?: string | undefined;
   "invert-match"?: boolean | 0 | 1 | undefined;
   "match-calendar"?: GetClusterNotificationsMatchersByNameResultMatchCalendar | undefined;
   "match-field"?: GetClusterNotificationsMatchersByNameResultMatchField | undefined;
@@ -1739,9 +1744,12 @@ export type GetClusterQemuCustomCpuModelsResultItemReportedModel =
   | "Cascadelake-Server-v2"
   | "Cascadelake-Server-v4"
   | "Cascadelake-Server-v5"
+  | "Cascadelake-Server-v6"
+  | "Cascadelake-Server-v7"
   | "ClearwaterForest"
   | "ClearwaterForest-v2"
   | "ClearwaterForest-v3"
+  | "ClearwaterForest-v4"
   | "Conroe"
   | "Cooperlake"
   | "Cooperlake-v2"
@@ -1756,19 +1764,23 @@ export type GetClusterQemuCustomCpuModelsResultItemReportedModel =
   | "cortex-a76"
   | "cortex-a78ae"
   | "DiamondRapids"
+  | "DiamondRapids-v2"
   | "EPYC"
   | "EPYC-Genoa"
   | "EPYC-Genoa-v2"
+  | "EPYC-Genoa-v3"
   | "EPYC-IBPB"
   | "EPYC-Milan"
   | "EPYC-Milan-v2"
   | "EPYC-Milan-v3"
+  | "EPYC-Milan-v4"
   | "EPYC-Rome"
   | "EPYC-Rome-v2"
   | "EPYC-Rome-v3"
   | "EPYC-Rome-v4"
   | "EPYC-Rome-v5"
   | "EPYC-Turin"
+  | "EPYC-Turin-v2"
   | "EPYC-v3"
   | "EPYC-v4"
   | "EPYC-v5"
@@ -1777,6 +1789,8 @@ export type GetClusterQemuCustomCpuModelsResultItemReportedModel =
   | "GraniteRapids-v3"
   | "GraniteRapids-v4"
   | "GraniteRapids-v5"
+  | "GraniteRapids-v6"
+  | "GraniteRapids-v7"
   | "Haswell"
   | "Haswell-IBRS"
   | "Haswell-noTSX"
@@ -1791,6 +1805,8 @@ export type GetClusterQemuCustomCpuModelsResultItemReportedModel =
   | "Icelake-Server-v5"
   | "Icelake-Server-v6"
   | "Icelake-Server-v7"
+  | "Icelake-Server-v8"
+  | "Icelake-Server-v9"
   | "IvyBridge"
   | "IvyBridge-IBRS"
   | "KnightsMill"
@@ -1822,11 +1838,14 @@ export type GetClusterQemuCustomCpuModelsResultItemReportedModel =
   | "SapphireRapids-v4"
   | "SapphireRapids-v5"
   | "SapphireRapids-v6"
+  | "SapphireRapids-v7"
+  | "SapphireRapids-v8"
   | "SierraForest"
   | "SierraForest-v2"
   | "SierraForest-v3"
   | "SierraForest-v4"
   | "SierraForest-v5"
+  | "SierraForest-v6"
   | "Skylake-Client"
   | "Skylake-Client-IBRS"
   | "Skylake-Client-noTSX-IBRS"
@@ -1836,6 +1855,7 @@ export type GetClusterQemuCustomCpuModelsResultItemReportedModel =
   | "Skylake-Server-noTSX-IBRS"
   | "Skylake-Server-v4"
   | "Skylake-Server-v5"
+  | "Skylake-Server-v6"
   | "Westmere"
   | "Westmere-IBRS";
 export interface GetClusterQemuCustomCpuModelsResultItem {
@@ -1867,9 +1887,12 @@ export type GetClusterQemuCustomCpuModelsByCputypeResultReportedModel =
   | "Cascadelake-Server-v2"
   | "Cascadelake-Server-v4"
   | "Cascadelake-Server-v5"
+  | "Cascadelake-Server-v6"
+  | "Cascadelake-Server-v7"
   | "ClearwaterForest"
   | "ClearwaterForest-v2"
   | "ClearwaterForest-v3"
+  | "ClearwaterForest-v4"
   | "Conroe"
   | "Cooperlake"
   | "Cooperlake-v2"
@@ -1884,19 +1907,23 @@ export type GetClusterQemuCustomCpuModelsByCputypeResultReportedModel =
   | "cortex-a76"
   | "cortex-a78ae"
   | "DiamondRapids"
+  | "DiamondRapids-v2"
   | "EPYC"
   | "EPYC-Genoa"
   | "EPYC-Genoa-v2"
+  | "EPYC-Genoa-v3"
   | "EPYC-IBPB"
   | "EPYC-Milan"
   | "EPYC-Milan-v2"
   | "EPYC-Milan-v3"
+  | "EPYC-Milan-v4"
   | "EPYC-Rome"
   | "EPYC-Rome-v2"
   | "EPYC-Rome-v3"
   | "EPYC-Rome-v4"
   | "EPYC-Rome-v5"
   | "EPYC-Turin"
+  | "EPYC-Turin-v2"
   | "EPYC-v3"
   | "EPYC-v4"
   | "EPYC-v5"
@@ -1905,6 +1932,8 @@ export type GetClusterQemuCustomCpuModelsByCputypeResultReportedModel =
   | "GraniteRapids-v3"
   | "GraniteRapids-v4"
   | "GraniteRapids-v5"
+  | "GraniteRapids-v6"
+  | "GraniteRapids-v7"
   | "Haswell"
   | "Haswell-IBRS"
   | "Haswell-noTSX"
@@ -1919,6 +1948,8 @@ export type GetClusterQemuCustomCpuModelsByCputypeResultReportedModel =
   | "Icelake-Server-v5"
   | "Icelake-Server-v6"
   | "Icelake-Server-v7"
+  | "Icelake-Server-v8"
+  | "Icelake-Server-v9"
   | "IvyBridge"
   | "IvyBridge-IBRS"
   | "KnightsMill"
@@ -1950,11 +1981,14 @@ export type GetClusterQemuCustomCpuModelsByCputypeResultReportedModel =
   | "SapphireRapids-v4"
   | "SapphireRapids-v5"
   | "SapphireRapids-v6"
+  | "SapphireRapids-v7"
+  | "SapphireRapids-v8"
   | "SierraForest"
   | "SierraForest-v2"
   | "SierraForest-v3"
   | "SierraForest-v4"
   | "SierraForest-v5"
+  | "SierraForest-v6"
   | "Skylake-Client"
   | "Skylake-Client-IBRS"
   | "Skylake-Client-noTSX-IBRS"
@@ -1964,6 +1998,7 @@ export type GetClusterQemuCustomCpuModelsByCputypeResultReportedModel =
   | "Skylake-Server-noTSX-IBRS"
   | "Skylake-Server-v4"
   | "Skylake-Server-v5"
+  | "Skylake-Server-v6"
   | "Westmere"
   | "Westmere-IBRS";
 export interface GetClusterQemuCustomCpuModelsByCputypeResult {
@@ -1991,6 +2026,7 @@ export interface GetClusterReplicationResultItem {
   rate?: number | undefined;
   remove_job?: GetClusterReplicationResultItemRemoveJob | undefined;
   schedule?: string | undefined;
+  "skip-freeze-fs"?: boolean | 0 | 1 | undefined;
   source?: string | undefined;
   target: string;
   type: GetClusterReplicationResultItemType;
@@ -2012,6 +2048,7 @@ export interface GetClusterReplicationByIdResult {
   rate?: number | undefined;
   remove_job?: GetClusterReplicationByIdResultRemoveJob | undefined;
   schedule?: string | undefined;
+  "skip-freeze-fs"?: boolean | 0 | 1 | undefined;
   source?: string | undefined;
   target: string;
   type: GetClusterReplicationByIdResultType;
@@ -3460,6 +3497,7 @@ export type PostClusterNotificationsMatchersRequestTarget = Array<string>;
 export interface PostClusterNotificationsMatchersRequest {
   comment?: string | undefined;
   disable?: boolean | 0 | 1 | undefined;
+  expression?: string | undefined;
   "invert-match"?: boolean | 0 | 1 | undefined;
   "match-calendar"?: PostClusterNotificationsMatchersRequestMatchCalendar | undefined;
   "match-field"?: PostClusterNotificationsMatchersRequestMatchField | undefined;
@@ -3486,9 +3524,12 @@ export type PostClusterQemuCustomCpuModelsRequestReportedModel =
   | "Cascadelake-Server-v2"
   | "Cascadelake-Server-v4"
   | "Cascadelake-Server-v5"
+  | "Cascadelake-Server-v6"
+  | "Cascadelake-Server-v7"
   | "ClearwaterForest"
   | "ClearwaterForest-v2"
   | "ClearwaterForest-v3"
+  | "ClearwaterForest-v4"
   | "Conroe"
   | "Cooperlake"
   | "Cooperlake-v2"
@@ -3503,19 +3544,23 @@ export type PostClusterQemuCustomCpuModelsRequestReportedModel =
   | "cortex-a76"
   | "cortex-a78ae"
   | "DiamondRapids"
+  | "DiamondRapids-v2"
   | "EPYC"
   | "EPYC-Genoa"
   | "EPYC-Genoa-v2"
+  | "EPYC-Genoa-v3"
   | "EPYC-IBPB"
   | "EPYC-Milan"
   | "EPYC-Milan-v2"
   | "EPYC-Milan-v3"
+  | "EPYC-Milan-v4"
   | "EPYC-Rome"
   | "EPYC-Rome-v2"
   | "EPYC-Rome-v3"
   | "EPYC-Rome-v4"
   | "EPYC-Rome-v5"
   | "EPYC-Turin"
+  | "EPYC-Turin-v2"
   | "EPYC-v3"
   | "EPYC-v4"
   | "EPYC-v5"
@@ -3524,6 +3569,8 @@ export type PostClusterQemuCustomCpuModelsRequestReportedModel =
   | "GraniteRapids-v3"
   | "GraniteRapids-v4"
   | "GraniteRapids-v5"
+  | "GraniteRapids-v6"
+  | "GraniteRapids-v7"
   | "Haswell"
   | "Haswell-IBRS"
   | "Haswell-noTSX"
@@ -3538,6 +3585,8 @@ export type PostClusterQemuCustomCpuModelsRequestReportedModel =
   | "Icelake-Server-v5"
   | "Icelake-Server-v6"
   | "Icelake-Server-v7"
+  | "Icelake-Server-v8"
+  | "Icelake-Server-v9"
   | "IvyBridge"
   | "IvyBridge-IBRS"
   | "KnightsMill"
@@ -3569,11 +3618,14 @@ export type PostClusterQemuCustomCpuModelsRequestReportedModel =
   | "SapphireRapids-v4"
   | "SapphireRapids-v5"
   | "SapphireRapids-v6"
+  | "SapphireRapids-v7"
+  | "SapphireRapids-v8"
   | "SierraForest"
   | "SierraForest-v2"
   | "SierraForest-v3"
   | "SierraForest-v4"
   | "SierraForest-v5"
+  | "SierraForest-v6"
   | "Skylake-Client"
   | "Skylake-Client-IBRS"
   | "Skylake-Client-noTSX-IBRS"
@@ -3583,6 +3635,7 @@ export type PostClusterQemuCustomCpuModelsRequestReportedModel =
   | "Skylake-Server-noTSX-IBRS"
   | "Skylake-Server-v4"
   | "Skylake-Server-v5"
+  | "Skylake-Server-v6"
   | "Westmere"
   | "Westmere-IBRS";
 export interface PostClusterQemuCustomCpuModelsRequest {
@@ -3605,6 +3658,7 @@ export interface PostClusterReplicationRequest {
   rate?: number | undefined;
   remove_job?: PostClusterReplicationRequestRemoveJob | (string & {}) | undefined;
   schedule?: string | undefined;
+  "skip-freeze-fs"?: boolean | 0 | 1 | undefined;
   source?: string | undefined;
   target: string;
   type: PostClusterReplicationRequestType | (string & {});
@@ -3793,7 +3847,7 @@ export interface PostClusterSdnVnetsByVnetIpsRequest {
   ip: string;
   mac?: string | undefined;
   vnet: string;
-  zone: string;
+  zone?: string | undefined;
 }
 export type PostClusterSdnVnetsByVnetIpsResponse = null;
 export type PostClusterSdnVnetsByVnetSubnetsRequestDhcpRange = Array<string>;
@@ -4083,6 +4137,7 @@ export interface PutClusterBackupByIdRequest {
 }
 export type PutClusterBackupByIdResponse = null;
 export interface PutClusterCephFlagsRequest {
+  noautoscale?: boolean | 0 | 1 | undefined;
   nobackfill?: boolean | 0 | 1 | undefined;
   "nodeep-scrub"?: boolean | 0 | 1 | undefined;
   nodown?: boolean | 0 | 1 | undefined;
@@ -4097,6 +4152,7 @@ export interface PutClusterCephFlagsRequest {
 }
 export type PutClusterCephFlagsResponse = string;
 export type PutClusterCephFlagsByFlagRequestFlag =
+  | "noautoscale"
   | "nobackfill"
   | "nodeep-scrub"
   | "nodown"
@@ -4121,7 +4177,7 @@ export interface PutClusterCephHealthMuteByCodeRequest {
 }
 export type PutClusterCephHealthMuteByCodeResponse = null;
 export interface PutClusterFirewallAliasesByNameRequest {
-  cidr: string;
+  cidr?: string | undefined;
   comment?: string | undefined;
   digest?: string | undefined;
   name: string;
@@ -4395,6 +4451,7 @@ export interface PutClusterNotificationsMatchersByNameRequest {
   delete?: PutClusterNotificationsMatchersByNameRequestDelete | undefined;
   digest?: string | undefined;
   disable?: boolean | 0 | 1 | undefined;
+  expression?: string | undefined;
   "invert-match"?: boolean | 0 | 1 | undefined;
   "match-calendar"?: PutClusterNotificationsMatchersByNameRequestMatchCalendar | undefined;
   "match-field"?: PutClusterNotificationsMatchersByNameRequestMatchField | undefined;
@@ -4501,9 +4558,12 @@ export type PutClusterQemuCustomCpuModelsByCputypeRequestReportedModel =
   | "Cascadelake-Server-v2"
   | "Cascadelake-Server-v4"
   | "Cascadelake-Server-v5"
+  | "Cascadelake-Server-v6"
+  | "Cascadelake-Server-v7"
   | "ClearwaterForest"
   | "ClearwaterForest-v2"
   | "ClearwaterForest-v3"
+  | "ClearwaterForest-v4"
   | "Conroe"
   | "Cooperlake"
   | "Cooperlake-v2"
@@ -4518,19 +4578,23 @@ export type PutClusterQemuCustomCpuModelsByCputypeRequestReportedModel =
   | "cortex-a76"
   | "cortex-a78ae"
   | "DiamondRapids"
+  | "DiamondRapids-v2"
   | "EPYC"
   | "EPYC-Genoa"
   | "EPYC-Genoa-v2"
+  | "EPYC-Genoa-v3"
   | "EPYC-IBPB"
   | "EPYC-Milan"
   | "EPYC-Milan-v2"
   | "EPYC-Milan-v3"
+  | "EPYC-Milan-v4"
   | "EPYC-Rome"
   | "EPYC-Rome-v2"
   | "EPYC-Rome-v3"
   | "EPYC-Rome-v4"
   | "EPYC-Rome-v5"
   | "EPYC-Turin"
+  | "EPYC-Turin-v2"
   | "EPYC-v3"
   | "EPYC-v4"
   | "EPYC-v5"
@@ -4539,6 +4603,8 @@ export type PutClusterQemuCustomCpuModelsByCputypeRequestReportedModel =
   | "GraniteRapids-v3"
   | "GraniteRapids-v4"
   | "GraniteRapids-v5"
+  | "GraniteRapids-v6"
+  | "GraniteRapids-v7"
   | "Haswell"
   | "Haswell-IBRS"
   | "Haswell-noTSX"
@@ -4553,6 +4619,8 @@ export type PutClusterQemuCustomCpuModelsByCputypeRequestReportedModel =
   | "Icelake-Server-v5"
   | "Icelake-Server-v6"
   | "Icelake-Server-v7"
+  | "Icelake-Server-v8"
+  | "Icelake-Server-v9"
   | "IvyBridge"
   | "IvyBridge-IBRS"
   | "KnightsMill"
@@ -4584,11 +4652,14 @@ export type PutClusterQemuCustomCpuModelsByCputypeRequestReportedModel =
   | "SapphireRapids-v4"
   | "SapphireRapids-v5"
   | "SapphireRapids-v6"
+  | "SapphireRapids-v7"
+  | "SapphireRapids-v8"
   | "SierraForest"
   | "SierraForest-v2"
   | "SierraForest-v3"
   | "SierraForest-v4"
   | "SierraForest-v5"
+  | "SierraForest-v6"
   | "Skylake-Client"
   | "Skylake-Client-IBRS"
   | "Skylake-Client-noTSX-IBRS"
@@ -4598,6 +4669,7 @@ export type PutClusterQemuCustomCpuModelsByCputypeRequestReportedModel =
   | "Skylake-Server-noTSX-IBRS"
   | "Skylake-Server-v4"
   | "Skylake-Server-v5"
+  | "Skylake-Server-v6"
   | "Westmere"
   | "Westmere-IBRS";
 export interface PutClusterQemuCustomCpuModelsByCputypeRequest {
@@ -4626,6 +4698,7 @@ export interface PutClusterReplicationByIdRequest {
   rate?: number | undefined;
   remove_job?: PutClusterReplicationByIdRequestRemoveJob | (string & {}) | undefined;
   schedule?: string | undefined;
+  "skip-freeze-fs"?: boolean | 0 | 1 | undefined;
   source?: string | undefined;
 }
 export type PutClusterReplicationByIdResponse = null;
@@ -4866,7 +4939,7 @@ export interface PutClusterSdnVnetsByVnetIpsRequest {
   mac?: string | undefined;
   vmid?: number | undefined;
   vnet: string;
-  zone: string;
+  zone?: string | undefined;
 }
 export type PutClusterSdnVnetsByVnetIpsResponse = null;
 export type PutClusterSdnVnetsByVnetSubnetsBySubnetRequestDhcpRange = Array<string>;
@@ -9777,6 +9850,7 @@ function __c28(j: number): any {
         S.Struct({
           comment: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          expression: S.optional(S.String),
           "invert-match": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "match-calendar": S.optional(__S(1776, __c222, 0)),
           "match-field": S.optional(__S(1776, __c222, 0)),
@@ -9800,6 +9874,9 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          "migrate-to-expression": S.optional(
+            S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query()),
+          ),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "/cluster/notifications/matchers/{name}", code: 200 }),
@@ -9811,6 +9888,7 @@ function __c29(j: number): any {
           comment: S.optional(S.String),
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          expression: S.optional(S.String),
           "invert-match": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "match-calendar": S.optional(__S(1776, __c222, 0)),
           "match-field": S.optional(__S(1776, __c222, 0)),
@@ -9994,6 +10072,7 @@ function __c37(j: number): any {
           rate: S.optional(S.Number),
           remove_job: S.optional(S.String),
           schedule: S.optional(S.String),
+          "skip-freeze-fs": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           source: S.optional(S.String),
           target: S.String,
           type: S.String,
@@ -10037,6 +10116,7 @@ function __c39(j: number): any {
           rate: S.optional(S.Number),
           remove_job: S.optional(S.String),
           schedule: S.optional(S.String),
+          "skip-freeze-fs": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           source: S.optional(S.String),
           target: S.String,
           type: S.String,
@@ -11609,6 +11689,7 @@ function __c131(j: number): any {
         S.Struct({
           comment: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          expression: S.optional(S.String),
           "invert-match": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "match-calendar": S.optional(__S(1776, __c222, 0)),
           "match-field": S.optional(__S(1776, __c222, 0)),
@@ -11660,6 +11741,7 @@ function __c134(j: number): any {
           rate: S.optional(S.Number),
           remove_job: S.optional(S.String),
           schedule: S.optional(S.String),
+          "skip-freeze-fs": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           source: S.optional(S.String),
           target: S.String,
           type: S.String,
@@ -11912,7 +11994,7 @@ function __c148(j: number): any {
           ip: S.String,
           mac: S.optional(S.String),
           vnet: S.String.pipe(T.Label()),
-          zone: S.String,
+          zone: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/cluster/sdn/vnets/{vnet}/ips", code: 200 })),
       ).annotate({ identifier: "PostClusterSdnVnetsByVnetIpsRequest" });
   }
@@ -12065,6 +12147,7 @@ function __c155(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          noautoscale: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           nobackfill: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "nodeep-scrub": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           nodown: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
@@ -12109,7 +12192,7 @@ function __c158(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cidr: S.String,
+          cidr: S.optional(S.String),
           comment: S.optional(S.String),
           digest: S.optional(S.String),
           name: S.String.pipe(T.Label()),
@@ -12471,6 +12554,7 @@ function __c177(j: number): any {
           delete: S.optional(__S(1776, __c222, 0)),
           digest: S.optional(S.String),
           disable: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          expression: S.optional(S.String),
           "invert-match": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           "match-calendar": S.optional(__S(1776, __c222, 0)),
           "match-field": S.optional(__S(1776, __c222, 0)),
@@ -12552,6 +12636,7 @@ function __c180(j: number): any {
           rate: S.optional(S.Number),
           remove_job: S.optional(S.String),
           schedule: S.optional(S.String),
+          "skip-freeze-fs": S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
           source: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/cluster/replication/{id}", code: 200 })),
       ).annotate({ identifier: "PutClusterReplicationByIdRequest" });
@@ -12841,7 +12926,7 @@ function __c195(j: number): any {
           mac: S.optional(S.String),
           vmid: S.optional(S.Number),
           vnet: S.String.pipe(T.Label()),
-          zone: S.String,
+          zone: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/cluster/sdn/vnets/{vnet}/ips", code: 200 })),
       ).annotate({ identifier: "PutClusterSdnVnetsByVnetIpsRequest" });
   }
@@ -13058,7 +13143,7 @@ function __c209(j: number): any {
           ip: S.String.pipe(T.Query()),
           mac: S.optional(S.String.pipe(T.Query())),
           vnet: S.String.pipe(T.Label()),
-          zone: S.String.pipe(T.Query()),
+          zone: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/cluster/sdn/vnets/{vnet}/ips", code: 200 })),
       ).annotate({ identifier: "DeleteClusterSdnVnetsByVnetIpsRequest" });
   }

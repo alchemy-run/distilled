@@ -29,22 +29,32 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: CustomerTaskBulkUpdateError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: CustomerTaskBulkUpdateError | string;
+}
 
 /** * `open` - Open * `in_progress` - In progress * `completed` - Completed * `canceled` - Canceled */
 export type CustomerTaskStatusEnum = "open" | "in_progress" | "completed" | "canceled";
@@ -290,6 +300,10 @@ export interface UpdateCustomerTasksPartialRequest {
   /** Replacement description, or null to clear it. */
   description?: string | null | undefined;
 }
+export interface CustomerTaskBulkUpdateError {
+  /** Reason the batch could not be updated. */
+  detail: string;
+}
 export type CreateCustomerTaskError = PosthogOpError;
 export const createCustomerTask: API.OperationMethod<
   CreateCustomerTaskRequest,
@@ -297,8 +311,8 @@ export const createCustomerTask: API.OperationMethod<
   CreateCustomerTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateCustomerTaskRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<CustomerTask>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateCustomerTaskRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -313,8 +327,8 @@ export const customerTasksArchiveCreate: API.OperationMethod<
   CustomerTasksArchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CustomerTasksArchiveCreateRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<CustomerTask>,
+  input: __S(40, __c5, 0) as any as S.Schema<CustomerTasksArchiveCreateRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -330,8 +344,8 @@ export const customerTasksBulkUpdateCreate: API.OperationMethod<
   CustomerTasksBulkUpdateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(42, __c5, 2) as any as S.Schema<CustomerTasksBulkUpdateCreateRequest>,
-  output: __S(43, __c5, 3) as any as S.Schema<CustomerTaskBulkUpdateResult>,
+  input: __S(50, __c6, 2) as any as S.Schema<CustomerTasksBulkUpdateCreateRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<CustomerTaskBulkUpdateResult>,
   errors: [NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -346,8 +360,8 @@ export const customerTasksRestoreCreate: API.OperationMethod<
   CustomerTasksRestoreCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CustomerTasksRestoreCreateRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<CustomerTask>,
+  input: __S(56, __c7, 0) as any as S.Schema<CustomerTasksRestoreCreateRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -362,8 +376,8 @@ export const getCustomerTask: API.OperationMethod<
   GetCustomerTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetCustomerTaskRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<CustomerTask>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetCustomerTaskRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -378,8 +392,8 @@ export const listCustomerTasks: API.OperationMethod<
   ListCustomerTasksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListCustomerTasksRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<CustomerTaskPage>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListCustomerTasksRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<CustomerTaskPage>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -394,8 +408,8 @@ export const listCustomerTasksActivities: API.OperationMethod<
   ListCustomerTasksActivitiesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListCustomerTasksActivitiesRequest>,
-  output: __S(77, __c9, 5) as any as S.Schema<CustomerTaskActivityPage>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListCustomerTasksActivitiesRequest>,
+  output: __S(85, __c10, 5) as any as S.Schema<CustomerTaskActivityPage>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -410,8 +424,8 @@ export const updateCustomerTask: API.OperationMethod<
   UpdateCustomerTaskError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<UpdateCustomerTaskRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<CustomerTask>,
+  input: __S(88, __c11, 0) as any as S.Schema<UpdateCustomerTaskRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -426,8 +440,8 @@ export const updateCustomerTasksPartial: API.OperationMethod<
   UpdateCustomerTasksPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<UpdateCustomerTasksPartialRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<CustomerTask>,
+  input: __S(8, __c1, 0) as any as S.Schema<UpdateCustomerTasksPartialRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<CustomerTask>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -437,6 +451,16 @@ export const updateCustomerTasksPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "CustomerTaskBulkUpdateError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -459,7 +483,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "UpdateCustomerTasksPartialRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -477,7 +501,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateCustomerTaskRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -490,7 +514,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CustomerTaskUser" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -503,15 +527,15 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          account: S.NullOr(__S(24, __c3, 0)),
+          account: S.NullOr(__S(32, __c4, 0)),
           name: S.String,
           description: S.NullOr(S.String),
           status: S.String,
-          assigned_to: S.NullOr(__S(16, __c2, 0)),
+          assigned_to: S.NullOr(__S(24, __c3, 0)),
           due_at: S.NullOr(S.String),
           completed_at: S.NullOr(S.String),
-          completed_by: S.NullOr(__S(16, __c2, 0)),
-          created_by: S.NullOr(__S(16, __c2, 0)),
+          completed_by: S.NullOr(__S(24, __c3, 0)),
+          created_by: S.NullOr(__S(24, __c3, 0)),
           archived_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -521,7 +545,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CustomerTask" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -538,7 +562,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CustomerTasksArchiveCreateRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -556,8 +580,8 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          task_ids: __S(40, __c5, 0),
-          updates: __S(41, __c5, 1),
+          task_ids: __S(48, __c6, 0),
+          updates: __S(49, __c6, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -574,7 +598,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CustomerTaskBulkUpdateResult" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -591,7 +615,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CustomerTasksRestoreCreateRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -608,7 +632,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetCustomerTaskRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -630,19 +654,19 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListCustomerTasksRequest" });
     case 1:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(33, __c4, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(65, __c8, 1),
+          results: __S(73, __c9, 1),
         }),
       ).annotate({ identifier: "CustomerTaskPage" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -668,31 +692,31 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "CustomerTaskChange" });
     case 2:
-      return S.Array(__S(73, __c9, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           activity_type: S.String,
-          changes: __S(74, __c9, 2),
-          actor: S.NullOr(__S(16, __c2, 0)),
+          changes: __S(82, __c10, 2),
+          actor: S.NullOr(__S(24, __c3, 0)),
           created_at: S.String,
         }),
       ).annotate({ identifier: "CustomerTaskActivity" });
     case 4:
-      return S.Array(__S(75, __c9, 3));
+      return S.Array(__S(83, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(76, __c9, 4),
+          results: __S(84, __c10, 4),
         }),
       ).annotate({ identifier: "CustomerTaskActivityPage" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

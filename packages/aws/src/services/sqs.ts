@@ -17,7 +17,7 @@ const __s: any[] = [];
 const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "SQS", serviceShapeName: "AmazonSQS" });
 const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "sqs" });
 const ver = /*@__PURE__*/ T.ServiceVersion("2012-11-05");
-const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0({ awsQueryCompatible: true });
 const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({

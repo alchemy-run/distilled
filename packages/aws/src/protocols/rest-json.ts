@@ -21,18 +21,15 @@ import {
 import type { Request } from "@distilled.cloud/s3/client/request";
 import type { Response } from "@distilled.cloud/s3/client/response";
 import type { InputEvent } from "@distilled.cloud/s3/eventstream/serializer";
-import {
-  getEncodedPropertySignatures,
-  getIdentifier,
-  isBooleanAST,
-  isNumberAST,
-} from "@distilled.cloud/s3/util/ast";
+import { getEncodedPropertySignatures, getIdentifier } from "@distilled.cloud/s3/util/ast";
+import { fromBase64 } from "@distilled.cloud/s3/util/base64";
 import { inputEncoderSync, outputBody } from "@distilled.cloud/s3/util/codec";
 import {
   extractJsonErrorCode,
   extractJsonErrorData,
   sanitizeErrorCode,
 } from "@distilled.cloud/s3/util/error";
+import { headerReader, notBase64 } from "@distilled.cloud/s3/util/headers";
 import { extractStaticQueryParams } from "@distilled.cloud/s3/util/query-params";
 import { applyHttpTrait, bindInputToRequest } from "@distilled.cloud/s3/util/serialize-input";
 import {
@@ -58,6 +55,7 @@ import {
   getOutputEventPayloadMap,
   getHttpPrefixHeaders,
   getHttpQuery,
+  getMediaType,
   getPropAnnotations,
   getServiceVersion,
   hasHttpLabel,
@@ -91,8 +89,8 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     name: string;
     header: string;
     headerLower: string;
-    isNumber: boolean;
-    isBoolean: boolean;
+    /** The header's wire value: lists split, numbers and booleans parsed. */
+    read: (value: string) => unknown;
   };
   type PrefixHeaderProp = { name: string; prefix: string };
   type PayloadProp = {
@@ -125,8 +123,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
         name,
         header,
         headerLower: header.toLowerCase(),
-        isNumber: isNumberAST(prop.type),
-        isBoolean: isBooleanAST(prop.type),
+        read: headerReader(prop.type, getMediaType(prop)),
       });
     } else if (prefix !== undefined) {
       // An empty prefix binds every response header (Smithy
@@ -180,6 +177,13 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       !hasHttpPayload(prop),
   );
 
+  // The @mediaType of the input's payload member: its Content-Type.
+  const payloadMember = getEncodedPropertySignatures(inputAst).find(hasHttpPayload);
+  const payloadMediaType = payloadMember ? getMediaType(payloadMember) : undefined;
+  // An unset structure payload is sent as an empty JSON document, like body
+  // members (AWS SDK v3; Smithy RestJsonHttpWithEmptyStructurePayload).
+  const payloadIsStructure = payloadMember !== undefined && isStructure(payloadMember.type);
+
   const serialize = (input: unknown): Serialized => {
     const encoded = encodeInput(input);
 
@@ -230,13 +234,20 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
         request.hasStreamingInput = true;
         // Default to octet-stream for streaming payloads, unless user set explicitly
         if (!userSetContentType) {
-          request.headers["Content-Type"] = "application/octet-stream";
+          request.headers["Content-Type"] = payloadMediaType ?? "application/octet-stream";
+        }
+      } else if (isBlobPayload(payloadAst)) {
+        // A non-streaming blob payload is the body's raw bytes; the encoder
+        // made it base64.
+        request.body = fromBase64(payloadValue as string);
+        if (!userSetContentType) {
+          request.headers["Content-Type"] = payloadMediaType ?? "application/octet-stream";
         }
       } else if (isRawPayload(payloadAst)) {
         request.body = payloadValue as string;
-        // Default to JSON for raw payloads unless user set explicitly
+        // A string payload is text unless its @mediaType says otherwise.
         if (!userSetContentType) {
-          request.headers["Content-Type"] = "application/json";
+          request.headers["Content-Type"] = payloadMediaType ?? "text/plain";
         }
       } else {
         request.body = JSON.stringify(payloadValue);
@@ -251,17 +262,15 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       if (!userSetContentType) {
         request.headers["Content-Type"] = "application/json";
       }
-    } else {
-      if (hasBodyCapableInputMembers) {
-        // Body-capable members exist but none were set: send an explicit
-        // empty JSON document, matching AWS SDK v3 / botocore.
-        request.body = "{}";
-      }
-      // No body members set - default JSON content type for consistency
+    } else if (hasBodyCapableInputMembers || payloadIsStructure) {
+      // Body-capable members exist but none were set: send an explicit
+      // empty JSON document, matching AWS SDK v3 / botocore.
+      request.body = "{}";
       if (!userSetContentType) {
         request.headers["Content-Type"] = "application/json";
       }
     }
+    // A request with no body has no Content-Type.
 
     // Apply API Gateway customizations
     if (isApiGatewayService) {
@@ -277,9 +286,13 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     return eventBody === undefined ? built : Effect.map(eventBody, (body) => ({ ...built, body }));
   };
 
-  /** The members bound to the status code and headers. */
-  const bindResponse = (response: Response): Record<string, unknown> => {
+  /**
+   * The members bound to the status code and headers, or {@link Unreadable}
+   * with them as read when a `@mediaType` header is not base64.
+   */
+  const bindResponse = (response: Response): Record<string, unknown> | Unreadable => {
     const result: Record<string, unknown> = {};
+    let notBase64Header: string | undefined;
 
     // Extract HTTP response status code if bound to a property
     if (responseCodePropName) {
@@ -290,8 +303,9 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     for (const hp of headerProps) {
       const v = response.headers[hp.headerLower] ?? response.headers[hp.header];
       if (v !== undefined) {
-        // Convert string header values to appropriate types
-        result[hp.name] = hp.isNumber ? Number(v) : hp.isBoolean ? v === "true" : v;
+        const read = hp.read(v);
+        if (read === notBase64) notBase64Header ??= hp.header;
+        result[hp.name] = read === notBase64 ? v : read;
       }
     }
 
@@ -305,7 +319,14 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       }
       if (Object.keys(prefixed).length) result[php.name] = prefixed;
     }
-    return result;
+    return notBase64Header === undefined
+      ? result
+      : new Unreadable(
+          new ParseError({
+            message: `Response header ${notBase64Header} is not base64, as its @mediaType requires`,
+          }),
+          result,
+        );
   };
 
   return {
@@ -316,6 +337,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       // Streaming and blob payloads; everything else is read as text.
       if (!outputPayloadProp?.isStreaming && !outputPayloadProp?.isBlob) return undefined;
       const result = bindResponse(response);
+      if (result instanceof Unreadable) return Effect.succeed(result);
 
       if (outputPayloadProp.isStreaming) {
         if (outputPayloadProp.isEventStream && response.body) {
@@ -403,6 +425,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
 
   function deserializeText(response: TextResponse): unknown {
     const result = bindResponse(response);
+    if (result instanceof Unreadable) return result;
     const bodyText = response.body;
 
     // A string httpPayload is the body as-is, not a JSON document.
@@ -411,10 +434,11 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       return result;
     }
 
-    // Parse JSON body (reviver converts null -> undefined since AWS returns null for absent fields)
+    // Parse JSON body. A null is kept: the codec reads it as an absent
+    // member, and keeps it in a `@sparse` list or map.
     if (bodyText) {
       try {
-        const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
+        const parsed = JSON.parse(bodyText);
         if (outputPayloadProp) {
           // A structure, union or document payload is the whole body.
           result[outputPayloadProp.name] = parsed;
@@ -435,6 +459,20 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     return result;
   }
 };
+
+/**
+ * Whether the AST is a structure, optional or not: a union (even of one
+ * member), a map or a document is not.
+ */
+function isStructure(ast: AST.AST): boolean {
+  if (ast._tag === "Suspend") return isStructure(ast.thunk());
+  if (ast._tag === "Union") {
+    // S.optional(X) is X | undefined; any other union is a Smithy union.
+    const [only, ...rest] = ast.types.filter((t) => t._tag !== "Undefined");
+    return only !== undefined && rest.length === 0 && only._tag !== "Union" && isStructure(only);
+  }
+  return ast._tag === "Objects" && ast.indexSignatures.length === 0;
+}
 
 /** Check if AST represents a raw payload type (string, blob, stream) */
 function isRawPayload(ast: AST.AST): boolean {

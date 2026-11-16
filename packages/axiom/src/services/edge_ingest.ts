@@ -30,22 +30,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: IngestError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: IngestError | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -81,6 +91,12 @@ export interface IngestStatus {
   processedBytes: number;
   walLength: number;
 }
+export interface IngestError {
+  /** HTTP status code of the error */
+  code?: number | undefined;
+  /** A formatted user-facing error message */
+  message?: string | undefined;
+}
 export type IngestToDatasetError = BadRequest | NotFound | UnprocessableEntity | AxiomOpError;
 /** Ingests JSON, NDJSON, or CSV events into an events or logs dataset in this edge deployment. Events that fail are counted in `failed` and listed in `failures`. Events whose timestamp is more than 24 hours in the future or before the Unix epoch (1970-01-01T00:00:00Z) are rejected and not stored. Returns `400` when every event in the request is rejected and `430` when the organization has reached its ingest limit. */
 export const ingestToDataset: API.OperationMethod<
@@ -89,8 +105,8 @@ export const ingestToDataset: API.OperationMethod<
   IngestToDatasetError,
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<IngestToDatasetRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<IngestStatus>,
+  input: __S(4, __c1, 0) as any as S.Schema<IngestToDatasetRequest>,
+  output: __S(7, __c1, 3) as any as S.Schema<IngestStatus>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -100,6 +116,17 @@ export const ingestToDataset: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngestError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -126,13 +153,13 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "IngestFailure" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(5, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           blocksCreated: S.Number,
           failed: S.Number,
-          failures: S.optional(__S(2, __c0, 2)),
+          failures: S.optional(__S(6, __c1, 2)),
           ingested: S.Number,
           processedBytes: S.Number,
           walLength: S.Number,

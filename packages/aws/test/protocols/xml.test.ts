@@ -431,8 +431,12 @@ describe("AwsProtocol REST-XML empty values", () => {
     assert.equal(output.Contents, undefined);
   });
 
-  for (const content of ["<RoutingRules/>", "<RoutingRules></RoutingRules>", ""]) {
-    it(`keeps an empty or absent wrapped list undefined: ${content}`, async () => {
+  for (const [content, expected] of [
+    ["<RoutingRules/>", []],
+    ["<RoutingRules></RoutingRules>", []],
+    ["", undefined],
+  ] as const) {
+    it(`reads an empty wrapped list as [] and an absent one as undefined: ${content}`, async () => {
       const { output } = await Effect.runPromise(
         capture(
           S3.getBucketWebsite(bucket),
@@ -440,7 +444,7 @@ describe("AwsProtocol REST-XML empty values", () => {
         ),
       );
       assert.deepEqual(output.IndexDocument, { Suffix: "index.html" });
-      assert.equal(output.RoutingRules, undefined);
+      assert.deepEqual(output.RoutingRules, expected);
     });
   }
 
@@ -454,7 +458,7 @@ describe("AwsProtocol REST-XML empty values", () => {
     assert.deepEqual(output.RoutingRules, [{ Condition: {}, Redirect: {} }]);
   });
 
-  it("does not treat an empty map or timestamp as a structure", async () => {
+  it("reads an empty map as {} and an empty timestamp as empty", async () => {
     const { output } = await Effect.runPromise(
       capture(
         S3Control.getAccessPoint({
@@ -465,7 +469,7 @@ describe("AwsProtocol REST-XML empty values", () => {
       ),
     );
     assert.equal(output.Name, "example-access-point");
-    assert.equal(output.Endpoints, undefined);
+    assert.deepEqual(output.Endpoints, {});
     assert.equal(String(output.CreationDate), "");
     assert.deepEqual(output.PublicAccessBlockConfiguration, {});
   });

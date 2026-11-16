@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIErrorResponse | string;
+}
 
 /** The region in which the resource is located. */
 export type CreateGatewayRequestRegion = "eu01" | "eu02";
@@ -877,6 +897,33 @@ export interface UpdateGatewayConnectionRequest {
   tunnel1: TunnelConfiguration;
   tunnel2: TunnelConfiguration;
 }
+/** Metadata contains more information. For bad requests this would be field information. */
+export type APIErrorDetailMetadataMap = { [key: string]: unknown | undefined };
+/** The reason why the error occurs. RESOURCE_IN_USE is returned when a referenced resource cannot be deleted; the 'metadata.references' field then lists the referencing resources (e.g. connection IDs and displayNames pointing at a BGPFilter on DELETE). */
+export type APIErrorDetailReason = "INVALID_FIELD" | "INVALID_PATH_PARAMETER" | "RESOURCE_IN_USE";
+export interface APIErrorDetail {
+  /** The domain of the error source. */
+  domain: string;
+  /** Metadata contains more information. For bad requests this would be field information. */
+  metadata?: APIErrorDetailMetadataMap | undefined;
+  /** The reason why the error occurs. RESOURCE_IN_USE is returned when a referenced resource cannot be deleted; the 'metadata.references' field then lists the referencing resources (e.g. connection IDs and displayNames pointing at a BGPFilter on DELETE). */
+  reason: APIErrorDetailReason;
+}
+/** Can contain more details on the error. */
+export type APIErrorDetailsList = Array<APIErrorDetail>;
+export interface APIError {
+  /** The HTTP status code. */
+  code: number;
+  /** Can contain more details on the error. */
+  details?: APIErrorDetailsList | undefined;
+  /** A message describing the error. */
+  message: string;
+  /** The HTTP status code text. */
+  status: string;
+}
+export interface APIErrorResponse {
+  error: APIError;
+}
 export type CreateGatewayError = BadRequest | Forbidden | Conflict | StackitOpError;
 /** Create a VPN gateway in a project. Provision a new VPN gateway. */
 export const createGateway: API.OperationMethod<
@@ -885,8 +932,8 @@ export const createGateway: API.OperationMethod<
   CreateGatewayError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateGatewayRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<CreateGatewayResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateGatewayRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<CreateGatewayResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -907,8 +954,8 @@ export const createGatewayBGPFilter: API.OperationMethod<
   CreateGatewayBGPFilterError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<CreateGatewayBGPFilterRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<BGPFilter>,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateGatewayBGPFilterRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<BGPFilter>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -929,8 +976,8 @@ export const createGatewayBGPFilterRule: API.OperationMethod<
   CreateGatewayBGPFilterRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateGatewayBGPFilterRuleRequest>,
-  output: __S(419, __c26, 3) as any as S.Schema<BGPFilterRule>,
+  input: __S(416, __c26, 0) as any as S.Schema<CreateGatewayBGPFilterRuleRequest>,
+  output: __S(435, __c27, 3) as any as S.Schema<BGPFilterRule>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -946,8 +993,8 @@ export const createGatewayConnection: API.OperationMethod<
   CreateGatewayConnectionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<CreateGatewayConnectionRequest>,
-  output: __S(454, __c28, 6) as any as S.Schema<ConnectionResponseOutput>,
+  input: __S(448, __c28, 0) as any as S.Schema<CreateGatewayConnectionRequest>,
+  output: __S(470, __c29, 6) as any as S.Schema<ConnectionResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -963,8 +1010,8 @@ export const deleteGateway: API.OperationMethod<
   DeleteGatewayError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DeleteGatewayRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<DeleteGatewayResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<DeleteGatewayRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<DeleteGatewayResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -985,8 +1032,8 @@ export const deleteGatewayBGPFilter: API.OperationMethod<
   DeleteGatewayBGPFilterError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<DeleteGatewayBGPFilterRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<DeleteGatewayBGPFilterResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<DeleteGatewayBGPFilterRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<DeleteGatewayBGPFilterResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1002,8 +1049,8 @@ export const deleteGatewayBGPFilterRule: API.OperationMethod<
   DeleteGatewayBGPFilterRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteGatewayBGPFilterRuleRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<DeleteGatewayBGPFilterRuleResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<DeleteGatewayBGPFilterRuleRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<DeleteGatewayBGPFilterRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1019,8 +1066,8 @@ export const deleteGatewayConnection: API.OperationMethod<
   DeleteGatewayConnectionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<DeleteGatewayConnectionRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<DeleteGatewayConnectionResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<DeleteGatewayConnectionRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<DeleteGatewayConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1036,8 +1083,8 @@ export const getGateway: API.OperationMethod<
   GetGatewayError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetGatewayRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<GetGatewayResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetGatewayRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<GetGatewayResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1053,8 +1100,8 @@ export const getGatewayBGPFilter: API.OperationMethod<
   GetGatewayBGPFilterError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetGatewayBGPFilterRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<BGPFilter>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetGatewayBGPFilterRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<BGPFilter>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1070,8 +1117,8 @@ export const getGatewayBGPFilterRule: API.OperationMethod<
   GetGatewayBGPFilterRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetGatewayBGPFilterRuleRequest>,
-  output: __S(419, __c26, 3) as any as S.Schema<BGPFilterRule>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetGatewayBGPFilterRuleRequest>,
+  output: __S(435, __c27, 3) as any as S.Schema<BGPFilterRule>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1087,8 +1134,8 @@ export const getGatewayConnection: API.OperationMethod<
   GetGatewayConnectionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetGatewayConnectionRequest>,
-  output: __S(454, __c28, 6) as any as S.Schema<ConnectionResponseOutput>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetGatewayConnectionRequest>,
+  output: __S(470, __c29, 6) as any as S.Schema<ConnectionResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1104,8 +1151,8 @@ export const getGatewayConnectionStatus: API.OperationMethod<
   GetGatewayConnectionStatusError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetGatewayConnectionStatusRequest>,
-  output: __S(116, __c7, 4) as any as S.Schema<ConnectionStatusResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetGatewayConnectionStatusRequest>,
+  output: __S(132, __c8, 4) as any as S.Schema<ConnectionStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1121,8 +1168,8 @@ export const getGatewayStatus: API.OperationMethod<
   GetGatewayStatusError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetGatewayStatusRequest>,
-  output: __S(137, __c8, 9) as any as S.Schema<GatewayStatusResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetGatewayStatusRequest>,
+  output: __S(153, __c9, 9) as any as S.Schema<GatewayStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1138,8 +1185,8 @@ export const listGatewayBGPFilterRules: API.OperationMethod<
   ListGatewayBGPFilterRulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListGatewayBGPFilterRulesRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<BGPFilterRuleList>,
+  input: __S(160, __c10, 0) as any as S.Schema<ListGatewayBGPFilterRulesRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<BGPFilterRuleList>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1155,8 +1202,8 @@ export const listGatewayBGPFilters: API.OperationMethod<
   ListGatewayBGPFiltersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListGatewayBGPFiltersRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<BGPFilterList>,
+  input: __S(176, __c11, 0) as any as S.Schema<ListGatewayBGPFiltersRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<BGPFilterList>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1172,8 +1219,8 @@ export const listGatewayConnections: API.OperationMethod<
   ListGatewayConnectionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListGatewayConnectionsRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<ConnectionListOutput>,
+  input: __S(192, __c12, 0) as any as S.Schema<ListGatewayConnectionsRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<ConnectionListOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1189,8 +1236,8 @@ export const listGateways: API.OperationMethod<
   ListGatewaysError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListGatewaysRequest>,
-  output: __S(194, __c12, 2) as any as S.Schema<GatewayList>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListGatewaysRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<GatewayList>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1206,8 +1253,8 @@ export const listPlans: API.OperationMethod<
   ListPlansError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<ListPlansRequest>,
-  output: __S(211, __c13, 3) as any as S.Schema<PlanList>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListPlansRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<PlanList>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1223,8 +1270,8 @@ export const listQuotas: API.OperationMethod<
   ListQuotasError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListQuotasRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<QuotaListResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListQuotasRequest>,
+  output: __S(243, __c15, 3) as any as S.Schema<QuotaListResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1240,8 +1287,8 @@ export const updateGateway: API.OperationMethod<
   UpdateGatewayError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<UpdateGatewayRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<UpdateGatewayResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<UpdateGatewayRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<UpdateGatewayResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1262,8 +1309,8 @@ export const updateGatewayBGPFilter: API.OperationMethod<
   UpdateGatewayBGPFilterError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<UpdateGatewayBGPFilterRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<BGPFilter>,
+  input: __S(272, __c17, 0) as any as S.Schema<UpdateGatewayBGPFilterRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<BGPFilter>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1284,8 +1331,8 @@ export const updateGatewayBGPFilterRule: API.OperationMethod<
   UpdateGatewayBGPFilterRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UpdateGatewayBGPFilterRuleRequest>,
-  output: __S(419, __c26, 3) as any as S.Schema<BGPFilterRule>,
+  input: __S(288, __c18, 0) as any as S.Schema<UpdateGatewayBGPFilterRuleRequest>,
+  output: __S(435, __c27, 3) as any as S.Schema<BGPFilterRule>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1301,8 +1348,8 @@ export const updateGatewayConnection: API.OperationMethod<
   UpdateGatewayConnectionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<UpdateGatewayConnectionRequest>,
-  output: __S(454, __c28, 6) as any as S.Schema<ConnectionResponseOutput>,
+  input: __S(304, __c19, 0) as any as S.Schema<UpdateGatewayConnectionRequest>,
+  output: __S(470, __c29, 6) as any as S.Schema<ConnectionResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1312,6 +1359,37 @@ export const updateGatewayConnection: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          metadata: S.optional(__S(0, __c0, 0)),
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "APIErrorDetail" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.Number,
+          details: S.optional(__S(2, __c0, 2)),
+          message: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "APIError" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(3, __c0, 3),
+        }),
+      ).annotate({ identifier: "APIErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1332,7 +1410,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteGatewayBGPFilterRuleRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1352,7 +1430,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteGatewayConnectionRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1371,7 +1449,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetGatewayRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1391,7 +1469,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetGatewayBGPFilterRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1412,7 +1490,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetGatewayBGPFilterRuleRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1432,7 +1510,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetGatewayConnectionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1452,7 +1530,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetGatewayConnectionStatusRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1472,11 +1550,11 @@ function __c7(j: number): any {
           encap: S.optional(S.String),
           encryptionAlgorithm: S.optional(S.String),
           integrityAlgorithm: S.optional(S.String),
-          localTS: S.optional(__S(336, __c21, 0)),
+          localTS: S.optional(__S(352, __c22, 0)),
           packetsIn: S.optional(S.String),
           packetsOut: S.optional(S.String),
           protocol: S.optional(S.String),
-          remoteTS: S.optional(__S(336, __c21, 0)),
+          remoteTS: S.optional(__S(352, __c22, 0)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Phase2Status" });
@@ -1485,24 +1563,24 @@ function __c7(j: number): any {
         S.Struct({
           established: S.optional(S.Boolean),
           name: S.optional(S.String),
-          phase1: S.optional(__S(112, __c7, 0)),
-          phase2: S.optional(__S(113, __c7, 1)),
+          phase1: S.optional(__S(128, __c8, 0)),
+          phase2: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "TunnelStatus" });
     case 3:
-      return S.Array(__S(114, __c7, 2));
+      return S.Array(__S(130, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           id: S.optional(S.String),
-          tunnels: S.optional(__S(115, __c7, 3)),
+          tunnels: S.optional(__S(131, __c8, 3)),
         }),
       ).annotate({ identifier: "ConnectionStatusResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1520,7 +1598,7 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "GetGatewayStatusRequest" });
     case 1:
-      return S.Array(__S(116, __c7, 4));
+      return S.Array(__S(132, __c8, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1534,7 +1612,7 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "BGPStatusPeers" });
     case 3:
-      return S.Array(__S(130, __c8, 2));
+      return S.Array(__S(146, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1546,18 +1624,18 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "BGPStatusRoutes" });
     case 5:
-      return S.Array(__S(132, __c8, 4));
+      return S.Array(__S(148, __c9, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          peers: S.optional(__S(131, __c8, 3)),
-          routes: S.optional(__S(133, __c8, 5)),
+          peers: S.optional(__S(147, __c9, 3)),
+          routes: S.optional(__S(149, __c9, 5)),
         }),
       ).annotate({ identifier: "BGPStatus" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bgpStatus: S.optional(S.NullOr(__S(134, __c8, 6))),
+          bgpStatus: S.optional(S.NullOr(__S(150, __c9, 6))),
           instanceState: S.optional(S.String),
           internalNextHopIP: S.optional(S.String),
           name: S.optional(S.String),
@@ -1565,21 +1643,21 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "VPNTunnels" });
     case 8:
-      return S.Array(__S(135, __c8, 7));
+      return S.Array(__S(151, __c9, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          connections: S.optional(__S(129, __c8, 1)),
+          connections: S.optional(__S(145, __c9, 1)),
           displayName: S.optional(S.String),
           errorMessage: S.optional(S.String),
           gatewayStatus: S.optional(S.String),
           id: S.optional(S.String),
-          tunnels: S.optional(__S(136, __c8, 8)),
+          tunnels: S.optional(__S(152, __c9, 8)),
         }),
       ).annotate({ identifier: "GatewayStatusResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1598,16 +1676,16 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewayBGPFilterRulesRequest" });
     case 1:
-      return S.Array(__S(419, __c26, 3));
+      return S.Array(__S(435, __c27, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rules: __S(145, __c9, 1),
+          rules: __S(161, __c10, 1),
         }),
       ).annotate({ identifier: "BGPFilterRuleList" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1625,16 +1703,16 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewayBGPFiltersRequest" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(400, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bgpFilters: __S(161, __c10, 1),
+          bgpFilters: __S(177, __c11, 1),
         }),
       ).annotate({ identifier: "BGPFilterList" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1642,7 +1720,7 @@ function __c11(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           gatewayId: S.String.pipe(T.Label()),
-          label_selector: S.optional(__S(352, __c22, 0).pipe(T.Query())),
+          label_selector: S.optional(__S(368, __c23, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1653,23 +1731,23 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewayConnectionsRequest" });
     case 1:
-      return S.Array(__S(454, __c28, 6));
+      return S.Array(__S(470, __c29, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connections: __S(177, __c11, 1),
+          connections: __S(193, __c12, 1),
         }),
       ).annotate({ identifier: "ConnectionListOutput" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          label_selector: S.optional(__S(352, __c22, 0).pipe(T.Query())),
+          label_selector: S.optional(__S(368, __c23, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1680,16 +1758,16 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewaysRequest" });
     case 1:
-      return S.Array(__S(323, __c20, 3));
+      return S.Array(__S(339, __c21, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gateways: __S(193, __c12, 1),
+          gateways: __S(209, __c13, 1),
         }),
       ).annotate({ identifier: "GatewayList" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1715,17 +1793,17 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "Plan" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(225, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           defaultPlanId: S.optional(S.String),
-          plans: S.optional(__S(210, __c13, 2)),
+          plans: S.optional(__S(226, __c14, 2)),
         }),
       ).annotate({ identifier: "PlanList" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1751,18 +1829,18 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gateways: __S(225, __c14, 1),
+          gateways: __S(241, __c15, 1),
         }),
       ).annotate({ identifier: "QuotaList" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          quotas: __S(226, __c14, 2),
+          quotas: __S(242, __c15, 2),
         }),
       ).annotate({ identifier: "QuotaListResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1770,11 +1848,11 @@ function __c15(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           gatewayId: S.String.pipe(T.Label()),
-          availabilityZones: __S(320, __c20, 0),
-          bgp: S.optional(__S(321, __c20, 1)),
+          availabilityZones: __S(336, __c21, 0),
+          bgp: S.optional(__S(337, __c21, 1)),
           displayName: S.String,
-          labels: S.optional(__S(352, __c22, 0)),
-          networkConfig: S.optional(__S(322, __c20, 2)),
+          labels: S.optional(__S(368, __c23, 0)),
+          networkConfig: S.optional(__S(338, __c21, 2)),
           planId: S.String,
           routingType: S.String,
         }).pipe(
@@ -1788,7 +1866,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateGatewayRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1809,7 +1887,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateGatewayBGPFilterRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1820,9 +1898,9 @@ function __c17(j: number): any {
           filterId: S.String.pipe(T.Label()),
           ruleId: S.String.pipe(T.Label()),
           action: S.String,
-          match: S.optional(__S(417, __c26, 1)),
+          match: S.optional(__S(433, __c27, 1)),
           sequence: S.optional(S.Number),
-          set: S.optional(__S(418, __c26, 2)),
+          set: S.optional(__S(434, __c27, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1834,7 +1912,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpdateGatewayBGPFilterRuleRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1845,12 +1923,12 @@ function __c18(j: number): any {
           connectionId: S.String.pipe(T.Label()),
           displayName: S.String,
           enabled: S.optional(S.Boolean),
-          labels: S.optional(__S(352, __c22, 0)),
-          localSubnets: S.optional(__S(336, __c21, 0)),
-          remoteSubnets: S.optional(__S(336, __c21, 0)),
-          staticRoutes: S.optional(__S(336, __c21, 0)),
-          tunnel1: __S(464, __c29, 0),
-          tunnel2: __S(464, __c29, 0),
+          labels: S.optional(__S(368, __c23, 0)),
+          localSubnets: S.optional(__S(352, __c22, 0)),
+          remoteSubnets: S.optional(__S(352, __c22, 0)),
+          staticRoutes: S.optional(__S(352, __c22, 0)),
+          tunnel1: __S(480, __c30, 0),
+          tunnel2: __S(480, __c30, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1862,18 +1940,18 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateGatewayConnectionRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          availabilityZones: __S(320, __c20, 0),
-          bgp: S.optional(__S(321, __c20, 1)),
+          availabilityZones: __S(336, __c21, 0),
+          bgp: S.optional(__S(337, __c21, 1)),
           displayName: S.String,
-          labels: S.optional(__S(352, __c22, 0)),
-          networkConfig: S.optional(__S(322, __c20, 2)),
+          labels: S.optional(__S(368, __c23, 0)),
+          networkConfig: S.optional(__S(338, __c21, 2)),
           planId: S.String,
           routingType: S.String,
         }).pipe(
@@ -1887,7 +1965,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateGatewayRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1900,7 +1978,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           localAsn: S.Number,
-          overrideAdvertisedRoutes: S.optional(__S(336, __c21, 0)),
+          overrideAdvertisedRoutes: S.optional(__S(352, __c22, 0)),
         }),
       ).annotate({ identifier: "BGPGatewayConfig" });
     case 2:
@@ -1913,11 +1991,11 @@ function __c20(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          availabilityZones: __S(320, __c20, 0),
-          bgp: S.optional(__S(321, __c20, 1)),
+          availabilityZones: __S(336, __c21, 0),
+          bgp: S.optional(__S(337, __c21, 1)),
           displayName: S.String,
-          labels: S.optional(__S(352, __c22, 0)),
-          networkConfig: S.optional(__S(322, __c20, 2)),
+          labels: S.optional(__S(368, __c23, 0)),
+          networkConfig: S.optional(__S(338, __c21, 2)),
           planId: S.String,
           routingType: S.String,
           id: S.optional(S.String),
@@ -1926,19 +2004,19 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateGatewayResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1958,7 +2036,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateGatewayBGPFilterRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1969,7 +2047,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "BGPFilter" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1979,9 +2057,9 @@ function __c25(j: number): any {
           gatewayId: S.String.pipe(T.Label()),
           filterId: S.String.pipe(T.Label()),
           action: S.String,
-          match: S.optional(__S(417, __c26, 1)),
+          match: S.optional(__S(433, __c27, 1)),
           sequence: S.optional(S.Number),
-          set: S.optional(__S(418, __c26, 2)),
+          set: S.optional(__S(434, __c27, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1993,20 +2071,20 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateGatewayBGPFilterRuleRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          asPathContainsAny: S.optional(__S(416, __c26, 0)),
-          communities: S.optional(__S(336, __c21, 0)),
+          asPathContainsAny: S.optional(__S(432, __c27, 0)),
+          communities: S.optional(__S(352, __c22, 0)),
           firstASN: S.optional(S.Number),
           maxPrefixLength: S.optional(S.Number),
           minPrefixLength: S.optional(S.Number),
           peer: S.optional(S.String),
-          prefixes: S.optional(__S(336, __c21, 0)),
+          prefixes: S.optional(__S(352, __c22, 0)),
         }),
       ).annotate({ identifier: "CreateGatewayBGPFilterRuleRequestMatch" });
     case 2:
@@ -2020,14 +2098,14 @@ function __c26(j: number): any {
         S.Struct({
           action: S.String,
           id: S.optional(S.String),
-          match: S.optional(__S(417, __c26, 1)),
+          match: S.optional(__S(433, __c27, 1)),
           sequence: S.optional(S.Number),
-          set: S.optional(__S(418, __c26, 2)),
+          set: S.optional(__S(434, __c27, 2)),
         }),
       ).annotate({ identifier: "BGPFilterRule" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2037,12 +2115,12 @@ function __c27(j: number): any {
           gatewayId: S.String.pipe(T.Label()),
           displayName: S.String,
           enabled: S.optional(S.Boolean),
-          labels: S.optional(__S(352, __c22, 0)),
-          localSubnets: S.optional(__S(336, __c21, 0)),
-          remoteSubnets: S.optional(__S(336, __c21, 0)),
-          staticRoutes: S.optional(__S(336, __c21, 0)),
-          tunnel1: __S(464, __c29, 0),
-          tunnel2: __S(464, __c29, 0),
+          labels: S.optional(__S(368, __c23, 0)),
+          localSubnets: S.optional(__S(352, __c22, 0)),
+          remoteSubnets: S.optional(__S(352, __c22, 0)),
+          staticRoutes: S.optional(__S(352, __c22, 0)),
+          tunnel1: __S(480, __c30, 0),
+          tunnel2: __S(480, __c30, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2054,7 +2132,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateGatewayConnectionRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2075,18 +2153,18 @@ function __c28(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dhGroups: S.optional(__S(450, __c28, 2)),
-          encryptionAlgorithms: __S(450, __c28, 2),
-          integrityAlgorithms: __S(450, __c28, 2),
+          dhGroups: S.optional(__S(466, __c29, 2)),
+          encryptionAlgorithms: __S(466, __c29, 2),
+          integrityAlgorithms: __S(466, __c29, 2),
           rekeyTime: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TunnelConfigurationPhase1" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dhGroups: S.optional(__S(450, __c28, 2)),
-          encryptionAlgorithms: __S(450, __c28, 2),
-          integrityAlgorithms: __S(450, __c28, 2),
+          dhGroups: S.optional(__S(466, __c29, 2)),
+          encryptionAlgorithms: __S(466, __c29, 2),
+          integrityAlgorithms: __S(466, __c29, 2),
           dpdAction: S.optional(S.String),
           rekeyTime: S.optional(S.Number),
           startAction: S.optional(S.String),
@@ -2095,10 +2173,10 @@ function __c28(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          bgp: S.optional(__S(448, __c28, 0)),
-          peering: S.optional(__S(449, __c28, 1)),
-          phase1: __S(451, __c28, 3),
-          phase2: __S(452, __c28, 4),
+          bgp: S.optional(__S(464, __c29, 0)),
+          peering: S.optional(__S(465, __c29, 1)),
+          phase1: __S(467, __c29, 3),
+          phase2: __S(468, __c29, 4),
           remoteAddress: S.String,
         }),
       ).annotate({ identifier: "TunnelConfigurationOutput" });
@@ -2108,32 +2186,32 @@ function __c28(j: number): any {
           displayName: S.String,
           enabled: S.optional(S.Boolean),
           id: S.optional(S.String),
-          labels: S.optional(__S(352, __c22, 0)),
-          localSubnets: S.optional(__S(336, __c21, 0)),
-          remoteSubnets: S.optional(__S(336, __c21, 0)),
-          staticRoutes: S.optional(__S(336, __c21, 0)),
-          tunnel1: __S(453, __c28, 5),
-          tunnel2: __S(453, __c28, 5),
+          labels: S.optional(__S(368, __c23, 0)),
+          localSubnets: S.optional(__S(352, __c22, 0)),
+          remoteSubnets: S.optional(__S(352, __c22, 0)),
+          staticRoutes: S.optional(__S(352, __c22, 0)),
+          tunnel1: __S(469, __c29, 5),
+          tunnel2: __S(469, __c29, 5),
         }),
       ).annotate({ identifier: "ConnectionResponseOutput" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bgp: S.optional(__S(448, __c28, 0)),
-          peering: S.optional(__S(449, __c28, 1)),
-          phase1: __S(451, __c28, 3),
-          phase2: __S(452, __c28, 4),
+          bgp: S.optional(__S(464, __c29, 0)),
+          peering: S.optional(__S(465, __c29, 1)),
+          phase1: __S(467, __c29, 3),
+          phase2: __S(468, __c29, 4),
           preSharedKey: S.optional(S.String),
           remoteAddress: S.String,
         }),
       ).annotate({ identifier: "TunnelConfiguration" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2152,13 +2230,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteGatewayRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteGatewayResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

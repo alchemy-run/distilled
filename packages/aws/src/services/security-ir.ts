@@ -2049,8 +2049,12 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           membershipId: S.String.pipe(T.HttpLabel("membershipId")),
-          startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startDate")),
-          endDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endDate")),
+          startDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startDate"),
+          ),
+          endDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endDate"),
+          ),
         }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/v1/membership/{membershipId}/finding-metrics" }),

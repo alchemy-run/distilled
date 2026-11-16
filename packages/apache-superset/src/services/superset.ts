@@ -35,55 +35,99 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | Error400Body3 | Error400Body2 | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(82, __c5, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(85, __c5, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(86, __c5, 6)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body2 | Error409Body3 | Error409Body | Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | Error400Body3 | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(5362, __c335, 2)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | Error422Body | string;
+}
 
 /** Objects to tag */
 export type TagObjectObjectsToTagList = Array<unknown>;
@@ -10671,6 +10715,95 @@ export interface ValidateDatasourceExpressionResponse {
   /** Empty array for success, errors for failure */
   result?: ValidateDatasourceExpressionResponseResultList | undefined;
 }
+export interface Error400Body {
+  message?: string | undefined;
+}
+export interface Error400Body3 {
+  error?: string | undefined;
+}
+export interface Error400Body2 {
+  message?: unknown | undefined;
+}
+export type Error409BodyDependentsItemType = "chart" | "dashboard" | "alert" | "report";
+export interface Error409BodyDependentsItem {
+  archived: boolean;
+  id: number;
+  name: string;
+  type: Error409BodyDependentsItemType;
+}
+export type Error409BodyDependentsList = Array<Error409BodyDependentsItem>;
+export interface Error409Body2 {
+  /** Archived dependents are named only to users who could restore them from Recently Archived; the others are included in inaccessible_count. The counts overlap and must not be added together. */
+  archived_count: number;
+  dependents: Error409BodyDependentsList;
+  inaccessible_count: number;
+  message: string;
+  total: number;
+}
+/** The selected views that have dependents. Nothing is deleted; the others can be deleted in a new request. */
+export type Error409BodyBlockedViewIdsList = Array<number>;
+export type Error409BodyBlockedViewsItemDependentsItemType =
+  | "chart"
+  | "dashboard"
+  | "alert"
+  | "report";
+export interface Error409BodyBlockedViewsItemDependentsItem {
+  archived: boolean;
+  id: number;
+  name: string;
+  type: Error409BodyBlockedViewsItemDependentsItemType;
+}
+export type Error409BodyBlockedViewsItemDependentsList =
+  Array<Error409BodyBlockedViewsItemDependentsItem>;
+export interface Error409BodyBlockedViewsItem {
+  archived_count: number;
+  dependents: Error409BodyBlockedViewsItemDependentsList;
+  id: number;
+  inaccessible_count: number;
+  total: number;
+}
+/** Caller-visible dependency details for each blocked view. */
+export type Error409BodyBlockedViewsList = Array<Error409BodyBlockedViewsItem>;
+export type Error409BodyDependentsItemType2 = "chart" | "dashboard" | "alert" | "report";
+export interface Error409BodyDependentsItem2 {
+  archived: boolean;
+  id: number;
+  name: string;
+  type: Error409BodyDependentsItemType2;
+}
+export type Error409BodyDependentsList2 = Array<Error409BodyDependentsItem2>;
+export interface Error409Body3 {
+  /** Archived dependents are named only to users who could restore them from Recently Archived; the others are included in inaccessible_count. The counts overlap and must not be added together. */
+  archived_count: number;
+  /** The selected views that have dependents. Nothing is deleted; the others can be deleted in a new request. */
+  blocked_view_ids?: Error409BodyBlockedViewIdsList | undefined;
+  /** Caller-visible dependency details for each blocked view. */
+  blocked_views?: Error409BodyBlockedViewsList | undefined;
+  dependents: Error409BodyDependentsList2;
+  inaccessible_count: number;
+  message: string;
+  total: number;
+}
+export type Error409BodyReason = "purge_impact_changed";
+export interface Error409Body {
+  impact: DatasetPurgeImpactSchema;
+  message: string;
+  reason: Error409BodyReason;
+}
+export interface ReportConfigImpactedSchema {
+  /** The offending e-mail address or crontab */
+  detail?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  /** Either 'recipient' or 'frequency' */
+  reason?: string | undefined;
+  type?: string | undefined;
+}
+export type Error422BodyImpactedSchedulesList = Array<ReportConfigImpactedSchema>;
+export interface Error422Body {
+  impacted_schedules?: Error422BodyImpactedSchedulesList | undefined;
+  message?: string | undefined;
+}
 export type BulkTagCreateError = BadRequest | NotFound | ApacheSupersetOpError;
 /** Bulk create tags and tagged objects */
 export const bulkTagCreate: API.OperationMethod<
@@ -10679,8 +10812,8 @@ export const bulkTagCreate: API.OperationMethod<
   BulkTagCreateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5505, __c344, 1) as any as S.Schema<BulkTagCreateRequest>,
-  output: __S(5507, __c344, 3) as any as S.Schema<TagPostBulkResponseSchema>,
+  input: __S(5585, __c349, 1) as any as S.Schema<BulkTagCreateRequest>,
+  output: __S(5587, __c349, 3) as any as S.Schema<TagPostBulkResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10701,8 +10834,8 @@ export const clearSemanticLayerCache: API.OperationMethod<
   ClearSemanticLayerCacheError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5712, __c357, 0) as any as S.Schema<ClearSemanticLayerCacheRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<ClearSemanticLayerCacheResponse>,
+  input: __S(5792, __c362, 0) as any as S.Schema<ClearSemanticLayerCacheRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<ClearSemanticLayerCacheResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10723,8 +10856,8 @@ export const copyDashboard: API.OperationMethod<
   CopyDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5904, __c369, 0) as any as S.Schema<CopyDashboardRequest>,
-  output: __S(5905, __c369, 1) as any as S.Schema<CopyDashboardResponse>,
+  input: __S(5984, __c374, 0) as any as S.Schema<CopyDashboardRequest>,
+  output: __S(5985, __c374, 1) as any as S.Schema<CopyDashboardResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10740,8 +10873,8 @@ export const createAnnotationLayer: API.OperationMethod<
   CreateAnnotationLayerError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c380, 0) as any as S.Schema<CreateAnnotationLayerRequest>,
-  output: __S(6082, __c380, 2) as any as S.Schema<CreateAnnotationLayerResponse>,
+  input: __S(6160, __c385, 0) as any as S.Schema<CreateAnnotationLayerRequest>,
+  output: __S(6162, __c385, 2) as any as S.Schema<CreateAnnotationLayerResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10757,8 +10890,8 @@ export const createAnnotationLayerAnnotation: API.OperationMethod<
   CreateAnnotationLayerAnnotationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6256, __c391, 0) as any as S.Schema<CreateAnnotationLayerAnnotationRequest>,
-  output: __S(6258, __c391, 2) as any as S.Schema<CreateAnnotationLayerAnnotationResponse>,
+  input: __S(6336, __c396, 0) as any as S.Schema<CreateAnnotationLayerAnnotationRequest>,
+  output: __S(6338, __c396, 2) as any as S.Schema<CreateAnnotationLayerAnnotationResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10774,8 +10907,8 @@ export const createChart: API.OperationMethod<
   CreateChartError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<CreateChartRequest>,
-  output: __S(6, __c0, 6) as any as S.Schema<CreateChartResponse>,
+  input: __S(98, __c6, 2) as any as S.Schema<CreateChartRequest>,
+  output: __S(102, __c6, 6) as any as S.Schema<CreateChartResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10791,8 +10924,8 @@ export const createChartData: API.OperationMethod<
   CreateChartDataError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c17, 8) as any as S.Schema<CreateChartDataRequest>,
-  output: __S(328, __c20, 8) as any as S.Schema<ChartDataResponseSchema>,
+  input: __S(360, __c22, 8) as any as S.Schema<CreateChartDataRequest>,
+  output: __S(408, __c25, 8) as any as S.Schema<ChartDataResponseSchema>,
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10808,8 +10941,8 @@ export const createChartFavorite: API.OperationMethod<
   CreateChartFavoriteError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<CreateChartFavoriteRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreateChartFavoriteResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<CreateChartFavoriteRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<CreateChartFavoriteResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10825,8 +10958,8 @@ export const createCssTemplate: API.OperationMethod<
   CreateCssTemplateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<CreateCssTemplateRequest>,
-  output: __S(817, __c51, 1) as any as S.Schema<CreateCssTemplateResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<CreateCssTemplateRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<CreateCssTemplateResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10842,8 +10975,8 @@ export const createDashboard: API.OperationMethod<
   CreateDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1074, __c67, 2) as any as S.Schema<CreateDashboardRequest>,
-  output: __S(1078, __c67, 6) as any as S.Schema<CreateDashboardResponse>,
+  input: __S(1154, __c72, 2) as any as S.Schema<CreateDashboardRequest>,
+  output: __S(1158, __c72, 6) as any as S.Schema<CreateDashboardResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10862,8 +10995,8 @@ export const createDashboardCacheDashboardScreenshot: API.OperationMethod<
   CreateDashboardCacheDashboardScreenshotError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<CreateDashboardCacheDashboardScreenshotRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<DashboardCacheScreenshotResponseSchema>,
+  input: __S(1376, __c86, 0) as any as S.Schema<CreateDashboardCacheDashboardScreenshotRequest>,
+  output: __S(1377, __c86, 1) as any as S.Schema<DashboardCacheScreenshotResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10879,8 +11012,8 @@ export const createDashboardEmbedded: API.OperationMethod<
   CreateDashboardEmbeddedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<CreateDashboardEmbeddedRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<CreateDashboardEmbeddedResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<CreateDashboardEmbeddedRequest>,
+  output: __S(1618, __c101, 2) as any as S.Schema<CreateDashboardEmbeddedResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10896,8 +11029,8 @@ export const createDashboardFavorite: API.OperationMethod<
   CreateDashboardFavoriteError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<CreateDashboardFavoriteRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreateDashboardFavoriteResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<CreateDashboardFavoriteRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<CreateDashboardFavoriteResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10916,8 +11049,8 @@ export const createDashboardFilterState: API.OperationMethod<
   CreateDashboardFilterStateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<CreateDashboardFilterStateRequest>,
-  output: __S(2016, __c126, 0) as any as S.Schema<CreateDashboardFilterStateResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<CreateDashboardFilterStateRequest>,
+  output: __S(2096, __c131, 0) as any as S.Schema<CreateDashboardFilterStateResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10936,8 +11069,8 @@ export const createDashboardPermalink: API.OperationMethod<
   CreateDashboardPermalinkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2289, __c143, 1) as any as S.Schema<CreateDashboardPermalinkRequest>,
-  output: __S(2305, __c144, 1) as any as S.Schema<CreateDashboardPermalinkResponse>,
+  input: __S(2369, __c148, 1) as any as S.Schema<CreateDashboardPermalinkRequest>,
+  output: __S(2385, __c149, 1) as any as S.Schema<CreateDashboardPermalinkResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10953,8 +11086,8 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(2514, __c157, 2) as any as S.Schema<CreateDatabaseResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(2594, __c162, 2) as any as S.Schema<CreateDatabaseResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10975,8 +11108,8 @@ export const createDatabaseOauth2TokenAll: API.OperationMethod<
   CreateDatabaseOauth2TokenAllError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<CreateDatabaseOauth2TokenAllRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<CreateDatabaseOauth2TokenAllResponse>,
+  input: __S(2816, __c176, 0) as any as S.Schema<CreateDatabaseOauth2TokenAllRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<CreateDatabaseOauth2TokenAllResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -10992,8 +11125,8 @@ export const createDataset: API.OperationMethod<
   CreateDatasetError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2913, __c182, 1) as any as S.Schema<CreateDatasetRequest>,
-  output: __S(2916, __c182, 4) as any as S.Schema<CreateDatasetResponse>,
+  input: __S(2993, __c187, 1) as any as S.Schema<CreateDatasetRequest>,
+  output: __S(2996, __c187, 4) as any as S.Schema<CreateDatasetResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11013,8 +11146,8 @@ export const createDatasourceCompatible: API.OperationMethod<
   CreateDatasourceCompatibleError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<CreateDatasourceCompatibleRequest>,
-  output: __S(3154, __c197, 2) as any as S.Schema<CreateDatasourceCompatibleResponse>,
+  input: __S(3232, __c202, 0) as any as S.Schema<CreateDatasourceCompatibleRequest>,
+  output: __S(3234, __c202, 2) as any as S.Schema<CreateDatasourceCompatibleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11030,8 +11163,8 @@ export const createDatasourceQuery: API.OperationMethod<
   CreateDatasourceQueryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3346, __c209, 2) as any as S.Schema<CreateDatasourceQueryRequest>,
-  output: __S(3360, __c210, 0) as any as S.Schema<CreateDatasourceQueryResponse>,
+  input: __S(3426, __c214, 2) as any as S.Schema<CreateDatasourceQueryRequest>,
+  output: __S(3440, __c215, 0) as any as S.Schema<CreateDatasourceQueryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11047,8 +11180,8 @@ export const createExploreFormData: API.OperationMethod<
   CreateExploreFormDataError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<CreateExploreFormDataRequest>,
-  output: __S(2016, __c126, 0) as any as S.Schema<CreateExploreFormDataResponse>,
+  input: __S(3616, __c226, 0) as any as S.Schema<CreateExploreFormDataRequest>,
+  output: __S(2096, __c131, 0) as any as S.Schema<CreateExploreFormDataResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11068,8 +11201,8 @@ export const createExplorePermalink: API.OperationMethod<
   CreateExplorePermalinkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c232, 0) as any as S.Schema<CreateExplorePermalinkRequest>,
-  output: __S(2305, __c144, 1) as any as S.Schema<CreateExplorePermalinkResponse>,
+  input: __S(3792, __c237, 0) as any as S.Schema<CreateExplorePermalinkRequest>,
+  output: __S(2385, __c149, 1) as any as S.Schema<CreateExplorePermalinkResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11084,8 +11217,8 @@ export const createLog: API.OperationMethod<
   CreateLogError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3888, __c243, 0) as any as S.Schema<CreateLogRequest>,
-  output: __S(3889, __c243, 1) as any as S.Schema<CreateLogResponse>,
+  input: __S(3968, __c248, 0) as any as S.Schema<CreateLogRequest>,
+  output: __S(3969, __c248, 1) as any as S.Schema<CreateLogResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11101,8 +11234,8 @@ export const createReport: API.OperationMethod<
   CreateReportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4081, __c255, 1) as any as S.Schema<CreateReportRequest>,
-  output: __S(4114, __c257, 2) as any as S.Schema<CreateReportResponse>,
+  input: __S(4161, __c260, 1) as any as S.Schema<CreateReportRequest>,
+  output: __S(4194, __c262, 2) as any as S.Schema<CreateReportResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11123,8 +11256,8 @@ export const createRowlevelsecurity: API.OperationMethod<
   CreateRowlevelsecurityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4304, __c269, 0) as any as S.Schema<CreateRowlevelsecurityRequest>,
-  output: __S(4306, __c269, 2) as any as S.Schema<CreateRowlevelsecurityResponse>,
+  input: __S(4384, __c274, 0) as any as S.Schema<CreateRowlevelsecurityRequest>,
+  output: __S(4386, __c274, 2) as any as S.Schema<CreateRowlevelsecurityResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11140,8 +11273,8 @@ export const createSavedQuery: API.OperationMethod<
   CreateSavedQueryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c280, 0) as any as S.Schema<CreateSavedQueryRequest>,
-  output: __S(4481, __c280, 1) as any as S.Schema<CreateSavedQueryResponse>,
+  input: __S(4560, __c285, 0) as any as S.Schema<CreateSavedQueryRequest>,
+  output: __S(4561, __c285, 1) as any as S.Schema<CreateSavedQueryResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11156,8 +11289,8 @@ export const createSecurityGroup: API.OperationMethod<
   CreateSecurityGroupError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4688, __c293, 0) as any as S.Schema<CreateSecurityGroupRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<CreateSecurityGroupResponse>,
+  input: __S(4768, __c298, 0) as any as S.Schema<CreateSecurityGroupRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<CreateSecurityGroupResponse>,
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11173,8 +11306,8 @@ export const createSecurityGuestToken: API.OperationMethod<
   CreateSecurityGuestTokenError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4885, __c305, 5) as any as S.Schema<CreateSecurityGuestTokenRequest>,
-  output: __S(4886, __c305, 6) as any as S.Schema<CreateSecurityGuestTokenResponse>,
+  input: __S(4965, __c310, 5) as any as S.Schema<CreateSecurityGuestTokenRequest>,
+  output: __S(4966, __c310, 6) as any as S.Schema<CreateSecurityGuestTokenResponse>,
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11190,8 +11323,8 @@ export const createSecurityPasswordRecovery: API.OperationMethod<
   CreateSecurityPasswordRecoveryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c316, 0) as any as S.Schema<CreateSecurityPasswordRecoveryRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<CreateSecurityPasswordRecoveryResponse>,
+  input: __S(5136, __c321, 0) as any as S.Schema<CreateSecurityPasswordRecoveryRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<CreateSecurityPasswordRecoveryResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11209,8 +11342,8 @@ export const createSecurityPermissionsResource: API.OperationMethod<
   CreateSecurityPermissionsResourceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c322, 0) as any as S.Schema<CreateSecurityPermissionsResourceRequest>,
-  output: __S(5153, __c322, 1) as any as S.Schema<CreateSecurityPermissionsResourceResponse>,
+  input: __S(5216, __c326, 0) as any as S.Schema<CreateSecurityPermissionsResourceRequest>,
+  output: __S(5217, __c326, 1) as any as S.Schema<CreateSecurityPermissionsResourceResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11225,8 +11358,8 @@ export const createSecurityResource: API.OperationMethod<
   CreateSecurityResourceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c324, 0) as any as S.Schema<CreateSecurityResourceRequest>,
-  output: __S(5200, __c325, 0) as any as S.Schema<CreateSecurityResourceResponse>,
+  input: __S(5248, __c328, 0) as any as S.Schema<CreateSecurityResourceRequest>,
+  output: __S(5264, __c329, 0) as any as S.Schema<CreateSecurityResourceResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11241,8 +11374,8 @@ export const createSecurityRole: API.OperationMethod<
   CreateSecurityRoleError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5232, __c327, 0) as any as S.Schema<CreateSecurityRoleRequest>,
-  output: __S(5200, __c325, 0) as any as S.Schema<CreateSecurityRoleResponse>,
+  input: __S(5296, __c331, 0) as any as S.Schema<CreateSecurityRoleRequest>,
+  output: __S(5264, __c329, 0) as any as S.Schema<CreateSecurityRoleResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11261,8 +11394,8 @@ export const createSecurityRolePermissions: API.OperationMethod<
   CreateSecurityRolePermissionsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c328, 0) as any as S.Schema<CreateSecurityRolePermissionsRequest>,
-  output: __S(5250, __c328, 2) as any as S.Schema<CreateSecurityRolePermissionsResponse>,
+  input: __S(5312, __c332, 0) as any as S.Schema<CreateSecurityRolePermissionsRequest>,
+  output: __S(5314, __c332, 2) as any as S.Schema<CreateSecurityRolePermissionsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11277,8 +11410,8 @@ export const createSecurityUser: API.OperationMethod<
   CreateSecurityUserError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5264, __c329, 0) as any as S.Schema<CreateSecurityUserRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<CreateSecurityUserResponse>,
+  input: __S(5328, __c333, 0) as any as S.Schema<CreateSecurityUserRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<CreateSecurityUserResponse>,
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11294,8 +11427,8 @@ export const createSemanticLayer: API.OperationMethod<
   CreateSemanticLayerError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c330, 0) as any as S.Schema<CreateSemanticLayerRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<CreateSemanticLayerResponse>,
+  input: __S(5344, __c334, 0) as any as S.Schema<CreateSemanticLayerRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticLayerResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11311,8 +11444,8 @@ export const createSemanticLayerSchemaConfiguration: API.OperationMethod<
   CreateSemanticLayerSchemaConfigurationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5296, __c331, 0) as any as S.Schema<CreateSemanticLayerSchemaConfigurationRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<CreateSemanticLayerSchemaConfigurationResponse>,
+  input: __S(5376, __c336, 0) as any as S.Schema<CreateSemanticLayerSchemaConfigurationRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticLayerSchemaConfigurationResponse>,
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11328,8 +11461,8 @@ export const createSemanticLayerSchemaRuntime: API.OperationMethod<
   CreateSemanticLayerSchemaRuntimeError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c332, 0) as any as S.Schema<CreateSemanticLayerSchemaRuntimeRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<CreateSemanticLayerSchemaRuntimeResponse>,
+  input: __S(5392, __c337, 0) as any as S.Schema<CreateSemanticLayerSchemaRuntimeRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticLayerSchemaRuntimeResponse>,
   errors: [Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11345,8 +11478,8 @@ export const createSemanticLayerView: API.OperationMethod<
   CreateSemanticLayerViewError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5328, __c333, 0) as any as S.Schema<CreateSemanticLayerViewRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<CreateSemanticLayerViewResponse>,
+  input: __S(5408, __c338, 0) as any as S.Schema<CreateSemanticLayerViewRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticLayerViewResponse>,
   errors: [Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11362,8 +11495,8 @@ export const createSemanticView: API.OperationMethod<
   CreateSemanticViewError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5346, __c334, 2) as any as S.Schema<CreateSemanticViewRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<CreateSemanticViewResponse>,
+  input: __S(5426, __c339, 2) as any as S.Schema<CreateSemanticViewRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<CreateSemanticViewResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11379,8 +11512,8 @@ export const createSqllabEstimate: API.OperationMethod<
   CreateSqllabEstimateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5360, __c335, 0) as any as S.Schema<CreateSqllabEstimateRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreateSqllabEstimateResponse>,
+  input: __S(5440, __c340, 0) as any as S.Schema<CreateSqllabEstimateRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<CreateSqllabEstimateResponse>,
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11396,8 +11529,8 @@ export const createSqllabFormatSql: API.OperationMethod<
   CreateSqllabFormatSqlError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c336, 0) as any as S.Schema<CreateSqllabFormatSqlRequest>,
-  output: __S(5392, __c337, 0) as any as S.Schema<CreateSqllabFormatSqlResponse>,
+  input: __S(5456, __c341, 0) as any as S.Schema<CreateSqllabFormatSqlRequest>,
+  output: __S(5472, __c342, 0) as any as S.Schema<CreateSqllabFormatSqlResponse>,
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11413,8 +11546,8 @@ export const createSqllabPermalink: API.OperationMethod<
   CreateSqllabPermalinkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c338, 0) as any as S.Schema<CreateSqllabPermalinkRequest>,
-  output: __S(2305, __c144, 1) as any as S.Schema<CreateSqllabPermalinkResponse>,
+  input: __S(5488, __c343, 0) as any as S.Schema<CreateSqllabPermalinkRequest>,
+  output: __S(2385, __c149, 1) as any as S.Schema<CreateSqllabPermalinkResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11430,8 +11563,8 @@ export const createTag: API.OperationMethod<
   CreateTagError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5424, __c339, 0) as any as S.Schema<CreateTagRequest>,
-  output: __S(5440, __c340, 0) as any as S.Schema<CreateTagResponse>,
+  input: __S(5504, __c344, 0) as any as S.Schema<CreateTagRequest>,
+  output: __S(5520, __c345, 0) as any as S.Schema<CreateTagResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11447,8 +11580,8 @@ export const createTagFavorite: API.OperationMethod<
   CreateTagFavoriteError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5456, __c341, 0) as any as S.Schema<CreateTagFavoriteRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<CreateTagFavoriteResponse>,
+  input: __S(5536, __c346, 0) as any as S.Schema<CreateTagFavoriteRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<CreateTagFavoriteResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11464,8 +11597,8 @@ export const createTheme: API.OperationMethod<
   CreateThemeError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c342, 0) as any as S.Schema<CreateThemeRequest>,
-  output: __S(5489, __c343, 1) as any as S.Schema<CreateThemeResponse>,
+  input: __S(5552, __c347, 0) as any as S.Schema<CreateThemeRequest>,
+  output: __S(5569, __c348, 1) as any as S.Schema<CreateThemeResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11481,8 +11614,8 @@ export const deleteAnnotationLayer: API.OperationMethod<
   DeleteAnnotationLayerError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5552, __c347, 0) as any as S.Schema<DeleteAnnotationLayerRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteAnnotationLayerResponse>,
+  input: __S(5632, __c352, 0) as any as S.Schema<DeleteAnnotationLayerRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteAnnotationLayerResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11501,8 +11634,8 @@ export const deleteAnnotationLayerAnnotation: API.OperationMethod<
   DeleteAnnotationLayerAnnotationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c348, 0) as any as S.Schema<DeleteAnnotationLayerAnnotationRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteAnnotationLayerAnnotationResponse>,
+  input: __S(5648, __c353, 0) as any as S.Schema<DeleteAnnotationLayerAnnotationRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteAnnotationLayerAnnotationResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11522,15 +11655,11 @@ export const deleteAnnotationLayerAnnotationByAnnotationId: API.OperationMethod<
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5584,
-    __c349,
+    5664,
+    __c354,
     0,
   ) as any as S.Schema<DeleteAnnotationLayerAnnotationByAnnotationIdRequest>,
-  output: __S(
-    5072,
-    __c317,
-    0,
-  ) as any as S.Schema<DeleteAnnotationLayerAnnotationByAnnotationIdResponse>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteAnnotationLayerAnnotationByAnnotationIdResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11546,8 +11675,8 @@ export const deleteAnnotationLayerByPk: API.OperationMethod<
   DeleteAnnotationLayerByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c350, 0) as any as S.Schema<DeleteAnnotationLayerByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteAnnotationLayerByPkResponse>,
+  input: __S(5680, __c355, 0) as any as S.Schema<DeleteAnnotationLayerByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteAnnotationLayerByPkResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11563,8 +11692,8 @@ export const deleteChart: API.OperationMethod<
   DeleteChartError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5616, __c351, 0) as any as S.Schema<DeleteChartRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteChartResponse>,
+  input: __S(5696, __c356, 0) as any as S.Schema<DeleteChartRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteChartResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11584,8 +11713,8 @@ export const deleteChartByPk: API.OperationMethod<
   DeleteChartByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c352, 0) as any as S.Schema<DeleteChartByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteChartByPkResponse>,
+  input: __S(5712, __c357, 0) as any as S.Schema<DeleteChartByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteChartByPkResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11601,8 +11730,8 @@ export const deleteChartFavorites: API.OperationMethod<
   DeleteChartFavoritesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5648, __c353, 0) as any as S.Schema<DeleteChartFavoritesRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<DeleteChartFavoritesResponse>,
+  input: __S(5728, __c358, 0) as any as S.Schema<DeleteChartFavoritesRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<DeleteChartFavoritesResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11618,8 +11747,8 @@ export const deleteCssTemplate: API.OperationMethod<
   DeleteCssTemplateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c354, 0) as any as S.Schema<DeleteCssTemplateRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteCssTemplateResponse>,
+  input: __S(5744, __c359, 0) as any as S.Schema<DeleteCssTemplateRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteCssTemplateResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11635,8 +11764,8 @@ export const deleteCssTemplateByPk: API.OperationMethod<
   DeleteCssTemplateByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5680, __c355, 0) as any as S.Schema<DeleteCssTemplateByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteCssTemplateByPkResponse>,
+  input: __S(5760, __c360, 0) as any as S.Schema<DeleteCssTemplateByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteCssTemplateByPkResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11656,8 +11785,8 @@ export const deleteDashboard: API.OperationMethod<
   DeleteDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c356, 0) as any as S.Schema<DeleteDashboardRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteDashboardResponse>,
+  input: __S(5776, __c361, 0) as any as S.Schema<DeleteDashboardRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteDashboardResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11677,8 +11806,8 @@ export const deleteDashboardByPk: API.OperationMethod<
   DeleteDashboardByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5744, __c359, 0) as any as S.Schema<DeleteDashboardByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteDashboardByPkResponse>,
+  input: __S(5824, __c364, 0) as any as S.Schema<DeleteDashboardByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteDashboardByPkResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11694,8 +11823,8 @@ export const deleteDashboardEmbedded: API.OperationMethod<
   DeleteDashboardEmbeddedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c360, 0) as any as S.Schema<DeleteDashboardEmbeddedRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteDashboardEmbeddedResponse>,
+  input: __S(5840, __c365, 0) as any as S.Schema<DeleteDashboardEmbeddedRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteDashboardEmbeddedResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11711,8 +11840,8 @@ export const deleteDashboardFavorites: API.OperationMethod<
   DeleteDashboardFavoritesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5776, __c361, 0) as any as S.Schema<DeleteDashboardFavoritesRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<DeleteDashboardFavoritesResponse>,
+  input: __S(5856, __c366, 0) as any as S.Schema<DeleteDashboardFavoritesRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<DeleteDashboardFavoritesResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11732,8 +11861,8 @@ export const deleteDashboardFilterState: API.OperationMethod<
   DeleteDashboardFilterStateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c362, 0) as any as S.Schema<DeleteDashboardFilterStateRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteDashboardFilterStateResponse>,
+  input: __S(5872, __c367, 0) as any as S.Schema<DeleteDashboardFilterStateRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteDashboardFilterStateResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11753,8 +11882,8 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5808, __c363, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  input: __S(5888, __c368, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11775,8 +11904,8 @@ export const deleteDatabaseOauth2Token: API.OperationMethod<
   DeleteDatabaseOauth2TokenError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c364, 0) as any as S.Schema<DeleteDatabaseOauth2TokenRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<DeleteDatabaseOauth2TokenResponse>,
+  input: __S(5904, __c369, 0) as any as S.Schema<DeleteDatabaseOauth2TokenRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<DeleteDatabaseOauth2TokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11797,8 +11926,8 @@ export const deleteDataset: API.OperationMethod<
   DeleteDatasetError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5840, __c365, 0) as any as S.Schema<DeleteDatasetRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteDatasetResponse>,
+  input: __S(5920, __c370, 0) as any as S.Schema<DeleteDatasetRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteDatasetResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11818,8 +11947,8 @@ export const deleteDatasetByPk: API.OperationMethod<
   DeleteDatasetByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c366, 0) as any as S.Schema<DeleteDatasetByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteDatasetByPkResponse>,
+  input: __S(5936, __c371, 0) as any as S.Schema<DeleteDatasetByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteDatasetByPkResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11839,8 +11968,8 @@ export const deleteDatasetColumn: API.OperationMethod<
   DeleteDatasetColumnError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5872, __c367, 0) as any as S.Schema<DeleteDatasetColumnRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteDatasetColumnResponse>,
+  input: __S(5952, __c372, 0) as any as S.Schema<DeleteDatasetColumnRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteDatasetColumnResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11860,8 +11989,8 @@ export const deleteDatasetMetric: API.OperationMethod<
   DeleteDatasetMetricError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c368, 0) as any as S.Schema<DeleteDatasetMetricRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteDatasetMetricResponse>,
+  input: __S(5968, __c373, 0) as any as S.Schema<DeleteDatasetMetricRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteDatasetMetricResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11881,8 +12010,8 @@ export const deleteExploreFormData: API.OperationMethod<
   DeleteExploreFormDataError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c370, 0) as any as S.Schema<DeleteExploreFormDataRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteExploreFormDataResponse>,
+  input: __S(6000, __c375, 0) as any as S.Schema<DeleteExploreFormDataRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteExploreFormDataResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11898,8 +12027,8 @@ export const deleteReport: API.OperationMethod<
   DeleteReportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5936, __c371, 0) as any as S.Schema<DeleteReportRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteReportResponse>,
+  input: __S(6016, __c376, 0) as any as S.Schema<DeleteReportRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteReportResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11919,8 +12048,8 @@ export const deleteReportByPk: API.OperationMethod<
   DeleteReportByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c372, 0) as any as S.Schema<DeleteReportByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteReportByPkResponse>,
+  input: __S(6032, __c377, 0) as any as S.Schema<DeleteReportByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteReportByPkResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11940,8 +12069,8 @@ export const deleteRowlevelsecurity: API.OperationMethod<
   DeleteRowlevelsecurityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5968, __c373, 0) as any as S.Schema<DeleteRowlevelsecurityRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteRowlevelsecurityResponse>,
+  input: __S(6048, __c378, 0) as any as S.Schema<DeleteRowlevelsecurityRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteRowlevelsecurityResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11960,8 +12089,8 @@ export const deleteRowlevelsecurityByPk: API.OperationMethod<
   DeleteRowlevelsecurityByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c374, 0) as any as S.Schema<DeleteRowlevelsecurityByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteRowlevelsecurityByPkResponse>,
+  input: __S(6064, __c379, 0) as any as S.Schema<DeleteRowlevelsecurityByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteRowlevelsecurityByPkResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11977,8 +12106,8 @@ export const deleteSavedQuery: API.OperationMethod<
   DeleteSavedQueryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6000, __c375, 0) as any as S.Schema<DeleteSavedQueryRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteSavedQueryResponse>,
+  input: __S(6080, __c380, 0) as any as S.Schema<DeleteSavedQueryRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteSavedQueryResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -11994,8 +12123,8 @@ export const deleteSavedQueryByPk: API.OperationMethod<
   DeleteSavedQueryByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c376, 0) as any as S.Schema<DeleteSavedQueryByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteSavedQueryByPkResponse>,
+  input: __S(6096, __c381, 0) as any as S.Schema<DeleteSavedQueryByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteSavedQueryByPkResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12010,8 +12139,8 @@ export const deleteSecurityGroup: API.OperationMethod<
   DeleteSecurityGroupError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6032, __c377, 0) as any as S.Schema<DeleteSecurityGroupRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteSecurityGroupResponse>,
+  input: __S(6112, __c382, 0) as any as S.Schema<DeleteSecurityGroupRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityGroupResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12029,8 +12158,8 @@ export const deleteSecurityPermissionsResource: API.OperationMethod<
   DeleteSecurityPermissionsResourceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c378, 0) as any as S.Schema<DeleteSecurityPermissionsResourceRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteSecurityPermissionsResourceResponse>,
+  input: __S(6128, __c383, 0) as any as S.Schema<DeleteSecurityPermissionsResourceRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityPermissionsResourceResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12045,8 +12174,8 @@ export const deleteSecurityResource: API.OperationMethod<
   DeleteSecurityResourceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6064, __c379, 0) as any as S.Schema<DeleteSecurityResourceRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteSecurityResourceResponse>,
+  input: __S(6144, __c384, 0) as any as S.Schema<DeleteSecurityResourceRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityResourceResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12061,8 +12190,8 @@ export const deleteSecurityRole: API.OperationMethod<
   DeleteSecurityRoleError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6096, __c381, 0) as any as S.Schema<DeleteSecurityRoleRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteSecurityRoleResponse>,
+  input: __S(6176, __c386, 0) as any as S.Schema<DeleteSecurityRoleRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityRoleResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12077,8 +12206,8 @@ export const deleteSecurityUser: API.OperationMethod<
   DeleteSecurityUserError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c382, 0) as any as S.Schema<DeleteSecurityUserRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteSecurityUserResponse>,
+  input: __S(6192, __c387, 0) as any as S.Schema<DeleteSecurityUserRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityUserResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12096,8 +12225,8 @@ export const deleteSecurityUserRegistration: API.OperationMethod<
   DeleteSecurityUserRegistrationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6128, __c383, 0) as any as S.Schema<DeleteSecurityUserRegistrationRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteSecurityUserRegistrationResponse>,
+  input: __S(6208, __c388, 0) as any as S.Schema<DeleteSecurityUserRegistrationRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteSecurityUserRegistrationResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12112,8 +12241,8 @@ export const deleteSecurityUserSessions: API.OperationMethod<
   DeleteSecurityUserSessionsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c384, 0) as any as S.Schema<DeleteSecurityUserSessionsRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<DeleteSecurityUserSessionsResponse>,
+  input: __S(6224, __c389, 0) as any as S.Schema<DeleteSecurityUserSessionsRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<DeleteSecurityUserSessionsResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12134,8 +12263,8 @@ export const deleteSemanticLayer: API.OperationMethod<
   DeleteSemanticLayerError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6160, __c385, 0) as any as S.Schema<DeleteSemanticLayerRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<DeleteSemanticLayerResponse>,
+  input: __S(6240, __c390, 0) as any as S.Schema<DeleteSemanticLayerRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<DeleteSemanticLayerResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12156,8 +12285,8 @@ export const deleteSemanticView: API.OperationMethod<
   DeleteSemanticViewError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c386, 0) as any as S.Schema<DeleteSemanticViewRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteSemanticViewResponse>,
+  input: __S(6256, __c391, 0) as any as S.Schema<DeleteSemanticViewRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteSemanticViewResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12178,8 +12307,8 @@ export const deleteSemanticViewByPk: API.OperationMethod<
   DeleteSemanticViewByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6192, __c387, 0) as any as S.Schema<DeleteSemanticViewByPkRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<DeleteSemanticViewByPkResponse>,
+  input: __S(6272, __c392, 0) as any as S.Schema<DeleteSemanticViewByPkRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<DeleteSemanticViewByPkResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12195,8 +12324,8 @@ export const deleteTag: API.OperationMethod<
   DeleteTagError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c388, 0) as any as S.Schema<DeleteTagRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteTagResponse>,
+  input: __S(6288, __c393, 0) as any as S.Schema<DeleteTagRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteTagResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12212,8 +12341,8 @@ export const deleteTag2: API.OperationMethod<
   DeleteTag2Error,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6224, __c389, 0) as any as S.Schema<DeleteTagRequest2>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteTagResponse2>,
+  input: __S(6304, __c394, 0) as any as S.Schema<DeleteTagRequest2>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteTagResponse2>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12229,8 +12358,8 @@ export const deleteTagByPk: API.OperationMethod<
   DeleteTagByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c390, 0) as any as S.Schema<DeleteTagByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteTagByPkResponse>,
+  input: __S(6320, __c395, 0) as any as S.Schema<DeleteTagByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteTagByPkResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12246,8 +12375,8 @@ export const deleteTagFavorites: API.OperationMethod<
   DeleteTagFavoritesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c392, 0) as any as S.Schema<DeleteTagFavoritesRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<DeleteTagFavoritesResponse>,
+  input: __S(6352, __c397, 0) as any as S.Schema<DeleteTagFavoritesRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<DeleteTagFavoritesResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12263,8 +12392,8 @@ export const deleteTheme: API.OperationMethod<
   DeleteThemeError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6288, __c393, 0) as any as S.Schema<DeleteThemeRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteThemeResponse>,
+  input: __S(6368, __c398, 0) as any as S.Schema<DeleteThemeRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteThemeResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12284,8 +12413,8 @@ export const deleteThemeByPk: API.OperationMethod<
   DeleteThemeByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c394, 0) as any as S.Schema<DeleteThemeByPkRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<DeleteThemeByPkResponse>,
+  input: __S(6384, __c399, 0) as any as S.Schema<DeleteThemeByPkRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteThemeByPkResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12301,8 +12430,8 @@ export const deleteThemeUnsetSystemDark: API.OperationMethod<
   DeleteThemeUnsetSystemDarkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6320, __c395, 0) as any as S.Schema<DeleteThemeUnsetSystemDarkRequest>,
-  output: __S(5392, __c337, 0) as any as S.Schema<DeleteThemeUnsetSystemDarkResponse>,
+  input: __S(6400, __c400, 0) as any as S.Schema<DeleteThemeUnsetSystemDarkRequest>,
+  output: __S(5472, __c342, 0) as any as S.Schema<DeleteThemeUnsetSystemDarkResponse>,
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12318,8 +12447,8 @@ export const deleteThemeUnsetSystemDefault: API.OperationMethod<
   DeleteThemeUnsetSystemDefaultError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c396, 0) as any as S.Schema<DeleteThemeUnsetSystemDefaultRequest>,
-  output: __S(5392, __c337, 0) as any as S.Schema<DeleteThemeUnsetSystemDefaultResponse>,
+  input: __S(6416, __c401, 0) as any as S.Schema<DeleteThemeUnsetSystemDefaultRequest>,
+  output: __S(5472, __c342, 0) as any as S.Schema<DeleteThemeUnsetSystemDefaultResponse>,
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12340,8 +12469,8 @@ export const duplicateDataset: API.OperationMethod<
   DuplicateDatasetError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6352, __c397, 0) as any as S.Schema<DuplicateDatasetRequest>,
-  output: __S(6354, __c397, 2) as any as S.Schema<DuplicateDatasetResponse>,
+  input: __S(6432, __c402, 0) as any as S.Schema<DuplicateDatasetRequest>,
+  output: __S(6434, __c402, 2) as any as S.Schema<DuplicateDatasetResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12357,8 +12486,8 @@ export const executeReport: API.OperationMethod<
   ExecuteReportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c398, 0) as any as S.Schema<ExecuteReportRequest>,
-  output: __S(6369, __c398, 1) as any as S.Schema<ExecuteReportResponse>,
+  input: __S(6448, __c403, 0) as any as S.Schema<ExecuteReportRequest>,
+  output: __S(6449, __c403, 1) as any as S.Schema<ExecuteReportResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12374,8 +12503,8 @@ export const executeSqllab: API.OperationMethod<
   ExecuteSqllabError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6384, __c399, 0) as any as S.Schema<ExecuteSqllabRequest>,
-  output: __S(6416, __c401, 0) as any as S.Schema<QueryExecutionResponseSchema>,
+  input: __S(6464, __c404, 0) as any as S.Schema<ExecuteSqllabRequest>,
+  output: __S(6496, __c406, 0) as any as S.Schema<QueryExecutionResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12391,8 +12520,8 @@ export const exportDashboardXlsx: API.OperationMethod<
   ExportDashboardXlsxError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c402, 0) as any as S.Schema<ExportDashboardXlsxRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<ExportDashboardXlsxResponse>,
+  input: __S(6512, __c407, 0) as any as S.Schema<ExportDashboardXlsxRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<ExportDashboardXlsxResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12408,8 +12537,8 @@ export const exportSqllabStreaming: API.OperationMethod<
   ExportSqllabStreamingError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6448, __c403, 0) as any as S.Schema<ExportSqllabStreamingRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<ExportSqllabStreamingResponse>,
+  input: __S(6528, __c408, 0) as any as S.Schema<ExportSqllabStreamingRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<ExportSqllabStreamingResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12425,8 +12554,8 @@ export const getAnnotationLayer: API.OperationMethod<
   GetAnnotationLayerError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetAnnotationLayerRequest>,
-  output: __S(35, __c2, 3) as any as S.Schema<GetAnnotationLayerResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetAnnotationLayerRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<GetAnnotationLayerResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12446,8 +12575,8 @@ export const getAnnotationLayerAnnotation: API.OperationMethod<
   GetAnnotationLayerAnnotationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetAnnotationLayerAnnotationRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<GetAnnotationLayerAnnotationResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetAnnotationLayerAnnotationRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<GetAnnotationLayerAnnotationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12467,8 +12596,8 @@ export const getAnnotationLayerByPk: API.OperationMethod<
   GetAnnotationLayerByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetAnnotationLayerByPkRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<GetAnnotationLayerByPkResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetAnnotationLayerByPkRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GetAnnotationLayerByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12488,8 +12617,8 @@ export const getAnnotationLayerRelated: API.OperationMethod<
   GetAnnotationLayerRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetAnnotationLayerRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetAnnotationLayerRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12505,8 +12634,8 @@ export const getAssetExport: API.OperationMethod<
   GetAssetExportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetAssetExportRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetAssetExportResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetAssetExportRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetAssetExportResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12522,8 +12651,8 @@ export const getAvailableDomains: API.OperationMethod<
   GetAvailableDomainsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetAvailableDomainsRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<GetAvailableDomainsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetAvailableDomainsRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<GetAvailableDomainsResponse>,
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12539,8 +12668,8 @@ export const getChart: API.OperationMethod<
   GetChartError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetChartRequest>,
-  output: __S(180, __c11, 4) as any as S.Schema<GetChartResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetChartRequest>,
+  output: __S(260, __c16, 4) as any as S.Schema<GetChartResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12556,8 +12685,8 @@ export const getChartCacheScreenshot: API.OperationMethod<
   GetChartCacheScreenshotError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetChartCacheScreenshotRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<ChartCacheScreenshotResponseSchema>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetChartCacheScreenshotRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<ChartCacheScreenshotResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12573,8 +12702,8 @@ export const getChartExport: API.OperationMethod<
   GetChartExportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetChartExportRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetChartExportResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetChartExportRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetChartExportResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12590,8 +12719,8 @@ export const getChartRelated: API.OperationMethod<
   GetChartRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetChartRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetChartRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12607,8 +12736,8 @@ export const getChartScreenshot: API.OperationMethod<
   GetChartScreenshotError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetChartScreenshotRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetChartScreenshotResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetChartScreenshotRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetChartScreenshotResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12624,8 +12753,8 @@ export const getChartThumbnail: API.OperationMethod<
   GetChartThumbnailError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetChartThumbnailRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetChartThumbnailResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetChartThumbnailRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetChartThumbnailResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12641,8 +12770,8 @@ export const getChartVersion: API.OperationMethod<
   GetChartVersionError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetChartVersionRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<GetChartVersionResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetChartVersionRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<GetChartVersionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12658,8 +12787,8 @@ export const getCssTemplate: API.OperationMethod<
   GetCssTemplateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetCssTemplateRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<GetCssTemplateResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetCssTemplateRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<GetCssTemplateResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12679,8 +12808,8 @@ export const getCssTemplateByPk: API.OperationMethod<
   GetCssTemplateByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetCssTemplateByPkRequest>,
-  output: __S(514, __c32, 2) as any as S.Schema<GetCssTemplateByPkResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetCssTemplateByPkRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<GetCssTemplateByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12696,8 +12825,8 @@ export const getCssTemplateRelated: API.OperationMethod<
   GetCssTemplateRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetCssTemplateRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetCssTemplateRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12713,8 +12842,8 @@ export const getDashboard: API.OperationMethod<
   GetDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetDashboardRequest>,
-  output: __S(547, __c34, 3) as any as S.Schema<GetDashboardResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetDashboardRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<GetDashboardResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12730,8 +12859,8 @@ export const getDashboardEmbedded: API.OperationMethod<
   GetDashboardEmbeddedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetDashboardEmbeddedRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<GetDashboardEmbeddedResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetDashboardEmbeddedRequest>,
+  output: __S(1618, __c101, 2) as any as S.Schema<GetDashboardEmbeddedResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12752,8 +12881,8 @@ export const getDashboardExport: API.OperationMethod<
   GetDashboardExportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetDashboardExportRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDashboardExportResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetDashboardExportRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardExportResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12773,8 +12902,8 @@ export const getDashboardExportAsExample: API.OperationMethod<
   GetDashboardExportAsExampleError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetDashboardExportAsExampleRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDashboardExportAsExampleResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetDashboardExportAsExampleRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardExportAsExampleResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12790,8 +12919,8 @@ export const getDashboardExportXlsxDownload: API.OperationMethod<
   GetDashboardExportXlsxDownloadError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetDashboardExportXlsxDownloadRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDashboardExportXlsxDownloadResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetDashboardExportXlsxDownloadRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardExportXlsxDownloadResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12807,8 +12936,8 @@ export const getDashboardExportXlsxStatus: API.OperationMethod<
   GetDashboardExportXlsxStatusError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetDashboardExportXlsxStatusRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDashboardExportXlsxStatusResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetDashboardExportXlsxStatusRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardExportXlsxStatusResponse>,
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12828,8 +12957,8 @@ export const getDashboardFilterState: API.OperationMethod<
   GetDashboardFilterStateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetDashboardFilterStateRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<GetDashboardFilterStateResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetDashboardFilterStateRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<GetDashboardFilterStateResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12849,8 +12978,8 @@ export const getDashboardPermalink: API.OperationMethod<
   GetDashboardPermalinkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetDashboardPermalinkRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<GetDashboardPermalinkResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetDashboardPermalinkRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<GetDashboardPermalinkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12866,8 +12995,8 @@ export const getDashboardRelated: API.OperationMethod<
   GetDashboardRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetDashboardRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetDashboardRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12883,8 +13012,8 @@ export const getDashboardScreenshot: API.OperationMethod<
   GetDashboardScreenshotError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetDashboardScreenshotRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDashboardScreenshotResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetDashboardScreenshotRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardScreenshotResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12900,8 +13029,8 @@ export const getDashboardThumbnail: API.OperationMethod<
   GetDashboardThumbnailError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetDashboardThumbnailRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDashboardThumbnailResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<GetDashboardThumbnailRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDashboardThumbnailResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12917,8 +13046,8 @@ export const getDashboardVersion: API.OperationMethod<
   GetDashboardVersionError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetDashboardVersionRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<GetDashboardVersionResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<GetDashboardVersionRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<GetDashboardVersionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12934,8 +13063,8 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(787, __c49, 3) as any as S.Schema<GetDatabaseResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(867, __c54, 3) as any as S.Schema<GetDatabaseResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12951,8 +13080,8 @@ export const getDatabaseByPk: API.OperationMethod<
   GetDatabaseByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetDatabaseByPkRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<GetDatabaseByPkResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<GetDatabaseByPkRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<GetDatabaseByPkResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12968,8 +13097,8 @@ export const getDatabaseConnection: API.OperationMethod<
   GetDatabaseConnectionError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetDatabaseConnectionRequest>,
-  output: __S(849, __c53, 1) as any as S.Schema<DatabaseConnectionSchemaOutput>,
+  input: __S(928, __c58, 0) as any as S.Schema<GetDatabaseConnectionRequest>,
+  output: __S(929, __c58, 1) as any as S.Schema<DatabaseConnectionSchemaOutput>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -12985,8 +13114,8 @@ export const getDatabaseExport: API.OperationMethod<
   GetDatabaseExportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<GetDatabaseExportRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDatabaseExportResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<GetDatabaseExportRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDatabaseExportResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13002,8 +13131,8 @@ export const getDatabaseOauth2: API.OperationMethod<
   GetDatabaseOauth2Error,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetDatabaseOauth2Request>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDatabaseOauth2Response>,
+  input: __S(976, __c61, 0) as any as S.Schema<GetDatabaseOauth2Request>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDatabaseOauth2Response>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13019,8 +13148,8 @@ export const getDatabaseRelated: API.OperationMethod<
   GetDatabaseRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<GetDatabaseRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(992, __c62, 0) as any as S.Schema<GetDatabaseRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13036,8 +13165,8 @@ export const getDatabaseRelatedObjects: API.OperationMethod<
   GetDatabaseRelatedObjectsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetDatabaseRelatedObjectsRequest>,
-  output: __S(932, __c58, 4) as any as S.Schema<DatabaseRelatedObjectsResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<GetDatabaseRelatedObjectsRequest>,
+  output: __S(1012, __c63, 4) as any as S.Schema<DatabaseRelatedObjectsResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13057,8 +13186,8 @@ export const getDatabaseSelectStar: API.OperationMethod<
   GetDatabaseSelectStarError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<GetDatabaseSelectStarRequest>,
-  output: __S(5392, __c337, 0) as any as S.Schema<SelectStarResponseSchema>,
+  input: __S(1056, __c66, 0) as any as S.Schema<GetDatabaseSelectStarRequest>,
+  output: __S(5472, __c342, 0) as any as S.Schema<SelectStarResponseSchema>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13078,8 +13207,8 @@ export const getDatabaseSelectStar2: API.OperationMethod<
   GetDatabaseSelectStar2Error,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<GetDatabaseSelectStarRequest2>,
-  output: __S(5392, __c337, 0) as any as S.Schema<SelectStarResponseSchema>,
+  input: __S(1072, __c67, 0) as any as S.Schema<GetDatabaseSelectStarRequest2>,
+  output: __S(5472, __c342, 0) as any as S.Schema<SelectStarResponseSchema>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13099,8 +13228,8 @@ export const getDatabaseTable: API.OperationMethod<
   GetDatabaseTableError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<GetDatabaseTableRequest>,
-  output: __S(1015, __c63, 7) as any as S.Schema<TableMetadataResponseSchema>,
+  input: __S(1088, __c68, 0) as any as S.Schema<GetDatabaseTableRequest>,
+  output: __S(1095, __c68, 7) as any as S.Schema<TableMetadataResponseSchema>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13120,8 +13249,8 @@ export const getDatabaseTableExtra: API.OperationMethod<
   GetDatabaseTableExtraError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetDatabaseTableExtraRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
+  input: __S(1104, __c69, 0) as any as S.Schema<GetDatabaseTableExtraRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13137,8 +13266,8 @@ export const getDatabaseTableMetadata: API.OperationMethod<
   GetDatabaseTableMetadataError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<GetDatabaseTableMetadataRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
+  input: __S(1136, __c71, 0) as any as S.Schema<GetDatabaseTableMetadataRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13154,8 +13283,8 @@ export const getDatabaseTableMetadataExtra: API.OperationMethod<
   GetDatabaseTableMetadataExtraError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<GetDatabaseTableMetadataExtraRequest>,
-  output: __S(1040, __c65, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
+  input: __S(1168, __c73, 0) as any as S.Schema<GetDatabaseTableMetadataExtraRequest>,
+  output: __S(1120, __c70, 0) as any as S.Schema<TableExtraMetadataResponseSchema>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13171,8 +13300,8 @@ export const getDataset: API.OperationMethod<
   GetDatasetError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<GetDatasetRequest>,
-  output: __S(1108, __c69, 4) as any as S.Schema<GetDatasetResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<GetDatasetRequest>,
+  output: __S(1188, __c74, 4) as any as S.Schema<GetDatasetResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13188,8 +13317,8 @@ export const getDatasetByIdOrUuid: API.OperationMethod<
   GetDatasetByIdOrUuidError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<GetDatasetByIdOrUuidRequest>,
-  output: __S(1143, __c71, 7) as any as S.Schema<GetDatasetByIdOrUuidResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<GetDatasetByIdOrUuidRequest>,
+  output: __S(1223, __c76, 7) as any as S.Schema<GetDatasetByIdOrUuidResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13205,8 +13334,8 @@ export const getDatasetDistinct: API.OperationMethod<
   GetDatasetDistinctError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<GetDatasetDistinctRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<DistincResponseSchema>,
+  input: __S(1232, __c77, 0) as any as S.Schema<GetDatasetDistinctRequest>,
+  output: __S(1250, __c78, 2) as any as S.Schema<DistincResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13226,8 +13355,8 @@ export const getDatasetDrillInfo: API.OperationMethod<
   GetDatasetDrillInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<GetDatasetDrillInfoRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<GetDatasetDrillInfoResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<GetDatasetDrillInfoRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<GetDatasetDrillInfoResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13243,8 +13372,8 @@ export const getDatasetExport: API.OperationMethod<
   GetDatasetExportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<GetDatasetExportRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDatasetExportResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<GetDatasetExportRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDatasetExportResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13260,8 +13389,8 @@ export const getDatasetOrCreate: API.OperationMethod<
   GetDatasetOrCreateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<GetDatasetOrCreateRequest>,
-  output: __S(1218, __c76, 2) as any as S.Schema<GetDatasetOrCreateResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<GetDatasetOrCreateRequest>,
+  output: __S(1298, __c81, 2) as any as S.Schema<GetDatasetOrCreateResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13277,8 +13406,8 @@ export const getDatasetPurgeImpact: API.OperationMethod<
   GetDatasetPurgeImpactError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<GetDatasetPurgeImpactRequest>,
-  output: __S(1236, __c77, 4) as any as S.Schema<DatasetPurgeImpactSchema>,
+  input: __S(1312, __c82, 0) as any as S.Schema<GetDatasetPurgeImpactRequest>,
+  output: __S(67, __c4, 3) as any as S.Schema<DatasetPurgeImpactSchema>,
   errors: [Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13294,8 +13423,8 @@ export const getDatasetRelated: API.OperationMethod<
   GetDatasetRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<GetDatasetRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(1328, __c83, 0) as any as S.Schema<GetDatasetRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13311,8 +13440,8 @@ export const getDatasetRelatedObjects: API.OperationMethod<
   GetDatasetRelatedObjectsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<GetDatasetRelatedObjectsRequest>,
-  output: __S(1282, __c80, 2) as any as S.Schema<DatasetRelatedObjectsResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<GetDatasetRelatedObjectsRequest>,
+  output: __S(1362, __c85, 2) as any as S.Schema<DatasetRelatedObjectsResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13328,8 +13457,8 @@ export const getDatasetRelatedObjects2: API.OperationMethod<
   GetDatasetRelatedObjects2Error,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<GetDatasetRelatedObjectsRequest2>,
-  output: __S(1282, __c80, 2) as any as S.Schema<DatasetRelatedObjectsResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<GetDatasetRelatedObjectsRequest2>,
+  output: __S(1362, __c85, 2) as any as S.Schema<DatasetRelatedObjectsResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13345,8 +13474,8 @@ export const getDatasetVersion: API.OperationMethod<
   GetDatasetVersionError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<GetDatasetVersionRequest>,
-  output: __S(449, __c28, 1) as any as S.Schema<GetDatasetVersionResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<GetDatasetVersionRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<GetDatasetVersionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13362,8 +13491,8 @@ export const getDatasource: API.OperationMethod<
   GetDatasourceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<GetDatasourceRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetDatasourceResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<GetDatasourceRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetDatasourceResponse>,
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13383,8 +13512,8 @@ export const getDatasourceByDatasourceId: API.OperationMethod<
   GetDatasourceByDatasourceIdError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetDatasourceByDatasourceIdRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<GetDatasourceByDatasourceIdResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<GetDatasourceByDatasourceIdRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<GetDatasourceByDatasourceIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13400,8 +13529,8 @@ export const getEmbeddedDashboard: API.OperationMethod<
   GetEmbeddedDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<GetEmbeddedDashboardRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<GetEmbeddedDashboardResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<GetEmbeddedDashboardRequest>,
+  output: __S(1618, __c101, 2) as any as S.Schema<GetEmbeddedDashboardResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13417,8 +13546,8 @@ export const getExplore: API.OperationMethod<
   GetExploreError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<GetExploreRequest>,
-  output: __S(1414, __c88, 6) as any as S.Schema<ExploreContextSchema>,
+  input: __S(1488, __c93, 0) as any as S.Schema<GetExploreRequest>,
+  output: __S(1494, __c93, 6) as any as S.Schema<ExploreContextSchema>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13438,8 +13567,8 @@ export const getExploreFormData: API.OperationMethod<
   GetExploreFormDataError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<GetExploreFormDataRequest>,
-  output: __S(1441, __c90, 1) as any as S.Schema<GetExploreFormDataResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<GetExploreFormDataRequest>,
+  output: __S(1521, __c95, 1) as any as S.Schema<GetExploreFormDataResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13460,8 +13589,8 @@ export const getExplorePermalink: API.OperationMethod<
   GetExplorePermalinkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<GetExplorePermalinkRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<GetExplorePermalinkResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<GetExplorePermalinkRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<GetExplorePermalinkResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13477,8 +13606,8 @@ export const getLog: API.OperationMethod<
   GetLogError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<GetLogRequest>,
-  output: __S(1474, __c92, 2) as any as S.Schema<GetLogResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<GetLogRequest>,
+  output: __S(1554, __c97, 2) as any as S.Schema<GetLogResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13494,8 +13623,8 @@ export const getLogByPk: API.OperationMethod<
   GetLogByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<GetLogByPkRequest>,
-  output: __S(1505, __c94, 1) as any as S.Schema<GetLogByPkResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<GetLogByPkRequest>,
+  output: __S(1585, __c99, 1) as any as S.Schema<GetLogByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13511,8 +13640,8 @@ export const getMe: API.OperationMethod<
   GetMeError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<GetMeRequest>,
-  output: __S(1569, __c98, 1) as any as S.Schema<GetMeResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<GetMeRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<GetMeResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13528,8 +13657,8 @@ export const getMeRoles: API.OperationMethod<
   GetMeRolesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<GetMeRolesRequest>,
-  output: __S(1569, __c98, 1) as any as S.Schema<GetMeRolesResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<GetMeRolesRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<GetMeRolesResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13545,8 +13674,8 @@ export const getQuery: API.OperationMethod<
   GetQueryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<GetQueryRequest>,
-  output: __S(1604, __c100, 4) as any as S.Schema<GetQueryResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<GetQueryRequest>,
+  output: __S(1684, __c105, 4) as any as S.Schema<GetQueryResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13562,8 +13691,8 @@ export const getQueryByPk: API.OperationMethod<
   GetQueryByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<GetQueryByPkRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<GetQueryByPkResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<GetQueryByPkRequest>,
+  output: __S(1697, __c106, 1) as any as S.Schema<GetQueryByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13579,8 +13708,8 @@ export const getQueryDistinct: API.OperationMethod<
   GetQueryDistinctError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<GetQueryDistinctRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<DistincResponseSchema>,
+  input: __S(1728, __c108, 0) as any as S.Schema<GetQueryDistinctRequest>,
+  output: __S(1250, __c78, 2) as any as S.Schema<DistincResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13596,8 +13725,8 @@ export const getQueryRelated: API.OperationMethod<
   GetQueryRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<GetQueryRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(1744, __c109, 0) as any as S.Schema<GetQueryRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13613,8 +13742,8 @@ export const getReport: API.OperationMethod<
   GetReportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<GetReportRequest>,
-  output: __S(1685, __c105, 5) as any as S.Schema<GetReportResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<GetReportRequest>,
+  output: __S(1765, __c110, 5) as any as S.Schema<GetReportResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13634,8 +13763,8 @@ export const getReportByPk: API.OperationMethod<
   GetReportByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<GetReportByPkRequest>,
-  output: __S(1701, __c106, 5) as any as S.Schema<GetReportByPkResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<GetReportByPkRequest>,
+  output: __S(1781, __c111, 5) as any as S.Schema<GetReportByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13651,8 +13780,8 @@ export const getReportConfiguration: API.OperationMethod<
   GetReportConfigurationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<GetReportConfigurationRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<GetReportConfigurationResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<GetReportConfigurationRequest>,
+  output: __S(1841, __c115, 1) as any as S.Schema<GetReportConfigurationResponse>,
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13668,8 +13797,8 @@ export const getReportLog: API.OperationMethod<
   GetReportLogError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<GetReportLogRequest>,
-  output: __S(1777, __c111, 1) as any as S.Schema<GetReportLogResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<GetReportLogRequest>,
+  output: __S(1857, __c116, 1) as any as S.Schema<GetReportLogResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13685,8 +13814,8 @@ export const getReportRelated: API.OperationMethod<
   GetReportRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<GetReportRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(1904, __c119, 0) as any as S.Schema<GetReportRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13702,8 +13831,8 @@ export const getRowlevelsecurity: API.OperationMethod<
   GetRowlevelsecurityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<GetRowlevelsecurityRequest>,
-  output: __S(1843, __c115, 3) as any as S.Schema<GetRowlevelsecurityResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<GetRowlevelsecurityRequest>,
+  output: __S(1923, __c120, 3) as any as S.Schema<GetRowlevelsecurityResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13723,8 +13852,8 @@ export const getRowlevelsecurityByPk: API.OperationMethod<
   GetRowlevelsecurityByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<GetRowlevelsecurityByPkRequest>,
-  output: __S(1858, __c116, 2) as any as S.Schema<GetRowlevelsecurityByPkResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<GetRowlevelsecurityByPkRequest>,
+  output: __S(1938, __c121, 2) as any as S.Schema<GetRowlevelsecurityByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13744,8 +13873,8 @@ export const getRowlevelsecurityRelated: API.OperationMethod<
   GetRowlevelsecurityRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<GetRowlevelsecurityRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(1952, __c122, 0) as any as S.Schema<GetRowlevelsecurityRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13761,8 +13890,8 @@ export const getSavedQuery: API.OperationMethod<
   GetSavedQueryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<GetSavedQueryRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetSavedQueryResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<GetSavedQueryRequest>,
+  output: __S(1971, __c123, 3) as any as S.Schema<GetSavedQueryResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13782,8 +13911,8 @@ export const getSavedQueryByPk: API.OperationMethod<
   GetSavedQueryByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<GetSavedQueryByPkRequest>,
-  output: __S(1922, __c120, 2) as any as S.Schema<GetSavedQueryByPkResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<GetSavedQueryByPkRequest>,
+  output: __S(2002, __c125, 2) as any as S.Schema<GetSavedQueryByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13799,8 +13928,8 @@ export const getSavedQueryDistinct: API.OperationMethod<
   GetSavedQueryDistinctError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<GetSavedQueryDistinctRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<DistincResponseSchema>,
+  input: __S(2016, __c126, 0) as any as S.Schema<GetSavedQueryDistinctRequest>,
+  output: __S(1250, __c78, 2) as any as S.Schema<DistincResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13816,8 +13945,8 @@ export const getSavedQueryExport: API.OperationMethod<
   GetSavedQueryExportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<GetSavedQueryExportRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetSavedQueryExportResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<GetSavedQueryExportRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetSavedQueryExportResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13833,8 +13962,8 @@ export const getSavedQueryRelated: API.OperationMethod<
   GetSavedQueryRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<GetSavedQueryRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(2048, __c128, 0) as any as S.Schema<GetSavedQueryRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13850,8 +13979,8 @@ export const getSecurityCsrfToken: API.OperationMethod<
   GetSecurityCsrfTokenError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<GetSecurityCsrfTokenRequest>,
-  output: __S(5392, __c337, 0) as any as S.Schema<GetSecurityCsrfTokenResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<GetSecurityCsrfTokenRequest>,
+  output: __S(5472, __c342, 0) as any as S.Schema<GetSecurityCsrfTokenResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13871,8 +14000,8 @@ export const getSecurityGroup: API.OperationMethod<
   GetSecurityGroupError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetSecurityGroupRequest>,
-  output: __S(2033, __c127, 1) as any as S.Schema<GetSecurityGroupResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<GetSecurityGroupRequest>,
+  output: __S(2113, __c132, 1) as any as S.Schema<GetSecurityGroupResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13888,8 +14017,8 @@ export const getSecurityGroups: API.OperationMethod<
   GetSecurityGroupsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<GetSecurityGroupsRequest>,
-  output: __S(2098, __c131, 2) as any as S.Schema<GetSecurityGroupsResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<GetSecurityGroupsRequest>,
+  output: __S(2178, __c136, 2) as any as S.Schema<GetSecurityGroupsResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13905,8 +14034,8 @@ export const getSecurityPermissions: API.OperationMethod<
   GetSecurityPermissionsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<GetSecurityPermissionsRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<GetSecurityPermissionsResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<GetSecurityPermissionsRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<GetSecurityPermissionsResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13926,8 +14055,8 @@ export const getSecurityPermissionsByPk: API.OperationMethod<
   GetSecurityPermissionsByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<GetSecurityPermissionsByPkRequest>,
-  output: __S(2160, __c135, 0) as any as S.Schema<GetSecurityPermissionsByPkResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<GetSecurityPermissionsByPkRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<GetSecurityPermissionsByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13947,8 +14076,8 @@ export const getSecurityPermissionsResource: API.OperationMethod<
   GetSecurityPermissionsResourceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<GetSecurityPermissionsResourceRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<GetSecurityPermissionsResourceResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<GetSecurityPermissionsResourceRequest>,
+  output: __S(2257, __c141, 1) as any as S.Schema<GetSecurityPermissionsResourceResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13967,8 +14096,8 @@ export const getSecurityPermissionsResources: API.OperationMethod<
   GetSecurityPermissionsResourcesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetSecurityPermissionsResourcesRequest>,
-  output: __S(2210, __c138, 2) as any as S.Schema<GetSecurityPermissionsResourcesResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<GetSecurityPermissionsResourcesRequest>,
+  output: __S(2290, __c143, 2) as any as S.Schema<GetSecurityPermissionsResourcesResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -13988,8 +14117,8 @@ export const getSecurityResource: API.OperationMethod<
   GetSecurityResourceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<GetSecurityResourceRequest>,
-  output: __S(2160, __c135, 0) as any as S.Schema<GetSecurityResourceResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<GetSecurityResourceRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<GetSecurityResourceResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14005,8 +14134,8 @@ export const getSecurityResources: API.OperationMethod<
   GetSecurityResourcesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<GetSecurityResourcesRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<GetSecurityResourcesResponse>,
+  input: __S(2320, __c145, 0) as any as S.Schema<GetSecurityResourcesRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<GetSecurityResourcesResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14026,8 +14155,8 @@ export const getSecurityRole: API.OperationMethod<
   GetSecurityRoleError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<GetSecurityRoleRequest>,
-  output: __S(2160, __c135, 0) as any as S.Schema<GetSecurityRoleResponse>,
+  input: __S(2336, __c146, 0) as any as S.Schema<GetSecurityRoleRequest>,
+  output: __S(2240, __c140, 0) as any as S.Schema<GetSecurityRoleResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14043,8 +14172,8 @@ export const getSecurityRoles: API.OperationMethod<
   GetSecurityRolesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<GetSecurityRolesRequest>,
-  output: __S(2128, __c133, 0) as any as S.Schema<GetSecurityRolesResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<GetSecurityRolesRequest>,
+  output: __S(2208, __c138, 0) as any as S.Schema<GetSecurityRolesResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14060,8 +14189,8 @@ export const getSecuritySubject: API.OperationMethod<
   GetSecuritySubjectError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<GetSecuritySubjectRequest>,
-  output: __S(2323, __c145, 3) as any as S.Schema<GetSecuritySubjectResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<GetSecuritySubjectRequest>,
+  output: __S(2403, __c150, 3) as any as S.Schema<GetSecuritySubjectResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14081,8 +14210,8 @@ export const getSecuritySubjectByPk: API.OperationMethod<
   GetSecuritySubjectByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<GetSecuritySubjectByPkRequest>,
-  output: __S(2339, __c146, 3) as any as S.Schema<GetSecuritySubjectByPkResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<GetSecuritySubjectByPkRequest>,
+  output: __S(2419, __c151, 3) as any as S.Schema<GetSecuritySubjectByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14102,8 +14231,8 @@ export const getSecurityUser: API.OperationMethod<
   GetSecurityUserError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<GetSecurityUserRequest>,
-  output: __S(2369, __c148, 1) as any as S.Schema<GetSecurityUserResponse>,
+  input: __S(2448, __c153, 0) as any as S.Schema<GetSecurityUserRequest>,
+  output: __S(2449, __c153, 1) as any as S.Schema<GetSecurityUserResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14123,8 +14252,8 @@ export const getSecurityUserRegistration: API.OperationMethod<
   GetSecurityUserRegistrationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<GetSecurityUserRegistrationRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<GetSecurityUserRegistrationResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<GetSecurityUserRegistrationRequest>,
+  output: __S(2481, __c155, 1) as any as S.Schema<GetSecurityUserRegistrationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14143,8 +14272,8 @@ export const getSecurityUserRegistrations: API.OperationMethod<
   GetSecurityUserRegistrationsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetSecurityUserRegistrationsRequest>,
-  output: __S(2419, __c151, 3) as any as S.Schema<GetSecurityUserRegistrationsResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<GetSecurityUserRegistrationsRequest>,
+  output: __S(2499, __c156, 3) as any as S.Schema<GetSecurityUserRegistrationsResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14160,8 +14289,8 @@ export const getSecurityUsers: API.OperationMethod<
   GetSecurityUsersError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetSecurityUsersRequest>,
-  output: __S(2434, __c152, 2) as any as S.Schema<GetSecurityUsersResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<GetSecurityUsersRequest>,
+  output: __S(2514, __c157, 2) as any as S.Schema<GetSecurityUsersResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14177,8 +14306,8 @@ export const getSemanticLayer: API.OperationMethod<
   GetSemanticLayerError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<GetSemanticLayerRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetSemanticLayerResponse>,
+  input: __S(2528, __c158, 0) as any as S.Schema<GetSemanticLayerRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticLayerResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14194,8 +14323,8 @@ export const getSemanticLayerByUuid: API.OperationMethod<
   GetSemanticLayerByUuidError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<GetSemanticLayerByUuidRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetSemanticLayerByUuidResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<GetSemanticLayerByUuidRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticLayerByUuidResponse>,
   errors: [Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14211,8 +14340,8 @@ export const getSemanticLayerConnections: API.OperationMethod<
   GetSemanticLayerConnectionsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<GetSemanticLayerConnectionsRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetSemanticLayerConnectionsResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<GetSemanticLayerConnectionsRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticLayerConnectionsResponse>,
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14228,8 +14357,8 @@ export const getSemanticLayerTypes: API.OperationMethod<
   GetSemanticLayerTypesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<GetSemanticLayerTypesRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetSemanticLayerTypesResponse>,
+  input: __S(2576, __c161, 0) as any as S.Schema<GetSemanticLayerTypesRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticLayerTypesResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14249,8 +14378,8 @@ export const getSemanticViewStructure: API.OperationMethod<
   GetSemanticViewStructureError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetSemanticViewStructureRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetSemanticViewStructureResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<GetSemanticViewStructureRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetSemanticViewStructureResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14266,8 +14395,8 @@ export const getSqllabExport: API.OperationMethod<
   GetSqllabExportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<GetSqllabExportRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetSqllabExportResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<GetSqllabExportRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetSqllabExportResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14287,8 +14416,8 @@ export const getSqllabPermalink: API.OperationMethod<
   GetSqllabPermalinkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetSqllabPermalinkRequest>,
-  output: __S(704, __c44, 0) as any as S.Schema<GetSqllabPermalinkResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<GetSqllabPermalinkRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<GetSqllabPermalinkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14304,8 +14433,8 @@ export const getTag: API.OperationMethod<
   GetTagError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetTagRequest>,
-  output: __S(2610, __c163, 2) as any as S.Schema<GetTagResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<GetTagRequest>,
+  output: __S(2690, __c168, 2) as any as S.Schema<GetTagResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14321,8 +14450,8 @@ export const getTagByPk: API.OperationMethod<
   GetTagByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetTagByPkRequest>,
-  output: __S(2641, __c165, 1) as any as S.Schema<GetTagByPkResponse>,
+  input: __S(2720, __c170, 0) as any as S.Schema<GetTagByPkRequest>,
+  output: __S(2721, __c170, 1) as any as S.Schema<GetTagByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14338,8 +14467,8 @@ export const getTagRelated: API.OperationMethod<
   GetTagRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetTagRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(2736, __c171, 0) as any as S.Schema<GetTagRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14355,8 +14484,8 @@ export const getTheme: API.OperationMethod<
   GetThemeError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GetThemeRequest>,
-  output: __S(2675, __c167, 3) as any as S.Schema<GetThemeResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<GetThemeRequest>,
+  output: __S(2755, __c172, 3) as any as S.Schema<GetThemeResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14372,8 +14501,8 @@ export const getThemeByPk: API.OperationMethod<
   GetThemeByPkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<GetThemeByPkRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<GetThemeByPkResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<GetThemeByPkRequest>,
+  output: __S(2770, __c173, 2) as any as S.Schema<GetThemeByPkResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14393,8 +14522,8 @@ export const getThemeExport: API.OperationMethod<
   GetThemeExportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<GetThemeExportRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetThemeExportResponse>,
+  input: __S(2784, __c174, 0) as any as S.Schema<GetThemeExportRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetThemeExportResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14410,8 +14539,8 @@ export const getThemeRelated: API.OperationMethod<
   GetThemeRelatedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<GetThemeRelatedRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<RelatedResponseSchema>,
+  input: __S(2800, __c175, 0) as any as S.Schema<GetThemeRelatedRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<RelatedResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14427,8 +14556,8 @@ export const getThemeSystem: API.OperationMethod<
   GetThemeSystemError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<GetThemeSystemRequest>,
-  output: __S(2754, __c172, 2) as any as S.Schema<GetThemeSystemResponse>,
+  input: __S(2832, __c177, 0) as any as S.Schema<GetThemeSystemRequest>,
+  output: __S(2834, __c177, 2) as any as S.Schema<GetThemeSystemResponse>,
   errors: [Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14444,8 +14573,8 @@ export const getUserAvatarPng: API.OperationMethod<
   GetUserAvatarPngError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<GetUserAvatarPngRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<GetUserAvatarPngResponse>,
+  input: __S(2848, __c178, 0) as any as S.Schema<GetUserAvatarPngRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<GetUserAvatarPngResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14461,8 +14590,8 @@ export const importAsset: API.OperationMethod<
   ImportAssetError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<ImportAssetRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<ImportAssetResponse>,
+  input: __S(2864, __c179, 0) as any as S.Schema<ImportAssetRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ImportAssetResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14478,8 +14607,8 @@ export const importChart: API.OperationMethod<
   ImportChartError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<ImportChartRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<ImportChartResponse>,
+  input: __S(2880, __c180, 0) as any as S.Schema<ImportChartRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ImportChartResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14495,8 +14624,8 @@ export const importDashboard: API.OperationMethod<
   ImportDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<ImportDashboardRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<ImportDashboardResponse>,
+  input: __S(2896, __c181, 0) as any as S.Schema<ImportDashboardRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ImportDashboardResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14512,8 +14641,8 @@ export const importDatabase: API.OperationMethod<
   ImportDatabaseError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<ImportDatabaseRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<ImportDatabaseResponse>,
+  input: __S(2912, __c182, 0) as any as S.Schema<ImportDatabaseRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ImportDatabaseResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14529,8 +14658,8 @@ export const importDataset: API.OperationMethod<
   ImportDatasetError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<ImportDatasetRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<ImportDatasetResponse>,
+  input: __S(2928, __c183, 0) as any as S.Schema<ImportDatasetRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ImportDatasetResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14546,8 +14675,8 @@ export const importSavedQuery: API.OperationMethod<
   ImportSavedQueryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<ImportSavedQueryRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<ImportSavedQueryResponse>,
+  input: __S(2944, __c184, 0) as any as S.Schema<ImportSavedQueryRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ImportSavedQueryResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14563,8 +14692,8 @@ export const importTheme: API.OperationMethod<
   ImportThemeError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<ImportThemeRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<ImportThemeResponse>,
+  input: __S(2960, __c185, 0) as any as S.Schema<ImportThemeRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ImportThemeResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14580,8 +14709,8 @@ export const invalidateCachekey: API.OperationMethod<
   InvalidateCachekeyError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2898, __c181, 2) as any as S.Schema<InvalidateCachekeyRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<InvalidateCachekeyResponse>,
+  input: __S(2978, __c186, 2) as any as S.Schema<InvalidateCachekeyRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<InvalidateCachekeyResponse>,
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14601,8 +14730,8 @@ export const listAdvancedDataTypeConvert: API.OperationMethod<
   ListAdvancedDataTypeConvertError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<ListAdvancedDataTypeConvertRequest>,
-  output: __S(2929, __c183, 1) as any as S.Schema<AdvancedDataTypeSchema>,
+  input: __S(3008, __c188, 0) as any as S.Schema<ListAdvancedDataTypeConvertRequest>,
+  output: __S(3009, __c188, 1) as any as S.Schema<AdvancedDataTypeSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14618,8 +14747,8 @@ export const listAdvancedDataTypeTypes: API.OperationMethod<
   ListAdvancedDataTypeTypesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<ListAdvancedDataTypeTypesRequest>,
-  output: __S(2960, __c185, 0) as any as S.Schema<ListAdvancedDataTypeTypesResponse>,
+  input: __S(3024, __c189, 0) as any as S.Schema<ListAdvancedDataTypeTypesRequest>,
+  output: __S(3040, __c190, 0) as any as S.Schema<ListAdvancedDataTypeTypesResponse>,
   errors: [Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14638,8 +14767,8 @@ export const listAnnotationLayerAnnotation: API.OperationMethod<
   ListAnnotationLayerAnnotationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<ListAnnotationLayerAnnotationRequest>,
-  output: __S(2980, __c186, 4) as any as S.Schema<ListAnnotationLayerAnnotationResponse>,
+  input: __S(3056, __c191, 0) as any as S.Schema<ListAnnotationLayerAnnotationRequest>,
+  output: __S(3060, __c191, 4) as any as S.Schema<ListAnnotationLayerAnnotationResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14655,8 +14784,8 @@ export const listAnnotationLayerInfo: API.OperationMethod<
   ListAnnotationLayerInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<ListAnnotationLayerInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListAnnotationLayerInfoResponse>,
+  input: __S(3072, __c192, 0) as any as S.Schema<ListAnnotationLayerInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListAnnotationLayerInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14672,8 +14801,8 @@ export const listChart: API.OperationMethod<
   ListChartError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<ListChartRequest>,
-  output: __S(3029, __c189, 5) as any as S.Schema<ListChartResponse>,
+  input: __S(3104, __c194, 0) as any as S.Schema<ListChartRequest>,
+  output: __S(3109, __c194, 5) as any as S.Schema<ListChartResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14689,8 +14818,8 @@ export const listChartActivity: API.OperationMethod<
   ListChartActivityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<ListChartActivityRequest>,
-  output: __S(3059, __c191, 3) as any as S.Schema<ActivityResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<ListChartActivityRequest>,
+  output: __S(3139, __c196, 3) as any as S.Schema<ActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14706,8 +14835,8 @@ export const listChartData: API.OperationMethod<
   ListChartDataError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<ListChartDataRequest>,
-  output: __S(328, __c20, 8) as any as S.Schema<ChartDataResponseSchema>,
+  input: __S(3152, __c197, 0) as any as S.Schema<ListChartDataRequest>,
+  output: __S(408, __c25, 8) as any as S.Schema<ChartDataResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14723,8 +14852,8 @@ export const listChartDeckLayers: API.OperationMethod<
   ListChartDeckLayersError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<ListChartDeckLayersRequest>,
-  output: __S(3091, __c193, 3) as any as S.Schema<ListChartDeckLayersResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<ListChartDeckLayersRequest>,
+  output: __S(3171, __c198, 3) as any as S.Schema<ListChartDeckLayersResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14740,8 +14869,8 @@ export const listChartFavoriteStatus: API.OperationMethod<
   ListChartFavoriteStatusError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<ListChartFavoriteStatusRequest>,
-  output: __S(3122, __c195, 2) as any as S.Schema<GetFavStarIdsSchema>,
+  input: __S(3184, __c199, 0) as any as S.Schema<ListChartFavoriteStatusRequest>,
+  output: __S(3202, __c200, 2) as any as S.Schema<GetFavStarIdsSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14757,8 +14886,8 @@ export const listChartInfo: API.OperationMethod<
   ListChartInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<ListChartInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListChartInfoResponse>,
+  input: __S(3216, __c201, 0) as any as S.Schema<ListChartInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListChartInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14774,8 +14903,8 @@ export const listChartVersions: API.OperationMethod<
   ListChartVersionsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<ListChartVersionsRequest>,
-  output: __S(3185, __c199, 1) as any as S.Schema<ListChartVersionsResponse>,
+  input: __S(3248, __c203, 0) as any as S.Schema<ListChartVersionsRequest>,
+  output: __S(3265, __c204, 1) as any as S.Schema<ListChartVersionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14791,8 +14920,8 @@ export const listCssTemplateInfo: API.OperationMethod<
   ListCssTemplateInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<ListCssTemplateInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListCssTemplateInfoResponse>,
+  input: __S(3280, __c205, 0) as any as S.Schema<ListCssTemplateInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListCssTemplateInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14808,8 +14937,8 @@ export const listDashboard: API.OperationMethod<
   ListDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<ListDashboardRequest>,
-  output: __S(3219, __c201, 3) as any as S.Schema<ListDashboardResponse>,
+  input: __S(3296, __c206, 0) as any as S.Schema<ListDashboardRequest>,
+  output: __S(3299, __c206, 3) as any as S.Schema<ListDashboardResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14825,8 +14954,8 @@ export const listDashboardActivity: API.OperationMethod<
   ListDashboardActivityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<ListDashboardActivityRequest>,
-  output: __S(3059, __c191, 3) as any as S.Schema<ActivityResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<ListDashboardActivityRequest>,
+  output: __S(3139, __c196, 3) as any as S.Schema<ActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14842,8 +14971,8 @@ export const listDashboardCharts: API.OperationMethod<
   ListDashboardChartsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<ListDashboardChartsRequest>,
-  output: __S(3251, __c203, 3) as any as S.Schema<ListDashboardChartsResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<ListDashboardChartsRequest>,
+  output: __S(3331, __c208, 3) as any as S.Schema<ListDashboardChartsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14859,8 +14988,8 @@ export const listDashboardDatasets: API.OperationMethod<
   ListDashboardDatasetsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<ListDashboardDatasetsRequest>,
-  output: __S(3269, __c204, 5) as any as S.Schema<ListDashboardDatasetsResponse>,
+  input: __S(3344, __c209, 0) as any as S.Schema<ListDashboardDatasetsRequest>,
+  output: __S(3349, __c209, 5) as any as S.Schema<ListDashboardDatasetsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14876,8 +15005,8 @@ export const listDashboardFavoriteStatus: API.OperationMethod<
   ListDashboardFavoriteStatusError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<ListDashboardFavoriteStatusRequest>,
-  output: __S(3122, __c195, 2) as any as S.Schema<GetFavStarIdsSchema>,
+  input: __S(3360, __c210, 0) as any as S.Schema<ListDashboardFavoriteStatusRequest>,
+  output: __S(3202, __c200, 2) as any as S.Schema<GetFavStarIdsSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14893,8 +15022,8 @@ export const listDashboardInfo: API.OperationMethod<
   ListDashboardInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<ListDashboardInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListDashboardInfoResponse>,
+  input: __S(3376, __c211, 0) as any as S.Schema<ListDashboardInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListDashboardInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14910,8 +15039,8 @@ export const listDashboardTabs: API.OperationMethod<
   ListDashboardTabsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<ListDashboardTabsRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<ListDashboardTabsResponse>,
+  input: __S(3392, __c212, 0) as any as S.Schema<ListDashboardTabsRequest>,
+  output: __S(704, __c44, 0) as any as S.Schema<ListDashboardTabsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14927,8 +15056,8 @@ export const listDashboardVersions: API.OperationMethod<
   ListDashboardVersionsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<ListDashboardVersionsRequest>,
-  output: __S(3185, __c199, 1) as any as S.Schema<ListDashboardVersionsResponse>,
+  input: __S(3408, __c213, 0) as any as S.Schema<ListDashboardVersionsRequest>,
+  output: __S(3265, __c204, 1) as any as S.Schema<ListDashboardVersionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14944,8 +15073,8 @@ export const listDatabaseAvailable: API.OperationMethod<
   ListDatabaseAvailableError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<ListDatabaseAvailableRequest>,
-  output: __S(3380, __c211, 4) as any as S.Schema<ListDatabaseAvailableResponse>,
+  input: __S(3456, __c216, 0) as any as S.Schema<ListDatabaseAvailableRequest>,
+  output: __S(3460, __c216, 4) as any as S.Schema<ListDatabaseAvailableResponse>,
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14961,8 +15090,8 @@ export const listDatabaseCatalogs: API.OperationMethod<
   ListDatabaseCatalogsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c212, 0) as any as S.Schema<ListDatabaseCatalogsRequest>,
-  output: __S(2960, __c185, 0) as any as S.Schema<CatalogsResponseSchema>,
+  input: __S(3472, __c217, 0) as any as S.Schema<ListDatabaseCatalogsRequest>,
+  output: __S(3040, __c190, 0) as any as S.Schema<CatalogsResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14978,8 +15107,8 @@ export const listDatabaseFunctionNames: API.OperationMethod<
   ListDatabaseFunctionNamesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<ListDatabaseFunctionNamesRequest>,
-  output: __S(3409, __c213, 1) as any as S.Schema<DatabaseFunctionNamesResponse>,
+  input: __S(3488, __c218, 0) as any as S.Schema<ListDatabaseFunctionNamesRequest>,
+  output: __S(3489, __c218, 1) as any as S.Schema<DatabaseFunctionNamesResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -14995,8 +15124,8 @@ export const listDatabaseInfo: API.OperationMethod<
   ListDatabaseInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c214, 0) as any as S.Schema<ListDatabaseInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListDatabaseInfoResponse>,
+  input: __S(3504, __c219, 0) as any as S.Schema<ListDatabaseInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListDatabaseInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15017,8 +15146,8 @@ export const listDatabaseOauth2Tokens: API.OperationMethod<
   ListDatabaseOauth2TokensError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3440, __c215, 0) as any as S.Schema<ListDatabaseOauth2TokensRequest>,
-  output: __S(3444, __c215, 4) as any as S.Schema<ListDatabaseOauth2TokensResponse>,
+  input: __S(3520, __c220, 0) as any as S.Schema<ListDatabaseOauth2TokensRequest>,
+  output: __S(3524, __c220, 4) as any as S.Schema<ListDatabaseOauth2TokensResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15034,8 +15163,8 @@ export const listDatabaseSchemas: API.OperationMethod<
   ListDatabaseSchemasError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c216, 0) as any as S.Schema<ListDatabaseSchemasRequest>,
-  output: __S(2960, __c185, 0) as any as S.Schema<SchemasResponseSchema>,
+  input: __S(3536, __c221, 0) as any as S.Schema<ListDatabaseSchemasRequest>,
+  output: __S(3040, __c190, 0) as any as S.Schema<SchemasResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15051,8 +15180,8 @@ export const listDatabaseSchemasAccessForFileUpload: API.OperationMethod<
   ListDatabaseSchemasAccessForFileUploadError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3472, __c217, 0) as any as S.Schema<ListDatabaseSchemasAccessForFileUploadRequest>,
-  output: __S(3473, __c217, 1) as any as S.Schema<DatabaseSchemaAccessForFileUploadResponse>,
+  input: __S(3552, __c222, 0) as any as S.Schema<ListDatabaseSchemasAccessForFileUploadRequest>,
+  output: __S(3553, __c222, 1) as any as S.Schema<DatabaseSchemaAccessForFileUploadResponse>,
   errors: [NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15072,8 +15201,8 @@ export const listDatabaseTables: API.OperationMethod<
   ListDatabaseTablesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c218, 0) as any as S.Schema<ListDatabaseTablesRequest>,
-  output: __S(3491, __c218, 3) as any as S.Schema<ListDatabaseTablesResponse>,
+  input: __S(3568, __c223, 0) as any as S.Schema<ListDatabaseTablesRequest>,
+  output: __S(3571, __c223, 3) as any as S.Schema<ListDatabaseTablesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15089,8 +15218,8 @@ export const listDatasetActivity: API.OperationMethod<
   ListDatasetActivityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3504, __c219, 0) as any as S.Schema<ListDatasetActivityRequest>,
-  output: __S(3059, __c191, 3) as any as S.Schema<ActivityResponse>,
+  input: __S(3584, __c224, 0) as any as S.Schema<ListDatasetActivityRequest>,
+  output: __S(3139, __c196, 3) as any as S.Schema<ActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15106,8 +15235,8 @@ export const listDatasetInfo: API.OperationMethod<
   ListDatasetInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c220, 0) as any as S.Schema<ListDatasetInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListDatasetInfoResponse>,
+  input: __S(3600, __c225, 0) as any as S.Schema<ListDatasetInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListDatasetInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15123,8 +15252,8 @@ export const listDatasetVersions: API.OperationMethod<
   ListDatasetVersionsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c222, 0) as any as S.Schema<ListDatasetVersionsRequest>,
-  output: __S(3185, __c199, 1) as any as S.Schema<ListDatasetVersionsResponse>,
+  input: __S(3632, __c227, 0) as any as S.Schema<ListDatasetVersionsRequest>,
+  output: __S(3265, __c204, 1) as any as S.Schema<ListDatasetVersionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15144,8 +15273,8 @@ export const listDatasourceColumnValues: API.OperationMethod<
   ListDatasourceColumnValuesError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<ListDatasourceColumnValuesRequest>,
-  output: __S(3570, __c223, 2) as any as S.Schema<ListDatasourceColumnValuesResponse>,
+  input: __S(3648, __c228, 0) as any as S.Schema<ListDatasourceColumnValuesRequest>,
+  output: __S(3650, __c228, 2) as any as S.Schema<ListDatasourceColumnValuesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15161,8 +15290,8 @@ export const listLogRecentActivity: API.OperationMethod<
   ListLogRecentActivityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c224, 0) as any as S.Schema<ListLogRecentActivityRequest>,
-  output: __S(3587, __c224, 3) as any as S.Schema<RecentActivityResponseSchema>,
+  input: __S(3664, __c229, 0) as any as S.Schema<ListLogRecentActivityRequest>,
+  output: __S(3667, __c229, 3) as any as S.Schema<RecentActivityResponseSchema>,
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15178,8 +15307,8 @@ export const listMenu: API.OperationMethod<
   ListMenuError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3600, __c225, 0) as any as S.Schema<ListMenuRequest>,
-  output: __S(3603, __c225, 3) as any as S.Schema<ListMenuResponse>,
+  input: __S(3680, __c230, 0) as any as S.Schema<ListMenuRequest>,
+  output: __S(3683, __c230, 3) as any as S.Schema<ListMenuResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15195,8 +15324,8 @@ export const listQueryUpdatedSince: API.OperationMethod<
   ListQueryUpdatedSinceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<ListQueryUpdatedSinceRequest>,
-  output: __S(3618, __c226, 2) as any as S.Schema<ListQueryUpdatedSinceResponse>,
+  input: __S(3696, __c231, 0) as any as S.Schema<ListQueryUpdatedSinceRequest>,
+  output: __S(3698, __c231, 2) as any as S.Schema<ListQueryUpdatedSinceResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15212,8 +15341,8 @@ export const listReportInfo: API.OperationMethod<
   ListReportInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3632, __c227, 0) as any as S.Schema<ListReportInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListReportInfoResponse>,
+  input: __S(3712, __c232, 0) as any as S.Schema<ListReportInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListReportInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15229,8 +15358,8 @@ export const listReportLog: API.OperationMethod<
   ListReportLogError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c228, 0) as any as S.Schema<ListReportLogRequest>,
-  output: __S(3650, __c228, 2) as any as S.Schema<ListReportLogResponse>,
+  input: __S(3728, __c233, 0) as any as S.Schema<ListReportLogRequest>,
+  output: __S(3730, __c233, 2) as any as S.Schema<ListReportLogResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15250,8 +15379,8 @@ export const listReportSlackChannels: API.OperationMethod<
   ListReportSlackChannelsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3664, __c229, 0) as any as S.Schema<ListReportSlackChannelsRequest>,
-  output: __S(3667, __c229, 3) as any as S.Schema<ListReportSlackChannelsResponse>,
+  input: __S(3744, __c234, 0) as any as S.Schema<ListReportSlackChannelsRequest>,
+  output: __S(3747, __c234, 3) as any as S.Schema<ListReportSlackChannelsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15270,8 +15399,8 @@ export const listRowlevelsecurityInfo: API.OperationMethod<
   ListRowlevelsecurityInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c230, 0) as any as S.Schema<ListRowlevelsecurityInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListRowlevelsecurityInfoResponse>,
+  input: __S(3760, __c235, 0) as any as S.Schema<ListRowlevelsecurityInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListRowlevelsecurityInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15287,8 +15416,8 @@ export const listSavedQueryInfo: API.OperationMethod<
   ListSavedQueryInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3696, __c231, 0) as any as S.Schema<ListSavedQueryInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListSavedQueryInfoResponse>,
+  input: __S(3776, __c236, 0) as any as S.Schema<ListSavedQueryInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListSavedQueryInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15304,8 +15433,8 @@ export const listSecurityGroupInfo: API.OperationMethod<
   ListSecurityGroupInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3728, __c233, 0) as any as S.Schema<ListSecurityGroupInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListSecurityGroupInfoResponse>,
+  input: __S(3808, __c238, 0) as any as S.Schema<ListSecurityGroupInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityGroupInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15324,8 +15453,8 @@ export const listSecurityPermissionsInfo: API.OperationMethod<
   ListSecurityPermissionsInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c234, 0) as any as S.Schema<ListSecurityPermissionsInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListSecurityPermissionsInfoResponse>,
+  input: __S(3824, __c239, 0) as any as S.Schema<ListSecurityPermissionsInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityPermissionsInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15344,8 +15473,8 @@ export const listSecurityPermissionsResourceInfo: API.OperationMethod<
   ListSecurityPermissionsResourceInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3760, __c235, 0) as any as S.Schema<ListSecurityPermissionsResourceInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListSecurityPermissionsResourceInfoResponse>,
+  input: __S(3840, __c240, 0) as any as S.Schema<ListSecurityPermissionsResourceInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityPermissionsResourceInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15364,8 +15493,8 @@ export const listSecurityResourceInfo: API.OperationMethod<
   ListSecurityResourceInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c236, 0) as any as S.Schema<ListSecurityResourceInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListSecurityResourceInfoResponse>,
+  input: __S(3856, __c241, 0) as any as S.Schema<ListSecurityResourceInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityResourceInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15381,8 +15510,8 @@ export const listSecurityRoleInfo: API.OperationMethod<
   ListSecurityRoleInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3792, __c237, 0) as any as S.Schema<ListSecurityRoleInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListSecurityRoleInfoResponse>,
+  input: __S(3872, __c242, 0) as any as S.Schema<ListSecurityRoleInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityRoleInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15401,8 +15530,8 @@ export const listSecurityRolePermissions: API.OperationMethod<
   ListSecurityRolePermissionsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c238, 0) as any as S.Schema<ListSecurityRolePermissionsRequest>,
-  output: __S(3811, __c238, 3) as any as S.Schema<ListSecurityRolePermissionsResponse>,
+  input: __S(3888, __c243, 0) as any as S.Schema<ListSecurityRolePermissionsRequest>,
+  output: __S(3891, __c243, 3) as any as S.Schema<ListSecurityRolePermissionsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15418,8 +15547,8 @@ export const listSecurityRoleSearch: API.OperationMethod<
   ListSecurityRoleSearchError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3827, __c239, 3) as any as S.Schema<ListSecurityRoleSearchRequest>,
-  output: __S(3830, __c239, 6) as any as S.Schema<RolesResponseSchema>,
+  input: __S(3907, __c244, 3) as any as S.Schema<ListSecurityRoleSearchRequest>,
+  output: __S(3910, __c244, 6) as any as S.Schema<RolesResponseSchema>,
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15435,8 +15564,8 @@ export const listSecuritySubjectInfo: API.OperationMethod<
   ListSecuritySubjectInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c240, 0) as any as S.Schema<ListSecuritySubjectInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListSecuritySubjectInfoResponse>,
+  input: __S(3920, __c245, 0) as any as S.Schema<ListSecuritySubjectInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListSecuritySubjectInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15452,8 +15581,8 @@ export const listSecurityUserInfo: API.OperationMethod<
   ListSecurityUserInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3856, __c241, 0) as any as S.Schema<ListSecurityUserInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListSecurityUserInfoResponse>,
+  input: __S(3936, __c246, 0) as any as S.Schema<ListSecurityUserInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityUserInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15472,8 +15601,8 @@ export const listSecurityUserRegistrationInfo: API.OperationMethod<
   ListSecurityUserRegistrationInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c242, 0) as any as S.Schema<ListSecurityUserRegistrationInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListSecurityUserRegistrationInfoResponse>,
+  input: __S(3952, __c247, 0) as any as S.Schema<ListSecurityUserRegistrationInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListSecurityUserRegistrationInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15489,8 +15618,8 @@ export const listSqllab: API.OperationMethod<
   ListSqllabError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3920, __c245, 0) as any as S.Schema<ListSqllabRequest>,
-  output: __S(3927, __c245, 7) as any as S.Schema<SQLLabBootstrapSchema>,
+  input: __S(4000, __c250, 0) as any as S.Schema<ListSqllabRequest>,
+  output: __S(4007, __c250, 7) as any as S.Schema<SQLLabBootstrapSchema>,
   errors: [BadRequest, Forbidden, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15506,8 +15635,8 @@ export const listSqllabResults: API.OperationMethod<
   ListSqllabResultsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c246, 0) as any as S.Schema<ListSqllabResultsRequest>,
-  output: __S(6416, __c401, 0) as any as S.Schema<QueryExecutionResponseSchema>,
+  input: __S(4016, __c251, 0) as any as S.Schema<ListSqllabResultsRequest>,
+  output: __S(6496, __c406, 0) as any as S.Schema<QueryExecutionResponseSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15523,8 +15652,8 @@ export const listTagFavoriteStatus: API.OperationMethod<
   ListTagFavoriteStatusError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3952, __c247, 0) as any as S.Schema<ListTagFavoriteStatusRequest>,
-  output: __S(3122, __c195, 2) as any as S.Schema<GetFavStarIdsSchema>,
+  input: __S(4032, __c252, 0) as any as S.Schema<ListTagFavoriteStatusRequest>,
+  output: __S(3202, __c200, 2) as any as S.Schema<GetFavStarIdsSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15540,8 +15669,8 @@ export const listTagGetObjects: API.OperationMethod<
   ListTagGetObjectsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c248, 0) as any as S.Schema<ListTagGetObjectsRequest>,
-  output: __S(3973, __c248, 5) as any as S.Schema<ListTagGetObjectsResponse>,
+  input: __S(4048, __c253, 0) as any as S.Schema<ListTagGetObjectsRequest>,
+  output: __S(4053, __c253, 5) as any as S.Schema<ListTagGetObjectsResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15557,8 +15686,8 @@ export const listTagInfo: API.OperationMethod<
   ListTagInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3984, __c249, 0) as any as S.Schema<ListTagInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListTagInfoResponse>,
+  input: __S(4064, __c254, 0) as any as S.Schema<ListTagInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListTagInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15574,8 +15703,8 @@ export const listThemeInfo: API.OperationMethod<
   ListThemeInfoError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c250, 0) as any as S.Schema<ListThemeInfoRequest>,
-  output: __S(3011, __c188, 3) as any as S.Schema<ListThemeInfoResponse>,
+  input: __S(4080, __c255, 0) as any as S.Schema<ListThemeInfoRequest>,
+  output: __S(3091, __c193, 3) as any as S.Schema<ListThemeInfoResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15591,8 +15720,8 @@ export const loginSecurity: API.OperationMethod<
   LoginSecurityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4016, __c251, 0) as any as S.Schema<LoginSecurityRequest>,
-  output: __S(4017, __c251, 1) as any as S.Schema<LoginSecurityResponse>,
+  input: __S(4096, __c256, 0) as any as S.Schema<LoginSecurityRequest>,
+  output: __S(4097, __c256, 1) as any as S.Schema<LoginSecurityResponse>,
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15612,8 +15741,8 @@ export const previewDatasetPartitionMapping: API.OperationMethod<
   PreviewDatasetPartitionMappingError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c252, 0) as any as S.Schema<PreviewDatasetPartitionMappingRequest>,
-  output: __S(4037, __c252, 5) as any as S.Schema<PreviewDatasetPartitionMappingResponse>,
+  input: __S(4112, __c257, 0) as any as S.Schema<PreviewDatasetPartitionMappingRequest>,
+  output: __S(4117, __c257, 5) as any as S.Schema<PreviewDatasetPartitionMappingResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15629,8 +15758,8 @@ export const purgeChart: API.OperationMethod<
   PurgeChartError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4048, __c253, 0) as any as S.Schema<PurgeChartRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<PurgeChartResponse>,
+  input: __S(4128, __c258, 0) as any as S.Schema<PurgeChartRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<PurgeChartResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15650,8 +15779,8 @@ export const purgeDashboard: API.OperationMethod<
   PurgeDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c254, 0) as any as S.Schema<PurgeDashboardRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<PurgeDashboardResponse>,
+  input: __S(4144, __c259, 0) as any as S.Schema<PurgeDashboardRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<PurgeDashboardResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15673,8 +15802,8 @@ export const purgeDataset: API.OperationMethod<
   PurgeDatasetError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c258, 0) as any as S.Schema<PurgeDatasetRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<PurgeDatasetResponse>,
+  input: __S(4208, __c263, 0) as any as S.Schema<PurgeDatasetRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<PurgeDatasetResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -15697,8 +15826,8 @@ export const putAnnotationLayer: API.OperationMethod<
   PutAnnotationLayerError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4144, __c259, 0) as any as S.Schema<PutAnnotationLayerRequest>,
-  output: __S(4146, __c259, 2) as any as S.Schema<PutAnnotationLayerResponse>,
+  input: __S(4224, __c264, 0) as any as S.Schema<PutAnnotationLayerRequest>,
+  output: __S(4226, __c264, 2) as any as S.Schema<PutAnnotationLayerResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15714,8 +15843,8 @@ export const putAnnotationLayerAnnotation: API.OperationMethod<
   PutAnnotationLayerAnnotationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c260, 0) as any as S.Schema<PutAnnotationLayerAnnotationRequest>,
-  output: __S(4162, __c260, 2) as any as S.Schema<PutAnnotationLayerAnnotationResponse>,
+  input: __S(4240, __c265, 0) as any as S.Schema<PutAnnotationLayerAnnotationRequest>,
+  output: __S(4242, __c265, 2) as any as S.Schema<PutAnnotationLayerAnnotationResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15736,8 +15865,8 @@ export const putChart: API.OperationMethod<
   PutChartError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4180, __c261, 4) as any as S.Schema<PutChartRequest>,
-  output: __S(4184, __c261, 8) as any as S.Schema<PutChartResponse>,
+  input: __S(4260, __c266, 4) as any as S.Schema<PutChartRequest>,
+  output: __S(4264, __c266, 8) as any as S.Schema<PutChartResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15753,8 +15882,8 @@ export const putChartWarmUpCache: API.OperationMethod<
   PutChartWarmUpCacheError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c262, 0) as any as S.Schema<PutChartWarmUpCacheRequest>,
-  output: __S(4210, __c263, 2) as any as S.Schema<ChartCacheWarmUpResponseSchema>,
+  input: __S(4272, __c267, 0) as any as S.Schema<PutChartWarmUpCacheRequest>,
+  output: __S(4290, __c268, 2) as any as S.Schema<ChartCacheWarmUpResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15774,8 +15903,8 @@ export const putCssTemplate: API.OperationMethod<
   PutCssTemplateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c264, 0) as any as S.Schema<PutCssTemplateRequest>,
-  output: __S(4225, __c264, 1) as any as S.Schema<PutCssTemplateResponse>,
+  input: __S(4304, __c269, 0) as any as S.Schema<PutCssTemplateRequest>,
+  output: __S(4305, __c269, 1) as any as S.Schema<PutCssTemplateResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15796,8 +15925,8 @@ export const putDashboard: API.OperationMethod<
   PutDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4243, __c265, 3) as any as S.Schema<PutDashboardRequest>,
-  output: __S(4247, __c265, 7) as any as S.Schema<PutDashboardResponse>,
+  input: __S(4323, __c270, 3) as any as S.Schema<PutDashboardRequest>,
+  output: __S(4327, __c270, 7) as any as S.Schema<PutDashboardResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15818,8 +15947,8 @@ export const putDashboardChartCustomizations: API.OperationMethod<
   PutDashboardChartCustomizationsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c266, 0) as any as S.Schema<PutDashboardChartCustomizationsRequest>,
-  output: __S(3360, __c210, 0) as any as S.Schema<PutDashboardChartCustomizationsResponse>,
+  input: __S(4336, __c271, 0) as any as S.Schema<PutDashboardChartCustomizationsRequest>,
+  output: __S(3440, __c215, 0) as any as S.Schema<PutDashboardChartCustomizationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15840,8 +15969,8 @@ export const putDashboardColors: API.OperationMethod<
   PutDashboardColorsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4272, __c267, 0) as any as S.Schema<PutDashboardColorsRequest>,
-  output: __S(3360, __c210, 0) as any as S.Schema<PutDashboardColorsResponse>,
+  input: __S(4352, __c272, 0) as any as S.Schema<PutDashboardColorsRequest>,
+  output: __S(3440, __c215, 0) as any as S.Schema<PutDashboardColorsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15857,8 +15986,8 @@ export const putDashboardEmbedded: API.OperationMethod<
   PutDashboardEmbeddedError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c268, 0) as any as S.Schema<PutDashboardEmbeddedRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<PutDashboardEmbeddedResponse>,
+  input: __S(4368, __c273, 0) as any as S.Schema<PutDashboardEmbeddedRequest>,
+  output: __S(1618, __c101, 2) as any as S.Schema<PutDashboardEmbeddedResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15879,8 +16008,8 @@ export const putDashboardFilters: API.OperationMethod<
   PutDashboardFiltersError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c270, 0) as any as S.Schema<PutDashboardFiltersRequest>,
-  output: __S(3360, __c210, 0) as any as S.Schema<PutDashboardFiltersResponse>,
+  input: __S(4400, __c275, 0) as any as S.Schema<PutDashboardFiltersRequest>,
+  output: __S(3440, __c215, 0) as any as S.Schema<PutDashboardFiltersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15900,8 +16029,8 @@ export const putDashboardFilterState: API.OperationMethod<
   PutDashboardFilterStateError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4336, __c271, 0) as any as S.Schema<PutDashboardFilterStateRequest>,
-  output: __S(2016, __c126, 0) as any as S.Schema<PutDashboardFilterStateResponse>,
+  input: __S(4416, __c276, 0) as any as S.Schema<PutDashboardFilterStateRequest>,
+  output: __S(2096, __c131, 0) as any as S.Schema<PutDashboardFilterStateResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15922,8 +16051,8 @@ export const putDatabase: API.OperationMethod<
   PutDatabaseError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c272, 0) as any as S.Schema<PutDatabaseRequest>,
-  output: __S(4354, __c272, 2) as any as S.Schema<PutDatabaseResponse>,
+  input: __S(4432, __c277, 0) as any as S.Schema<PutDatabaseRequest>,
+  output: __S(4434, __c277, 2) as any as S.Schema<PutDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15945,8 +16074,8 @@ export const putDataset: API.OperationMethod<
   PutDatasetError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4377, __c273, 9) as any as S.Schema<PutDatasetRequest>,
-  output: __S(4380, __c273, 12) as any as S.Schema<PutDatasetResponse>,
+  input: __S(4457, __c278, 9) as any as S.Schema<PutDatasetRequest>,
+  output: __S(4460, __c278, 12) as any as S.Schema<PutDatasetResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -15973,8 +16102,8 @@ export const putDatasetRefresh: API.OperationMethod<
   PutDatasetRefreshError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c274, 0) as any as S.Schema<PutDatasetRefreshRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<PutDatasetRefreshResponse>,
+  input: __S(4464, __c279, 0) as any as S.Schema<PutDatasetRefreshRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<PutDatasetRefreshResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -15990,8 +16119,8 @@ export const putDatasetWarmUpCache: API.OperationMethod<
   PutDatasetWarmUpCacheError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4400, __c275, 0) as any as S.Schema<PutDatasetWarmUpCacheRequest>,
-  output: __S(4210, __c263, 2) as any as S.Schema<DatasetCacheWarmUpResponseSchema>,
+  input: __S(4480, __c280, 0) as any as S.Schema<PutDatasetWarmUpCacheRequest>,
+  output: __S(4290, __c268, 2) as any as S.Schema<DatasetCacheWarmUpResponseSchema>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16011,8 +16140,8 @@ export const putExploreFormData: API.OperationMethod<
   PutExploreFormDataError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c276, 0) as any as S.Schema<PutExploreFormDataRequest>,
-  output: __S(2016, __c126, 0) as any as S.Schema<PutExploreFormDataResponse>,
+  input: __S(4496, __c281, 0) as any as S.Schema<PutExploreFormDataRequest>,
+  output: __S(2096, __c131, 0) as any as S.Schema<PutExploreFormDataResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16028,8 +16157,8 @@ export const putMe: API.OperationMethod<
   PutMeError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4432, __c277, 0) as any as S.Schema<PutMeRequest>,
-  output: __S(1569, __c98, 1) as any as S.Schema<PutMeResponse>,
+  input: __S(4512, __c282, 0) as any as S.Schema<PutMeRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<PutMeResponse>,
   errors: [BadRequest, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16050,8 +16179,8 @@ export const putReport: API.OperationMethod<
   PutReportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4449, __c278, 1) as any as S.Schema<PutReportRequest>,
-  output: __S(4452, __c278, 4) as any as S.Schema<PutReportResponse>,
+  input: __S(4529, __c283, 1) as any as S.Schema<PutReportRequest>,
+  output: __S(4532, __c283, 4) as any as S.Schema<PutReportResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16071,8 +16200,8 @@ export const putReportConfiguration: API.OperationMethod<
   PutReportConfigurationError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4464, __c279, 0) as any as S.Schema<PutReportConfigurationRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<PutReportConfigurationResponse>,
+  input: __S(4544, __c284, 0) as any as S.Schema<PutReportConfigurationRequest>,
+  output: __S(1841, __c115, 1) as any as S.Schema<PutReportConfigurationResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16093,8 +16222,8 @@ export const putRowlevelsecurity: API.OperationMethod<
   PutRowlevelsecurityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c282, 0) as any as S.Schema<PutRowlevelsecurityRequest>,
-  output: __S(4514, __c282, 2) as any as S.Schema<PutRowlevelsecurityResponse>,
+  input: __S(4592, __c287, 0) as any as S.Schema<PutRowlevelsecurityRequest>,
+  output: __S(4594, __c287, 2) as any as S.Schema<PutRowlevelsecurityResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16114,8 +16243,8 @@ export const putSavedQuery: API.OperationMethod<
   PutSavedQueryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4528, __c283, 0) as any as S.Schema<PutSavedQueryRequest>,
-  output: __S(4529, __c283, 1) as any as S.Schema<PutSavedQueryResponse>,
+  input: __S(4608, __c288, 0) as any as S.Schema<PutSavedQueryRequest>,
+  output: __S(4609, __c288, 1) as any as S.Schema<PutSavedQueryResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16130,8 +16259,8 @@ export const putSecurityGroup: API.OperationMethod<
   PutSecurityGroupError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c284, 0) as any as S.Schema<PutSecurityGroupRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<PutSecurityGroupResponse>,
+  input: __S(4624, __c289, 0) as any as S.Schema<PutSecurityGroupRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<PutSecurityGroupResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16150,8 +16279,8 @@ export const putSecurityPermissionsResource: API.OperationMethod<
   PutSecurityPermissionsResourceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4560, __c285, 0) as any as S.Schema<PutSecurityPermissionsResourceRequest>,
-  output: __S(4561, __c285, 1) as any as S.Schema<PutSecurityPermissionsResourceResponse>,
+  input: __S(4640, __c290, 0) as any as S.Schema<PutSecurityPermissionsResourceRequest>,
+  output: __S(4641, __c290, 1) as any as S.Schema<PutSecurityPermissionsResourceResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16170,8 +16299,8 @@ export const putSecurityResource: API.OperationMethod<
   PutSecurityResourceError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c286, 0) as any as S.Schema<PutSecurityResourceRequest>,
-  output: __S(4592, __c287, 0) as any as S.Schema<PutSecurityResourceResponse>,
+  input: __S(4656, __c291, 0) as any as S.Schema<PutSecurityResourceRequest>,
+  output: __S(4672, __c292, 0) as any as S.Schema<PutSecurityResourceResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16190,8 +16319,8 @@ export const putSecurityRole: API.OperationMethod<
   PutSecurityRoleError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c288, 0) as any as S.Schema<PutSecurityRoleRequest>,
-  output: __S(4592, __c287, 0) as any as S.Schema<PutSecurityRoleResponse>,
+  input: __S(4688, __c293, 0) as any as S.Schema<PutSecurityRoleRequest>,
+  output: __S(4672, __c292, 0) as any as S.Schema<PutSecurityRoleResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16210,8 +16339,8 @@ export const putSecurityRoleGroups: API.OperationMethod<
   PutSecurityRoleGroupsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4624, __c289, 0) as any as S.Schema<PutSecurityRoleGroupsRequest>,
-  output: __S(4626, __c289, 2) as any as S.Schema<PutSecurityRoleGroupsResponse>,
+  input: __S(4704, __c294, 0) as any as S.Schema<PutSecurityRoleGroupsRequest>,
+  output: __S(4706, __c294, 2) as any as S.Schema<PutSecurityRoleGroupsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16230,8 +16359,8 @@ export const putSecurityRoleUsers: API.OperationMethod<
   PutSecurityRoleUsersError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c290, 0) as any as S.Schema<PutSecurityRoleUsersRequest>,
-  output: __S(4642, __c290, 2) as any as S.Schema<PutSecurityRoleUsersResponse>,
+  input: __S(4720, __c295, 0) as any as S.Schema<PutSecurityRoleUsersRequest>,
+  output: __S(4722, __c295, 2) as any as S.Schema<PutSecurityRoleUsersResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16246,8 +16375,8 @@ export const putSecurityUser: API.OperationMethod<
   PutSecurityUserError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4656, __c291, 0) as any as S.Schema<PutSecurityUserRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<PutSecurityUserResponse>,
+  input: __S(4736, __c296, 0) as any as S.Schema<PutSecurityUserRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<PutSecurityUserResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16268,8 +16397,8 @@ export const putSemanticLayer: API.OperationMethod<
   PutSemanticLayerError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c292, 0) as any as S.Schema<PutSemanticLayerRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<PutSemanticLayerResponse>,
+  input: __S(4752, __c297, 0) as any as S.Schema<PutSemanticLayerRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<PutSemanticLayerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16290,8 +16419,8 @@ export const putSemanticView: API.OperationMethod<
   PutSemanticViewError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c294, 0) as any as S.Schema<PutSemanticViewRequest>,
-  output: __S(4706, __c294, 2) as any as S.Schema<PutSemanticViewResponse>,
+  input: __S(4784, __c299, 0) as any as S.Schema<PutSemanticViewRequest>,
+  output: __S(4786, __c299, 2) as any as S.Schema<PutSemanticViewResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16312,8 +16441,8 @@ export const putTag: API.OperationMethod<
   PutTagError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4720, __c295, 0) as any as S.Schema<PutTagRequest>,
-  output: __S(5440, __c340, 0) as any as S.Schema<PutTagResponse>,
+  input: __S(4800, __c300, 0) as any as S.Schema<PutTagRequest>,
+  output: __S(5520, __c345, 0) as any as S.Schema<PutTagResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16334,8 +16463,8 @@ export const putTheme: API.OperationMethod<
   PutThemeError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c296, 0) as any as S.Schema<PutThemeRequest>,
-  output: __S(5489, __c343, 1) as any as S.Schema<PutThemeResponse>,
+  input: __S(4816, __c301, 0) as any as S.Schema<PutThemeRequest>,
+  output: __S(5569, __c348, 1) as any as S.Schema<PutThemeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16356,8 +16485,8 @@ export const putThemeSetSystemDark: API.OperationMethod<
   PutThemeSetSystemDarkError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4752, __c297, 0) as any as S.Schema<PutThemeSetSystemDarkRequest>,
-  output: __S(4768, __c298, 0) as any as S.Schema<PutThemeSetSystemDarkResponse>,
+  input: __S(4832, __c302, 0) as any as S.Schema<PutThemeSetSystemDarkRequest>,
+  output: __S(4848, __c303, 0) as any as S.Schema<PutThemeSetSystemDarkResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16378,8 +16507,8 @@ export const putThemeSetSystemDefault: API.OperationMethod<
   PutThemeSetSystemDefaultError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4784, __c299, 0) as any as S.Schema<PutThemeSetSystemDefaultRequest>,
-  output: __S(4768, __c298, 0) as any as S.Schema<PutThemeSetSystemDefaultResponse>,
+  input: __S(4864, __c304, 0) as any as S.Schema<PutThemeSetSystemDefaultRequest>,
+  output: __S(4848, __c303, 0) as any as S.Schema<PutThemeSetSystemDefaultResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16395,8 +16524,8 @@ export const refreshSecurity: API.OperationMethod<
   RefreshSecurityError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c300, 0) as any as S.Schema<RefreshSecurityRequest>,
-  output: __S(4801, __c300, 1) as any as S.Schema<RefreshSecurityResponse>,
+  input: __S(4880, __c305, 0) as any as S.Schema<RefreshSecurityRequest>,
+  output: __S(4881, __c305, 1) as any as S.Schema<RefreshSecurityResponse>,
   errors: [UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16412,8 +16541,8 @@ export const resetSecurityPasswordRecovery: API.OperationMethod<
   ResetSecurityPasswordRecoveryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4816, __c301, 0) as any as S.Schema<ResetSecurityPasswordRecoveryRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<ResetSecurityPasswordRecoveryResponse>,
+  input: __S(4896, __c306, 0) as any as S.Schema<ResetSecurityPasswordRecoveryRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ResetSecurityPasswordRecoveryResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16429,8 +16558,8 @@ export const restoreChart: API.OperationMethod<
   RestoreChartError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c302, 0) as any as S.Schema<RestoreChartRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<RestoreChartResponse>,
+  input: __S(4912, __c307, 0) as any as S.Schema<RestoreChartRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<RestoreChartResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16451,8 +16580,8 @@ export const restoreChartVersion: API.OperationMethod<
   RestoreChartVersionError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4848, __c303, 0) as any as S.Schema<RestoreChartVersionRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<RestoreChartVersionResponse>,
+  input: __S(4928, __c308, 0) as any as S.Schema<RestoreChartVersionRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<RestoreChartVersionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16472,8 +16601,8 @@ export const restoreDashboard: API.OperationMethod<
   RestoreDashboardError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c304, 0) as any as S.Schema<RestoreDashboardRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<RestoreDashboardResponse>,
+  input: __S(4944, __c309, 0) as any as S.Schema<RestoreDashboardRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<RestoreDashboardResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16495,8 +16624,8 @@ export const restoreDashboardVersion: API.OperationMethod<
   RestoreDashboardVersionError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c306, 0) as any as S.Schema<RestoreDashboardVersionRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<RestoreDashboardVersionResponse>,
+  input: __S(4976, __c311, 0) as any as S.Schema<RestoreDashboardVersionRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<RestoreDashboardVersionResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -16523,8 +16652,8 @@ export const restoreDataset: API.OperationMethod<
   RestoreDatasetError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4912, __c307, 0) as any as S.Schema<RestoreDatasetRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<RestoreDatasetResponse>,
+  input: __S(4992, __c312, 0) as any as S.Schema<RestoreDatasetRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<RestoreDatasetResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16545,8 +16674,8 @@ export const restoreDatasetVersion: API.OperationMethod<
   RestoreDatasetVersionError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c308, 0) as any as S.Schema<RestoreDatasetVersionRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<RestoreDatasetVersionResponse>,
+  input: __S(5008, __c313, 0) as any as S.Schema<RestoreDatasetVersionRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<RestoreDatasetVersionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16562,8 +16691,8 @@ export const stopQuery: API.OperationMethod<
   StopQueryError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4944, __c309, 0) as any as S.Schema<StopQueryRequest>,
-  output: __S(5392, __c337, 0) as any as S.Schema<StopQueryResponse>,
+  input: __S(5024, __c314, 0) as any as S.Schema<StopQueryRequest>,
+  output: __S(5472, __c342, 0) as any as S.Schema<StopQueryResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16579,8 +16708,8 @@ export const subscribeReport: API.OperationMethod<
   SubscribeReportError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4961, __c310, 1) as any as S.Schema<SubscribeReportRequest>,
-  output: __S(4114, __c257, 2) as any as S.Schema<SubscribeReportResponse>,
+  input: __S(5041, __c315, 1) as any as S.Schema<SubscribeReportRequest>,
+  output: __S(4194, __c262, 2) as any as S.Schema<SubscribeReportResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16596,8 +16725,8 @@ export const syncDatabasePermissions: API.OperationMethod<
   SyncDatabasePermissionsError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4976, __c311, 0) as any as S.Schema<SyncDatabasePermissionsRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<SyncDatabasePermissionsResponse>,
+  input: __S(5056, __c316, 0) as any as S.Schema<SyncDatabasePermissionsRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<SyncDatabasePermissionsResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16613,8 +16742,8 @@ export const testDatabaseConnection: API.OperationMethod<
   TestDatabaseConnectionError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c312, 0) as any as S.Schema<TestDatabaseConnectionRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<TestDatabaseConnectionResponse>,
+  input: __S(5072, __c317, 0) as any as S.Schema<TestDatabaseConnectionRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<TestDatabaseConnectionResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16630,8 +16759,8 @@ export const updateTag: API.OperationMethod<
   UpdateTagError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5008, __c313, 0) as any as S.Schema<UpdateTagRequest>,
-  output: __S(5728, __c358, 0) as any as S.Schema<UpdateTagResponse>,
+  input: __S(5088, __c318, 0) as any as S.Schema<UpdateTagRequest>,
+  output: __S(5808, __c363, 0) as any as S.Schema<UpdateTagResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16651,8 +16780,8 @@ export const uploadDatabase: API.OperationMethod<
   UploadDatabaseError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c314, 0) as any as S.Schema<UploadDatabaseRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<UploadDatabaseResponse>,
+  input: __S(5104, __c319, 0) as any as S.Schema<UploadDatabaseRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<UploadDatabaseResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16668,8 +16797,8 @@ export const uploadDatabaseMetadata: API.OperationMethod<
   UploadDatabaseMetadataError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5040, __c315, 0) as any as S.Schema<UploadDatabaseMetadataRequest>,
-  output: __S(5044, __c315, 4) as any as S.Schema<UploadDatabaseMetadataResponse>,
+  input: __S(5120, __c320, 0) as any as S.Schema<UploadDatabaseMetadataRequest>,
+  output: __S(5124, __c320, 4) as any as S.Schema<UploadDatabaseMetadataResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16688,8 +16817,8 @@ export const validateDatabaseParameters: API.OperationMethod<
   ValidateDatabaseParametersError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5089, __c318, 1) as any as S.Schema<ValidateDatabaseParametersRequest>,
-  output: __S(5072, __c317, 0) as any as S.Schema<ValidateDatabaseParametersResponse>,
+  input: __S(5153, __c322, 1) as any as S.Schema<ValidateDatabaseParametersRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<ValidateDatabaseParametersResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16705,8 +16834,8 @@ export const validateDatabaseSql: API.OperationMethod<
   ValidateDatabaseSqlError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5104, __c319, 0) as any as S.Schema<ValidateDatabaseSqlRequest>,
-  output: __S(5122, __c320, 2) as any as S.Schema<ValidateDatabaseSqlResponse>,
+  input: __S(5168, __c323, 0) as any as S.Schema<ValidateDatabaseSqlRequest>,
+  output: __S(5186, __c324, 2) as any as S.Schema<ValidateDatabaseSqlResponse>,
   errors: [BadRequest, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16726,8 +16855,8 @@ export const validateDatasourceExpression: API.OperationMethod<
   ValidateDatasourceExpressionError,
   ApacheSupersetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5136, __c321, 0) as any as S.Schema<ValidateDatasourceExpressionRequest>,
-  output: __S(5122, __c320, 2) as any as S.Schema<ValidateDatasourceExpressionResponse>,
+  input: __S(5200, __c325, 0) as any as S.Schema<ValidateDatasourceExpressionRequest>,
+  output: __S(5186, __c324, 2) as any as S.Schema<ValidateDatasourceExpressionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownApacheSupersetError],
   protocol: ApacheSupersetProtocol,
   retry: Retry.Retry,
@@ -16739,6 +16868,130 @@ export const validateDatasourceExpression: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateSecurityPasswordRecoveryResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body3" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "Error400Body2" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          archived: S.Boolean,
+          name: S.String,
+          url: S.NullOr(S.String),
+          uuid: S.String,
+        }),
+      ).annotate({ identifier: "DatasetPurgeImpactObject" });
+    case 1:
+      return S.Array(__S(64, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          restricted_count: S.Number,
+          result: __S(65, __c4, 1),
+        }),
+      ).annotate({ identifier: "DatasetPurgeImpactCollection" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          charts: __S(66, __c4, 2),
+          dashboards: __S(66, __c4, 2),
+          impact_token: S.String,
+        }),
+      ).annotate({ identifier: "DatasetPurgeImpactSchema" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          archived: S.Boolean,
+          id: S.Number,
+          name: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error409BodyDependentsItem" });
+    case 1:
+      return S.Array(__S(80, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          archived_count: S.Number,
+          dependents: __S(81, __c5, 1),
+          inaccessible_count: S.Number,
+          message: S.String,
+          total: S.Number,
+        }),
+      ).annotate({ identifier: "Error409Body2" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          archived_count: S.Number,
+          dependents: __S(81, __c5, 1),
+          id: S.Number,
+          inaccessible_count: S.Number,
+          total: S.Number,
+        }),
+      ).annotate({ identifier: "Error409BodyBlockedViewsItem" });
+    case 4:
+      return S.Array(__S(83, __c5, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          archived_count: S.Number,
+          blocked_view_ids: S.optional(__S(48, __c3, 0)),
+          blocked_views: S.optional(__S(84, __c5, 4)),
+          dependents: __S(81, __c5, 1),
+          inaccessible_count: S.Number,
+          message: S.String,
+          total: S.Number,
+        }),
+      ).annotate({ identifier: "Error409Body3" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          impact: __S(67, __c4, 3),
+          message: S.String,
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "Error409Body" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.Array(S.Unknown);
@@ -16748,12 +17001,12 @@ function __c0(j: number): any {
           cache_timeout: S.optional(S.NullOr(S.Number)),
           certification_details: S.optional(S.NullOr(S.String)),
           certified_by: S.optional(S.NullOr(S.String)),
-          dashboards: S.optional(__S(16, __c1, 0)),
+          dashboards: S.optional(__S(48, __c3, 0)),
           datasource_id: S.Number,
           datasource_name: S.optional(S.NullOr(S.String)),
           datasource_type: S.String,
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(0, __c0, 0)),
+          editors: S.optional(__S(96, __c6, 0)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           params: S.optional(S.NullOr(S.String)),
@@ -16761,7 +17014,7 @@ function __c0(j: number): any {
           query_context_generation: S.optional(S.NullOr(S.Boolean)),
           slice_name: S.String,
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(1, __c0, 1)),
+          viewers: S.optional(__S(97, __c6, 1)),
           viz_type: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/chart/", code: 200 })),
       ).annotate({ identifier: "CreateChartRequest" });
@@ -16775,12 +17028,12 @@ function __c0(j: number): any {
           cache_timeout: S.optional(S.NullOr(S.Number)),
           certification_details: S.optional(S.NullOr(S.String)),
           certified_by: S.optional(S.NullOr(S.String)),
-          dashboards: S.optional(__S(16, __c1, 0)),
+          dashboards: S.optional(__S(48, __c3, 0)),
           datasource_id: S.Number,
           datasource_name: S.optional(S.NullOr(S.String)),
           datasource_type: S.String,
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(3, __c0, 3)),
+          editors: S.optional(__S(99, __c6, 3)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           params: S.optional(S.NullOr(S.String)),
@@ -16788,7 +17041,7 @@ function __c0(j: number): any {
           query_context_generation: S.optional(S.NullOr(S.Boolean)),
           slice_name: S.String,
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(4, __c0, 4)),
+          viewers: S.optional(__S(100, __c6, 4)),
           viz_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChartRestApiPost" });
@@ -16796,18 +17049,12 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(5, __c0, 5)),
+          result: S.optional(__S(101, __c6, 5)),
         }),
       ).annotate({ identifier: "CreateChartResponse" });
   }
 }
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c2(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16818,10 +17065,10 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          changed_by: S.optional(__S(64, __c4, 0)),
+          changed_by: S.optional(__S(144, __c9, 0)),
           changed_on: S.optional(S.NullOr(S.String)),
           changed_on_delta_humanized: S.optional(S.Unknown),
-          created_by: S.optional(__S(64, __c4, 0)),
+          created_by: S.optional(__S(144, __c9, 0)),
           created_on: S.optional(S.NullOr(S.String)),
           descr: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
@@ -16829,23 +17076,23 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "AnnotationLayerRestApiGetList" });
     case 2:
-      return S.Array(__S(33, __c2, 1));
+      return S.Array(__S(113, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(34, __c2, 2)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(114, __c7, 2)),
         }),
       ).annotate({ identifier: "GetAnnotationLayerResponse" });
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16855,7 +17102,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetAnnotationLayerResponseDescriptionColumns" });
   }
 }
-function __c4(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16866,7 +17113,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "AnnotationLayerRestApiGetListUser1" });
   }
 }
-function __c5(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16895,7 +17142,7 @@ function __c5(j: number): any {
           end_dttm: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
           json_metadata: S.optional(S.NullOr(S.String)),
-          layer: __S(81, __c5, 1),
+          layer: __S(161, __c10, 1),
           long_descr: S.optional(S.NullOr(S.String)),
           short_descr: S.optional(S.NullOr(S.String)),
           start_dttm: S.optional(S.NullOr(S.String)),
@@ -16905,12 +17152,12 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          result: S.optional(__S(82, __c5, 2)),
+          result: S.optional(__S(162, __c10, 2)),
         }),
       ).annotate({ identifier: "GetAnnotationLayerAnnotationResponse" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16930,17 +17177,17 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(97, __c6, 1)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(177, __c11, 1)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetAnnotationLayerByPkResponse" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16957,7 +17204,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetAnnotationLayerRelatedRequest" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16968,17 +17215,17 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "RelatedResultResponse" });
     case 1:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          result: S.optional(__S(129, __c8, 1)),
+          result: S.optional(__S(209, __c13, 1)),
         }),
       ).annotate({ identifier: "RelatedResponseSchema" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16986,7 +17233,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetAssetExportRequest" });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16995,18 +17242,18 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(288, __c18, 0)),
+          domains: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "AvailableDomainsSchema" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(161, __c10, 1)),
+          result: S.optional(__S(241, __c15, 1)),
         }),
       ).annotate({ identifier: "GetAvailableDomainsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17023,7 +17270,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "Dashboard" });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(257, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -17031,36 +17278,36 @@ function __c11(j: number): any {
           certification_details: S.optional(S.String),
           certified_by: S.optional(S.String),
           changed_on_delta_humanized: S.optional(S.String),
-          dashboards: S.optional(__S(178, __c11, 2)),
+          dashboards: S.optional(__S(258, __c16, 2)),
           datasource_id: S.optional(S.Number),
           datasource_name_text: S.optional(S.Unknown),
           datasource_type: S.optional(S.String),
           datasource_url: S.optional(S.Unknown),
           datasource_uuid: S.optional(S.String),
           description: S.optional(S.String),
-          editors: S.optional(__S(209, __c13, 1)),
+          editors: S.optional(__S(289, __c18, 1)),
           id: S.optional(S.Number),
           is_managed_externally: S.optional(S.Boolean),
           params: S.optional(S.String),
           query_context: S.optional(S.String),
           slice_name: S.optional(S.String),
-          tags: S.optional(__S(193, __c12, 1)),
+          tags: S.optional(__S(273, __c17, 1)),
           thumbnail_url: S.optional(S.String),
           url: S.optional(S.String),
           uuid: S.optional(S.String),
-          viewers: S.optional(__S(209, __c13, 1)),
+          viewers: S.optional(__S(289, __c18, 1)),
           viz_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChartGetResponseSchema" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(179, __c11, 3)),
+          result: S.optional(__S(259, __c16, 3)),
         }),
       ).annotate({ identifier: "GetChartResponse" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17071,10 +17318,10 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(272, __c17, 0));
   }
 }
-function __c13(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17087,10 +17334,10 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "SubjectResponse" });
     case 1:
-      return S.Array(__S(208, __c13, 0));
+      return S.Array(__S(288, __c18, 0));
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17111,7 +17358,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ChartCacheScreenshotResponseSchema" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17121,7 +17368,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetChartExportRequest" });
   }
 }
-function __c16(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17132,7 +17379,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetChartRelatedRequest" });
   }
 }
-function __c17(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17146,12 +17393,12 @@ function __c17(j: number): any {
         S.Struct({
           annotationType: S.optional(S.String),
           color: S.optional(S.NullOr(S.String)),
-          descriptionColumns: S.optional(__S(288, __c18, 0)),
+          descriptionColumns: S.optional(__S(368, __c23, 0)),
           hideLine: S.optional(S.NullOr(S.Boolean)),
           intervalEndColumn: S.optional(S.NullOr(S.String)),
           name: S.String,
           opacity: S.optional(S.NullOr(S.String)),
-          overrides: S.optional(S.NullOr(__S(368, __c23, 0))),
+          overrides: S.optional(S.NullOr(__S(448, __c28, 0))),
           show: S.Boolean,
           showLabel: S.optional(S.NullOr(S.Boolean)),
           showMarkers: S.Boolean,
@@ -17164,11 +17411,11 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "AnnotationLayer" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          column_order: S.optional(S.NullOr(__S(288, __c18, 0))),
+          column_order: S.optional(S.NullOr(__S(368, __c23, 0))),
           having: S.optional(S.String),
           instant_time_comparison_range: S.optional(S.NullOr(S.String)),
           relative_end: S.optional(S.String),
@@ -17187,58 +17434,58 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ChartDataPostProcessingOperation" });
     case 5:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(276, __c17, 4)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(356, __c22, 4)));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          annotation_layers: S.optional(S.NullOr(__S(274, __c17, 2))),
+          annotation_layers: S.optional(S.NullOr(__S(354, __c22, 2))),
           applied_time_extras: S.optional(S.NullOr(S.Unknown)),
           apply_fetch_values_predicate: S.optional(S.NullOr(S.Boolean)),
-          columns: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          datasource: S.optional(S.NullOr(__S(272, __c17, 0))),
-          extras: S.optional(S.NullOr(__S(275, __c17, 3))),
-          filters: S.optional(S.NullOr(__S(353, __c22, 1))),
+          columns: S.optional(S.NullOr(__S(5600, __c350, 0))),
+          datasource: S.optional(S.NullOr(__S(352, __c22, 0))),
+          extras: S.optional(S.NullOr(__S(355, __c22, 3))),
+          filters: S.optional(S.NullOr(__S(433, __c27, 1))),
           force_nonce: S.optional(S.NullOr(S.String)),
           granularity: S.optional(S.NullOr(S.String)),
           granularity_sqla: S.optional(S.NullOr(S.String)),
           group_others_when_limit_reached: S.optional(S.NullOr(S.Boolean)),
-          groupby: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          grouping_sets: S.optional(S.NullOr(__S(304, __c19, 0))),
+          groupby: S.optional(S.NullOr(__S(5600, __c350, 0))),
+          grouping_sets: S.optional(S.NullOr(__S(384, __c24, 0))),
           having: S.optional(S.NullOr(S.String)),
           is_rowcount: S.optional(S.NullOr(S.Boolean)),
           is_timeseries: S.optional(S.NullOr(S.Boolean)),
-          metrics: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          metrics: S.optional(S.NullOr(__S(5600, __c350, 0))),
           order_desc: S.optional(S.NullOr(S.Boolean)),
-          orderby: S.optional(S.NullOr(__S(5520, __c345, 0))),
-          post_processing: S.optional(S.NullOr(__S(277, __c17, 5))),
+          orderby: S.optional(S.NullOr(__S(5600, __c350, 0))),
+          post_processing: S.optional(S.NullOr(__S(357, __c22, 5))),
           result_type: S.optional(S.NullOr(S.String)),
           row_limit: S.optional(S.NullOr(S.Number)),
           row_offset: S.optional(S.NullOr(S.Number)),
-          series_columns: S.optional(S.NullOr(__S(5520, __c345, 0))),
+          series_columns: S.optional(S.NullOr(__S(5600, __c350, 0))),
           series_limit: S.optional(S.NullOr(S.Number)),
           series_limit_metric: S.optional(S.NullOr(S.Unknown)),
           time_compare_full_range: S.optional(S.NullOr(S.Boolean)),
-          time_offsets: S.optional(S.NullOr(__S(288, __c18, 0))),
+          time_offsets: S.optional(S.NullOr(__S(368, __c23, 0))),
           time_range: S.optional(S.NullOr(S.String)),
           time_shift: S.optional(S.NullOr(S.String)),
           timeseries_limit: S.optional(S.NullOr(S.Number)),
           timeseries_limit_metric: S.optional(S.NullOr(S.Unknown)),
-          url_params: S.optional(S.NullOr(__S(336, __c21, 0))),
+          url_params: S.optional(S.NullOr(__S(416, __c26, 0))),
           where: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ChartDataQueryObject" });
     case 7:
-      return S.Array(__S(278, __c17, 6));
+      return S.Array(__S(358, __c22, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           async_mode: S.optional(S.NullOr(S.Boolean)),
           custom_cache_timeout: S.optional(S.NullOr(S.Number)),
-          datasource: S.optional(__S(272, __c17, 0)),
+          datasource: S.optional(__S(352, __c22, 0)),
           force: S.optional(S.NullOr(S.Boolean)),
           force_nonce: S.optional(S.NullOr(S.String)),
           form_data: S.optional(S.NullOr(S.Unknown)),
-          queries: S.optional(__S(279, __c17, 7)),
+          queries: S.optional(__S(359, __c22, 7)),
           result_format: S.optional(S.String),
           result_type: S.optional(S.String),
           tab_id: S.optional(S.NullOr(S.String)),
@@ -17246,19 +17493,19 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateChartDataRequest" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(368, __c23, 0));
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17270,15 +17517,15 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "DashboardFilterInfo" });
     case 1:
-      return S.Array(__S(320, __c20, 0));
+      return S.Array(__S(400, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(321, __c20, 1)),
+          filters: S.optional(__S(401, __c25, 1)),
         }),
       ).annotate({ identifier: "DashboardFiltersResponseSchema" });
     case 3:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(416, __c26, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -17292,55 +17539,55 @@ function __c20(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          query: __S(324, __c20, 4),
+          query: __S(404, __c25, 4),
           version: S.Number,
         }),
       ).annotate({ identifier: "ChartDataTiming" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          annotation_data: S.optional(S.NullOr(__S(323, __c20, 3))),
-          applied_filters: S.optional(__S(5520, __c345, 0)),
+          annotation_data: S.optional(S.NullOr(__S(403, __c25, 3))),
+          applied_filters: S.optional(__S(5600, __c350, 0)),
           cache_key: S.NullOr(S.String),
           cache_timeout: S.NullOr(S.Number),
           cached_dttm: S.NullOr(S.String),
-          colnames: S.optional(__S(288, __c18, 0)),
-          coltypes: S.optional(__S(16, __c1, 0)),
-          data: S.optional(__S(5520, __c345, 0)),
+          colnames: S.optional(__S(368, __c23, 0)),
+          coltypes: S.optional(__S(48, __c3, 0)),
+          data: S.optional(__S(5600, __c350, 0)),
           detected_currency: S.optional(S.NullOr(S.String)),
           error: S.optional(S.NullOr(S.String)),
           from_dttm: S.optional(S.NullOr(S.Number)),
           is_cached: S.Boolean,
           queried_dttm: S.NullOr(S.String),
           query: S.optional(S.NullOr(S.String)),
-          rejected_filters: S.optional(__S(5520, __c345, 0)),
+          rejected_filters: S.optional(__S(5600, __c350, 0)),
           rowcount: S.optional(S.Number),
           semantic_cache_status: S.optional(S.NullOr(S.String)),
           stacktrace: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          timing: S.optional(__S(325, __c20, 5)),
+          timing: S.optional(__S(405, __c25, 5)),
           to_dttm: S.optional(S.NullOr(S.Number)),
           warning: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ChartDataResponseResult" });
     case 7:
-      return S.Array(__S(326, __c20, 6));
+      return S.Array(__S(406, __c25, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          dashboard_filters: S.optional(__S(322, __c20, 2)),
-          result: S.optional(__S(327, __c20, 7)),
+          dashboard_filters: S.optional(__S(402, __c25, 2)),
+          result: S.optional(__S(407, __c25, 7)),
         }),
       ).annotate({ identifier: "ChartDataResponseSchema" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c22(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17353,16 +17600,16 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "ChartDataFilter" });
     case 1:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(432, __c27, 0));
   }
 }
-function __c23(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
   }
 }
-function __c24(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17375,7 +17622,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetChartScreenshotRequest" });
   }
 }
-function __c25(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17388,7 +17635,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetChartThumbnailRequest" });
   }
 }
-function __c26(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17405,7 +17652,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetChartVersionRequest" });
   }
 }
-function __c27(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17417,23 +17664,23 @@ function __c27(j: number): any {
       ).annotate({ identifier: "VersionChangedBy" });
   }
 }
-function __c28(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _version: S.optional(__S(466, __c29, 2)),
+          _version: S.optional(__S(546, __c34, 2)),
         }),
       ).annotate({ identifier: "GetChartVersionResponseResult" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(448, __c28, 0)),
+          result: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "GetChartVersionResponse" });
   }
 }
-function __c29(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17446,12 +17693,12 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "VersionChangeRecord" });
     case 1:
-      return S.Array(__S(464, __c29, 0));
+      return S.Array(__S(544, __c34, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          changed_by: S.optional(S.NullOr(__S(432, __c27, 0))),
-          changes: S.optional(__S(465, __c29, 1)),
+          changed_by: S.optional(S.NullOr(__S(512, __c32, 0))),
+          changes: S.optional(__S(545, __c34, 1)),
           issued_at: S.optional(S.String),
           operation_type: S.optional(S.String),
           transaction_id: S.optional(S.Number),
@@ -17461,7 +17708,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "VersionListItemSchema" });
   }
 }
-function __c30(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17472,9 +17719,9 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          changed_by: S.optional(__S(496, __c31, 0)),
+          changed_by: S.optional(__S(576, __c36, 0)),
           changed_on_delta_humanized: S.optional(S.Unknown),
-          created_by: S.optional(__S(496, __c31, 0)),
+          created_by: S.optional(__S(576, __c36, 0)),
           created_on: S.optional(S.NullOr(S.String)),
           css: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
@@ -17482,23 +17729,23 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "CssTemplateRestApiGetList" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(482, __c30, 2)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(562, __c35, 2)),
         }),
       ).annotate({ identifier: "GetCssTemplateResponse" });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17510,7 +17757,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CssTemplateRestApiGetListUser" });
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17522,9 +17769,9 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          changed_by: S.optional(__S(496, __c31, 0)),
+          changed_by: S.optional(__S(576, __c36, 0)),
           changed_on_delta_humanized: S.optional(S.Unknown),
-          created_by: S.optional(__S(496, __c31, 0)),
+          created_by: S.optional(__S(576, __c36, 0)),
           css: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
           template_name: S.optional(S.NullOr(S.String)),
@@ -17533,17 +17780,17 @@ function __c32(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(513, __c32, 1)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(593, __c37, 1)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCssTemplateByPkResponse" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17556,7 +17803,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetCssTemplateRelatedRequest" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17578,41 +17825,41 @@ function __c34(j: number): any {
         S.Struct({
           certification_details: S.optional(S.String),
           certified_by: S.optional(S.String),
-          changed_by: S.optional(__S(432, __c27, 0)),
+          changed_by: S.optional(__S(512, __c32, 0)),
           changed_by_name: S.optional(S.String),
           changed_on: S.optional(S.String),
           changed_on_delta_humanized: S.optional(S.String),
-          charts: S.optional(__S(288, __c18, 0)),
-          created_by: S.optional(__S(432, __c27, 0)),
+          charts: S.optional(__S(368, __c23, 0)),
+          created_by: S.optional(__S(512, __c32, 0)),
           created_on_delta_humanized: S.optional(S.String),
           css: S.optional(S.String),
-          custom_tags: S.optional(__S(193, __c12, 1)),
+          custom_tags: S.optional(__S(273, __c17, 1)),
           dashboard_title: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(209, __c13, 1)),
+          editors: S.optional(__S(289, __c18, 1)),
           id: S.optional(S.Number),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           json_metadata: S.optional(S.String),
           position_json: S.optional(S.String),
           published: S.optional(S.Boolean),
           slug: S.optional(S.String),
-          tags: S.optional(__S(193, __c12, 1)),
-          theme: S.optional(S.NullOr(__S(545, __c34, 1))),
+          tags: S.optional(__S(273, __c17, 1)),
+          theme: S.optional(S.NullOr(__S(625, __c39, 1))),
           thumbnail_url: S.optional(S.NullOr(S.String)),
           url: S.optional(S.String),
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(209, __c13, 1)),
+          viewers: S.optional(__S(289, __c18, 1)),
         }),
       ).annotate({ identifier: "DashboardGetResponseSchema" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(546, __c34, 2)),
+          result: S.optional(__S(626, __c39, 2)),
         }),
       ).annotate({ identifier: "GetDashboardResponse" });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17624,7 +17871,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetDashboardEmbeddedRequest" });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17634,7 +17881,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetDashboardExportRequest" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17648,7 +17895,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetDashboardExportAsExampleRequest" });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17658,7 +17905,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateChartFavoriteRequest" });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17668,7 +17915,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateChartFavoriteResponse" });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17684,7 +17931,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetDashboardExportXlsxDownloadRequest" });
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17700,7 +17947,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetDashboardExportXlsxStatusRequest" });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17720,7 +17967,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetDashboardFilterStateResponse" });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17730,7 +17977,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetDashboardPermalinkRequest" });
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17740,7 +17987,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetDashboardPermalinkResponse" });
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17753,7 +18000,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetDashboardRelatedRequest" });
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17767,7 +18014,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetDashboardScreenshotRequest" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17780,7 +18027,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetDashboardThumbnailRequest" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17797,7 +18044,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetDashboardVersionRequest" });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17818,11 +18065,11 @@ function __c49(j: number): any {
           allows_subquery: S.optional(S.Unknown),
           allows_virtual_table_explore: S.optional(S.Unknown),
           backend: S.optional(S.Unknown),
-          changed_by: S.optional(__S(64, __c4, 0)),
+          changed_by: S.optional(__S(144, __c9, 0)),
           changed_on: S.optional(S.NullOr(S.String)),
           changed_on_delta_humanized: S.optional(S.Unknown),
           configuration_method: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(__S(64, __c4, 0)),
+          created_by: S.optional(__S(144, __c9, 0)),
           database_name: S.String,
           disable_data_preview: S.optional(S.Unknown),
           disable_drill_to_detail: S.optional(S.Unknown),
@@ -17836,23 +18083,23 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseRestApiGetList" });
     case 2:
-      return S.Array(__S(785, __c49, 1));
+      return S.Array(__S(865, __c54, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(786, __c49, 2)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(866, __c54, 2)),
         }),
       ).annotate({ identifier: "GetDatabaseResponse" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17866,7 +18113,7 @@ function __c50(j: number): any {
       });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17879,12 +18126,12 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          result: S.optional(__S(832, __c52, 0)),
+          result: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "CreateCssTemplateResponse" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17895,7 +18142,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CssTemplateRestApiPost" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17916,7 +18163,7 @@ function __c53(j: number): any {
           configuration_method: S.optional(S.String),
           database_name: S.optional(S.NullOr(S.String)),
           driver: S.optional(S.NullOr(S.String)),
-          engine_information: S.optional(__S(865, __c54, 1)),
+          engine_information: S.optional(__S(945, __c59, 1)),
           expose_in_sqllab: S.optional(S.Boolean),
           extra: S.optional(S.String),
           force_ctas_schema: S.optional(S.NullOr(S.String)),
@@ -17924,17 +18171,17 @@ function __c53(j: number): any {
           impersonate_user: S.optional(S.Boolean),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           masked_encrypted_extra: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(__S(1312, __c82, 0)),
-          parameters_schema: S.optional(__S(1312, __c82, 0)),
+          parameters: S.optional(__S(1392, __c87, 0)),
+          parameters_schema: S.optional(__S(1392, __c87, 0)),
           server_cert: S.optional(S.NullOr(S.String)),
           sqlalchemy_uri: S.optional(S.String),
-          ssh_tunnel: S.optional(S.NullOr(__S(2528, __c158, 0))),
+          ssh_tunnel: S.optional(S.NullOr(__S(2608, __c163, 0))),
           uuid: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseConnectionSchemaOutput" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17948,7 +18195,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           disable_ssh_tunneling: S.optional(S.Boolean),
-          identifier_quote: S.optional(__S(864, __c54, 0)),
+          identifier_quote: S.optional(__S(944, __c59, 0)),
           oauth2_enabled: S.optional(S.Boolean),
           supports_dynamic_catalog: S.optional(S.Boolean),
           supports_file_upload: S.optional(S.Boolean),
@@ -17959,7 +18206,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "EngineInformation" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17969,7 +18216,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetDatabaseExportRequest" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17982,7 +18229,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetDatabaseOauth2Request" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17995,7 +18242,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetDatabaseRelatedRequest" });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18009,34 +18256,34 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          result: S.optional(__S(945, __c59, 1)),
+          result: S.optional(__S(1025, __c64, 1)),
         }),
       ).annotate({ identifier: "DatabaseRelatedCharts" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          result: S.optional(__S(947, __c59, 3)),
+          result: S.optional(__S(1027, __c64, 3)),
         }),
       ).annotate({ identifier: "DatabaseRelatedDashboards" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          result: S.optional(__S(961, __c60, 1)),
+          result: S.optional(__S(1041, __c65, 1)),
         }),
       ).annotate({ identifier: "DatabaseRelatedDatasets" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          charts: S.optional(__S(929, __c58, 1)),
-          dashboards: S.optional(__S(930, __c58, 2)),
-          datasets: S.optional(__S(931, __c58, 3)),
+          charts: S.optional(__S(1009, __c63, 1)),
+          dashboards: S.optional(__S(1010, __c63, 2)),
+          datasets: S.optional(__S(1011, __c63, 3)),
         }),
       ).annotate({ identifier: "DatabaseRelatedObjectsResponse" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18047,7 +18294,7 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseRelatedChart" });
     case 1:
-      return S.Array(__S(944, __c59, 0));
+      return S.Array(__S(1024, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18058,10 +18305,10 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseRelatedDashboard" });
     case 3:
-      return S.Array(__S(946, __c59, 2));
+      return S.Array(__S(1026, __c64, 2));
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18072,10 +18319,10 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseRelatedDataset" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(1040, __c65, 0));
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18092,7 +18339,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetDatabaseSelectStarRequest" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18110,7 +18357,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetDatabaseSelectStarRequest2" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18130,14 +18377,14 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           duplicates_constraint: S.optional(S.String),
-          keys: S.optional(__S(288, __c18, 0)),
+          keys: S.optional(__S(368, __c23, 0)),
           longType: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableMetadataColumnsResponse" });
     case 2:
-      return S.Array(__S(1009, __c63, 1));
+      return S.Array(__S(1089, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -18151,21 +18398,21 @@ function __c63(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          column_names: S.optional(__S(288, __c18, 0)),
+          column_names: S.optional(__S(368, __c23, 0)),
           name: S.optional(S.String),
-          options: S.optional(__S(1011, __c63, 3)),
-          referred_columns: S.optional(__S(288, __c18, 0)),
+          options: S.optional(__S(1091, __c68, 3)),
+          referred_columns: S.optional(__S(368, __c23, 0)),
           referred_schema: S.optional(S.String),
           referred_table: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableMetadataForeignKeysIndexesResponse" });
     case 5:
-      return S.Array(__S(1012, __c63, 4));
+      return S.Array(__S(1092, __c68, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          column_names: S.optional(__S(288, __c18, 0)),
+          column_names: S.optional(__S(368, __c23, 0)),
           name: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -18173,17 +18420,17 @@ function __c63(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(1010, __c63, 2)),
-          foreignKeys: S.optional(__S(1013, __c63, 5)),
-          indexes: S.optional(__S(1013, __c63, 5)),
+          columns: S.optional(__S(1090, __c68, 2)),
+          foreignKeys: S.optional(__S(1093, __c68, 5)),
+          indexes: S.optional(__S(1093, __c68, 5)),
           name: S.optional(S.String),
-          primaryKey: S.optional(__S(1014, __c63, 6)),
+          primaryKey: S.optional(__S(1094, __c68, 6)),
           selectStar: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableMetadataResponseSchema" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18201,7 +18448,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetDatabaseTableExtraRequest" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18213,7 +18460,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "TableExtraMetadataResponseSchema" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18226,7 +18473,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetDatabaseTableMetadataRequest" });
   }
 }
-function __c67(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -18240,7 +18487,7 @@ function __c67(j: number): any {
           css: S.optional(S.String),
           dashboard_title: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(1072, __c67, 0)),
+          editors: S.optional(__S(1152, __c72, 0)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           json_metadata: S.optional(S.String),
@@ -18249,7 +18496,7 @@ function __c67(j: number): any {
           slug: S.optional(S.NullOr(S.String)),
           theme_id: S.optional(S.NullOr(S.Number)),
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(1073, __c67, 1)),
+          viewers: S.optional(__S(1153, __c72, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/dashboard/", code: 200 })),
       ).annotate({ identifier: "CreateDashboardRequest" });
     case 3:
@@ -18264,7 +18511,7 @@ function __c67(j: number): any {
           css: S.optional(S.String),
           dashboard_title: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(1075, __c67, 3)),
+          editors: S.optional(__S(1155, __c72, 3)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           json_metadata: S.optional(S.String),
@@ -18273,19 +18520,19 @@ function __c67(j: number): any {
           slug: S.optional(S.NullOr(S.String)),
           theme_id: S.optional(S.NullOr(S.Number)),
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(1076, __c67, 4)),
+          viewers: S.optional(__S(1156, __c72, 4)),
         }),
       ).annotate({ identifier: "DashboardRestApiPost" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(1077, __c67, 5)),
+          result: S.optional(__S(1157, __c72, 5)),
         }),
       ).annotate({ identifier: "CreateDashboardResponse" });
   }
 }
-function __c68(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18300,7 +18547,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetDatabaseTableMetadataExtraRequest" });
   }
 }
-function __c69(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18320,15 +18567,15 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           catalog: S.optional(S.NullOr(S.String)),
-          changed_by: S.optional(__S(496, __c31, 0)),
+          changed_by: S.optional(__S(576, __c36, 0)),
           changed_by_name: S.optional(S.Unknown),
           changed_on_delta_humanized: S.optional(S.Unknown),
           changed_on_utc: S.optional(S.Unknown),
-          database: __S(1105, __c69, 1),
+          database: __S(1185, __c74, 1),
           datasource_type: S.optional(S.Unknown),
           default_endpoint: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(1121, __c70, 1)),
+          editors: S.optional(__S(1201, __c75, 1)),
           explore_url: S.optional(S.Unknown),
           extra: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
@@ -18340,23 +18587,23 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "DatasetRestApiGetList" });
     case 3:
-      return S.Array(__S(1106, __c69, 2));
+      return S.Array(__S(1186, __c74, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(1107, __c69, 3)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(1187, __c74, 3)),
         }),
       ).annotate({ identifier: "GetDatasetResponse" });
   }
 }
-function __c70(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18367,10 +18614,10 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "DatasetRestApiGetListSubject" });
     case 1:
-      return S.Array(__S(1120, __c70, 0));
+      return S.Array(__S(1200, __c75, 0));
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18409,7 +18656,7 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "DatasetRestApiGetTableColumn" });
     case 2:
-      return S.Array(__S(1137, __c71, 1));
+      return S.Array(__S(1217, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -18443,28 +18690,28 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "DatasetRestApiGetSqlMetric" });
     case 5:
-      return S.Array(__S(1140, __c71, 4));
+      return S.Array(__S(1220, __c76, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           always_filter_main_dttm: S.optional(S.NullOr(S.Boolean)),
           cache_timeout: S.optional(S.Unknown),
           catalog: S.optional(S.NullOr(S.String)),
-          changed_by: S.optional(__S(64, __c4, 0)),
+          changed_by: S.optional(__S(144, __c9, 0)),
           changed_on: S.optional(S.NullOr(S.String)),
           changed_on_humanized: S.optional(S.Unknown),
           column_formats: S.optional(S.Unknown),
-          columns: __S(1138, __c71, 2),
-          created_by: S.optional(__S(64, __c4, 0)),
+          columns: __S(1218, __c76, 2),
+          created_by: S.optional(__S(144, __c9, 0)),
           created_on: S.optional(S.NullOr(S.String)),
           created_on_humanized: S.optional(S.Unknown),
           currency_code_column: S.optional(S.NullOr(S.String)),
-          database: __S(1139, __c71, 3),
+          database: __S(1219, __c76, 3),
           datasource_name: S.optional(S.Unknown),
           datasource_type: S.optional(S.Unknown),
           default_endpoint: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(1121, __c70, 1)),
+          editors: S.optional(__S(1201, __c75, 1)),
           extra: S.optional(S.NullOr(S.String)),
           fetch_values_predicate: S.optional(S.NullOr(S.String)),
           filter_select_enabled: S.optional(S.NullOr(S.Boolean)),
@@ -18475,7 +18722,7 @@ function __c71(j: number): any {
           is_sqllab_view: S.optional(S.NullOr(S.Boolean)),
           kind: S.optional(S.Unknown),
           main_dttm_col: S.optional(S.NullOr(S.String)),
-          metrics: __S(1141, __c71, 5),
+          metrics: __S(1221, __c76, 5),
           name: S.optional(S.Unknown),
           normalize_columns: S.optional(S.NullOr(S.Boolean)),
           offset: S.optional(S.NullOr(S.Number)),
@@ -18500,12 +18747,12 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          result: S.optional(__S(1142, __c71, 6)),
+          result: S.optional(__S(1222, __c76, 6)),
         }),
       ).annotate({ identifier: "GetDatasetByIdOrUuidResponse" });
   }
 }
-function __c72(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18518,7 +18765,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetDatasetDistinctRequest" });
   }
 }
-function __c73(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18527,17 +18774,17 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "DistinctResultResponse" });
     case 1:
-      return S.Array(__S(1168, __c73, 0));
+      return S.Array(__S(1248, __c78, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          result: S.optional(__S(1169, __c73, 1)),
+          result: S.optional(__S(1249, __c78, 1)),
         }),
       ).annotate({ identifier: "DistincResponseSchema" });
   }
 }
-function __c74(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18547,7 +18794,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "GetDatasetDrillInfoRequest" });
   }
 }
-function __c75(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18557,7 +18804,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetDatasetExportRequest" });
   }
 }
-function __c76(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18580,12 +18827,12 @@ function __c76(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(1217, __c76, 1)),
+          result: S.optional(__S(1297, __c81, 1)),
         }),
       ).annotate({ identifier: "GetDatasetOrCreateResponse" });
   }
 }
-function __c77(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18593,36 +18840,9 @@ function __c77(j: number): any {
           uuid: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/dataset/{uuid}/purge-impact", code: 200 })),
       ).annotate({ identifier: "GetDatasetPurgeImpactRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          archived: S.Boolean,
-          name: S.String,
-          url: S.NullOr(S.String),
-          uuid: S.String,
-        }),
-      ).annotate({ identifier: "DatasetPurgeImpactObject" });
-    case 2:
-      return S.Array(__S(1233, __c77, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          restricted_count: S.Number,
-          result: __S(1234, __c77, 2),
-        }),
-      ).annotate({ identifier: "DatasetPurgeImpactCollection" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          charts: __S(1235, __c77, 3),
-          dashboards: __S(1235, __c77, 3),
-          impact_token: S.String,
-        }),
-      ).annotate({ identifier: "DatasetPurgeImpactSchema" });
   }
 }
-function __c78(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18633,7 +18853,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetDatasetRelatedRequest" });
   }
 }
-function __c79(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18643,14 +18863,14 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GetDatasetRelatedObjectsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           restricted_count: S.optional(S.Number),
-          result: S.optional(__S(945, __c59, 1)),
+          result: S.optional(__S(1025, __c64, 1)),
         }),
       ).annotate({ identifier: "DatasetRelatedCharts" });
     case 1:
@@ -18658,28 +18878,28 @@ function __c80(j: number): any {
         S.Struct({
           count: S.optional(S.Number),
           restricted_count: S.optional(S.Number),
-          result: S.optional(__S(947, __c59, 3)),
+          result: S.optional(__S(1027, __c64, 3)),
         }),
       ).annotate({ identifier: "DatasetRelatedDashboards" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          charts: S.optional(__S(1280, __c80, 0)),
-          dashboards: S.optional(__S(1281, __c80, 1)),
+          charts: S.optional(__S(1360, __c85, 0)),
+          dashboards: S.optional(__S(1361, __c85, 1)),
         }),
       ).annotate({ identifier: "DatasetRelatedObjectsResponse" });
   }
 }
-function __c81(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pk: S.Number.pipe(T.Label()),
-          activeTabs: S.optional(__S(288, __c18, 0)),
+          activeTabs: S.optional(__S(368, __c23, 0)),
           anchor: S.optional(S.String),
-          dataMask: S.optional(__S(1312, __c82, 0)),
-          urlParams: S.optional(__S(5520, __c345, 0)),
+          dataMask: S.optional(__S(1392, __c87, 0)),
+          urlParams: S.optional(__S(5600, __c350, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18701,13 +18921,13 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DashboardCacheScreenshotResponseSchema" });
   }
 }
-function __c82(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c83(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18719,7 +18939,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "GetDatasetRelatedObjectsRequest2" });
   }
 }
-function __c84(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18736,7 +18956,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetDatasetVersionRequest" });
   }
 }
-function __c85(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18746,7 +18966,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GetDatasourceRequest" });
   }
 }
-function __c86(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18763,7 +18983,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetDatasourceByDatasourceIdRequest" });
   }
 }
-function __c87(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18778,7 +18998,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GetEmbeddedDashboardRequest" });
   }
 }
-function __c88(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18791,7 +19011,7 @@ function __c88(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/explore/", code: 200 })),
       ).annotate({ identifier: "GetExploreRequest" });
     case 1:
-      return S.Array(__S(5520, __c345, 0));
+      return S.Array(__S(5600, __c350, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18801,45 +19021,45 @@ function __c88(j: number): any {
           id: S.optional(S.Number),
           inherited: S.optional(S.Boolean),
           name: S.optional(S.String),
-          roles: S.optional(__S(1425, __c89, 1)),
+          roles: S.optional(__S(1505, __c94, 1)),
         }),
       ).annotate({ identifier: "RlsFilter" });
     case 3:
-      return S.Array(__S(1410, __c88, 2));
+      return S.Array(__S(1490, __c93, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           cache_timeout: S.optional(S.Number),
           column_formats: S.optional(S.Unknown),
-          columns: S.optional(__S(5520, __c345, 0)),
+          columns: S.optional(__S(5600, __c350, 0)),
           database: S.optional(S.Unknown),
           datasource_name: S.optional(S.String),
           default_endpoint: S.optional(S.String),
           description: S.optional(S.String),
           edit_url: S.optional(S.String),
-          editors: S.optional(__S(209, __c13, 1)),
+          editors: S.optional(__S(289, __c18, 1)),
           extra: S.optional(S.Unknown),
           fetch_values_predicate: S.optional(S.String),
           filter_select: S.optional(S.Boolean),
           filter_select_enabled: S.optional(S.Boolean),
-          granularity_sqla: S.optional(__S(1409, __c88, 1)),
+          granularity_sqla: S.optional(__S(1489, __c93, 1)),
           health_check_message: S.optional(S.String),
           id: S.optional(S.Number),
           is_sqllab_view: S.optional(S.Boolean),
           main_dttm_col: S.optional(S.String),
-          metrics: S.optional(__S(5520, __c345, 0)),
+          metrics: S.optional(__S(5600, __c350, 0)),
           name: S.optional(S.String),
           offset: S.optional(S.Number),
-          order_by_choices: S.optional(__S(304, __c19, 0)),
+          order_by_choices: S.optional(__S(384, __c24, 0)),
           params: S.optional(S.Unknown),
           perm: S.optional(S.String),
-          rls_filters: S.optional(__S(1411, __c88, 3)),
+          rls_filters: S.optional(__S(1491, __c93, 3)),
           schema: S.optional(S.String),
           select_star: S.optional(S.String),
           sql: S.optional(S.String),
           table_name: S.optional(S.String),
           template_params: S.optional(S.Unknown),
-          time_grain_sqla: S.optional(__S(304, __c19, 0)),
+          time_grain_sqla: S.optional(__S(384, __c24, 0)),
           type: S.optional(S.String),
           uid: S.optional(S.String),
           verbose_map: S.optional(S.Unknown),
@@ -18857,7 +19077,7 @@ function __c88(j: number): any {
           description: S.optional(S.String),
           description_markeddown: S.optional(S.String),
           edit_url: S.optional(S.String),
-          editors: S.optional(__S(209, __c13, 1)),
+          editors: S.optional(__S(289, __c18, 1)),
           form_data: S.optional(S.Unknown),
           is_managed_externally: S.optional(S.Boolean),
           modified: S.optional(S.String),
@@ -18870,15 +19090,15 @@ function __c88(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dataset: S.optional(__S(1412, __c88, 4)),
+          dataset: S.optional(__S(1492, __c93, 4)),
           form_data: S.optional(S.Unknown),
           message: S.optional(S.String),
-          slice: S.optional(__S(1413, __c88, 5)),
+          slice: S.optional(__S(1493, __c93, 5)),
         }),
       ).annotate({ identifier: "ExploreContextSchema" });
   }
 }
-function __c89(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18888,10 +19108,10 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "RlsRole" });
     case 1:
-      return S.Array(__S(1424, __c89, 0));
+      return S.Array(__S(1504, __c94, 0));
   }
 }
-function __c90(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18907,7 +19127,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetExploreFormDataResponse" });
   }
 }
-function __c91(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18917,7 +19137,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GetExplorePermalinkRequest" });
   }
 }
-function __c92(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18926,23 +19146,23 @@ function __c92(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/log/", code: 200 })),
       ).annotate({ identifier: "GetLogRequest" });
     case 1:
-      return S.Array(__S(1489, __c93, 1));
+      return S.Array(__S(1569, __c98, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(1473, __c92, 1)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(1553, __c97, 1)),
         }),
       ).annotate({ identifier: "GetLogResponse" });
   }
 }
-function __c93(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18962,13 +19182,13 @@ function __c93(j: number): any {
           json: S.optional(S.NullOr(S.String)),
           referrer: S.optional(S.NullOr(S.String)),
           slice_id: S.optional(S.NullOr(S.Number)),
-          user: S.optional(__S(1488, __c93, 0)),
+          user: S.optional(__S(1568, __c98, 0)),
           user_id: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "LogRestApiGetList" });
   }
 }
-function __c94(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18980,30 +19200,30 @@ function __c94(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(1489, __c93, 1)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(1569, __c98, 1)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLogByPkResponse" });
   }
 }
-function __c95(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id_or_slug: S.String.pipe(T.Label()),
-          allowed_domains: __S(288, __c18, 0),
+          allowed_domains: __S(368, __c23, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/dashboard/{id_or_slug}/embedded", code: 200 }),
         ),
       ).annotate({ identifier: "CreateDashboardEmbeddedRequest" });
   }
 }
-function __c96(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19017,8 +19237,8 @@ function __c96(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allowed_domains: S.optional(__S(288, __c18, 0)),
-          changed_by: S.optional(__S(1536, __c96, 0)),
+          allowed_domains: S.optional(__S(368, __c23, 0)),
+          changed_by: S.optional(__S(1616, __c101, 0)),
           changed_on: S.optional(S.String),
           dashboard_id: S.optional(S.String),
           uuid: S.optional(S.String),
@@ -19027,12 +19247,12 @@ function __c96(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(1537, __c96, 1)),
+          result: S.optional(__S(1617, __c101, 1)),
         }),
       ).annotate({ identifier: "CreateDashboardEmbeddedResponse" });
   }
 }
-function __c97(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19040,14 +19260,14 @@ function __c97(j: number): any {
       ).annotate({ identifier: "GetMeRequest" });
   }
 }
-function __c98(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
           first_name: S.optional(S.String),
-          groups: S.optional(__S(1425, __c89, 1)),
+          groups: S.optional(__S(1505, __c94, 1)),
           id: S.optional(S.Number),
           is_active: S.optional(S.Boolean),
           is_anonymous: S.optional(S.Boolean),
@@ -19059,12 +19279,12 @@ function __c98(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(1568, __c98, 0)),
+          result: S.optional(__S(1648, __c103, 0)),
         }),
       ).annotate({ identifier: "GetMeResponse" });
   }
 }
-function __c99(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19072,7 +19292,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GetMeRolesRequest" });
   }
 }
-function __c100(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19090,7 +19310,7 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           changed_on: S.optional(S.String),
-          database: S.optional(__S(1601, __c100, 1)),
+          database: S.optional(__S(1681, __c105, 1)),
           end_time: S.optional(S.Number),
           executed_sql: S.optional(S.String),
           id: S.optional(S.Number),
@@ -19104,27 +19324,27 @@ function __c100(j: number): any {
           tab_name: S.optional(S.String),
           tmp_table_name: S.optional(S.String),
           tracking_url: S.optional(S.String),
-          user: S.optional(__S(432, __c27, 0)),
+          user: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "QueryRestApiGetList" });
     case 3:
-      return S.Array(__S(1602, __c100, 2));
+      return S.Array(__S(1682, __c105, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(1603, __c100, 3)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(1683, __c105, 3)),
         }),
       ).annotate({ identifier: "GetQueryResponse" });
   }
 }
-function __c101(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19136,24 +19356,24 @@ function __c101(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(1632, __c102, 0)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(1712, __c107, 0)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetQueryByPkResponse" });
   }
 }
-function __c102(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           changed_on: S.optional(S.NullOr(S.String)),
           client_id: S.String,
-          database: __S(3904, __c244, 0),
+          database: __S(3984, __c249, 0),
           end_result_backend_time: S.optional(S.NullOr(S.Number)),
           end_time: S.optional(S.NullOr(S.Number)),
           error_message: S.optional(S.NullOr(S.String)),
@@ -19180,7 +19400,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "QueryRestApiGet" });
   }
 }
-function __c103(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19191,7 +19411,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetQueryDistinctRequest" });
   }
 }
-function __c104(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19202,7 +19422,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GetQueryRelatedRequest" });
   }
 }
-function __c105(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19218,35 +19438,35 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "ReportScheduleRestApiGetListReportRecipients" });
     case 2:
-      return S.Array(__S(1681, __c105, 1));
+      return S.Array(__S(1761, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.NullOr(S.Boolean)),
-          changed_by: S.optional(__S(64, __c4, 0)),
+          changed_by: S.optional(__S(144, __c9, 0)),
           changed_on: S.optional(S.NullOr(S.String)),
           changed_on_delta_humanized: S.optional(S.Unknown),
           chart_id: S.optional(S.NullOr(S.Unknown)),
-          created_by: S.optional(__S(64, __c4, 0)),
+          created_by: S.optional(__S(144, __c9, 0)),
           created_on: S.optional(S.NullOr(S.String)),
           creation_method: S.optional(S.NullOr(S.String)),
           crontab: S.String,
           crontab_humanized: S.optional(S.Unknown),
           dashboard_id: S.optional(S.NullOr(S.Unknown)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(1121, __c70, 1)),
+          editors: S.optional(__S(1201, __c75, 1)),
           extra: S.optional(S.Unknown),
           id: S.optional(S.Number),
           last_eval_dttm: S.optional(S.NullOr(S.String)),
           last_state: S.optional(S.NullOr(S.String)),
           name: S.String,
-          recipients: __S(1682, __c105, 2),
+          recipients: __S(1762, __c110, 2),
           report_format: S.optional(S.NullOr(S.String)),
           retry_max_attempts: S.optional(S.Number),
           retry_notify_owners: S.optional(S.Boolean),
           retry_notify_recipients: S.optional(S.Boolean),
           retry_on_failure: S.optional(S.Boolean),
-          run_as: S.optional(__S(3904, __c244, 0)),
+          run_as: S.optional(__S(3984, __c249, 0)),
           run_as_type: S.optional(S.NullOr(S.String)),
           send_failed_reports: S.optional(S.Boolean),
           timezone: S.optional(S.String),
@@ -19254,23 +19474,23 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "ReportScheduleRestApiGetList" });
     case 4:
-      return S.Array(__S(1683, __c105, 3));
+      return S.Array(__S(1763, __c110, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(1684, __c105, 4)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(1764, __c110, 4)),
         }),
       ).annotate({ identifier: "GetReportResponse" });
   }
 }
-function __c106(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19296,20 +19516,20 @@ function __c106(j: number): any {
         }),
       ).annotate({ identifier: "ReportScheduleRestApiGetReportRecipients" });
     case 3:
-      return S.Array(__S(1698, __c106, 2));
+      return S.Array(__S(1778, __c111, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.NullOr(S.Boolean)),
-          chart: S.optional(__S(1697, __c106, 1)),
+          chart: S.optional(__S(1777, __c111, 1)),
           context_markdown: S.optional(S.NullOr(S.String)),
           creation_method: S.optional(S.NullOr(S.String)),
           crontab: S.String,
           custom_width: S.optional(S.NullOr(S.Number)),
-          dashboard: S.optional(__S(1728, __c108, 0)),
-          database: S.optional(__S(1712, __c107, 0)),
+          dashboard: S.optional(__S(1808, __c113, 0)),
+          database: S.optional(__S(1792, __c112, 0)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(1121, __c70, 1)),
+          editors: S.optional(__S(1201, __c75, 1)),
           email_subject: S.optional(S.NullOr(S.String)),
           extra: S.optional(S.Unknown),
           force_screenshot: S.optional(S.NullOr(S.Boolean)),
@@ -19322,15 +19542,15 @@ function __c106(j: number): any {
           last_value_row_json: S.optional(S.NullOr(S.String)),
           log_retention: S.optional(S.NullOr(S.Number)),
           name: S.String,
-          recipients: __S(1699, __c106, 3),
+          recipients: __S(1779, __c111, 3),
           report_format: S.optional(S.NullOr(S.String)),
           retry_max_attempts: S.optional(S.Number),
           retry_notify_owners: S.optional(S.Boolean),
           retry_notify_recipients: S.optional(S.Boolean),
           retry_on_failure: S.optional(S.Boolean),
-          run_alert_query_as: S.optional(__S(496, __c31, 0)),
+          run_alert_query_as: S.optional(__S(576, __c36, 0)),
           run_alert_query_as_type: S.optional(S.NullOr(S.String)),
-          run_as: S.optional(__S(496, __c31, 0)),
+          run_as: S.optional(__S(576, __c36, 0)),
           run_as_type: S.optional(S.NullOr(S.String)),
           send_failed_reports: S.optional(S.Boolean),
           sql: S.optional(S.NullOr(S.String)),
@@ -19344,17 +19564,17 @@ function __c106(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(1700, __c106, 4)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(1780, __c111, 4)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReportByPkResponse" });
   }
 }
-function __c107(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19365,7 +19585,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ReportScheduleRestApiGetDatabase" });
   }
 }
-function __c108(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19376,7 +19596,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ReportScheduleRestApiGetDashboard" });
   }
 }
-function __c109(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19386,14 +19606,14 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetReportConfigurationRequest" });
   }
 }
-function __c110(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           alert_minimum_interval: S.optional(S.NullOr(S.Number)),
           alerts_attach_reports: S.optional(S.NullOr(S.Boolean)),
-          allowed_email_domains: S.optional(S.NullOr(__S(288, __c18, 0))),
+          allowed_email_domains: S.optional(S.NullOr(__S(368, __c23, 0))),
           date_format_in_email_subject: S.optional(S.NullOr(S.Boolean)),
           limit_recipients_to_users: S.optional(S.NullOr(S.Boolean)),
           report_minimum_interval: S.optional(S.NullOr(S.Number)),
@@ -19402,12 +19622,12 @@ function __c110(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(1760, __c110, 0)),
+          result: S.optional(__S(1840, __c115, 0)),
         }),
       ).annotate({ identifier: "GetReportConfigurationResponse" });
   }
 }
-function __c111(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19421,12 +19641,12 @@ function __c111(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          result: S.optional(__S(1792, __c112, 0)),
+          result: S.optional(__S(1872, __c117, 0)),
         }),
       ).annotate({ identifier: "GetReportLogResponse" });
   }
 }
-function __c112(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19444,7 +19664,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ReportExecutionLogRestApiGet" });
   }
 }
-function __c113(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19454,7 +19674,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "CreateDashboardFavoriteRequest" });
   }
 }
-function __c114(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19465,7 +19685,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetReportRelatedRequest" });
   }
 }
-function __c115(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19476,7 +19696,7 @@ function __c115(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          changed_by: S.optional(__S(432, __c27, 0)),
+          changed_by: S.optional(__S(512, __c32, 0)),
           changed_on_delta_humanized: S.optional(S.Unknown),
           clause: S.optional(S.String),
           description: S.optional(S.String),
@@ -19484,28 +19704,28 @@ function __c115(j: number): any {
           group_key: S.optional(S.String),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          subjects: S.optional(__S(209, __c13, 1)),
-          tables: S.optional(__S(961, __c60, 1)),
+          subjects: S.optional(__S(289, __c18, 1)),
+          tables: S.optional(__S(1041, __c65, 1)),
         }),
       ).annotate({ identifier: "RLSRestApiGetList" });
     case 2:
-      return S.Array(__S(1841, __c115, 1));
+      return S.Array(__S(1921, __c120, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(1842, __c115, 2)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(1922, __c120, 2)),
         }),
       ).annotate({ identifier: "GetRowlevelsecurityResponse" });
   }
 }
-function __c116(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19523,24 +19743,24 @@ function __c116(j: number): any {
           group_key: S.optional(S.String),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          subjects: S.optional(__S(209, __c13, 1)),
-          tables: S.optional(__S(961, __c60, 1)),
+          subjects: S.optional(__S(289, __c18, 1)),
+          tables: S.optional(__S(1041, __c65, 1)),
         }),
       ).annotate({ identifier: "RLSRestApiGet" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(1857, __c116, 1)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(1937, __c121, 1)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRowlevelsecurityByPkResponse" });
   }
 }
-function __c117(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19557,7 +19777,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "GetRowlevelsecurityRelatedRequest" });
   }
 }
-function __c118(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19569,12 +19789,12 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           catalog: S.optional(S.NullOr(S.String)),
-          changed_by: S.optional(__S(496, __c31, 0)),
+          changed_by: S.optional(__S(576, __c36, 0)),
           changed_on: S.optional(S.NullOr(S.String)),
           changed_on_delta_humanized: S.optional(S.Unknown),
-          created_by: S.optional(__S(496, __c31, 0)),
+          created_by: S.optional(__S(576, __c36, 0)),
           created_on: S.optional(S.NullOr(S.String)),
-          database: S.optional(__S(1712, __c107, 0)),
+          database: S.optional(__S(1792, __c112, 0)),
           db_id: S.optional(S.NullOr(S.Unknown)),
           description: S.optional(S.NullOr(S.String)),
           extra: S.optional(S.Unknown),
@@ -19585,27 +19805,27 @@ function __c118(j: number): any {
           schema: S.optional(S.NullOr(S.String)),
           sql: S.optional(S.NullOr(S.String)),
           sql_tables: S.optional(S.Unknown),
-          tags: S.optional(__S(1905, __c119, 1)),
+          tags: S.optional(__S(1985, __c124, 1)),
         }),
       ).annotate({ identifier: "SavedQueryRestApiGetList" });
     case 2:
-      return S.Array(__S(1889, __c118, 1));
+      return S.Array(__S(1969, __c123, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(1890, __c118, 2)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(1970, __c123, 2)),
         }),
       ).annotate({ identifier: "GetSavedQueryResponse" });
   }
 }
-function __c119(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19616,10 +19836,10 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "SavedQueryRestApiGetListTag" });
     case 1:
-      return S.Array(__S(1904, __c119, 0));
+      return S.Array(__S(1984, __c124, 0));
   }
 }
-function __c120(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19632,11 +19852,11 @@ function __c120(j: number): any {
       return S.suspend(() =>
         S.Struct({
           catalog: S.optional(S.NullOr(S.String)),
-          changed_by: S.optional(__S(496, __c31, 0)),
+          changed_by: S.optional(__S(576, __c36, 0)),
           changed_on: S.optional(S.NullOr(S.String)),
           changed_on_delta_humanized: S.optional(S.Unknown),
-          created_by: S.optional(__S(496, __c31, 0)),
-          database: S.optional(__S(1712, __c107, 0)),
+          created_by: S.optional(__S(576, __c36, 0)),
+          database: S.optional(__S(1792, __c112, 0)),
           description: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
           label: S.optional(S.NullOr(S.String)),
@@ -19649,17 +19869,17 @@ function __c120(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(1921, __c120, 1)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(2001, __c125, 1)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSavedQueryByPkResponse" });
   }
 }
-function __c121(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19672,7 +19892,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetSavedQueryDistinctRequest" });
   }
 }
-function __c122(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19682,7 +19902,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetSavedQueryExportRequest" });
   }
 }
-function __c123(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19695,7 +19915,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetSavedQueryRelatedRequest" });
   }
 }
-function __c124(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19705,7 +19925,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetSecurityCsrfTokenRequest" });
   }
 }
-function __c125(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19717,7 +19937,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "CreateDashboardFilterStateRequest" });
   }
 }
-function __c126(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19727,7 +19947,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "CreateDashboardFilterStateResponse" });
   }
 }
-function __c127(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19739,17 +19959,17 @@ function __c127(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(2050, __c128, 2)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(2130, __c133, 2)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSecurityGroupResponse" });
   }
 }
-function __c128(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19759,7 +19979,7 @@ function __c128(j: number): any {
         }),
       ).annotate({ identifier: "SupersetGroupApiGetUser" });
     case 1:
-      return S.Array(__S(2048, __c128, 0));
+      return S.Array(__S(2128, __c133, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19767,13 +19987,13 @@ function __c128(j: number): any {
           id: S.optional(S.Number),
           label: S.optional(S.NullOr(S.String)),
           name: S.String,
-          roles: S.optional(__S(2080, __c130, 0)),
-          users: S.optional(__S(2049, __c128, 1)),
+          roles: S.optional(__S(2160, __c135, 0)),
+          users: S.optional(__S(2129, __c133, 1)),
         }),
       ).annotate({ identifier: "SupersetGroupApiGet" });
   }
 }
-function __c129(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19784,13 +20004,13 @@ function __c129(j: number): any {
       ).annotate({ identifier: "SupersetGroupApiGetRole" });
   }
 }
-function __c130(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2064, __c129, 0));
+      return S.Array(__S(2144, __c134, 0));
   }
 }
-function __c131(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19799,23 +20019,23 @@ function __c131(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/security/groups/", code: 200 })),
       ).annotate({ identifier: "GetSecurityGroupsRequest" });
     case 1:
-      return S.Array(__S(2050, __c128, 2));
+      return S.Array(__S(2130, __c133, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(2097, __c131, 1)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(2177, __c136, 1)),
         }),
       ).annotate({ identifier: "GetSecurityGroupsResponse" });
   }
 }
-function __c132(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19825,24 +20045,24 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetSecurityPermissionsRequest" });
   }
 }
-function __c133(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(2080, __c130, 0)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(2160, __c135, 0)),
         }),
       ).annotate({ identifier: "GetSecurityPermissionsResponse" });
   }
 }
-function __c134(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19853,22 +20073,22 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetSecurityPermissionsByPkRequest" });
   }
 }
-function __c135(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(2064, __c129, 0)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(2144, __c134, 0)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSecurityPermissionsByPkResponse" });
   }
 }
-function __c136(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19882,29 +20102,29 @@ function __c136(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(2192, __c137, 0)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(2272, __c142, 0)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSecurityPermissionsResourceResponse" });
   }
 }
-function __c137(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          permission: __S(5216, __c326, 0),
-          view_menu: __S(5216, __c326, 0),
+          permission: __S(5280, __c330, 0),
+          view_menu: __S(5280, __c330, 0),
         }),
       ).annotate({ identifier: "SupersetPermissionViewMenuApiGet" });
   }
 }
-function __c138(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19915,23 +20135,23 @@ function __c138(j: number): any {
         ),
       ).annotate({ identifier: "GetSecurityPermissionsResourcesRequest" });
     case 1:
-      return S.Array(__S(2192, __c137, 0));
+      return S.Array(__S(2272, __c142, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(2209, __c138, 1)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(2289, __c143, 1)),
         }),
       ).annotate({ identifier: "GetSecurityPermissionsResourcesResponse" });
   }
 }
-function __c139(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19942,7 +20162,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetSecurityResourceRequest" });
   }
 }
-function __c140(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19952,7 +20172,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetSecurityResourcesRequest" });
   }
 }
-function __c141(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19963,7 +20183,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetSecurityRoleRequest" });
   }
 }
-function __c142(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19973,7 +20193,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetSecurityRolesRequest" });
   }
 }
-function __c143(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
@@ -19981,16 +20201,16 @@ function __c143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pk: S.String.pipe(T.Label()),
-          activeTabs: S.optional(S.NullOr(__S(2288, __c143, 0))),
+          activeTabs: S.optional(S.NullOr(__S(2368, __c148, 0))),
           anchor: S.optional(S.NullOr(S.String)),
           chartStates: S.optional(S.NullOr(S.Unknown)),
           dataMask: S.optional(S.NullOr(S.Unknown)),
-          urlParams: S.optional(S.NullOr(__S(2304, __c144, 0))),
+          urlParams: S.optional(S.NullOr(__S(2384, __c149, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/dashboard/{pk}/permalink", code: 200 })),
       ).annotate({ identifier: "CreateDashboardPermalinkRequest" });
   }
 }
-function __c144(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.Unknown));
@@ -20003,7 +20223,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "CreateDashboardPermalinkResponse" });
   }
 }
-function __c145(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20015,7 +20235,7 @@ function __c145(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.NullOr(S.Boolean)),
-          changed_by: S.optional(__S(64, __c4, 0)),
+          changed_by: S.optional(__S(144, __c9, 0)),
           changed_on: S.optional(S.NullOr(S.String)),
           created_on: S.optional(S.NullOr(S.String)),
           extra_search: S.optional(S.NullOr(S.String)),
@@ -20031,23 +20251,23 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "SubjectRestApiGetList" });
     case 2:
-      return S.Array(__S(2321, __c145, 1));
+      return S.Array(__S(2401, __c150, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(2322, __c145, 2)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(2402, __c150, 2)),
         }),
       ).annotate({ identifier: "GetSecuritySubjectResponse" });
   }
 }
-function __c146(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20071,20 +20291,20 @@ function __c146(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.NullOr(S.Boolean)),
-          changed_by: S.optional(__S(64, __c4, 0)),
+          changed_by: S.optional(__S(144, __c9, 0)),
           changed_on: S.optional(S.NullOr(S.String)),
           created_on: S.optional(S.NullOr(S.String)),
           extra_search: S.optional(S.NullOr(S.String)),
-          group: S.optional(__S(2352, __c147, 0)),
+          group: S.optional(__S(2432, __c152, 0)),
           group_id: S.optional(S.NullOr(S.Unknown)),
           id: S.optional(S.Number),
           img: S.optional(S.Unknown),
           label: S.String,
-          role: S.optional(__S(2064, __c129, 0)),
+          role: S.optional(__S(2144, __c134, 0)),
           role_id: S.optional(S.NullOr(S.Unknown)),
           secondary_label: S.optional(S.NullOr(S.String)),
           type: S.Number,
-          user: S.optional(__S(2337, __c146, 1)),
+          user: S.optional(__S(2417, __c151, 1)),
           user_id: S.optional(S.NullOr(S.Unknown)),
           uuid: S.optional(S.NullOr(S.String)),
         }),
@@ -20092,17 +20312,17 @@ function __c146(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(2338, __c146, 2)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(2418, __c151, 2)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSecuritySubjectByPkResponse" });
   }
 }
-function __c147(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20115,7 +20335,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "SubjectRestApiGetGroup" });
   }
 }
-function __c148(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20127,43 +20347,43 @@ function __c148(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(2385, __c149, 1)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(2465, __c154, 1)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSecurityUserResponse" });
   }
 }
-function __c149(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2352, __c147, 0));
+      return S.Array(__S(2432, __c152, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.NullOr(S.Boolean)),
-          changed_by: S.optional(__S(3904, __c244, 0)),
+          changed_by: S.optional(__S(3984, __c249, 0)),
           changed_on: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(__S(3904, __c244, 0)),
+          created_by: S.optional(__S(3984, __c249, 0)),
           created_on: S.optional(S.NullOr(S.String)),
           email: S.String,
           fail_login_count: S.optional(S.NullOr(S.Number)),
           first_name: S.String,
-          groups: S.optional(__S(2384, __c149, 0)),
+          groups: S.optional(__S(2464, __c154, 0)),
           id: S.optional(S.Number),
           last_login: S.optional(S.NullOr(S.String)),
           last_name: S.String,
           login_count: S.optional(S.NullOr(S.Number)),
-          roles: S.optional(__S(2080, __c130, 0)),
+          roles: S.optional(__S(2160, __c135, 0)),
           username: S.String,
         }),
       ).annotate({ identifier: "SupersetUserApiGet" });
   }
 }
-function __c150(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20177,17 +20397,17 @@ function __c150(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(3904, __c244, 0)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(3984, __c249, 0)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSecurityUserRegistrationResponse" });
   }
 }
-function __c151(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20207,23 +20427,23 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "UserRegistrationsRestAPIGetList" });
     case 2:
-      return S.Array(__S(2417, __c151, 1));
+      return S.Array(__S(2497, __c156, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(2418, __c151, 2)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(2498, __c156, 2)),
         }),
       ).annotate({ identifier: "GetSecurityUserRegistrationsResponse" });
   }
 }
-function __c152(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20232,23 +20452,23 @@ function __c152(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/security/users/", code: 200 })),
       ).annotate({ identifier: "GetSecurityUsersRequest" });
     case 1:
-      return S.Array(__S(2385, __c149, 1));
+      return S.Array(__S(2465, __c154, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(2433, __c152, 1)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(2513, __c157, 1)),
         }),
       ).annotate({ identifier: "GetSecurityUsersResponse" });
   }
 }
-function __c153(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20256,7 +20476,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetSemanticLayerRequest" });
   }
 }
-function __c154(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20266,7 +20486,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetSemanticLayerByUuidRequest" });
   }
 }
-function __c155(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20276,7 +20496,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetSemanticLayerConnectionsRequest" });
   }
 }
-function __c156(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20286,7 +20506,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetSemanticLayerTypesRequest" });
   }
 }
-function __c157(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20308,10 +20528,10 @@ function __c157(j: number): any {
           impersonate_user: S.optional(S.Boolean),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           masked_encrypted_extra: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(__S(1312, __c82, 0)),
+          parameters: S.optional(__S(1392, __c87, 0)),
           server_cert: S.optional(S.NullOr(S.String)),
           sqlalchemy_uri: S.optional(S.String),
-          ssh_tunnel: S.optional(S.NullOr(__S(2544, __c159, 0))),
+          ssh_tunnel: S.optional(S.NullOr(__S(2624, __c164, 0))),
           uuid: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/database/", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseRequest" });
@@ -20335,10 +20555,10 @@ function __c157(j: number): any {
           impersonate_user: S.optional(S.Boolean),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           masked_encrypted_extra: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(__S(1312, __c82, 0)),
+          parameters: S.optional(__S(1392, __c87, 0)),
           server_cert: S.optional(S.NullOr(S.String)),
           sqlalchemy_uri: S.optional(S.String),
-          ssh_tunnel: S.optional(S.NullOr(__S(2528, __c158, 0))),
+          ssh_tunnel: S.optional(S.NullOr(__S(2608, __c163, 0))),
           uuid: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseRestApiPostOutput" });
@@ -20346,12 +20566,12 @@ function __c157(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(2513, __c157, 1)),
+          result: S.optional(__S(2593, __c162, 1)),
         }),
       ).annotate({ identifier: "CreateDatabaseResponse" });
   }
 }
-function __c158(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20365,7 +20585,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "DatabaseSSHTunnelOutput" });
   }
 }
-function __c159(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20382,7 +20602,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "DatabaseSSHTunnel" });
   }
 }
-function __c160(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20392,7 +20612,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetSemanticViewStructureRequest" });
   }
 }
-function __c161(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20402,7 +20622,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GetSqllabExportRequest" });
   }
 }
-function __c162(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20412,7 +20632,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "GetSqllabPermalinkRequest" });
   }
 }
-function __c163(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20421,30 +20641,30 @@ function __c163(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/tag/", code: 200 })),
       ).annotate({ identifier: "GetTagRequest" });
     case 1:
-      return S.Array(__S(2624, __c164, 0));
+      return S.Array(__S(2704, __c169, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(2609, __c163, 1)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(2689, __c168, 1)),
         }),
       ).annotate({ identifier: "GetTagResponse" });
   }
 }
-function __c164(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          changed_by: S.optional(__S(64, __c4, 0)),
+          changed_by: S.optional(__S(144, __c9, 0)),
           changed_on_delta_humanized: S.optional(S.Unknown),
-          created_by: S.optional(__S(64, __c4, 0)),
+          created_by: S.optional(__S(144, __c9, 0)),
           created_on_delta_humanized: S.optional(S.Unknown),
           description: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
@@ -20454,7 +20674,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "TagRestApiGetList" });
   }
 }
-function __c165(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20466,17 +20686,17 @@ function __c165(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(2624, __c164, 0)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(2704, __c169, 0)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTagByPkResponse" });
   }
 }
-function __c166(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20487,7 +20707,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetTagRelatedRequest" });
   }
 }
-function __c167(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20498,12 +20718,12 @@ function __c167(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          changed_by: S.optional(__S(496, __c31, 0)),
+          changed_by: S.optional(__S(576, __c36, 0)),
           changed_by_name: S.optional(S.Unknown),
           changed_on_delta_humanized: S.optional(S.Unknown),
-          created_by: S.optional(__S(496, __c31, 0)),
+          created_by: S.optional(__S(576, __c36, 0)),
           created_on: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(1121, __c70, 1)),
+          editors: S.optional(__S(1201, __c75, 1)),
           id: S.optional(S.Number),
           is_system: S.optional(S.Boolean),
           is_system_dark: S.optional(S.Boolean),
@@ -20514,23 +20734,23 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "ThemeRestApiGetList" });
     case 2:
-      return S.Array(__S(2673, __c167, 1));
+      return S.Array(__S(2753, __c172, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          description_columns: S.optional(__S(48, __c3, 0)),
-          ids: S.optional(__S(288, __c18, 0)),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          list_columns: S.optional(__S(288, __c18, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
+          ids: S.optional(__S(368, __c23, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          list_columns: S.optional(__S(368, __c23, 0)),
           list_title: S.optional(S.String),
-          order_columns: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(2674, __c167, 2)),
+          order_columns: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(2754, __c172, 2)),
         }),
       ).annotate({ identifier: "GetThemeResponse" });
   }
 }
-function __c168(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20542,10 +20762,10 @@ function __c168(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          changed_by: S.optional(__S(496, __c31, 0)),
+          changed_by: S.optional(__S(576, __c36, 0)),
           changed_on_delta_humanized: S.optional(S.Unknown),
-          created_by: S.optional(__S(496, __c31, 0)),
-          editors: S.optional(__S(1121, __c70, 1)),
+          created_by: S.optional(__S(576, __c36, 0)),
+          editors: S.optional(__S(1201, __c75, 1)),
           id: S.optional(S.Number),
           is_system: S.optional(S.Boolean),
           is_system_dark: S.optional(S.Boolean),
@@ -20558,17 +20778,17 @@ function __c168(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          description_columns: S.optional(__S(48, __c3, 0)),
+          description_columns: S.optional(__S(128, __c8, 0)),
           id: S.optional(S.String),
-          label_columns: S.optional(__S(48, __c3, 0)),
-          result: S.optional(__S(2689, __c168, 1)),
-          show_columns: S.optional(__S(288, __c18, 0)),
+          label_columns: S.optional(__S(128, __c8, 0)),
+          result: S.optional(__S(2769, __c173, 1)),
+          show_columns: S.optional(__S(368, __c23, 0)),
           show_title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetThemeByPkResponse" });
   }
 }
-function __c169(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20578,7 +20798,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "GetThemeExportRequest" });
   }
 }
-function __c170(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20589,7 +20809,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "GetThemeRelatedRequest" });
   }
 }
-function __c171(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20601,7 +20821,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "CreateDatabaseOauth2TokenAllRequest" });
   }
 }
-function __c172(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20619,12 +20839,12 @@ function __c172(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(2753, __c172, 1)),
+          result: S.optional(__S(2833, __c177, 1)),
         }),
       ).annotate({ identifier: "GetThemeSystemResponse" });
   }
 }
-function __c173(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20634,7 +20854,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetUserAvatarPngRequest" });
   }
 }
-function __c174(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20658,7 +20878,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "ImportAssetRequest" });
   }
 }
-function __c175(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20681,7 +20901,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "ImportChartRequest" });
   }
 }
-function __c176(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20705,7 +20925,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "ImportDashboardRequest" });
   }
 }
-function __c177(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20728,7 +20948,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "ImportDatabaseRequest" });
   }
 }
-function __c178(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20753,7 +20973,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "ImportDatasetRequest" });
   }
 }
-function __c179(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20776,7 +20996,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "ImportSavedQueryRequest" });
   }
 }
-function __c180(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20794,7 +21014,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "ImportThemeRequest" });
   }
 }
-function __c181(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20807,17 +21027,17 @@ function __c181(j: number): any {
         }),
       ).annotate({ identifier: "Datasource" });
     case 1:
-      return S.Array(__S(2896, __c181, 0));
+      return S.Array(__S(2976, __c186, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          datasource_uids: S.optional(__S(288, __c18, 0)),
-          datasources: S.optional(__S(2897, __c181, 1)),
+          datasource_uids: S.optional(__S(368, __c23, 0)),
+          datasources: S.optional(__S(2977, __c186, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/cachekey/invalidate", code: 200 })),
       ).annotate({ identifier: "InvalidateCachekeyRequest" });
   }
 }
-function __c182(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -20828,7 +21048,7 @@ function __c182(j: number): any {
           catalog: S.optional(S.NullOr(S.String)),
           currency_code_column: S.optional(S.NullOr(S.String)),
           database: S.Number,
-          editors: S.optional(__S(2912, __c182, 0)),
+          editors: S.optional(__S(2992, __c187, 0)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           normalize_columns: S.optional(S.Boolean),
@@ -20850,7 +21070,7 @@ function __c182(j: number): any {
           catalog: S.optional(S.NullOr(S.String)),
           currency_code_column: S.optional(S.NullOr(S.String)),
           database: S.Number,
-          editors: S.optional(__S(2914, __c182, 2)),
+          editors: S.optional(__S(2994, __c187, 2)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           normalize_columns: S.optional(S.Boolean),
@@ -20867,12 +21087,12 @@ function __c182(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(2915, __c182, 3)),
+          result: S.optional(__S(2995, __c187, 3)),
         }),
       ).annotate({ identifier: "CreateDatasetResponse" });
   }
 }
-function __c183(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20885,13 +21105,13 @@ function __c183(j: number): any {
         S.Struct({
           display_value: S.optional(S.String),
           error_message: S.optional(S.String),
-          valid_filter_operators: S.optional(__S(288, __c18, 0)),
-          values: S.optional(__S(288, __c18, 0)),
+          valid_filter_operators: S.optional(__S(368, __c23, 0)),
+          values: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "AdvancedDataTypeSchema" });
   }
 }
-function __c184(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20901,17 +21121,17 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ListAdvancedDataTypeTypesRequest" });
   }
 }
-function __c185(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(288, __c18, 0)),
+          result: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "ListAdvancedDataTypeTypesResponse" });
   }
 }
-function __c186(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20932,9 +21152,9 @@ function __c186(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          changed_by: S.optional(__S(2977, __c186, 1)),
+          changed_by: S.optional(__S(3057, __c191, 1)),
           changed_on_delta_humanized: S.optional(S.Unknown),
-          created_by: S.optional(__S(2977, __c186, 1)),
+          created_by: S.optional(__S(3057, __c191, 1)),
           end_dttm: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
           long_descr: S.optional(S.NullOr(S.String)),
@@ -20943,18 +21163,18 @@ function __c186(j: number): any {
         }),
       ).annotate({ identifier: "AnnotationRestApiGetList" });
     case 3:
-      return S.Array(__S(2978, __c186, 2));
+      return S.Array(__S(3058, __c191, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          ids: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(2979, __c186, 3)),
+          ids: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(3059, __c191, 3)),
         }),
       ).annotate({ identifier: "ListAnnotationLayerAnnotationResponse" });
   }
 }
-function __c187(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20964,7 +21184,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "ListAnnotationLayerInfoRequest" });
   }
 }
-function __c188(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20974,11 +21194,11 @@ function __c188(j: number): any {
         }),
       ).annotate({ identifier: "ListAnnotationLayerInfoResponseFiltersColumnNameItem" });
     case 1:
-      return S.Array(__S(3008, __c188, 0));
+      return S.Array(__S(3088, __c193, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          column_name: S.optional(__S(3009, __c188, 1)),
+          column_name: S.optional(__S(3089, __c193, 1)),
         }),
       ).annotate({ identifier: "ListAnnotationLayerInfoResponseFilters" });
     case 3:
@@ -20986,13 +21206,13 @@ function __c188(j: number): any {
         S.Struct({
           add_columns: S.optional(S.Unknown),
           edit_columns: S.optional(S.Unknown),
-          filters: S.optional(__S(3010, __c188, 2)),
-          permissions: S.optional(__S(288, __c18, 0)),
+          filters: S.optional(__S(3090, __c193, 2)),
+          permissions: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "ListAnnotationLayerInfoResponse" });
   }
 }
-function __c189(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21001,7 +21221,7 @@ function __c189(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/chart/", code: 200 })),
       ).annotate({ identifier: "ListChartRequest" });
     case 1:
-      return S.Array(__S(1728, __c108, 0));
+      return S.Array(__S(1808, __c113, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21015,15 +21235,15 @@ function __c189(j: number): any {
           cache_timeout: S.optional(S.NullOr(S.Number)),
           certification_details: S.optional(S.NullOr(S.String)),
           certified_by: S.optional(S.NullOr(S.String)),
-          changed_by: S.optional(__S(496, __c31, 0)),
+          changed_by: S.optional(__S(576, __c36, 0)),
           changed_by_name: S.optional(S.Unknown),
           changed_on_delta_humanized: S.optional(S.Unknown),
           changed_on_dttm: S.optional(S.Unknown),
           changed_on_utc: S.optional(S.Unknown),
-          created_by: S.optional(__S(496, __c31, 0)),
+          created_by: S.optional(__S(576, __c36, 0)),
           created_by_name: S.optional(S.Unknown),
           created_on_delta_humanized: S.optional(S.Unknown),
-          dashboards: S.optional(__S(3025, __c189, 1)),
+          dashboards: S.optional(__S(3105, __c194, 1)),
           datasource_id: S.optional(S.NullOr(S.Number)),
           datasource_name_text: S.optional(S.Unknown),
           datasource_type: S.optional(S.NullOr(S.String)),
@@ -21031,37 +21251,37 @@ function __c189(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           description_markeddown: S.optional(S.Unknown),
           edit_url: S.optional(S.Unknown),
-          editors: S.optional(__S(1121, __c70, 1)),
+          editors: S.optional(__S(1201, __c75, 1)),
           form_data: S.optional(S.Unknown),
           id: S.optional(S.Number),
           is_managed_externally: S.optional(S.Boolean),
           last_saved_at: S.optional(S.NullOr(S.String)),
-          last_saved_by: S.optional(__S(496, __c31, 0)),
+          last_saved_by: S.optional(__S(576, __c36, 0)),
           params: S.optional(S.NullOr(S.String)),
           slice_name: S.optional(S.NullOr(S.String)),
           slice_url: S.optional(S.Unknown),
-          table: S.optional(__S(3026, __c189, 2)),
-          tags: S.optional(__S(1905, __c119, 1)),
+          table: S.optional(__S(3106, __c194, 2)),
+          tags: S.optional(__S(1985, __c124, 1)),
           thumbnail_url: S.optional(S.Unknown),
           url: S.optional(S.Unknown),
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(1121, __c70, 1)),
+          viewers: S.optional(__S(1201, __c75, 1)),
           viz_type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ChartRestApiGetList" });
     case 4:
-      return S.Array(__S(3027, __c189, 3));
+      return S.Array(__S(3107, __c194, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          ids: S.optional(__S(16, __c1, 0)),
-          result: S.optional(__S(3028, __c189, 4)),
+          ids: S.optional(__S(48, __c3, 0)),
+          result: S.optional(__S(3108, __c194, 4)),
         }),
       ).annotate({ identifier: "ListChartResponse" });
   }
 }
-function __c190(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21077,12 +21297,12 @@ function __c190(j: number): any {
       ).annotate({ identifier: "ListChartActivityRequest" });
   }
 }
-function __c191(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          affected_charts: S.optional(__S(1425, __c89, 1)),
+          affected_charts: S.optional(__S(1505, __c94, 1)),
           charts: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ActivityImpact" });
@@ -21090,7 +21310,7 @@ function __c191(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action_kind: S.optional(S.NullOr(S.String)),
-          changed_by: S.optional(S.NullOr(__S(432, __c27, 0))),
+          changed_by: S.optional(S.NullOr(__S(512, __c32, 0))),
           creation_kind: S.optional(S.NullOr(S.String)),
           entity_deleted: S.optional(S.Boolean),
           entity_deletion_state: S.optional(S.NullOr(S.String)),
@@ -21099,11 +21319,11 @@ function __c191(j: number): any {
           entity_uuid: S.optional(S.NullOr(S.String)),
           first_tracked_save: S.optional(S.Boolean),
           from_value: S.optional(S.NullOr(S.Unknown)),
-          impact: S.optional(S.NullOr(__S(3056, __c191, 0))),
+          impact: S.optional(S.NullOr(__S(3136, __c196, 0))),
           issued_at: S.optional(S.String),
           kind: S.optional(S.String),
           operation: S.optional(S.String),
-          path: S.optional(S.NullOr(__S(288, __c18, 0))),
+          path: S.optional(S.NullOr(__S(368, __c23, 0))),
           source: S.optional(S.String),
           summary: S.optional(S.String),
           to_value: S.optional(S.NullOr(S.Unknown)),
@@ -21112,18 +21332,18 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "ActivityRecord" });
     case 2:
-      return S.Array(__S(3057, __c191, 1));
+      return S.Array(__S(3137, __c196, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          result: S.optional(__S(3058, __c191, 2)),
+          result: S.optional(__S(3138, __c196, 2)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ActivityResponse" });
   }
 }
-function __c192(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21137,7 +21357,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "ListChartDataRequest" });
   }
 }
-function __c193(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21156,16 +21376,16 @@ function __c193(j: number): any {
         }),
       ).annotate({ identifier: "ListChartDeckLayersResponseResultItem" });
     case 2:
-      return S.Array(__S(3089, __c193, 1));
+      return S.Array(__S(3169, __c198, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3090, __c193, 2)),
+          result: S.optional(__S(3170, __c198, 2)),
         }),
       ).annotate({ identifier: "ListChartDeckLayersResponse" });
   }
 }
-function __c194(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21175,7 +21395,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "ListChartFavoriteStatusRequest" });
   }
 }
-function __c195(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21185,16 +21405,16 @@ function __c195(j: number): any {
         }),
       ).annotate({ identifier: "ChartFavStarResponseResult" });
     case 1:
-      return S.Array(__S(3120, __c195, 0));
+      return S.Array(__S(3200, __c200, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3121, __c195, 1)),
+          result: S.optional(__S(3201, __c200, 1)),
         }),
       ).annotate({ identifier: "GetFavStarIdsSchema" });
   }
 }
-function __c196(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21204,15 +21424,15 @@ function __c196(j: number): any {
       ).annotate({ identifier: "ListChartInfoRequest" });
   }
 }
-function __c197(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           datasource_type: S.String.pipe(T.Label()),
           datasource_id: S.Number.pipe(T.Label()),
-          selected_dimensions: S.optional(__S(288, __c18, 0)),
-          selected_metrics: S.optional(__S(288, __c18, 0)),
+          selected_dimensions: S.optional(__S(368, __c23, 0)),
+          selected_metrics: S.optional(__S(368, __c23, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21224,19 +21444,19 @@ function __c197(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          compatible_dimensions: S.optional(__S(288, __c18, 0)),
-          compatible_metrics: S.optional(__S(288, __c18, 0)),
+          compatible_dimensions: S.optional(__S(368, __c23, 0)),
+          compatible_metrics: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "CreateDatasourceCompatibleResponseResult" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3153, __c197, 1)),
+          result: S.optional(__S(3233, __c202, 1)),
         }),
       ).annotate({ identifier: "CreateDatasourceCompatibleResponse" });
   }
 }
-function __c198(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21246,20 +21466,20 @@ function __c198(j: number): any {
       ).annotate({ identifier: "ListChartVersionsRequest" });
   }
 }
-function __c199(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(466, __c29, 2));
+      return S.Array(__S(546, __c34, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          result: S.optional(__S(3184, __c199, 0)),
+          result: S.optional(__S(3264, __c204, 0)),
         }),
       ).annotate({ identifier: "ListChartVersionsResponse" });
   }
 }
-function __c200(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21269,7 +21489,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "ListCssTemplateInfoRequest" });
   }
 }
-function __c201(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21282,39 +21502,39 @@ function __c201(j: number): any {
         S.Struct({
           certification_details: S.optional(S.NullOr(S.String)),
           certified_by: S.optional(S.NullOr(S.String)),
-          changed_by: S.optional(__S(496, __c31, 0)),
+          changed_by: S.optional(__S(576, __c36, 0)),
           changed_by_name: S.optional(S.Unknown),
           changed_on_delta_humanized: S.optional(S.Unknown),
           changed_on_utc: S.optional(S.Unknown),
-          created_by: S.optional(__S(496, __c31, 0)),
+          created_by: S.optional(__S(576, __c36, 0)),
           created_on_delta_humanized: S.optional(S.Unknown),
           dashboard_title: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(1121, __c70, 1)),
+          editors: S.optional(__S(1201, __c75, 1)),
           id: S.optional(S.Number),
           is_managed_externally: S.optional(S.Boolean),
           published: S.optional(S.NullOr(S.Boolean)),
           slug: S.optional(S.NullOr(S.String)),
           status: S.optional(S.Unknown),
-          tags: S.optional(__S(1905, __c119, 1)),
+          tags: S.optional(__S(1985, __c124, 1)),
           url: S.optional(S.Unknown),
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(1121, __c70, 1)),
+          viewers: S.optional(__S(1201, __c75, 1)),
         }),
       ).annotate({ identifier: "DashboardRestApiGetList" });
     case 2:
-      return S.Array(__S(3217, __c201, 1));
+      return S.Array(__S(3297, __c206, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          ids: S.optional(__S(16, __c1, 0)),
-          result: S.optional(__S(3218, __c201, 2)),
+          ids: S.optional(__S(48, __c3, 0)),
+          result: S.optional(__S(3298, __c206, 2)),
         }),
       ).annotate({ identifier: "ListDashboardResponse" });
   }
 }
-function __c202(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21332,7 +21552,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "ListDashboardActivityRequest" });
   }
 }
-function __c203(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21356,16 +21576,16 @@ function __c203(j: number): any {
         }),
       ).annotate({ identifier: "ChartEntityResponseSchema" });
     case 2:
-      return S.Array(__S(3249, __c203, 1));
+      return S.Array(__S(3329, __c208, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3250, __c203, 2)),
+          result: S.optional(__S(3330, __c208, 2)),
         }),
       ).annotate({ identifier: "ListDashboardChartsResponse" });
   }
 }
-function __c204(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21376,7 +21596,7 @@ function __c204(j: number): any {
         ),
       ).annotate({ identifier: "ListDashboardDatasetsRequest" });
     case 1:
-      return S.Record(S.String, __S(336, __c21, 0));
+      return S.Record(S.String, __S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21397,31 +21617,31 @@ function __c204(j: number): any {
         S.Struct({
           always_filter_main_dttm: S.optional(S.Boolean),
           cache_timeout: S.optional(S.Number),
-          chart_display_labels: S.optional(__S(3265, __c204, 1)),
+          chart_display_labels: S.optional(__S(3345, __c209, 1)),
           column_formats: S.optional(S.Unknown),
-          column_names: S.optional(__S(288, __c18, 0)),
-          column_types: S.optional(__S(16, __c1, 0)),
-          columns: S.optional(__S(5520, __c345, 0)),
+          column_names: S.optional(__S(368, __c23, 0)),
+          column_types: S.optional(__S(48, __c3, 0)),
+          columns: S.optional(__S(5600, __c350, 0)),
           currency_code_column: S.optional(S.String),
-          database: S.optional(__S(3266, __c204, 2)),
+          database: S.optional(__S(3346, __c209, 2)),
           datasource_name: S.optional(S.String),
           default_endpoint: S.optional(S.String),
           edit_url: S.optional(S.String),
-          editors: S.optional(__S(209, __c13, 1)),
+          editors: S.optional(__S(289, __c18, 1)),
           fetch_values_predicate: S.optional(S.String),
           filter_select: S.optional(S.Boolean),
           filter_select_enabled: S.optional(S.Boolean),
-          granularity_sqla: S.optional(__S(304, __c19, 0)),
+          granularity_sqla: S.optional(__S(384, __c24, 0)),
           health_check_message: S.optional(S.String),
           id: S.optional(S.Number),
           is_sqllab_view: S.optional(S.Boolean),
           main_dttm_col: S.optional(S.String),
           metadata_error: S.optional(S.String),
-          metrics: S.optional(__S(5520, __c345, 0)),
+          metrics: S.optional(__S(5600, __c350, 0)),
           name: S.optional(S.String),
           normalize_columns: S.optional(S.Boolean),
           offset: S.optional(S.Number),
-          order_by_choices: S.optional(__S(304, __c19, 0)),
+          order_by_choices: S.optional(__S(384, __c24, 0)),
           params: S.optional(S.String),
           parent: S.optional(S.Unknown),
           partition_column: S.optional(S.NullOr(S.String)),
@@ -21430,29 +21650,29 @@ function __c204(j: number): any {
           perm: S.optional(S.String),
           schema: S.optional(S.String),
           select_star: S.optional(S.String),
-          semantic_view_features: S.optional(__S(288, __c18, 0)),
+          semantic_view_features: S.optional(__S(368, __c23, 0)),
           sql: S.optional(S.String),
           supports_drill_to_detail: S.optional(S.Boolean),
           supports_samples: S.optional(S.Boolean),
           table_name: S.optional(S.String),
           template_params: S.optional(S.String),
-          time_grain_sqla: S.optional(__S(304, __c19, 0)),
+          time_grain_sqla: S.optional(__S(384, __c24, 0)),
           type: S.optional(S.String),
           uid: S.optional(S.String),
-          verbose_map: S.optional(__S(336, __c21, 0)),
+          verbose_map: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "DashboardDatasetSchema" });
     case 4:
-      return S.Array(__S(3267, __c204, 3));
+      return S.Array(__S(3347, __c209, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3268, __c204, 4)),
+          result: S.optional(__S(3348, __c209, 4)),
         }),
       ).annotate({ identifier: "ListDashboardDatasetsResponse" });
   }
 }
-function __c205(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21462,7 +21682,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "ListDashboardFavoriteStatusRequest" });
   }
 }
-function __c206(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21472,7 +21692,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "ListDashboardInfoRequest" });
   }
 }
-function __c207(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21482,7 +21702,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "ListDashboardTabsRequest" });
   }
 }
-function __c208(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21494,7 +21714,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "ListDashboardVersionsRequest" });
   }
 }
-function __c209(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21504,20 +21724,20 @@ function __c209(j: number): any {
         }),
       ).annotate({ identifier: "DatasourceQueryOrder" });
     case 1:
-      return S.Array(__S(3344, __c209, 0));
+      return S.Array(__S(3424, __c214, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           datasource_type: S.String.pipe(T.Label()),
           datasource_id: S.Number.pipe(T.Label()),
           cache_timeout: S.optional(S.NullOr(S.Number)),
-          dimensions: S.optional(__S(5520, __c345, 0)),
-          filters: S.optional(__S(353, __c22, 1)),
+          dimensions: S.optional(__S(5600, __c350, 0)),
+          filters: S.optional(__S(433, __c27, 1)),
           force: S.optional(S.Boolean),
           limit: S.optional(S.NullOr(S.Number)),
-          metrics: S.optional(__S(5520, __c345, 0)),
+          metrics: S.optional(__S(5600, __c350, 0)),
           offset: S.optional(S.Number),
-          order: S.optional(__S(3345, __c209, 1)),
+          order: S.optional(__S(3425, __c214, 1)),
           result_format: S.optional(S.String),
           semantic_selection_version: S.optional(S.NullOr(S.String)),
           time_column: S.optional(S.NullOr(S.String)),
@@ -21534,17 +21754,17 @@ function __c209(j: number): any {
       ).annotate({ identifier: "CreateDatasourceQueryRequest" });
   }
 }
-function __c210(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(5520, __c345, 0)),
+          result: S.optional(__S(5600, __c350, 0)),
         }),
       ).annotate({ identifier: "CreateDatasourceQueryResponse" });
   }
 }
-function __c211(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21560,10 +21780,10 @@ function __c211(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          available_drivers: S.optional(__S(288, __c18, 0)),
+          available_drivers: S.optional(__S(368, __c23, 0)),
           default_driver: S.optional(S.String),
           engine: S.optional(S.String),
-          engine_information: S.optional(__S(3377, __c211, 1)),
+          engine_information: S.optional(__S(3457, __c216, 1)),
           name: S.optional(S.String),
           parameters: S.optional(S.Unknown),
           preferred: S.optional(S.Boolean),
@@ -21571,14 +21791,14 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "ListDatabaseAvailableResponseBodyItem" });
     case 3:
-      return S.Array(__S(3378, __c211, 2));
+      return S.Array(__S(3458, __c216, 2));
     case 4:
-      return S.suspend(() => __S(3379, __c211, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3459, __c216, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDatabaseAvailableResponse",
       });
   }
 }
-function __c212(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21589,7 +21809,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "ListDatabaseCatalogsRequest" });
   }
 }
-function __c213(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21600,12 +21820,12 @@ function __c213(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          function_names: S.optional(__S(288, __c18, 0)),
+          function_names: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "DatabaseFunctionNamesResponse" });
   }
 }
-function __c214(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21615,7 +21835,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "ListDatabaseInfoRequest" });
   }
 }
-function __c215(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21638,22 +21858,22 @@ function __c215(j: number): any {
         S.Struct({
           access_token_expiration: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
-          user: __S(3441, __c215, 1),
+          user: __S(3521, __c220, 1),
         }),
       ).annotate({ identifier: "DatabaseOAuth2TokensRestApiGetList" });
     case 3:
-      return S.Array(__S(3442, __c215, 2));
+      return S.Array(__S(3522, __c220, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          ids: S.optional(__S(16, __c1, 0)),
-          result: S.optional(__S(3443, __c215, 3)),
+          ids: S.optional(__S(48, __c3, 0)),
+          result: S.optional(__S(3523, __c220, 3)),
         }),
       ).annotate({ identifier: "ListDatabaseOauth2TokensResponse" });
   }
 }
-function __c216(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21664,7 +21884,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "ListDatabaseSchemasRequest" });
   }
 }
-function __c217(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21681,12 +21901,12 @@ function __c217(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          schemas: S.optional(__S(288, __c18, 0)),
+          schemas: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "DatabaseSchemaAccessForFileUploadResponse" });
   }
 }
-function __c218(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21704,17 +21924,17 @@ function __c218(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseTablesResponse" });
     case 2:
-      return S.Array(__S(3489, __c218, 1));
+      return S.Array(__S(3569, __c223, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          result: S.optional(__S(3490, __c218, 2)),
+          result: S.optional(__S(3570, __c223, 2)),
         }),
       ).annotate({ identifier: "ListDatabaseTablesResponse" });
   }
 }
-function __c219(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21730,7 +21950,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "ListDatasetActivityRequest" });
   }
 }
-function __c220(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21740,7 +21960,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "ListDatasetInfoRequest" });
   }
 }
-function __c221(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21754,7 +21974,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "CreateExploreFormDataRequest" });
   }
 }
-function __c222(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21764,7 +21984,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "ListDatasetVersionsRequest" });
   }
 }
-function __c223(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21787,13 +22007,13 @@ function __c223(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3569, __c223, 1)),
+          result: S.optional(__S(3649, __c228, 1)),
           suggestions_status: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDatasourceColumnValuesResponse" });
   }
 }
-function __c224(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21813,16 +22033,16 @@ function __c224(j: number): any {
         }),
       ).annotate({ identifier: "RecentActivity" });
     case 2:
-      return S.Array(__S(3585, __c224, 1));
+      return S.Array(__S(3665, __c229, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3586, __c224, 2)),
+          result: S.optional(__S(3666, __c229, 2)),
         }),
       ).annotate({ identifier: "RecentActivityResponseSchema" });
   }
 }
-function __c225(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21831,7 +22051,7 @@ function __c225(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          childs: S.optional(__S(5520, __c345, 0)),
+          childs: S.optional(__S(5600, __c350, 0)),
           icon: S.optional(S.String),
           label: S.optional(S.String),
           name: S.optional(S.String),
@@ -21839,16 +22059,16 @@ function __c225(j: number): any {
         }),
       ).annotate({ identifier: "ListMenuResponseResultItem" });
     case 2:
-      return S.Array(__S(3601, __c225, 1));
+      return S.Array(__S(3681, __c230, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3602, __c225, 2)),
+          result: S.optional(__S(3682, __c230, 2)),
         }),
       ).annotate({ identifier: "ListMenuResponse" });
   }
 }
-function __c226(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21857,16 +22077,16 @@ function __c226(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/query/updated_since", code: 200 })),
       ).annotate({ identifier: "ListQueryUpdatedSinceRequest" });
     case 1:
-      return S.Array(__S(1632, __c102, 0));
+      return S.Array(__S(1712, __c107, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3617, __c226, 1)),
+          result: S.optional(__S(3697, __c231, 1)),
         }),
       ).annotate({ identifier: "ListQueryUpdatedSinceResponse" });
   }
 }
-function __c227(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21876,7 +22096,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "ListReportInfoRequest" });
   }
 }
-function __c228(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21886,18 +22106,18 @@ function __c228(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/report/{pk}/log/", code: 200 })),
       ).annotate({ identifier: "ListReportLogRequest" });
     case 1:
-      return S.Array(__S(1792, __c112, 0));
+      return S.Array(__S(1872, __c117, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          ids: S.optional(__S(288, __c18, 0)),
-          result: S.optional(__S(3649, __c228, 1)),
+          ids: S.optional(__S(368, __c23, 0)),
+          result: S.optional(__S(3729, __c233, 1)),
         }),
       ).annotate({ identifier: "ListReportLogResponse" });
   }
 }
-function __c229(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21913,16 +22133,16 @@ function __c229(j: number): any {
         }),
       ).annotate({ identifier: "ListReportSlackChannelsResponseResultItem" });
     case 2:
-      return S.Array(__S(3665, __c229, 1));
+      return S.Array(__S(3745, __c234, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3666, __c229, 2)),
+          result: S.optional(__S(3746, __c234, 2)),
         }),
       ).annotate({ identifier: "ListReportSlackChannelsResponse" });
   }
 }
-function __c230(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21932,7 +22152,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "ListRowlevelsecurityInfoRequest" });
   }
 }
-function __c231(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21942,19 +22162,19 @@ function __c231(j: number): any {
       ).annotate({ identifier: "ListSavedQueryInfoRequest" });
   }
 }
-function __c232(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           chartState: S.optional(S.NullOr(S.Unknown)),
           formData: S.Unknown,
-          urlParams: S.optional(S.NullOr(__S(2304, __c144, 0))),
+          urlParams: S.optional(S.NullOr(__S(2384, __c149, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/explore/permalink", code: 200 })),
       ).annotate({ identifier: "CreateExplorePermalinkRequest" });
   }
 }
-function __c233(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21964,7 +22184,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "ListSecurityGroupInfoRequest" });
   }
 }
-function __c234(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21974,7 +22194,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "ListSecurityPermissionsInfoRequest" });
   }
 }
-function __c235(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21986,7 +22206,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "ListSecurityPermissionsResourceInfoRequest" });
   }
 }
-function __c236(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21996,7 +22216,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "ListSecurityResourceInfoRequest" });
   }
 }
-function __c237(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22006,7 +22226,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "ListSecurityRoleInfoRequest" });
   }
 }
-function __c238(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22029,16 +22249,16 @@ function __c238(j: number): any {
         }),
       ).annotate({ identifier: "RolePermissionListSchema" });
     case 2:
-      return S.Array(__S(3809, __c238, 1));
+      return S.Array(__S(3889, __c243, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3810, __c238, 2)),
+          result: S.optional(__S(3890, __c243, 2)),
         }),
       ).annotate({ identifier: "ListSecurityRolePermissionsResponse" });
   }
 }
-function __c239(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22048,11 +22268,11 @@ function __c239(j: number): any {
         }),
       ).annotate({ identifier: "ListSecurityRoleSearchRequestQFiltersItem" });
     case 1:
-      return S.Array(__S(3824, __c239, 0));
+      return S.Array(__S(3904, __c244, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(3825, __c239, 1)),
+          filters: S.optional(__S(3905, __c244, 1)),
           order_column: S.optional(S.String),
           order_direction: S.optional(S.String),
           page: S.optional(S.Number),
@@ -22062,7 +22282,7 @@ function __c239(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          q: S.optional(__S(3826, __c239, 2).pipe(T.Query())),
+          q: S.optional(__S(3906, __c244, 2).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/security/roles/search/", code: 200 })),
       ).annotate({ identifier: "ListSecurityRoleSearchRequest" });
     case 4:
@@ -22070,23 +22290,23 @@ function __c239(j: number): any {
         S.Struct({
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          permission_ids: S.optional(__S(16, __c1, 0)),
-          user_ids: S.optional(__S(16, __c1, 0)),
+          permission_ids: S.optional(__S(48, __c3, 0)),
+          user_ids: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "RoleResponseSchema" });
     case 5:
-      return S.Array(__S(3828, __c239, 4));
+      return S.Array(__S(3908, __c244, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          ids: S.optional(__S(16, __c1, 0)),
-          result: S.optional(__S(3829, __c239, 5)),
+          ids: S.optional(__S(48, __c3, 0)),
+          result: S.optional(__S(3909, __c244, 5)),
         }),
       ).annotate({ identifier: "RolesResponseSchema" });
   }
 }
-function __c240(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22096,7 +22316,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "ListSecuritySubjectInfoRequest" });
   }
 }
-function __c241(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22106,7 +22326,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "ListSecurityUserInfoRequest" });
   }
 }
-function __c242(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22118,7 +22338,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "ListSecurityUserRegistrationInfoRequest" });
   }
 }
-function __c243(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22130,12 +22350,12 @@ function __c243(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          result: S.optional(__S(3904, __c244, 0)),
+          result: S.optional(__S(3984, __c249, 0)),
         }),
       ).annotate({ identifier: "CreateLogResponse" });
   }
 }
-function __c244(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22145,7 +22365,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "LogRestApiPost" });
   }
 }
-function __c245(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22164,7 +22384,7 @@ function __c245(j: number): any {
         }),
       ).annotate({ identifier: "Table" });
     case 2:
-      return S.Array(__S(3921, __c245, 1));
+      return S.Array(__S(4001, __c250, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -22175,12 +22395,12 @@ function __c245(j: number): any {
           hide_left_bar: S.optional(S.Boolean),
           id: S.optional(S.String),
           label: S.optional(S.String),
-          latest_query: S.optional(__S(6400, __c400, 0)),
+          latest_query: S.optional(__S(6480, __c405, 0)),
           query_limit: S.optional(S.Number),
           saved_query: S.optional(S.NullOr(S.Unknown)),
           schema: S.optional(S.String),
           sql: S.optional(S.String),
-          table_schemas: S.optional(__S(3922, __c245, 2)),
+          table_schemas: S.optional(__S(4002, __c250, 2)),
           user_id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TabState" });
@@ -22200,28 +22420,28 @@ function __c245(j: number): any {
           database_name: S.optional(S.String),
           disable_data_preview: S.optional(S.Boolean),
           disable_drill_to_detail: S.optional(S.Boolean),
-          engine_information: S.optional(__S(865, __c54, 1)),
+          engine_information: S.optional(__S(945, __c59, 1)),
           expose_in_sqllab: S.optional(S.Boolean),
           force_ctas_schema: S.optional(S.NullOr(S.String)),
           id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SQLLabBootstrapDatabase" });
     case 5:
-      return S.Record(S.String, __S(3924, __c245, 4));
+      return S.Record(S.String, __S(4004, __c250, 4));
     case 6:
-      return S.Record(S.String, __S(6400, __c400, 0));
+      return S.Record(S.String, __S(6480, __c405, 0));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          active_tab: S.optional(__S(3923, __c245, 3)),
-          databases: S.optional(__S(3925, __c245, 5)),
-          queries: S.optional(__S(3926, __c245, 6)),
-          tab_state_ids: S.optional(__S(288, __c18, 0)),
+          active_tab: S.optional(__S(4003, __c250, 3)),
+          databases: S.optional(__S(4005, __c250, 5)),
+          queries: S.optional(__S(4006, __c250, 6)),
+          tab_state_ids: S.optional(__S(368, __c23, 0)),
         }),
       ).annotate({ identifier: "SQLLabBootstrapSchema" });
   }
 }
-function __c246(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22231,7 +22451,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "ListSqllabResultsRequest" });
   }
 }
-function __c247(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22241,14 +22461,14 @@ function __c247(j: number): any {
       ).annotate({ identifier: "ListTagFavoriteStatusRequest" });
   }
 }
-function __c248(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tagIds: S.optional(__S(16, __c1, 0).pipe(T.Query())),
-          tags: S.optional(__S(288, __c18, 0).pipe(T.Query())),
-          types: S.optional(__S(288, __c18, 0).pipe(T.Query())),
+          tagIds: S.optional(__S(48, __c3, 0).pipe(T.Query())),
+          tags: S.optional(__S(368, __c23, 0).pipe(T.Query())),
+          types: S.optional(__S(368, __c23, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/tag/get_objects/", code: 200 })),
       ).annotate({ identifier: "ListTagGetObjectsRequest" });
     case 1:
@@ -22260,32 +22480,32 @@ function __c248(j: number): any {
         }),
       ).annotate({ identifier: "TagGetResponseSchema" });
     case 2:
-      return S.Array(__S(3969, __c248, 1));
+      return S.Array(__S(4049, __c253, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           changed_on: S.optional(S.String),
-          created_by: S.optional(__S(432, __c27, 0)),
+          created_by: S.optional(__S(512, __c32, 0)),
           creator: S.optional(S.String),
-          editors: S.optional(__S(209, __c13, 1)),
+          editors: S.optional(__S(289, __c18, 1)),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          tags: S.optional(__S(3970, __c248, 2)),
+          tags: S.optional(__S(4050, __c253, 2)),
           type: S.optional(S.String),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaggedObjectEntityResponseSchema" });
     case 4:
-      return S.Array(__S(3971, __c248, 3));
+      return S.Array(__S(4051, __c253, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(3972, __c248, 4)),
+          result: S.optional(__S(4052, __c253, 4)),
         }),
       ).annotate({ identifier: "ListTagGetObjectsResponse" });
   }
 }
-function __c249(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22295,7 +22515,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "ListTagInfoRequest" });
   }
 }
-function __c250(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22305,7 +22525,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "ListThemeInfoRequest" });
   }
 }
-function __c251(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22325,7 +22545,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "LoginSecurityResponse" });
   }
 }
-function __c252(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22335,8 +22555,8 @@ function __c252(j: number): any {
           mapped_column: S.String,
           operator: S.optional(S.String),
           partition_column: S.optional(S.NullOr(S.String)),
-          sample_values: __S(288, __c18, 0),
-          validation_partition_values: S.optional(S.NullOr(__S(288, __c18, 0))),
+          sample_values: __S(368, __c23, 0),
+          validation_partition_values: S.optional(S.NullOr(__S(368, __c23, 0))),
           value_transform: S.NullOr(S.String),
         }).pipe(
           T.Http({
@@ -22357,13 +22577,13 @@ function __c252(j: number): any {
         identifier: "PreviewDatasetPartitionMappingResponseResultDataValidationExamplesItem",
       });
     case 2:
-      return S.Array(__S(4033, __c252, 1));
+      return S.Array(__S(4113, __c257, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           checked_rows: S.optional(S.Number),
-          examples: S.optional(__S(4034, __c252, 2)),
-          inconclusive_keys: S.optional(__S(288, __c18, 0)),
+          examples: S.optional(__S(4114, __c257, 2)),
+          inconclusive_keys: S.optional(__S(368, __c23, 0)),
           message: S.optional(S.String),
           mismatch_count: S.optional(S.Number),
           partitions_checked: S.optional(S.Number),
@@ -22375,7 +22595,7 @@ function __c252(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data_validation: S.optional(__S(4035, __c252, 3)),
+          data_validation: S.optional(__S(4115, __c257, 3)),
           emitted_predicate: S.optional(S.String),
           error: S.optional(S.String),
           reason: S.optional(S.String),
@@ -22386,12 +22606,12 @@ function __c252(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(4036, __c252, 4)),
+          result: S.optional(__S(4116, __c257, 4)),
         }),
       ).annotate({ identifier: "PreviewDatasetPartitionMappingResponse" });
   }
 }
-function __c253(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22401,7 +22621,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "PurgeChartRequest" });
   }
 }
-function __c254(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22411,7 +22631,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "PurgeDashboardRequest" });
   }
 }
-function __c255(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -22427,7 +22647,7 @@ function __c255(j: number): any {
           dashboard: S.optional(S.NullOr(S.Number)),
           database: S.optional(S.Number),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4080, __c255, 0)),
+          editors: S.optional(__S(4160, __c260, 0)),
           email_subject: S.optional(S.NullOr(S.String)),
           extra: S.optional(S.Unknown),
           force_screenshot: S.optional(S.Boolean),
@@ -22435,7 +22655,7 @@ function __c255(j: number): any {
           include_cta: S.optional(S.NullOr(S.Boolean)),
           log_retention: S.optional(S.Number),
           name: S.String,
-          recipients: S.optional(__S(4098, __c256, 2)),
+          recipients: S.optional(__S(4178, __c261, 2)),
           report_format: S.optional(S.String),
           retry_max_attempts: S.optional(S.Number),
           retry_notify_owners: S.optional(S.Boolean),
@@ -22449,14 +22669,14 @@ function __c255(j: number): any {
           sql: S.optional(S.String),
           timezone: S.optional(S.String),
           type: S.String,
-          validator_config_json: S.optional(__S(4099, __c256, 3)),
+          validator_config_json: S.optional(__S(4179, __c261, 3)),
           validator_type: S.optional(S.String),
           working_timeout: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/report/", code: 200 })),
       ).annotate({ identifier: "CreateReportRequest" });
   }
 }
-function __c256(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22469,12 +22689,12 @@ function __c256(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          recipient_config_json: S.optional(__S(4096, __c256, 0)),
+          recipient_config_json: S.optional(__S(4176, __c261, 0)),
           type: S.String,
         }),
       ).annotate({ identifier: "ReportRecipient" });
     case 2:
-      return S.Array(__S(4097, __c256, 1));
+      return S.Array(__S(4177, __c261, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -22484,7 +22704,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "ValidatorConfigJSON" });
   }
 }
-function __c257(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -22500,7 +22720,7 @@ function __c257(j: number): any {
           dashboard: S.optional(S.NullOr(S.Number)),
           database: S.optional(S.Number),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4112, __c257, 0)),
+          editors: S.optional(__S(4192, __c262, 0)),
           email_subject: S.optional(S.NullOr(S.String)),
           extra: S.optional(S.Unknown),
           force_screenshot: S.optional(S.Boolean),
@@ -22508,7 +22728,7 @@ function __c257(j: number): any {
           include_cta: S.optional(S.NullOr(S.Boolean)),
           log_retention: S.optional(S.Number),
           name: S.String,
-          recipients: S.optional(__S(4098, __c256, 2)),
+          recipients: S.optional(__S(4178, __c261, 2)),
           report_format: S.optional(S.String),
           retry_max_attempts: S.optional(S.Number),
           retry_notify_owners: S.optional(S.Boolean),
@@ -22522,7 +22742,7 @@ function __c257(j: number): any {
           sql: S.optional(S.String),
           timezone: S.optional(S.String),
           type: S.String,
-          validator_config_json: S.optional(__S(4099, __c256, 3)),
+          validator_config_json: S.optional(__S(4179, __c261, 3)),
           validator_type: S.optional(S.String),
           working_timeout: S.optional(S.Number),
         }),
@@ -22531,12 +22751,12 @@ function __c257(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(4113, __c257, 1)),
+          result: S.optional(__S(4193, __c262, 1)),
         }),
       ).annotate({ identifier: "CreateReportResponse" });
   }
 }
-function __c258(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22547,7 +22767,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "PurgeDatasetRequest" });
   }
 }
-function __c259(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22568,12 +22788,12 @@ function __c259(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(4145, __c259, 1)),
+          result: S.optional(__S(4225, __c264, 1)),
         }),
       ).annotate({ identifier: "PutAnnotationLayerResponse" });
   }
 }
-function __c260(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22607,12 +22827,12 @@ function __c260(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(4161, __c260, 1)),
+          result: S.optional(__S(4241, __c265, 1)),
         }),
       ).annotate({ identifier: "PutAnnotationLayerAnnotationResponse" });
   }
 }
-function __c261(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -22627,7 +22847,7 @@ function __c261(j: number): any {
         }),
       ).annotate({ identifier: "PutChartRequestNormalizationChangesItem" });
     case 2:
-      return S.Array(__S(4177, __c261, 1));
+      return S.Array(__S(4257, __c266, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
@@ -22637,21 +22857,21 @@ function __c261(j: number): any {
           cache_timeout: S.optional(S.NullOr(S.Number)),
           certification_details: S.optional(S.NullOr(S.String)),
           certified_by: S.optional(S.NullOr(S.String)),
-          dashboards: S.optional(__S(16, __c1, 0)),
+          dashboards: S.optional(__S(48, __c3, 0)),
           datasource_id: S.optional(S.NullOr(S.Number)),
           datasource_type: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4176, __c261, 0)),
+          editors: S.optional(__S(4256, __c266, 0)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
-          normalization_changes: S.optional(S.NullOr(__S(4178, __c261, 2))),
+          normalization_changes: S.optional(S.NullOr(__S(4258, __c266, 2))),
           params: S.optional(S.NullOr(S.String)),
           query_context: S.optional(S.NullOr(S.String)),
           query_context_generation: S.optional(S.NullOr(S.Boolean)),
           slice_name: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(4179, __c261, 3)),
+          viewers: S.optional(__S(4259, __c266, 3)),
           viz_type: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/chart/{pk}", code: 200 })),
       ).annotate({ identifier: "PutChartRequest" });
@@ -22665,20 +22885,20 @@ function __c261(j: number): any {
           cache_timeout: S.optional(S.NullOr(S.Number)),
           certification_details: S.optional(S.NullOr(S.String)),
           certified_by: S.optional(S.NullOr(S.String)),
-          dashboards: S.optional(__S(16, __c1, 0)),
+          dashboards: S.optional(__S(48, __c3, 0)),
           datasource_id: S.optional(S.NullOr(S.Number)),
           datasource_type: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4181, __c261, 5)),
+          editors: S.optional(__S(4261, __c266, 5)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           params: S.optional(S.NullOr(S.String)),
           query_context: S.optional(S.NullOr(S.String)),
           query_context_generation: S.optional(S.NullOr(S.Boolean)),
           slice_name: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(4182, __c261, 6)),
+          viewers: S.optional(__S(4262, __c266, 6)),
           viz_type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ChartRestApiPutOutput" });
@@ -22692,12 +22912,12 @@ function __c261(j: number): any {
           old_transaction_id: S.optional(S.NullOr(S.Number)),
           old_version: S.optional(S.NullOr(S.Number)),
           old_version_uuid: S.optional(S.NullOr(S.String)),
-          result: S.optional(__S(4183, __c261, 7)),
+          result: S.optional(__S(4263, __c266, 7)),
         }),
       ).annotate({ identifier: "PutChartResponse" });
   }
 }
-function __c262(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22709,7 +22929,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "PutChartWarmUpCacheRequest" });
   }
 }
-function __c263(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22720,16 +22940,16 @@ function __c263(j: number): any {
         }),
       ).annotate({ identifier: "ChartCacheWarmUpResponseSingle" });
     case 1:
-      return S.Array(__S(4208, __c263, 0));
+      return S.Array(__S(4288, __c268, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(4209, __c263, 1)),
+          result: S.optional(__S(4289, __c268, 1)),
         }),
       ).annotate({ identifier: "ChartCacheWarmUpResponseSchema" });
   }
 }
-function __c264(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22742,12 +22962,12 @@ function __c264(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(832, __c52, 0)),
+          result: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "PutCssTemplateResponse" });
   }
 }
-function __c265(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.Unknown));
@@ -22764,17 +22984,17 @@ function __c265(j: number): any {
           css: S.optional(S.NullOr(S.String)),
           dashboard_title: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4240, __c265, 0)),
+          editors: S.optional(__S(4320, __c270, 0)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           json_metadata: S.optional(S.NullOr(S.String)),
           position_json: S.optional(S.NullOr(S.String)),
           published: S.optional(S.NullOr(S.Boolean)),
           slug: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(4241, __c265, 1)),
+          tags: S.optional(__S(4321, __c270, 1)),
           theme_id: S.optional(S.NullOr(S.Number)),
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(4242, __c265, 2)),
+          viewers: S.optional(__S(4322, __c270, 2)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/dashboard/{pk}", code: 200 })),
       ).annotate({ identifier: "PutDashboardRequest" });
     case 4:
@@ -22789,17 +23009,17 @@ function __c265(j: number): any {
           css: S.optional(S.NullOr(S.String)),
           dashboard_title: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4244, __c265, 4)),
+          editors: S.optional(__S(4324, __c270, 4)),
           external_url: S.optional(S.NullOr(S.String)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           json_metadata: S.optional(S.NullOr(S.String)),
           position_json: S.optional(S.NullOr(S.String)),
           published: S.optional(S.NullOr(S.Boolean)),
           slug: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(4241, __c265, 1)),
+          tags: S.optional(__S(4321, __c270, 1)),
           theme_id: S.optional(S.NullOr(S.Number)),
           uuid: S.optional(S.NullOr(S.String)),
-          viewers: S.optional(__S(4245, __c265, 5)),
+          viewers: S.optional(__S(4325, __c270, 5)),
         }),
       ).annotate({ identifier: "DashboardRestApiPut" });
     case 7:
@@ -22813,27 +23033,27 @@ function __c265(j: number): any {
           old_transaction_id: S.optional(S.NullOr(S.Number)),
           old_version: S.optional(S.NullOr(S.Number)),
           old_version_uuid: S.optional(S.NullOr(S.String)),
-          result: S.optional(__S(4246, __c265, 6)),
+          result: S.optional(__S(4326, __c270, 6)),
         }),
       ).annotate({ identifier: "PutDashboardResponse" });
   }
 }
-function __c266(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pk: S.Number.pipe(T.Label()),
-          deleted: S.optional(__S(288, __c18, 0)),
-          modified: S.optional(__S(5520, __c345, 0)),
-          reordered: S.optional(__S(288, __c18, 0)),
+          deleted: S.optional(__S(368, __c23, 0)),
+          modified: S.optional(__S(5600, __c350, 0)),
+          reordered: S.optional(__S(368, __c23, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/dashboard/{pk}/chart_customizations", code: 200 }),
         ),
       ).annotate({ identifier: "PutDashboardChartCustomizationsRequest" });
   }
 }
-function __c267(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22842,28 +23062,28 @@ function __c267(j: number): any {
           mark_updated: S.optional(S.Boolean.pipe(T.Query())),
           color_namespace: S.optional(S.NullOr(S.String)),
           color_scheme: S.optional(S.NullOr(S.String)),
-          color_scheme_domain: S.optional(__S(288, __c18, 0)),
+          color_scheme_domain: S.optional(__S(368, __c23, 0)),
           label_colors: S.optional(S.Unknown),
           map_label_colors: S.optional(S.Unknown),
-          shared_label_colors: S.optional(__S(288, __c18, 0)),
+          shared_label_colors: S.optional(__S(368, __c23, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/dashboard/{pk}/colors", code: 200 })),
       ).annotate({ identifier: "PutDashboardColorsRequest" });
   }
 }
-function __c268(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id_or_slug: S.String.pipe(T.Label()),
-          allowed_domains: __S(288, __c18, 0),
+          allowed_domains: __S(368, __c23, 0),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/dashboard/{id_or_slug}/embedded", code: 200 }),
         ),
       ).annotate({ identifier: "PutDashboardEmbeddedRequest" });
   }
 }
-function __c269(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22873,8 +23093,8 @@ function __c269(j: number): any {
           filter_type: S.String,
           group_key: S.optional(S.NullOr(S.String)),
           name: S.String,
-          subjects: S.optional(__S(16, __c1, 0)),
-          tables: __S(16, __c1, 0),
+          subjects: S.optional(__S(48, __c3, 0)),
+          tables: __S(48, __c3, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/rowlevelsecurity/", code: 200 })),
       ).annotate({ identifier: "CreateRowlevelsecurityRequest" });
     case 1:
@@ -22885,33 +23105,33 @@ function __c269(j: number): any {
           filter_type: S.String,
           group_key: S.optional(S.NullOr(S.String)),
           name: S.String,
-          subjects: S.optional(__S(16, __c1, 0)),
-          tables: __S(16, __c1, 0),
+          subjects: S.optional(__S(48, __c3, 0)),
+          tables: __S(48, __c3, 0),
         }),
       ).annotate({ identifier: "RLSRestApiPost" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(4305, __c269, 1)),
+          result: S.optional(__S(4385, __c274, 1)),
         }),
       ).annotate({ identifier: "CreateRowlevelsecurityResponse" });
   }
 }
-function __c270(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pk: S.Number.pipe(T.Label()),
-          deleted: S.optional(__S(288, __c18, 0)),
-          modified: S.optional(__S(5520, __c345, 0)),
-          reordered: S.optional(__S(288, __c18, 0)),
+          deleted: S.optional(__S(368, __c23, 0)),
+          modified: S.optional(__S(5600, __c350, 0)),
+          reordered: S.optional(__S(368, __c23, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/dashboard/{pk}/filters", code: 200 })),
       ).annotate({ identifier: "PutDashboardFiltersRequest" });
   }
 }
-function __c271(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22926,7 +23146,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "PutDashboardFilterStateRequest" });
   }
 }
-function __c272(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22949,10 +23169,10 @@ function __c272(j: number): any {
           impersonate_user: S.optional(S.Boolean),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           masked_encrypted_extra: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(__S(1312, __c82, 0)),
+          parameters: S.optional(__S(1392, __c87, 0)),
           server_cert: S.optional(S.NullOr(S.String)),
           sqlalchemy_uri: S.optional(S.String),
-          ssh_tunnel: S.optional(S.NullOr(__S(2544, __c159, 0))),
+          ssh_tunnel: S.optional(S.NullOr(__S(2624, __c164, 0))),
           uuid: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/database/{pk}", code: 200 })),
       ).annotate({ identifier: "PutDatabaseRequest" });
@@ -22976,10 +23196,10 @@ function __c272(j: number): any {
           impersonate_user: S.optional(S.Boolean),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           masked_encrypted_extra: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(__S(1312, __c82, 0)),
+          parameters: S.optional(__S(1392, __c87, 0)),
           server_cert: S.optional(S.NullOr(S.String)),
           sqlalchemy_uri: S.optional(S.String),
-          ssh_tunnel: S.optional(S.NullOr(__S(2528, __c158, 0))),
+          ssh_tunnel: S.optional(S.NullOr(__S(2608, __c163, 0))),
           uuid: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseRestApiPutOutput" });
@@ -22987,12 +23207,12 @@ function __c272(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(4353, __c272, 1)),
+          result: S.optional(__S(4433, __c277, 1)),
         }),
       ).annotate({ identifier: "PutDatabaseResponse" });
   }
 }
-function __c273(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23021,15 +23241,15 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "DatasetColumnsPut" });
     case 1:
-      return S.Array(__S(4368, __c273, 0));
+      return S.Array(__S(4448, __c278, 0));
     case 2:
       return S.Array(S.Unknown);
     case 3:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4372, __c273, 4)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(4452, __c278, 4)));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          children: S.optional(S.NullOr(__S(4371, __c273, 3))),
+          children: S.optional(S.NullOr(__S(4451, __c278, 3))),
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
           type: S.optional(S.String),
@@ -23037,7 +23257,7 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "Folder" });
     case 5:
-      return S.Array(__S(4372, __c273, 4));
+      return S.Array(__S(4452, __c278, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -23050,7 +23270,7 @@ function __c273(j: number): any {
         S.Struct({
           certification_details: S.optional(S.NullOr(S.String)),
           certified_by: S.optional(S.NullOr(S.String)),
-          currency: S.optional(S.NullOr(__S(4374, __c273, 6))),
+          currency: S.optional(S.NullOr(__S(4454, __c278, 6))),
           d3format: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           expression: S.String,
@@ -23066,7 +23286,7 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "DatasetMetricsPut" });
     case 8:
-      return S.Array(__S(4375, __c273, 7));
+      return S.Array(__S(4455, __c278, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -23075,21 +23295,21 @@ function __c273(j: number): any {
           always_filter_main_dttm: S.optional(S.Boolean),
           cache_timeout: S.optional(S.NullOr(S.Number)),
           catalog: S.optional(S.NullOr(S.String)),
-          columns: S.optional(__S(4369, __c273, 1)),
+          columns: S.optional(__S(4449, __c278, 1)),
           currency_code_column: S.optional(S.NullOr(S.String)),
           database_id: S.optional(S.Number),
           default_endpoint: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4370, __c273, 2)),
+          editors: S.optional(__S(4450, __c278, 2)),
           external_url: S.optional(S.NullOr(S.String)),
           extra: S.optional(S.NullOr(S.String)),
           fetch_values_predicate: S.optional(S.NullOr(S.String)),
           filter_select_enabled: S.optional(S.NullOr(S.Boolean)),
-          folders: S.optional(__S(4373, __c273, 5)),
+          folders: S.optional(__S(4453, __c278, 5)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           is_sqllab_view: S.optional(S.NullOr(S.Boolean)),
           main_dttm_col: S.optional(S.NullOr(S.String)),
-          metrics: S.optional(__S(4376, __c273, 8)),
+          metrics: S.optional(__S(4456, __c278, 8)),
           normalize_columns: S.optional(S.NullOr(S.Boolean)),
           offset: S.optional(S.NullOr(S.Number)),
           partition_column: S.optional(S.NullOr(S.String)),
@@ -23109,21 +23329,21 @@ function __c273(j: number): any {
           always_filter_main_dttm: S.optional(S.Boolean),
           cache_timeout: S.optional(S.NullOr(S.Number)),
           catalog: S.optional(S.NullOr(S.String)),
-          columns: S.optional(__S(4369, __c273, 1)),
+          columns: S.optional(__S(4449, __c278, 1)),
           currency_code_column: S.optional(S.NullOr(S.String)),
           database_id: S.optional(S.Number),
           default_endpoint: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4378, __c273, 10)),
+          editors: S.optional(__S(4458, __c278, 10)),
           external_url: S.optional(S.NullOr(S.String)),
           extra: S.optional(S.NullOr(S.String)),
           fetch_values_predicate: S.optional(S.NullOr(S.String)),
           filter_select_enabled: S.optional(S.NullOr(S.Boolean)),
-          folders: S.optional(__S(4373, __c273, 5)),
+          folders: S.optional(__S(4453, __c278, 5)),
           is_managed_externally: S.optional(S.NullOr(S.Boolean)),
           is_sqllab_view: S.optional(S.NullOr(S.Boolean)),
           main_dttm_col: S.optional(S.NullOr(S.String)),
-          metrics: S.optional(__S(4376, __c273, 8)),
+          metrics: S.optional(__S(4456, __c278, 8)),
           normalize_columns: S.optional(S.NullOr(S.Boolean)),
           offset: S.optional(S.NullOr(S.Number)),
           partition_column: S.optional(S.NullOr(S.String)),
@@ -23145,12 +23365,12 @@ function __c273(j: number): any {
           old_transaction_id: S.optional(S.NullOr(S.Number)),
           old_version: S.optional(S.NullOr(S.Number)),
           old_version_uuid: S.optional(S.NullOr(S.String)),
-          result: S.optional(__S(4379, __c273, 11)),
+          result: S.optional(__S(4459, __c278, 11)),
         }),
       ).annotate({ identifier: "PutDatasetResponse" });
   }
 }
-function __c274(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23160,7 +23380,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "PutDatasetRefreshRequest" });
   }
 }
-function __c275(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23173,7 +23393,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "PutDatasetWarmUpCacheRequest" });
   }
 }
-function __c276(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23188,7 +23408,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "PutExploreFormDataRequest" });
   }
 }
-function __c277(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23201,7 +23421,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "PutMeRequest" });
   }
 }
-function __c278(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -23218,7 +23438,7 @@ function __c278(j: number): any {
           dashboard: S.optional(S.NullOr(S.Number)),
           database: S.optional(S.NullOr(S.Number)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4448, __c278, 0)),
+          editors: S.optional(__S(4528, __c283, 0)),
           email_subject: S.optional(S.NullOr(S.String)),
           extra: S.optional(S.Unknown),
           force_screenshot: S.optional(S.Boolean),
@@ -23226,7 +23446,7 @@ function __c278(j: number): any {
           include_cta: S.optional(S.NullOr(S.Boolean)),
           log_retention: S.optional(S.Number),
           name: S.optional(S.String),
-          recipients: S.optional(__S(4098, __c256, 2)),
+          recipients: S.optional(__S(4178, __c261, 2)),
           report_format: S.optional(S.String),
           retry_max_attempts: S.optional(S.Number),
           retry_notify_owners: S.optional(S.Boolean),
@@ -23240,7 +23460,7 @@ function __c278(j: number): any {
           sql: S.optional(S.NullOr(S.String)),
           timezone: S.optional(S.String),
           type: S.optional(S.String),
-          validator_config_json: S.optional(__S(4099, __c256, 3)),
+          validator_config_json: S.optional(__S(4179, __c261, 3)),
           validator_type: S.optional(S.NullOr(S.String)),
           working_timeout: S.optional(S.NullOr(S.Number)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/report/{pk}", code: 200 })),
@@ -23259,7 +23479,7 @@ function __c278(j: number): any {
           dashboard: S.optional(S.NullOr(S.Number)),
           database: S.optional(S.NullOr(S.Number)),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4450, __c278, 2)),
+          editors: S.optional(__S(4530, __c283, 2)),
           email_subject: S.optional(S.NullOr(S.String)),
           extra: S.optional(S.Unknown),
           force_screenshot: S.optional(S.Boolean),
@@ -23267,7 +23487,7 @@ function __c278(j: number): any {
           include_cta: S.optional(S.NullOr(S.Boolean)),
           log_retention: S.optional(S.Number),
           name: S.optional(S.String),
-          recipients: S.optional(__S(4098, __c256, 2)),
+          recipients: S.optional(__S(4178, __c261, 2)),
           report_format: S.optional(S.String),
           retry_max_attempts: S.optional(S.Number),
           retry_notify_owners: S.optional(S.Boolean),
@@ -23281,7 +23501,7 @@ function __c278(j: number): any {
           sql: S.optional(S.NullOr(S.String)),
           timezone: S.optional(S.String),
           type: S.optional(S.String),
-          validator_config_json: S.optional(__S(4099, __c256, 3)),
+          validator_config_json: S.optional(__S(4179, __c261, 3)),
           validator_type: S.optional(S.NullOr(S.String)),
           working_timeout: S.optional(S.NullOr(S.Number)),
         }),
@@ -23290,19 +23510,19 @@ function __c278(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(4451, __c278, 3)),
+          result: S.optional(__S(4531, __c283, 3)),
         }),
       ).annotate({ identifier: "PutReportResponse" });
   }
 }
-function __c279(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           alert_minimum_interval: S.optional(S.NullOr(S.Number)),
           alerts_attach_reports: S.optional(S.NullOr(S.Boolean)),
-          allowed_email_domains: S.optional(S.NullOr(__S(288, __c18, 0))),
+          allowed_email_domains: S.optional(S.NullOr(__S(368, __c23, 0))),
           date_format_in_email_subject: S.optional(S.NullOr(S.Boolean)),
           limit_recipients_to_users: S.optional(S.NullOr(S.Boolean)),
           report_minimum_interval: S.optional(S.NullOr(S.Number)),
@@ -23310,7 +23530,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "PutReportConfigurationRequest" });
   }
 }
-function __c280(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23329,12 +23549,12 @@ function __c280(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          result: S.optional(__S(4496, __c281, 0)),
+          result: S.optional(__S(4576, __c286, 0)),
         }),
       ).annotate({ identifier: "CreateSavedQueryResponse" });
   }
 }
-function __c281(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23351,7 +23571,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "SavedQueryRestApiPost" });
   }
 }
-function __c282(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23362,8 +23582,8 @@ function __c282(j: number): any {
           filter_type: S.optional(S.String),
           group_key: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          subjects: S.optional(__S(16, __c1, 0)),
-          tables: S.optional(__S(16, __c1, 0)),
+          subjects: S.optional(__S(48, __c3, 0)),
+          tables: S.optional(__S(48, __c3, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/rowlevelsecurity/{pk}", code: 200 })),
       ).annotate({ identifier: "PutRowlevelsecurityRequest" });
     case 1:
@@ -23374,20 +23594,20 @@ function __c282(j: number): any {
           filter_type: S.optional(S.String),
           group_key: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          subjects: S.optional(__S(16, __c1, 0)),
-          tables: S.optional(__S(16, __c1, 0)),
+          subjects: S.optional(__S(48, __c3, 0)),
+          tables: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "RLSRestApiPut" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(4513, __c282, 1)),
+          result: S.optional(__S(4593, __c287, 1)),
         }),
       ).annotate({ identifier: "PutRowlevelsecurityResponse" });
   }
 }
-function __c283(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23406,12 +23626,12 @@ function __c283(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(4496, __c281, 0)),
+          result: S.optional(__S(4576, __c286, 0)),
         }),
       ).annotate({ identifier: "PutSavedQueryResponse" });
   }
 }
-function __c284(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23421,7 +23641,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "PutSecurityGroupRequest" });
   }
 }
-function __c285(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23436,12 +23656,12 @@ function __c285(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(5168, __c323, 0)),
+          result: S.optional(__S(5232, __c327, 0)),
         }),
       ).annotate({ identifier: "PutSecurityPermissionsResourceResponse" });
   }
 }
-function __c286(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23452,17 +23672,17 @@ function __c286(j: number): any {
       ).annotate({ identifier: "PutSecurityResourceRequest" });
   }
 }
-function __c287(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(5216, __c326, 0)),
+          result: S.optional(__S(5280, __c330, 0)),
         }),
       ).annotate({ identifier: "PutSecurityResourceResponse" });
   }
 }
-function __c288(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23473,13 +23693,13 @@ function __c288(j: number): any {
       ).annotate({ identifier: "PutSecurityRoleRequest" });
   }
 }
-function __c289(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           role_id: S.Number.pipe(T.Label()),
-          group_ids: __S(16, __c1, 0),
+          group_ids: __S(48, __c3, 0),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/security/roles/{role_id}/groups", code: 200 }),
         ),
@@ -23487,24 +23707,24 @@ function __c289(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          group_ids: __S(16, __c1, 0),
+          group_ids: __S(48, __c3, 0),
         }),
       ).annotate({ identifier: "RoleGroupPutSchema" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(4625, __c289, 1)),
+          result: S.optional(__S(4705, __c294, 1)),
         }),
       ).annotate({ identifier: "PutSecurityRoleGroupsResponse" });
   }
 }
-function __c290(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           role_id: S.Number.pipe(T.Label()),
-          user_ids: __S(16, __c1, 0),
+          user_ids: __S(48, __c3, 0),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/security/roles/{role_id}/users", code: 200 }),
         ),
@@ -23512,18 +23732,18 @@ function __c290(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          user_ids: __S(16, __c1, 0),
+          user_ids: __S(48, __c3, 0),
         }),
       ).annotate({ identifier: "RoleUserPutSchema" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(4641, __c290, 1)),
+          result: S.optional(__S(4721, __c295, 1)),
         }),
       ).annotate({ identifier: "PutSecurityRoleUsersResponse" });
   }
 }
-function __c291(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23533,7 +23753,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "PutSecurityUserRequest" });
   }
 }
-function __c292(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23547,7 +23767,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "PutSemanticLayerRequest" });
   }
 }
-function __c293(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23555,7 +23775,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "CreateSecurityGroupRequest" });
   }
 }
-function __c294(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23576,12 +23796,12 @@ function __c294(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(4705, __c294, 1)),
+          result: S.optional(__S(4785, __c299, 1)),
         }),
       ).annotate({ identifier: "PutSemanticViewResponse" });
   }
 }
-function __c295(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23589,25 +23809,25 @@ function __c295(j: number): any {
           pk: S.Number.pipe(T.Label()),
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          objects_to_tag: S.optional(__S(5520, __c345, 0)),
+          objects_to_tag: S.optional(__S(5600, __c350, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/tag/{pk}", code: 200 })),
       ).annotate({ identifier: "PutTagRequest" });
   }
 }
-function __c296(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pk: S.Number.pipe(T.Label()),
-          editors: S.optional(__S(16, __c1, 0)),
+          editors: S.optional(__S(48, __c3, 0)),
           json_data: S.String,
           theme_name: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/theme/{pk}", code: 200 })),
       ).annotate({ identifier: "PutThemeRequest" });
   }
 }
-function __c297(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23617,7 +23837,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "PutThemeSetSystemDarkRequest" });
   }
 }
-function __c298(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23628,7 +23848,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "PutThemeSetSystemDarkResponse" });
   }
 }
-function __c299(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23638,7 +23858,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "PutThemeSetSystemDefaultRequest" });
   }
 }
-function __c300(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23652,7 +23872,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "RefreshSecurityResponse" });
   }
 }
-function __c301(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23665,7 +23885,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "ResetSecurityPasswordRecoveryRequest" });
   }
 }
-function __c302(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23675,7 +23895,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "RestoreChartRequest" });
   }
 }
-function __c303(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23692,7 +23912,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "RestoreChartVersionRequest" });
   }
 }
-function __c304(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23702,7 +23922,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "RestoreDashboardRequest" });
   }
 }
-function __c305(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23712,7 +23932,7 @@ function __c305(j: number): any {
         }),
       ).annotate({ identifier: "Resource" });
     case 1:
-      return S.Array(__S(4880, __c305, 0));
+      return S.Array(__S(4960, __c310, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23721,11 +23941,11 @@ function __c305(j: number): any {
         }),
       ).annotate({ identifier: "RlsRule" });
     case 3:
-      return S.Array(__S(4882, __c305, 2));
+      return S.Array(__S(4962, __c310, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(S.NullOr(__S(368, __c23, 0))),
+          attributes: S.optional(S.NullOr(__S(448, __c28, 0))),
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           username: S.optional(S.String),
@@ -23734,10 +23954,10 @@ function __c305(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          datasets: S.optional(S.NullOr(__S(16, __c1, 0))),
-          resources: __S(4881, __c305, 1),
-          rls: __S(4883, __c305, 3),
-          user: S.optional(__S(4884, __c305, 4)),
+          datasets: S.optional(S.NullOr(__S(48, __c3, 0))),
+          resources: __S(4961, __c310, 1),
+          rls: __S(4963, __c310, 3),
+          user: S.optional(__S(4964, __c310, 4)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/security/guest_token/", code: 200 })),
       ).annotate({ identifier: "CreateSecurityGuestTokenRequest" });
     case 6:
@@ -23748,7 +23968,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "CreateSecurityGuestTokenResponse" });
   }
 }
-function __c306(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23765,7 +23985,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "RestoreDashboardVersionRequest" });
   }
 }
-function __c307(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23775,7 +23995,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "RestoreDatasetRequest" });
   }
 }
-function __c308(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23792,7 +24012,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "RestoreDatasetVersionRequest" });
   }
 }
-function __c309(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23802,7 +24022,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "StopQueryRequest" });
   }
 }
-function __c310(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -23818,7 +24038,7 @@ function __c310(j: number): any {
           dashboard: S.optional(S.NullOr(S.Number)),
           database: S.optional(S.Number),
           description: S.optional(S.NullOr(S.String)),
-          editors: S.optional(__S(4960, __c310, 0)),
+          editors: S.optional(__S(5040, __c315, 0)),
           email_subject: S.optional(S.NullOr(S.String)),
           extra: S.optional(S.Unknown),
           force_screenshot: S.optional(S.Boolean),
@@ -23826,7 +24046,7 @@ function __c310(j: number): any {
           include_cta: S.optional(S.NullOr(S.Boolean)),
           log_retention: S.optional(S.Number),
           name: S.String,
-          recipients: S.optional(__S(4098, __c256, 2)),
+          recipients: S.optional(__S(4178, __c261, 2)),
           report_format: S.optional(S.String),
           retry_max_attempts: S.optional(S.Number),
           retry_notify_owners: S.optional(S.Boolean),
@@ -23840,14 +24060,14 @@ function __c310(j: number): any {
           sql: S.optional(S.String),
           timezone: S.optional(S.String),
           type: S.String,
-          validator_config_json: S.optional(__S(4099, __c256, 3)),
+          validator_config_json: S.optional(__S(4179, __c261, 3)),
           validator_type: S.optional(S.String),
           working_timeout: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/report/subscribe", code: 200 })),
       ).annotate({ identifier: "SubscribeReportRequest" });
   }
 }
-function __c311(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23859,7 +24079,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "SyncDatabasePermissionsRequest" });
   }
 }
-function __c312(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23871,29 +24091,29 @@ function __c312(j: number): any {
           extra: S.optional(S.String),
           impersonate_user: S.optional(S.Boolean),
           masked_encrypted_extra: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(__S(1312, __c82, 0)),
+          parameters: S.optional(__S(1392, __c87, 0)),
           server_cert: S.optional(S.NullOr(S.String)),
           sqlalchemy_uri: S.optional(S.String),
-          ssh_tunnel: S.optional(S.NullOr(__S(2544, __c159, 0))),
+          ssh_tunnel: S.optional(S.NullOr(__S(2624, __c164, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/database/test_connection/", code: 200 })),
       ).annotate({ identifier: "TestDatabaseConnectionRequest" });
   }
 }
-function __c313(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           object_type: S.Number.pipe(T.Label()),
           object_id: S.Number.pipe(T.Label()),
-          tags: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(368, __c23, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/tag/{object_type}/{object_id}/", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateTagRequest" });
   }
 }
-function __c314(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23901,8 +24121,8 @@ function __c314(j: number): any {
           pk: S.Number.pipe(T.Label()),
           already_exists: S.optional(S.String),
           column_data_types: S.optional(S.String),
-          column_dates: S.optional(__S(288, __c18, 0)),
-          columns_read: S.optional(__S(288, __c18, 0)),
+          column_dates: S.optional(__S(368, __c23, 0)),
+          columns_read: S.optional(__S(368, __c23, 0)),
           dataframe_index: S.optional(S.Boolean),
           day_first: S.optional(S.Boolean),
           decimal_character: S.optional(S.String),
@@ -23911,7 +24131,7 @@ function __c314(j: number): any {
           header_row: S.optional(S.Number),
           index_column: S.optional(S.String),
           index_label: S.optional(S.String),
-          null_values: S.optional(__S(288, __c18, 0)),
+          null_values: S.optional(__S(368, __c23, 0)),
           rows_to_read: S.optional(S.NullOr(S.Number)),
           schema: S.optional(S.String),
           sheet_name: S.optional(S.String),
@@ -23931,7 +24151,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "UploadDatabaseRequest" });
   }
 }
-function __c315(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23952,27 +24172,27 @@ function __c315(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          column_names: S.optional(__S(288, __c18, 0)),
+          column_names: S.optional(__S(368, __c23, 0)),
           sheet_name: S.optional(S.String),
         }),
       ).annotate({ identifier: "UploadFileMetadataItem" });
     case 2:
-      return S.Array(__S(5041, __c315, 1));
+      return S.Array(__S(5121, __c320, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(5042, __c315, 2)),
+          items: S.optional(__S(5122, __c320, 2)),
         }),
       ).annotate({ identifier: "UploadFileMetadata" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(5043, __c315, 3)),
+          result: S.optional(__S(5123, __c320, 3)),
         }),
       ).annotate({ identifier: "UploadDatabaseMetadataResponse" });
   }
 }
-function __c316(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23982,17 +24202,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "CreateSecurityPasswordRecoveryRequest" });
   }
 }
-function __c317(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateSecurityPasswordRecoveryResponse" });
-  }
-}
-function __c318(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24010,7 +24220,7 @@ function __c318(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          catalog: S.optional(__S(368, __c23, 0)),
+          catalog: S.optional(__S(448, __c28, 0)),
           configuration_method: S.String,
           database_name: S.optional(S.NullOr(S.String)),
           driver: S.optional(S.NullOr(S.String)),
@@ -24019,16 +24229,16 @@ function __c318(j: number): any {
           id: S.optional(S.NullOr(S.Number)),
           impersonate_user: S.optional(S.Boolean),
           masked_encrypted_extra: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(__S(368, __c23, 0)),
+          parameters: S.optional(__S(448, __c28, 0)),
           server_cert: S.optional(S.NullOr(S.String)),
-          ssh_tunnel: S.optional(S.NullOr(__S(5088, __c318, 0))),
+          ssh_tunnel: S.optional(S.NullOr(__S(5152, __c322, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/database/validate_parameters/", code: 200 }),
         ),
       ).annotate({ identifier: "ValidateDatabaseParametersRequest" });
   }
 }
-function __c319(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24042,7 +24252,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "ValidateDatabaseSqlRequest" });
   }
 }
-function __c320(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24054,16 +24264,16 @@ function __c320(j: number): any {
         }),
       ).annotate({ identifier: "ValidateSQLResponse" });
     case 1:
-      return S.Array(__S(5120, __c320, 0));
+      return S.Array(__S(5184, __c324, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(5121, __c320, 1)),
+          result: S.optional(__S(5185, __c324, 1)),
         }),
       ).annotate({ identifier: "ValidateDatabaseSqlResponse" });
   }
 }
-function __c321(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24083,7 +24293,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "ValidateDatasourceExpressionRequest" });
   }
 }
-function __c322(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24098,12 +24308,12 @@ function __c322(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          result: S.optional(__S(5168, __c323, 0)),
+          result: S.optional(__S(5232, __c327, 0)),
         }),
       ).annotate({ identifier: "CreateSecurityPermissionsResourceResponse" });
   }
 }
-function __c323(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24114,7 +24324,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "SupersetPermissionViewMenuApiPost" });
   }
 }
-function __c324(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24124,18 +24334,18 @@ function __c324(j: number): any {
       ).annotate({ identifier: "CreateSecurityResourceRequest" });
   }
 }
-function __c325(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          result: S.optional(__S(5216, __c326, 0)),
+          result: S.optional(__S(5280, __c330, 0)),
         }),
       ).annotate({ identifier: "CreateSecurityResourceResponse" });
   }
 }
-function __c326(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24145,7 +24355,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "ViewMenuApiPost" });
   }
 }
-function __c327(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24155,13 +24365,13 @@ function __c327(j: number): any {
       ).annotate({ identifier: "CreateSecurityRoleRequest" });
   }
 }
-function __c328(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           role_id: S.Number.pipe(T.Label()),
-          permission_view_menu_ids: __S(16, __c1, 0),
+          permission_view_menu_ids: __S(48, __c3, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -24173,18 +24383,18 @@ function __c328(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          permission_view_menu_ids: __S(16, __c1, 0),
+          permission_view_menu_ids: __S(48, __c3, 0),
         }),
       ).annotate({ identifier: "RolePermissionPostSchema" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(5249, __c328, 1)),
+          result: S.optional(__S(5313, __c332, 1)),
         }),
       ).annotate({ identifier: "CreateSecurityRolePermissionsResponse" });
   }
 }
-function __c329(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24192,7 +24402,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "CreateSecurityUserRequest" });
   }
 }
-function __c330(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24206,7 +24416,30 @@ function __c330(j: number): any {
       ).annotate({ identifier: "CreateSemanticLayerRequest" });
   }
 }
-function __c331(j: number): any {
+function __c335(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          reason: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportConfigImpactedSchema" });
+    case 1:
+      return S.Array(__S(5360, __c335, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          impacted_schedules: S.optional(__S(5361, __c335, 1)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error422Body" });
+  }
+}
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24219,7 +24452,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "CreateSemanticLayerSchemaConfigurationRequest" });
   }
 }
-function __c332(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24236,7 +24469,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "CreateSemanticLayerSchemaRuntimeRequest" });
   }
 }
-function __c333(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24247,7 +24480,7 @@ function __c333(j: number): any {
       ).annotate({ identifier: "CreateSemanticLayerViewRequest" });
   }
 }
-function __c334(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24260,16 +24493,16 @@ function __c334(j: number): any {
         }),
       ).annotate({ identifier: "CreateSemanticViewRequestViewsItem" });
     case 1:
-      return S.Array(__S(5344, __c334, 0));
+      return S.Array(__S(5424, __c339, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          views: S.optional(__S(5345, __c334, 1)),
+          views: S.optional(__S(5425, __c339, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/semantic_view/", code: 200 })),
       ).annotate({ identifier: "CreateSemanticViewRequest" });
   }
 }
-function __c335(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24283,7 +24516,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "CreateSqllabEstimateRequest" });
   }
 }
-function __c336(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24296,7 +24529,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "CreateSqllabFormatSqlRequest" });
   }
 }
-function __c337(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24306,42 +24539,42 @@ function __c337(j: number): any {
       ).annotate({ identifier: "CreateSqllabFormatSqlResponse" });
   }
 }
-function __c338(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           chartState: S.optional(S.NullOr(S.Unknown)),
           formData: S.Unknown,
-          urlParams: S.optional(S.NullOr(__S(2304, __c144, 0))),
+          urlParams: S.optional(S.NullOr(__S(2384, __c149, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/sqllab/permalink", code: 200 })),
       ).annotate({ identifier: "CreateSqllabPermalinkRequest" });
   }
 }
-function __c339(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          objects_to_tag: S.optional(__S(5520, __c345, 0)),
+          objects_to_tag: S.optional(__S(5600, __c350, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/tag/", code: 200 })),
       ).annotate({ identifier: "CreateTagRequest" });
   }
 }
-function __c340(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(5536, __c346, 0)),
+          result: S.optional(__S(5616, __c351, 0)),
         }),
       ).annotate({ identifier: "CreateTagResponse" });
   }
 }
-function __c341(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24351,24 +24584,24 @@ function __c341(j: number): any {
       ).annotate({ identifier: "CreateTagFavoriteRequest" });
   }
 }
-function __c342(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          editors: S.optional(__S(16, __c1, 0)),
+          editors: S.optional(__S(48, __c3, 0)),
           json_data: S.String,
           theme_name: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/theme/", code: 200 })),
       ).annotate({ identifier: "CreateThemeRequest" });
   }
 }
-function __c343(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          editors: S.optional(__S(16, __c1, 0)),
+          editors: S.optional(__S(48, __c3, 0)),
           json_data: S.String,
           theme_name: S.String,
         }),
@@ -24377,55 +24610,55 @@ function __c343(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(5488, __c343, 0)),
+          result: S.optional(__S(5568, __c348, 0)),
         }),
       ).annotate({ identifier: "CreateThemeResponse" });
   }
 }
-function __c344(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5536, __c346, 0));
+      return S.Array(__S(5616, __c351, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(5504, __c344, 0)),
+          tags: S.optional(__S(5584, __c349, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/tag/bulk_create", code: 200 })),
       ).annotate({ identifier: "BulkTagCreateRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          objects_skipped: S.optional(__S(5520, __c345, 0)),
-          objects_tagged: S.optional(__S(5520, __c345, 0)),
+          objects_skipped: S.optional(__S(5600, __c350, 0)),
+          objects_tagged: S.optional(__S(5600, __c350, 0)),
         }),
       ).annotate({ identifier: "TagPostBulkResponseObject" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(5506, __c344, 2)),
+          result: S.optional(__S(5586, __c349, 2)),
         }),
       ).annotate({ identifier: "TagPostBulkResponseSchema" });
   }
 }
-function __c345(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c346(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          objects_to_tag: S.optional(__S(5520, __c345, 0)),
+          objects_to_tag: S.optional(__S(5600, __c350, 0)),
         }),
       ).annotate({ identifier: "TagObject" });
   }
 }
-function __c347(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24435,7 +24668,7 @@ function __c347(j: number): any {
       ).annotate({ identifier: "DeleteAnnotationLayerRequest" });
   }
 }
-function __c348(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24448,7 +24681,7 @@ function __c348(j: number): any {
       ).annotate({ identifier: "DeleteAnnotationLayerAnnotationRequest" });
   }
 }
-function __c349(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24465,7 +24698,7 @@ function __c349(j: number): any {
       ).annotate({ identifier: "DeleteAnnotationLayerAnnotationByAnnotationIdRequest" });
   }
 }
-function __c350(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24475,7 +24708,7 @@ function __c350(j: number): any {
       ).annotate({ identifier: "DeleteAnnotationLayerByPkRequest" });
   }
 }
-function __c351(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24485,7 +24718,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "DeleteChartRequest" });
   }
 }
-function __c352(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24495,7 +24728,7 @@ function __c352(j: number): any {
       ).annotate({ identifier: "DeleteChartByPkRequest" });
   }
 }
-function __c353(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24505,7 +24738,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "DeleteChartFavoritesRequest" });
   }
 }
-function __c354(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24515,7 +24748,7 @@ function __c354(j: number): any {
       ).annotate({ identifier: "DeleteCssTemplateRequest" });
   }
 }
-function __c355(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24525,7 +24758,7 @@ function __c355(j: number): any {
       ).annotate({ identifier: "DeleteCssTemplateByPkRequest" });
   }
 }
-function __c356(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24535,7 +24768,7 @@ function __c356(j: number): any {
       ).annotate({ identifier: "DeleteDashboardRequest" });
   }
 }
-function __c357(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24547,7 +24780,7 @@ function __c357(j: number): any {
       ).annotate({ identifier: "ClearSemanticLayerCacheRequest" });
   }
 }
-function __c358(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -24555,7 +24788,7 @@ function __c358(j: number): any {
       });
   }
 }
-function __c359(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24565,7 +24798,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "DeleteDashboardByPkRequest" });
   }
 }
-function __c360(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24577,7 +24810,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "DeleteDashboardEmbeddedRequest" });
   }
 }
-function __c361(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24587,7 +24820,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "DeleteDashboardFavoritesRequest" });
   }
 }
-function __c362(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24601,7 +24834,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "DeleteDashboardFilterStateRequest" });
   }
 }
-function __c363(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24611,20 +24844,20 @@ function __c363(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c364(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pk: S.Number.pipe(T.Label()),
-          token_ids: __S(16, __c1, 0),
+          token_ids: __S(48, __c3, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/database/{pk}/oauth2_tokens/delete/", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteDatabaseOauth2TokenRequest" });
   }
 }
-function __c365(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24634,7 +24867,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "DeleteDatasetRequest" });
   }
 }
-function __c366(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24644,7 +24877,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "DeleteDatasetByPkRequest" });
   }
 }
-function __c367(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24657,7 +24890,7 @@ function __c367(j: number): any {
       ).annotate({ identifier: "DeleteDatasetColumnRequest" });
   }
 }
-function __c368(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24670,7 +24903,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "DeleteDatasetMetricRequest" });
   }
 }
-function __c369(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24692,7 +24925,7 @@ function __c369(j: number): any {
       ).annotate({ identifier: "CopyDashboardResponse" });
   }
 }
-function __c370(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24703,7 +24936,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "DeleteExploreFormDataRequest" });
   }
 }
-function __c371(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24713,7 +24946,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "DeleteReportRequest" });
   }
 }
-function __c372(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24723,7 +24956,7 @@ function __c372(j: number): any {
       ).annotate({ identifier: "DeleteReportByPkRequest" });
   }
 }
-function __c373(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24733,7 +24966,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "DeleteRowlevelsecurityRequest" });
   }
 }
-function __c374(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24743,7 +24976,7 @@ function __c374(j: number): any {
       ).annotate({ identifier: "DeleteRowlevelsecurityByPkRequest" });
   }
 }
-function __c375(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24753,7 +24986,7 @@ function __c375(j: number): any {
       ).annotate({ identifier: "DeleteSavedQueryRequest" });
   }
 }
-function __c376(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24763,7 +24996,7 @@ function __c376(j: number): any {
       ).annotate({ identifier: "DeleteSavedQueryByPkRequest" });
   }
 }
-function __c377(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24773,7 +25006,7 @@ function __c377(j: number): any {
       ).annotate({ identifier: "DeleteSecurityGroupRequest" });
   }
 }
-function __c378(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24789,7 +25022,7 @@ function __c378(j: number): any {
       ).annotate({ identifier: "DeleteSecurityPermissionsResourceRequest" });
   }
 }
-function __c379(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24799,7 +25032,7 @@ function __c379(j: number): any {
       ).annotate({ identifier: "DeleteSecurityResourceRequest" });
   }
 }
-function __c380(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24819,12 +25052,12 @@ function __c380(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(6081, __c380, 1)),
+          result: S.optional(__S(6161, __c385, 1)),
         }),
       ).annotate({ identifier: "CreateAnnotationLayerResponse" });
   }
 }
-function __c381(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24834,7 +25067,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "DeleteSecurityRoleRequest" });
   }
 }
-function __c382(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24844,7 +25077,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "DeleteSecurityUserRequest" });
   }
 }
-function __c383(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24856,7 +25089,7 @@ function __c383(j: number): any {
       ).annotate({ identifier: "DeleteSecurityUserRegistrationRequest" });
   }
 }
-function __c384(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24868,7 +25101,7 @@ function __c384(j: number): any {
       ).annotate({ identifier: "DeleteSecurityUserSessionsRequest" });
   }
 }
-function __c385(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24878,7 +25111,7 @@ function __c385(j: number): any {
       ).annotate({ identifier: "DeleteSemanticLayerRequest" });
   }
 }
-function __c386(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24888,7 +25121,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "DeleteSemanticViewRequest" });
   }
 }
-function __c387(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24898,7 +25131,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "DeleteSemanticViewByPkRequest" });
   }
 }
-function __c388(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24908,7 +25141,7 @@ function __c388(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest" });
   }
 }
-function __c389(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24926,7 +25159,7 @@ function __c389(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest2" });
   }
 }
-function __c390(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24936,7 +25169,7 @@ function __c390(j: number): any {
       ).annotate({ identifier: "DeleteTagByPkRequest" });
   }
 }
-function __c391(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24965,12 +25198,12 @@ function __c391(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(6257, __c391, 1)),
+          result: S.optional(__S(6337, __c396, 1)),
         }),
       ).annotate({ identifier: "CreateAnnotationLayerAnnotationResponse" });
   }
 }
-function __c392(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24980,7 +25213,7 @@ function __c392(j: number): any {
       ).annotate({ identifier: "DeleteTagFavoritesRequest" });
   }
 }
-function __c393(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24990,7 +25223,7 @@ function __c393(j: number): any {
       ).annotate({ identifier: "DeleteThemeRequest" });
   }
 }
-function __c394(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25000,7 +25233,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "DeleteThemeByPkRequest" });
   }
 }
-function __c395(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25010,7 +25243,7 @@ function __c395(j: number): any {
       ).annotate({ identifier: "DeleteThemeUnsetSystemDarkRequest" });
   }
 }
-function __c396(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25020,7 +25253,7 @@ function __c396(j: number): any {
       ).annotate({ identifier: "DeleteThemeUnsetSystemDefaultRequest" });
   }
 }
-function __c397(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25040,12 +25273,12 @@ function __c397(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          result: S.optional(__S(6353, __c397, 1)),
+          result: S.optional(__S(6433, __c402, 1)),
         }),
       ).annotate({ identifier: "DuplicateDatasetResponse" });
   }
 }
-function __c398(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25062,7 +25295,7 @@ function __c398(j: number): any {
       ).annotate({ identifier: "ExecuteReportResponse" });
   }
 }
-function __c399(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25085,7 +25318,7 @@ function __c399(j: number): any {
       ).annotate({ identifier: "ExecuteSqllabRequest" });
   }
 }
-function __c400(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25121,35 +25354,35 @@ function __c400(j: number): any {
       ).annotate({ identifier: "QueryResult" });
   }
 }
-function __c401(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(5520, __c345, 0)),
-          data: S.optional(__S(5520, __c345, 0)),
-          expanded_columns: S.optional(__S(5520, __c345, 0)),
-          query: S.optional(__S(6400, __c400, 0)),
+          columns: S.optional(__S(5600, __c350, 0)),
+          data: S.optional(__S(5600, __c350, 0)),
+          expanded_columns: S.optional(__S(5600, __c350, 0)),
+          query: S.optional(__S(6480, __c405, 0)),
           query_id: S.optional(S.Number),
-          selected_columns: S.optional(__S(5520, __c345, 0)),
+          selected_columns: S.optional(__S(5600, __c350, 0)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryExecutionResponseSchema" });
   }
 }
-function __c402(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pk: S.Number.pipe(T.Label()),
-          active_data_mask: S.optional(__S(1312, __c82, 0)),
+          active_data_mask: S.optional(__S(1392, __c87, 0)),
           mode: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/dashboard/{pk}/export_xlsx/", code: 200 })),
       ).annotate({ identifier: "ExportDashboardXlsxRequest" });
   }
 }
-function __c403(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

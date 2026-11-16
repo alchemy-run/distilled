@@ -30,33 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: TaskRunErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: TaskRunErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: TaskRunErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -1007,6 +1022,36 @@ export interface UpdateTasksRunsSetSummaryPartialRequest {
   /** Complete set of slug tags that replaces the prior tags. The agent chooses the tags. Omit the field to keep the current tags. Send an empty list to remove them. */
   tags?: UpdateTasksRunsSetSummaryPartialRequestTagsList | undefined;
 }
+/** * `startup_plan` - startup_plan * `prepaid_credits` - prepaid_credits */
+export type DesktopAccessReasonEnum = "startup_plan" | "prepaid_credits";
+/** Artifact ids that could not be resolved for the run */
+export type TaskRunErrorResponseMissingArtifactIdsList = Array<string>;
+/** * `burst` - burst * `sustained` - sustained */
+export type LimitTypeEnum = "burst" | "sustained";
+export interface TaskRunErrorResponse {
+  /** Human-readable validation error */
+  detail?: string | undefined;
+  /** Human-readable error message */
+  error?: string | undefined;
+  /** Machine-readable error type */
+  type?: string | undefined;
+  /** Machine-readable error code */
+  code?: string | undefined;
+  /** After confirmed warm startup nondelivery, echo this token in X-PostHog-Warm-Retry to retry the same run and message within 60 seconds. */
+  retry_token?: string | undefined;
+  /** Why PostHog Desktop access was denied, when applicable. * `startup_plan` - startup_plan * `prepaid_credits` - prepaid_credits */
+  reason?: DesktopAccessReasonEnum | undefined;
+  /** Request field associated with the error */
+  attr?: string | undefined;
+  /** Artifact ids that could not be resolved for the run */
+  missing_artifact_ids?: TaskRunErrorResponseMissingArtifactIdsList | undefined;
+  /** Which usage limit was hit on a rate_limited error: 'burst' (daily) or 'sustained' (monthly) * `burst` - burst * `sustained` - sustained */
+  limit_type?: LimitTypeEnum | undefined;
+  /** ISO 8601 timestamp when the hit usage limit resets, when known */
+  reset_at?: string | undefined;
+  /** Whether the team is on a Pro plan (drives the upgrade-prompt copy) */
+  is_pro?: boolean | undefined;
+}
 export type CreateTasksRunError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create task run Create a new run for a specific task without starting execution. */
 export const createTasksRun: API.OperationMethod<
@@ -1015,8 +1060,8 @@ export const createTasksRun: API.OperationMethod<
   CreateTasksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(230, __c28, 6) as any as S.Schema<CreateTasksRunRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(246, __c30, 6) as any as S.Schema<CreateTasksRunRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1036,8 +1081,8 @@ export const createTasksRunsAnalysisActivity: API.OperationMethod<
   CreateTasksRunsAnalysisActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<CreateTasksRunsAnalysisActivityRequest>,
-  output: __S(265, __c33, 1) as any as S.Schema<TaskRunAnalysisActivityResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<CreateTasksRunsAnalysisActivityRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<TaskRunAnalysisActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1053,8 +1098,8 @@ export const createTasksRunsAnalyze: API.OperationMethod<
   CreateTasksRunsAnalyzeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<CreateTasksRunsAnalyzeRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<TaskRunAnalyzeResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<CreateTasksRunsAnalyzeRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<TaskRunAnalyzeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1070,8 +1115,8 @@ export const createTasksRunsAppendLog: API.OperationMethod<
   CreateTasksRunsAppendLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(281, __c35, 1) as any as S.Schema<CreateTasksRunsAppendLogRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(289, __c36, 1) as any as S.Schema<CreateTasksRunsAppendLogRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1087,8 +1132,8 @@ export const createTasksRunsArtifact: API.OperationMethod<
   CreateTasksRunsArtifactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(290, __c36, 2) as any as S.Schema<CreateTasksRunsArtifactRequest>,
-  output: __S(296, __c37, 0) as any as S.Schema<TaskRunArtifactsUploadResponse>,
+  input: __S(298, __c37, 2) as any as S.Schema<CreateTasksRunsArtifactRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<TaskRunArtifactsUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1104,8 +1149,8 @@ export const createTasksRunsArtifactsDismiss: API.OperationMethod<
   CreateTasksRunsArtifactsDismissError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<CreateTasksRunsArtifactsDismissRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<TaskRunArtifactsDismissResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<CreateTasksRunsArtifactsDismissRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<TaskRunArtifactsDismissResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1125,8 +1170,8 @@ export const createTasksRunsArtifactsPresign: API.OperationMethod<
   CreateTasksRunsArtifactsPresignError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTasksRunsArtifactsPresignRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<TaskRunArtifactPresignResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateTasksRunsArtifactsPresignRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<TaskRunArtifactPresignResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1142,8 +1187,8 @@ export const createTasksRunsArtifactsReference: API.OperationMethod<
   CreateTasksRunsArtifactsReferenceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c1, 2) as any as S.Schema<CreateTasksRunsArtifactsReferenceRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<TaskRunPostHogReferencesResponse>,
+  input: __S(26, __c3, 2) as any as S.Schema<CreateTasksRunsArtifactsReferenceRequest>,
+  output: __S(328, __c41, 0) as any as S.Schema<TaskRunPostHogReferencesResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1159,8 +1204,8 @@ export const createTasksRunsClearConversation: API.OperationMethod<
   CreateTasksRunsClearConversationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateTasksRunsClearConversationRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateTasksRunsClearConversationRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1181,8 +1226,8 @@ export const createTasksRunsCommand: API.OperationMethod<
   CreateTasksRunsCommandError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateTasksRunsCommandRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<TaskRunCommandResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateTasksRunsCommandRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<TaskRunCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1198,8 +1243,8 @@ export const createTasksRunsRelayMessage: API.OperationMethod<
   CreateTasksRunsRelayMessageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateTasksRunsRelayMessageRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<TaskRunRelayMessageResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateTasksRunsRelayMessageRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<TaskRunRelayMessageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1220,8 +1265,8 @@ export const createTasksRunsSubscriptionToken: API.OperationMethod<
   CreateTasksRunsSubscriptionTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateTasksRunsSubscriptionTokenRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<TaskRunSubscriptionTokenResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateTasksRunsSubscriptionTokenRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<TaskRunSubscriptionTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1242,8 +1287,8 @@ export const createTasksRunsTaskSessionSync: API.OperationMethod<
   CreateTasksRunsTaskSessionSyncError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateTasksRunsTaskSessionSyncRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<TaskSessionSyncResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateTasksRunsTaskSessionSyncRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<TaskSessionSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1259,8 +1304,8 @@ export const getTasksRun: API.OperationMethod<
   GetTasksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetTasksRunRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetTasksRunRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1276,8 +1321,8 @@ export const getTasksRunsArtifactsPreview: API.OperationMethod<
   GetTasksRunsArtifactsPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetTasksRunsArtifactsPreviewRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<TaskRunArtifactPreviewResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetTasksRunsArtifactsPreviewRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<TaskRunArtifactPreviewResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1293,8 +1338,8 @@ export const getTasksRunsConnectionToken: API.OperationMethod<
   GetTasksRunsConnectionTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetTasksRunsConnectionTokenRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<ConnectionTokenResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsConnectionTokenRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<ConnectionTokenResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1310,8 +1355,8 @@ export const getTasksRunsLog: API.OperationMethod<
   GetTasksRunsLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetTasksRunsLogRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsLogResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetTasksRunsLogRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsLogResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1327,8 +1372,8 @@ export const getTasksRunsPreview: API.OperationMethod<
   GetTasksRunsPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetTasksRunsPreviewRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsPreviewResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetTasksRunsPreviewRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsPreviewResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1344,8 +1389,8 @@ export const getTasksRunsSessionLog: API.OperationMethod<
   GetTasksRunsSessionLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsSessionLogRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsSessionLogResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetTasksRunsSessionLogRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsSessionLogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1361,8 +1406,8 @@ export const getTasksRunsStream: API.OperationMethod<
   GetTasksRunsStreamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetTasksRunsStreamRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsStreamResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetTasksRunsStreamRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsStreamResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1378,8 +1423,8 @@ export const getTasksRunsStreamToken: API.OperationMethod<
   GetTasksRunsStreamTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetTasksRunsStreamTokenRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<StreamReadTokenResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetTasksRunsStreamTokenRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<StreamReadTokenResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1395,8 +1440,8 @@ export const getTasksRunsTaskSession: API.OperationMethod<
   GetTasksRunsTaskSessionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetTasksRunsTaskSessionRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<TaskSessionResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetTasksRunsTaskSessionRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<TaskSessionResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1412,8 +1457,8 @@ export const listTasksRuns: API.OperationMethod<
   ListTasksRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListTasksRunsRequest>,
-  output: __S(138, __c17, 2) as any as S.Schema<PaginatedTaskRunDetailDTOList>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListTasksRunsRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<PaginatedTaskRunDetailDTOList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1433,8 +1478,8 @@ export const tasksRunsArtifactsDownloadCreate: API.OperationMethod<
   TasksRunsArtifactsDownloadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1450,8 +1495,8 @@ export const tasksRunsArtifactsDownloadRetrieve: API.OperationMethod<
   TasksRunsArtifactsDownloadRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveResponse>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1471,8 +1516,8 @@ export const tasksRunsArtifactsFinalizeUploadCreate: API.OperationMethod<
   TasksRunsArtifactsFinalizeUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(162, __c20, 2) as any as S.Schema<TasksRunsArtifactsFinalizeUploadCreateRequest>,
-  output: __S(296, __c37, 0) as any as S.Schema<TaskRunArtifactsFinalizeUploadResponse>,
+  input: __S(178, __c22, 2) as any as S.Schema<TasksRunsArtifactsFinalizeUploadCreateRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<TaskRunArtifactsFinalizeUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1492,8 +1537,8 @@ export const tasksRunsArtifactsPrepareUploadCreate: API.OperationMethod<
   TasksRunsArtifactsPrepareUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(170, __c21, 2) as any as S.Schema<TasksRunsArtifactsPrepareUploadCreateRequest>,
-  output: __S(175, __c21, 7) as any as S.Schema<TaskRunArtifactsPrepareUploadResponse>,
+  input: __S(186, __c23, 2) as any as S.Schema<TasksRunsArtifactsPrepareUploadCreateRequest>,
+  output: __S(191, __c23, 7) as any as S.Schema<TaskRunArtifactsPrepareUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1509,8 +1554,8 @@ export const tasksRunsCancelCreate: API.OperationMethod<
   TasksRunsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<TasksRunsCancelCreateRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(192, __c24, 0) as any as S.Schema<TasksRunsCancelCreateRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1526,8 +1571,8 @@ export const tasksRunsResumeInCloudCreate: API.OperationMethod<
   TasksRunsResumeInCloudCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<TasksRunsResumeInCloudCreateRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(200, __c25, 0) as any as S.Schema<TasksRunsResumeInCloudCreateRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1543,8 +1588,8 @@ export const tasksRunsStartCreate: API.OperationMethod<
   TasksRunsStartCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<TasksRunsStartCreateRequest>,
-  output: __S(196, __c24, 4) as any as S.Schema<TaskDetailDTO>,
+  input: __S(208, __c26, 0) as any as S.Schema<TasksRunsStartCreateRequest>,
+  output: __S(212, __c26, 4) as any as S.Schema<TaskDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1560,8 +1605,8 @@ export const updateTasksRunsPartial: API.OperationMethod<
   UpdateTasksRunsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<UpdateTasksRunsPartialRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(216, __c27, 0) as any as S.Schema<UpdateTasksRunsPartialRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1581,8 +1626,8 @@ export const updateTasksRunsSetOutputPartial: API.OperationMethod<
   UpdateTasksRunsSetOutputPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<UpdateTasksRunsSetOutputPartialRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(224, __c28, 0) as any as S.Schema<UpdateTasksRunsSetOutputPartialRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1598,8 +1643,8 @@ export const updateTasksRunsSetSummaryPartial: API.OperationMethod<
   UpdateTasksRunsSetSummaryPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<UpdateTasksRunsSetSummaryPartialRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(232, __c29, 0) as any as S.Schema<UpdateTasksRunsSetSummaryPartialRequest>,
+  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1609,6 +1654,32 @@ export const updateTasksRunsSetSummaryPartial: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          error: S.optional(S.String),
+          type: S.optional(S.String),
+          code: S.optional(S.String),
+          retry_token: S.optional(S.String),
+          reason: S.optional(S.String),
+          attr: S.optional(S.String),
+          missing_artifact_ids: S.optional(__S(8, __c1, 0)),
+          limit_type: S.optional(S.String),
+          reset_at: S.optional(S.String),
+          is_pro: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TaskRunErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1634,7 +1705,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "TaskRunArtifactPresignResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1646,14 +1717,14 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "TaskRunPostHogReference" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          references: __S(9, __c1, 1),
+          references: __S(25, __c3, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1664,7 +1735,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsArtifactsReferenceRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1682,7 +1753,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsClearConversationRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1692,7 +1763,7 @@ function __c3(j: number): any {
           id: S.String.pipe(T.Label()),
           jsonrpc: S.optional(S.String),
           method: S.optional(S.String),
-          params: S.optional(__S(240, __c30, 0)),
+          params: S.optional(__S(248, __c31, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1707,12 +1778,12 @@ function __c3(j: number): any {
           jsonrpc: S.optional(S.String),
           id: S.optional(S.Unknown),
           result: S.optional(S.Unknown),
-          error: S.optional(__S(240, __c30, 0)),
+          error: S.optional(__S(248, __c31, 0)),
         }),
       ).annotate({ identifier: "TaskRunCommandResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1722,7 +1793,7 @@ function __c4(j: number): any {
           id: S.String.pipe(T.Label()),
           text: S.optional(S.String),
           message_id: S.optional(S.NullOr(S.String)),
-          text_parts: S.optional(__S(232, __c29, 0)),
+          text_parts: S.optional(__S(8, __c1, 0)),
           trace_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -1741,7 +1812,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "TaskRunRelayMessageResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1769,7 +1840,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "TaskRunSubscriptionTokenResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1794,7 +1865,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "TaskSessionSyncResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1812,7 +1883,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetTasksRunRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1840,7 +1911,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "TaskRunArtifactPreviewResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1864,7 +1935,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ConnectionTokenResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1886,13 +1957,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetTasksRunsLogRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "GetTasksRunsLogResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1910,7 +1981,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetTasksRunsPreviewRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1933,7 +2004,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetTasksRunsSessionLogRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1952,7 +2023,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetTasksRunsStreamRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1978,7 +2049,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "StreamReadTokenResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2004,7 +2075,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "TaskSessionResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2022,19 +2093,19 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksRunsRequest" });
     case 1:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(256, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(137, __c17, 1),
+          results: __S(153, __c19, 1),
         }),
       ).annotate({ identifier: "PaginatedTaskRunDetailDTOList" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2053,7 +2124,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "TasksRunsArtifactsDownloadCreateRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2072,7 +2143,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TasksRunsArtifactsDownloadRetrieveRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2083,19 +2154,19 @@ function __c20(j: number): any {
           source: S.optional(S.String),
           storage_path: S.optional(S.String),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(304, __c38, 0)),
+          metadata: S.optional(__S(312, __c39, 0)),
           base_artifact_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskRunArtifactFinalizeUpload" });
     case 1:
-      return S.Array(__S(160, __c20, 0));
+      return S.Array(__S(176, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(161, __c20, 1)),
+          artifacts: S.optional(__S(177, __c22, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2106,7 +2177,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "TasksRunsArtifactsFinalizeUploadCreateRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2116,18 +2187,18 @@ function __c21(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(304, __c38, 0)),
+          metadata: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "TaskRunArtifactPrepareUpload" });
     case 1:
-      return S.Array(__S(168, __c21, 0));
+      return S.Array(__S(184, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(169, __c21, 1)),
+          artifacts: S.optional(__S(185, __c23, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2142,7 +2213,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          fields: S.optional(__S(171, __c21, 3)),
+          fields: S.optional(__S(187, __c23, 3)),
         }),
       ).annotate({ identifier: "S3PresignedPost" });
     case 5:
@@ -2154,23 +2225,23 @@ function __c21(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(304, __c38, 0)),
+          metadata: S.optional(__S(312, __c39, 0)),
           storage_path: S.optional(S.String),
           expires_in: S.optional(S.Number),
-          presigned_post: S.optional(__S(172, __c21, 4)),
+          presigned_post: S.optional(__S(188, __c23, 4)),
         }),
       ).annotate({ identifier: "TaskRunArtifactPrepareUploadResponse" });
     case 6:
-      return S.Array(__S(173, __c21, 5));
+      return S.Array(__S(189, __c23, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(174, __c21, 6)),
+          artifacts: S.optional(__S(190, __c23, 6)),
         }),
       ).annotate({ identifier: "TaskRunArtifactsPrepareUploadResponse" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2190,7 +2261,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "TasksRunsCancelCreateRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2208,7 +2279,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "TasksRunsResumeInCloudCreateRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2217,7 +2288,7 @@ function __c24(j: number): any {
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           pending_user_message: S.optional(S.String),
-          pending_user_artifact_ids: S.optional(__S(232, __c29, 0)),
+          pending_user_artifact_ids: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2236,7 +2307,7 @@ function __c24(j: number): any {
           last_name: S.String,
           email: S.String,
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(240, __c30, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(248, __c31, 0))),
           role_at_organization: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskUserBasicInfo" });
@@ -2249,7 +2320,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "SlackThreadReferenceDTO" });
     case 3:
-      return S.Array(__S(194, __c24, 2));
+      return S.Array(__S(210, __c26, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2262,29 +2333,29 @@ function __c24(j: number): any {
           origin_product: S.String,
           runtime: S.String,
           repository: S.NullOr(S.String),
-          repositories: __S(232, __c29, 0),
+          repositories: __S(8, __c1, 0),
           github_integration: S.NullOr(S.Number),
           github_user_integration: S.NullOr(S.String),
           signal_report: S.NullOr(S.String),
-          json_schema: S.NullOr(__S(240, __c30, 0)),
+          json_schema: S.NullOr(__S(248, __c31, 0)),
           internal: S.Boolean,
           archived: S.Boolean,
           archived_at: S.NullOr(S.String),
-          latest_run: S.optional(S.NullOr(__S(248, __c31, 0))),
+          latest_run: S.optional(S.NullOr(__S(256, __c32, 0))),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           last_activity_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(193, __c24, 1))),
+          created_by: S.optional(S.NullOr(__S(209, __c26, 1))),
           ci_prompt: S.NullOr(S.String),
           channel: S.optional(S.NullOr(S.String)),
-          slack_thread_references: __S(195, __c24, 3),
+          slack_thread_references: __S(211, __c26, 3),
           origin_key: S.optional(S.NullOr(S.String)),
           client_provenance: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskDetailDTO" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2296,9 +2367,9 @@ function __c25(j: number): any {
           branch: S.optional(S.NullOr(S.String)),
           stage: S.optional(S.NullOr(S.String)),
           output: S.optional(S.Unknown),
-          state: S.optional(__S(240, __c30, 0)),
-          state_remove_keys: S.optional(__S(232, __c29, 0)),
-          state_append: S.optional(__S(240, __c30, 0)),
+          state: S.optional(__S(248, __c31, 0)),
+          state_remove_keys: S.optional(__S(8, __c1, 0)),
+          state_append: S.optional(__S(248, __c31, 0)),
           error_message: S.optional(S.NullOr(S.String)),
           error_type: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -2311,7 +2382,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateTasksRunsPartialRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2330,7 +2401,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateTasksRunsSetOutputPartialRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2339,7 +2410,7 @@ function __c27(j: number): any {
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           summary: S.optional(S.String),
-          tags: S.optional(__S(232, __c29, 0)),
+          tags: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2350,7 +2421,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateTasksRunsSetSummaryPartialRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2360,18 +2431,18 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "ImportedMcpServerHeader" });
     case 1:
-      return S.Array(__S(224, __c28, 0));
+      return S.Array(__S(240, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.String,
           url: S.String,
-          headers: S.optional(__S(225, __c28, 1)),
+          headers: S.optional(__S(241, __c30, 1)),
         }),
       ).annotate({ identifier: "ImportedMcpServer" });
     case 3:
-      return S.Array(__S(226, __c28, 2));
+      return S.Array(__S(242, __c30, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2379,14 +2450,14 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "RelayedMcpServer" });
     case 5:
-      return S.Array(__S(228, __c28, 4));
+      return S.Array(__S(244, __c30, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
-          imported_mcp_servers: S.optional(S.NullOr(__S(227, __c28, 3))),
-          relayed_mcp_servers: S.optional(S.NullOr(__S(229, __c28, 5))),
+          imported_mcp_servers: S.optional(S.NullOr(__S(243, __c30, 3))),
+          relayed_mcp_servers: S.optional(S.NullOr(__S(245, __c30, 5))),
           rtk_enabled: S.optional(S.NullOr(S.Boolean)),
           benjamin_enabled: S.optional(S.NullOr(S.Boolean)),
           claude_model_access: S.optional(S.NullOr(S.String)),
@@ -2417,19 +2488,13 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreateTasksRunRequest" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2446,11 +2511,11 @@ function __c31(j: number): any {
           reasoning_effort: S.optional(S.NullOr(S.String)),
           log_url: S.optional(S.NullOr(S.String)),
           error_message: S.NullOr(S.String),
-          output: S.NullOr(__S(240, __c30, 0)),
+          output: S.NullOr(__S(248, __c31, 0)),
           task_summary: S.NullOr(S.String),
-          task_tags: __S(232, __c29, 0),
-          state: __S(240, __c30, 0),
-          artifacts: __S(257, __c32, 1),
+          task_tags: __S(8, __c1, 0),
+          state: __S(248, __c31, 0),
+          artifacts: __S(265, __c33, 1),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
@@ -2460,7 +2525,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "TaskRunDetailDTO" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2481,10 +2546,10 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "TaskRunArtifactResponse" });
     case 1:
-      return S.Array(__S(256, __c32, 0));
+      return S.Array(__S(264, __c33, 0));
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2505,8 +2570,8 @@ function __c33(j: number): any {
           failed_calls: S.Number,
           seconds: S.Number,
           idle_seconds: S.Number,
-          commands: S.optional(__S(232, __c29, 0)),
-          guidance_read: S.optional(__S(232, __c29, 0)),
+          commands: S.optional(__S(8, __c1, 0)),
+          guidance_read: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2523,7 +2588,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "TaskRunAnalysisActivityResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2548,17 +2613,17 @@ function __c34(j: number): any {
       ).annotate({ identifier: "TaskRunAnalyzeResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(240, __c30, 0));
+      return S.Array(__S(248, __c31, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          entries: S.optional(__S(280, __c35, 0)),
+          entries: S.optional(__S(288, __c36, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2569,7 +2634,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsAppendLogRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2580,18 +2645,18 @@ function __c36(j: number): any {
           content: S.optional(S.String),
           content_encoding: S.optional(S.String),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(304, __c38, 0)),
+          metadata: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "TaskRunArtifactUpload" });
     case 1:
-      return S.Array(__S(288, __c36, 0));
+      return S.Array(__S(296, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(289, __c36, 1)),
+          artifacts: S.optional(__S(297, __c37, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2602,17 +2667,17 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsArtifactRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(257, __c32, 1)),
+          artifacts: S.optional(__S(265, __c33, 1)),
         }),
       ).annotate({ identifier: "TaskRunArtifactsUploadResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2626,7 +2691,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "TaskRunSkillBundleMetadata" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2634,7 +2699,7 @@ function __c39(j: number): any {
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifact_ids: __S(232, __c29, 0),
+          artifact_ids: __S(8, __c1, 0),
           dismissed: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -2646,12 +2711,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsArtifactsDismissRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          artifacts: __S(257, __c32, 1),
+          artifacts: __S(265, __c33, 1),
         }),
       ).annotate({ identifier: "TaskRunArtifactsDismissResponse" });
   }

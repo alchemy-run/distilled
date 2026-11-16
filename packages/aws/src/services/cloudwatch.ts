@@ -21,7 +21,7 @@ const svc = /*@__PURE__*/ T.AwsApiService({
 });
 const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "monitoring" });
 const ver = /*@__PURE__*/ T.ServiceVersion("2010-08-01");
-const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0({ awsQueryCompatible: true });
 const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
@@ -5419,7 +5419,18 @@ function __c71(j: number): any {
           MetricData: S.optional(__S(570, __c71, 2)),
           EntityMetricData: S.optional(__S(573, __c71, 5)),
           StrictEntityValidation: S.optional(S.Boolean),
-        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.RequestCompression({ encodings: ["gzip"] }),
+          ),
+        ),
       ).annotate({ identifier: "PutMetricDataInput" });
   }
 }

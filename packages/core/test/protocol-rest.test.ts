@@ -112,6 +112,18 @@ class KeyReused extends T.applyErrorMatchers(
   [{ status: 422, body: { "/code": "key_reused" } }],
 ) {}
 
+const TypedErrorBody = S.Struct({
+  requestId: S.optional(S.String.pipe(T.Body("request_id"))),
+});
+
+class TypedBody extends T.applyErrorMatchers(
+  Schema.TaggedError<TypedBody>()("TypedBody", {
+    message: Schema.String,
+    body: Schema.optional(Schema.Union([Schema.suspend(() => TypedErrorBody), Schema.String])),
+  }),
+  [{ status: 402 }],
+) {}
+
 const baseOptions: RestProtocolOptions<Creds> = {
   credentials: Effect.gen(function* () {
     return yield* TestCreds;
@@ -851,7 +863,7 @@ describe("makeRestProtocol error response fields", () => {
     API.make(() => ({
       input: ThingInput,
       output: PlainOutput,
-      errors: [Nested, SlowDown] as any,
+      errors: [Nested, SlowDown, TypedBody] as any,
       protocol,
     })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
   const plain = plainOp(DefaultProtocol);
@@ -880,6 +892,18 @@ describe("makeRestProtocol error response fields", () => {
     expect(error.status).toBe("FAILED_PRECONDITION");
     expect(error.details).toEqual([1]);
     expect(error.requestId).toBe("r");
+  });
+
+  test("a typed body gets its keys mapped to TS names", async () => {
+    const error = await failOn(() => json({ message: "pay", request_id: "req_9" }, 402), plain);
+    expect(error).toBeInstanceOf(TypedBody);
+    expect(error.body).toMatchObject({ requestId: "req_9" });
+  });
+
+  test("a typed body that is not JSON stays the raw text", async () => {
+    const error = await failOn(() => new Response("<html>pay</html>", { status: 402 }), plain);
+    expect(error).toBeInstanceOf(TypedBody);
+    expect(error.body).toBe("<html>pay</html>");
   });
 
   test("a typed error that declares retryAfter gets the Retry-After hint", async () => {

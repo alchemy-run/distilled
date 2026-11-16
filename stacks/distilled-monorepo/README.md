@@ -30,7 +30,7 @@ check names in `REQUIRED_CHECKS` are job `name:`s, so rename a job in its
 workflow and here together; a required check that never reports holds the
 queue until its timeout.
 
-Build concurrency (`maxEntriesToBuild`) is 20, up from the UI's 1. At 1 the
+Build concurrency (`maxEntriesToBuild`) is 100, GitHub's maximum, up from the UI's 1. At 1 the
 queue built only the bottom PR of a stack. After that PR merged as a squash
 commit, the next PR conflicted with it, and the queue ejected it and every PR
 above it.

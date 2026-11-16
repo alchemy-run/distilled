@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export interface ApproveSubscriptionRequest {
   projectId: string;
@@ -261,6 +281,18 @@ export interface VendorsSubscriptionsListByProjectRequest {
   /** Flag to control if cancelled or rejected subscriptions should be returned. */
   includeExpired?: boolean | undefined;
 }
+export interface ErrorResponse {
+  /** Reason phrase of the status code. */
+  error: string;
+  /** Description of the error. */
+  message: string;
+  /** Path which was called. */
+  path: string;
+  /** HTTP response status code. */
+  status: number;
+  /** Timestamp at which the error occurred. */
+  timeStamp: string;
+}
 export type ApproveSubscriptionError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Approve a pending subscription. Approve a pending subscription. */
 export const approveSubscription: API.OperationMethod<
@@ -269,8 +301,8 @@ export const approveSubscription: API.OperationMethod<
   ApproveSubscriptionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ApproveSubscriptionRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<ApproveSubscriptionResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ApproveSubscriptionRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<ApproveSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -291,8 +323,8 @@ export const cancelConsumersSubscription: API.OperationMethod<
   CancelConsumersSubscriptionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<CancelConsumersSubscriptionRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<CancelConsumersSubscriptionResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<CancelConsumersSubscriptionRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<CancelConsumersSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -308,8 +340,8 @@ export const consumersSubscriptionsListByOrganization: API.OperationMethod<
   ConsumersSubscriptionsListByOrganizationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ConsumersSubscriptionsListByOrganizationRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<MarketplaceSubscriptionV1ListSubscriptionsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<ConsumersSubscriptionsListByOrganizationRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<MarketplaceSubscriptionV1ListSubscriptionsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -325,8 +357,8 @@ export const consumersSubscriptionsListByProject: API.OperationMethod<
   ConsumersSubscriptionsListByProjectError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ConsumersSubscriptionsListByProjectRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<MarketplaceSubscriptionV1ListSubscriptionsResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<ConsumersSubscriptionsListByProjectRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<MarketplaceSubscriptionV1ListSubscriptionsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -342,8 +374,8 @@ export const createConsumersSubscription: API.OperationMethod<
   CreateConsumersSubscriptionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreateConsumersSubscriptionRequest>,
-  output: __S(100, __c12, 4) as any as S.Schema<MarketplaceSubscriptionV1Subscription>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateConsumersSubscriptionRequest>,
+  output: __S(108, __c13, 4) as any as S.Schema<MarketplaceSubscriptionV1Subscription>,
   errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -359,8 +391,8 @@ export const getConsumersSubscription: API.OperationMethod<
   GetConsumersSubscriptionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetConsumersSubscriptionRequest>,
-  output: __S(100, __c12, 4) as any as S.Schema<MarketplaceSubscriptionV1Subscription>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetConsumersSubscriptionRequest>,
+  output: __S(108, __c13, 4) as any as S.Schema<MarketplaceSubscriptionV1Subscription>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -376,8 +408,8 @@ export const getConsumersSubscriptionsRedirect: API.OperationMethod<
   GetConsumersSubscriptionsRedirectError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetConsumersSubscriptionsRedirectRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<MarketplaceSubscriptionV1SubscriptionRedirect>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetConsumersSubscriptionsRedirectRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<MarketplaceSubscriptionV1SubscriptionRedirect>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -393,8 +425,8 @@ export const getVendorsSubscription: API.OperationMethod<
   GetVendorsSubscriptionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetVendorsSubscriptionRequest>,
-  output: __S(100, __c12, 4) as any as S.Schema<MarketplaceSubscriptionV1Subscription>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetVendorsSubscriptionRequest>,
+  output: __S(108, __c13, 4) as any as S.Schema<MarketplaceSubscriptionV1Subscription>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -410,8 +442,8 @@ export const rejectVendorsSubscription: API.OperationMethod<
   RejectVendorsSubscriptionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<RejectVendorsSubscriptionRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<RejectVendorsSubscriptionResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<RejectVendorsSubscriptionRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<RejectVendorsSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -427,8 +459,8 @@ export const resolveCustomer: API.OperationMethod<
   ResolveCustomerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ResolveCustomerRequest>,
-  output: __S(100, __c12, 4) as any as S.Schema<MarketplaceSubscriptionV1Subscription>,
+  input: __S(32, __c4, 0) as any as S.Schema<ResolveCustomerRequest>,
+  output: __S(108, __c13, 4) as any as S.Schema<MarketplaceSubscriptionV1Subscription>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -448,8 +480,8 @@ export const terminateConsumersSubscription: API.OperationMethod<
   TerminateConsumersSubscriptionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<TerminateConsumersSubscriptionRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<TerminateConsumersSubscriptionResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<TerminateConsumersSubscriptionRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<TerminateConsumersSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -465,8 +497,8 @@ export const vendorsSubscriptionsListByOrganization: API.OperationMethod<
   VendorsSubscriptionsListByOrganizationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<VendorsSubscriptionsListByOrganizationRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<MarketplaceSubscriptionV1ListSubscriptionsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<VendorsSubscriptionsListByOrganizationRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<MarketplaceSubscriptionV1ListSubscriptionsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -482,8 +514,8 @@ export const vendorsSubscriptionsListByProject: API.OperationMethod<
   VendorsSubscriptionsListByProjectError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<VendorsSubscriptionsListByProjectRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<MarketplaceSubscriptionV1ListSubscriptionsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<VendorsSubscriptionsListByProjectRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<MarketplaceSubscriptionV1ListSubscriptionsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -493,6 +525,20 @@ export const vendorsSubscriptionsListByProject: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          message: S.String,
+          path: S.String,
+          status: S.Number,
+          timeStamp: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -518,7 +564,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "MarketplaceSubscriptionV1SubscriptionRedirect" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -537,7 +583,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetVendorsSubscriptionRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -555,7 +601,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "RejectVendorsSubscriptionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -573,7 +619,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ResolveCustomerRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -591,7 +637,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "TerminateConsumersSubscriptionRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -612,7 +658,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "VendorsSubscriptionsListByOrganizationRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -633,7 +679,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "VendorsSubscriptionsListByProjectRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -652,13 +698,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ApproveSubscriptionRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ApproveSubscriptionResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -676,7 +722,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CancelConsumersSubscriptionRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -697,21 +743,21 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ConsumersSubscriptionsListByOrganizationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(100, __c12, 4));
+      return S.Array(__S(108, __c13, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String),
-          items: S.optional(__S(88, __c11, 0)),
+          items: S.optional(__S(96, __c12, 0)),
           limit: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MarketplaceSubscriptionV1ListSubscriptionsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -723,22 +769,22 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(__S(96, __c12, 0)),
+          version: S.optional(__S(104, __c13, 0)),
         }),
       ).annotate({ identifier: "MarketplaceSubscriptionV1File" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          endUserLicenseAgreement: S.optional(__S(97, __c12, 1)),
-          productDescription: S.optional(__S(97, __c12, 1)),
-          serviceCertificate: S.optional(__S(97, __c12, 1)),
-          serviceLevelAgreement: S.optional(__S(97, __c12, 1)),
+          endUserLicenseAgreement: S.optional(__S(105, __c13, 1)),
+          productDescription: S.optional(__S(105, __c13, 1)),
+          serviceCertificate: S.optional(__S(105, __c13, 1)),
+          serviceLevelAgreement: S.optional(__S(105, __c13, 1)),
         }),
       ).annotate({ identifier: "MarketplaceSubscriptionV1Assets" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(98, __c12, 2)),
+          assets: S.optional(__S(106, __c13, 2)),
           deliveryMethod: S.String,
           lifecycleState: S.String,
           noticePeriod: S.String,
@@ -763,7 +809,7 @@ function __c12(j: number): any {
           lifecycleState: S.String,
           orderedAt: S.String,
           organizationId: S.String,
-          product: __S(99, __c12, 3),
+          product: __S(107, __c13, 3),
           projectId: S.String,
           subscriptionId: S.String,
           terminatesAt: S.optional(S.String),
@@ -773,7 +819,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "MarketplaceSubscriptionV1Subscription" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -794,7 +840,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ConsumersSubscriptionsListByProjectRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -814,7 +860,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateConsumersSubscriptionRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

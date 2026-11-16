@@ -1055,12 +1055,12 @@ function __c2(j: number): any {
           awsService: S.optional(S.String).pipe(T.HttpQuery("awsService")),
           source: S.optional(S.String).pipe(T.HttpQuery("source")),
           checkIdentifier: S.optional(S.String).pipe(T.HttpQuery("checkIdentifier")),
-          afterLastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("afterLastUpdatedAt"),
-          ),
-          beforeLastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("beforeLastUpdatedAt"),
-          ),
+          afterLastUpdatedAt: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("afterLastUpdatedAt")),
+          beforeLastUpdatedAt: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("beforeLastUpdatedAt")),
         }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/v1/organization-recommendations" }),
@@ -1166,12 +1166,12 @@ function __c4(j: number): any {
           awsService: S.optional(S.String).pipe(T.HttpQuery("awsService")),
           source: S.optional(S.String).pipe(T.HttpQuery("source")),
           checkIdentifier: S.optional(S.String).pipe(T.HttpQuery("checkIdentifier")),
-          afterLastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("afterLastUpdatedAt"),
-          ),
-          beforeLastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-            T.HttpQuery("beforeLastUpdatedAt"),
-          ),
+          afterLastUpdatedAt: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("afterLastUpdatedAt")),
+          beforeLastUpdatedAt: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ).pipe(T.HttpQuery("beforeLastUpdatedAt")),
           language: S.optional(S.String).pipe(T.HttpQuery("language")),
         }).pipe(
           T.all(

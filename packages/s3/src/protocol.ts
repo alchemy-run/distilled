@@ -278,8 +278,10 @@ const toHttpRequest = (
   }
 
   // Apply the Smithy `smithy.api#endpoint` hostPrefix (e.g. "sync-" for
-  // Step Functions StartSyncExecution -> sync-states.{region}). Skipped for
-  // custom endpoints, matching official AWS SDK behavior. Labels of the
+  // Step Functions StartSyncExecution -> sync-states.{region}). Skipped for a
+  // custom endpoint: an emulator or proxy (LocalStack, MinIO, R2) serves every
+  // operation on the one host it names. The AWS SDKs apply it there too,
+  // unless `disableHostPrefix` is set. Labels of the
   // form {memberName} are substituted from the operation input; a value that
   // is not a host name ("attacker.invalid/") would move the request to
   // another host, so it fails with InvalidInput before anything is signed.

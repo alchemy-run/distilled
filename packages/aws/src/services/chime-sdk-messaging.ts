@@ -4225,10 +4225,10 @@ function __c50(j: number): any {
         S.Struct({
           ChannelArn: S.String.pipe(T.HttpLabel("ChannelArn")),
           SortOrder: S.optional(S.String).pipe(T.HttpQuery("sort-order")),
-          NotBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          NotBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("not-before"),
           ),
-          NotAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          NotAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("not-after"),
           ),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),

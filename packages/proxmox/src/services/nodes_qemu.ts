@@ -30,6 +30,8 @@ export class GuestNotFound
     /*@__PURE__*/ S.TaggedError<GuestNotFound>()("GuestNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       {
@@ -168,6 +170,29 @@ export interface GetNodesByNodeQemuByVmidAgentFileReadResult {
 }
 export type GetNodesByNodeQemuByVmidAgentFileReadResponse =
   GetNodesByNodeQemuByVmidAgentFileReadResult;
+export interface GetNodesByNodeQemuByVmidAgentGetCpustatsRequest {
+  node: string;
+  vmid: number;
+}
+export type GetNodesByNodeQemuByVmidAgentGetCpustatsResult = { [key: string]: unknown | undefined };
+export type GetNodesByNodeQemuByVmidAgentGetCpustatsResponse =
+  GetNodesByNodeQemuByVmidAgentGetCpustatsResult;
+export interface GetNodesByNodeQemuByVmidAgentGetDisksRequest {
+  node: string;
+  vmid: number;
+}
+export type GetNodesByNodeQemuByVmidAgentGetDisksResult = { [key: string]: unknown | undefined };
+export type GetNodesByNodeQemuByVmidAgentGetDisksResponse =
+  GetNodesByNodeQemuByVmidAgentGetDisksResult;
+export interface GetNodesByNodeQemuByVmidAgentGetDiskstatsRequest {
+  node: string;
+  vmid: number;
+}
+export type GetNodesByNodeQemuByVmidAgentGetDiskstatsResult = {
+  [key: string]: unknown | undefined;
+};
+export type GetNodesByNodeQemuByVmidAgentGetDiskstatsResponse =
+  GetNodesByNodeQemuByVmidAgentGetDiskstatsResult;
 export interface GetNodesByNodeQemuByVmidAgentGetFsinfoRequest {
   node: string;
   vmid: number;
@@ -182,6 +207,13 @@ export interface GetNodesByNodeQemuByVmidAgentGetHostNameRequest {
 export type GetNodesByNodeQemuByVmidAgentGetHostNameResult = { [key: string]: unknown | undefined };
 export type GetNodesByNodeQemuByVmidAgentGetHostNameResponse =
   GetNodesByNodeQemuByVmidAgentGetHostNameResult;
+export interface GetNodesByNodeQemuByVmidAgentGetLoadRequest {
+  node: string;
+  vmid: number;
+}
+export type GetNodesByNodeQemuByVmidAgentGetLoadResult = { [key: string]: unknown | undefined };
+export type GetNodesByNodeQemuByVmidAgentGetLoadResponse =
+  GetNodesByNodeQemuByVmidAgentGetLoadResult;
 export interface GetNodesByNodeQemuByVmidAgentGetMemoryBlockInfoRequest {
   node: string;
   vmid: number;
@@ -1019,8 +1051,12 @@ export type PostNodesByNodeQemuByVmidAgentRequestCommand =
   | "fsfreeze-status"
   | "fsfreeze-thaw"
   | "fstrim"
+  | "get-cpustats"
+  | "get-disks"
+  | "get-diskstats"
   | "get-fsinfo"
   | "get-host-name"
+  | "get-load"
   | "get-memory-block-info"
   | "get-memory-blocks"
   | "get-osinfo"
@@ -2424,7 +2460,7 @@ export interface PutNodesByNodeQemuByVmidConfigRequest {
 }
 export type PutNodesByNodeQemuByVmidConfigResponse = null;
 export interface PutNodesByNodeQemuByVmidFirewallAliasesByNameRequest {
-  cidr: string;
+  cidr?: string | undefined;
   comment?: string | undefined;
   digest?: string | undefined;
   name: string;
@@ -2640,13 +2676,13 @@ export const deleteNodesByNodeQemuByVmidFirewallAliasesByName: API.OperationMeth
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    104,
-    __c13,
+    120,
+    __c15,
     0,
   ) as any as S.Schema<DeleteNodesByNodeQemuByVmidFirewallAliasesByNameRequest>,
   output: __S(
-    112,
-    __c14,
+    128,
+    __c16,
     0,
   ) as any as S.Schema<DeleteNodesByNodeQemuByVmidFirewallAliasesByNameResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -2664,13 +2700,13 @@ export const deleteNodesByNodeQemuByVmidFirewallIpsetByName: API.OperationMethod
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    216,
-    __c27,
+    224,
+    __c28,
     0,
   ) as any as S.Schema<DeleteNodesByNodeQemuByVmidFirewallIpsetByNameRequest>,
   output: __S(
-    112,
-    __c14,
+    128,
+    __c16,
     0,
   ) as any as S.Schema<DeleteNodesByNodeQemuByVmidFirewallIpsetByNameResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -2690,13 +2726,13 @@ export const deleteNodesByNodeQemuByVmidFirewallIpsetByNameByCidr: API.Operation
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    312,
-    __c39,
+    320,
+    __c40,
     0,
   ) as any as S.Schema<DeleteNodesByNodeQemuByVmidFirewallIpsetByNameByCidrRequest>,
   output: __S(
-    112,
-    __c14,
+    128,
+    __c16,
     0,
   ) as any as S.Schema<DeleteNodesByNodeQemuByVmidFirewallIpsetByNameByCidrResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -2714,13 +2750,13 @@ export const deleteNodesByNodeQemuByVmidFirewallRulesByPos: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    400,
-    __c50,
+    416,
+    __c52,
     0,
   ) as any as S.Schema<DeleteNodesByNodeQemuByVmidFirewallRulesByPosRequest>,
   output: __S(
-    112,
-    __c14,
+    128,
+    __c16,
     0,
   ) as any as S.Schema<DeleteNodesByNodeQemuByVmidFirewallRulesByPosResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -2738,8 +2774,8 @@ export const deleteNodesByNodeQemuByVmidSnapshotBySnapname: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    488,
-    __c61,
+    504,
+    __c63,
     0,
   ) as any as S.Schema<DeleteNodesByNodeQemuByVmidSnapshotBySnapnameRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteNodesByNodeQemuByVmidSnapshotBySnapnameResponse>,
@@ -2757,8 +2793,8 @@ export const getNodesByNodeQemu: API.OperationMethod<
   GetNodesByNodeQemuError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<GetNodesByNodeQemuRequest>,
-  output: __S(579, __c72, 3) as any as S.Schema<GetNodesByNodeQemuResponse>,
+  input: __S(592, __c74, 0) as any as S.Schema<GetNodesByNodeQemuRequest>,
+  output: __S(595, __c74, 3) as any as S.Schema<GetNodesByNodeQemuResponse>,
   errors: [UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2773,8 +2809,8 @@ export const getNodesByNodeQemuByVmid: API.OperationMethod<
   GetNodesByNodeQemuByVmidError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<GetNodesByNodeQemuByVmidRequest>,
-  output: __S(674, __c84, 2) as any as S.Schema<GetNodesByNodeQemuByVmidResponse>,
+  input: __S(680, __c85, 0) as any as S.Schema<GetNodesByNodeQemuByVmidRequest>,
+  output: __S(690, __c86, 2) as any as S.Schema<GetNodesByNodeQemuByVmidResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2789,8 +2825,8 @@ export const getNodesByNodeQemuByVmidAgent: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentRequest>,
-  output: __S(777, __c97, 1) as any as S.Schema<GetNodesByNodeQemuByVmidAgentResponse>,
+  input: __S(776, __c97, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentRequest>,
+  output: __S(793, __c99, 1) as any as S.Schema<GetNodesByNodeQemuByVmidAgentResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2821,12 +2857,60 @@ export const getNodesByNodeQemuByVmidAgentFileRead: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentFileReadError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentFileReadRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<GetNodesByNodeQemuByVmidAgentFileReadResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentFileReadRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<GetNodesByNodeQemuByVmidAgentFileReadResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
   span: "GetNodesByNodeQemuByVmidAgentFileRead",
+}));
+
+export type GetNodesByNodeQemuByVmidAgentGetCpustatsError = ProxmoxOpError;
+/** GET /nodes/{node}/qemu/{vmid}/agent/get-cpustats */
+export const getNodesByNodeQemuByVmidAgentGetCpustats: API.OperationMethod<
+  GetNodesByNodeQemuByVmidAgentGetCpustatsRequest,
+  GetNodesByNodeQemuByVmidAgentGetCpustatsResponse,
+  GetNodesByNodeQemuByVmidAgentGetCpustatsError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetCpustatsRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetCpustatsResponse>,
+  errors: [UnknownProxmoxError],
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetNodesByNodeQemuByVmidAgentGetCpustats",
+}));
+
+export type GetNodesByNodeQemuByVmidAgentGetDisksError = ProxmoxOpError;
+/** GET /nodes/{node}/qemu/{vmid}/agent/get-disks */
+export const getNodesByNodeQemuByVmidAgentGetDisks: API.OperationMethod<
+  GetNodesByNodeQemuByVmidAgentGetDisksRequest,
+  GetNodesByNodeQemuByVmidAgentGetDisksResponse,
+  GetNodesByNodeQemuByVmidAgentGetDisksError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c8, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetDisksRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetDisksResponse>,
+  errors: [UnknownProxmoxError],
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetNodesByNodeQemuByVmidAgentGetDisks",
+}));
+
+export type GetNodesByNodeQemuByVmidAgentGetDiskstatsError = ProxmoxOpError;
+/** GET /nodes/{node}/qemu/{vmid}/agent/get-diskstats */
+export const getNodesByNodeQemuByVmidAgentGetDiskstats: API.OperationMethod<
+  GetNodesByNodeQemuByVmidAgentGetDiskstatsRequest,
+  GetNodesByNodeQemuByVmidAgentGetDiskstatsResponse,
+  GetNodesByNodeQemuByVmidAgentGetDiskstatsError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetDiskstatsRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetDiskstatsResponse>,
+  errors: [UnknownProxmoxError],
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetNodesByNodeQemuByVmidAgentGetDiskstats",
 }));
 
 export type GetNodesByNodeQemuByVmidAgentGetFsinfoError = GuestNotFound | ProxmoxOpError;
@@ -2837,8 +2921,8 @@ export const getNodesByNodeQemuByVmidAgentGetFsinfo: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentGetFsinfoError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetFsinfoRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetFsinfoResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetFsinfoRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetFsinfoResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2853,12 +2937,28 @@ export const getNodesByNodeQemuByVmidAgentGetHostName: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentGetHostNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetHostNameRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetHostNameResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetHostNameRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetHostNameResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
   span: "GetNodesByNodeQemuByVmidAgentGetHostName",
+}));
+
+export type GetNodesByNodeQemuByVmidAgentGetLoadError = ProxmoxOpError;
+/** GET /nodes/{node}/qemu/{vmid}/agent/get-load */
+export const getNodesByNodeQemuByVmidAgentGetLoad: API.OperationMethod<
+  GetNodesByNodeQemuByVmidAgentGetLoadRequest,
+  GetNodesByNodeQemuByVmidAgentGetLoadResponse,
+  GetNodesByNodeQemuByVmidAgentGetLoadError,
+  ProxmoxOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetLoadRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetLoadResponse>,
+  errors: [UnknownProxmoxError],
+  protocol: ProxmoxProtocol,
+  telemetry: TELEMETRY,
+  span: "GetNodesByNodeQemuByVmidAgentGetLoad",
 }));
 
 export type GetNodesByNodeQemuByVmidAgentGetMemoryBlockInfoError = GuestNotFound | ProxmoxOpError;
@@ -2870,13 +2970,13 @@ export const getNodesByNodeQemuByVmidAgentGetMemoryBlockInfo: API.OperationMetho
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    56,
-    __c7,
+    104,
+    __c13,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetMemoryBlockInfoRequest>,
   output: __S(
-    40,
-    __c5,
+    56,
+    __c7,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetMemoryBlockInfoResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -2893,8 +2993,8 @@ export const getNodesByNodeQemuByVmidAgentGetMemoryBlocks: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentGetMemoryBlocksError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetMemoryBlocksRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetMemoryBlocksResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetMemoryBlocksRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetMemoryBlocksResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2909,8 +3009,8 @@ export const getNodesByNodeQemuByVmidAgentGetOsinfo: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentGetOsinfoError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetOsinfoRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetOsinfoResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetOsinfoRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetOsinfoResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2925,8 +3025,8 @@ export const getNodesByNodeQemuByVmidAgentGetTime: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentGetTimeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetTimeRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetTimeResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetTimeRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetTimeResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2941,8 +3041,8 @@ export const getNodesByNodeQemuByVmidAgentGetTimezone: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentGetTimezoneError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetTimezoneRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetTimezoneResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetTimezoneRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetTimezoneResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2957,8 +3057,8 @@ export const getNodesByNodeQemuByVmidAgentGetUsers: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentGetUsersError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetUsersRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetUsersResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetUsersRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetUsersResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2973,8 +3073,8 @@ export const getNodesByNodeQemuByVmidAgentGetVcpus: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentGetVcpusError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetVcpusRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetVcpusResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetVcpusRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentGetVcpusResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -2989,8 +3089,8 @@ export const getNodesByNodeQemuByVmidAgentInfo: API.OperationMethod<
   GetNodesByNodeQemuByVmidAgentInfoError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentInfoRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentInfoResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentInfoRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetNodesByNodeQemuByVmidAgentInfoResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3006,13 +3106,13 @@ export const getNodesByNodeQemuByVmidAgentNetworkGetInterfaces: API.OperationMet
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    136,
-    __c17,
+    184,
+    __c23,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidAgentNetworkGetInterfacesRequest>,
   output: __S(
-    40,
-    __c5,
+    56,
+    __c7,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidAgentNetworkGetInterfacesResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -3029,8 +3129,8 @@ export const getNodesByNodeQemuByVmidCloudinit: API.OperationMethod<
   GetNodesByNodeQemuByVmidCloudinitError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetNodesByNodeQemuByVmidCloudinitRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<GetNodesByNodeQemuByVmidCloudinitResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<GetNodesByNodeQemuByVmidCloudinitRequest>,
+  output: __S(202, __c25, 2) as any as S.Schema<GetNodesByNodeQemuByVmidCloudinitResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3045,7 +3145,7 @@ export const getNodesByNodeQemuByVmidCloudinitDump: API.OperationMethod<
   GetNodesByNodeQemuByVmidCloudinitDumpError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetNodesByNodeQemuByVmidCloudinitDumpRequest>,
+  input: __S(208, __c26, 0) as any as S.Schema<GetNodesByNodeQemuByVmidCloudinitDumpRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<GetNodesByNodeQemuByVmidCloudinitDumpResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3061,8 +3161,8 @@ export const getNodesByNodeQemuByVmidConfig: API.OperationMethod<
   GetNodesByNodeQemuByVmidConfigError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetNodesByNodeQemuByVmidConfigRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<GetNodesByNodeQemuByVmidConfigResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetNodesByNodeQemuByVmidConfigRequest>,
+  output: __S(218, __c27, 2) as any as S.Schema<GetNodesByNodeQemuByVmidConfigResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3077,8 +3177,8 @@ export const getNodesByNodeQemuByVmidFeature: API.OperationMethod<
   GetNodesByNodeQemuByVmidFeatureError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFeatureRequest>,
-  output: __S(178, __c22, 2) as any as S.Schema<GetNodesByNodeQemuByVmidFeatureResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFeatureRequest>,
+  output: __S(234, __c29, 2) as any as S.Schema<GetNodesByNodeQemuByVmidFeatureResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3093,8 +3193,8 @@ export const getNodesByNodeQemuByVmidFirewall: API.OperationMethod<
   GetNodesByNodeQemuByVmidFirewallError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRequest>,
-  output: __S(777, __c97, 1) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRequest>,
+  output: __S(793, __c99, 1) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3109,8 +3209,8 @@ export const getNodesByNodeQemuByVmidFirewallAliases: API.OperationMethod<
   GetNodesByNodeQemuByVmidFirewallAliasesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallAliasesRequest>,
-  output: __S(203, __c25, 3) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallAliasesResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallAliasesRequest>,
+  output: __S(259, __c32, 3) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallAliasesResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3126,13 +3226,13 @@ export const getNodesByNodeQemuByVmidFirewallAliasesByName: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    208,
-    __c26,
+    264,
+    __c33,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallAliasesByNameRequest>,
   output: __S(
-    40,
-    __c5,
+    56,
+    __c7,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallAliasesByNameResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -3149,8 +3249,8 @@ export const getNodesByNodeQemuByVmidFirewallIpset: API.OperationMethod<
   GetNodesByNodeQemuByVmidFirewallIpsetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallIpsetRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallIpsetResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallIpsetRequest>,
+  output: __S(275, __c34, 3) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallIpsetResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3165,10 +3265,10 @@ export const getNodesByNodeQemuByVmidFirewallIpsetByName: API.OperationMethod<
   GetNodesByNodeQemuByVmidFirewallIpsetByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallIpsetByNameRequest>,
+  input: __S(280, __c35, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallIpsetByNameRequest>,
   output: __S(
-    235,
-    __c29,
+    283,
+    __c35,
     3,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallIpsetByNameResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -3186,13 +3286,13 @@ export const getNodesByNodeQemuByVmidFirewallIpsetByNameByCidr: API.OperationMet
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    240,
-    __c30,
+    288,
+    __c36,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallIpsetByNameByCidrRequest>,
   output: __S(
-    40,
-    __c5,
+    56,
+    __c7,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallIpsetByNameByCidrResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -3209,8 +3309,8 @@ export const getNodesByNodeQemuByVmidFirewallLog: API.OperationMethod<
   GetNodesByNodeQemuByVmidFirewallLogError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallLogRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallLogResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallLogRequest>,
+  output: __S(299, __c37, 3) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallLogResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3225,8 +3325,8 @@ export const getNodesByNodeQemuByVmidFirewallOptions: API.OperationMethod<
   GetNodesByNodeQemuByVmidFirewallOptionsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallOptionsRequest>,
-  output: __S(258, __c32, 2) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallOptionsResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallOptionsRequest>,
+  output: __S(306, __c38, 2) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallOptionsResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3241,8 +3341,8 @@ export const getNodesByNodeQemuByVmidFirewallRefs: API.OperationMethod<
   GetNodesByNodeQemuByVmidFirewallRefsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRefsRequest>,
-  output: __S(267, __c33, 3) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRefsResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRefsRequest>,
+  output: __S(315, __c39, 3) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRefsResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3257,8 +3357,8 @@ export const getNodesByNodeQemuByVmidFirewallRules: API.OperationMethod<
   GetNodesByNodeQemuByVmidFirewallRulesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRulesRequest>,
-  output: __S(274, __c34, 2) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRulesResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRulesRequest>,
+  output: __S(330, __c41, 2) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRulesResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3273,8 +3373,8 @@ export const getNodesByNodeQemuByVmidFirewallRulesByPos: API.OperationMethod<
   GetNodesByNodeQemuByVmidFirewallRulesByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRulesByPosRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRulesByPosResponse>,
+  input: __S(344, __c43, 0) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRulesByPosRequest>,
+  output: __S(345, __c43, 1) as any as S.Schema<GetNodesByNodeQemuByVmidFirewallRulesByPosResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3289,8 +3389,8 @@ export const getNodesByNodeQemuByVmidMigrate: API.OperationMethod<
   GetNodesByNodeQemuByVmidMigrateError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<GetNodesByNodeQemuByVmidMigrateRequest>,
-  output: __S(303, __c37, 7) as any as S.Schema<GetNodesByNodeQemuByVmidMigrateResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<GetNodesByNodeQemuByVmidMigrateRequest>,
+  output: __S(359, __c44, 7) as any as S.Schema<GetNodesByNodeQemuByVmidMigrateResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3305,8 +3405,8 @@ export const getNodesByNodeQemuByVmidMtunnelwebsocket: API.OperationMethod<
   GetNodesByNodeQemuByVmidMtunnelwebsocketError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<GetNodesByNodeQemuByVmidMtunnelwebsocketRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<GetNodesByNodeQemuByVmidMtunnelwebsocketResponse>,
+  input: __S(360, __c45, 0) as any as S.Schema<GetNodesByNodeQemuByVmidMtunnelwebsocketRequest>,
+  output: __S(362, __c45, 2) as any as S.Schema<GetNodesByNodeQemuByVmidMtunnelwebsocketResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3321,8 +3421,8 @@ export const getNodesByNodeQemuByVmidPending: API.OperationMethod<
   GetNodesByNodeQemuByVmidPendingError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<GetNodesByNodeQemuByVmidPendingRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<GetNodesByNodeQemuByVmidPendingResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<GetNodesByNodeQemuByVmidPendingRequest>,
+  output: __S(202, __c25, 2) as any as S.Schema<GetNodesByNodeQemuByVmidPendingResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3337,8 +3437,8 @@ export const getNodesByNodeQemuByVmidRrd: API.OperationMethod<
   GetNodesByNodeQemuByVmidRrdError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<GetNodesByNodeQemuByVmidRrdRequest>,
-  output: __S(330, __c41, 2) as any as S.Schema<GetNodesByNodeQemuByVmidRrdResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<GetNodesByNodeQemuByVmidRrdRequest>,
+  output: __S(378, __c47, 2) as any as S.Schema<GetNodesByNodeQemuByVmidRrdResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3353,8 +3453,8 @@ export const getNodesByNodeQemuByVmidRrddata: API.OperationMethod<
   GetNodesByNodeQemuByVmidRrddataError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<GetNodesByNodeQemuByVmidRrddataRequest>,
-  output: __S(777, __c97, 1) as any as S.Schema<GetNodesByNodeQemuByVmidRrddataResponse>,
+  input: __S(384, __c48, 0) as any as S.Schema<GetNodesByNodeQemuByVmidRrddataRequest>,
+  output: __S(793, __c99, 1) as any as S.Schema<GetNodesByNodeQemuByVmidRrddataResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3369,8 +3469,8 @@ export const getNodesByNodeQemuByVmidSnapshot: API.OperationMethod<
   GetNodesByNodeQemuByVmidSnapshotError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotRequest>,
-  output: __S(347, __c43, 3) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotRequest>,
+  output: __S(395, __c49, 3) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3385,8 +3485,8 @@ export const getNodesByNodeQemuByVmidSnapshotBySnapname: API.OperationMethod<
   GetNodesByNodeQemuByVmidSnapshotBySnapnameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotBySnapnameRequest>,
-  output: __S(777, __c97, 1) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotBySnapnameResponse>,
+  input: __S(400, __c50, 0) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotBySnapnameRequest>,
+  output: __S(793, __c99, 1) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotBySnapnameResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3402,13 +3502,13 @@ export const getNodesByNodeQemuByVmidSnapshotBySnapnameConfig: API.OperationMeth
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    360,
-    __c45,
+    408,
+    __c51,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotBySnapnameConfigRequest>,
   output: __S(
-    40,
-    __c5,
+    56,
+    __c7,
     0,
   ) as any as S.Schema<GetNodesByNodeQemuByVmidSnapshotBySnapnameConfigResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -3425,8 +3525,8 @@ export const getNodesByNodeQemuByVmidStatus: API.OperationMethod<
   GetNodesByNodeQemuByVmidStatusError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<GetNodesByNodeQemuByVmidStatusRequest>,
-  output: __S(674, __c84, 2) as any as S.Schema<GetNodesByNodeQemuByVmidStatusResponse>,
+  input: __S(424, __c53, 0) as any as S.Schema<GetNodesByNodeQemuByVmidStatusRequest>,
+  output: __S(690, __c86, 2) as any as S.Schema<GetNodesByNodeQemuByVmidStatusResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3441,8 +3541,8 @@ export const getNodesByNodeQemuByVmidStatusCurrent: API.OperationMethod<
   GetNodesByNodeQemuByVmidStatusCurrentError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<GetNodesByNodeQemuByVmidStatusCurrentRequest>,
-  output: __S(378, __c47, 2) as any as S.Schema<GetNodesByNodeQemuByVmidStatusCurrentResponse>,
+  input: __S(432, __c54, 0) as any as S.Schema<GetNodesByNodeQemuByVmidStatusCurrentRequest>,
+  output: __S(434, __c54, 2) as any as S.Schema<GetNodesByNodeQemuByVmidStatusCurrentResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3457,8 +3557,8 @@ export const getNodesByNodeQemuByVmidVncwebsocket: API.OperationMethod<
   GetNodesByNodeQemuByVmidVncwebsocketError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<GetNodesByNodeQemuByVmidVncwebsocketRequest>,
-  output: __S(386, __c48, 2) as any as S.Schema<GetNodesByNodeQemuByVmidVncwebsocketResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<GetNodesByNodeQemuByVmidVncwebsocketRequest>,
+  output: __S(442, __c55, 2) as any as S.Schema<GetNodesByNodeQemuByVmidVncwebsocketResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3473,7 +3573,7 @@ export const postNodesByNodeQemu: API.OperationMethod<
   PostNodesByNodeQemuError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<PostNodesByNodeQemuRequest>,
+  input: __S(448, __c56, 0) as any as S.Schema<PostNodesByNodeQemuRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuResponse>,
   errors: [UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3489,8 +3589,8 @@ export const postNodesByNodeQemuByVmidAgent: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3505,8 +3605,8 @@ export const postNodesByNodeQemuByVmidAgentExec: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentExecError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentExecRequest>,
-  output: __S(418, __c52, 2) as any as S.Schema<PostNodesByNodeQemuByVmidAgentExecResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentExecRequest>,
+  output: __S(466, __c58, 2) as any as S.Schema<PostNodesByNodeQemuByVmidAgentExecResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3521,8 +3621,8 @@ export const postNodesByNodeQemuByVmidAgentFileWrite: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentFileWriteError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFileWriteRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFileWriteResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFileWriteRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFileWriteResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3537,8 +3637,8 @@ export const postNodesByNodeQemuByVmidAgentFsfreezeFreeze: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentFsfreezeFreezeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeFreezeRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeFreezeResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeFreezeRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeFreezeResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3553,8 +3653,8 @@ export const postNodesByNodeQemuByVmidAgentFsfreezeStatus: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentFsfreezeStatusError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeStatusRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeStatusResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeStatusRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeStatusResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3569,8 +3669,8 @@ export const postNodesByNodeQemuByVmidAgentFsfreezeThaw: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentFsfreezeThawError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeThawRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeThawResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeThawRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFsfreezeThawResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3585,8 +3685,8 @@ export const postNodesByNodeQemuByVmidAgentFstrim: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentFstrimError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFstrimRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFstrimResponse>,
+  input: __S(512, __c64, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFstrimRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentFstrimResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3601,8 +3701,8 @@ export const postNodesByNodeQemuByVmidAgentPing: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentPingError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentPingRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentPingResponse>,
+  input: __S(520, __c65, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentPingRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentPingResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3618,13 +3718,13 @@ export const postNodesByNodeQemuByVmidAgentSetUserPassword: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    472,
-    __c59,
+    528,
+    __c66,
     0,
   ) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSetUserPasswordRequest>,
   output: __S(
-    40,
-    __c5,
+    56,
+    __c7,
     0,
   ) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSetUserPasswordResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -3641,8 +3741,8 @@ export const postNodesByNodeQemuByVmidAgentShutdown: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentShutdownError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentShutdownRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentShutdownResponse>,
+  input: __S(536, __c67, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentShutdownRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentShutdownResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3657,8 +3757,8 @@ export const postNodesByNodeQemuByVmidAgentSuspendDisk: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentSuspendDiskError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendDiskRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendDiskResponse>,
+  input: __S(544, __c68, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendDiskRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendDiskResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3673,8 +3773,8 @@ export const postNodesByNodeQemuByVmidAgentSuspendHybrid: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentSuspendHybridError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendHybridRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendHybridResponse>,
+  input: __S(552, __c69, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendHybridRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendHybridResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3689,8 +3789,8 @@ export const postNodesByNodeQemuByVmidAgentSuspendRam: API.OperationMethod<
   PostNodesByNodeQemuByVmidAgentSuspendRamError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendRamRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendRamResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendRamRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<PostNodesByNodeQemuByVmidAgentSuspendRamResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3705,7 +3805,7 @@ export const postNodesByNodeQemuByVmidClone: API.OperationMethod<
   PostNodesByNodeQemuByVmidCloneError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<PostNodesByNodeQemuByVmidCloneRequest>,
+  input: __S(568, __c71, 0) as any as S.Schema<PostNodesByNodeQemuByVmidCloneRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidCloneResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3721,7 +3821,7 @@ export const postNodesByNodeQemuByVmidConfig: API.OperationMethod<
   PostNodesByNodeQemuByVmidConfigError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<PostNodesByNodeQemuByVmidConfigRequest>,
+  input: __S(576, __c72, 0) as any as S.Schema<PostNodesByNodeQemuByVmidConfigRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidConfigResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3737,8 +3837,8 @@ export const postNodesByNodeQemuByVmidDbusVmstate: API.OperationMethod<
   PostNodesByNodeQemuByVmidDbusVmstateError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<PostNodesByNodeQemuByVmidDbusVmstateRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PostNodesByNodeQemuByVmidDbusVmstateResponse>,
+  input: __S(584, __c73, 0) as any as S.Schema<PostNodesByNodeQemuByVmidDbusVmstateRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PostNodesByNodeQemuByVmidDbusVmstateResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3753,8 +3853,8 @@ export const postNodesByNodeQemuByVmidFirewallAliases: API.OperationMethod<
   PostNodesByNodeQemuByVmidFirewallAliasesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallAliasesRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallAliasesResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallAliasesRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallAliasesResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3769,8 +3869,8 @@ export const postNodesByNodeQemuByVmidFirewallIpset: API.OperationMethod<
   PostNodesByNodeQemuByVmidFirewallIpsetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallIpsetRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallIpsetResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallIpsetRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallIpsetResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3785,10 +3885,10 @@ export const postNodesByNodeQemuByVmidFirewallIpsetByName: API.OperationMethod<
   PostNodesByNodeQemuByVmidFirewallIpsetByNameError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallIpsetByNameRequest>,
+  input: __S(616, __c77, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallIpsetByNameRequest>,
   output: __S(
-    112,
-    __c14,
+    128,
+    __c16,
     0,
   ) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallIpsetByNameResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -3805,8 +3905,8 @@ export const postNodesByNodeQemuByVmidFirewallRules: API.OperationMethod<
   PostNodesByNodeQemuByVmidFirewallRulesError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallRulesRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallRulesResponse>,
+  input: __S(624, __c78, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallRulesRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PostNodesByNodeQemuByVmidFirewallRulesResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3821,7 +3921,7 @@ export const postNodesByNodeQemuByVmidMigrate: API.OperationMethod<
   PostNodesByNodeQemuByVmidMigrateError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMigrateRequest>,
+  input: __S(632, __c79, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMigrateRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMigrateResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3837,7 +3937,7 @@ export const postNodesByNodeQemuByVmidMonitor: API.OperationMethod<
   PostNodesByNodeQemuByVmidMonitorError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMonitorRequest>,
+  input: __S(640, __c80, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMonitorRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMonitorResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3853,7 +3953,7 @@ export const postNodesByNodeQemuByVmidMoveDisk: API.OperationMethod<
   PostNodesByNodeQemuByVmidMoveDiskError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMoveDiskRequest>,
+  input: __S(648, __c81, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMoveDiskRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMoveDiskResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3869,8 +3969,8 @@ export const postNodesByNodeQemuByVmidMtunnel: API.OperationMethod<
   PostNodesByNodeQemuByVmidMtunnelError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMtunnelRequest>,
-  output: __S(610, __c76, 2) as any as S.Schema<PostNodesByNodeQemuByVmidMtunnelResponse>,
+  input: __S(656, __c82, 0) as any as S.Schema<PostNodesByNodeQemuByVmidMtunnelRequest>,
+  output: __S(658, __c82, 2) as any as S.Schema<PostNodesByNodeQemuByVmidMtunnelResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3885,7 +3985,7 @@ export const postNodesByNodeQemuByVmidRemoteMigrate: API.OperationMethod<
   PostNodesByNodeQemuByVmidRemoteMigrateError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<PostNodesByNodeQemuByVmidRemoteMigrateRequest>,
+  input: __S(664, __c83, 0) as any as S.Schema<PostNodesByNodeQemuByVmidRemoteMigrateRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidRemoteMigrateResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3901,7 +4001,7 @@ export const postNodesByNodeQemuByVmidSnapshot: API.OperationMethod<
   PostNodesByNodeQemuByVmidSnapshotError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<PostNodesByNodeQemuByVmidSnapshotRequest>,
+  input: __S(672, __c84, 0) as any as S.Schema<PostNodesByNodeQemuByVmidSnapshotRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidSnapshotResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3920,8 +4020,8 @@ export const postNodesByNodeQemuByVmidSnapshotBySnapnameRollback: API.OperationM
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    632,
-    __c79,
+    696,
+    __c87,
     0,
   ) as any as S.Schema<PostNodesByNodeQemuByVmidSnapshotBySnapnameRollbackRequest>,
   output: __S(
@@ -3943,8 +4043,8 @@ export const postNodesByNodeQemuByVmidSpiceproxy: API.OperationMethod<
   PostNodesByNodeQemuByVmidSpiceproxyError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<PostNodesByNodeQemuByVmidSpiceproxyRequest>,
-  output: __S(642, __c80, 2) as any as S.Schema<PostNodesByNodeQemuByVmidSpiceproxyResponse>,
+  input: __S(704, __c88, 0) as any as S.Schema<PostNodesByNodeQemuByVmidSpiceproxyRequest>,
+  output: __S(706, __c88, 2) as any as S.Schema<PostNodesByNodeQemuByVmidSpiceproxyResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -3959,7 +4059,7 @@ export const postNodesByNodeQemuByVmidStatusReboot: API.OperationMethod<
   PostNodesByNodeQemuByVmidStatusRebootError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusRebootRequest>,
+  input: __S(712, __c89, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusRebootRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusRebootResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3975,7 +4075,7 @@ export const postNodesByNodeQemuByVmidStatusReset: API.OperationMethod<
   PostNodesByNodeQemuByVmidStatusResetError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusResetRequest>,
+  input: __S(720, __c90, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusResetRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusResetResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -3991,7 +4091,7 @@ export const postNodesByNodeQemuByVmidStatusResume: API.OperationMethod<
   PostNodesByNodeQemuByVmidStatusResumeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusResumeRequest>,
+  input: __S(728, __c91, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusResumeRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusResumeResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -4007,7 +4107,7 @@ export const postNodesByNodeQemuByVmidStatusShutdown: API.OperationMethod<
   PostNodesByNodeQemuByVmidStatusShutdownError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusShutdownRequest>,
+  input: __S(736, __c92, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusShutdownRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusShutdownResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -4023,7 +4123,7 @@ export const postNodesByNodeQemuByVmidStatusStart: API.OperationMethod<
   PostNodesByNodeQemuByVmidStatusStartError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusStartRequest>,
+  input: __S(744, __c93, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusStartRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusStartResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -4039,7 +4139,7 @@ export const postNodesByNodeQemuByVmidStatusStop: API.OperationMethod<
   PostNodesByNodeQemuByVmidStatusStopError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusStopRequest>,
+  input: __S(752, __c94, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusStopRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusStopResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -4055,7 +4155,7 @@ export const postNodesByNodeQemuByVmidStatusSuspend: API.OperationMethod<
   PostNodesByNodeQemuByVmidStatusSuspendError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusSuspendRequest>,
+  input: __S(760, __c95, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusSuspendRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidStatusSuspendResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -4071,7 +4171,7 @@ export const postNodesByNodeQemuByVmidTemplate: API.OperationMethod<
   PostNodesByNodeQemuByVmidTemplateError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<PostNodesByNodeQemuByVmidTemplateRequest>,
+  input: __S(768, __c96, 0) as any as S.Schema<PostNodesByNodeQemuByVmidTemplateRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostNodesByNodeQemuByVmidTemplateResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -4087,8 +4187,8 @@ export const postNodesByNodeQemuByVmidTermproxy: API.OperationMethod<
   PostNodesByNodeQemuByVmidTermproxyError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<PostNodesByNodeQemuByVmidTermproxyRequest>,
-  output: __S(730, __c91, 2) as any as S.Schema<PostNodesByNodeQemuByVmidTermproxyResponse>,
+  input: __S(800, __c100, 0) as any as S.Schema<PostNodesByNodeQemuByVmidTermproxyRequest>,
+  output: __S(802, __c100, 2) as any as S.Schema<PostNodesByNodeQemuByVmidTermproxyResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -4103,8 +4203,8 @@ export const postNodesByNodeQemuByVmidVncproxy: API.OperationMethod<
   PostNodesByNodeQemuByVmidVncproxyError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<PostNodesByNodeQemuByVmidVncproxyRequest>,
-  output: __S(738, __c92, 2) as any as S.Schema<PostNodesByNodeQemuByVmidVncproxyResponse>,
+  input: __S(808, __c101, 0) as any as S.Schema<PostNodesByNodeQemuByVmidVncproxyRequest>,
+  output: __S(810, __c101, 2) as any as S.Schema<PostNodesByNodeQemuByVmidVncproxyResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -4119,8 +4219,8 @@ export const putNodesByNodeQemuByVmidCloudinit: API.OperationMethod<
   PutNodesByNodeQemuByVmidCloudinitError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<PutNodesByNodeQemuByVmidCloudinitRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PutNodesByNodeQemuByVmidCloudinitResponse>,
+  input: __S(816, __c102, 0) as any as S.Schema<PutNodesByNodeQemuByVmidCloudinitRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PutNodesByNodeQemuByVmidCloudinitResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -4135,8 +4235,8 @@ export const putNodesByNodeQemuByVmidConfig: API.OperationMethod<
   PutNodesByNodeQemuByVmidConfigError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<PutNodesByNodeQemuByVmidConfigRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PutNodesByNodeQemuByVmidConfigResponse>,
+  input: __S(824, __c103, 0) as any as S.Schema<PutNodesByNodeQemuByVmidConfigRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PutNodesByNodeQemuByVmidConfigResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -4152,13 +4252,13 @@ export const putNodesByNodeQemuByVmidFirewallAliasesByName: API.OperationMethod<
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    784,
-    __c98,
+    832,
+    __c104,
     0,
   ) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallAliasesByNameRequest>,
   output: __S(
-    112,
-    __c14,
+    128,
+    __c16,
     0,
   ) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallAliasesByNameResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -4176,13 +4276,13 @@ export const putNodesByNodeQemuByVmidFirewallIpsetByNameByCidr: API.OperationMet
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    792,
-    __c99,
+    840,
+    __c105,
     0,
   ) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallIpsetByNameByCidrRequest>,
   output: __S(
-    112,
-    __c14,
+    128,
+    __c16,
     0,
   ) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallIpsetByNameByCidrResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -4199,8 +4299,8 @@ export const putNodesByNodeQemuByVmidFirewallOptions: API.OperationMethod<
   PutNodesByNodeQemuByVmidFirewallOptionsError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallOptionsRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallOptionsResponse>,
+  input: __S(848, __c106, 0) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallOptionsRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallOptionsResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -4215,8 +4315,8 @@ export const putNodesByNodeQemuByVmidFirewallRulesByPos: API.OperationMethod<
   PutNodesByNodeQemuByVmidFirewallRulesByPosError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(808, __c101, 0) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallRulesByPosRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallRulesByPosResponse>,
+  input: __S(856, __c107, 0) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallRulesByPosRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PutNodesByNodeQemuByVmidFirewallRulesByPosResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -4231,7 +4331,7 @@ export const putNodesByNodeQemuByVmidResize: API.OperationMethod<
   PutNodesByNodeQemuByVmidResizeError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<PutNodesByNodeQemuByVmidResizeRequest>,
+  input: __S(864, __c108, 0) as any as S.Schema<PutNodesByNodeQemuByVmidResizeRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutNodesByNodeQemuByVmidResizeResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
@@ -4247,8 +4347,8 @@ export const putNodesByNodeQemuByVmidSendkey: API.OperationMethod<
   PutNodesByNodeQemuByVmidSendkeyError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<PutNodesByNodeQemuByVmidSendkeyRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PutNodesByNodeQemuByVmidSendkeyResponse>,
+  input: __S(872, __c109, 0) as any as S.Schema<PutNodesByNodeQemuByVmidSendkeyRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PutNodesByNodeQemuByVmidSendkeyResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -4264,13 +4364,13 @@ export const putNodesByNodeQemuByVmidSnapshotBySnapnameConfig: API.OperationMeth
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    832,
-    __c104,
+    24,
+    __c3,
     0,
   ) as any as S.Schema<PutNodesByNodeQemuByVmidSnapshotBySnapnameConfigRequest>,
   output: __S(
-    112,
-    __c14,
+    128,
+    __c16,
     0,
   ) as any as S.Schema<PutNodesByNodeQemuByVmidSnapshotBySnapnameConfigResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
@@ -4287,8 +4387,8 @@ export const putNodesByNodeQemuByVmidUnlink: API.OperationMethod<
   PutNodesByNodeQemuByVmidUnlinkError,
   ProxmoxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(840, __c105, 0) as any as S.Schema<PutNodesByNodeQemuByVmidUnlinkRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<PutNodesByNodeQemuByVmidUnlinkResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<PutNodesByNodeQemuByVmidUnlinkRequest>,
+  output: __S(128, __c16, 0) as any as S.Schema<PutNodesByNodeQemuByVmidUnlinkResponse>,
   errors: [GuestNotFound, UnknownProxmoxError],
   protocol: ProxmoxProtocol,
   telemetry: TELEMETRY,
@@ -4355,6 +4455,38 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          description: S.optional(S.String),
+          node: S.String.pipe(T.Label()),
+          snapname: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/nodes/{node}/qemu/{vmid}/snapshot/{snapname}/config",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PutNodesByNodeQemuByVmidSnapshotBySnapnameConfigRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          force: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          idlist: S.String,
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "PUT", uri: "/nodes/{node}/qemu/{vmid}/unlink", code: 200 })),
+      ).annotate({ identifier: "PutNodesByNodeQemuByVmidUnlinkRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           count: S.optional(S.Number.pipe(T.Query())),
           decode: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
           file: S.String.pipe(T.Query()),
@@ -4373,12 +4505,63 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentFileReadResult" });
     case 2:
-      return S.suspend(() => __S(25, __c3, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(41, __c5, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidAgentFileReadResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-cpustats", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetCpustatsRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(784, __c98, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetNodesByNodeQemuByVmidAgentGetCpustatsResponse",
+      });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-disks", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetDisksRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/nodes/{node}/qemu/{vmid}/agent/get-diskstats",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetDiskstatsRequest" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4391,15 +4574,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetFsinfoRequest" });
   }
 }
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => __S(768, __c96, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetNodesByNodeQemuByVmidAgentGetFsinfoResponse",
-      });
-  }
-}
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4416,7 +4591,20 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetHostNameRequest" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-load", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetLoadRequest" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4433,7 +4621,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetMemoryBlockInfoRequest" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4450,59 +4638,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetMemoryBlocksRequest" });
   }
 }
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-osinfo", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetOsinfoRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-time", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetTimeRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-timezone", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetTimezoneRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-users", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetUsersRequest" });
-  }
-}
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4521,7 +4657,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteNodesByNodeQemuByVmidFirewallAliasesByNameRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Null.pipe(T.RawResponseRoot())).annotate({
@@ -4529,7 +4665,59 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-osinfo", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetOsinfoRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-time", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetTimeRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-timezone", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetTimezoneRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent/get-users", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetUsersRequest" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4542,7 +4730,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentGetVcpusRequest" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4553,7 +4741,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentInfoRequest" });
   }
 }
-function __c17(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4570,7 +4758,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentNetworkGetInterfacesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4581,7 +4769,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidCloudinitRequest" });
   }
 }
-function __c19(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4593,14 +4781,14 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidCloudinitResultItem" });
     case 1:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(200, __c25, 0));
     case 2:
-      return S.suspend(() => __S(153, __c19, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(201, __c25, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidCloudinitResponse",
       });
   }
 }
-function __c20(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4614,7 +4802,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidCloudinitDumpRequest" });
   }
 }
-function __c21(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4724,12 +4912,31 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidConfigResult" });
     case 2:
-      return S.suspend(() => __S(169, __c21, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(217, __c27, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidConfigResponse",
       });
   }
 }
-function __c22(j: number): any {
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          force: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/nodes/{node}/qemu/{vmid}/firewall/ipset/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteNodesByNodeQemuByVmidFirewallIpsetByNameRequest" });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4744,22 +4951,22 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           hasFeature: S.Union([S.Boolean, S.Literals([0, 1])]),
-          nodes: __S(184, __c23, 0),
+          nodes: __S(240, __c30, 0),
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFeatureResult" });
     case 2:
-      return S.suspend(() => __S(177, __c22, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(233, __c29, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidFeatureResponse",
       });
   }
 }
-function __c23(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c24(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4770,7 +4977,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallRequest" });
   }
 }
-function __c25(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4791,14 +4998,14 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallAliasesResultItem" });
     case 2:
-      return S.Array(__S(201, __c25, 1));
+      return S.Array(__S(257, __c32, 1));
     case 3:
-      return S.suspend(() => __S(202, __c25, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(258, __c32, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidFirewallAliasesResponse",
       });
   }
 }
-function __c26(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4816,26 +5023,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallAliasesByNameRequest" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          force: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/nodes/{node}/qemu/{vmid}/firewall/ipset/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteNodesByNodeQemuByVmidFirewallIpsetByNameRequest" });
-  }
-}
-function __c28(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4855,14 +5043,14 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallIpsetResultItem" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(273, __c34, 1));
     case 3:
-      return S.suspend(() => __S(226, __c28, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(274, __c34, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidFirewallIpsetResponse",
       });
   }
 }
-function __c29(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4888,14 +5076,14 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallIpsetByNameResultItem" });
     case 2:
-      return S.Array(__S(233, __c29, 1));
+      return S.Array(__S(281, __c35, 1));
     case 3:
-      return S.suspend(() => __S(234, __c29, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(282, __c35, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidFirewallIpsetByNameResponse",
       });
   }
 }
-function __c30(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4914,7 +5102,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallIpsetByNameByCidrRequest" });
   }
 }
-function __c31(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4937,14 +5125,14 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallLogResultItem" });
     case 2:
-      return S.Array(__S(249, __c31, 1));
+      return S.Array(__S(297, __c37, 1));
     case 3:
-      return S.suspend(() => __S(250, __c31, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(298, __c37, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidFirewallLogResponse",
       });
   }
 }
-function __c32(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4971,12 +5159,12 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallOptionsResult" });
     case 2:
-      return S.suspend(() => __S(257, __c32, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(305, __c38, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidFirewallOptionsResponse",
       });
   }
 }
-function __c33(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4999,14 +5187,34 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallRefsResultItem" });
     case 2:
-      return S.Array(__S(265, __c33, 1));
+      return S.Array(__S(313, __c39, 1));
     case 3:
-      return S.suspend(() => __S(266, __c33, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(314, __c39, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidFirewallRefsResponse",
       });
   }
 }
-function __c34(j: number): any {
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cidr: S.String.pipe(T.Label()),
+          digest: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/nodes/{node}/qemu/{vmid}/firewall/ipset/{name}/{cidr}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteNodesByNodeQemuByVmidFirewallIpsetByNameByCidrRequest" });
+  }
+}
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5018,14 +5226,14 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallRulesRequest" });
     case 1:
-      return S.Array(__S(280, __c35, 0));
+      return S.Array(__S(336, __c42, 0));
     case 2:
-      return S.suspend(() => __S(273, __c34, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(329, __c41, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidFirewallRulesResponse",
       });
   }
 }
-function __c35(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5049,7 +5257,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallRulesResultItem" });
   }
 }
-function __c36(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5066,12 +5274,12 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidFirewallRulesByPosRequest" });
     case 1:
-      return S.suspend(() => __S(280, __c35, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(336, __c42, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidFirewallRulesByPosResponse",
       });
   }
 }
-function __c37(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5091,7 +5299,7 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidMigrateResultLocalDisksItem" });
     case 2:
-      return S.Array(__S(297, __c37, 1));
+      return S.Array(__S(353, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5102,35 +5310,35 @@ function __c37(j: number): any {
         identifier: "GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodesBlockingHaResourcesItem",
       });
     case 4:
-      return S.Array(__S(299, __c37, 3));
+      return S.Array(__S(355, __c44, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          "blocking-ha-resources": S.optional(__S(300, __c37, 4)),
-          unavailable_storages: S.optional(__S(184, __c23, 0)),
+          "blocking-ha-resources": S.optional(__S(356, __c44, 4)),
+          unavailable_storages: S.optional(__S(240, __c30, 0)),
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidMigrateResultNotAllowedNodes" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          allowed_nodes: S.optional(__S(184, __c23, 0)),
-          "dependent-ha-resources": S.optional(__S(184, __c23, 0)),
+          allowed_nodes: S.optional(__S(240, __c30, 0)),
+          "dependent-ha-resources": S.optional(__S(240, __c30, 0)),
           "has-dbus-vmstate": S.Union([S.Boolean, S.Literals([0, 1])]),
-          local_disks: __S(298, __c37, 2),
-          local_resources: __S(184, __c23, 0),
-          "mapped-resource-info": __S(768, __c96, 0),
-          "mapped-resources": __S(184, __c23, 0),
-          not_allowed_nodes: S.optional(__S(301, __c37, 5)),
+          local_disks: __S(354, __c44, 2),
+          local_resources: __S(240, __c30, 0),
+          "mapped-resource-info": __S(784, __c98, 0),
+          "mapped-resources": __S(240, __c30, 0),
+          not_allowed_nodes: S.optional(__S(357, __c44, 5)),
           running: S.Union([S.Boolean, S.Literals([0, 1])]),
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidMigrateResult" });
     case 7:
-      return S.suspend(() => __S(302, __c37, 6).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(358, __c44, 6).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidMigrateResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5151,32 +5359,12 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidMtunnelwebsocketResult" });
     case 2:
-      return S.suspend(() => __S(305, __c38, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(361, __c45, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidMtunnelwebsocketResponse",
       });
   }
 }
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cidr: S.String.pipe(T.Label()),
-          digest: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/nodes/{node}/qemu/{vmid}/firewall/ipset/{name}/{cidr}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteNodesByNodeQemuByVmidFirewallIpsetByNameByCidrRequest" });
-  }
-}
-function __c40(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5187,7 +5375,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidPendingRequest" });
   }
 }
-function __c41(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5206,12 +5394,12 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidRrdResult" });
     case 2:
-      return S.suspend(() => __S(329, __c41, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(377, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidRrdResponse",
       });
   }
 }
-function __c42(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5224,7 +5412,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidRrddataRequest" });
   }
 }
-function __c43(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5244,14 +5432,14 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidSnapshotResultItem" });
     case 2:
-      return S.Array(__S(345, __c43, 1));
+      return S.Array(__S(393, __c49, 1));
     case 3:
-      return S.suspend(() => __S(346, __c43, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(394, __c49, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidSnapshotResponse",
       });
   }
 }
-function __c44(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5269,7 +5457,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidSnapshotBySnapnameRequest" });
   }
 }
-function __c45(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5287,7 +5475,26 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidSnapshotBySnapnameConfigRequest" });
   }
 }
-function __c46(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          digest: S.optional(S.String.pipe(T.Query())),
+          node: S.String.pipe(T.Label()),
+          pos: S.optional(S.Number.pipe(T.Label())),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/nodes/{node}/qemu/{vmid}/firewall/rules/{pos}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteNodesByNodeQemuByVmidFirewallRulesByPosRequest" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5298,7 +5505,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidStatusRequest" });
   }
 }
-function __c47(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5318,7 +5525,7 @@ function __c47(j: number): any {
           cpus: S.optional(S.Number),
           diskread: S.optional(S.Number),
           diskwrite: S.optional(S.Number),
-          ha: __S(768, __c96, 0),
+          ha: __S(784, __c98, 0),
           lock: S.optional(S.String),
           maxdisk: S.optional(S.Number),
           maxmem: S.optional(S.Number),
@@ -5347,12 +5554,12 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidStatusCurrentResult" });
     case 2:
-      return S.suspend(() => __S(377, __c47, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(433, __c54, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidStatusCurrentResponse",
       });
   }
 }
-function __c48(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5372,12 +5579,12 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuByVmidVncwebsocketResult" });
     case 2:
-      return S.suspend(() => __S(385, __c48, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(441, __c55, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuByVmidVncwebsocketResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5483,26 +5690,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuRequest" });
   }
 }
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          digest: S.optional(S.String.pipe(T.Query())),
-          node: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number.pipe(T.Label())),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/nodes/{node}/qemu/{vmid}/firewall/rules/{pos}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteNodesByNodeQemuByVmidFirewallRulesByPosRequest" });
-  }
-}
-function __c51(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5514,12 +5702,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentRequest" });
   }
 }
-function __c52(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          command: __S(184, __c23, 0),
+          command: __S(240, __c30, 0),
           "input-data": S.optional(S.String),
           node: S.String.pipe(T.Label()),
           vmid: S.Number.pipe(T.Label()),
@@ -5532,12 +5720,12 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentExecResult" });
     case 2:
-      return S.suspend(() => __S(417, __c52, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(465, __c58, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostNodesByNodeQemuByVmidAgentExecResponse",
       });
   }
 }
-function __c53(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5553,7 +5741,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentFileWriteRequest" });
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5570,7 +5758,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentFsfreezeFreezeRequest" });
   }
 }
-function __c55(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5587,7 +5775,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentFsfreezeStatusRequest" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5604,7 +5792,26 @@ function __c56(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentFsfreezeThawRequest" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          force: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
+          node: S.String.pipe(T.Label()),
+          snapname: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/nodes/{node}/qemu/{vmid}/snapshot/{snapname}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteNodesByNodeQemuByVmidSnapshotBySnapnameRequest" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5617,7 +5824,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentFstrimRequest" });
   }
 }
-function __c58(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5628,7 +5835,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentPingRequest" });
   }
 }
-function __c59(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5648,7 +5855,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentSetUserPasswordRequest" });
   }
 }
-function __c60(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5661,26 +5868,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentShutdownRequest" });
   }
 }
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          force: S.optional(S.Union([S.Boolean, S.Literals([0, 1])]).pipe(T.Query())),
-          node: S.String.pipe(T.Label()),
-          snapname: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/nodes/{node}/qemu/{vmid}/snapshot/{snapname}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteNodesByNodeQemuByVmidSnapshotBySnapnameRequest" });
-  }
-}
-function __c62(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5697,7 +5885,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentSuspendDiskRequest" });
   }
 }
-function __c63(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5714,7 +5902,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentSuspendHybridRequest" });
   }
 }
-function __c64(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5727,7 +5915,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidAgentSuspendRamRequest" });
   }
 }
-function __c65(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5748,7 +5936,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidCloneRequest" });
   }
 }
-function __c66(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5851,7 +6039,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidConfigRequest" });
   }
 }
-function __c67(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5865,89 +6053,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidDbusVmstateRequest" });
   }
 }
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cidr: S.String,
-          comment: S.optional(S.String),
-          name: S.String,
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/nodes/{node}/qemu/{vmid}/firewall/aliases", code: 200 }),
-        ),
-      ).annotate({ identifier: "PostNodesByNodeQemuByVmidFirewallAliasesRequest" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          comment: S.optional(S.String),
-          digest: S.optional(S.String),
-          name: S.String,
-          node: S.String.pipe(T.Label()),
-          rename: S.optional(S.String),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/nodes/{node}/qemu/{vmid}/firewall/ipset", code: 200 }),
-        ),
-      ).annotate({ identifier: "PostNodesByNodeQemuByVmidFirewallIpsetRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cidr: S.String,
-          comment: S.optional(S.String),
-          name: S.String.pipe(T.Label()),
-          node: S.String.pipe(T.Label()),
-          nomatch: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/nodes/{node}/qemu/{vmid}/firewall/ipset/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PostNodesByNodeQemuByVmidFirewallIpsetByNameRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          comment: S.optional(S.String),
-          dest: S.optional(S.String),
-          digest: S.optional(S.String),
-          dport: S.optional(S.String),
-          enable: S.optional(S.Number),
-          "icmp-type": S.optional(S.String),
-          iface: S.optional(S.String),
-          log: S.optional(S.String),
-          macro: S.optional(S.String),
-          node: S.String.pipe(T.Label()),
-          pos: S.optional(S.Number),
-          proto: S.optional(S.String),
-          source: S.optional(S.String),
-          sport: S.optional(S.String),
-          type: S.String,
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/nodes/{node}/qemu/{vmid}/firewall/rules", code: 200 }),
-        ),
-      ).annotate({ identifier: "PostNodesByNodeQemuByVmidFirewallRulesRequest" });
-  }
-}
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5990,14 +6096,96 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "GetNodesByNodeQemuResultItem" });
     case 2:
-      return S.Array(__S(577, __c72, 1));
+      return S.Array(__S(593, __c74, 1));
     case 3:
-      return S.suspend(() => __S(578, __c72, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(594, __c74, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNodesByNodeQemuResponse",
       });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cidr: S.String,
+          comment: S.optional(S.String),
+          name: S.String,
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/nodes/{node}/qemu/{vmid}/firewall/aliases", code: 200 }),
+        ),
+      ).annotate({ identifier: "PostNodesByNodeQemuByVmidFirewallAliasesRequest" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          comment: S.optional(S.String),
+          digest: S.optional(S.String),
+          name: S.String,
+          node: S.String.pipe(T.Label()),
+          rename: S.optional(S.String),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/nodes/{node}/qemu/{vmid}/firewall/ipset", code: 200 }),
+        ),
+      ).annotate({ identifier: "PostNodesByNodeQemuByVmidFirewallIpsetRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cidr: S.String,
+          comment: S.optional(S.String),
+          name: S.String.pipe(T.Label()),
+          node: S.String.pipe(T.Label()),
+          nomatch: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/nodes/{node}/qemu/{vmid}/firewall/ipset/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PostNodesByNodeQemuByVmidFirewallIpsetByNameRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          comment: S.optional(S.String),
+          dest: S.optional(S.String),
+          digest: S.optional(S.String),
+          dport: S.optional(S.String),
+          enable: S.optional(S.Number),
+          "icmp-type": S.optional(S.String),
+          iface: S.optional(S.String),
+          log: S.optional(S.String),
+          macro: S.optional(S.String),
+          node: S.String.pipe(T.Label()),
+          pos: S.optional(S.Number),
+          proto: S.optional(S.String),
+          source: S.optional(S.String),
+          sport: S.optional(S.String),
+          type: S.String,
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/nodes/{node}/qemu/{vmid}/firewall/rules", code: 200 }),
+        ),
+      ).annotate({ identifier: "PostNodesByNodeQemuByVmidFirewallRulesRequest" });
+  }
+}
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6017,7 +6205,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidMigrateRequest" });
   }
 }
-function __c74(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6029,7 +6217,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidMonitorRequest" });
   }
 }
-function __c75(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6049,7 +6237,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidMoveDiskRequest" });
   }
 }
-function __c76(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6069,12 +6257,12 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidMtunnelResult" });
     case 2:
-      return S.suspend(() => __S(609, __c76, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(657, __c82, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostNodesByNodeQemuByVmidMtunnelResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6094,7 +6282,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidRemoteMigrateRequest" });
   }
 }
-function __c78(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6108,7 +6296,34 @@ function __c78(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidSnapshotRequest" });
   }
 }
-function __c79(j: number): any {
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}", code: 200 })),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subdir: S.String,
+        }),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidResultItem" });
+    case 1:
+      return S.Array(__S(688, __c86, 0));
+    case 2:
+      return S.suspend(() => __S(689, __c86, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetNodesByNodeQemuByVmidResponse",
+      });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6127,7 +6342,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidSnapshotBySnapnameRollbackRequest" });
   }
 }
-function __c80(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6148,12 +6363,12 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidSpiceproxyResult" });
     case 2:
-      return S.suspend(() => __S(641, __c80, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(705, __c88, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostNodesByNodeQemuByVmidSpiceproxyResponse",
       });
   }
 }
-function __c81(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6167,7 +6382,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidStatusRebootRequest" });
   }
 }
-function __c82(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6181,34 +6396,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidStatusResetRequest" });
   }
 }
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}", code: 200 })),
-      ).annotate({ identifier: "GetNodesByNodeQemuByVmidRequest" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subdir: S.String,
-        }),
-      ).annotate({ identifier: "GetNodesByNodeQemuByVmidResultItem" });
-    case 1:
-      return S.Array(__S(672, __c84, 0));
-    case 2:
-      return S.suspend(() => __S(673, __c84, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetNodesByNodeQemuByVmidResponse",
-      });
-  }
-}
-function __c85(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6223,7 +6411,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidStatusResumeRequest" });
   }
 }
-function __c86(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6240,7 +6428,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidStatusShutdownRequest" });
   }
 }
-function __c87(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6264,7 +6452,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidStatusStartRequest" });
   }
 }
-function __c88(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6282,7 +6470,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidStatusStopRequest" });
   }
 }
-function __c89(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6298,7 +6486,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidStatusSuspendRequest" });
   }
 }
-function __c90(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6310,7 +6498,34 @@ function __c90(j: number): any {
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidTemplateRequest" });
   }
 }
-function __c91(j: number): any {
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          node: S.String.pipe(T.Label()),
+          vmid: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent", code: 200 })),
+      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(784, __c98, 0));
+    case 1:
+      return S.suspend(() => __S(792, __c99, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetNodesByNodeQemuByVmidAgentResponse",
+      });
+  }
+}
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6330,12 +6545,12 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidTermproxyResult" });
     case 2:
-      return S.suspend(() => __S(729, __c91, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(801, __c100, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostNodesByNodeQemuByVmidTermproxyResponse",
       });
   }
 }
-function __c92(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6358,12 +6573,12 @@ function __c92(j: number): any {
         }),
       ).annotate({ identifier: "PostNodesByNodeQemuByVmidVncproxyResult" });
     case 2:
-      return S.suspend(() => __S(737, __c92, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(809, __c101, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostNodesByNodeQemuByVmidVncproxyResponse",
       });
   }
 }
-function __c93(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6374,7 +6589,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "PutNodesByNodeQemuByVmidCloudinitRequest" });
   }
 }
-function __c94(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6475,39 +6690,12 @@ function __c94(j: number): any {
       ).annotate({ identifier: "PutNodesByNodeQemuByVmidConfigRequest" });
   }
 }
-function __c95(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/nodes/{node}/qemu/{vmid}/agent", code: 200 })),
-      ).annotate({ identifier: "GetNodesByNodeQemuByVmidAgentRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(768, __c96, 0));
-    case 1:
-      return S.suspend(() => __S(776, __c97, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetNodesByNodeQemuByVmidAgentResponse",
-      });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cidr: S.String,
+          cidr: S.optional(S.String),
           comment: S.optional(S.String),
           digest: S.optional(S.String),
           name: S.String.pipe(T.Label()),
@@ -6524,7 +6712,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "PutNodesByNodeQemuByVmidFirewallAliasesByNameRequest" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6546,7 +6734,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "PutNodesByNodeQemuByVmidFirewallIpsetByNameByCidrRequest" });
   }
 }
-function __c100(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6571,7 +6759,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "PutNodesByNodeQemuByVmidFirewallOptionsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6605,7 +6793,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "PutNodesByNodeQemuByVmidFirewallRulesByPosRequest" });
   }
 }
-function __c102(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6620,7 +6808,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "PutNodesByNodeQemuByVmidResizeRequest" });
   }
 }
-function __c103(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6631,38 +6819,6 @@ function __c103(j: number): any {
           vmid: S.Number.pipe(T.Label()),
         }).pipe(T.Http({ method: "PUT", uri: "/nodes/{node}/qemu/{vmid}/sendkey", code: 200 })),
       ).annotate({ identifier: "PutNodesByNodeQemuByVmidSendkeyRequest" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          node: S.String.pipe(T.Label()),
-          snapname: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/nodes/{node}/qemu/{vmid}/snapshot/{snapname}/config",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PutNodesByNodeQemuByVmidSnapshotBySnapnameConfigRequest" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          force: S.optional(S.Union([S.Boolean, S.Literals([0, 1])])),
-          idlist: S.String,
-          node: S.String.pipe(T.Label()),
-          vmid: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "PUT", uri: "/nodes/{node}/qemu/{vmid}/unlink", code: 200 })),
-      ).annotate({ identifier: "PutNodesByNodeQemuByVmidUnlinkRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

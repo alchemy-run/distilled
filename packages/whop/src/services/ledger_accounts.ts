@@ -29,44 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface GetLedgerAccountRequest {
   /** The identifier to look up the ledger account. Accepts a user ID ('user_xxx'), company ID ('biz_xxx'), or ledger account ID ('ldgr_xxx'). */
@@ -348,6 +368,17 @@ export interface LedgerAccount {
   /** The balance cache associated with the account by currency. */
   treasury_balance: LedgerAccountTreasuryBalance | null;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type GetLedgerAccountError =
   | BadRequest
   | Forbidden
@@ -361,8 +392,8 @@ export const getLedgerAccount: API.OperationMethod<
   GetLedgerAccountError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetLedgerAccountRequest>,
-  output: __S(8, __c0, 8) as any as S.Schema<LedgerAccount>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetLedgerAccountRequest>,
+  output: __S(24, __c1, 8) as any as S.Schema<LedgerAccount>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -372,6 +403,25 @@ export const getLedgerAccount: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -389,7 +439,7 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "LedgerAccountBalancesItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(17, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -422,12 +472,12 @@ function __c0(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          address: S.NullOr(__S(3, __c0, 3)),
+          address: S.NullOr(__S(19, __c1, 3)),
           business_name: S.NullOr(S.String),
-          business_representative: S.NullOr(__S(4, __c0, 4)),
+          business_representative: S.NullOr(__S(20, __c1, 4)),
           email: S.NullOr(S.String),
           id: S.String,
-          latest_verification: S.NullOr(__S(5, __c0, 5)),
+          latest_verification: S.NullOr(__S(21, __c1, 5)),
           phone: S.NullOr(S.String),
           status: S.NullOr(S.String),
         }),
@@ -446,16 +496,16 @@ function __c0(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          balances: __S(2, __c0, 2),
+          balances: __S(18, __c1, 2),
           id: S.String,
           ledger_type: S.String,
           owner: S.Unknown,
           payments_approval_status: S.NullOr(S.String),
-          payout_account_details: S.NullOr(__S(6, __c0, 6)),
+          payout_account_details: S.NullOr(__S(22, __c1, 6)),
           payout_quote_required: S.Boolean,
           settlement_time_at: S.NullOr(S.String),
           transfer_fee: S.NullOr(S.Number),
-          treasury_balance: S.NullOr(__S(7, __c0, 7)),
+          treasury_balance: S.NullOr(__S(23, __c1, 7)),
         }),
       ).annotate({ identifier: "LedgerAccount" });
   }

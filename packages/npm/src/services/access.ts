@@ -30,11 +30,16 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error401Body | string;
+}
 
 /** The access level of the package to grant to the team */
 export type CreateTeamPackageGrantRequestPermissions = "read-only" | "read-write";
@@ -97,6 +102,10 @@ export interface SetPackageAccessRequest {
   automation_token_overrides_tfa?: boolean | undefined;
 }
 export interface SetPackageAccessResponse {}
+export interface Error401Body {
+  /** Error message */
+  error?: string | undefined;
+}
 export type CreateTeamPackageGrantError = Forbidden | NpmOpError;
 /** Grant access to a package for a team Grant a team access to a package. Granular Access Tokens with `bypass_2fa: true` are not permitted to call this endpoint and receive `403 Forbidden`. This operation must be performed via an interactive 2FA challenge. */
 export const createTeamPackageGrant: API.OperationMethod<
@@ -105,8 +114,8 @@ export const createTeamPackageGrant: API.OperationMethod<
   CreateTeamPackageGrantError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTeamPackageGrantRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<CreateTeamPackageGrantResponse>,
+  input: __S(2, __c1, 0) as any as S.Schema<CreateTeamPackageGrantRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<CreateTeamPackageGrantResponse>,
   errors: [Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -122,8 +131,8 @@ export const deleteTeamPackageGrant: API.OperationMethod<
   DeleteTeamPackageGrantError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<DeleteTeamPackageGrantRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<DeleteTeamPackageGrantResponse>,
+  input: __S(6, __c3, 0) as any as S.Schema<DeleteTeamPackageGrantRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<DeleteTeamPackageGrantResponse>,
   errors: [Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -139,8 +148,8 @@ export const getOrgPackages: API.OperationMethod<
   GetOrgPackagesError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<GetOrgPackagesRequest>,
-  output: __S(9, __c4, 1) as any as S.Schema<GetOrgPackagesResponse>,
+  input: __S(8, __c4, 0) as any as S.Schema<GetOrgPackagesRequest>,
+  output: __S(11, __c5, 1) as any as S.Schema<GetOrgPackagesResponse>,
   errors: [UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -156,8 +165,8 @@ export const getPackageCollaborators: API.OperationMethod<
   GetPackageCollaboratorsError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<GetPackageCollaboratorsRequest>,
-  output: __S(9, __c4, 1) as any as S.Schema<GetPackageCollaboratorsResponse>,
+  input: __S(12, __c6, 0) as any as S.Schema<GetPackageCollaboratorsRequest>,
+  output: __S(11, __c5, 1) as any as S.Schema<GetPackageCollaboratorsResponse>,
   errors: [UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -173,8 +182,8 @@ export const getPackageVisibility: API.OperationMethod<
   GetPackageVisibilityError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<GetPackageVisibilityRequest>,
-  output: __S(13, __c6, 1) as any as S.Schema<GetPackageVisibilityResponse>,
+  input: __S(14, __c7, 0) as any as S.Schema<GetPackageVisibilityRequest>,
+  output: __S(15, __c7, 1) as any as S.Schema<GetPackageVisibilityResponse>,
   errors: [UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -190,8 +199,8 @@ export const getTeamPackageGrants: API.OperationMethod<
   GetTeamPackageGrantsError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<GetTeamPackageGrantsRequest>,
-  output: __S(9, __c4, 1) as any as S.Schema<GetTeamPackageGrantsResponse>,
+  input: __S(16, __c8, 0) as any as S.Schema<GetTeamPackageGrantsRequest>,
+  output: __S(11, __c5, 1) as any as S.Schema<GetTeamPackageGrantsResponse>,
   errors: [UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -207,8 +216,8 @@ export const setPackageAccess: API.OperationMethod<
   SetPackageAccessError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<SetPackageAccessRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<SetPackageAccessResponse>,
+  input: __S(18, __c9, 0) as any as S.Schema<SetPackageAccessRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<SetPackageAccessResponse>,
   errors: [Forbidden, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -222,6 +231,16 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error401Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           orgName: S.String.pipe(T.Label()),
           teamName: S.String.pipe(T.Label()),
           package: S.optional(S.String),
@@ -230,7 +249,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateTeamPackageGrantRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -238,7 +257,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -251,7 +270,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteTeamPackageGrantRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -261,17 +280,17 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetOrgPackagesRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
     case 1:
-      return S.suspend(() => __S(8, __c4, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10, __c5, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOrgPackagesResponse",
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -287,7 +306,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetPackageCollaboratorsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -305,7 +324,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetPackageVisibilityResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -316,7 +335,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetTeamPackageGrantsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

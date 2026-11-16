@@ -2472,11 +2472,11 @@ export interface ColumnInformation {
 }
 export type ColumnInformationList = ColumnInformation[];
 export type ColumnValue = string;
-export type Result = string[];
-export type RowList = string[][];
+export type Result = (string | null)[];
+export type RowList = (string | null)[][];
 export interface GetQueryResultsResponse {
   columnInfo?: ColumnInformation[] | undefined;
-  rows?: string[][] | undefined;
+  rows?: (string | null)[][] | undefined;
   nextToken?: string | undefined;
 }
 export type GetSearchResultsRequestMaxResultsInteger = number;
@@ -9524,7 +9524,7 @@ function __c1(j: number): any {
     case 2:
       return S.Array(__S(17, __c1, 1));
     case 3:
-      return S.Array(S.String).pipe(/*@__PURE__*/ T.Sparse());
+      return S.Array(/*@__PURE__*/ S.NullOr(S.String)).pipe(/*@__PURE__*/ T.Sparse());
     case 4:
       return S.Array(__S(19, __c1, 3));
     case 5:
@@ -10448,10 +10448,10 @@ function __c26(j: number): any {
           timeSeriesId: S.optional(S.String).pipe(T.HttpQuery("timeSeriesId")),
           status: S.optional(S.String).pipe(T.HttpQuery("status")),
           jobType: S.optional(S.String).pipe(T.HttpQuery("jobType")),
-          startDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startDate"),
           ),
-          endDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endDate"),
           ),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -10594,16 +10594,16 @@ function __c30(j: number): any {
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           state: S.optional(S.String).pipe(T.HttpQuery("state")),
-          startTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startTimeAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTimeAfter"),
           ),
-          startTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startTimeBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startTimeBefore"),
           ),
-          endTimeAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endTimeAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTimeAfter"),
           ),
-          endTimeBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endTimeBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endTimeBefore"),
           ),
         }).pipe(
@@ -15083,8 +15083,12 @@ function __c220(j: number): any {
           aggregateTypes: __S(1280, __c80, 0).pipe(T.HttpQuery("aggregateTypes")),
           resolution: S.String.pipe(T.HttpQuery("resolution")),
           qualities: S.optional(__S(1280, __c80, 0)).pipe(T.HttpQuery("qualities")),
-          startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startDate")),
-          endDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endDate")),
+          startDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("startDate"),
+          ),
+          endDate: T.DateFromString.pipe(T.TimestampFormat("date-time")).pipe(
+            T.HttpQuery("endDate"),
+          ),
           timeOrdering: S.optional(S.String).pipe(T.HttpQuery("timeOrdering")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -15131,10 +15135,10 @@ function __c222(j: number): any {
           assetId: S.optional(S.String).pipe(T.HttpQuery("assetId")),
           propertyId: S.optional(S.String).pipe(T.HttpQuery("propertyId")),
           propertyAlias: S.optional(S.String).pipe(T.HttpQuery("propertyAlias")),
-          startDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startDate"),
           ),
-          endDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endDate"),
           ),
           qualities: S.optional(__S(1280, __c80, 0)).pipe(T.HttpQuery("qualities")),

@@ -47,6 +47,7 @@
  */
 
 import { unionizeDiscriminators } from "./discriminators.ts";
+import { ERROR_BODIES_TRAIT } from "./generator.ts";
 import { ADDITIONAL_PROPERTIES_TRAIT } from "./members.ts";
 import {
   isMechanicalOperationId,
@@ -1367,6 +1368,23 @@ const targetCounts = (shapes: Record<string, any>): Map<string, number> => {
   return counts;
 };
 
+/**
+ * The JSON schema an error response documents, or `undefined` for none (an
+ * empty, non-JSON or schema-less response). Any `*json` media type counts,
+ * e.g. `application/problem+json`.
+ */
+const errorBodySchema = (ctx: Ctx, raw: any): any | undefined => {
+  const resp = raw?.$ref ? resolvePointer(ctx.spec, raw.$ref) : raw;
+  if (!resp || typeof resp !== "object") return undefined;
+  if (ctx.version === "2.0") return resp.schema ?? undefined;
+  for (const [type, media] of Object.entries<any>(resp.content ?? {})) {
+    if (/json/i.test(type) && media?.schema && typeof media.schema === "object") {
+      return media.schema;
+    }
+  }
+  return undefined;
+};
+
 /** First declared status wins; resolve response refs and preserve JSON or binary bodies. */
 const successSchema = (
   ctx: Ctx,
@@ -1595,6 +1613,20 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
   const serviceName = uniqueName(ctx, options.serviceName);
 
   const usedErrors = new Map<string, number>(); // class name → first status
+  // A documented error-body schema → its shape (undefined: untyped), so a
+  // schema repeated inline across operations becomes one shape.
+  const errorBodyShapes = new Map<string, string | undefined>();
+  const errorBodyShape = (status: string, schema: any): string | undefined => {
+    const key = typeof schema.$ref === "string" ? schema.$ref : JSON.stringify(schema);
+    if (!errorBodyShapes.has(key)) {
+      const { target } = convertSchema(ctx, schema, `Error${status}Body`, 0, "out");
+      errorBodyShapes.set(
+        key,
+        target === PRELUDE.Document || target === PRELUDE.Unit ? undefined : target,
+      );
+    }
+    return errorBodyShapes.get(key);
+  };
   const serviceOps: Array<{ target: string }> = [];
   const componentHeaders: Array<{
     readonly opId: string;
@@ -1932,8 +1964,12 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
 
       // ---- Errors ----
       const errors: Array<{ target: string }> = [];
+      const errorBodies: Array<{ status: number; target: string }> = [];
       for (const status of Object.keys(op.responses ?? {})) {
         if (!/^[45]\d\d$/.test(status)) continue;
+        const schema = errorBodySchema(ctx, op.responses[status]);
+        const body = schema === undefined ? undefined : errorBodyShape(status, schema);
+        if (body !== undefined) errorBodies.push({ status: Number(status), target: body });
         if (defaultErrorStatuses.has(status)) continue;
         const cls = statusToErrorClass[status];
         if (!cls) continue;
@@ -1958,6 +1994,7 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
       const documentation = opDoc(op);
       if (documentation) traits["smithy.api#documentation"] = documentation;
       if (pagination) traits["smithy.api#paginated"] = pagination;
+      if (errorBodies.length > 0) traits[ERROR_BODIES_TRAIT] = errorBodies;
       if (contentType) traits[CONTENT_TYPE_TRAIT] = contentType;
       if (options.apiVersion !== undefined) {
         traits[API_VERSION_TRAIT] = options.apiVersion;

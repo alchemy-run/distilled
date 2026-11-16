@@ -31,11 +31,16 @@ export class ContentTooLarge
     /*@__PURE__*/ S.TaggedError<ContentTooLarge>()("ContentTooLarge", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(35, __c1, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 413 }],
-  ) {}
+  )
+{
+  declare readonly body?: HandlerErrorResponse | string;
+}
 
 /** A database with this name already exists (HydraDB DATABASE_ALREADY_EXISTS, HTTP 409). */
 export class DatabaseAlreadyExists
@@ -43,11 +48,16 @@ export class DatabaseAlreadyExists
     /*@__PURE__*/ S.TaggedError<DatabaseAlreadyExists>()("DatabaseAlreadyExists", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(35, __c1, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/error/code": "DATABASE_ALREADY_EXISTS" } }],
-  ) {}
+  )
+{
+  declare readonly body?: HandlerErrorResponse | string;
+}
 
 /** The database does not exist or the API key cannot see it (HydraDB DATABASE_NOT_FOUND, HTTP 404). Check the `database` name; `listDatabases` lists the visible ones. */
 export class DatabaseNotFound
@@ -55,11 +65,16 @@ export class DatabaseNotFound
     /*@__PURE__*/ S.TaggedError<DatabaseNotFound>()("DatabaseNotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(35, __c1, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/code": "DATABASE_NOT_FOUND" } }],
-  ) {}
+  )
+{
+  declare readonly body?: HandlerErrorResponse | string;
+}
 
 /** The database exists but its infrastructure is still provisioning (HydraDB TENANT_INFRA_NOT_READY, HTTP 422). Poll `getDatabaseStatus` until `infra.ready_for_ingestion` is true, then retry. */
 export class DatabaseNotReady
@@ -67,22 +82,32 @@ export class DatabaseNotReady
     /*@__PURE__*/ S.TaggedError<DatabaseNotReady>()("DatabaseNotReady", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(35, __c1, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422, body: { "/error/code": "TENANT_INFRA_NOT_READY" } }],
-  ) {}
+  )
+{
+  declare readonly body?: HandlerErrorResponse | string;
+}
 
 export class UnsupportedMediaType
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnsupportedMediaType>()("UnsupportedMediaType", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(35, __c1, 3)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 415 }],
-  ) {}
+  )
+{
+  declare readonly body?: HandlerErrorResponse | string;
+}
 
 export interface ClearWebhookSigningSecretRequest {}
 /** Event types to subscribe to (e.g. `["indexing.status_changed"]`). */
@@ -2441,6 +2466,57 @@ export interface HandlerMetadataSchemaUpdateResponse {
   /** Deprecated: use `database`. */
   tenant_id?: string | undefined;
 }
+export interface HandlerErrorDetail {
+  /** Whether this response concerns a deprecated field or route. */
+  deprecated?: boolean | undefined;
+  /** The deprecated field name. */
+  deprecated_field?: string | undefined;
+  /** API version that deprecated the conflicting selector. */
+  deprecated_since?: string | undefined;
+  /** Machine-readable error classification code. */
+  error_code?: string | undefined;
+  /** Human-readable description of the error. */
+  message?: string | undefined;
+  /** The canonical replacement for the deprecated field. */
+  preferred_field?: string | undefined;
+  /** Seconds to wait before retrying deletion of context that is still indexing. */
+  retry_after_seconds?: number | undefined;
+  /** Whether retrying this failed query can succeed. Present for search workflow failures. */
+  retryable?: boolean | undefined;
+  /** Deprecated: always `false`. Read the HTTP status, then `error.code` and `error.message`. */
+  success?: boolean | undefined;
+}
+/** Extra facts about the error, as string pairs. Omitted when there are none. */
+export type HandlerApiErrorDetailsMap = { [key: string]: string | undefined };
+export interface HandlerApiError {
+  /** Machine-readable error code (e.g. `DATABASE_NOT_FOUND`). */
+  code?: string | undefined;
+  /** Extra facts about the error, as string pairs. Omitted when there are none. */
+  details?: HandlerApiErrorDetailsMap | undefined;
+  /** Human-readable description of the error. */
+  message?: string | undefined;
+  /** The request field that caused the error. Omitted when no single field is at fault. */
+  param?: string | undefined;
+}
+export interface HandlerErrorMeta {
+  /** Version of the API that served the request, for example `2.0.1`. */
+  api_version?: string | undefined;
+  /** Server-side processing time in milliseconds. */
+  latency_ms?: number | undefined;
+  /** Unique identifier for this request, useful for support and tracing. */
+  request_id?: string | undefined;
+}
+export interface HandlerErrorResponse {
+  /** Always `null` on this error response. */
+  data?: unknown | null | undefined;
+  /** Structured error detail with code, message, and deprecation hints. */
+  detail?: HandlerErrorDetail | undefined;
+  /** Error message, empty string on success. */
+  error?: HandlerApiError | undefined;
+  meta?: HandlerErrorMeta | undefined;
+  /** Whether the request succeeded. */
+  success?: boolean | undefined;
+}
 export type ClearWebhookSigningSecretError = HydraDBOpError;
 /** Disable webhook signing Remove the webhook signing secret. */
 export const clearWebhookSigningSecret: API.OperationMethod<
@@ -2449,8 +2525,8 @@ export const clearWebhookSigningSecret: API.OperationMethod<
   ClearWebhookSigningSecretError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ClearWebhookSigningSecretRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<WebhooksWebhookRegisterResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ClearWebhookSigningSecretRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<WebhooksWebhookRegisterResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2466,8 +2542,8 @@ export const configureConnector: API.OperationMethod<
   ConfigureConnectorError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1636, __c51, 4) as any as S.Schema<ConfigureConnectorRequest>,
-  output: __S(1637, __c51, 5) as any as S.Schema<HandlerConfigureResponse>,
+  input: __S(1668, __c52, 4) as any as S.Schema<ConfigureConnectorRequest>,
+  output: __S(1669, __c52, 5) as any as S.Schema<HandlerConfigureResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2483,8 +2559,8 @@ export const createConnector: API.OperationMethod<
   CreateConnectorError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<CreateConnectorRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<HandlerConnectorCreateResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<CreateConnectorRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<HandlerConnectorCreateResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2500,8 +2576,8 @@ export const createConnectorResource: API.OperationMethod<
   CreateConnectorResourceError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<CreateConnectorResourceRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<HandlerResourceCreateResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<CreateConnectorResourceRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<HandlerResourceCreateResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2517,8 +2593,8 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<TenantsTenantCreateAcceptedResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<TenantsTenantCreateAcceptedResponse>,
   errors: [DatabaseAlreadyExists, UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2534,8 +2610,8 @@ export const deleteCollection: API.OperationMethod<
   DeleteCollectionError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteCollectionRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<TenantsSubTenantDeleteResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<DeleteCollectionRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<TenantsSubTenantDeleteResponse>,
   errors: [DatabaseNotFound, UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2551,8 +2627,8 @@ export const deleteConnector: API.OperationMethod<
   DeleteConnectorError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<DeleteConnectorRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<HandlerConnectorDeleteResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<HandlerConnectorDeleteResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2568,8 +2644,8 @@ export const deleteConnectorResource: API.OperationMethod<
   DeleteConnectorResourceError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<DeleteConnectorResourceRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<HandlerResourceDeleteResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<DeleteConnectorResourceRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<HandlerResourceDeleteResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2585,8 +2661,8 @@ export const deleteContext: API.OperationMethod<
   DeleteContextError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<DeleteContextRequest>,
-  output: __S(99, __c3, 3) as any as S.Schema<SourcesMemoryDeleteResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<DeleteContextRequest>,
+  output: __S(163, __c5, 3) as any as S.Schema<SourcesMemoryDeleteResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2602,8 +2678,8 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<TenantsTenantDeleteResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<TenantsTenantDeleteResponse>,
   errors: [DatabaseNotFound, UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2619,8 +2695,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<WebhooksWebhookDeleteResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<WebhooksWebhookDeleteResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2636,8 +2712,8 @@ export const discoverConnectorResources: API.OperationMethod<
   DiscoverConnectorResourcesError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DiscoverConnectorResourcesRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<HandlerDiscoverResponseBody>,
+  input: __S(256, __c8, 0) as any as S.Schema<DiscoverConnectorResourcesRequest>,
+  output: __S(259, __c8, 3) as any as S.Schema<HandlerDiscoverResponseBody>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2653,8 +2729,8 @@ export const getConnector: API.OperationMethod<
   GetConnectorError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetConnectorRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<HandlerConnectorAPIView>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetConnectorRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<HandlerConnectorAPIView>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2670,8 +2746,8 @@ export const getConnectorStatus: API.OperationMethod<
   GetConnectorStatusError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetConnectorStatusRequest>,
-  output: __S(292, __c9, 4) as any as S.Schema<HandlerConnectorStatusResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetConnectorStatusRequest>,
+  output: __S(356, __c11, 4) as any as S.Schema<HandlerConnectorStatusResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2687,8 +2763,8 @@ export const getContextStatus: API.OperationMethod<
   GetContextStatusError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetContextStatusRequest>,
-  output: __S(355, __c11, 3) as any as S.Schema<IngestionV2BatchProcessingStatus>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetContextStatusRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<IngestionV2BatchProcessingStatus>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2704,8 +2780,8 @@ export const getContextSubgraph: API.OperationMethod<
   GetContextSubgraphError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetContextSubgraphRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<GraphSourceSubgraphResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetContextSubgraphRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<GraphSourceSubgraphResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2721,8 +2797,8 @@ export const getContextSubgraphById: API.OperationMethod<
   GetContextSubgraphByIdError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetContextSubgraphByIdRequest>,
-  output: __S(418, __c13, 2) as any as S.Schema<GraphSourceSubgraphResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetContextSubgraphByIdRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<GraphSourceSubgraphResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2738,8 +2814,8 @@ export const getDatabaseStats: API.OperationMethod<
   GetDatabaseStatsError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetDatabaseStatsRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<TenantsTenantStatsResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetDatabaseStatsRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<TenantsTenantStatsResponse>,
   errors: [DatabaseNotFound, UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2755,8 +2831,8 @@ export const getDatabaseStatus: API.OperationMethod<
   GetDatabaseStatusError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetDatabaseStatusRequest>,
-  output: __S(547, __c17, 3) as any as S.Schema<TenantsInfraStatusResponseV2>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetDatabaseStatusRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<TenantsInfraStatusResponseV2>,
   errors: [DatabaseNotFound, UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2772,8 +2848,8 @@ export const getMetadataSchema: API.OperationMethod<
   GetMetadataSchemaError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetMetadataSchemaRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<TenantsTenantMetadataSchemaResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetMetadataSchemaRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<TenantsTenantMetadataSchemaResponse>,
   errors: [DatabaseNotFound, UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2789,8 +2865,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<WebhooksWebhookGetResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<WebhooksWebhookGetResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2806,8 +2882,8 @@ export const getWebhookDelivery: API.OperationMethod<
   GetWebhookDeliveryError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetWebhookDeliveryRequest>,
-  output: __S(672, __c21, 0) as any as S.Schema<WebhooksDeliveryItem>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetWebhookDeliveryRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<WebhooksDeliveryItem>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2827,8 +2903,8 @@ export const ingestContext: API.OperationMethod<
   IngestContextError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(705, __c22, 1) as any as S.Schema<IngestContextRequest>,
-  output: __S(708, __c22, 4) as any as S.Schema<IngestionV2IngestResponse>,
+  input: __S(769, __c24, 1) as any as S.Schema<IngestContextRequest>,
+  output: __S(772, __c24, 4) as any as S.Schema<IngestionV2IngestResponse>,
   errors: [ContentTooLarge, UnsupportedMediaType, DatabaseNotReady, UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2844,8 +2920,8 @@ export const inspectContext: API.OperationMethod<
   InspectContextError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<InspectContextRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<FetchV2SourceFetchResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<InspectContextRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<FetchV2SourceFetchResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2861,8 +2937,8 @@ export const listCollections: API.OperationMethod<
   ListCollectionsError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListCollectionsRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<TenantsSubTenantIdsResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListCollectionsRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<TenantsSubTenantIdsResponse>,
   errors: [DatabaseNotFound, UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2878,8 +2954,8 @@ export const listConnectorProviders: API.OperationMethod<
   ListConnectorProvidersError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListConnectorProvidersRequest>,
-  output: __S(810, __c25, 10) as any as S.Schema<ListConnectorProvidersResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListConnectorProvidersRequest>,
+  output: __S(874, __c27, 10) as any as S.Schema<ListConnectorProvidersResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2895,8 +2971,8 @@ export const listConnectorResources: API.OperationMethod<
   ListConnectorResourcesError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListConnectorResourcesRequest>,
-  output: __S(835, __c26, 3) as any as S.Schema<HandlerConnectorResourcesResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListConnectorResourcesRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<HandlerConnectorResourcesResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2912,8 +2988,8 @@ export const listConnectors: API.OperationMethod<
   ListConnectorsError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ListConnectorsRequest>,
-  output: __S(867, __c27, 3) as any as S.Schema<HandlerConnectorListResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListConnectorsRequest>,
+  output: __S(931, __c29, 3) as any as S.Schema<HandlerConnectorListResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2929,8 +3005,8 @@ export const listContext: API.OperationMethod<
   ListContextError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(930, __c29, 2) as any as S.Schema<ListContextRequest>,
-  output: __S(937, __c29, 9) as any as S.Schema<ListV2ListResponse>,
+  input: __S(962, __c30, 2) as any as S.Schema<ListContextRequest>,
+  output: __S(969, __c30, 9) as any as S.Schema<ListV2ListResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2946,8 +3022,8 @@ export const listContextRelations: API.OperationMethod<
   ListContextRelationsError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListContextRelationsRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<GraphGraphRelationsResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListContextRelationsRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<GraphGraphRelationsResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2963,8 +3039,8 @@ export const listDatabases: API.OperationMethod<
   ListDatabasesError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ListDatabasesRequest>,
-  output: __S(995, __c31, 3) as any as S.Schema<TenantsTenantIdsResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListDatabasesRequest>,
+  output: __S(1027, __c32, 3) as any as S.Schema<TenantsTenantIdsResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2980,8 +3056,8 @@ export const listWebhookDeliveries: API.OperationMethod<
   ListWebhookDeliveriesError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<WebhooksDeliveryListResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<WebhooksDeliveryListResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -2997,8 +3073,8 @@ export const pauseConnector: API.OperationMethod<
   PauseConnectorError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<PauseConnectorRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<HandlerConnectorPauseResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<PauseConnectorRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<HandlerConnectorPauseResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3010,8 +3086,8 @@ export type QueryError = DatabaseNotFound | DatabaseNotReady | HydraDBOpError;
 /** Unified query Search a database for ranked chunks and graph context. Filter with `metadata_filters`, `ids` or `titles`. Results include `llm_prompt` unless `response_format` changes it. */
 export const query: API.OperationMethod<QueryRequest, QueryResponse, QueryError, HydraDBOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1123, __c35, 3) as any as S.Schema<QueryRequest>,
-    output: __S(1159, __c36, 7) as any as S.Schema<QueryResponse>,
+    input: __S(1155, __c36, 3) as any as S.Schema<QueryRequest>,
+    output: __S(1191, __c37, 7) as any as S.Schema<QueryResponse>,
     errors: [DatabaseNotFound, DatabaseNotReady, UnknownHydraDBError],
     protocol: HydraDBProtocol,
     retry: Retry.Retry,
@@ -3027,8 +3103,8 @@ export const registerWebhook: API.OperationMethod<
   RegisterWebhookError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<RegisterWebhookRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<WebhooksWebhookRegisterResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<RegisterWebhookRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<WebhooksWebhookRegisterResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3044,8 +3120,8 @@ export const resumeConnector: API.OperationMethod<
   ResumeConnectorError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ResumeConnectorRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<HandlerConnectorPauseResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ResumeConnectorRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<HandlerConnectorPauseResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3061,8 +3137,8 @@ export const retryWebhookDelivery: API.OperationMethod<
   RetryWebhookDeliveryError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<RetryWebhookDeliveryRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<WebhooksRetryResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<RetryWebhookDeliveryRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<WebhooksRetryResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3078,8 +3154,8 @@ export const setWebhookSigningSecret: API.OperationMethod<
   SetWebhookSigningSecretError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<SetWebhookSigningSecretRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<WebhooksSigningSecretResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<SetWebhookSigningSecretRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<WebhooksSigningSecretResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3095,8 +3171,8 @@ export const submitFeedback: API.OperationMethod<
   SubmitFeedbackError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1313, __c41, 1) as any as S.Schema<SubmitFeedbackRequest>,
-  output: __S(1314, __c41, 2) as any as S.Schema<FeedbackSubmitResponse>,
+  input: __S(1345, __c42, 1) as any as S.Schema<SubmitFeedbackRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<FeedbackSubmitResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3112,8 +3188,8 @@ export const syncConnector: API.OperationMethod<
   SyncConnectorError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<SyncConnectorRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<HandlerConnectorSyncResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<SyncConnectorRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<HandlerConnectorSyncResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3129,8 +3205,8 @@ export const testWebhook: API.OperationMethod<
   TestWebhookError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<TestWebhookRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<WebhooksWebhookTestResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<TestWebhookRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<WebhooksWebhookTestResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3146,8 +3222,8 @@ export const updateConnector: API.OperationMethod<
   UpdateConnectorError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<UpdateConnectorRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<HandlerConnectorUpdateResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<UpdateConnectorRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<HandlerConnectorUpdateResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3163,8 +3239,8 @@ export const updateConnectorResource: API.OperationMethod<
   UpdateConnectorResourceError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<UpdateConnectorResourceRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<HandlerResourceUpdateResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<UpdateConnectorResourceRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<HandlerResourceUpdateResponse>,
   errors: [UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3180,10 +3256,10 @@ export const updateContextMetadata: API.OperationMethod<
   UpdateContextMetadataError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<UpdateContextMetadataRequest>,
+  input: __S(1504, __c47, 0) as any as S.Schema<UpdateContextMetadataRequest>,
   output: __S(
-    1473,
-    __c46,
+    1505,
+    __c47,
     1,
   ) as any as S.Schema<GithubComHydradbHydradbApplicationInternalServiceMetadataEditResult>,
   errors: [UnknownHydraDBError],
@@ -3201,8 +3277,8 @@ export const updateMetadataSchema: API.OperationMethod<
   UpdateMetadataSchemaError,
   HydraDBOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UpdateMetadataSchemaRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<HandlerMetadataSchemaUpdateResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<UpdateMetadataSchemaRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<HandlerMetadataSchemaUpdateResponse>,
   errors: [DatabaseNotFound, UnknownHydraDBError],
   protocol: HydraDBProtocol,
   retry: Retry.Retry,
@@ -3212,6 +3288,57 @@ export const updateMetadataSchema: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deprecated: S.optional(S.Boolean),
+          deprecated_field: S.optional(S.String),
+          deprecated_since: S.optional(S.String),
+          error_code: S.optional(S.String),
+          message: S.optional(S.String),
+          preferred_field: S.optional(S.String),
+          retry_after_seconds: S.optional(S.Number),
+          retryable: S.optional(S.Boolean),
+          success: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HandlerErrorDetail" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          details: S.optional(__S(0, __c0, 0)),
+          message: S.optional(S.String),
+          param: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HandlerApiError" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          api_version: S.optional(S.String),
+          latency_ms: S.optional(S.Number),
+          request_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HandlerErrorMeta" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.NullOr(S.Unknown)),
+          detail: S.optional(__S(32, __c1, 0)),
+          error: S.optional(__S(33, __c1, 1)),
+          meta: S.optional(__S(34, __c1, 2)),
+          success: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HandlerErrorResponse" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3233,7 +3360,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "TenantsSubTenantDeleteResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3250,7 +3377,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "HandlerConnectorDeleteResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3271,7 +3398,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "HandlerResourceDeleteResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3279,7 +3406,7 @@ function __c3(j: number): any {
           xHydraDBDeleteStatus: S.optional(S.String.pipe(T.Header("X-HydraDB-Delete-Status"))),
           collection: S.optional(S.String),
           database: S.optional(S.String),
-          ids: S.optional(__S(1600, __c50, 0)),
+          ids: S.optional(__S(1632, __c51, 0)),
           sub_tenant_id: S.optional(S.String),
           tenant_id: S.optional(S.String),
           type: S.optional(S.String),
@@ -3294,20 +3421,20 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "SourcesSourceDeleteResultItem" });
     case 2:
-      return S.Array(__S(97, __c3, 1));
+      return S.Array(__S(161, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           deleted_count: S.optional(S.Number),
           message: S.optional(S.String),
-          results: S.optional(__S(98, __c3, 2)),
+          results: S.optional(__S(162, __c5, 2)),
           success: S.optional(S.Boolean),
           user_memory_deleted: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SourcesMemoryDeleteResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3317,7 +3444,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3332,7 +3459,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "WebhooksWebhookDeleteResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3346,36 +3473,36 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          metadata: S.optional(__S(1696, __c53, 0)),
+          metadata: S.optional(__S(1728, __c54, 0)),
           name: S.String,
           resource_type: S.String,
         }),
       ).annotate({ identifier: "HandlerDiscoveredResourceDTO" });
     case 2:
-      return S.Array(__S(193, __c6, 1));
+      return S.Array(__S(257, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          channels: S.optional(__S(194, __c6, 2)),
-          databases: S.optional(__S(194, __c6, 2)),
+          channels: S.optional(__S(258, __c8, 2)),
+          databases: S.optional(__S(258, __c8, 2)),
           google_group_membership_resolves: S.optional(S.Boolean),
           has_more: S.optional(S.Boolean),
-          mailboxes: S.optional(__S(194, __c6, 2)),
+          mailboxes: S.optional(__S(258, __c8, 2)),
           next_cursor: S.optional(S.String),
-          other: S.optional(__S(194, __c6, 2)),
-          pages: S.optional(__S(194, __c6, 2)),
-          primary: S.optional(__S(194, __c6, 2)),
-          projects: S.optional(__S(194, __c6, 2)),
+          other: S.optional(__S(258, __c8, 2)),
+          pages: S.optional(__S(258, __c8, 2)),
+          primary: S.optional(__S(258, __c8, 2)),
+          projects: S.optional(__S(258, __c8, 2)),
           provider: S.String,
-          repos: S.optional(__S(194, __c6, 2)),
-          resources: __S(194, __c6, 2),
-          shared: S.optional(__S(194, __c6, 2)),
-          teams: S.optional(__S(194, __c6, 2)),
+          repos: S.optional(__S(258, __c8, 2)),
+          resources: __S(258, __c8, 2),
+          shared: S.optional(__S(258, __c8, 2)),
+          teams: S.optional(__S(258, __c8, 2)),
         }),
       ).annotate({ identifier: "HandlerDiscoverResponseBody" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3385,7 +3512,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetConnectorRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3426,7 +3553,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "HandlerConnectorAPIView" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3469,26 +3596,26 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "HandlerConnectorResourceStatus" });
     case 3:
-      return S.Array(__S(290, __c9, 2));
+      return S.Array(__S(354, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           connector_id: S.optional(S.String),
-          error: S.optional(S.NullOr(__S(289, __c9, 1))),
+          error: S.optional(S.NullOr(__S(353, __c11, 1))),
           last_attempted_sync_at: S.optional(S.String),
           last_successful_sync_at: S.optional(S.String),
           lifecycle: S.optional(S.String),
           next_sync_at: S.optional(S.String),
-          plan_cap: S.optional(__S(320, __c10, 0)),
+          plan_cap: S.optional(__S(384, __c12, 0)),
           provider: S.optional(S.String),
-          resources: S.optional(__S(291, __c9, 3)),
+          resources: S.optional(__S(355, __c11, 3)),
           status: S.optional(S.String),
           sync_status: S.optional(S.String),
         }),
       ).annotate({ identifier: "HandlerConnectorStatusResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3500,13 +3627,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "HandlerPlanCapView" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(1600, __c50, 0).pipe(T.Query())),
+          ids: S.optional(__S(1632, __c51, 0).pipe(T.Query())),
           database: S.String.pipe(T.Query()),
           collection: S.optional(S.String.pipe(T.Query())),
           tenant_id: S.optional(S.String.pipe(T.Query())),
@@ -3525,16 +3652,16 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "IngestionV2ProcessingStatus" });
     case 2:
-      return S.Array(__S(353, __c11, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          statuses: S.optional(__S(354, __c11, 2)),
+          statuses: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "IngestionV2BatchProcessingStatus" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3547,12 +3674,12 @@ function __c12(j: number): any {
           type: S.optional(S.String.pipe(T.Query())),
           depth: S.optional(S.Number.pipe(T.Query())),
           max_sources: S.optional(S.Number.pipe(T.Query())),
-          acl: S.optional(__S(1600, __c50, 0).pipe(T.Query())),
+          acl: S.optional(__S(1632, __c51, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/context/subgraph", code: 200 })),
       ).annotate({ identifier: "GetContextSubgraphRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3572,24 +3699,24 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "GraphSubgraphSource" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(480, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          auxiliary_relations: S.optional(__S(452, __c14, 4)),
+          auxiliary_relations: S.optional(__S(516, __c16, 4)),
           auxiliary_truncated: S.optional(S.Boolean),
           is_truncated: S.optional(S.Boolean),
           max_depth_reached: S.optional(S.Number),
           message: S.optional(S.String),
-          relations: S.optional(__S(452, __c14, 4)),
+          relations: S.optional(__S(516, __c16, 4)),
           seed_source_id: S.optional(S.String),
-          sources: S.optional(__S(417, __c13, 1)),
+          sources: S.optional(__S(481, __c15, 1)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GraphSourceSubgraphResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3611,7 +3738,7 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "GraphRelationEvidence" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(512, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3632,17 +3759,17 @@ function __c14(j: number): any {
           chunk_id: S.optional(S.String),
           collection: S.optional(S.String),
           database: S.optional(S.String),
-          relations: S.optional(__S(449, __c14, 1)),
-          source: S.optional(__S(450, __c14, 2)),
-          target: S.optional(__S(450, __c14, 2)),
+          relations: S.optional(__S(513, __c16, 1)),
+          source: S.optional(__S(514, __c16, 2)),
+          target: S.optional(__S(514, __c16, 2)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GraphTripletWithEvidence" });
     case 4:
-      return S.Array(__S(451, __c14, 3));
+      return S.Array(__S(515, __c16, 3));
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3655,12 +3782,12 @@ function __c15(j: number): any {
           type: S.optional(S.String.pipe(T.Query())),
           depth: S.optional(S.Number.pipe(T.Query())),
           max_sources: S.optional(S.Number.pipe(T.Query())),
-          acl: S.optional(__S(1600, __c50, 0).pipe(T.Query())),
+          acl: S.optional(__S(1632, __c51, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/context/{id}/subgraph", code: 200 })),
       ).annotate({ identifier: "GetContextSubgraphByIdRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3678,15 +3805,15 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           database: S.String,
-          knowledge_collection: S.optional(__S(513, __c16, 1)),
-          memory_collection: S.optional(__S(513, __c16, 1)),
+          knowledge_collection: S.optional(__S(577, __c18, 1)),
+          memory_collection: S.optional(__S(577, __c18, 1)),
           message: S.optional(S.String),
           tenant_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "TenantsTenantStatsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3707,14 +3834,14 @@ function __c17(j: number): any {
           graph_status: S.optional(S.Boolean),
           ready_for_ingestion: S.optional(S.Boolean),
           scheduler_status: S.optional(S.Boolean),
-          vectorstore_status: S.optional(__S(545, __c17, 1)),
+          vectorstore_status: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "TenantsInfraV2" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           database: S.String,
-          infra: S.optional(__S(546, __c17, 2)),
+          infra: S.optional(__S(610, __c19, 2)),
           message: S.optional(S.String),
           org_id: S.optional(S.String),
           tenant_id: S.optional(S.String),
@@ -3722,7 +3849,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "TenantsInfraStatusResponseV2" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3734,13 +3861,13 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           database: S.String,
-          fields: __S(1857, __c58, 1),
+          fields: __S(1889, __c59, 1),
           tenant_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "TenantsTenantMetadataSchemaResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3749,7 +3876,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          event_types: S.optional(__S(1600, __c50, 0)),
+          event_types: S.optional(__S(1632, __c51, 0)),
           registered: S.optional(S.Boolean),
           signing_secret_configured: S.optional(S.Boolean),
           url: S.optional(S.NullOr(S.String)),
@@ -3757,7 +3884,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "WebhooksWebhookGetResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3769,7 +3896,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetWebhookDeliveryRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3794,7 +3921,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "WebhooksDeliveryItem" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
@@ -3811,7 +3938,7 @@ function __c22(j: number): any {
           collection: S.optional(S.String),
           database: S.String,
           document_metadata: S.optional(S.String),
-          documents: S.optional(__S(704, __c22, 0)),
+          documents: S.optional(__S(768, __c24, 0)),
           graph_payload: S.optional(S.String),
           memories: S.optional(S.String),
           sub_tenant_id: S.optional(S.String),
@@ -3837,21 +3964,21 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "IngestionV2IngestResultItem" });
     case 3:
-      return S.Array(__S(706, __c22, 2));
+      return S.Array(__S(770, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           failed_count: S.optional(S.Number),
           generation_started_at_ms: S.optional(S.Number),
           message: S.optional(S.String),
-          results: S.optional(__S(707, __c22, 3)),
+          results: S.optional(__S(771, __c24, 3)),
           success: S.optional(S.Boolean),
           success_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IngestionV2IngestResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3863,7 +3990,7 @@ function __c23(j: number): any {
           sub_tenant_id: S.optional(S.String.pipe(T.Query())),
           expiry_seconds: S.optional(S.Number.pipe(T.Query())),
           mode: S.optional(S.String.pipe(T.Query())),
-          acl: S.optional(__S(1600, __c50, 0).pipe(T.Query())),
+          acl: S.optional(__S(1632, __c51, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/context/inspect", code: 200 })),
       ).annotate({ identifier: "InspectContextRequest" });
     case 1:
@@ -3883,7 +4010,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "FetchV2SourceFetchResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3894,14 +4021,14 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          collections: S.optional(__S(1600, __c50, 0)),
+          collections: S.optional(__S(1632, __c51, 0)),
           message: S.optional(S.String),
-          sub_tenant_ids: S.optional(__S(1600, __c50, 0)),
+          sub_tenant_ids: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "TenantsSubTenantIdsResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3925,11 +4052,11 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "HandlerCatalogConnector" });
     case 2:
-      return S.Array(__S(801, __c25, 1));
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          providers: __S(802, __c25, 2),
+          providers: __S(866, __c27, 2),
         }),
       ).annotate({ identifier: "HandlerProviderListResponse" });
     case 4:
@@ -3942,7 +4069,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "LanceFieldInfo" });
     case 5:
-      return S.Array(__S(804, __c25, 4));
+      return S.Array(__S(868, __c27, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -3952,30 +4079,30 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "LanceTokenScope" });
     case 7:
-      return S.Array(__S(806, __c25, 6));
+      return S.Array(__S(870, __c27, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           connector_type: S.String,
-          credential_schema: S.optional(__S(1696, __c53, 0)),
-          filterable_fields: __S(805, __c25, 5),
-          indexed_object_types: __S(1600, __c50, 0),
+          credential_schema: S.optional(__S(1728, __c54, 0)),
+          filterable_fields: __S(869, __c27, 5),
+          indexed_object_types: __S(1632, __c51, 0),
           provider: S.String,
-          searchable_fields: __S(805, __c25, 5),
-          setup_guide: S.optional(__S(1600, __c50, 0)),
-          token_scopes: S.optional(__S(807, __c25, 7)),
+          searchable_fields: __S(869, __c27, 5),
+          setup_guide: S.optional(__S(1632, __c51, 0)),
+          token_scopes: S.optional(__S(871, __c27, 7)),
           token_scopes_note: S.optional(S.String),
         }),
       ).annotate({ identifier: "LanceProviderInfo" });
     case 9:
-      return S.Union([__S(803, __c25, 3), __S(808, __c25, 8)]);
+      return S.Union([__S(867, __c27, 3), __S(872, __c27, 8)]);
     case 10:
-      return S.suspend(() => __S(809, __c25, 9).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(873, __c27, 9).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListConnectorProvidersResponse",
       });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3986,10 +4113,10 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(1600, __c50, 0)),
+          acl: S.optional(__S(1632, __c51, 0)),
           acl_warning: S.optional(S.String),
           acl_warning_at: S.optional(S.String),
-          additional_metadata: S.optional(__S(1696, __c53, 0)),
+          additional_metadata: S.optional(__S(1728, __c54, 0)),
           backfill_error: S.optional(S.String),
           backfill_error_at: S.optional(S.String),
           backfill_oldest: S.optional(S.String),
@@ -3998,12 +4125,12 @@ function __c26(j: number): any {
           custom_instructions: S.optional(S.String),
           database_override: S.optional(S.String),
           display_name: S.optional(S.String),
-          filters: S.optional(__S(1696, __c53, 0)),
-          metadata: S.optional(__S(1696, __c53, 0)),
+          filters: S.optional(__S(1728, __c54, 0)),
+          metadata: S.optional(__S(1728, __c54, 0)),
           page_acl_warning: S.optional(S.String),
           page_acl_warning_at: S.optional(S.String),
           provider_cursor: S.optional(S.String),
-          provider_metadata: S.optional(S.NullOr(__S(1696, __c53, 0))),
+          provider_metadata: S.optional(S.NullOr(__S(1728, __c54, 0))),
           resource_id: S.optional(S.String),
           resource_type: S.optional(S.String),
           status: S.optional(S.String),
@@ -4015,16 +4142,16 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "ConnectorsResource" });
     case 2:
-      return S.Array(__S(833, __c26, 1));
+      return S.Array(__S(897, __c28, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(834, __c26, 2)),
+          resources: S.optional(__S(898, __c28, 2)),
         }),
       ).annotate({ identifier: "HandlerConnectorResourcesResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4043,25 +4170,19 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "HandlerConnectorLimitView" });
     case 2:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(320, __c10, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          connector_limit: S.optional(__S(865, __c27, 1)),
-          connectors: S.optional(__S(866, __c27, 2)),
-          health: S.optional(__S(896, __c28, 0)),
-          plan_cap: S.optional(__S(320, __c10, 0)),
+          connector_limit: S.optional(__S(929, __c29, 1)),
+          connectors: S.optional(__S(930, __c29, 2)),
+          health: S.optional(__S(0, __c0, 0)),
+          plan_cap: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "HandlerConnectorListResponse" });
   }
 }
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4080,21 +4201,21 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          additional_metadata: S.optional(__S(1696, __c53, 0)),
-          metadata: S.optional(__S(1696, __c53, 0)),
-          source_fields: S.optional(__S(928, __c29, 0)),
+          additional_metadata: S.optional(__S(1728, __c54, 0)),
+          metadata: S.optional(__S(1728, __c54, 0)),
+          source_fields: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "ListContentFilter" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(1600, __c50, 0)),
+          acl: S.optional(__S(1632, __c51, 0)),
           collection: S.optional(S.String),
           database: S.optional(S.String),
-          filters: S.optional(__S(929, __c29, 1)),
+          filters: S.optional(__S(961, __c30, 1)),
           group_threads: S.optional(S.Boolean),
-          ids: S.optional(__S(1600, __c50, 0)),
-          include_fields: S.optional(__S(1600, __c50, 0)),
+          ids: S.optional(__S(1632, __c51, 0)),
+          include_fields: S.optional(__S(1632, __c51, 0)),
           page: S.optional(S.Number),
           page_size: S.optional(S.Number),
           sub_tenant_id: S.optional(S.String),
@@ -4114,11 +4235,11 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "DashboardPaginationMeta" });
     case 4:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(933, __c29, 5)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(965, __c30, 5)));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          additional_metadata: S.optional(__S(1696, __c53, 0)),
+          additional_metadata: S.optional(__S(1728, __c54, 0)),
           app_external_id: S.optional(S.NullOr(S.String)),
           app_kind: S.optional(S.NullOr(S.String)),
           app_parent_id: S.optional(S.String),
@@ -4126,12 +4247,12 @@ function __c29(j: number): any {
           app_relations: S.optional(S.Unknown),
           app_thread_id: S.optional(S.String),
           collection: S.String,
-          comments: S.optional(__S(932, __c29, 4)),
+          comments: S.optional(__S(964, __c30, 4)),
           comments_truncated: S.optional(S.Boolean),
           database: S.String,
           description: S.optional(S.String),
           id: S.String,
-          metadata: S.optional(__S(1696, __c53, 0)),
+          metadata: S.optional(__S(1728, __c54, 0)),
           note: S.optional(S.String),
           relations: S.optional(S.Unknown),
           sub_tenant_id: S.String,
@@ -4142,11 +4263,11 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "ListV2SourceItem" });
     case 6:
-      return S.Array(__S(933, __c29, 5));
+      return S.Array(__S(965, __c30, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          additional_metadata: S.optional(__S(1696, __c53, 0)),
+          additional_metadata: S.optional(__S(1728, __c54, 0)),
           app_external_id: S.optional(S.NullOr(S.String)),
           app_kind: S.optional(S.NullOr(S.String)),
           app_parent_id: S.optional(S.String),
@@ -4157,7 +4278,7 @@ function __c29(j: number): any {
           database: S.String,
           description: S.optional(S.String),
           memory_id: S.String,
-          metadata: S.optional(__S(1696, __c53, 0)),
+          metadata: S.optional(__S(1728, __c54, 0)),
           note: S.optional(S.String),
           relations: S.optional(S.Unknown),
           sub_tenant_id: S.String,
@@ -4168,21 +4289,21 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "ListV2MemoryItem" });
     case 8:
-      return S.Array(__S(935, __c29, 7));
+      return S.Array(__S(967, __c30, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          pagination: S.optional(__S(931, __c29, 3)),
-          sources: S.optional(__S(934, __c29, 6)),
+          pagination: S.optional(__S(963, __c30, 3)),
+          sources: S.optional(__S(966, __c30, 6)),
           success: S.optional(S.Boolean),
           total: S.optional(S.Number),
-          user_memories: S.optional(__S(936, __c29, 8)),
+          user_memories: S.optional(__S(968, __c30, 8)),
         }),
       ).annotate({ identifier: "ListV2ListResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4195,25 +4316,25 @@ function __c30(j: number): any {
           type: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.Number.pipe(T.Query())),
-          acl: S.optional(__S(1600, __c50, 0).pipe(T.Query())),
+          acl: S.optional(__S(1632, __c51, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/context/relations", code: 200 })),
       ).annotate({ identifier: "ListContextRelationsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          auxiliary_relations: S.optional(__S(452, __c14, 4)),
+          auxiliary_relations: S.optional(__S(516, __c16, 4)),
           auxiliary_truncated: S.optional(S.Boolean),
           is_truncated: S.optional(S.Boolean),
           message: S.optional(S.String),
           next_cursor: S.optional(S.NullOr(S.Number)),
           read_status: S.optional(S.String),
-          relations: S.optional(__S(452, __c14, 4)),
+          relations: S.optional(__S(516, __c16, 4)),
           success: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GraphGraphRelationsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4228,20 +4349,20 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "TenantsFailedTenant" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(1025, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          databases: S.optional(__S(1600, __c50, 0)),
-          failed_databases: S.optional(__S(994, __c31, 2)),
-          failed_tenant_ids: S.optional(__S(994, __c31, 2)),
+          databases: S.optional(__S(1632, __c51, 0)),
+          failed_databases: S.optional(__S(1026, __c32, 2)),
+          failed_tenant_ids: S.optional(__S(1026, __c32, 2)),
           message: S.optional(S.String),
-          tenant_ids: S.optional(__S(1600, __c50, 0)),
+          tenant_ids: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "TenantsTenantIdsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4252,18 +4373,18 @@ function __c32(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/webhooks/indexing/deliveries", code: 200 })),
       ).annotate({ identifier: "ListWebhookDeliveriesRequest" });
     case 1:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          deliveries: S.optional(__S(1025, __c32, 1)),
+          deliveries: S.optional(__S(1057, __c33, 1)),
           next_cursor: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "WebhooksDeliveryListResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4273,7 +4394,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "PauseConnectorRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4285,29 +4406,29 @@ function __c34(j: number): any {
       ).annotate({ identifier: "HandlerConnectorPauseResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.Union([S.String, S.Number]);
     case 1:
       return S.Record(S.String, S.Number);
     case 2:
-      return S.Union([__S(1600, __c50, 0), __S(1121, __c35, 1)]);
+      return S.Union([__S(1632, __c51, 0), __S(1153, __c36, 1)]);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(1600, __c50, 0)),
+          acl: S.optional(__S(1632, __c51, 0)),
           additional_context: S.optional(S.String),
-          alpha: S.optional(__S(1120, __c35, 0)),
+          alpha: S.optional(__S(1152, __c36, 0)),
           code_search: S.optional(S.Boolean),
           collection: S.optional(S.String),
-          collections: S.optional(__S(1122, __c35, 2)),
+          collections: S.optional(__S(1154, __c36, 2)),
           database: S.optional(S.String),
           graph_context: S.optional(S.Boolean),
-          ids: S.optional(__S(1600, __c50, 0)),
+          ids: S.optional(__S(1632, __c51, 0)),
           include_table_sql: S.optional(S.Boolean),
           max_results: S.optional(S.Number),
-          metadata_filters: S.optional(__S(1696, __c53, 0)),
+          metadata_filters: S.optional(__S(1728, __c54, 0)),
           mode: S.optional(S.String),
           num_related_chunks: S.optional(S.Number),
           operator: S.optional(S.String),
@@ -4318,11 +4439,11 @@ function __c35(j: number): any {
           recency_bias: S.optional(S.Number),
           response_format: S.optional(S.String),
           sub_tenant_id: S.optional(S.String),
-          sub_tenant_ids: S.optional(__S(1122, __c35, 2)),
+          sub_tenant_ids: S.optional(__S(1154, __c36, 2)),
           table_limit: S.optional(S.Number),
           temporal_reasoning: S.optional(S.Boolean),
           tenant_id: S.optional(S.String),
-          titles: S.optional(__S(1600, __c50, 0)),
+          titles: S.optional(__S(1632, __c51, 0)),
           type: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/query", code: 200 })),
       ).annotate({ identifier: "QueryRequest" });
@@ -4338,15 +4459,15 @@ function __c35(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          additional_metadata: S.optional(S.NullOr(__S(1696, __c53, 0))),
+          additional_metadata: S.optional(S.NullOr(__S(1728, __c54, 0))),
           chunk_content: S.optional(S.String),
-          chunk_metadata: S.optional(__S(1124, __c35, 4)),
+          chunk_metadata: S.optional(__S(1156, __c36, 4)),
           chunk_uuid: S.optional(S.String),
           collection: S.optional(S.String),
-          extra_context_ids: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          extra_context_ids: S.optional(S.NullOr(__S(1632, __c51, 0))),
           id: S.optional(S.String),
           layout: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(1696, __c53, 0))),
+          metadata: S.optional(S.NullOr(__S(1728, __c54, 0))),
           relevancy_score: S.optional(S.NullOr(S.Number)),
           source_last_updated_time: S.optional(S.String),
           source_title: S.optional(S.String),
@@ -4356,7 +4477,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "SearchV2Chunk" });
     case 6:
-      return S.Record(S.String, __S(1125, __c35, 5));
+      return S.Record(S.String, __S(1157, __c36, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4365,9 +4486,9 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "SearchAliasExpansionNote" });
     case 8:
-      return S.Array(__S(1127, __c35, 7));
+      return S.Array(__S(1159, __c36, 7));
     case 9:
-      return S.Array(__S(1125, __c35, 5));
+      return S.Array(__S(1157, __c36, 5));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -4381,19 +4502,19 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "SearchCodeSearchRepoResult" });
     case 11:
-      return S.Array(__S(1130, __c35, 10));
+      return S.Array(__S(1162, __c36, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           decided_by: S.optional(S.String),
           duration_ms: S.optional(S.Number),
           reason: S.optional(S.String),
-          repos: S.optional(__S(1131, __c35, 11)),
+          repos: S.optional(__S(1163, __c36, 11)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchCodeSearchResult" });
     case 13:
-      return S.Record(S.String, __S(1600, __c50, 0));
+      return S.Record(S.String, __S(1632, __c51, 0));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -4422,31 +4543,31 @@ function __c35(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          relation: S.optional(__S(1134, __c35, 14)),
-          source: S.optional(__S(1135, __c35, 15)),
-          target: S.optional(__S(1135, __c35, 15)),
+          relation: S.optional(__S(1166, __c36, 14)),
+          source: S.optional(__S(1167, __c36, 15)),
+          target: S.optional(__S(1167, __c36, 15)),
         }),
       ).annotate({ identifier: "SearchPathTriplet" });
     case 17:
-      return S.Array(__S(1136, __c35, 16));
+      return S.Array(__S(1168, __c36, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           combined_context: S.optional(S.NullOr(S.String)),
           group_id: S.optional(S.NullOr(S.String)),
           relevancy_score: S.optional(S.Number),
-          source_chunk_ids: S.optional(S.NullOr(__S(1600, __c50, 0))),
-          triplets: S.optional(__S(1137, __c35, 17)),
+          source_chunk_ids: S.optional(S.NullOr(__S(1632, __c51, 0))),
+          triplets: S.optional(__S(1169, __c36, 17)),
         }),
       ).annotate({ identifier: "SearchScoredPathResponse" });
     case 19:
-      return S.Array(__S(1138, __c35, 18));
+      return S.Array(__S(1170, __c36, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          chunk_id_to_group_ids: S.optional(__S(1133, __c35, 13)),
-          chunk_relations: S.optional(__S(1139, __c35, 19)),
-          query_paths: S.optional(__S(1139, __c35, 19)),
+          chunk_id_to_group_ids: S.optional(__S(1165, __c36, 13)),
+          chunk_relations: S.optional(__S(1171, __c36, 19)),
+          query_paths: S.optional(__S(1171, __c36, 19)),
         }),
       ).annotate({ identifier: "SearchGraphContext" });
     case 21:
@@ -4459,7 +4580,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "SearchTabularConstant" });
     case 22:
-      return S.Array(__S(1141, __c35, 21));
+      return S.Array(__S(1173, __c36, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -4470,12 +4591,12 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "SearchTabularRowCitation" });
     case 24:
-      return S.Array(__S(1143, __c35, 23));
+      return S.Array(__S(1175, __c36, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          constants: S.optional(__S(1142, __c35, 22)),
-          rows: S.optional(__S(1144, __c35, 24)),
+          constants: S.optional(__S(1174, __c36, 22)),
+          rows: S.optional(__S(1176, __c36, 24)),
         }),
       ).annotate({ identifier: "SearchTabularCitations" });
     case 26:
@@ -4487,7 +4608,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "SearchTabularColumn" });
     case 27:
-      return S.Array(__S(1146, __c35, 26));
+      return S.Array(__S(1178, __c36, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
@@ -4498,7 +4619,7 @@ function __c35(j: number): any {
     case 29:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
     case 30:
-      return S.Array(__S(1149, __c35, 29));
+      return S.Array(__S(1181, __c36, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
@@ -4511,20 +4632,20 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SearchTabularSourceRef" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1151, __c35, 31));
+      return S.Array(__S(1183, __c36, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
           answer_type: S.optional(S.String),
-          citations: S.optional(__S(1145, __c35, 25)),
-          columns: S.optional(__S(1147, __c35, 27)),
-          error: S.optional(__S(1148, __c35, 28)),
+          citations: S.optional(__S(1177, __c36, 25)),
+          columns: S.optional(__S(1179, __c36, 27)),
+          error: S.optional(__S(1180, __c36, 28)),
           reason: S.optional(S.String),
-          records: S.optional(__S(1150, __c35, 30)),
-          sources: S.optional(__S(1152, __c36, 0)),
+          records: S.optional(__S(1182, __c36, 30)),
+          sources: S.optional(__S(1184, __c37, 0)),
           sql: S.optional(S.String),
           status: S.optional(S.String),
           truncated: S.optional(S.Boolean),
@@ -4553,43 +4674,43 @@ function __c36(j: number): any {
         S.Struct({
           approximate: S.optional(S.Boolean),
           days: S.optional(S.Number),
-          from: S.optional(__S(1154, __c36, 2)),
+          from: S.optional(__S(1186, __c37, 2)),
           from_date: S.optional(S.String),
           pairing_confidence: S.optional(S.Number),
-          to: S.optional(__S(1154, __c36, 2)),
+          to: S.optional(__S(1186, __c37, 2)),
           to_date: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchTemporalDuration" });
     case 4:
-      return S.Array(__S(1154, __c36, 2));
+      return S.Array(__S(1186, __c37, 2));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          additional_context: S.optional(__S(1126, __c35, 6)),
-          alias_expansions: S.optional(__S(1128, __c35, 8)),
-          chunks: S.optional(__S(1129, __c35, 9)),
-          code_search: S.optional(__S(1132, __c35, 12)),
-          graph_context: S.optional(__S(1140, __c35, 20)),
+          additional_context: S.optional(__S(1158, __c36, 6)),
+          alias_expansions: S.optional(__S(1160, __c36, 8)),
+          chunks: S.optional(__S(1161, __c36, 9)),
+          code_search: S.optional(__S(1164, __c36, 12)),
+          graph_context: S.optional(__S(1172, __c36, 20)),
           llm_prompt: S.optional(S.String),
-          tabular_data: S.optional(S.NullOr(__S(1153, __c36, 1))),
-          temporal_duration: S.optional(__S(1155, __c36, 3)),
-          temporal_facts: S.optional(__S(1156, __c36, 4)),
+          tabular_data: S.optional(S.NullOr(__S(1185, __c37, 1))),
+          temporal_duration: S.optional(__S(1187, __c37, 3)),
+          temporal_facts: S.optional(__S(1188, __c37, 4)),
         }),
       ).annotate({ identifier: "SearchV2RetrievalResult" });
     case 6:
-      return S.Union([__S(1157, __c36, 5), S.String]);
+      return S.Union([__S(1189, __c37, 5), S.String]);
     case 7:
-      return S.suspend(() => __S(1158, __c36, 6).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1190, __c37, 6).pipe(T.RawResponseRoot())).annotate({
         identifier: "QueryResponse",
       });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          event_types: S.optional(__S(1600, __c50, 0)),
+          event_types: S.optional(__S(1632, __c51, 0)),
           generate_signing_secret: S.optional(S.Boolean),
           signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
@@ -4597,7 +4718,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "RegisterWebhookRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4607,7 +4728,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ResumeConnectorRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4631,7 +4752,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "WebhooksRetryResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4649,13 +4770,13 @@ function __c40(j: number): any {
       ).annotate({ identifier: "WebhooksSigningSecretResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           answer: S.optional(S.String),
-          source_ids: S.optional(__S(1600, __c50, 0)),
+          source_ids: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "FeedbackGroundTruth" });
     case 1:
@@ -4664,8 +4785,8 @@ function __c41(j: number): any {
           collection: S.optional(S.String),
           database: S.optional(S.String),
           feedback: S.optional(S.String),
-          ground_truth: S.optional(__S(1312, __c41, 0)),
-          metadata: S.optional(__S(896, __c28, 0)),
+          ground_truth: S.optional(__S(1344, __c42, 0)),
+          metadata: S.optional(__S(0, __c0, 0)),
           rating: S.optional(S.String),
           request_id: S.String,
           source: S.optional(S.String),
@@ -4685,7 +4806,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "FeedbackSubmitResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4702,7 +4823,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "HandlerConnectorSyncResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4718,13 +4839,13 @@ function __c43(j: number): any {
       ).annotate({ identifier: "WebhooksWebhookTestResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          credentials: S.optional(__S(1696, __c53, 0)),
+          credentials: S.optional(__S(1728, __c54, 0)),
           custom_instructions: S.optional(S.String),
           enforce_acl: S.optional(S.Boolean),
           sync_interval_seconds: S.optional(S.Number),
@@ -4745,14 +4866,14 @@ function __c44(j: number): any {
       ).annotate({ identifier: "HandlerConnectorUpdateResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           resource_id: S.String.pipe(T.Label()),
-          acl: S.optional(__S(1600, __c50, 0)),
+          acl: S.optional(__S(1632, __c51, 0)),
           custom_instructions: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/connectors/{id}/resources/{resource_id}", code: 200 }),
@@ -4761,7 +4882,7 @@ function __c45(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(1600, __c50, 0)),
+          acl: S.optional(__S(1632, __c51, 0)),
           connector_id: S.String,
           custom_instructions: S.optional(S.String),
           custom_instructions_updated: S.optional(S.Boolean),
@@ -4770,33 +4891,33 @@ function __c45(j: number): any {
       ).annotate({ identifier: "HandlerResourceUpdateResponse" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          acl: S.optional(__S(1600, __c50, 0)),
-          additional_metadata: S.optional(__S(1696, __c53, 0)),
+          acl: S.optional(__S(1632, __c51, 0)),
+          additional_metadata: S.optional(__S(1728, __c54, 0)),
           collection: S.optional(S.String),
           database: S.optional(S.String),
-          database_metadata: S.optional(__S(1696, __c53, 0)),
-          document_metadata: S.optional(__S(1696, __c53, 0)),
+          database_metadata: S.optional(__S(1728, __c54, 0)),
+          document_metadata: S.optional(__S(1728, __c54, 0)),
           sub_tenant_id: S.optional(S.String),
           tenant_id: S.optional(S.String),
-          tenant_metadata: S.optional(__S(1696, __c53, 0)),
+          tenant_metadata: S.optional(__S(1728, __c54, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/context/{id}/metadata", code: 200 })),
       ).annotate({ identifier: "UpdateContextMetadataRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           acl_updated: S.optional(S.Boolean),
-          additional_metadata_keys: S.optional(__S(1600, __c50, 0)),
+          additional_metadata_keys: S.optional(__S(1632, __c51, 0)),
           chunk_rows_matched: S.optional(S.Number),
           chunk_rows_modified: S.optional(S.Number),
           collection: S.optional(S.String),
           database: S.optional(S.String),
-          database_metadata_keys: S.optional(__S(1600, __c50, 0)),
+          database_metadata_keys: S.optional(__S(1632, __c51, 0)),
           id: S.optional(S.String),
           milvus_rows_synced: S.optional(S.Number),
           milvus_sync_required: S.optional(S.Boolean),
@@ -4804,7 +4925,7 @@ function __c46(j: number): any {
           partial_commit: S.optional(S.String),
           sub_tenant_id: S.optional(S.String),
           tenant_id: S.optional(S.String),
-          tenant_metadata_keys: S.optional(__S(1600, __c50, 0)),
+          tenant_metadata_keys: S.optional(__S(1632, __c51, 0)),
           updated: S.optional(S.Boolean),
           vector_acl_synced: S.optional(S.Boolean),
           vector_rows_synced: S.optional(S.Number),
@@ -4817,13 +4938,13 @@ function __c46(j: number): any {
       });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           database: S.String.pipe(T.Label()),
-          add_fields: S.optional(__S(1857, __c58, 1)),
+          add_fields: S.optional(__S(1889, __c59, 1)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/databases/{database}/metadata-schema", code: 200 }),
         ),
@@ -4831,14 +4952,14 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          added_fields: __S(1600, __c50, 0),
+          added_fields: __S(1632, __c51, 0),
           database: S.String,
           tenant_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "HandlerMetadataSchemaUpdateResponse" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4848,12 +4969,12 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ClearWebhookSigningSecretRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          event_types: S.optional(__S(1600, __c50, 0)),
+          event_types: S.optional(__S(1632, __c51, 0)),
           message: S.optional(S.String),
           registered: S.optional(S.Boolean),
           signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -4863,23 +4984,23 @@ function __c49(j: number): any {
       ).annotate({ identifier: "WebhooksWebhookRegisterResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(1600, __c50, 0)),
-          additional_metadata: S.optional(__S(1696, __c53, 0)),
+          acl: S.optional(__S(1632, __c51, 0)),
+          additional_metadata: S.optional(__S(1728, __c54, 0)),
           collection: S.optional(S.String),
           custom_instructions: S.optional(S.String),
           database: S.optional(S.String),
-          metadata: S.optional(__S(1696, __c53, 0)),
+          metadata: S.optional(__S(1728, __c54, 0)),
           name: S.optional(S.String),
           resource_id: S.String,
           resource_type: S.optional(S.String),
@@ -4889,7 +5010,7 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "HandlerResourceMapping" });
     case 1:
-      return S.Array(__S(1632, __c51, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4899,15 +5020,15 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "HandlerTableConfigEntry" });
     case 3:
-      return S.Array(__S(1634, __c51, 2));
+      return S.Array(__S(1666, __c52, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          full_visibility_roles: S.optional(__S(1600, __c50, 0)),
+          full_visibility_roles: S.optional(__S(1632, __c51, 0)),
           lookback_days: S.optional(S.Number),
-          resources: __S(1633, __c51, 1),
-          table_configs: S.optional(__S(1635, __c51, 3)),
+          resources: __S(1665, __c52, 1),
+          table_configs: S.optional(__S(1667, __c52, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/connectors/{id}/configure", code: 200 })),
       ).annotate({ identifier: "ConfigureConnectorRequest" });
     case 5:
@@ -4918,14 +5039,14 @@ function __c51(j: number): any {
           connector_id: S.String,
           first_sync_at: S.optional(S.String),
           message: S.optional(S.String),
-          meta: S.optional(__S(1666, __c52, 2)),
-          unverified: S.optional(__S(1600, __c50, 0)),
-          warnings: S.optional(__S(1600, __c50, 0)),
+          meta: S.optional(__S(1698, __c53, 2)),
+          unverified: S.optional(__S(1632, __c51, 0)),
+          warnings: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "HandlerConfigureResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4938,29 +5059,29 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "HandlerDeprecationNotice" });
     case 1:
-      return S.Array(__S(1664, __c52, 0));
+      return S.Array(__S(1696, __c53, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deprecation: S.optional(__S(1665, __c52, 1)),
+          deprecation: S.optional(__S(1697, __c53, 1)),
         }),
       ).annotate({ identifier: "HandlerConfigureResponseMeta" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           auth_type: S.optional(S.String),
           collection: S.optional(S.String),
-          credentials: S.optional(__S(1696, __c53, 0)),
+          credentials: S.optional(__S(1728, __c54, 0)),
           custom_instructions: S.optional(S.String),
           database: S.optional(S.String),
           enforce_acl: S.optional(S.Boolean),
@@ -4990,7 +5111,7 @@ function __c54(j: number): any {
           last_successful_sync_at: S.optional(S.String),
           lifecycle: S.optional(S.String),
           message: S.optional(S.String),
-          meta: S.optional(__S(1666, __c52, 2)),
+          meta: S.optional(__S(1698, __c53, 2)),
           name: S.optional(S.String),
           needs_reauth: S.optional(S.Boolean),
           needs_reauth_at: S.optional(S.String),
@@ -5014,21 +5135,21 @@ function __c54(j: number): any {
       ).annotate({ identifier: "HandlerConnectorCreateResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          acl: S.optional(__S(1600, __c50, 0)),
-          additional_metadata: S.optional(__S(1696, __c53, 0)),
+          acl: S.optional(__S(1632, __c51, 0)),
+          additional_metadata: S.optional(__S(1728, __c54, 0)),
           collection_override: S.optional(S.String),
           custom_instructions: S.optional(S.String),
           database_override: S.optional(S.String),
           display_name: S.optional(S.String),
-          filters: S.optional(__S(1696, __c53, 0)),
-          metadata: S.optional(__S(1696, __c53, 0)),
-          provider_metadata: S.optional(__S(1696, __c53, 0)),
+          filters: S.optional(__S(1728, __c54, 0)),
+          metadata: S.optional(__S(1728, __c54, 0)),
+          provider_metadata: S.optional(__S(1728, __c54, 0)),
           resource_id: S.String,
           resource_type: S.optional(S.String),
           sub_tenant_id_override: S.optional(S.String),
@@ -5038,10 +5159,10 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(1600, __c50, 0)),
+          acl: S.optional(__S(1632, __c51, 0)),
           acl_warning: S.optional(S.String),
           acl_warning_at: S.optional(S.String),
-          additional_metadata: S.optional(__S(1696, __c53, 0)),
+          additional_metadata: S.optional(__S(1728, __c54, 0)),
           backfill_error: S.optional(S.String),
           backfill_error_at: S.optional(S.String),
           backfill_oldest: S.optional(S.String),
@@ -5050,12 +5171,12 @@ function __c55(j: number): any {
           custom_instructions: S.optional(S.String),
           database_override: S.optional(S.String),
           display_name: S.optional(S.String),
-          filters: S.optional(__S(1696, __c53, 0)),
-          metadata: S.optional(__S(1696, __c53, 0)),
+          filters: S.optional(__S(1728, __c54, 0)),
+          metadata: S.optional(__S(1728, __c54, 0)),
           page_acl_warning: S.optional(S.String),
           page_acl_warning_at: S.optional(S.String),
           provider_cursor: S.optional(S.String),
-          provider_metadata: S.optional(S.NullOr(__S(1696, __c53, 0))),
+          provider_metadata: S.optional(S.NullOr(__S(1728, __c54, 0))),
           resource_id: S.optional(S.String),
           resource_type: S.optional(S.String),
           status: S.optional(S.String),
@@ -5064,28 +5185,28 @@ function __c55(j: number): any {
           sync_blocked_at: S.optional(S.String),
           sync_blocked_reason: S.optional(S.String),
           tenant_id_override: S.optional(S.String),
-          unverified: S.optional(__S(1600, __c50, 0)),
-          warnings: S.optional(__S(1600, __c50, 0)),
+          unverified: S.optional(__S(1632, __c51, 0)),
+          warnings: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "HandlerResourceCreateResponse" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           database: S.optional(S.String),
-          database_metadata_schema: S.optional(__S(1857, __c58, 1)),
+          database_metadata_schema: S.optional(__S(1889, __c59, 1)),
           embeddings_dimension: S.optional(S.Number),
           is_embeddings_tenant: S.optional(S.Boolean),
           tenant_id: S.optional(S.String),
-          tenant_metadata_schema: S.optional(__S(1857, __c58, 1)),
+          tenant_metadata_schema: S.optional(__S(1889, __c59, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/databases", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5098,7 +5219,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "TenantsTenantCreateAcceptedResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5112,7 +5233,7 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "TenantsCustomPropertyDefinition" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(1888, __c59, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

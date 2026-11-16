@@ -30,11 +30,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: OAuthError | string;
+}
 
 /** A hint about the type of token. Optional; only access tokens are issued. */
 export type IntrospectAccessTokenRequestTokenTypeHint = "access_token";
@@ -97,6 +102,22 @@ export interface RevokeAccessTokenRequest {
   token_type_hint?: RevokeAccessTokenRequestTokenTypeHint | (string & {}) | undefined;
 }
 export interface RevokeAccessTokenResponse {}
+/** A machine-readable error code. */
+export type OAuthErrorError =
+  | "invalid_request"
+  | "invalid_client"
+  | "unauthorized_client"
+  | "unsupported_grant_type"
+  | "unauthorized"
+  | "slow_down"
+  | "server_error";
+/** An OAuth 2.0 error response (RFC 6749 §5.2). */
+export interface OAuthError {
+  /** A machine-readable error code. */
+  error: OAuthErrorError;
+  /** A human-readable description of the error. */
+  error_description?: string | undefined;
+}
 export type IntrospectAccessTokenError = BadRequest | OnepasswordOpError;
 /** Introspect an access token Check whether an access token is active and retrieve its metadata, following RFC 7662. Authenticate with the client credentials of the OAuth application that the token was issued to, using HTTP Basic authentication or the `client_id` and `client_secret` form fields. The response always returns `200 OK`. An active token returns `"active": true` with its scopes, client ID, and issue and expiry times. A token that is expired, revoked, unknown, or issued to a different OAuth application returns `"active": false` with no other fields. Requests to this endpoint share the token endpoint's rate limits. */
 export const introspectAccessToken: API.OperationMethod<
@@ -105,8 +126,8 @@ export const introspectAccessToken: API.OperationMethod<
   IntrospectAccessTokenError,
   OAuthOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<IntrospectAccessTokenRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<IntrospectionResponse>,
+  input: __S(2, __c1, 0) as any as S.Schema<IntrospectAccessTokenRequest>,
+  output: __S(3, __c1, 1) as any as S.Schema<IntrospectionResponse>,
   errors: [BadRequest, UnknownOnepasswordError],
   protocol: OAuthProtocol,
   retry: Retry.Retry,
@@ -122,8 +143,8 @@ export const requestAccessToken: API.OperationMethod<
   RequestAccessTokenError,
   OAuthOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<RequestAccessTokenRequest>,
-  output: __S(3, __c1, 1) as any as S.Schema<TokenResponse>,
+  input: __S(4, __c2, 0) as any as S.Schema<RequestAccessTokenRequest>,
+  output: __S(5, __c2, 1) as any as S.Schema<TokenResponse>,
   errors: [BadRequest, UnknownOnepasswordError],
   protocol: OAuthProtocol,
   retry: Retry.Retry,
@@ -139,8 +160,8 @@ export const revokeAccessToken: API.OperationMethod<
   RevokeAccessTokenError,
   OAuthOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<RevokeAccessTokenRequest>,
-  output: __S(5, __c2, 1) as any as S.Schema<RevokeAccessTokenResponse>,
+  input: __S(6, __c3, 0) as any as S.Schema<RevokeAccessTokenRequest>,
+  output: __S(7, __c3, 1) as any as S.Schema<RevokeAccessTokenResponse>,
   errors: [BadRequest, UnknownOnepasswordError],
   protocol: OAuthProtocol,
   retry: Retry.Retry,
@@ -150,6 +171,17 @@ export const revokeAccessToken: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          error_description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OAuthError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -181,7 +213,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "IntrospectionResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -209,7 +241,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "TokenResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

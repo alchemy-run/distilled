@@ -56,6 +56,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      # The conformance suites are the only submodules CI checks out: shallow,
+      # one commit.
+      - name: Fetch the conformance suites
+        run: git submodule update --init --depth 1 -- packages/core/conformance/connect packages/core/conformance/protobuf
+
       - name: Setup pnpm, Node.js and install dependencies
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
@@ -63,12 +68,40 @@ jobs:
           install: true
           require-lockfile: true
 
-      # Every test in the repo (vitest.config.ts): core's protocol, codegen and
-      # cross-SDK checks (packages/core/test/sdks.test.ts), plus the tests for
-      # hand-written provider code in each package's test/. No network, no
+      # Building conformance_test_runner takes minutes; key it on the pinned
+      # protobuf commit.
+      - name: Read the pinned protobuf commit
+        id: pin
+        run: echo "sha=$(git rev-parse HEAD:packages/core/conformance/protobuf)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore the protobuf conformance runner
+        id: runner
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          # The runner and the jsoncpp it links, found by rpath in the build dir.
+          path: |
+            packages/core/conformance/.build/protobuf/conformance_test_runner
+            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
+          key: protobuf-conformance-runner-v2-${{ runner.os }}-${{ steps.pin.outputs.sha }}
+
+      # Every suite at once (scripts/test.ts): every vitest test in the repo
+      # (vitest.config.ts), among them core's protocol, codegen and cross-SDK
+      # checks and the Smithy AWS protocol tests, plus the protobuf and gRPC
+      # conformance suites. No network but the conformance downloads, no
       # credentials.
       - name: Run tests
-        run: pnpm vitest run
+        run: pnpm test
+
+      # Also when a test failed: the runner built fine.
+      - name: Save the protobuf conformance runner
+        if: ${{ !cancelled() && steps.runner.outputs.cache-hit != 'true' && hashFiles('packages/core/conformance/.build/protobuf/conformance_test_runner') != '' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          # The runner and the jsoncpp it links, found by rpath in the build dir.
+          path: |
+            packages/core/conformance/.build/protobuf/conformance_test_runner
+            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
+          key: ${{ steps.runner.outputs.cache-primary-key }}
 
   bundlers:
     name: Bundlers
@@ -111,56 +144,6 @@ jobs:
       # code built from strings (scripts/oxlint-plugin.ts).
       - name: Run oxlint
         run: pnpm lint
-
-  conformance:
-    name: Conformance (gRPC and protobuf)
-    runs-on: blacksmith-4vcpu-ubuntu-2404
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      # The suites are the only submodules CI checks out: shallow, one commit.
-      - name: Fetch the conformance suites
-        run: git submodule update --init --depth 1 -- packages/core/conformance/connect packages/core/conformance/protobuf
-
-      - name: Setup pnpm, Node.js and install dependencies
-        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
-        with:
-          cache: true
-          install: true
-          require-lockfile: true
-
-      # Building conformance_test_runner takes minutes; key it on the pinned
-      # protobuf commit.
-      - name: Read the pinned protobuf commit
-        id: pin
-        run: echo "sha=$(git rev-parse HEAD:packages/core/conformance/protobuf)" >> "$GITHUB_OUTPUT"
-
-      - name: Restore the protobuf conformance runner
-        id: runner
-        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          # The runner and the jsoncpp it links, found by rpath in the build dir.
-          path: |
-            packages/core/conformance/.build/protobuf/conformance_test_runner
-            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
-          key: protobuf-conformance-runner-v2-${{ runner.os }}-${{ steps.pin.outputs.sha }}
-
-      - name: Run the protobuf conformance suite
-        run: packages/core/conformance/run.sh protobuf
-
-      - name: Save the protobuf conformance runner
-        if: steps.runner.outputs.cache-hit != 'true'
-        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          # The runner and the jsoncpp it links, found by rpath in the build dir.
-          path: |
-            packages/core/conformance/.build/protobuf/conformance_test_runner
-            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
-          key: ${{ steps.runner.outputs.cache-primary-key }}
-
-      - name: Run the gRPC conformance suite
-        run: packages/core/conformance/run.sh grpc
 
   # The effect peer range's floor, Node 22.19.0 / 22 / 26, Bun and workerd.
   # The newest effect runs nightly (compat.yml) and before a release.

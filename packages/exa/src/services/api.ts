@@ -32,55 +32,92 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | AgentErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: AgentErrorResponse | ErrorResponse | string;
+}
 
 export class PaymentRequired
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          S.String,
+        ]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | Error402Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -3460,12 +3497,57 @@ export interface UpdateWebsetsEnrichmentRequest {
   metadata?: UpdateWebsetsEnrichmentRequestMetadataMap | null | undefined;
 }
 export interface UpdateWebsetsEnrichmentResponse {}
+/** Standard error envelope returned by the Exa API for failed requests. */
+export interface ErrorResponse {
+  /** Unique identifier for the request. */
+  requestId: string;
+  /** Human-readable message describing the error. */
+  error: string;
+  /** Machine-readable error tag identifying the failure. The set of tags is open-ended: new tags may be added at any time, so treat unrecognized tags as a generic error of the response's HTTP status. Known tags are listed as examples. */
+  tag: string;
+}
+export interface AgentErrorResponse {
+  error: AgentError;
+}
+/** The priced resource this challenge applies to. */
+export interface X402PaymentChallengeResource {
+  /** URL of the priced resource being requested. */
+  url: string;
+  /** Human-readable resource description. */
+  description: string;
+  /** MIME type of the priced resource. */
+  mimeType: string;
+}
+/** An accepted x402 payment requirement (scheme, network, amount, payTo, asset, maxTimeoutSeconds, and scheme-specific `extra` fields). */
+export type X402PaymentChallengeAcceptsItemMap = { [key: string]: unknown | undefined };
+/** Payment requirements the server accepts, one per supported rail. */
+export type X402PaymentChallengeAcceptsList = Array<X402PaymentChallengeAcceptsItemMap>;
+/** Optional x402 protocol extensions (e.g. Bazaar or AgentKit discovery metadata). */
+export type X402PaymentChallengeExtensionsMap = { [key: string]: unknown | undefined };
+/** x402 payment challenge: the standard error envelope extended with x402 payment metadata. */
+export interface X402PaymentChallenge {
+  /** Unique identifier for the request. */
+  requestId: string;
+  /** Human-readable message describing the error. */
+  error: string;
+  /** Machine-readable error tag identifying the failure. The set of tags is open-ended: new tags may be added at any time, so treat unrecognized tags as a generic error of the response's HTTP status. Known tags are listed as examples. */
+  tag: string;
+  /** Version of the x402 protocol used to build this challenge. */
+  x402Version: number;
+  /** The priced resource this challenge applies to. */
+  resource: X402PaymentChallengeResource;
+  /** Payment requirements the server accepts, one per supported rail. */
+  accepts: X402PaymentChallengeAcceptsList;
+  /** Optional x402 protocol extensions (e.g. Bazaar or AgentKit discovery metadata). */
+  extensions?: X402PaymentChallengeExtensionsMap | undefined;
+}
+export type Error402Body = ErrorResponse | X402PaymentChallenge;
 export type AnswerError = BadRequest | PaymentRequired | Forbidden | ExaOpError;
 /** Answer Performs a search based on the query and generates either a direct answer or a detailed summary with citations, depending on the query type. */
 export const answer: API.OperationMethod<AnswerRequest, AnswerResponse, AnswerError, ExaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2305, __c72, 1) as any as S.Schema<AnswerRequest>,
-    output: __S(2308, __c72, 4) as any as S.Schema<AnswerResponse>,
+    input: __S(2369, __c74, 1) as any as S.Schema<AnswerRequest>,
+    output: __S(2372, __c74, 4) as any as S.Schema<AnswerResponse>,
     errors: [BadRequest, PaymentRequired, Forbidden, UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -3481,8 +3563,8 @@ export const batchMonitors: API.OperationMethod<
   BatchMonitorsError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2721, __c85, 1) as any as S.Schema<BatchMonitorsRequest>,
-  output: __S(2722, __c85, 2) as any as S.Schema<BatchMonitorsResponse>,
+  input: __S(2785, __c87, 1) as any as S.Schema<BatchMonitorsRequest>,
+  output: __S(2786, __c87, 2) as any as S.Schema<BatchMonitorsResponse>,
   errors: [BadRequest, Forbidden, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3498,8 +3580,8 @@ export const cancelAgentRun: API.OperationMethod<
   CancelAgentRunError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<CancelAgentRunRequest>,
-  output: __S(2862, __c89, 14) as any as S.Schema<AgentRun>,
+  input: __S(2848, __c89, 0) as any as S.Schema<CancelAgentRunRequest>,
+  output: __S(2925, __c91, 13) as any as S.Schema<AgentRun>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3515,8 +3597,8 @@ export const cancelBatch: API.OperationMethod<
   CancelBatchError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<CancelBatchRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<Batch>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CancelBatchRequest>,
+  output: __S(2977, __c93, 1) as any as S.Schema<Batch>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3532,8 +3614,8 @@ export const cancelWebset: API.OperationMethod<
   CancelWebsetError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CancelWebsetRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Webset>,
+  input: __S(64, __c2, 0) as any as S.Schema<CancelWebsetRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<Webset>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3549,8 +3631,8 @@ export const cancelWebsetsEnrichment: API.OperationMethod<
   CancelWebsetsEnrichmentError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<CancelWebsetsEnrichmentRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<WebsetEnrichment>,
+  input: __S(448, __c14, 0) as any as S.Schema<CancelWebsetsEnrichmentRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<WebsetEnrichment>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3566,8 +3648,8 @@ export const cancelWebsetsSearch: API.OperationMethod<
   CancelWebsetsSearchError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CancelWebsetsSearchRequest>,
-  output: __S(107, __c3, 11) as any as S.Schema<WebsetSearch>,
+  input: __S(480, __c15, 0) as any as S.Schema<CancelWebsetsSearchRequest>,
+  output: __S(171, __c5, 11) as any as S.Schema<WebsetSearch>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3583,8 +3665,8 @@ export const createAgentRun: API.OperationMethod<
   CreateAgentRunError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CreateAgentRunRequest>,
-  output: __S(2862, __c89, 14) as any as S.Schema<AgentRun>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateAgentRunRequest>,
+  output: __S(2925, __c91, 13) as any as S.Schema<AgentRun>,
   errors: [BadRequest, Forbidden, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3600,8 +3682,8 @@ export const createBatch: API.OperationMethod<
   CreateBatchError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(482, __c15, 2) as any as S.Schema<CreateBatchRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<Batch>,
+  input: __S(546, __c17, 2) as any as S.Schema<CreateBatchRequest>,
+  output: __S(2977, __c93, 1) as any as S.Schema<Batch>,
   errors: [BadRequest, Forbidden, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3617,8 +3699,8 @@ export const createImport: API.OperationMethod<
   CreateImportError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(514, __c16, 2) as any as S.Schema<CreateImportRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<CreateImportResponse>,
+  input: __S(578, __c18, 2) as any as S.Schema<CreateImportRequest>,
+  output: __S(579, __c18, 3) as any as S.Schema<CreateImportResponse>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3634,8 +3716,8 @@ export const createMonitor: API.OperationMethod<
   CreateMonitorError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(545, __c17, 1) as any as S.Schema<CreateMonitorRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<CreateSearchMonitorResponse>,
+  input: __S(609, __c19, 1) as any as S.Schema<CreateMonitorRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<CreateSearchMonitorResponse>,
   errors: [BadRequest, Forbidden, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3651,8 +3733,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<Webhook>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<Webhook>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3668,8 +3750,8 @@ export const createWebset: API.OperationMethod<
   CreateWebsetError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(773, __c24, 5) as any as S.Schema<CreateWebsetRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Webset>,
+  input: __S(837, __c26, 5) as any as S.Schema<CreateWebsetRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<Webset>,
   errors: [Conflict, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3685,8 +3767,8 @@ export const createWebsetMonitor: API.OperationMethod<
   CreateWebsetMonitorError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<CreateWebsetMonitorRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<Monitor>,
+  input: __S(864, __c27, 0) as any as S.Schema<CreateWebsetMonitorRequest>,
+  output: __S(259, __c8, 3) as any as S.Schema<Monitor>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3702,8 +3784,8 @@ export const createWebsetsEnrichment: API.OperationMethod<
   CreateWebsetsEnrichmentError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<CreateWebsetsEnrichmentRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<WebsetEnrichment>,
+  input: __S(896, __c28, 0) as any as S.Schema<CreateWebsetsEnrichmentRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<WebsetEnrichment>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3719,8 +3801,8 @@ export const createWebsetsSearch: API.OperationMethod<
   CreateWebsetsSearchError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<CreateWebsetsSearchRequest>,
-  output: __S(107, __c3, 11) as any as S.Schema<WebsetSearch>,
+  input: __S(928, __c29, 0) as any as S.Schema<CreateWebsetsSearchRequest>,
+  output: __S(171, __c5, 11) as any as S.Schema<WebsetSearch>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3736,8 +3818,8 @@ export const deleteAgentRun: API.OperationMethod<
   DeleteAgentRunError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteAgentRunRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<DeleteAgentRunResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteAgentRunRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<DeleteAgentRunResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3753,8 +3835,8 @@ export const deleteBatch: API.OperationMethod<
   DeleteBatchError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteBatchRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<DeletedBatch>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteBatchRequest>,
+  output: __S(992, __c31, 0) as any as S.Schema<DeletedBatch>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3770,8 +3852,8 @@ export const deleteImport: API.OperationMethod<
   DeleteImportError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteImportRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<Import>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DeleteImportRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<Import>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3787,8 +3869,8 @@ export const deleteMonitor: API.OperationMethod<
   DeleteMonitorError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteMonitorRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<SearchMonitor>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeleteMonitorRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<SearchMonitor>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3804,8 +3886,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<Webhook>,
+  input: __S(1152, __c36, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<Webhook>,
   errors: [NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3821,8 +3903,8 @@ export const deleteWebset: API.OperationMethod<
   DeleteWebsetError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteWebsetRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Webset>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteWebsetRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<Webset>,
   errors: [NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3838,8 +3920,8 @@ export const deleteWebsetMonitor: API.OperationMethod<
   DeleteWebsetMonitorError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<DeleteWebsetMonitorRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<Monitor>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteWebsetMonitorRequest>,
+  output: __S(259, __c8, 3) as any as S.Schema<Monitor>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3855,8 +3937,8 @@ export const deleteWebsetsEnrichment: API.OperationMethod<
   DeleteWebsetsEnrichmentError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DeleteWebsetsEnrichmentRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<WebsetEnrichment>,
+  input: __S(1248, __c39, 0) as any as S.Schema<DeleteWebsetsEnrichmentRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<WebsetEnrichment>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3872,8 +3954,8 @@ export const deleteWebsetsItem: API.OperationMethod<
   DeleteWebsetsItemError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DeleteWebsetsItemRequest>,
-  output: __S(1254, __c39, 6) as any as S.Schema<WebsetItem>,
+  input: __S(1280, __c40, 0) as any as S.Schema<DeleteWebsetsItemRequest>,
+  output: __S(1318, __c41, 6) as any as S.Schema<WebsetItem>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3889,8 +3971,8 @@ export const getAgentRun: API.OperationMethod<
   GetAgentRunError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetAgentRunRequest>,
-  output: __S(2862, __c89, 14) as any as S.Schema<AgentRun>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetAgentRunRequest>,
+  output: __S(2925, __c91, 13) as any as S.Schema<AgentRun>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3902,8 +3984,8 @@ export type GetBatchError = BadRequest | Forbidden | NotFound | ExaOpError;
 /** Get a batch Retrieve a single batch by ID. */
 export const getBatch: API.OperationMethod<GetBatchRequest, Batch, GetBatchError, ExaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1312, __c41, 0) as any as S.Schema<GetBatchRequest>,
-    output: __S(2913, __c91, 1) as any as S.Schema<Batch>,
+    input: __S(1376, __c43, 0) as any as S.Schema<GetBatchRequest>,
+    output: __S(2977, __c93, 1) as any as S.Schema<Batch>,
     errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -3919,8 +4001,8 @@ export const getContents: API.OperationMethod<
   GetContentsError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetContentsRequest>,
-  output: __S(1360, __c42, 16) as any as S.Schema<ContentsResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetContentsRequest>,
+  output: __S(1424, __c44, 16) as any as S.Schema<ContentsResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3936,8 +4018,8 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetEventRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<GetEventResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetEventRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<GetEventResponse>,
   errors: [NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3953,8 +4035,8 @@ export const getImport: API.OperationMethod<
   GetImportError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetImportRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<Import>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetImportRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<Import>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3970,8 +4052,8 @@ export const getMonitor: API.OperationMethod<
   GetMonitorError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetMonitorRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<SearchMonitor>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetMonitorRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<SearchMonitor>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -3987,8 +4069,8 @@ export const getRun: API.OperationMethod<
   GetRunError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetRunRequest>,
-  output: __S(1541, __c48, 5) as any as S.Schema<SearchMonitorRun>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetRunRequest>,
+  output: __S(1605, __c50, 5) as any as S.Schema<SearchMonitorRun>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4004,8 +4086,8 @@ export const getTeamsMe: API.OperationMethod<
   GetTeamsMeError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetTeamsMeRequest>,
-  output: __S(1571, __c49, 3) as any as S.Schema<WebsetsTeamInfo>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetTeamsMeRequest>,
+  output: __S(1635, __c51, 3) as any as S.Schema<WebsetsTeamInfo>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4021,8 +4103,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<Webhook>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<Webhook>,
   errors: [NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4038,8 +4120,8 @@ export const getWebset: API.OperationMethod<
   GetWebsetError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetWebsetRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<GetWebsetResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetWebsetRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<GetWebsetResponse>,
   errors: [NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4055,8 +4137,8 @@ export const getWebsetMonitor: API.OperationMethod<
   GetWebsetMonitorError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetWebsetMonitorRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<Monitor>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetWebsetMonitorRequest>,
+  output: __S(259, __c8, 3) as any as S.Schema<Monitor>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4072,8 +4154,8 @@ export const getWebsetMonitorRun: API.OperationMethod<
   GetWebsetMonitorRunError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetWebsetMonitorRunRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<MonitorRun>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetWebsetMonitorRunRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<MonitorRun>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4089,8 +4171,8 @@ export const getWebsetsEnrichment: API.OperationMethod<
   GetWebsetsEnrichmentError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetWebsetsEnrichmentRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<WebsetEnrichment>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetWebsetsEnrichmentRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<WebsetEnrichment>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4106,8 +4188,8 @@ export const getWebsetsItem: API.OperationMethod<
   GetWebsetsItemError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetWebsetsItemRequest>,
-  output: __S(1254, __c39, 6) as any as S.Schema<WebsetItem>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetWebsetsItemRequest>,
+  output: __S(1318, __c41, 6) as any as S.Schema<WebsetItem>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4123,8 +4205,8 @@ export const getWebsetsSearch: API.OperationMethod<
   GetWebsetsSearchError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetWebsetsSearchRequest>,
-  output: __S(107, __c3, 11) as any as S.Schema<WebsetSearch>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetWebsetsSearchRequest>,
+  output: __S(171, __c5, 11) as any as S.Schema<WebsetSearch>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4142,8 +4224,8 @@ export const listAgentRunEvents: API.PaginatedOperationMethod<
   AgentRunEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1856, __c58, 0) as any as S.Schema<ListAgentRunEventsRequest>,
-    output: __S(1859, __c58, 3) as any as S.Schema<AgentRunEventList>,
+    input: __S(1920, __c60, 0) as any as S.Schema<ListAgentRunEventsRequest>,
+    output: __S(1923, __c60, 3) as any as S.Schema<AgentRunEventList>,
     errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4170,8 +4252,8 @@ export const listAgentRuns: API.PaginatedOperationMethod<
   AgentRun
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1888, __c59, 0) as any as S.Schema<ListAgentRunsRequest>,
-    output: __S(1890, __c59, 2) as any as S.Schema<AgentRunList>,
+    input: __S(1952, __c61, 0) as any as S.Schema<ListAgentRunsRequest>,
+    output: __S(1954, __c61, 2) as any as S.Schema<AgentRunList>,
     errors: [BadRequest, Forbidden, UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4198,8 +4280,8 @@ export const listBatches: API.PaginatedOperationMethod<
   Batch
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1920, __c60, 0) as any as S.Schema<ListBatchesRequest>,
-    output: __S(1922, __c60, 2) as any as S.Schema<BatchList>,
+    input: __S(1984, __c62, 0) as any as S.Schema<ListBatchesRequest>,
+    output: __S(1986, __c62, 2) as any as S.Schema<BatchList>,
     errors: [BadRequest, Forbidden, UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4226,8 +4308,8 @@ export const listEvents: API.PaginatedOperationMethod<
   Event
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1952, __c61, 0) as any as S.Schema<ListEventsRequest>,
-    output: __S(1954, __c61, 2) as any as S.Schema<ListEventsResponse>,
+    input: __S(2016, __c63, 0) as any as S.Schema<ListEventsRequest>,
+    output: __S(2018, __c63, 2) as any as S.Schema<ListEventsResponse>,
     errors: [UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4254,8 +4336,8 @@ export const listImports: API.PaginatedOperationMethod<
   Import
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1984, __c62, 0) as any as S.Schema<ListImportsRequest>,
-    output: __S(1985, __c62, 1) as any as S.Schema<ListImportsResponse>,
+    input: __S(2048, __c64, 0) as any as S.Schema<ListImportsRequest>,
+    output: __S(2049, __c64, 1) as any as S.Schema<ListImportsResponse>,
     errors: [UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4282,8 +4364,8 @@ export const listMonitors: API.PaginatedOperationMethod<
   SearchMonitor
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2016, __c63, 0) as any as S.Schema<ListMonitorsRequest>,
-    output: __S(2018, __c63, 2) as any as S.Schema<ListSearchMonitorsResponse>,
+    input: __S(2080, __c65, 0) as any as S.Schema<ListMonitorsRequest>,
+    output: __S(2082, __c65, 2) as any as S.Schema<ListSearchMonitorsResponse>,
     errors: [BadRequest, Forbidden, UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4310,8 +4392,8 @@ export const listRuns: API.PaginatedOperationMethod<
   SearchMonitorRun
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2048, __c64, 0) as any as S.Schema<ListRunsRequest>,
-    output: __S(2050, __c64, 2) as any as S.Schema<ListSearchMonitorRunsResponse>,
+    input: __S(2112, __c66, 0) as any as S.Schema<ListRunsRequest>,
+    output: __S(2114, __c66, 2) as any as S.Schema<ListSearchMonitorRunsResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4338,8 +4420,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
   Webhook
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2080, __c65, 0) as any as S.Schema<ListWebhooksRequest>,
-    output: __S(2082, __c65, 2) as any as S.Schema<ListWebhooksResponse>,
+    input: __S(2144, __c67, 0) as any as S.Schema<ListWebhooksRequest>,
+    output: __S(2146, __c67, 2) as any as S.Schema<ListWebhooksResponse>,
     errors: [UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4366,8 +4448,8 @@ export const listWebhooksAttempts: API.PaginatedOperationMethod<
   WebhookAttempt
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2112, __c66, 0) as any as S.Schema<ListWebhooksAttemptsRequest>,
-    output: __S(2115, __c66, 3) as any as S.Schema<ListWebhookAttemptsResponse>,
+    input: __S(2176, __c68, 0) as any as S.Schema<ListWebhooksAttemptsRequest>,
+    output: __S(2179, __c68, 3) as any as S.Schema<ListWebhookAttemptsResponse>,
     errors: [UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4392,8 +4474,8 @@ export const listWebsetMonitorRuns: API.OperationMethod<
   ListWebsetMonitorRunsError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListWebsetMonitorRunsRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListMonitorRunsResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListWebsetMonitorRunsRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<ListMonitorRunsResponse>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4411,8 +4493,8 @@ export const listWebsetMonitors: API.PaginatedOperationMethod<
   Monitor
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2176, __c68, 0) as any as S.Schema<ListWebsetMonitorsRequest>,
-    output: __S(2177, __c68, 1) as any as S.Schema<ListMonitorsResponse>,
+    input: __S(2240, __c70, 0) as any as S.Schema<ListWebsetMonitorsRequest>,
+    output: __S(2241, __c70, 1) as any as S.Schema<ListMonitorsResponse>,
     errors: [UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4439,8 +4521,8 @@ export const listWebsets: API.PaginatedOperationMethod<
   Webset
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2208, __c69, 0) as any as S.Schema<ListWebsetsRequest>,
-    output: __S(2210, __c69, 2) as any as S.Schema<ListWebsetsResponse>,
+    input: __S(2272, __c71, 0) as any as S.Schema<ListWebsetsRequest>,
+    output: __S(2274, __c71, 2) as any as S.Schema<ListWebsetsResponse>,
     errors: [UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4467,8 +4549,8 @@ export const listWebsetsItems: API.PaginatedOperationMethod<
   WebsetItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2240, __c70, 0) as any as S.Schema<ListWebsetsItemsRequest>,
-    output: __S(2241, __c70, 1) as any as S.Schema<ListWebsetItemResponse>,
+    input: __S(2304, __c72, 0) as any as S.Schema<ListWebsetsItemsRequest>,
+    output: __S(2305, __c72, 1) as any as S.Schema<ListWebsetItemResponse>,
     errors: [UnknownExaError],
     protocol: ExaProtocol,
     retry: Retry.Retry,
@@ -4493,8 +4575,8 @@ export const previewWebset: API.OperationMethod<
   PreviewWebsetError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<PreviewWebsetRequest>,
-  output: __S(2278, __c71, 6) as any as S.Schema<PreviewWebsetResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<PreviewWebsetRequest>,
+  output: __S(2342, __c73, 6) as any as S.Schema<PreviewWebsetResponse>,
   errors: [UnprocessableEntity, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4510,8 +4592,8 @@ export const search: API.OperationMethod<
   SearchError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2433, __c76, 1) as any as S.Schema<SearchRequest>,
-  output: __S(2434, __c76, 2) as any as S.Schema<SearchResponse2>,
+  input: __S(2497, __c78, 1) as any as S.Schema<SearchRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<SearchResponse2>,
   errors: [BadRequest, PaymentRequired, Forbidden, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4527,8 +4609,8 @@ export const stopAgentRun: API.OperationMethod<
   StopAgentRunError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<StopAgentRunRequest>,
-  output: __S(2862, __c89, 14) as any as S.Schema<AgentRun>,
+  input: __S(2528, __c79, 0) as any as S.Schema<StopAgentRunRequest>,
+  output: __S(2925, __c91, 13) as any as S.Schema<AgentRun>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4544,8 +4626,8 @@ export const triggerMonitor: API.OperationMethod<
   TriggerMonitorError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<TriggerMonitorRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<TriggerSearchMonitorResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<TriggerMonitorRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<TriggerSearchMonitorResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4561,8 +4643,8 @@ export const updateImport: API.OperationMethod<
   UpdateImportError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<UpdateImportRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<Import>,
+  input: __S(2592, __c81, 0) as any as S.Schema<UpdateImportRequest>,
+  output: __S(288, __c9, 0) as any as S.Schema<Import>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4578,8 +4660,8 @@ export const updateMonitor: API.OperationMethod<
   UpdateMonitorError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2563, __c80, 3) as any as S.Schema<UpdateMonitorRequest>,
-  output: __S(1056, __c33, 0) as any as S.Schema<SearchMonitor>,
+  input: __S(2627, __c82, 3) as any as S.Schema<UpdateMonitorRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<SearchMonitor>,
   errors: [BadRequest, Forbidden, NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4595,8 +4677,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<Webhook>,
+  input: __S(2656, __c83, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<Webhook>,
   errors: [NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4612,8 +4694,8 @@ export const updateWebset: API.OperationMethod<
   UpdateWebsetError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<UpdateWebsetRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<Webset>,
+  input: __S(2688, __c84, 0) as any as S.Schema<UpdateWebsetRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<Webset>,
   errors: [NotFound, UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4629,8 +4711,8 @@ export const updateWebsetMonitor: API.OperationMethod<
   UpdateWebsetMonitorError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<UpdateWebsetMonitorRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<Monitor>,
+  input: __S(2720, __c85, 0) as any as S.Schema<UpdateWebsetMonitorRequest>,
+  output: __S(259, __c8, 3) as any as S.Schema<Monitor>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4646,8 +4728,8 @@ export const updateWebsetsEnrichment: API.OperationMethod<
   UpdateWebsetsEnrichmentError,
   ExaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<UpdateWebsetsEnrichmentRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<UpdateWebsetsEnrichmentResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<UpdateWebsetsEnrichmentRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<UpdateWebsetsEnrichmentResponse>,
   errors: [UnknownExaError],
   protocol: ExaProtocol,
   retry: Retry.Retry,
@@ -4661,12 +4743,45 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          requestId: S.String,
+          error: S.String,
+          tag: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            type: S.String,
+            code: S.String,
+            message: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "AgentError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(32, __c1, 0),
+        }),
+      ).annotate({ identifier: "AgentErrorResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/websets/v0/websets/{id}/cancel", code: 200 })),
       ).annotate({ identifier: "CancelWebsetRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4675,10 +4790,10 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "WebsetEnrichmentOptionsItem" });
     case 1:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(96, __c3, 0));
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4690,16 +4805,16 @@ function __c2(j: number): any {
           title: S.NullOr(S.String),
           description: S.String,
           format: S.NullOr(S.String),
-          options: S.NullOr(__S(33, __c1, 1)),
+          options: S.NullOr(__S(97, __c3, 1)),
           instructions: S.NullOr(S.String),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "WebsetEnrichment" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4709,7 +4824,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "WebsetSearchCriteriaItem" });
     case 1:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(160, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4718,7 +4833,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "WebsetSearchExcludeItem" });
     case 3:
-      return S.Array(__S(98, __c3, 2));
+      return S.Array(__S(162, __c5, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4731,11 +4846,11 @@ function __c3(j: number): any {
         S.Struct({
           source: S.String,
           id: S.String,
-          relationship: S.optional(__S(100, __c3, 4)),
+          relationship: S.optional(__S(164, __c5, 4)),
         }),
       ).annotate({ identifier: "WebsetSearchScopeItem" });
     case 6:
-      return S.Array(__S(101, __c3, 5));
+      return S.Array(__S(165, __c5, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -4757,13 +4872,13 @@ function __c3(j: number): any {
         S.Struct({
           total: S.Number,
           confidence: S.String,
-          bounds: __S(104, __c3, 8),
+          bounds: __S(168, __c5, 8),
         }),
       ).annotate({ identifier: "WebsetSearchRecallExpected" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          expected: __S(105, __c3, 9),
+          expected: __S(169, __c5, 9),
           reasoning: S.String,
         }),
       ).annotate({ identifier: "WebsetSearchRecall" });
@@ -4776,15 +4891,15 @@ function __c3(j: number): any {
           status: S.String,
           query: S.String,
           entity: S.NullOr(S.Unknown),
-          criteria: __S(97, __c3, 1),
+          criteria: __S(161, __c5, 1),
           count: S.Number,
           maxPeoplePerCompany: S.NullOr(S.Number),
           behavior: S.optional(S.String),
-          exclude: __S(99, __c3, 3),
-          scope: __S(102, __c3, 6),
-          progress: __S(103, __c3, 7),
-          recall: S.NullOr(__S(106, __c3, 10)),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          exclude: __S(163, __c5, 3),
+          scope: __S(166, __c5, 6),
+          progress: __S(167, __c5, 7),
+          recall: S.NullOr(__S(170, __c5, 10)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           canceledAt: S.NullOr(S.String),
           canceledReason: S.NullOr(S.String),
           createdAt: S.String,
@@ -4793,7 +4908,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "WebsetSearch" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4802,10 +4917,10 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "MonitorBehaviorConfigCriteriaItem" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(192, __c6, 0));
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4825,7 +4940,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "MonitorRun" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4838,7 +4953,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String),
-          criteria: S.optional(__S(129, __c4, 1)),
+          criteria: S.optional(__S(193, __c6, 1)),
           entity: S.optional(S.Unknown),
           count: S.Number,
           behavior: S.optional(S.String),
@@ -4847,7 +4962,7 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          config: __S(193, __c6, 1),
+          config: __S(257, __c8, 1),
           type: S.String,
         }),
       ).annotate({ identifier: "MonitorBehavior" });
@@ -4858,18 +4973,18 @@ function __c6(j: number): any {
           object: S.String,
           status: S.String,
           websetId: S.String,
-          cadence: __S(192, __c6, 0),
-          behavior: __S(194, __c6, 2),
-          lastRun: S.NullOr(__S(160, __c5, 0)),
+          cadence: __S(256, __c8, 0),
+          behavior: __S(258, __c8, 2),
+          lastRun: S.NullOr(__S(224, __c7, 0)),
           nextRunAt: S.NullOr(S.String),
-          metadata: __S(2752, __c86, 0),
+          metadata: __S(2816, __c88, 0),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "Monitor" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4881,7 +4996,7 @@ function __c7(j: number): any {
           entity: S.NullOr(S.Unknown),
           title: S.String,
           count: S.Number,
-          metadata: __S(2752, __c86, 0),
+          metadata: __S(2816, __c88, 0),
           failedReason: S.NullOr(S.String),
           failedAt: S.NullOr(S.String),
           failedMessage: S.NullOr(S.String),
@@ -4891,27 +5006,27 @@ function __c7(j: number): any {
       ).annotate({ identifier: "Import" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(224, __c7, 0));
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(195, __c6, 3));
-  }
-}
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(107, __c3, 11));
-    case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(288, __c9, 0));
   }
 }
 function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(259, __c8, 3));
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(171, __c5, 11));
+    case 1:
+      return S.Array(__S(128, __c4, 0));
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4921,12 +5036,12 @@ function __c11(j: number): any {
           status: S.String,
           externalId: S.NullOr(S.String),
           title: S.NullOr(S.String),
-          searches: __S(320, __c10, 0),
-          imports: __S(256, __c8, 0),
-          enrichments: __S(321, __c10, 1),
-          monitors: __S(288, __c9, 0),
-          excludes: S.optional(__S(99, __c3, 3)),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          searches: __S(384, __c12, 0),
+          imports: __S(320, __c10, 0),
+          enrichments: __S(385, __c12, 1),
+          monitors: __S(352, __c11, 0),
+          excludes: S.optional(__S(163, __c5, 3)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           dashboardUrl: S.String,
           createdAt: S.String,
           updatedAt: S.String,
@@ -4934,7 +5049,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "Webset" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4951,7 +5066,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "CancelWebsetsEnrichmentRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4968,7 +5083,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CancelWebsetsSearchRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4978,18 +5093,18 @@ function __c14(j: number): any {
           query: S.String,
           systemPrompt: S.optional(S.String),
           effort: S.optional(S.String),
-          input: S.optional(__S(2848, __c89, 0)),
-          outputSchema: S.optional(S.NullOr(__S(2400, __c75, 0))),
+          input: S.optional(__S(2912, __c91, 0)),
+          outputSchema: S.optional(S.NullOr(__S(2464, __c77, 0))),
           previousRunId: S.optional(S.String),
-          metadata: S.optional(__S(2752, __c86, 0)),
-          dataSources: S.optional(__S(2850, __c89, 2)),
-          budget: S.optional(__S(2851, __c89, 3)),
+          metadata: S.optional(__S(2816, __c88, 0)),
+          dataSources: S.optional(__S(2914, __c91, 2)),
+          budget: S.optional(__S(2915, __c91, 3)),
           userIdentifier: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/agent/runs", code: 200 })),
       ).annotate({ identifier: "CreateAgentRunRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4997,22 +5112,22 @@ function __c15(j: number): any {
           customId: S.String,
           method: S.String,
           url: S.String,
-          body: __S(2400, __c75, 0),
+          body: __S(2464, __c77, 0),
         }),
       ).annotate({ identifier: "BatchRequestItem" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(544, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           exaBeta: S.String.pipe(T.Header("Exa-Beta")),
-          requests: __S(481, __c15, 1),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          requests: __S(545, __c17, 1),
+          metadata: S.optional(__S(2816, __c88, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/batches", code: 200 })),
       ).annotate({ identifier: "CreateBatchRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5027,15 +5142,15 @@ function __c16(j: number): any {
           count: S.Number,
           title: S.optional(S.String),
           format: S.String,
-          metadata: S.optional(__S(2752, __c86, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           entity: S.Unknown,
-          csv: S.optional(__S(512, __c16, 0)),
+          csv: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "CreateImportParameters" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          body: __S(513, __c16, 1).pipe(T.HttpBody()),
+          body: __S(577, __c18, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/websets/v0/imports", code: 200 })),
       ).annotate({ identifier: "CreateImportRequest" });
     case 3:
@@ -5048,7 +5163,7 @@ function __c16(j: number): any {
           entity: S.NullOr(S.Unknown),
           title: S.String,
           count: S.Number,
-          metadata: __S(2752, __c86, 0),
+          metadata: __S(2816, __c88, 0),
           failedReason: S.NullOr(S.String),
           failedAt: S.NullOr(S.String),
           failedMessage: S.NullOr(S.String),
@@ -5060,27 +5175,27 @@ function __c16(j: number): any {
       ).annotate({ identifier: "CreateImportResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.String,
           numResults: S.optional(S.Number),
-          includeDomains: S.optional(__S(2368, __c74, 0)),
-          excludeDomains: S.optional(__S(2368, __c74, 0)),
-          contents: S.optional(__S(672, __c21, 0)),
+          includeDomains: S.optional(__S(2432, __c76, 0)),
+          excludeDomains: S.optional(__S(2432, __c76, 0)),
+          contents: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "SearchMonitorSearch" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          search: __S(544, __c17, 0),
-          trigger: S.optional(__S(640, __c20, 0)),
+          search: __S(608, __c19, 0),
+          trigger: S.optional(__S(704, __c22, 0)),
           outputSchema: S.optional(S.NullOr(S.Unknown)),
-          metadata: S.optional(__S(2752, __c86, 0)),
-          webhook: __S(641, __c20, 1),
+          metadata: S.optional(__S(2816, __c88, 0)),
+          webhook: __S(705, __c22, 1),
         }).pipe(T.Http({ method: "POST", uri: "/monitors", code: 200 })),
       ).annotate({ identifier: "CreateMonitorRequest" });
     case 2:
@@ -5089,11 +5204,11 @@ function __c17(j: number): any {
           id: S.String,
           name: S.NullOr(S.String),
           status: S.String,
-          search: __S(643, __c20, 3),
-          trigger: S.NullOr(__S(640, __c20, 0)),
+          search: __S(707, __c22, 3),
+          trigger: S.NullOr(__S(704, __c22, 0)),
           outputSchema: S.NullOr(S.Unknown),
-          metadata: S.NullOr(__S(2752, __c86, 0)),
-          webhook: __S(641, __c20, 1),
+          metadata: S.NullOr(__S(2816, __c88, 0)),
+          webhook: __S(705, __c22, 1),
           nextRunAt: S.NullOr(S.String),
           createdAt: S.String,
           updatedAt: S.String,
@@ -5102,13 +5217,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateSearchMonitorResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5122,7 +5237,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SearchMonitorContentsExtras" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5135,7 +5250,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          events: S.optional(__S(576, __c18, 0)),
+          events: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "SearchMonitorWebhook" });
     case 2:
@@ -5144,7 +5259,7 @@ function __c20(j: number): any {
           text: S.optional(S.Unknown),
           highlights: S.optional(S.Unknown),
           summary: S.optional(S.Unknown),
-          extras: S.optional(__S(608, __c19, 0)),
+          extras: S.optional(__S(672, __c21, 0)),
           livecrawlTimeout: S.optional(S.Number),
           maxAgeHours: S.optional(S.Number),
           filterEmptyResults: S.optional(S.Boolean),
@@ -5159,14 +5274,14 @@ function __c20(j: number): any {
         S.Struct({
           query: S.String,
           numResults: S.optional(S.Number),
-          includeDomains: S.optional(__S(2368, __c74, 0)),
-          excludeDomains: S.optional(__S(2368, __c74, 0)),
-          contents: S.optional(__S(642, __c20, 2)),
+          includeDomains: S.optional(__S(2432, __c76, 0)),
+          excludeDomains: S.optional(__S(2432, __c76, 0)),
+          contents: S.optional(__S(706, __c22, 2)),
         }),
       ).annotate({ identifier: "SearchMonitorSearchOutput" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5174,7 +5289,7 @@ function __c21(j: number): any {
           text: S.optional(S.Unknown),
           highlights: S.optional(S.Unknown),
           summary: S.optional(S.Unknown),
-          extras: S.optional(__S(608, __c19, 0)),
+          extras: S.optional(__S(672, __c21, 0)),
           livecrawlTimeout: S.optional(S.Number),
           maxAgeHours: S.optional(S.Number),
           filterEmptyResults: S.optional(S.Boolean),
@@ -5186,19 +5301,19 @@ function __c21(j: number): any {
       ).annotate({ identifier: "SearchMonitorContents" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          events: __S(576, __c18, 0),
+          events: __S(640, __c20, 0),
           url: S.String,
-          metadata: S.optional(__S(2752, __c86, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/websets/v0/webhooks", code: 200 })),
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5206,17 +5321,17 @@ function __c23(j: number): any {
           id: S.String,
           object: S.String,
           status: S.String,
-          events: __S(576, __c18, 0),
+          events: __S(640, __c20, 0),
           url: S.String,
           secret: S.NullOr(S.String).pipe(T.SensitiveValue({})),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "Webhook" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5224,11 +5339,11 @@ function __c24(j: number): any {
           query: S.String,
           count: S.optional(S.Number),
           entity: S.optional(S.Unknown),
-          criteria: S.optional(__S(129, __c4, 1)),
+          criteria: S.optional(__S(193, __c6, 1)),
           maxPeoplePerCompany: S.optional(S.Number),
           recall: S.optional(S.Boolean),
-          exclude: S.optional(__S(99, __c3, 3)),
-          scope: S.optional(__S(102, __c3, 6)),
+          exclude: S.optional(__S(163, __c5, 3)),
+          scope: S.optional(__S(166, __c5, 6)),
         }),
       ).annotate({ identifier: "CreateWebsetRequestSearch" });
     case 1:
@@ -5240,46 +5355,46 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "CreateWebsetRequestImportItem" });
     case 2:
-      return S.Array(__S(769, __c24, 1));
+      return S.Array(__S(833, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           description: S.String,
           format: S.optional(S.String),
-          options: S.optional(__S(33, __c1, 1)),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          options: S.optional(__S(97, __c3, 1)),
+          metadata: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "CreateEnrichmentParameters" });
     case 4:
-      return S.Array(__S(771, __c24, 3));
+      return S.Array(__S(835, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.NullOr(S.String)),
-          search: S.optional(__S(768, __c24, 0)),
-          import: S.optional(__S(770, __c24, 2)),
-          enrichments: S.optional(__S(772, __c24, 4)),
-          exclude: S.optional(__S(99, __c3, 3)),
+          search: S.optional(__S(832, __c26, 0)),
+          import: S.optional(__S(834, __c26, 2)),
+          enrichments: S.optional(__S(836, __c26, 4)),
+          exclude: S.optional(__S(163, __c5, 3)),
           externalId: S.optional(S.String),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/websets/v0/websets", code: 200 })),
       ).annotate({ identifier: "CreateWebsetRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           websetId: S.String,
-          cadence: __S(192, __c6, 0),
-          behavior: __S(194, __c6, 2),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          cadence: __S(256, __c8, 0),
+          behavior: __S(258, __c8, 2),
+          metadata: S.optional(__S(2816, __c88, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/websets/v0/monitors", code: 200 })),
       ).annotate({ identifier: "CreateWebsetMonitorRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5287,15 +5402,15 @@ function __c26(j: number): any {
           webset: S.String.pipe(T.Label()),
           description: S.String,
           format: S.optional(S.String),
-          options: S.optional(__S(33, __c1, 1)),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          options: S.optional(__S(97, __c3, 1)),
+          metadata: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/websets/v0/websets/{webset}/enrichments", code: 200 }),
         ),
       ).annotate({ identifier: "CreateWebsetsEnrichmentRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5304,20 +5419,20 @@ function __c27(j: number): any {
           count: S.Number,
           query: S.String,
           entity: S.optional(S.Unknown),
-          criteria: S.optional(__S(129, __c4, 1)),
+          criteria: S.optional(__S(193, __c6, 1)),
           maxPeoplePerCompany: S.optional(S.Number),
-          exclude: S.optional(__S(99, __c3, 3)),
-          scope: S.optional(__S(102, __c3, 6)),
+          exclude: S.optional(__S(163, __c5, 3)),
+          scope: S.optional(__S(166, __c5, 6)),
           recall: S.optional(S.Boolean),
           behavior: S.optional(S.String),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/websets/v0/websets/{webset}/searches", code: 200 }),
         ),
       ).annotate({ identifier: "CreateWebsetsSearchRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5327,7 +5442,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeleteAgentRunRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5339,7 +5454,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteAgentRunResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5350,7 +5465,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteBatchRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5360,7 +5475,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteImportRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5370,7 +5485,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteMonitorRequest" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5378,11 +5493,11 @@ function __c33(j: number): any {
           id: S.String,
           name: S.NullOr(S.String),
           status: S.String,
-          search: __S(643, __c20, 3),
-          trigger: S.NullOr(__S(640, __c20, 0)),
+          search: __S(707, __c22, 3),
+          trigger: S.NullOr(__S(704, __c22, 0)),
           outputSchema: S.NullOr(S.Unknown),
-          metadata: S.NullOr(__S(2752, __c86, 0)),
-          webhook: __S(641, __c20, 1),
+          metadata: S.NullOr(__S(2816, __c88, 0)),
+          webhook: __S(705, __c22, 1),
           nextRunAt: S.NullOr(S.String),
           createdAt: S.String,
           updatedAt: S.String,
@@ -5390,7 +5505,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SearchMonitor" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5400,7 +5515,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5410,7 +5525,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteWebsetRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5420,7 +5535,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteWebsetMonitorRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5437,7 +5552,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteWebsetsEnrichmentRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5450,7 +5565,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteWebsetsItemRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5461,32 +5576,32 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "WebsetItemEvaluationReferencesItem" });
     case 1:
-      return S.Array(__S(1248, __c39, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           criterion: S.String,
           reasoning: S.String,
           satisfied: S.String,
-          references: S.optional(__S(1249, __c39, 1)),
+          references: S.optional(__S(1313, __c41, 1)),
         }),
       ).annotate({ identifier: "WebsetItemEvaluation" });
     case 3:
-      return S.Array(__S(1250, __c39, 2));
+      return S.Array(__S(1314, __c41, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           status: S.String,
           format: S.String,
-          result: S.NullOr(__S(2368, __c74, 0)),
+          result: S.NullOr(__S(2432, __c76, 0)),
           reasoning: S.NullOr(S.String),
-          references: __S(1249, __c39, 1),
+          references: __S(1313, __c41, 1),
           enrichmentId: S.String,
         }),
       ).annotate({ identifier: "EnrichmentResult" });
     case 5:
-      return S.Array(__S(1252, __c39, 4));
+      return S.Array(__S(1316, __c41, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5498,15 +5613,15 @@ function __c39(j: number): any {
           scopeId: S.optional(S.String),
           websetId: S.String,
           properties: S.Unknown,
-          evaluations: __S(1251, __c39, 3),
-          enrichments: S.NullOr(__S(1253, __c39, 5)),
+          evaluations: __S(1315, __c41, 3),
+          enrichments: S.NullOr(__S(1317, __c41, 5)),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "WebsetItem" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5516,7 +5631,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetAgentRunRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5527,19 +5642,19 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetBatchRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ids: S.optional(__S(2368, __c74, 0)),
-          urls: S.optional(__S(2368, __c74, 0)),
+          ids: S.optional(__S(2432, __c76, 0)),
+          urls: S.optional(__S(2432, __c76, 0)),
           compliance: S.optional(S.NullOr(S.String)),
           userIdentifier: S.optional(S.NullOr(S.String)),
           text: S.optional(S.NullOr(S.Unknown)),
           highlights: S.optional(S.NullOr(S.Unknown)),
-          summary: S.optional(S.NullOr(__S(1376, __c43, 0))),
-          extras: S.optional(S.NullOr(__S(608, __c19, 0))),
+          summary: S.optional(S.NullOr(__S(1440, __c45, 0))),
+          extras: S.optional(S.NullOr(__S(672, __c21, 0))),
           livecrawlTimeout: S.optional(S.NullOr(S.Number)),
           maxAgeHours: S.optional(S.NullOr(S.Number)),
           snapshotAsOf: S.optional(S.NullOr(S.String)),
@@ -5563,7 +5678,7 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "SearchResultOutputSubpagesItem" });
     case 2:
-      return S.Array(__S(1345, __c42, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
@@ -5574,7 +5689,7 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "SearchResultOutputExtrasRichImageLinksItem" });
     case 5:
-      return S.Array(__S(1348, __c42, 4));
+      return S.Array(__S(1412, __c44, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -5583,7 +5698,7 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "SearchResultOutputExtrasRichLinksItem" });
     case 7:
-      return S.Array(__S(1350, __c42, 6));
+      return S.Array(__S(1414, __c44, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5592,15 +5707,15 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "SearchResultOutputExtrasCodeBlocksItem" });
     case 9:
-      return S.Array(__S(1352, __c42, 8));
+      return S.Array(__S(1416, __c44, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          links: S.optional(__S(2368, __c74, 0)),
-          imageLinks: S.optional(__S(2368, __c74, 0)),
-          richImageLinks: S.optional(__S(1349, __c42, 5)),
-          richLinks: S.optional(__S(1351, __c42, 7)),
-          codeBlocks: S.optional(__S(1353, __c42, 9)),
+          links: S.optional(__S(2432, __c76, 0)),
+          imageLinks: S.optional(__S(2432, __c76, 0)),
+          richImageLinks: S.optional(__S(1413, __c44, 5)),
+          richLinks: S.optional(__S(1415, __c44, 7)),
+          codeBlocks: S.optional(__S(1417, __c44, 9)),
         }),
       ).annotate({ identifier: "SearchResultOutputExtras" });
     case 11:
@@ -5614,15 +5729,15 @@ function __c42(j: number): any {
           image: S.optional(S.String),
           favicon: S.optional(S.String),
           text: S.optional(S.String),
-          highlights: S.optional(__S(2368, __c74, 0)),
+          highlights: S.optional(__S(2432, __c76, 0)),
           summary: S.optional(S.String),
-          subpages: S.optional(__S(1346, __c42, 2)),
-          entities: S.optional(__S(1347, __c42, 3)),
-          extras: S.optional(__S(1354, __c42, 10)),
+          subpages: S.optional(__S(1410, __c44, 2)),
+          entities: S.optional(__S(1411, __c44, 3)),
+          extras: S.optional(__S(1418, __c44, 10)),
         }),
       ).annotate({ identifier: "SearchResultOutput" });
     case 12:
-      return S.Array(__S(1355, __c42, 11));
+      return S.Array(__S(1419, __c44, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -5636,36 +5751,36 @@ function __c42(j: number): any {
           id: S.String,
           status: S.String,
           source: S.optional(S.String),
-          error: S.optional(S.NullOr(__S(1357, __c42, 13))),
+          error: S.optional(S.NullOr(__S(1421, __c44, 13))),
         }),
       ).annotate({ identifier: "ContentsResponseStatusesItem" });
     case 15:
-      return S.Array(__S(1358, __c42, 14));
+      return S.Array(__S(1422, __c44, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String),
-          results: S.optional(__S(1356, __c42, 12)),
-          statuses: S.optional(__S(1359, __c42, 15)),
-          costDollars: S.optional(__S(2338, __c73, 2)),
+          results: S.optional(__S(1420, __c44, 12)),
+          statuses: S.optional(__S(1423, __c44, 15)),
+          costDollars: S.optional(__S(2402, __c75, 2)),
           searchTime: S.optional(S.Number),
           context: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContentsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.NullOr(S.String)),
-          schema: S.optional(S.NullOr(__S(2400, __c75, 0))),
+          schema: S.optional(S.NullOr(__S(2464, __c77, 0))),
         }),
       ).annotate({ identifier: "GetContentsRequestSummary" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5679,7 +5794,7 @@ function __c44(j: number): any {
       });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5689,7 +5804,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetImportRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5699,7 +5814,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetMonitorRequest" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5710,7 +5825,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetRunRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5720,23 +5835,23 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "SearchMonitorRunOutputGroundingItemCitationsItem" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           field: S.String,
-          citations: __S(1537, __c48, 1),
+          citations: __S(1601, __c50, 1),
           confidence: S.String,
         }),
       ).annotate({ identifier: "SearchMonitorRunOutputGroundingItem" });
     case 3:
-      return S.Array(__S(1538, __c48, 2));
+      return S.Array(__S(1602, __c50, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(S.NullOr(__S(2816, __c88, 0))),
+          results: S.optional(S.NullOr(__S(2880, __c90, 0))),
           content: S.optional(S.NullOr(S.Unknown)),
-          grounding: S.optional(S.NullOr(__S(1539, __c48, 3))),
+          grounding: S.optional(S.NullOr(__S(1603, __c50, 3))),
         }),
       ).annotate({ identifier: "SearchMonitorRunOutput" });
     case 5:
@@ -5745,7 +5860,7 @@ function __c48(j: number): any {
           id: S.String,
           monitorId: S.String,
           status: S.String,
-          output: S.NullOr(__S(1540, __c48, 4)),
+          output: S.NullOr(__S(1604, __c50, 4)),
           failReason: S.NullOr(S.String),
           startedAt: S.NullOr(S.String),
           completedAt: S.NullOr(S.String),
@@ -5758,7 +5873,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "SearchMonitorRun" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5784,13 +5899,13 @@ function __c49(j: number): any {
           object: S.String,
           id: S.String,
           name: S.String,
-          concurrency: __S(1569, __c49, 1),
-          limits: __S(1570, __c49, 2),
+          concurrency: __S(1633, __c51, 1),
+          limits: __S(1634, __c51, 2),
         }),
       ).annotate({ identifier: "WebsetsTeamInfo" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5800,13 +5915,13 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          expand: S.optional(__S(576, __c18, 0).pipe(T.Query())),
+          expand: S.optional(__S(640, __c20, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/websets/v0/websets/{id}", code: 200 })),
       ).annotate({ identifier: "GetWebsetRequest" });
     case 1:
@@ -5817,27 +5932,27 @@ function __c51(j: number): any {
           status: S.String,
           externalId: S.NullOr(S.String),
           title: S.NullOr(S.String),
-          searches: __S(320, __c10, 0),
-          imports: __S(256, __c8, 0),
-          enrichments: __S(321, __c10, 1),
-          monitors: __S(288, __c9, 0),
-          excludes: S.optional(__S(99, __c3, 3)),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          searches: __S(384, __c12, 0),
+          imports: __S(320, __c10, 0),
+          enrichments: __S(385, __c12, 1),
+          monitors: __S(352, __c11, 0),
+          excludes: S.optional(__S(163, __c5, 3)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           dashboardUrl: S.String,
           createdAt: S.String,
           updatedAt: S.String,
-          items: S.optional(__S(1664, __c52, 0)),
+          items: S.optional(__S(1728, __c54, 0)),
         }),
       ).annotate({ identifier: "GetWebsetResponse" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1254, __c39, 6));
+      return S.Array(__S(1318, __c41, 6));
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5847,7 +5962,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetWebsetMonitorRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5860,7 +5975,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetWebsetMonitorRunRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5877,7 +5992,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetWebsetsEnrichmentRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5890,7 +6005,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetWebsetsItemRequest" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5903,7 +6018,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetWebsetsSearchRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5925,19 +6040,19 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "AgentRunEvent" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(1858, __c58, 2),
+          data: __S(1922, __c60, 2),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AgentRunEventList" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5947,19 +6062,19 @@ function __c59(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/agent/runs", code: 200 })),
       ).annotate({ identifier: "ListAgentRunsRequest" });
     case 1:
-      return S.Array(__S(2862, __c89, 14));
+      return S.Array(__S(2925, __c91, 13));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(1889, __c59, 1),
+          data: __S(1953, __c61, 1),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AgentRunList" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5971,26 +6086,26 @@ function __c60(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/batches", code: 200 })),
       ).annotate({ identifier: "ListBatchesRequest" });
     case 1:
-      return S.Array(__S(2913, __c91, 1));
+      return S.Array(__S(2977, __c93, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(1921, __c60, 1),
+          data: __S(1985, __c62, 1),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BatchList" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          types: S.optional(__S(576, __c18, 0).pipe(T.Query())),
+          types: S.optional(__S(640, __c20, 0).pipe(T.Query())),
           createdBefore: S.optional(S.String.pipe(T.Query())),
           createdAfter: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/websets/v0/events", code: 200 })),
@@ -6000,14 +6115,14 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1953, __c61, 1),
+          data: __S(2017, __c63, 1),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListEventsResponse" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6019,14 +6134,14 @@ function __c62(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(256, __c8, 0),
+          data: __S(320, __c10, 0),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListImportsResponse" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6035,22 +6150,22 @@ function __c63(j: number): any {
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
-          metadata: S.optional(__S(2752, __c86, 0).pipe(T.Query())),
+          metadata: S.optional(__S(2816, __c88, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/monitors", code: 200 })),
       ).annotate({ identifier: "ListMonitorsRequest" });
     case 1:
-      return S.Array(__S(1056, __c33, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2017, __c63, 1),
+          data: __S(2081, __c65, 1),
           hasMore: S.Boolean,
           nextCursor: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListSearchMonitorsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6061,18 +6176,18 @@ function __c64(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/monitors/{id}/runs", code: 200 })),
       ).annotate({ identifier: "ListRunsRequest" });
     case 1:
-      return S.Array(__S(1541, __c48, 5));
+      return S.Array(__S(1605, __c50, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2049, __c64, 1),
+          data: __S(2113, __c66, 1),
           hasMore: S.Boolean,
           nextCursor: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListSearchMonitorRunsResponse" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6082,18 +6197,18 @@ function __c65(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/websets/v0/webhooks", code: 200 })),
       ).annotate({ identifier: "ListWebhooksRequest" });
     case 1:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2081, __c65, 1),
+          data: __S(2145, __c67, 1),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListWebhooksResponse" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6115,7 +6230,7 @@ function __c66(j: number): any {
           webhookId: S.String,
           url: S.String,
           successful: S.Boolean,
-          responseHeaders: __S(2752, __c86, 0),
+          responseHeaders: __S(2816, __c88, 0),
           responseBody: S.NullOr(S.String),
           responseStatusCode: S.Number,
           attempt: S.Number,
@@ -6123,18 +6238,18 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "WebhookAttempt" });
     case 2:
-      return S.Array(__S(2113, __c66, 1));
+      return S.Array(__S(2177, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2114, __c66, 2),
+          data: __S(2178, __c68, 2),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListWebhookAttemptsResponse" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6143,18 +6258,18 @@ function __c67(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/websets/v0/monitors/{monitor}/runs", code: 200 })),
       ).annotate({ identifier: "ListWebsetMonitorRunsRequest" });
     case 1:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2145, __c67, 1),
+          data: __S(2209, __c69, 1),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListMonitorRunsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6167,14 +6282,14 @@ function __c68(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(288, __c9, 0),
+          data: __S(352, __c11, 0),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListMonitorsResponse" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6185,18 +6300,18 @@ function __c69(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/websets/v0/websets", code: 200 })),
       ).annotate({ identifier: "ListWebsetsRequest" });
     case 1:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2209, __c69, 1),
+          data: __S(2273, __c71, 1),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListWebsetsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6210,14 +6325,14 @@ function __c70(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1664, __c52, 0),
+          data: __S(1728, __c54, 0),
           hasMore: S.Boolean,
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListWebsetItemResponse" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6229,7 +6344,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           entity: S.Unknown,
-          criteria: __S(129, __c4, 1),
+          criteria: __S(193, __c6, 1),
         }),
       ).annotate({ identifier: "PreviewWebsetResponseSearch" });
     case 2:
@@ -6237,11 +6352,11 @@ function __c71(j: number): any {
         S.Struct({
           description: S.String,
           format: S.String,
-          options: S.optional(__S(33, __c1, 1)),
+          options: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "PreviewWebsetResponseEnrichmentsItem" });
     case 3:
-      return S.Array(__S(2274, __c71, 2));
+      return S.Array(__S(2338, __c73, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6251,26 +6366,26 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "WebsetItemPreview" });
     case 5:
-      return S.Array(__S(2276, __c71, 4));
+      return S.Array(__S(2340, __c73, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          search: __S(2273, __c71, 1),
-          enrichments: __S(2275, __c71, 3),
-          items: __S(2277, __c71, 5),
+          search: __S(2337, __c73, 1),
+          enrichments: __S(2339, __c73, 3),
+          items: __S(2341, __c73, 5),
         }),
       ).annotate({ identifier: "PreviewWebsetResponse" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             type: S.optional(S.String),
-            properties: S.optional(__S(2400, __c75, 0)),
-            required: S.optional(__S(2368, __c74, 0)),
+            properties: S.optional(__S(2464, __c77, 0)),
+            required: S.optional(__S(2432, __c76, 0)),
             description: S.optional(S.String),
             additionalProperties: S.optional(S.Boolean),
           }),
@@ -6286,7 +6401,7 @@ function __c72(j: number): any {
           model: S.optional(S.String),
           systemPrompt: S.optional(S.String),
           userLocation: S.optional(S.NullOr(S.Unknown)),
-          outputSchema: S.optional(__S(2304, __c72, 0)),
+          outputSchema: S.optional(__S(2368, __c74, 0)),
           userIdentifier: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/answer", code: 200 })),
       ).annotate({ identifier: "AnswerRequest" });
@@ -6304,19 +6419,19 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "AnswerResponseCitationsItem" });
     case 3:
-      return S.Array(__S(2306, __c72, 2));
+      return S.Array(__S(2370, __c74, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String),
           answer: S.Unknown,
-          citations: S.optional(__S(2307, __c72, 3)),
-          costDollars: S.optional(__S(2338, __c73, 2)),
+          citations: S.optional(__S(2371, __c74, 3)),
+          costDollars: S.optional(__S(2402, __c75, 2)),
         }),
       ).annotate({ identifier: "AnswerResponse" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6337,34 +6452,34 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           total: S.optional(S.Number),
-          search: S.optional(__S(2336, __c73, 0)),
+          search: S.optional(__S(2400, __c75, 0)),
           summary: S.optional(S.Number),
-          contents: S.optional(__S(2337, __c73, 1)),
+          contents: S.optional(__S(2401, __c75, 1)),
         }),
       ).annotate({ identifier: "CostDollarsOutput" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.NullOr(S.Unknown)),
           highlights: S.optional(S.NullOr(S.Unknown)),
-          summary: S.optional(S.NullOr(__S(1376, __c43, 0))),
-          extras: S.optional(S.NullOr(__S(608, __c19, 0))),
+          summary: S.optional(S.NullOr(__S(1440, __c45, 0))),
+          extras: S.optional(S.NullOr(__S(672, __c21, 0))),
           livecrawlTimeout: S.optional(S.NullOr(S.Number)),
           maxAgeHours: S.optional(S.NullOr(S.Number)),
           snapshotAsOf: S.optional(S.NullOr(S.String)),
@@ -6378,15 +6493,15 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          includeDomains: S.optional(S.NullOr(__S(2368, __c74, 0))),
-          excludeDomains: S.optional(S.NullOr(__S(2368, __c74, 0))),
+          includeDomains: S.optional(S.NullOr(__S(2432, __c76, 0))),
+          excludeDomains: S.optional(S.NullOr(__S(2432, __c76, 0))),
           startPublishedDate: S.optional(S.NullOr(S.String)),
           endPublishedDate: S.optional(S.NullOr(S.String)),
           numResults: S.optional(S.NullOr(S.Number)),
           moderation: S.optional(S.NullOr(S.Boolean)),
-          contents: S.optional(S.NullOr(__S(2432, __c76, 0))),
+          contents: S.optional(S.NullOr(__S(2496, __c78, 0))),
           query: S.String,
-          additionalQueries: S.optional(S.NullOr(__S(2368, __c74, 0))),
+          additionalQueries: S.optional(S.NullOr(__S(2432, __c76, 0))),
           type: S.optional(S.NullOr(S.String)),
           category: S.optional(S.NullOr(S.String)),
           userLocation: S.optional(S.NullOr(S.Unknown)),
@@ -6398,8 +6513,8 @@ function __c76(j: number): any {
           stream: S.optional(S.NullOr(S.Boolean)),
           startCrawlDate: S.optional(S.NullOr(S.String)),
           endCrawlDate: S.optional(S.NullOr(S.String)),
-          includeText: S.optional(S.NullOr(__S(2368, __c74, 0))),
-          excludeText: S.optional(S.NullOr(__S(2368, __c74, 0))),
+          includeText: S.optional(S.NullOr(__S(2432, __c76, 0))),
+          excludeText: S.optional(S.NullOr(__S(2432, __c76, 0))),
           context: S.optional(S.NullOr(S.Unknown)),
         }).pipe(T.Http({ method: "POST", uri: "/search", code: 200 })),
       ).annotate({ identifier: "SearchRequest" });
@@ -6409,7 +6524,7 @@ function __c76(j: number): any {
       });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6419,7 +6534,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "StopAgentRunRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6435,28 +6550,28 @@ function __c78(j: number): any {
       ).annotate({ identifier: "TriggerSearchMonitorResponse" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           title: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/websets/v0/imports/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateImportRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String),
           numResults: S.optional(S.Number),
-          includeDomains: S.optional(__S(2368, __c74, 0)),
-          excludeDomains: S.optional(__S(2368, __c74, 0)),
-          contents: S.optional(__S(672, __c21, 0)),
+          includeDomains: S.optional(__S(2432, __c76, 0)),
+          excludeDomains: S.optional(__S(2432, __c76, 0)),
+          contents: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "UpdateMonitorRequestSearch" });
     case 1:
@@ -6470,7 +6585,7 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          events: S.optional(__S(576, __c18, 0)),
+          events: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "UpdateMonitorRequestWebhook" });
     case 3:
@@ -6479,38 +6594,13 @@ function __c80(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
-          search: S.optional(__S(2560, __c80, 0)),
-          trigger: S.optional(S.NullOr(__S(2561, __c80, 1))),
+          search: S.optional(__S(2624, __c82, 0)),
+          trigger: S.optional(S.NullOr(__S(2625, __c82, 1))),
           outputSchema: S.optional(S.NullOr(S.Unknown)),
-          metadata: S.optional(S.NullOr(__S(2752, __c86, 0))),
-          webhook: S.optional(__S(2562, __c80, 2)),
+          metadata: S.optional(S.NullOr(__S(2816, __c88, 0))),
+          webhook: S.optional(__S(2626, __c82, 2)),
         }).pipe(T.Http({ method: "PATCH", uri: "/monitors/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateMonitorRequest" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          events: S.optional(__S(576, __c18, 0)),
-          url: S.optional(S.String),
-          metadata: S.optional(__S(2752, __c86, 0)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/websets/v0/webhooks/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateWebhookRequest" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          metadata: S.optional(S.NullOr(__S(2752, __c86, 0))),
-          title: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/websets/v0/websets/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateWebsetRequest" });
   }
 }
 function __c83(j: number): any {
@@ -6519,15 +6609,40 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          events: S.optional(__S(640, __c20, 0)),
+          url: S.optional(S.String),
+          metadata: S.optional(__S(2816, __c88, 0)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/websets/v0/webhooks/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateWebhookRequest" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          metadata: S.optional(S.NullOr(__S(2816, __c88, 0))),
+          title: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/websets/v0/websets/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateWebsetRequest" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          metadata: S.optional(__S(2816, __c88, 0)),
           status: S.optional(S.String),
-          cadence: S.optional(__S(192, __c6, 0)),
-          behavior: S.optional(__S(194, __c6, 2)),
+          cadence: S.optional(__S(256, __c8, 0)),
+          behavior: S.optional(__S(258, __c8, 2)),
         }).pipe(T.Http({ method: "PATCH", uri: "/websets/v0/monitors/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateWebsetMonitorRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6536,8 +6651,8 @@ function __c84(j: number): any {
           id: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           format: S.optional(S.String),
-          options: S.optional(__S(33, __c1, 1)),
-          metadata: S.optional(S.NullOr(__S(2752, __c86, 0))),
+          options: S.optional(__S(97, __c3, 1)),
+          metadata: S.optional(S.NullOr(__S(2816, __c88, 0))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6552,21 +6667,21 @@ function __c84(j: number): any {
       });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           status: S.optional(S.String),
-          metadata: S.optional(__S(2752, __c86, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "BatchMonitorsRequestFilter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          filter: __S(2720, __c85, 0),
+          filter: __S(2784, __c87, 0),
           dry_run: S.optional(S.Boolean),
           limit: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/monitors/batch", code: 200 })),
@@ -6576,20 +6691,20 @@ function __c85(j: number): any {
         S.Struct({
           action: S.String,
           affected: S.Number,
-          ids: __S(2368, __c74, 0),
+          ids: __S(2432, __c76, 0),
           dry_run: S.Boolean,
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "BatchMonitorsResponse" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6599,19 +6714,19 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CancelAgentRunRequest" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2400, __c75, 0));
+      return S.Array(__S(2464, __c77, 0));
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(2816, __c88, 0)),
-          exclusion: S.optional(__S(2816, __c88, 0)),
+          data: S.optional(__S(2880, __c90, 0)),
+          exclusion: S.optional(__S(2880, __c90, 0)),
         }),
       ).annotate({ identifier: "AgentRunRequestInput" });
     case 1:
@@ -6621,7 +6736,7 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "AgentDataSourceOutput" });
     case 2:
-      return S.Array(__S(2849, __c89, 1));
+      return S.Array(__S(2913, __c91, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6636,67 +6751,56 @@ function __c89(j: number): any {
             query: S.optional(S.String),
             systemPrompt: S.optional(S.String),
             effort: S.optional(S.String),
-            input: S.optional(__S(2848, __c89, 0)),
-            outputSchema: S.optional(S.NullOr(__S(2400, __c75, 0))),
+            input: S.optional(__S(2912, __c91, 0)),
+            outputSchema: S.optional(S.NullOr(__S(2464, __c77, 0))),
             previousRunId: S.optional(S.String),
-            metadata: S.optional(__S(2752, __c86, 0)),
-            dataSources: S.optional(__S(2850, __c89, 2)),
-            budget: S.optional(__S(2851, __c89, 3)),
+            metadata: S.optional(__S(2816, __c88, 0)),
+            dataSources: S.optional(__S(2914, __c91, 2)),
+            budget: S.optional(__S(2915, __c91, 3)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "AgentRunRequest" });
     case 5:
       return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            type: S.String,
-            code: S.String,
-            message: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "AgentError" });
-    case 6:
-      return S.suspend(() =>
         S.Struct({
           url: S.String,
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentCitation" });
+    case 6:
+      return S.Array(__S(2917, __c91, 5));
     case 7:
-      return S.Array(__S(2854, __c89, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           field: S.String,
-          citations: __S(2855, __c89, 7),
+          citations: __S(2918, __c91, 6),
           confidence: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "AgentGrounding" });
+    case 8:
+      return S.Array(__S(2919, __c91, 7));
     case 9:
-      return S.Array(__S(2856, __c89, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
           text: S.String,
           structured: S.NullOr(S.Unknown),
-          grounding: __S(2857, __c89, 9),
+          grounding: __S(2920, __c91, 8),
         }),
       ).annotate({ identifier: "AgentRunOutput" });
-    case 11:
+    case 10:
       return S.Record(S.String, S.Number);
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           agentComputeUnits: S.Number,
           searches: S.Number,
           emails: S.Number,
           phoneNumbers: S.Number,
-          dataSources: S.optional(__S(2859, __c89, 11)),
+          dataSources: S.optional(__S(2922, __c91, 10)),
         }),
       ).annotate({ identifier: "AgentUsage" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
@@ -6704,10 +6808,10 @@ function __c89(j: number): any {
           search: S.Number,
           emails: S.Number,
           phoneNumbers: S.Number,
-          dataSources: S.optional(__S(2859, __c89, 11)),
+          dataSources: S.optional(__S(2922, __c91, 10)),
         }),
       ).annotate({ identifier: "AgentCostDollars" });
-    case 14:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -6716,16 +6820,16 @@ function __c89(j: number): any {
           stopReason: S.NullOr(S.String),
           createdAt: S.String,
           completedAt: S.NullOr(S.String),
-          request: S.NullOr(__S(2852, __c89, 4)),
-          error: S.NullOr(__S(2853, __c89, 5)),
-          output: __S(2858, __c89, 10),
-          usage: __S(2860, __c89, 12),
-          costDollars: __S(2861, __c89, 13),
+          request: S.NullOr(__S(2916, __c91, 4)),
+          error: S.NullOr(__S(32, __c1, 0)),
+          output: __S(2921, __c91, 9),
+          usage: __S(2923, __c91, 11),
+          costDollars: __S(2924, __c91, 12),
         }),
       ).annotate({ identifier: "AgentRun" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6736,7 +6840,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "CancelBatchRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6752,12 +6856,12 @@ function __c91(j: number): any {
           id: S.String,
           object: S.String,
           status: S.String,
-          requestCounts: __S(2912, __c91, 0),
+          requestCounts: __S(2976, __c93, 0),
           createdAt: S.String,
           expiresAt: S.NullOr(S.String),
           endedAt: S.NullOr(S.String),
           resultsUrl: S.NullOr(S.String),
-          metadata: __S(2752, __c86, 0),
+          metadata: __S(2816, __c88, 0),
         }),
       ).annotate({ identifier: "Batch" });
   }

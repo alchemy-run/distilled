@@ -30,33 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface GetPackageVersionStatusRequest {
   /** The exact package name. Scoped names must be URL-encoded with the slash escaped. */
@@ -79,6 +94,9 @@ export interface PackageVersionStatus2 {
   /** Where the version currently stands. `published` means it is live and installable. `validating` means it is still on its way and the caller should check again shortly. `staged` means it is waiting for a maintainer to approve it. `blocked` means it did not pass automated validation and cannot be installed. `deleted` means it was published and has since been removed. */
   status: PackageVersionStatusStatus;
 }
+export interface Error400Body {
+  error?: string | undefined;
+}
 export type GetPackageVersionStatusError = BadRequest | Forbidden | NotFound | NpmOpError;
 /** Get the lifecycle status of an exact package version. Returns the current lifecycle status of an exact package version. The response may represent validation progress, manual approval, or publication without exposing validation-system details. The authenticated user must have publish access to the package. A package authorization failure is returned as not found. */
 export const getPackageVersionStatus: API.OperationMethod<
@@ -87,8 +105,8 @@ export const getPackageVersionStatus: API.OperationMethod<
   GetPackageVersionStatusError,
   NpmOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetPackageVersionStatusRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<PackageVersionStatus2>,
+  input: __S(2, __c1, 0) as any as S.Schema<GetPackageVersionStatusRequest>,
+  output: __S(3, __c1, 1) as any as S.Schema<PackageVersionStatus2>,
   errors: [BadRequest, Forbidden, NotFound, UnknownNpmError],
   protocol: NpmProtocol,
   retry: Retry.Retry,
@@ -98,6 +116,16 @@ export const getPackageVersionStatus: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

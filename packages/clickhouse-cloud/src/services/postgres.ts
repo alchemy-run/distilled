@@ -37,7 +37,9 @@ export class DeletionProtectionNotEnabled
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DeletionProtectionNotEnabled>()("DeletionProtectionNotEnabled", {
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
@@ -46,7 +48,10 @@ export class DeletionProtectionNotEnabled
         message: { includes: "Deletion protection is not enabled for this organization" },
       },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 /** The cloud provider for a Postgres service. */
 export type PgProvider = "aws" | "gcp";
@@ -929,6 +934,14 @@ export interface UpdatePostgresServiceStateRequest {
   /** Postgres status, which initiates a process. */
   command?: UpdatePostgresServiceStateRequestCommand | (string & {}) | undefined;
 }
+export interface Error400Body {
+  /** HTTP status code. */
+  status?: number | undefined;
+  /** Detailed error description. */
+  error?: string | undefined;
+  /** Unique id assigned to every request. UUIDv4 */
+  requestId?: string | undefined;
+}
 export type CreatePostgresServiceError = ClickHouseCloudOpError;
 /** Create new Postgres service **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Creates a new Postgres service in the organization and returns it. The service is started asynchronously. */
 export const createPostgresService: API.OperationMethod<
@@ -937,8 +950,8 @@ export const createPostgresService: API.OperationMethod<
   CreatePostgresServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreatePostgresServiceRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<PostgresService>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreatePostgresServiceRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -954,8 +967,8 @@ export const createPostgresServiceReadReplica: API.OperationMethod<
   CreatePostgresServiceReadReplicaError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreatePostgresServiceReadReplicaRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<PostgresService>,
+  input: __S(120, __c15, 0) as any as S.Schema<CreatePostgresServiceReadReplicaRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -971,8 +984,8 @@ export const deletePostgresService: API.OperationMethod<
   DeletePostgresServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeletePostgresServiceRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<DeletePostgresServiceResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<DeletePostgresServiceRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<DeletePostgresServiceResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -988,8 +1001,8 @@ export const getPostgresService: API.OperationMethod<
   GetPostgresServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetPostgresServiceRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<PostgresService>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetPostgresServiceRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1005,8 +1018,8 @@ export const getPostgresServiceCaCertificates: API.OperationMethod<
   GetPostgresServiceCaCertificatesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetPostgresServiceCaCertificatesRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<GetPostgresServiceCaCertificatesResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<GetPostgresServiceCaCertificatesRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<GetPostgresServiceCaCertificatesResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1022,8 +1035,8 @@ export const getPostgresServiceConfig: API.OperationMethod<
   GetPostgresServiceConfigError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetPostgresServiceConfigRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<PostgresInstanceConfig>,
+  input: __S(152, __c19, 0) as any as S.Schema<GetPostgresServiceConfigRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<PostgresInstanceConfig>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1039,8 +1052,8 @@ export const getPostgresServiceMetrics: API.OperationMethod<
   GetPostgresServiceMetricsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetPostgresServiceMetricsRequest>,
-  output: __S(159, __c19, 7) as any as S.Schema<PostgresMetrics>,
+  input: __S(160, __c20, 0) as any as S.Schema<GetPostgresServiceMetricsRequest>,
+  output: __S(167, __c20, 7) as any as S.Schema<PostgresMetrics>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1056,8 +1069,8 @@ export const getPostgresSlowQueryPattern: API.OperationMethod<
   GetPostgresSlowQueryPatternError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetPostgresSlowQueryPatternRequest>,
-  output: __S(163, __c20, 3) as any as S.Schema<PostgresSlowQueryPatternDetail>,
+  input: __S(168, __c21, 0) as any as S.Schema<GetPostgresSlowQueryPatternRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<PostgresSlowQueryPatternDetail>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1073,8 +1086,8 @@ export const listPostgresLogs: API.OperationMethod<
   ListPostgresLogsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListPostgresLogsRequest>,
-  output: __S(179, __c22, 3) as any as S.Schema<ListPostgresLogsResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<ListPostgresLogsRequest>,
+  output: __S(187, __c23, 3) as any as S.Schema<ListPostgresLogsResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1092,8 +1105,8 @@ export const listPostgresServiceBackups: API.PaginatedOperationMethod<
   PostgresBackup
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c4, 0) as any as S.Schema<ListPostgresServiceBackupsRequest>,
-    output: __S(35, __c4, 3) as any as S.Schema<ListPostgresServiceBackupsResponse>,
+    input: __S(40, __c5, 0) as any as S.Schema<ListPostgresServiceBackupsRequest>,
+    output: __S(43, __c5, 3) as any as S.Schema<ListPostgresServiceBackupsResponse>,
     errors: [UnknownClickHouseCloudError],
     protocol: ClickHouseCloudPaginatedProtocol,
     retry: Retry.Retry,
@@ -1118,8 +1131,8 @@ export const listPostgresServices: API.OperationMethod<
   ListPostgresServicesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListPostgresServicesRequest>,
-  output: __S(43, __c5, 3) as any as S.Schema<ListPostgresServicesResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListPostgresServicesRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<ListPostgresServicesResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1135,8 +1148,8 @@ export const listPostgresSlowQueryPatterns: API.OperationMethod<
   ListPostgresSlowQueryPatternsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListPostgresSlowQueryPatternsRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<ListPostgresSlowQueryPatternsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListPostgresSlowQueryPatternsRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<ListPostgresSlowQueryPatternsResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1152,8 +1165,8 @@ export const replacePostgresServiceConfig: API.OperationMethod<
   ReplacePostgresServiceConfigError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ReplacePostgresServiceConfigRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ReplacePostgresServiceConfigRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1169,8 +1182,8 @@ export const restorePostgresService: API.OperationMethod<
   RestorePostgresServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<RestorePostgresServiceRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<PostgresService>,
+  input: __S(80, __c10, 0) as any as S.Schema<RestorePostgresServiceRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1186,8 +1199,8 @@ export const updatePostgresService: API.OperationMethod<
   UpdatePostgresServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(83, __c10, 3) as any as S.Schema<UpdatePostgresServiceRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<PostgresService>,
+  input: __S(91, __c11, 3) as any as S.Schema<UpdatePostgresServiceRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
   errors: [DeletionProtectionNotEnabled, UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1203,8 +1216,8 @@ export const updatePostgresServiceConfig: API.OperationMethod<
   UpdatePostgresServiceConfigError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<UpdatePostgresServiceConfigRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<UpdatePostgresServiceConfigRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1220,8 +1233,8 @@ export const updatePostgresServicePassword: API.OperationMethod<
   UpdatePostgresServicePasswordError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UpdatePostgresServicePasswordRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<PostgresServicePasswordResource>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdatePostgresServicePasswordRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<PostgresServicePasswordResource>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1237,8 +1250,8 @@ export const updatePostgresServiceState: API.OperationMethod<
   UpdatePostgresServiceStateError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<UpdatePostgresServiceStateRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<PostgresService>,
+  input: __S(112, __c14, 0) as any as S.Schema<UpdatePostgresServiceStateRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
   errors: [UnknownClickHouseCloudError],
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
@@ -1252,6 +1265,18 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          status: S.optional(S.Number),
+          error: S.optional(S.String),
+          requestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           organizationId: S.String.pipe(T.Label()),
           name: S.String,
           provider: S.String,
@@ -1260,17 +1285,17 @@ function __c0(j: number): any {
           size: S.String,
           haType: S.optional(S.String),
           standbyCount: S.optional(S.Number),
-          tags: S.optional(__S(9, __c1, 1)),
-          ipAccessList: S.optional(__S(17, __c2, 1)),
-          pgConfig: S.optional(__S(24, __c3, 0)),
-          pgBouncerConfig: S.optional(__S(25, __c3, 1)),
+          tags: S.optional(__S(17, __c2, 1)),
+          ipAccessList: S.optional(__S(25, __c3, 1)),
+          pgConfig: S.optional(__S(32, __c4, 0)),
+          pgBouncerConfig: S.optional(__S(33, __c4, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/organizations/{organizationId}/postgres", code: 200 }),
         ),
       ).annotate({ identifier: "CreatePostgresServiceRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1280,10 +1305,10 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ResourceTagsV1" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(16, __c2, 0));
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1295,7 +1320,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "PostgresIpAccessListEntry" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(24, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1306,8 +1331,8 @@ function __c2(j: number): any {
           size: S.optional(S.String),
           haType: S.optional(S.String),
           standbyCount: S.optional(S.Number),
-          tags: S.optional(__S(9, __c1, 1)),
-          ipAccessList: S.optional(__S(17, __c2, 1)),
+          tags: S.optional(__S(17, __c2, 1)),
+          ipAccessList: S.optional(__S(25, __c3, 1)),
           id: S.String,
           storageSize: S.optional(S.Number),
           state: S.optional(S.String),
@@ -1323,7 +1348,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PostgresService" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1394,7 +1419,7 @@ function __c3(j: number): any {
       return S.Record(S.String, S.String);
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1420,13 +1445,13 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "PostgresBackup" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.Number),
           requestId: S.optional(S.String),
-          result: __S(34, __c4, 2),
+          result: __S(42, __c5, 2),
           limit: S.optional(S.Number),
           totalCount: S.optional(S.NullOr(S.Number)),
           nextCursor: S.optional(S.NullOr(S.String)),
@@ -1434,7 +1459,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ListPostgresServiceBackupsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1454,7 +1479,7 @@ function __c5(j: number): any {
           size: S.optional(S.String),
           haType: S.optional(S.String),
           standbyCount: S.optional(S.Number),
-          tags: S.optional(__S(9, __c1, 1)),
+          tags: S.optional(__S(17, __c2, 1)),
           id: S.optional(S.String),
           state: S.optional(S.String),
           createdAt: S.optional(S.String),
@@ -1463,14 +1488,14 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "PostgresServiceListItem" });
     case 2:
-      return S.Array(__S(41, __c5, 1));
+      return S.Array(__S(49, __c6, 1));
     case 3:
-      return S.suspend(() => __S(42, __c5, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(50, __c6, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostgresServicesResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1496,22 +1521,22 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListPostgresSlowQueryPatternsRequest" });
     case 1:
-      return S.Array(__S(168, __c21, 0));
+      return S.Array(__S(176, __c22, 0));
     case 2:
-      return S.suspend(() => __S(49, __c6, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(57, __c7, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostgresSlowQueryPatternsResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           postgresId: S.String.pipe(T.Label()),
-          pgConfig: __S(24, __c3, 0),
-          pgBouncerConfig: __S(25, __c3, 1),
+          pgConfig: __S(32, __c4, 0),
+          pgBouncerConfig: __S(33, __c4, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1522,19 +1547,19 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ReplacePostgresServiceConfigRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pgConfig: __S(24, __c3, 0),
-          pgBouncerConfig: __S(25, __c3, 1),
+          pgConfig: __S(32, __c4, 0),
+          pgBouncerConfig: __S(33, __c4, 1),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostgresInstanceUpdateConfigResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1543,9 +1568,9 @@ function __c9(j: number): any {
           postgresId: S.String.pipe(T.Label()),
           name: S.String,
           restoreTarget: S.String,
-          pgConfig: S.optional(__S(24, __c3, 0)),
-          pgBouncerConfig: S.optional(__S(25, __c3, 1)),
-          tags: S.optional(__S(9, __c1, 1)),
+          pgConfig: S.optional(__S(32, __c4, 0)),
+          pgBouncerConfig: S.optional(__S(33, __c4, 1)),
+          tags: S.optional(__S(17, __c2, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1556,7 +1581,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RestorePostgresServiceRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1565,12 +1590,12 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "PostgresIpAccessListRuleReference" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          add: S.optional(__S(17, __c2, 1)),
-          remove: S.optional(__S(81, __c10, 1)),
+          add: S.optional(__S(25, __c3, 1)),
+          remove: S.optional(__S(89, __c11, 1)),
         }),
       ).annotate({ identifier: "PostgresIpAccessListPatch" });
     case 3:
@@ -1578,12 +1603,12 @@ function __c10(j: number): any {
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           postgresId: S.String.pipe(T.Label()),
-          ipAccessList: S.optional(__S(82, __c10, 2)),
+          ipAccessList: S.optional(__S(90, __c11, 2)),
           name: S.optional(S.String),
           size: S.optional(S.String),
           haType: S.optional(S.String),
           standbyCount: S.optional(S.Number),
-          tags: S.optional(__S(9, __c1, 1)),
+          tags: S.optional(__S(17, __c2, 1)),
           deletionProtection: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -1595,15 +1620,15 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdatePostgresServiceRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           postgresId: S.String.pipe(T.Label()),
-          pgConfig: __S(24, __c3, 0),
-          pgBouncerConfig: __S(25, __c3, 1),
+          pgConfig: __S(32, __c4, 0),
+          pgBouncerConfig: __S(33, __c4, 1),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1614,7 +1639,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpdatePostgresServiceConfigRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1638,7 +1663,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PostgresServicePasswordResource" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1656,7 +1681,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "UpdatePostgresServiceStateRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1664,9 +1689,9 @@ function __c14(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           postgresId: S.String.pipe(T.Label()),
           name: S.String,
-          pgConfig: S.optional(__S(24, __c3, 0)),
-          pgBouncerConfig: S.optional(__S(25, __c3, 1)),
-          tags: S.optional(__S(9, __c1, 1)),
+          pgConfig: S.optional(__S(32, __c4, 0)),
+          pgBouncerConfig: S.optional(__S(33, __c4, 1)),
+          tags: S.optional(__S(17, __c2, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1677,7 +1702,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreatePostgresServiceReadReplicaRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1701,7 +1726,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeletePostgresServiceResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1718,7 +1743,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetPostgresServiceRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1739,7 +1764,7 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1757,13 +1782,13 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pgConfig: __S(24, __c3, 0),
-          pgBouncerConfig: __S(25, __c3, 1),
+          pgConfig: __S(32, __c4, 0),
+          pgBouncerConfig: __S(33, __c4, 1),
         }),
       ).annotate({ identifier: "PostgresInstanceConfig" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1789,16 +1814,16 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "PostgresMetricDataPoint" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           label: S.String,
-          dataPoints: __S(154, __c19, 2),
+          dataPoints: __S(162, __c20, 2),
         }),
       ).annotate({ identifier: "PostgresMetricSeries" });
     case 4:
-      return S.Array(__S(155, __c19, 3));
+      return S.Array(__S(163, __c20, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1806,20 +1831,20 @@ function __c19(j: number): any {
           name: S.String,
           unit: S.String,
           description: S.String,
-          series: __S(156, __c19, 4),
+          series: __S(164, __c20, 4),
         }),
       ).annotate({ identifier: "PostgresMetric" });
     case 6:
-      return S.Array(__S(157, __c19, 5));
+      return S.Array(__S(165, __c20, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          metrics: __S(158, __c19, 6),
+          metrics: __S(166, __c20, 6),
         }),
       ).annotate({ identifier: "PostgresMetrics" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1889,17 +1914,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "PostgresQueryExecution" });
     case 2:
-      return S.Array(__S(161, __c20, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          aggregate: S.optional(__S(168, __c21, 0)),
-          recentExecutions: __S(162, __c20, 2),
+          aggregate: S.optional(__S(176, __c22, 0)),
+          recentExecutions: __S(170, __c21, 2),
         }),
       ).annotate({ identifier: "PostgresSlowQueryPatternDetail" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1927,7 +1952,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PostgresSlowQueryPattern" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1958,9 +1983,9 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "PostgresLogEntry" });
     case 2:
-      return S.Array(__S(177, __c22, 1));
+      return S.Array(__S(185, __c23, 1));
     case 3:
-      return S.suspend(() => __S(178, __c22, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(186, __c23, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPostgresLogsResponse",
       });
   }

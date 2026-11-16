@@ -29,11 +29,16 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: APINotFound | string;
+}
 
 export interface DeletePackageRequest {
   /** owner of the package */
@@ -334,6 +339,12 @@ export interface UnlinkPackageRequest {
   name: string;
 }
 export interface UnlinkPackageResponse {}
+export type APINotFoundErrorsList = Array<string>;
+export interface APINotFound {
+  errors?: APINotFoundErrorsList | undefined;
+  message?: string | undefined;
+  url?: string | undefined;
+}
 export type DeletePackageError = NotFound | ForgejoOpError;
 /** Delete a package */
 export const deletePackage: API.OperationMethod<
@@ -342,8 +353,8 @@ export const deletePackage: API.OperationMethod<
   DeletePackageError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeletePackageRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<DeletePackageResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<DeletePackageRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<DeletePackageResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -359,8 +370,8 @@ export const getPackage: API.OperationMethod<
   GetPackageError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetPackageRequest>,
-  output: __S(60, __c3, 12) as any as S.Schema<Package>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetPackageRequest>,
+  output: __S(75, __c4, 11) as any as S.Schema<Package>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -376,8 +387,8 @@ export const linkPackage: API.OperationMethod<
   LinkPackageError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<LinkPackageRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<LinkPackageResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<LinkPackageRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<LinkPackageResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -393,8 +404,8 @@ export const listPackageFiles: API.OperationMethod<
   ListPackageFilesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListPackageFilesRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<ListPackageFilesResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListPackageFilesRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<ListPackageFilesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -410,8 +421,8 @@ export const listPackages: API.OperationMethod<
   ListPackagesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListPackagesRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ListPackagesResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListPackagesRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<ListPackagesResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -427,8 +438,8 @@ export const unlinkPackage: API.OperationMethod<
   UnlinkPackageError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<UnlinkPackageRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<UnlinkPackageResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<UnlinkPackageRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<UnlinkPackageResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -438,6 +449,20 @@ export const unlinkPackage: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(0, __c0, 0)),
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APINotFound" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -452,13 +477,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeletePackageRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeletePackageResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -473,7 +498,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetPackageRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -552,10 +577,8 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "Organization" });
     case 6:
-      return S.Array(S.String);
-    case 7:
       return S.Record(S.String, S.String);
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           can_create_org_repo: S.optional(S.Boolean),
@@ -563,23 +586,23 @@ function __c3(j: number): any {
           id: S.Number,
           includes_all_repositories: S.optional(S.Boolean),
           name: S.String,
-          organization: S.optional(__S(53, __c3, 5)),
+          organization: S.optional(__S(69, __c4, 5)),
           permission: S.optional(S.String),
-          units: S.optional(__S(54, __c3, 6)),
-          units_map: S.optional(__S(55, __c3, 7)),
+          units: S.optional(__S(0, __c0, 0)),
+          units_map: S.optional(__S(70, __c4, 6)),
         }),
       ).annotate({ identifier: "Team" });
+    case 8:
+      return S.Array(__S(71, __c4, 7));
     case 9:
-      return S.Array(__S(56, __c3, 8));
-    case 10:
       return S.suspend(() =>
         S.Struct({
-          doer: S.optional(__S(48, __c3, 0)),
-          recipient: S.optional(__S(48, __c3, 0)),
-          teams: S.optional(__S(57, __c3, 9)),
+          doer: S.optional(__S(64, __c4, 0)),
+          recipient: S.optional(__S(64, __c4, 0)),
+          teams: S.optional(__S(72, __c4, 8)),
         }),
       ).annotate({ identifier: "RepoTransfer" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           allow_fast_forward_only_merge: S.optional(S.Boolean),
@@ -600,8 +623,8 @@ function __c3(j: number): any {
           default_update_style: S.optional(S.String),
           description: S.optional(S.String),
           empty: S.optional(S.Boolean),
-          external_tracker: S.optional(__S(49, __c3, 1)),
-          external_wiki: S.optional(__S(50, __c3, 2)),
+          external_tracker: S.optional(__S(65, __c4, 1)),
+          external_wiki: S.optional(__S(66, __c4, 2)),
           fork: S.optional(S.Boolean),
           forks_count: S.optional(S.Number),
           full_name: S.String,
@@ -618,7 +641,7 @@ function __c3(j: number): any {
           id: S.Number,
           ignore_whitespace_conflicts: S.optional(S.Boolean),
           internal: S.optional(S.Boolean),
-          internal_tracker: S.optional(__S(51, __c3, 3)),
+          internal_tracker: S.optional(__S(67, __c4, 3)),
           language: S.optional(S.String),
           languages_url: S.optional(S.String),
           link: S.optional(S.String),
@@ -630,17 +653,17 @@ function __c3(j: number): any {
           open_issues_count: S.optional(S.Number),
           open_pr_counter: S.optional(S.Number),
           original_url: S.optional(S.String),
-          owner: __S(48, __c3, 0),
-          parent: S.optional(__S(59, __c3, 11)),
-          permissions: S.optional(__S(52, __c3, 4)),
+          owner: __S(64, __c4, 0),
+          parent: S.optional(__S(74, __c4, 10)),
+          permissions: S.optional(__S(68, __c4, 4)),
           private: S.optional(S.Boolean),
           release_counter: S.optional(S.Number),
-          repo_transfer: S.optional(__S(58, __c3, 10)),
+          repo_transfer: S.optional(__S(73, __c4, 9)),
           size: S.optional(S.Number),
           ssh_url: S.String,
           stars_count: S.optional(S.Number),
           template: S.optional(S.Boolean),
-          topics: S.optional(__S(54, __c3, 6)),
+          topics: S.optional(__S(0, __c0, 0)),
           updated_at: S.String,
           url: S.optional(S.String),
           watchers_count: S.optional(S.Number),
@@ -650,23 +673,23 @@ function __c3(j: number): any {
           wiki_ssh_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "Repository" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           created_at: S.optional(S.String),
-          creator: S.optional(__S(48, __c3, 0)),
+          creator: S.optional(__S(64, __c4, 0)),
           html_url: S.optional(S.String),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          owner: S.optional(__S(48, __c3, 0)),
-          repository: S.optional(__S(59, __c3, 11)),
+          owner: S.optional(__S(64, __c4, 0)),
+          repository: S.optional(__S(74, __c4, 10)),
           type: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "Package" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -685,7 +708,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "LinkPackageRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -715,14 +738,14 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "PackageFile" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(97, __c6, 1));
     case 3:
-      return S.suspend(() => __S(82, __c5, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(98, __c6, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPackageFilesResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -735,14 +758,14 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/packages/{owner}", code: 200 })),
       ).annotate({ identifier: "ListPackagesRequest" });
     case 1:
-      return S.Array(__S(60, __c3, 12));
+      return S.Array(__S(75, __c4, 11));
     case 2:
-      return S.suspend(() => __S(97, __c6, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(113, __c7, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPackagesResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

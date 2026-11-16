@@ -29,33 +29,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface CanCreateMoreServersRequest {}
 export type CanCreateMoreServersResponse = unknown;
@@ -93,6 +108,44 @@ export interface UpgradeStripeSubscriptionRequest {
   isAnnual: boolean;
 }
 export type UpgradeStripeSubscriptionResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CanCreateMoreServersError = BadRequest | Forbidden | NotFound | DokployOpError;
 export const canCreateMoreServers: API.OperationMethod<
   CanCreateMoreServersRequest,
@@ -100,8 +153,8 @@ export const canCreateMoreServers: API.OperationMethod<
   CanCreateMoreServersError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<CanCreateMoreServersRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<CanCreateMoreServersResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<CanCreateMoreServersRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<CanCreateMoreServersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -116,8 +169,8 @@ export const createStripeCheckoutSession: API.OperationMethod<
   CreateStripeCheckoutSessionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<CreateStripeCheckoutSessionRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<CreateStripeCheckoutSessionResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<CreateStripeCheckoutSessionRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<CreateStripeCheckoutSessionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -132,8 +185,8 @@ export const createStripeCustomerPortalSession: API.OperationMethod<
   CreateStripeCustomerPortalSessionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<CreateStripeCustomerPortalSessionRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<CreateStripeCustomerPortalSessionResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<CreateStripeCustomerPortalSessionRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<CreateStripeCustomerPortalSessionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -148,8 +201,8 @@ export const getStripeBillingStatus: API.OperationMethod<
   GetStripeBillingStatusError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<GetStripeBillingStatusRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<GetStripeBillingStatusResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetStripeBillingStatusRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<GetStripeBillingStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -164,8 +217,8 @@ export const getStripeCurrentPlan: API.OperationMethod<
   GetStripeCurrentPlanError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<GetStripeCurrentPlanRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<GetStripeCurrentPlanResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<GetStripeCurrentPlanRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<GetStripeCurrentPlanResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -180,8 +233,8 @@ export const getStripeInvoices: API.OperationMethod<
   GetStripeInvoicesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<GetStripeInvoicesRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<GetStripeInvoicesResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetStripeInvoicesRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<GetStripeInvoicesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -196,8 +249,8 @@ export const getStripeProducts: API.OperationMethod<
   GetStripeProductsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<GetStripeProductsRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<GetStripeProductsResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<GetStripeProductsRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<GetStripeProductsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -212,8 +265,8 @@ export const startStripeFreeTrial: API.OperationMethod<
   StartStripeFreeTrialError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<StartStripeFreeTrialRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<StartStripeFreeTrialResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<StartStripeFreeTrialRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<StartStripeFreeTrialResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -228,8 +281,8 @@ export const updateStripeInvoiceNotifications: API.OperationMethod<
   UpdateStripeInvoiceNotificationsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<UpdateStripeInvoiceNotificationsRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<UpdateStripeInvoiceNotificationsResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<UpdateStripeInvoiceNotificationsRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<UpdateStripeInvoiceNotificationsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -244,8 +297,8 @@ export const upgradeStripeSubscription: API.OperationMethod<
   UpgradeStripeSubscriptionError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<UpgradeStripeSubscriptionRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<UpgradeStripeSubscriptionResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<UpgradeStripeSubscriptionRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<UpgradeStripeSubscriptionResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -259,12 +312,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           tier: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/stripe.startFreeTrial", code: 200 })),
       ).annotate({ identifier: "StartStripeFreeTrialRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -274,7 +347,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UpdateStripeInvoiceNotificationsRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -286,7 +359,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UpgradeStripeSubscriptionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -296,7 +369,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CanCreateMoreServersRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -304,7 +377,7 @@ function __c4(j: number): any {
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -317,7 +390,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateStripeCheckoutSessionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -327,7 +400,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateStripeCustomerPortalSessionRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -335,7 +408,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetStripeBillingStatusRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -343,7 +416,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetStripeCurrentPlanRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -351,7 +424,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetStripeInvoicesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

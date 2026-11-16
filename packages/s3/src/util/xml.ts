@@ -74,6 +74,45 @@ export function deserializePrimitive(ast: AST.AST, value: string): unknown {
 }
 
 /**
+ * The text of an element: the parser reads an element with attributes and
+ * text, `<K xmlns="...">a</K>`, as `{ "#text": "a", "@_xmlns": "..." }`.
+ */
+export function elementText(value: unknown): unknown {
+  return typeof value === "object" && value !== null && !Array.isArray(value) && "#text" in value
+    ? (value as XmlObject)["#text"]
+    : value;
+}
+
+/**
+ * Read an XML map. A map is `<Map><entry><key>k</key><value>v</value></entry>...</Map>`;
+ * a flattened map repeats the member element itself for each entry,
+ * `<Map><key>k</key><value>v</value></Map><Map>...</Map>`, so `value` is that
+ * element or the list of them. An empty element is an empty map.
+ */
+export function readXmlMap(
+  value: unknown,
+  flattened: boolean,
+  keyTag: string,
+  valueTag: string,
+  readValue: (value: unknown) => unknown,
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  let entries = value;
+  if (!flattened) {
+    if (typeof value !== "object" || value === null || Array.isArray(value)) return result;
+    entries = (value as XmlObject).entry ?? (value as XmlObject).Entry;
+  }
+  if (entries == null) return result;
+  for (const entry of Array.isArray(entries) ? entries : [entries]) {
+    if (typeof entry !== "object" || entry === null || Array.isArray(entry)) continue;
+    const key = elementText((entry as XmlObject)[keyTag]);
+    if (typeof key !== "string") continue;
+    result[key] = readValue((entry as XmlObject)[valueTag]);
+  }
+  return result;
+}
+
+/**
  * Unwrap an array value from a wrapper object.
  * XML parsers often produce { member: [...] } instead of just [...].
  *

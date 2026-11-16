@@ -20,16 +20,17 @@ import type { Response } from "../client/response.ts";
 import { ParseError } from "../errors.ts";
 import type { PayloadParser } from "../eventstream/parser.ts";
 import {
+  getAnnotationUnwrap,
   getEventSchema,
   getHttpHeader,
   getHttpPrefixHeaders,
-  getHttpQuery,
+  getMediaType,
+  getMemberAnnotation,
+  getOwnAnnotation,
   getPropAnnotations,
   getTimestampFormatFromAST,
   getXmlNameProp,
-  hasHttpLabel,
   hasHttpPayload,
-  hasHttpQueryParams,
   hasS3UnwrappedXmlOutput,
   hasXmlAttribute,
   hasXmlFlattened,
@@ -37,37 +38,46 @@ import {
   isStreamingType,
   type StreamingInputBody,
   eventStreamWith,
+  xmlNamespacePrefixSymbol,
+  xmlNamespaceSymbol,
+  xmlNameSymbol,
 } from "../traits.ts";
 import {
   getArrayElementAST,
   getEncodedPropertySignatures,
   getIdentifier,
+  getMapKeyValueAST,
   getXmlNameFromAST,
   getXmlNamespace,
   isArrayAST,
   isBooleanAST,
+  isMapAST,
   isNumberAST,
   isStringAST,
   unwrapUnion,
 } from "../util/ast.ts";
+import { fromBase64, toBase64 } from "../util/base64.ts";
 import { errorBody, inputEncoderSync } from "../util/codec.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
+import { headerReader, notBase64 } from "../util/headers.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
 import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
 import {
   convertStreamingInput,
   readableToEffectStream,
+  readStreamAsBytes,
   readStreamAsText,
   type StreamBody,
 } from "../util/stream.ts";
 import { formatTimestamp } from "../util/timestamp.ts";
 import {
+  elementText,
   escapeXml,
   parseXml,
   parseXmlSync,
   readXml,
+  readXmlMap,
   unwrapArrayValue,
-  wrapTag,
 } from "../util/xml.ts";
 
 // =============================================================================
@@ -88,8 +98,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
   const isUnwrappedOutput = hasS3UnwrappedXmlOutput(outputAst);
   const outputProps = getEncodedPropertySignatures(outputAst);
   const unwrappedPropName = isUnwrappedOutput
-    ? outputProps.find((prop) => (getXmlNameProp(prop) ?? String(prop.name)) === outputXmlName)
-        ?.name
+    ? outputProps.find((prop) => memberXmlName(prop) === outputXmlName)?.name
     : undefined;
 
   // Pre-compute httpPayload property info for serialization (done once at init)
@@ -101,7 +110,14 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
       getIdentifier(payloadProp.type))
     : undefined;
   const payloadIsStreaming = payloadProp ? isStreamingType(payloadProp.type) : false;
-  const inputXmlNamespace = getXmlNamespace(inputAst);
+  // A non-streaming blob payload (T.Blob): the body's raw bytes.
+  const payloadIsBlob = payloadProp ? getIdentifier(payloadProp.type) === "Blob" : false;
+  const payloadMediaType = payloadProp ? getMediaType(payloadProp) : undefined;
+  // A document root carries its shape's namespace, or the service's.
+  const inputXmlNamespace = rootNs(inputAst);
+  const payloadXmlNamespace = payloadProp
+    ? rootNs(payloadProp.type) || inputXmlNamespace
+    : inputXmlNamespace;
 
   // Pre-classify output properties by their HTTP binding (done once at init)
   // This avoids repeated trait lookups during deserialization
@@ -109,8 +125,8 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     name: string;
     header: string;
     headerLower: string;
-    isNumber: boolean;
-    isBoolean: boolean;
+    /** The header's wire value: lists split, numbers and booleans parsed. */
+    read: (value: string) => unknown;
   };
   type PrefixHeaderProp = { name: string; prefix: string };
   type PayloadProp = {
@@ -120,6 +136,8 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     isEventStream: boolean;
     eventSchema?: S.Schema<unknown>;
     isRawString: boolean;
+    /** A non-streaming blob (T.Blob): the raw body bytes, base64 on the wire side. */
+    isBlob: boolean;
     xmlName?: string;
   };
 
@@ -142,10 +160,10 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         name,
         header,
         headerLower: header.toLowerCase(),
-        isNumber: isNumberAST(prop.type),
-        isBoolean: isBooleanAST(prop.type),
+        read: headerReader(prop.type, getMediaType(prop)),
       });
-    } else if (prefixHeader) {
+    } else if (prefixHeader !== undefined) {
+      // An empty prefix binds every response header.
       prefixHeaderProps.push({ name, prefix: prefixHeader.toLowerCase() });
     } else if (hasHttpPayload(prop)) {
       const unwrapped = unwrapUnion(prop.type);
@@ -157,6 +175,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         isEventStream,
         eventSchema: isEventStream ? getEventSchema(prop.type) : undefined,
         isRawString: unwrapped._tag === "Union" || unwrapped._tag === "String",
+        isBlob: getIdentifier(prop.type) === "Blob",
         // Use property name as fallback when type annotations aren't preserved
         // (e.g., when using Schema.pipe to add HttpPayload annotation)
         xmlName: getXmlNameFromAST(prop.type) ?? getIdentifier(prop.type) ?? name,
@@ -185,24 +204,43 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     if (payloadValue !== undefined && payloadAst !== undefined) {
       if (payloadIsStreaming) {
         request.body = convertStreamingInput(payloadValue as StreamingInputBody);
+        // A blob payload's @mediaType is its Content-Type, unless a header member set one.
+        if (payloadMediaType !== undefined && request.headers["Content-Type"] === undefined) {
+          request.headers["Content-Type"] = payloadMediaType;
+        }
+      } else if (payloadIsBlob) {
+        // The encoder made the bytes base64; the body is the bytes.
+        request.body = fromBase64(payloadValue as string);
+        if (request.headers["Content-Type"] === undefined) {
+          request.headers["Content-Type"] = payloadMediaType ?? "application/octet-stream";
+        }
       } else if (typeof payloadValue === "string") {
         request.body = payloadValue;
       } else {
         request.headers["Content-Type"] = "application/xml";
-        request.body = serializeValue(payloadAst, payloadValue, payloadXmlName, inputXmlNamespace);
+        request.body = serializeValue(
+          payloadAst,
+          payloadValue,
+          payloadXmlName,
+          payloadXmlNamespace,
+        );
       }
     } else if (hasBodyMembers) {
       request.headers["Content-Type"] = "application/xml";
-      const tagName = getIdentifier(inputAst);
-      request.body = serializeObject(inputAst, bodyMembers, tagName, getXmlNamespace(inputAst));
+      const tagName = getXmlNameFromAST(inputAst) ?? getIdentifier(inputAst);
+      request.body = serializeObject(inputAst, bodyMembers, tagName, inputXmlNamespace);
     }
 
     return request;
   };
 
-  /** The members bound to the status code and headers. */
-  const bindResponse = (response: Response): Record<string, unknown> => {
+  /**
+   * The members bound to the status code and headers, or {@link Unreadable}
+   * with them as read when a `@mediaType` header is not base64.
+   */
+  const bindResponse = (response: Response): Record<string, unknown> | Unreadable => {
     const result: Record<string, unknown> = {};
+    let notBase64Header: string | undefined;
 
     // Extract HTTP response status code if bound to a property
     if (responseCodePropName) {
@@ -213,11 +251,13 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     for (const hp of headerProps) {
       const v = response.headers[hp.headerLower] ?? response.headers[hp.header];
       if (v !== undefined) {
-        result[hp.name] = hp.isNumber ? Number(v) : hp.isBoolean ? v === "true" : v;
+        const read = hp.read(v);
+        if (read === notBase64) notBase64Header ??= hp.header;
+        result[hp.name] = read === notBase64 ? v : read;
       }
     }
 
-    // Extract prefix header properties
+    // Extract prefix header properties; no matching header is an empty map
     for (const php of prefixHeaderProps) {
       const prefixed: Record<string, string> = {};
       for (const [k, v] of Object.entries(response.headers)) {
@@ -225,9 +265,16 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
           prefixed[k.slice(php.prefix.length)] = v;
         }
       }
-      if (Object.keys(prefixed).length) result[php.name] = prefixed;
+      result[php.name] = prefixed;
     }
-    return result;
+    return notBase64Header === undefined
+      ? result
+      : new Unreadable(
+          new ParseError({
+            message: `Response header ${notBase64Header} is not base64, as its @mediaType requires`,
+          }),
+          result,
+        );
   };
 
   return {
@@ -235,9 +282,17 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     deserializeText,
 
     deserializeStream: (response) => {
-      // Streaming output payload; everything else is read as text.
-      if (!outputPayloadProp?.isStreaming) return undefined;
+      // Streaming and blob output payloads; everything else is read as text.
+      if (!outputPayloadProp?.isStreaming && !outputPayloadProp?.isBlob) return undefined;
       const result = bindResponse(response);
+      if (result instanceof Unreadable) return Effect.succeed(result);
+      if (!outputPayloadProp.isStreaming) {
+        // A blob payload is the body's bytes, base64 for the schema decoder.
+        return Effect.map(readStreamAsBytes(response.body), (bytes) => {
+          if (bytes.byteLength > 0) result[outputPayloadProp.name] = toBase64(bytes);
+          return result;
+        });
+      }
       if (outputPayloadProp.isEventStream && response.body) {
         // Parse event stream with XML payload parser
         const xmlPayloadParser: PayloadParser = (payload: Uint8Array) => {
@@ -361,6 +416,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
 
   function deserializeText(response: TextResponse): unknown {
     const result = bindResponse(response);
+    if (result instanceof Unreadable) return result;
     const bodyText = response.body;
 
     // Handle httpPayload property
@@ -371,9 +427,11 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         const parsed = readXml(bodyText);
         // Lenient mode returns the body as read.
         if (parsed instanceof Unreadable) return parsed;
+        // The payload is the document's root element, whatever its name.
+        const root = outputPayloadProp.xmlName ? parsed[outputPayloadProp.xmlName] : undefined;
         result[outputPayloadProp.name] = deserializeValue(
           outputPayloadProp.type,
-          outputPayloadProp.xmlName ? (parsed[outputPayloadProp.xmlName] ?? parsed) : parsed,
+          root ?? Object.values(parsed)[0] ?? parsed,
         );
       }
     }
@@ -403,38 +461,86 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
 // XML Serialization
 // =============================================================================
 
-function serializeValue(ast: AST.AST, value: unknown, tagName?: string, xmlns?: string): string {
+/** A namespace declaration attribute: ` xmlns="uri"`, or ` xmlns:prefix="uri"`. */
+const nsAttribute = (uri: string | undefined, prefix: string | undefined): string =>
+  uri === undefined ? "" : ` xmlns${prefix ? `:${prefix}` : ""}="${escapeXml(uri)}"`;
+
+/** The namespace of a document root: its shape's, or the service's. */
+const rootNs = (ast: AST.AST): string =>
+  nsAttribute(getXmlNamespace(ast), getAnnotationUnwrap<string>(ast, xmlNamespacePrefixSymbol));
+
+/** The namespace of a member, list member, or map key or value. */
+const ownNs = (ast: AST.AST): string =>
+  nsAttribute(
+    getOwnAnnotation<string>(ast, xmlNamespaceSymbol),
+    getOwnAnnotation<string>(ast, xmlNamespacePrefixSymbol),
+  );
+
+const memberNs = (prop: AST.PropertySignature): string =>
+  nsAttribute(
+    getMemberAnnotation<string>(prop, xmlNamespaceSymbol),
+    getMemberAnnotation<string>(prop, xmlNamespacePrefixSymbol),
+  );
+
+/** A member's element name: its own `@xmlName`, or its name. */
+const memberXmlName = (prop: AST.PropertySignature): string =>
+  getMemberAnnotation<string>(prop, xmlNameSymbol) ?? String(prop.name);
+
+const element = (tag: string, content: string, ns = ""): string =>
+  `<${tag}${ns}>${content}</${tag}>`;
+
+/** `ns` is the element's namespace declaration (see {@link nsAttribute}). */
+function serializeValue(ast: AST.AST, value: unknown, tagName?: string, ns = ""): string {
   if (value == null) return "";
 
   // Primitives and Dates
   if (typeof value !== "object") {
     const content = escapeXml(String(value));
-    return tagName ? wrapTag(tagName, content, xmlns) : content;
+    return tagName ? element(tagName, content, ns) : content;
   }
 
   if (value instanceof Date) {
     const content = formatTimestamp(value, getTimestampFormatFromAST(ast));
-    return tagName ? wrapTag(tagName, content, xmlns) : content;
+    return tagName ? element(tagName, content, ns) : content;
+  }
+
+  // Maps
+  if (tagName && isMapAST(ast)) {
+    return serializeMap(ast, value as Record<string, unknown>, tagName, false, ns);
+  }
+
+  // Lists: <List><member>a</member><member>b</member></List>, the member
+  // renamed by its `@xmlName`
+  if (tagName && Array.isArray(value)) {
+    const elementAST = getArrayElementAST(ast);
+    const itemTag = (elementAST && getXmlNameFromAST(elementAST)) ?? "member";
+    const itemNs = elementAST ? ownNs(elementAST) : "";
+    const items = value.map((item) => serializeValue(elementAST ?? ast, item, itemTag, itemNs));
+    return element(tagName, items.join(""), ns);
   }
 
   // Arrays
   if (Array.isArray(value)) {
     const elementAST = getArrayElementAST(ast);
-    const tag = tagName ?? (elementAST && getIdentifier(elementAST));
+    const tag = elementAST && getIdentifier(elementAST);
     return value
-      .map((item, i) => serializeValue(elementAST ?? ast, item, tag, i === 0 ? xmlns : undefined))
+      .map((item, i) => serializeValue(elementAST ?? ast, item, tag, i === 0 ? ns : ""))
       .join("");
   }
 
   // Objects
-  return serializeObject(ast, value as Record<string, unknown>, tagName, xmlns);
+  return serializeObject(ast, value as Record<string, unknown>, tagName, ns);
 }
 
+/**
+ * A structure. Only a document root carries the structure's own namespace
+ * (the caller passes it); a member element carries the member's.
+ */
 function serializeObject(
   ast: AST.AST,
   value: Record<string, unknown>,
   tagName?: string,
-  xmlns?: string,
+  ns = "",
 ): string {
   const props = getEncodedPropertySignatures(ast);
   const attrs: string[] = [];
@@ -445,35 +551,74 @@ function serializeObject(
     const v = value[key];
     if (v === undefined) continue;
 
+    const xmlName = memberXmlName(prop);
     if (hasXmlAttribute(prop)) {
-      attrs.push(`${getXmlNameProp(prop) ?? key}="${escapeXml(String(v))}"`);
+      attrs.push(`${xmlName}="${escapeXml(String(v))}"`);
       continue;
     }
 
-    const xmlName = getXmlNameProp(prop) ?? key;
-    if (!Array.isArray(v)) {
-      elems.push(serializeValue(prop.type, v, xmlName));
-      continue;
-    }
-
-    const elementAST = getArrayElementAST(prop.type);
-    if (hasXmlFlattened(prop)) {
-      elems.push(v.map((item) => serializeValue(elementAST ?? prop.type, item, xmlName)).join(""));
-    } else {
-      // Use xmlName trait first, then fall back to class identifier
-      const itemTag = elementAST && (getXmlNameFromAST(elementAST) ?? getIdentifier(elementAST));
+    const propNs = memberNs(prop);
+    if (isMapAST(prop.type)) {
       elems.push(
-        `<${xmlName}>${v.map((item) => serializeValue(elementAST ?? prop.type, item, itemTag)).join("")}</${xmlName}>`,
+        serializeMap(
+          prop.type,
+          v as Record<string, unknown>,
+          xmlName,
+          hasXmlFlattened(prop),
+          propNs,
+        ),
       );
+      continue;
+    }
+    if (!Array.isArray(v)) {
+      elems.push(serializeValue(prop.type, v, xmlName, propNs));
+      continue;
+    }
+
+    if (hasXmlFlattened(prop)) {
+      const elementAST = getArrayElementAST(prop.type);
+      elems.push(
+        v.map((item) => serializeValue(elementAST ?? prop.type, item, xmlName, propNs)).join(""),
+      );
+    } else {
+      elems.push(serializeValue(prop.type, v, xmlName, propNs));
     }
   }
 
   if (!tagName) return elems.join("");
 
-  const ns = xmlns ?? getXmlNamespace(ast);
-  const attrStr =
-    (ns ? ` xmlns="${escapeXml(ns)}"` : "") + (attrs.length ? ` ${attrs.join(" ")}` : "");
+  const attrStr = ns + (attrs.length ? ` ${attrs.join(" ")}` : "");
   return `<${tagName}${attrStr}>${elems.join("")}</${tagName}>`;
+}
+
+/**
+ * A map: `<Map><entry><key>k</key><value>v</value></entry>...</Map>`, or for
+ * a flattened map the member element once per entry,
+ * `<Map><key>k</key><value>v</value></Map>...`. `@xmlName` on the map's key
+ * and value renames `<key>` and `<value>`.
+ */
+function serializeMap(
+  ast: AST.AST,
+  value: Record<string, unknown>,
+  tagName: string,
+  flattened: boolean,
+  ns = "",
+): string {
+  const kv = getMapKeyValueAST(ast);
+  const keyTag = (kv && getXmlNameFromAST(kv.keyAST)) ?? "key";
+  const valueTag = (kv && getXmlNameFromAST(kv.valueAST)) ?? "value";
+  const keyNs = kv ? ownNs(kv.keyAST) : "";
+  const valueNs = kv ? ownNs(kv.valueAST) : "";
+  const entries: string[] = [];
+  for (const [k, v] of Object.entries(value)) {
+    if (v === undefined) continue;
+    entries.push(
+      element(keyTag, escapeXml(k), keyNs) +
+        serializeValue(kv?.valueAST ?? ast, v, valueTag, valueNs),
+    );
+  }
+  if (flattened) return entries.map((entry) => element(tagName, entry, ns)).join("");
+  return element(tagName, entries.map((entry) => `<entry>${entry}</entry>`).join(""), ns);
 }
 
 // =============================================================================
@@ -493,6 +638,14 @@ function isStructureAST(ast: AST.AST): boolean {
 /** What deserializing a value of a schema needs to know about it, read once per schema. */
 interface ValuePlan {
   readonly structure: boolean;
+  /** Maps: the key and value schemas, and the tags of the key and value. */
+  readonly map:
+    | {
+        readonly value: AST.AST;
+        readonly keyTag: string;
+        readonly valueTag: string;
+      }
+    | undefined;
   readonly string: boolean;
   readonly array: boolean;
   readonly number: boolean;
@@ -514,10 +667,16 @@ const valuePlans = /*@__PURE__*/ new WeakMap<AST.AST, ValuePlan>();
 const valuePlanOf = (ast: AST.AST): ValuePlan => {
   let plan = valuePlans.get(ast);
   if (plan === undefined) {
-    const array = isArrayAST(ast);
+    const kv = isMapAST(ast) ? getMapKeyValueAST(ast) : undefined;
+    const array = !kv && isArrayAST(ast);
     const element = array ? getArrayElementAST(ast) : undefined;
     plan = {
       structure: isStructureAST(ast),
+      map: kv && {
+        value: kv.valueAST,
+        keyTag: getXmlNameFromAST(kv.keyAST) ?? "key",
+        valueTag: getXmlNameFromAST(kv.valueAST) ?? "value",
+      },
       string: isStringAST(ast),
       array,
       number: isNumberAST(ast),
@@ -537,16 +696,27 @@ const isEmptyObject = (value: object): boolean => {
   return true;
 };
 
-function deserializeValue(ast: AST.AST, value: unknown): unknown {
+function deserializeValue(ast: AST.AST, value: unknown, flattened = false): unknown {
   if (value == null) return undefined;
   const plan = valuePlanOf(ast);
 
-  // An empty XML element can represent a present structure, but not a map.
+  // Maps; an empty wrapper element is an empty map
+  const map = plan.map;
+  if (map) {
+    if (value === "") return flattened ? undefined : {};
+    return readXmlMap(value, flattened, map.keyTag, map.valueTag, (v) =>
+      deserializeValue(map.value, v),
+    );
+  }
+  if (!plan.structure) value = elementText(value);
+
+  // An empty element is a present structure, or an empty list.
   if (
     value === "" ||
     (typeof value === "object" && !Array.isArray(value) && isEmptyObject(value as object))
   ) {
     if (plan.structure) return {};
+    if (plan.array) return [];
     return value === "" && plan.string ? "" : undefined;
   }
 
@@ -600,6 +770,8 @@ interface MemberPlan {
   readonly attribute: string | undefined;
   /** Flattened lists: the element schema. */
   readonly flattened: AST.AST | undefined;
+  /** Flattened maps: each entry is a member element. */
+  readonly flattenedMap: boolean;
 }
 
 const memberPlans = /*@__PURE__*/ new WeakMap<AST.AST, ReadonlyArray<MemberPlan>>();
@@ -609,17 +781,12 @@ const memberPlansOf = (ast: AST.AST): ReadonlyArray<MemberPlan> => {
   if (plans === undefined) {
     const out: MemberPlan[] = [];
     for (const prop of getEncodedPropertySignatures(ast)) {
-      // Skip HTTP-bound properties (headers, query, labels)
-      if (
-        getHttpHeader(prop) ||
-        getHttpQuery(prop) ||
-        hasHttpLabel(prop) ||
-        getHttpPrefixHeaders(prop) ||
-        hasHttpQueryParams(prop)
-      )
-        continue;
+      // Skip the members bound to response headers. A response has no
+      // query or path, so `@httpQuery` and `@httpLabel` members are read
+      // from the body.
+      if (getHttpHeader(prop) || getHttpPrefixHeaders(prop)) continue;
       const key = String(prop.name);
-      const xmlName = getXmlNameProp(prop) ?? key;
+      const xmlName = memberXmlName(prop);
       out.push({
         key,
         type: prop.type,
@@ -631,6 +798,7 @@ const memberPlansOf = (ast: AST.AST): ReadonlyArray<MemberPlan> => {
           hasXmlFlattened(prop) && isArrayAST(prop.type)
             ? (getArrayElementAST(prop.type) ?? prop.type)
             : undefined,
+        flattenedMap: hasXmlFlattened(prop) && isMapAST(prop.type),
       });
     }
     plans = out;
@@ -666,7 +834,7 @@ function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record
       const items = Array.isArray(propValue) ? propValue : [propValue];
       result[key] = items.map((item) => deserializeValue(elAST, item));
     } else {
-      const deserialized = deserializeValue(member.type, propValue);
+      const deserialized = deserializeValue(member.type, propValue, member.flattenedMap);
       if (deserialized !== undefined) {
         result[key] = deserialized;
       }

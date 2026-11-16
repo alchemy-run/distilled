@@ -15224,7 +15224,7 @@ function __c17(j: number): any {
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
-          eventTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          eventTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestamp"),
           ),
         }).pipe(
@@ -16834,10 +16834,10 @@ function __c64(j: number): any {
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-          timestampAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          timestampAfter: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestampAfter"),
           ),
-          timestampBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          timestampBefore: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestampBefore"),
           ),
           processingStatus: S.optional(S.String).pipe(T.HttpQuery("processingStatus")),
@@ -16902,10 +16902,10 @@ function __c65(j: number): any {
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           identifier: S.String.pipe(T.HttpLabel("identifier")),
           direction: S.optional(S.String).pipe(T.HttpQuery("direction")),
-          eventTimestampGTE: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          eventTimestampGTE: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestampGTE"),
           ),
-          eventTimestampLTE: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          eventTimestampLTE: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("timestampLTE"),
           ),
           sortOrder: S.optional(S.String).pipe(T.HttpQuery("sortOrder")),
@@ -17100,10 +17100,10 @@ function __c69(j: number): any {
         S.Struct({
           domainIdentifier: S.String.pipe(T.HttpLabel("domainIdentifier")),
           type: S.String.pipe(T.HttpQuery("type")),
-          afterTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          afterTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("afterTimestamp"),
           ),
-          beforeTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          beforeTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("beforeTimestamp"),
           ),
           subjects: S.optional(__S(32, __c1, 0)).pipe(T.HttpQuery("subjects")),
@@ -17647,10 +17647,10 @@ function __c82(j: number): any {
           entityIdentifier: S.String.pipe(T.HttpLabel("entityIdentifier")),
           entityType: S.String.pipe(T.HttpLabel("entityType")),
           formName: S.String.pipe(T.HttpQuery("formName")),
-          startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("startedAt"),
           ),
-          endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+          endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
             T.HttpQuery("endedAt"),
           ),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),

@@ -14,11 +14,13 @@ import {
   getHttpPrefixHeaders,
   getHttpQuery,
   getHttpTrait,
+  getMediaType,
   hasHttpLabel,
   hasHttpPayload,
   hasHttpQueryParams,
 } from "../traits.ts";
-import { getEncodedPropertySignatures } from "./ast.ts";
+import { getArrayElementAST, getEncodedPropertySignatures, isDateAST, isStringAST } from "./ast.ts";
+import { formatHeaderList, toBase64Header } from "./headers.ts";
 
 /**
  * Percent-encode a URI label value: everything except RFC 3986 unreserved
@@ -88,6 +90,10 @@ interface MemberBinding {
   readonly name: string;
   readonly type: AST.AST;
   readonly header: string | undefined;
+  /** Whether a list header quotes an element that holds a comma (every list but timestamps). */
+  readonly quoteHeader: boolean;
+  /** Whether the header is a string with a `@mediaType`, sent base64-encoded. */
+  readonly base64Header: boolean;
   /** The `{Label}` / `{Label+}` placeholder of an @httpLabel member. */
   readonly label: RegExp | undefined;
   /** Whether the placeholder is greedy (`{Label+}`), so the value keeps its `/`. */
@@ -109,10 +115,13 @@ const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
       const name = prop.name as string;
       // Use explicit label name if provided (needed when JsonName differs from URI template placeholder)
       const labelName = getHttpLabelName(prop) ?? name;
+      const element = getArrayElementAST(prop.type);
       return {
         name,
         type: prop.type,
         header: getHttpHeader(prop),
+        quoteHeader: element !== undefined && !isDateAST(element),
+        base64Header: getMediaType(prop) !== undefined && isStringAST(prop.type),
         label: hasHttpLabel(prop) ? new RegExp(`\\{${labelName}\\+?\\}`) : undefined,
         greedy: uri.includes(`{${labelName}+}`),
         queryParam: getHttpQuery(prop),
@@ -154,6 +163,7 @@ export function bindInputToRequest(
   let payloadAst: AST.AST | undefined = undefined;
   const bodyMembers: Record<string, unknown> = {};
   let hasBodyMembers = false;
+  let queryParams: object | undefined;
 
   for (const member of bindingsOf(ast)) {
     const name = member.name;
@@ -162,7 +172,11 @@ export function bindInputToRequest(
 
     if (member.header !== undefined) {
       // Value should already be encoded (dates as formatted strings, etc.)
-      request.headers[member.header] = String(value);
+      request.headers[member.header] = Array.isArray(value)
+        ? formatHeaderList(value, member.quoteHeader)
+        : member.base64Header
+          ? toBase64Header(String(value))
+          : String(value);
     } else if (member.label !== undefined) {
       const invalid = invalidAwsLabel(name, value, member.greedy);
       if (invalid !== undefined) return invalid;
@@ -176,7 +190,7 @@ export function bindInputToRequest(
         request.query[member.queryParam] = String(value);
       }
     } else if (member.queryParams && typeof value === "object") {
-      Object.assign(request.query, value);
+      queryParams = value as object;
     } else if (member.prefixHeaders !== undefined && typeof value === "object") {
       for (const [k, v] of Object.entries(value as Record<string, string>)) {
         // Skip undefined values (allowed in schema for user convenience, dropped on wire)
@@ -190,6 +204,13 @@ export function bindInputToRequest(
     } else {
       bodyMembers[name] = value;
       hasBodyMembers = true;
+    }
+  }
+
+  // A named @httpQuery member wins over an @httpQueryParams key of the same name.
+  if (queryParams !== undefined) {
+    for (const [k, v] of Object.entries(queryParams)) {
+      if (request.query[k] === undefined) request.query[k] = v;
     }
   }
 

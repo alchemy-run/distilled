@@ -28,33 +28,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export type GetFinancialReportRequestReportType =
   | "balance_summary"
@@ -1412,6 +1427,17 @@ export interface ListFinancialActivityResponse {
   data: ListFinancialActivityResponseDataList;
   page_info: ListFinancialActivityResponsePageInfo;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type GetFinancialReportError = BadRequest | Forbidden | NotFound | WhopOpError;
 /** Get Financial Report Returns a financial report -- balance activity, income statement, or balance summary -- for an account over a date range. */
 export const getFinancialReport: API.OperationMethod<
@@ -1420,8 +1446,8 @@ export const getFinancialReport: API.OperationMethod<
   GetFinancialReportError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetFinancialReportRequest>,
-  output: __S(5, __c0, 5) as any as S.Schema<GetFinancialReportResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetFinancialReportRequest>,
+  output: __S(21, __c1, 5) as any as S.Schema<GetFinancialReportResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1437,8 +1463,8 @@ export const getFinancialReportBreakdown: API.OperationMethod<
   GetFinancialReportBreakdownError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetFinancialReportBreakdownRequest>,
-  output: __S(69, __c4, 5) as any as S.Schema<GetFinancialReportBreakdownResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetFinancialReportBreakdownRequest>,
+  output: __S(85, __c5, 5) as any as S.Schema<GetFinancialReportBreakdownResponse>,
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1454,8 +1480,8 @@ export const listFinancialActivity: API.OperationMethod<
   ListFinancialActivityError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListFinancialActivityRequest>,
-  output: __S(91, __c5, 11) as any as S.Schema<ListFinancialActivityResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListFinancialActivityRequest>,
+  output: __S(107, __c6, 11) as any as S.Schema<ListFinancialActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1469,6 +1495,24 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.String.pipe(T.Query()),
           report_type: S.String.pipe(T.Query()),
           currency: S.optional(S.String.pipe(T.Query())),
@@ -1477,7 +1521,7 @@ function __c0(j: number): any {
           to: S.optional(S.String.pipe(T.Query())),
           group_by: S.optional(S.String.pipe(T.Query())),
           timezone: S.optional(S.String.pipe(T.Query())),
-          line_types: S.optional(__S(48, __c3, 0).pipe(T.Query())),
+          line_types: S.optional(__S(64, __c4, 0).pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
           cumulative: S.optional(S.Boolean.pipe(T.Query())),
           scope_account_id: S.optional(S.String.pipe(T.Query())),
@@ -1487,14 +1531,14 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(32, __c2, 0),
+          amount: __S(48, __c3, 0),
           category: S.String,
           payment_method: S.String,
           period: S.String,
         }),
       ).annotate({ identifier: "GetFinancialReportResponsePaymentFeeBreakdownItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(17, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1510,29 +1554,29 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "GetFinancialReportResponseRowsItem" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(19, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           beginning_balance: S.optional(S.NullOr(S.Number)),
-          currencies: S.optional(__S(16, __c1, 0)),
+          currencies: S.optional(__S(32, __c2, 0)),
           ending_balance: S.optional(S.NullOr(S.Number)),
-          fx_excluded_currencies: S.optional(__S(16, __c1, 0)),
-          payment_fee_breakdown: S.optional(__S(2, __c0, 2)),
+          fx_excluded_currencies: S.optional(__S(32, __c2, 0)),
+          payment_fee_breakdown: S.optional(__S(18, __c1, 2)),
           report_type: S.String,
-          rows: __S(4, __c0, 4),
+          rows: __S(20, __c1, 4),
           total: S.Number,
         }),
       ).annotate({ identifier: "GetFinancialReportResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1545,13 +1589,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Money" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1570,7 +1614,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           direction: S.String,
-          line_types: __S(16, __c1, 0),
+          line_types: __S(32, __c2, 0),
         }),
       ).annotate({ identifier: "GetFinancialReportBreakdownResponseActivityFilters" });
     case 2:
@@ -1583,8 +1627,8 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(32, __c2, 0),
-          avatar: S.NullOr(__S(66, __c4, 2)),
+          amount: __S(48, __c3, 0),
+          avatar: S.NullOr(__S(82, __c5, 2)),
           image_url: S.NullOr(S.String),
           key: S.String,
           name: S.String,
@@ -1593,22 +1637,22 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "GetFinancialReportBreakdownResponseItemsItem" });
     case 4:
-      return S.Array(__S(67, __c4, 3));
+      return S.Array(__S(83, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          activity_filters: __S(65, __c4, 1),
+          activity_filters: __S(81, __c5, 1),
           bucket: S.String,
           currency: S.String,
           direction: S.String,
-          items: __S(68, __c4, 4),
-          other_amount: S.NullOr(__S(32, __c2, 0)),
+          items: __S(84, __c5, 4),
+          other_amount: S.NullOr(__S(48, __c3, 0)),
           other_name: S.String,
         }),
       ).annotate({ identifier: "GetFinancialReportBreakdownResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1617,7 +1661,7 @@ function __c5(j: number): any {
           user_id: S.optional(S.String.pipe(T.Query())),
           include_owned_accounts: S.optional(S.Boolean.pipe(T.Query())),
           include_resource: S.optional(S.Boolean.pipe(T.Query())),
-          line_types: S.optional(__S(48, __c3, 0).pipe(T.Query())),
+          line_types: S.optional(__S(64, __c4, 0).pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
           resource_id: S.optional(S.String.pipe(T.Query())),
           activity_id: S.optional(S.String.pipe(T.Query())),
@@ -1663,7 +1707,7 @@ function __c5(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          amount: S.NullOr(__S(32, __c2, 0)),
+          amount: S.NullOr(__S(48, __c3, 0)),
           card_brand: S.NullOr(S.String),
           card_last4: S.NullOr(S.String),
           created_at: S.String,
@@ -1671,9 +1715,9 @@ function __c5(j: number): any {
           object: S.String,
           payment_method_type: S.NullOr(S.String),
           payment_processor: S.NullOr(S.String),
-          plan: S.NullOr(__S(82, __c5, 2)),
-          product: S.NullOr(__S(83, __c5, 3)),
-          user: S.NullOr(__S(84, __c5, 4)),
+          plan: S.NullOr(__S(98, __c6, 2)),
+          product: S.NullOr(__S(99, __c6, 3)),
+          user: S.NullOr(__S(100, __c6, 4)),
         }),
       ).annotate({ identifier: "LedgerActivityPayment" });
     case 6:
@@ -1700,10 +1744,10 @@ function __c5(j: number): any {
             notes: S.optional(S.NullOr(S.String)),
             object: S.String,
             payer_name: S.optional(S.NullOr(S.String)),
-            payment_amount: S.optional(S.NullOr(__S(32, __c2, 0))),
+            payment_amount: S.optional(S.NullOr(__S(48, __c3, 0))),
             payment_method_type: S.optional(S.NullOr(S.String)),
             payment_processor: S.optional(S.NullOr(S.String)),
-            payout_destination: S.optional(S.NullOr(__S(86, __c5, 6))),
+            payout_destination: S.optional(S.NullOr(__S(102, __c6, 6))),
             payout_token_nickname: S.optional(S.NullOr(S.String)),
             reason: S.optional(S.NullOr(S.String)),
             risk_review_hold: S.optional(S.NullOr(S.Boolean)),
@@ -1722,12 +1766,12 @@ function __c5(j: number): any {
           account: S.optional(S.Unknown),
           amount: S.String,
           available_at: S.NullOr(S.String),
-          currency: __S(81, __c5, 1),
+          currency: __S(97, __c6, 1),
           id: S.String,
           ledger_account_id: S.optional(S.NullOr(S.String)),
           line_type: S.String,
           object: S.String,
-          payment: S.optional(S.NullOr(__S(85, __c5, 5))),
+          payment: S.optional(S.NullOr(__S(101, __c6, 5))),
           payment_id: S.optional(S.NullOr(S.String)),
           plan_id: S.optional(S.NullOr(S.String)),
           plan_name: S.optional(S.NullOr(S.String)),
@@ -1735,7 +1779,7 @@ function __c5(j: number): any {
           product_id: S.optional(S.NullOr(S.String)),
           product_name: S.optional(S.NullOr(S.String)),
           resource: S.NullOr(S.Unknown),
-          source: S.NullOr(__S(87, __c5, 7)),
+          source: S.NullOr(__S(103, __c6, 7)),
           usd_amount: S.NullOr(S.String),
           user_email: S.optional(S.NullOr(S.String)),
           user_id: S.optional(S.NullOr(S.String)),
@@ -1743,7 +1787,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "LedgerActivity" });
     case 9:
-      return S.Array(__S(88, __c5, 8));
+      return S.Array(__S(104, __c6, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -1756,8 +1800,8 @@ function __c5(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          data: __S(89, __c5, 9),
-          page_info: __S(90, __c5, 10),
+          data: __S(105, __c6, 9),
+          page_info: __S(106, __c6, 10),
         }),
       ).annotate({ identifier: "ListFinancialActivityResponse" });
   }

@@ -204,6 +204,16 @@ const reservedNewtypeNames = new Set([
 
 type SmithyTraits = Record<string, unknown> | undefined;
 
+interface XmlNamespaceTrait {
+  readonly uri: string;
+  readonly prefix?: string;
+}
+
+const xmlNamespaceAnnotation = (ns: XmlNamespaceTrait): string =>
+  ns.prefix === undefined
+    ? `T.XmlNamespace(${JSON.stringify(ns.uri)})`
+    : `T.XmlNamespace(${JSON.stringify(ns.uri)}, ${JSON.stringify(ns.prefix)})`;
+
 /**
  * Collect serialization-relevant trait annotations from a Smithy traits
  * object (structure members, list members, map key/value). `memberName` is
@@ -240,6 +250,9 @@ function collectSerializationTraits(traits: SmithyTraits, memberName?: string): 
   if (traits["smithy.api#httpResponseCode"] != null) {
     pipes.push(`T.HttpResponseCode()`);
   }
+  if (traits["smithy.api#mediaType"] != null) {
+    pipes.push(`T.MediaType(${JSON.stringify(traits["smithy.api#mediaType"])})`);
+  }
   if (traits["smithy.api#xmlName"] != null) {
     pipes.push(`T.XmlName("${traits["smithy.api#xmlName"]}")`);
   }
@@ -248,6 +261,9 @@ function collectSerializationTraits(traits: SmithyTraits, memberName?: string): 
   }
   if (traits["smithy.api#xmlAttribute"] != null) {
     pipes.push(`T.XmlAttribute()`);
+  }
+  if (traits["smithy.api#xmlNamespace"] != null) {
+    pipes.push(xmlNamespaceAnnotation(traits["smithy.api#xmlNamespace"] as XmlNamespaceTrait));
   }
   // smithy.api#jsonName - handled at struct level via S.encodeKeys, not per-field
   // smithy.api#timestampFormat - applied to the inner schema, not as a pipe
@@ -434,6 +450,7 @@ interface OperationInputTraits {
     responseAlgorithms?: string[];
   };
   staticContextParams?: Record<string, { value: unknown }>;
+  requestCompression?: { encodings: string[] };
 }
 
 /**
@@ -465,9 +482,15 @@ function collectOperationInputTraits(model: SmithyModel): {
         method: "POST",
         uri: "/",
       };
-      const httpChecksumTrait = shape.traits?.["aws.protocols#httpChecksum"] as
-        | OperationInputTraits["httpChecksum"]
-        | undefined;
+      // `@httpChecksumRequired` asks for the checksum `httpChecksum` sends
+      // when one is required: Content-MD5 of a buffered body.
+      const httpChecksumTrait =
+        (shape.traits?.["aws.protocols#httpChecksum"] as
+          | OperationInputTraits["httpChecksum"]
+          | undefined) ??
+        (shape.traits?.["smithy.api#httpChecksumRequired"] != null
+          ? { requestChecksumRequired: true }
+          : undefined);
       const staticContextParamsTrait = shape.traits?.["smithy.rules#staticContextParams"] as
         | Record<string, { value: unknown }>
         | undefined;
@@ -477,6 +500,9 @@ function collectOperationInputTraits(model: SmithyModel): {
         uri: httpTrait.uri ?? "/",
         httpChecksum: httpChecksumTrait,
         staticContextParams: staticContextParamsTrait,
+        requestCompression: shape.traits?.["smithy.api#requestCompression"] as
+          | OperationInputTraits["requestCompression"]
+          | undefined,
       };
 
       // Operations with `smithy.api#Unit` inputs get a synthesized
@@ -576,6 +602,25 @@ function collectInputEventStreamShapeIds(model: SmithyModel): Set<string> {
   }
 
   return inputEventStreams;
+}
+
+/** Non-streaming union shape ids a member binds as its `@httpPayload`. */
+function collectPayloadUnionShapeIds(model: SmithyModel): Set<string> {
+  const ids = new Set<string>();
+  for (const shape of Object.values(model.shapes)) {
+    if (shape.type !== "structure" || !shape.members) continue;
+    for (const member of Object.values(shape.members)) {
+      const target = model.shapes[member.target];
+      if (
+        member.traits?.["smithy.api#httpPayload"] != null &&
+        target?.type === "union" &&
+        target.traits?.["smithy.api#streaming"] == null
+      ) {
+        ids.add(member.target);
+      }
+    }
+  }
+  return ids;
 }
 
 /** Shape ids carrying the @sensitive trait. */
@@ -926,6 +971,9 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
     protocol === "aws.protocols#awsJson1_1";
   const isQueryProtocol =
     protocol === "aws.protocols#awsQuery" || protocol === "aws.protocols#ec2Query";
+  // `@jsonName` renames a member on the wire only in restJson1; awsJson
+  // ignores it (https://smithy.io/2.0/aws/protocols/aws-json-1_1-protocol.html).
+  const honorsJsonName = protocol === "aws.protocols#restJson1";
 
   // --- Global collections (same order as the pre-port generator) ------------
   // Cycle analysis over TS-facing names (Tarjan, shared with the other SDK
@@ -992,6 +1040,10 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
   const { operationInputTraits, operationInputTraitOverrides } = collectOperationInputTraits(model);
   const operationOutputTraits = collectOperationOutputTraits(model);
   const inputEventStreamShapeIds = collectInputEventStreamShapeIds(model);
+  // restXml names a payload's root element after its shape: a union payload
+  // needs its name, as a structure has.
+  const payloadUnionShapeIds =
+    protocol === "aws.protocols#restXml" ? collectPayloadUnionShapeIds(model) : new Set<string>();
   const sensitiveShapeIds = collectSensitiveShapeIds(model);
   const operationErrorTypeNames = collectOperationErrorTypeNames(model);
   const softRequiredMembers = collectSoftRequiredMembers(model);
@@ -1241,14 +1293,19 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
         // Parenthesize union element types (e.g. sensitive members that
         // render as `string | redacted.Redacted<string>`) so the `[]`
         // suffix binds to the whole union, not just the last member.
-        const elementType = tsTypeOf(shape.member.target);
+        // A `@sparse` list holds null elements.
+        const elementType =
+          shape.traits?.["smithy.api#sparse"] != null
+            ? `${tsTypeOf(shape.member.target)} | null`
+            : tsTypeOf(shape.member.target);
         return elementType.includes("|") ? `(${elementType})[]` : `${elementType}[]`;
       }
       case "map": {
         // Include | undefined so users can pass objects with undefined
-        // values (dropped during serialization).
+        // values (dropped during serialization); a `@sparse` map holds nulls.
         const valueType = tsTypeOf(shape.value.target);
-        return `{ [key: string]: ${valueType} | undefined }`;
+        const sparse = shape.traits?.["smithy.api#sparse"] != null ? " | null" : "";
+        return `{ [key: string]: ${valueType}${sparse} | undefined }`;
       }
       case "union":
         return name;
@@ -1336,23 +1393,56 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       tsType = tsTypeAt(member.target, ownerName);
     }
 
-    // Timestamp members: HTTP header bindings default to http-date; an
-    // explicit member-level format overrides the target's.
+    // Timestamp members: the protocol's body format is the default only in
+    // the body. Header bindings default to http-date, and label and query
+    // bindings to date-time, unless the member or its target shape names a
+    // format; an explicit member-level format overrides the target's.
     const isTimestampSchema =
       schema.includes("S.Date") ||
       schema.includes("DateFromString") ||
       schema.includes("TimestampFormat") ||
       member.target === "smithy.api#Timestamp";
-    if (isTimestampSchema && hasHttpHeader && !explicitFormat) {
-      schema = `S.Date.pipe(T.TimestampFormat("http-date"))`;
+    const bindingFormat = hasHttpHeader
+      ? "http-date"
+      : traits["smithy.api#httpLabel"] != null || traits["smithy.api#httpQuery"] != null
+        ? "date-time"
+        : undefined;
+    const timestampExpr = (format: string) =>
+      format === "date-time"
+        ? `T.DateFromString.pipe(T.TimestampFormat("date-time"))`
+        : `S.Date.pipe(T.TimestampFormat("${format}"))`;
+    const targetFormat = memberTargetShape?.traits?.["smithy.api#timestampFormat"];
+    if (isTimestampSchema && explicitFormat) {
+      schema = timestampExpr(explicitFormat);
       tsType = "Date";
-    } else if (isTimestampSchema && explicitFormat) {
-      if (explicitFormat === "date-time") {
-        schema = `T.DateFromString.pipe(T.TimestampFormat("date-time"))`;
-      } else {
-        schema = `S.Date.pipe(T.TimestampFormat("${explicitFormat}"))`;
-      }
+    } else if (
+      isTimestampSchema &&
+      bindingFormat &&
+      targetFormat === undefined &&
+      // The XML protocols' default is already ISO 8601.
+      !(bindingFormat === "date-time" && schema === "T.DateFromString")
+    ) {
+      schema = timestampExpr(bindingFormat);
       tsType = "Date";
+    }
+
+    // A header or query list of timestamps: its timestamps take the
+    // binding's default too, unless the list member or its timestamp shape
+    // names a format.
+    const listMember =
+      bindingFormat !== undefined &&
+      (memberTargetShape?.type === "list" || memberTargetShape?.type === "set")
+        ? memberTargetShape.member
+        : undefined;
+    if (
+      listMember !== undefined &&
+      (listMember.target === "smithy.api#Timestamp" ||
+        shapes[listMember.target]?.type === "timestamp") &&
+      listMember.traits?.["smithy.api#timestampFormat"] === undefined &&
+      shapes[listMember.target]?.traits?.["smithy.api#timestampFormat"] === undefined
+    ) {
+      schema = `S.Array(${timestampExpr(bindingFormat!)})`;
+      tsType = "Date[]";
     }
 
     // Suspend references that would be TDZ reads at module eval: error
@@ -1413,14 +1503,20 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
 
     // Serialization trait pipes; memberName lets httpLabel substitute the
     // right URI placeholder, identifier survives the .pipe() wrapper.
+    // A header or payload's @mediaType sits on its target shape.
+    const mediaType = memberTargetShape?.traits?.["smithy.api#mediaType"];
     schema = applyTraitsToSchema(
       schema,
-      traits,
+      mediaType !== undefined && (hasHttpHeader || hasHttpPayload)
+        ? { ...traits, "smithy.api#mediaType": mediaType }
+        : traits,
       memberName,
       allStructNames.has(memberTargetName) ? memberTargetName : undefined,
     );
 
-    const jsonName = traits["smithy.api#jsonName"] as string | undefined;
+    const jsonName = honorsJsonName
+      ? (traits["smithy.api#jsonName"] as string | undefined)
+      : undefined;
 
     return {
       name: memberName,
@@ -1638,7 +1734,11 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           );
 
           const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
-          const memberTsType = tsTypeAt(def.member.target, name);
+          // A `@sparse` list holds null elements, sent and returned as null.
+          if (isSparse) innerType = `S.NullOr(${innerType})`;
+          const memberTsType = isSparse
+            ? `${tsTypeAt(def.member.target, name)} | null`
+            : tsTypeAt(def.member.target, name);
           const memberTsTypeForArray = memberTsType.includes("|")
             ? `(${memberTsType})`
             : memberTsType;
@@ -1700,7 +1800,11 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           );
 
           const sparsePipe = isSparse ? ".pipe(T.Sparse())" : "";
-          const valueTsType = tsTypeAt(def.value.target, name);
+          // A `@sparse` map holds null values, sent and returned as null.
+          if (isSparse) wrappedValue = `S.NullOr(${wrappedValue})`;
+          const valueTsType = isSparse
+            ? `${tsTypeAt(def.value.target, name)} | null`
+            : tsTypeAt(def.value.target, name);
           // Value piped through S.optional so undefined values are accepted
           // (and dropped during serialization).
           const recordExpr = `S.Record(${wrappedKey}, ${wrappedValue}.pipe(S.optional))${sparsePipe}`;
@@ -1746,13 +1850,22 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
               allStructNames.has(memberTargetName) ? memberTargetName : undefined,
             );
             // Smithy unions are tagged: wrap in a struct keyed by member name
-            wrappedMembers.push(`S.Struct({ ${memberName}: ${wrapped} })`);
+            const jsonName = honorsJsonName
+              ? (member.traits?.["smithy.api#jsonName"] as string | undefined)
+              : undefined;
+            const encodeKeys =
+              jsonName && jsonName !== memberName
+                ? `.pipe(S.encodeKeys({ ${memberName}: "${jsonName}" }))`
+                : "";
+            wrappedMembers.push(`S.Struct({ ${memberName}: ${wrapped} })${encodeKeys}`);
             variantTypes.push(
               generateUnionVariant(allMemberNames, memberName, tsTypeAt(member.target, name)),
             );
           }
           const typeAlias = `export type ${name} = ${variantTypes.join(" | ")};`;
-          const unionExpr = `S.Union([${wrappedMembers.join(", ")}])`;
+          const unionExpr = payloadUnionShapeIds.has(id)
+            ? `S.Union([${wrappedMembers.join(", ")}]).annotate({ identifier: "${name}" })`
+            : `S.Union([${wrappedMembers.join(", ")}])`;
 
           if (isEventStream) {
             const wrapper = inputEventStreamShapeIds.has(id)
@@ -1812,12 +1925,12 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
 
           const xmlName = def.traits?.["smithy.api#xmlName"] as string | undefined;
           const structXmlNamespace = def.traits?.["smithy.api#xmlNamespace"] as
-            | { uri: string }
+            | XmlNamespaceTrait
             | undefined;
           // Structure-level xmlNamespace overrides service-level; the
           // service namespace applies only to op I/O schemas.
           const xmlNamespaceRef = structXmlNamespace
-            ? `T.XmlNamespace("${structXmlNamespace.uri}")`
+            ? xmlNamespaceAnnotation(structXmlNamespace)
             : serviceXmlNamespace && (isOperationInput || isOperationOutput)
               ? "ns"
               : undefined;
@@ -1831,6 +1944,12 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
             );
             classAnnotations.push("svc", "auth", "proto", "ver");
             if (endpointRuleSet) classAnnotations.push("rules");
+            // Before the checksum, which covers the compressed body.
+            if (opTraits.requestCompression) {
+              classAnnotations.push(
+                `T.RequestCompression(${JSON.stringify(opTraits.requestCompression)})`,
+              );
+            }
             if (opTraits.httpChecksum) {
               classAnnotations.push(httpChecksumAnnotation(opTraits.httpChecksum));
             }
@@ -2033,6 +2152,11 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
           const overrideAnnotations: string[] = [
             `T.Http({ method: "${overrideTraits.method}", uri: "${overrideTraits.uri}" })`,
           ];
+          if (overrideTraits.requestCompression) {
+            overrideAnnotations.push(
+              `T.RequestCompression(${JSON.stringify(overrideTraits.requestCompression)})`,
+            );
+          }
           if (overrideTraits.httpChecksum) {
             overrideAnnotations.push(httpChecksumAnnotation(overrideTraits.httpChecksum));
           }
@@ -2202,7 +2326,18 @@ export const awsSpec = (model: SmithyModel): SdkSpec => {
       );
       serviceConstants.push(`const ver = T.ServiceVersion("${version}");`);
 
-      serviceConstants.push(`const proto = ${PROTOCOL_ANNOTATIONS[protocol]};`);
+      // A service moved off awsQuery says so on every request
+      // (`x-amzn-query-mode`), so it can answer with query error codes.
+      const queryCompatible =
+        serviceShape.traits?.["aws.protocols#awsQueryCompatible"] != null &&
+        (protocol === "aws.protocols#awsJson1_0" || protocol === "aws.protocols#awsJson1_1");
+      serviceConstants.push(
+        `const proto = ${
+          queryCompatible
+            ? PROTOCOL_ANNOTATIONS[protocol].replace("()", "({ awsQueryCompatible: true })")
+            : PROTOCOL_ANNOTATIONS[protocol]
+        };`,
+      );
 
       // Compiled endpoint resolver function (if a rule set is available)
       if (endpointRuleSet) {

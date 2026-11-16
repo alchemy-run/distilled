@@ -140,6 +140,32 @@ export interface UpdateDataProductUsageExampleRequest {
   /** Optional suggested natural-language prompt for the usage example */
   suggestedPrompt?: string | undefined;
 }
+/** Any fields/values that are invalid or incorrect */
+export type BadRequestFieldsList = Array<string>;
+/** Invalid request */
+export interface BadRequest2 {
+  /** Description of the error */
+  message?: string | undefined;
+  /** Any fields/values that are invalid or incorrect */
+  fields?: BadRequestFieldsList | undefined;
+}
+/** Already exists */
+export interface Exists {
+  message?: string | undefined;
+}
+/** Authorization failed */
+export type Forbidden2 = Exists;
+/** Any fields/values that weren't found */
+export type NotFoundFieldsList = Array<string>;
+/** A resource or required component was not found */
+export interface NotFound2 {
+  /** Name of the resource */
+  message: string;
+  /** Violation description */
+  description?: string | undefined;
+  /** Any fields/values that weren't found */
+  fields?: NotFoundFieldsList | undefined;
+}
 export type CreateDataProductUsageExampleError =
   | BadRequest
   | Forbidden

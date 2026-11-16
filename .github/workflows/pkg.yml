@@ -70,12 +70,13 @@ jobs:
       # On pull requests, pkg selects the changed packages, their dependents
       # and the dependencies that set needs; pushes pack everything. Private
       # packages are skipped, so the glob covers every published SDK.
+      # `[Collapsed]` puts the install comment's list in a closed <details>.
       - name: Pack packages
         id: pack
         run: >-
           pnpm exec pkg pack
           ${{ contains(github.event.pull_request.labels.*.name, 'force-ci') && '--all' || '' }}
-          --group '@distilled.cloud=./packages/*'
+          --group '@distilled.cloud[Collapsed]=./packages/*'
 
       - name: Vouch for the manifest
         if: steps.pack.outputs.package-count != '0'

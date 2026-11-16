@@ -30,33 +30,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorBADREQUEST | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorFORBIDDEN | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorNOTFOUND | string;
+}
 
 export interface CancelApplicationDeploymentRequest {
   applicationId: string;
@@ -500,6 +515,44 @@ export interface UpdateApplicationTraefikConfigRequest {
   traefikConfig: string;
 }
 export type UpdateApplicationTraefikConfigResponse = unknown;
+export interface ErrorBADREQUESTIssuesItem {
+  message: string;
+}
+/** An array of issues that were responsible for the error */
+export type ErrorBADREQUESTIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorBADREQUEST {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorBADREQUESTIssuesList | undefined;
+}
+export type ErrorFORBIDDENIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorFORBIDDENIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorFORBIDDEN {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorFORBIDDENIssuesList | undefined;
+}
+export type ErrorNOTFOUNDIssuesItem = ErrorBADREQUESTIssuesItem;
+/** An array of issues that were responsible for the error */
+export type ErrorNOTFOUNDIssuesList = Array<ErrorBADREQUESTIssuesItem>;
+/** The error information */
+export interface ErrorNOTFOUND {
+  /** The error message */
+  message: string;
+  /** The error code */
+  code: string;
+  /** An array of issues that were responsible for the error */
+  issues?: ErrorNOTFOUNDIssuesList | undefined;
+}
 export type CancelApplicationDeploymentError = BadRequest | Forbidden | DokployOpError;
 export const cancelApplicationDeployment: API.OperationMethod<
   CancelApplicationDeploymentRequest,
@@ -507,8 +560,8 @@ export const cancelApplicationDeployment: API.OperationMethod<
   CancelApplicationDeploymentError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CancelApplicationDeploymentRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<CancelApplicationDeploymentResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<CancelApplicationDeploymentRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<CancelApplicationDeploymentResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -523,8 +576,8 @@ export const cleanApplicationQueues: API.OperationMethod<
   CleanApplicationQueuesError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<CleanApplicationQueuesRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<CleanApplicationQueuesResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<CleanApplicationQueuesRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<CleanApplicationQueuesResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -539,8 +592,8 @@ export const clearApplicationDeployments: API.OperationMethod<
   ClearApplicationDeploymentsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ClearApplicationDeploymentsRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<ClearApplicationDeploymentsResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<ClearApplicationDeploymentsRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<ClearApplicationDeploymentsResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -555,8 +608,8 @@ export const createApplication: API.OperationMethod<
   CreateApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<CreateApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<CreateApplicationResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<CreateApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<CreateApplicationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -571,8 +624,8 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeleteApplicationResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -587,8 +640,8 @@ export const deployApplication: API.OperationMethod<
   DeployApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeployApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeployApplicationResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DeployApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<DeployApplicationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -603,8 +656,8 @@ export const deployApplicationNginxQuickstart: API.OperationMethod<
   DeployApplicationNginxQuickstartError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeployApplicationNginxQuickstartRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DeployApplicationNginxQuickstartResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeployApplicationNginxQuickstartRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<DeployApplicationNginxQuickstartResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -619,8 +672,8 @@ export const disconnectApplicationGitProvider: API.OperationMethod<
   DisconnectApplicationGitProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DisconnectApplicationGitProviderRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DisconnectApplicationGitProviderResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<DisconnectApplicationGitProviderRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<DisconnectApplicationGitProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -635,8 +688,8 @@ export const dropApplicationDeployment: API.OperationMethod<
   DropApplicationDeploymentError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<DropApplicationDeploymentRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<DropApplicationDeploymentResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<DropApplicationDeploymentRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<DropApplicationDeploymentResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -651,8 +704,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<GetApplicationResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<GetApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -667,8 +720,8 @@ export const killApplicationBuild: API.OperationMethod<
   KillApplicationBuildError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<KillApplicationBuildRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<KillApplicationBuildResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<KillApplicationBuildRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<KillApplicationBuildResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -683,8 +736,8 @@ export const markApplicationRunning: API.OperationMethod<
   MarkApplicationRunningError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<MarkApplicationRunningRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<MarkApplicationRunningResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<MarkApplicationRunningRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<MarkApplicationRunningResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -699,8 +752,8 @@ export const moveApplication: API.OperationMethod<
   MoveApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<MoveApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<MoveApplicationResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<MoveApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<MoveApplicationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -715,8 +768,8 @@ export const readApplicationAppMonitoring: API.OperationMethod<
   ReadApplicationAppMonitoringError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<ReadApplicationAppMonitoringRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<ReadApplicationAppMonitoringResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ReadApplicationAppMonitoringRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<ReadApplicationAppMonitoringResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -731,8 +784,8 @@ export const readApplicationLogs: API.OperationMethod<
   ReadApplicationLogsError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ReadApplicationLogsRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<ReadApplicationLogsResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ReadApplicationLogsRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<ReadApplicationLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -747,8 +800,8 @@ export const readApplicationTraefikConfig: API.OperationMethod<
   ReadApplicationTraefikConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ReadApplicationTraefikConfigRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<ReadApplicationTraefikConfigResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<ReadApplicationTraefikConfigRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<ReadApplicationTraefikConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -763,8 +816,8 @@ export const redeployApplication: API.OperationMethod<
   RedeployApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<RedeployApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<RedeployApplicationResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<RedeployApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<RedeployApplicationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -779,8 +832,8 @@ export const refreshApplicationToken: API.OperationMethod<
   RefreshApplicationTokenError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<RefreshApplicationTokenRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<RefreshApplicationTokenResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<RefreshApplicationTokenRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<RefreshApplicationTokenResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -795,8 +848,8 @@ export const reloadApplication: API.OperationMethod<
   ReloadApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ReloadApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<ReloadApplicationResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ReloadApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<ReloadApplicationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -811,8 +864,8 @@ export const saveApplicationBitbucketProvider: API.OperationMethod<
   SaveApplicationBitbucketProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<SaveApplicationBitbucketProviderRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<SaveApplicationBitbucketProviderResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<SaveApplicationBitbucketProviderRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationBitbucketProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -827,8 +880,8 @@ export const saveApplicationBuildType: API.OperationMethod<
   SaveApplicationBuildTypeError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<SaveApplicationBuildTypeRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<SaveApplicationBuildTypeResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<SaveApplicationBuildTypeRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationBuildTypeResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -843,8 +896,8 @@ export const saveApplicationDockerProvider: API.OperationMethod<
   SaveApplicationDockerProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<SaveApplicationDockerProviderRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<SaveApplicationDockerProviderResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<SaveApplicationDockerProviderRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationDockerProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -859,8 +912,8 @@ export const saveApplicationEnvironment: API.OperationMethod<
   SaveApplicationEnvironmentError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<SaveApplicationEnvironmentRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<SaveApplicationEnvironmentResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<SaveApplicationEnvironmentRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationEnvironmentResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -875,8 +928,8 @@ export const saveApplicationGiteaProvider: API.OperationMethod<
   SaveApplicationGiteaProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<SaveApplicationGiteaProviderRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<SaveApplicationGiteaProviderResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<SaveApplicationGiteaProviderRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationGiteaProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -891,8 +944,8 @@ export const saveApplicationGithubProvider: API.OperationMethod<
   SaveApplicationGithubProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<SaveApplicationGithubProviderRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<SaveApplicationGithubProviderResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<SaveApplicationGithubProviderRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationGithubProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -907,8 +960,8 @@ export const saveApplicationGitlabProvider: API.OperationMethod<
   SaveApplicationGitlabProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<SaveApplicationGitlabProviderRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<SaveApplicationGitlabProviderResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<SaveApplicationGitlabProviderRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationGitlabProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -923,8 +976,8 @@ export const saveApplicationGitProvider: API.OperationMethod<
   SaveApplicationGitProviderError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<SaveApplicationGitProviderRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<SaveApplicationGitProviderResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<SaveApplicationGitProviderRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SaveApplicationGitProviderResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -939,8 +992,8 @@ export const searchApplication: API.OperationMethod<
   SearchApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<SearchApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<SearchApplicationResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<SearchApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<SearchApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -955,8 +1008,8 @@ export const startApplication: API.OperationMethod<
   StartApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<StartApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<StartApplicationResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<StartApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<StartApplicationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -971,8 +1024,8 @@ export const stopApplication: API.OperationMethod<
   StopApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<StopApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<StopApplicationResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<StopApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<StopApplicationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -987,8 +1040,8 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(852, __c26, 20) as any as S.Schema<UpdateApplicationRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<UpdateApplicationResponse>,
+  input: __S(884, __c27, 20) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UpdateApplicationResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1003,8 +1056,8 @@ export const updateApplicationTraefikConfig: API.OperationMethod<
   UpdateApplicationTraefikConfigError,
   DokployOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<UpdateApplicationTraefikConfigRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<UpdateApplicationTraefikConfigResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<UpdateApplicationTraefikConfigRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<UpdateApplicationTraefikConfigResponse>,
   errors: [BadRequest, Forbidden, UnknownDokployError],
   protocol: DokployProtocol,
   retry: Retry.Retry,
@@ -1018,12 +1071,32 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ErrorBADREQUESTIssuesItem" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.String,
+          issues: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "ErrorBADREQUEST" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           applicationId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/application.disconnectGitProvider", code: 200 })),
       ).annotate({ identifier: "DisconnectApplicationGitProviderRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1042,7 +1115,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DropApplicationDeploymentRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1052,7 +1125,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1062,7 +1135,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "KillApplicationBuildRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1072,7 +1145,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "MarkApplicationRunningRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1083,7 +1156,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "MoveApplicationRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1093,7 +1166,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ReadApplicationAppMonitoringRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1106,7 +1179,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ReadApplicationLogsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1116,7 +1189,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ReadApplicationTraefikConfigRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1128,7 +1201,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "RedeployApplicationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1138,7 +1211,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "RefreshApplicationTokenRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1149,7 +1222,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ReloadApplicationRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1162,18 +1235,18 @@ function __c12(j: number): any {
           applicationId: S.String,
           bitbucketBranch: S.String,
           enableSubmodules: S.optional(S.Boolean),
-          watchPaths: S.optional(S.NullOr(__S(416, __c13, 0))),
+          watchPaths: S.optional(S.NullOr(__S(448, __c14, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/application.saveBitbucketProvider", code: 200 })),
       ).annotate({ identifier: "SaveApplicationBitbucketProviderRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1191,7 +1264,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SaveApplicationBuildTypeRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1205,7 +1278,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "SaveApplicationDockerProviderRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1219,7 +1292,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "SaveApplicationEnvironmentRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1231,12 +1304,12 @@ function __c17(j: number): any {
           giteaId: S.NullOr(S.String),
           giteaBranch: S.String,
           enableSubmodules: S.optional(S.Boolean),
-          watchPaths: S.optional(S.NullOr(__S(416, __c13, 0))),
+          watchPaths: S.optional(S.NullOr(__S(448, __c14, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/application.saveGiteaProvider", code: 200 })),
       ).annotate({ identifier: "SaveApplicationGiteaProviderRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1249,12 +1322,12 @@ function __c18(j: number): any {
           branch: S.String,
           triggerType: S.String,
           enableSubmodules: S.optional(S.Boolean),
-          watchPaths: S.optional(S.NullOr(__S(416, __c13, 0))),
+          watchPaths: S.optional(S.NullOr(__S(448, __c14, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/application.saveGithubProvider", code: 200 })),
       ).annotate({ identifier: "SaveApplicationGithubProviderRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1268,12 +1341,12 @@ function __c19(j: number): any {
           gitlabPathNamespace: S.NullOr(S.String),
           gitlabBranch: S.String,
           enableSubmodules: S.optional(S.Boolean),
-          watchPaths: S.optional(S.NullOr(__S(416, __c13, 0))),
+          watchPaths: S.optional(S.NullOr(__S(448, __c14, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/application.saveGitlabProvider", code: 200 })),
       ).annotate({ identifier: "SaveApplicationGitlabProviderRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1281,7 +1354,7 @@ function __c20(j: number): any {
           applicationId: S.String,
           customGitBuildPath: S.NullOr(S.String),
           customGitUrl: S.NullOr(S.String),
-          watchPaths: S.NullOr(__S(416, __c13, 0)),
+          watchPaths: S.NullOr(__S(448, __c14, 0)),
           enableSubmodules: S.optional(S.Boolean),
           customGitBranch: S.String,
           customGitSSHKeyId: S.optional(S.NullOr(S.String)),
@@ -1289,7 +1362,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SaveApplicationGitProviderRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1299,7 +1372,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CancelApplicationDeploymentRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -1307,7 +1380,7 @@ function __c22(j: number): any {
       });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1327,7 +1400,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "SearchApplicationRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1337,7 +1410,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "StartApplicationRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1347,12 +1420,12 @@ function __c25(j: number): any {
       ).annotate({ identifier: "StopApplicationRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Test: S.optional(__S(416, __c13, 0)),
+          Test: S.optional(__S(448, __c14, 0)),
           Interval: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           StartPeriod: S.optional(S.Number),
@@ -1377,11 +1450,11 @@ function __c26(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Spread: __S(834, __c26, 2),
+          Spread: __S(866, __c27, 2),
         }),
       ).annotate({ identifier: "UpdateApplicationRequestPlacementSwarmPreferencesItem" });
     case 4:
-      return S.Array(__S(835, __c26, 3));
+      return S.Array(__S(867, __c27, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1390,14 +1463,14 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "UpdateApplicationRequestPlacementSwarmPlatformsItem" });
     case 6:
-      return S.Array(__S(837, __c26, 5));
+      return S.Array(__S(869, __c27, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          Constraints: S.optional(__S(416, __c13, 0)),
-          Preferences: S.optional(__S(836, __c26, 4)),
+          Constraints: S.optional(__S(448, __c14, 0)),
+          Preferences: S.optional(__S(868, __c27, 4)),
           MaxReplicas: S.optional(S.Number),
-          Platforms: S.optional(__S(838, __c26, 6)),
+          Platforms: S.optional(__S(870, __c27, 6)),
         }),
       ).annotate({ identifier: "UpdateApplicationRequestPlacementSwarm" });
     case 8:
@@ -1427,9 +1500,9 @@ function __c26(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          Replicated: S.optional(__S(841, __c26, 9)),
+          Replicated: S.optional(__S(873, __c27, 9)),
           Global: S.optional(S.Unknown),
-          ReplicatedJob: S.optional(__S(842, __c26, 10)),
+          ReplicatedJob: S.optional(__S(874, __c27, 10)),
           GlobalJob: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "UpdateApplicationRequestModeSwarm" });
@@ -1439,12 +1512,12 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Target: S.optional(S.String),
-          Aliases: S.optional(__S(416, __c13, 0)),
-          DriverOpts: S.optional(__S(844, __c26, 12)),
+          Aliases: S.optional(__S(448, __c14, 0)),
+          DriverOpts: S.optional(__S(876, __c27, 12)),
         }),
       ).annotate({ identifier: "UpdateApplicationRequestNetworkSwarmItem" });
     case 14:
-      return S.Array(__S(845, __c26, 13));
+      return S.Array(__S(877, __c27, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
@@ -1455,12 +1528,12 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "UpdateApplicationRequestEndpointSpecSwarmPortsItem" });
     case 16:
-      return S.Array(__S(847, __c26, 15));
+      return S.Array(__S(879, __c27, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           Mode: S.optional(S.String),
-          Ports: S.optional(__S(848, __c26, 16)),
+          Ports: S.optional(__S(880, __c27, 16)),
         }),
       ).annotate({ identifier: "UpdateApplicationRequestEndpointSpecSwarm" });
     case 18:
@@ -1472,7 +1545,7 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "UpdateApplicationRequestUlimitsSwarmItem" });
     case 19:
-      return S.Array(__S(850, __c26, 18));
+      return S.Array(__S(882, __c27, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -1482,10 +1555,10 @@ function __c26(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           env: S.optional(S.NullOr(S.String)),
           previewEnv: S.optional(S.NullOr(S.String)),
-          watchPaths: S.optional(S.NullOr(__S(416, __c13, 0))),
+          watchPaths: S.optional(S.NullOr(__S(448, __c14, 0))),
           previewBuildArgs: S.optional(S.NullOr(S.String)),
           previewBuildSecrets: S.optional(S.NullOr(S.String)),
-          previewLabels: S.optional(S.NullOr(__S(416, __c13, 0))),
+          previewLabels: S.optional(S.NullOr(__S(448, __c14, 0))),
           previewWildcard: S.optional(S.NullOr(S.String)),
           previewPort: S.optional(S.NullOr(S.Number)),
           previewHttps: S.optional(S.Boolean),
@@ -1506,7 +1579,7 @@ function __c26(j: number): any {
           enabled: S.optional(S.NullOr(S.Boolean)),
           subtitle: S.optional(S.NullOr(S.String)),
           command: S.optional(S.NullOr(S.String)),
-          args: S.optional(S.NullOr(__S(416, __c13, 0))),
+          args: S.optional(S.NullOr(__S(448, __c14, 0))),
           icon: S.optional(S.NullOr(S.String)),
           refreshToken: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           sourceType: S.optional(S.String),
@@ -1545,17 +1618,17 @@ function __c26(j: number): any {
           dockerContextPath: S.optional(S.NullOr(S.String)),
           dockerBuildStage: S.optional(S.NullOr(S.String)),
           dropBuildPath: S.optional(S.NullOr(S.String)),
-          healthCheckSwarm: S.optional(S.NullOr(__S(832, __c26, 0))),
-          restartPolicySwarm: S.optional(S.NullOr(__S(833, __c26, 1))),
-          placementSwarm: S.optional(S.NullOr(__S(839, __c26, 7))),
-          updateConfigSwarm: S.optional(S.NullOr(__S(840, __c26, 8))),
-          rollbackConfigSwarm: S.optional(S.NullOr(__S(840, __c26, 8))),
-          modeSwarm: S.optional(S.NullOr(__S(843, __c26, 11))),
-          labelsSwarm: S.optional(S.NullOr(__S(844, __c26, 12))),
-          networkSwarm: S.optional(S.NullOr(__S(846, __c26, 14))),
+          healthCheckSwarm: S.optional(S.NullOr(__S(864, __c27, 0))),
+          restartPolicySwarm: S.optional(S.NullOr(__S(865, __c27, 1))),
+          placementSwarm: S.optional(S.NullOr(__S(871, __c27, 7))),
+          updateConfigSwarm: S.optional(S.NullOr(__S(872, __c27, 8))),
+          rollbackConfigSwarm: S.optional(S.NullOr(__S(872, __c27, 8))),
+          modeSwarm: S.optional(S.NullOr(__S(875, __c27, 11))),
+          labelsSwarm: S.optional(S.NullOr(__S(876, __c27, 12))),
+          networkSwarm: S.optional(S.NullOr(__S(878, __c27, 14))),
           stopGracePeriodSwarm: S.optional(S.NullOr(S.Number)),
-          endpointSpecSwarm: S.optional(S.NullOr(__S(849, __c26, 17))),
-          ulimitsSwarm: S.optional(S.NullOr(__S(851, __c26, 19))),
+          endpointSpecSwarm: S.optional(S.NullOr(__S(881, __c27, 17))),
+          ulimitsSwarm: S.optional(S.NullOr(__S(883, __c27, 19))),
           replicas: S.optional(S.Number),
           applicationStatus: S.optional(S.String),
           buildType: S.optional(S.String),
@@ -1573,13 +1646,13 @@ function __c26(j: number): any {
           bitbucketId: S.optional(S.NullOr(S.String)),
           buildServerId: S.optional(S.NullOr(S.String)),
           buildRegistryId: S.optional(S.NullOr(S.String)),
-          networkIds: S.optional(S.NullOr(__S(416, __c13, 0))),
+          networkIds: S.optional(S.NullOr(__S(448, __c14, 0))),
           detachDokployNetwork: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/application.update", code: 200 })),
       ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1590,7 +1663,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateApplicationTraefikConfigRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1600,7 +1673,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CleanApplicationQueuesRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1610,7 +1683,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ClearApplicationDeploymentsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1625,7 +1698,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateApplicationRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1635,7 +1708,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1647,7 +1720,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeployApplicationRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -131,6 +131,29 @@ export const errorCategories = (
   return categories;
 };
 
+/**
+ * Operation trait listing the JSON bodies the spec documents for the
+ * operation's error responses, `[{ status, target }]`, as the OpenAPI
+ * converter writes it. An error class's `body` is typed with the bodies its
+ * operations document for the statuses it matches, or the raw text of a
+ * non-JSON response.
+ */
+export const ERROR_BODIES_TRAIT = "distilled.errors#bodies";
+
+/** The HTTP statuses an error class stands for: its `httpError`, then its matchers' statuses. */
+const errorStatuses = (
+  traits: Record<string, any> | undefined,
+  matchersTrait?: string,
+): number[] => {
+  const out: number[] = [];
+  const add = (s: unknown) => {
+    if (typeof s === "number" && !out.includes(s)) out.push(s);
+  };
+  add(traits?.["smithy.api#httpError"]);
+  if (matchersTrait) for (const m of traits?.[matchersTrait] ?? []) add(m?.status);
+  return out;
+};
+
 /** Error categories a model states that its error traits can't (see {@link errorCategories}). */
 export const ERROR_CATEGORIES_TRAIT = "distilled.errors#categories";
 
@@ -162,10 +185,14 @@ const RETRY_HINT_CATEGORIES = new Set(["RetryableError", "ThrottlingError", "Ser
  * `retryAfter` hint on errors the retry policy may retry) that `fields` does
  * not already declare.
  */
-const responseFieldLines = (fields: readonly string[], categories: readonly string[]): string[] => {
+const responseFieldLines = (
+  fields: readonly string[],
+  categories: readonly string[],
+  body: string = "S.Unknown",
+): string[] => {
   const declared = new Set(fields.map((line) => line.match(/^\s*"?([\w$]+)"?\??:/)?.[1]));
   const out: string[] = [];
-  if (!declared.has("body")) out.push(`  body: ${PURE}S.optional(S.Unknown),`);
+  if (!declared.has("body")) out.push(`  body: ${PURE}S.optional(${body}),`);
   if (!declared.has("headers")) {
     out.push(`  headers: ${PURE}S.optional(${PURE}S.Record(S.String, S.String)),`);
   }
@@ -633,12 +660,33 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     op: OpEntry,
   ): { input: Record<string, unknown>; items: string } | undefined =>
     op.def.traits?.[STREAM_WHEN_TRAIT];
+  // Each error's documented body shapes: what the operations that list it
+  // document for the statuses it matches.
+  const errorBodies = new Map<string, string[]>();
+  for (const op of selected) {
+    const documented = (op.def.traits?.[ERROR_BODIES_TRAIT] ?? []) as Array<{
+      status: number;
+      target: string;
+    }>;
+    if (documented.length === 0) continue;
+    for (const e of op.def.errors ?? []) {
+      const statuses = errorStatuses(shapes[e.target]?.traits, spec.errorMatchersTrait);
+      for (const { status, target } of documented) {
+        if (!statuses.includes(status) || !shapes[target]) continue;
+        const list = errorBodies.get(e.target) ?? [];
+        if (!list.includes(target)) list.push(target);
+        errorBodies.set(e.target, list);
+      }
+    }
+  }
+  const errorBodyTargets = (id: string): string[] => errorBodies.get(id) ?? [];
   const roots = [
     ...selected.flatMap((op) => [
       op.def.__input,
       op.def.__output,
       ...(streamWhenOf(op) ? [streamWhenOf(op)!.items] : []),
     ]),
+    ...collectOpErrorIds(selected, shapes).flatMap(errorBodyTargets),
     ...extraRoots,
   ];
   const reachable = reachableFrom(shapes, roots, shapeDeps);
@@ -984,8 +1032,22 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             errorField("message", "smithy.api#String"),
           ]);
     const categoryNames = errorCategories(d.traits);
+    const members: string[] = [];
     if (spec.errors?.responseFields ?? true) {
-      fields.push(...responseFieldLines(fields, categoryNames));
+      // A documented body is typed, with the raw text of a non-JSON response
+      // (an HTML error page from a proxy) as the other case. The schema is
+      // for the runtime (core maps the body's keys by it); the class body
+      // states the type, since generated schemas are typed `any`.
+      const bodies = errorBodyTargets(id);
+      const body = bodies.length
+        ? `${PURE}S.Union([${bodies
+            .map((t) => `S.suspend(() => ${ref(t, Number.MAX_SAFE_INTEGER)})`)
+            .join(", ")}, S.String])`
+        : undefined;
+      fields.push(...responseFieldLines(fields, categoryNames, body));
+      if (body !== undefined && !(d.members && "body" in d.members)) {
+        members.push(`  declare readonly body?: ${bodies.map(tsRef).join(" | ")} | string;`);
+      }
     }
     const matchers = spec.errorMatchersTrait ? d.traits?.[spec.errorMatchersTrait] : undefined;
     const categories = categoryNames.map((n) => `C.with${n}`);
@@ -994,6 +1056,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       errorClass({
         name,
         fields,
+        members,
         pipes: categories.length ? `.pipe(${categories.join(", ")})` : undefined,
         wrap:
           spec.errors?.wrap?.(d.traits ?? {}) ??

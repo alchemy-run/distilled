@@ -29,44 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: WidgetError | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: WidgetError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: WidgetError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: WidgetError | string;
+}
 
 /** * `claude-haiku-4-5` - claude-haiku-4-5 * `claude-sonnet-4-6` - claude-sonnet-4-6 * `claude-sonnet-5` - claude-sonnet-5 * `claude-opus-5` - claude-opus-5 */
 export type WidgetGenerateRequestModelEnum =
@@ -464,6 +484,12 @@ export interface UpdateReusableWidgetDemoDataRequest {
   /** Saved demo rows in input-contract column order. Replaces this slot's entire sample, up to 20 rows. */
   rows: UpdateReusableWidgetDemoDataRequestRowsList;
 }
+export interface WidgetError {
+  /** Stable machine-readable error code. */
+  code: string;
+  /** Actionable error detail. */
+  detail: string;
+}
 export type GenerateReusableWidgetError =
   | BadRequest
   | Forbidden
@@ -476,8 +502,8 @@ export const generateReusableWidget: API.OperationMethod<
   GenerateReusableWidgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GenerateReusableWidgetRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<GenerateReusableWidgetResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GenerateReusableWidgetRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<GenerateReusableWidgetResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -492,8 +518,8 @@ export const getReusableWidget: API.OperationMethod<
   GetReusableWidgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetReusableWidgetRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<ReusableWidgetDetail>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetReusableWidgetRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<ReusableWidgetDetail>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -508,8 +534,8 @@ export const listReusableWidgets: API.OperationMethod<
   ListReusableWidgetsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListReusableWidgetsRequest>,
-  output: __S(99, __c12, 3) as any as S.Schema<ReusableWidgetPage>,
+  input: __S(104, __c13, 0) as any as S.Schema<ListReusableWidgetsRequest>,
+  output: __S(107, __c13, 3) as any as S.Schema<ReusableWidgetPage>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -524,8 +550,8 @@ export const restoreReusableWidget: API.OperationMethod<
   RestoreReusableWidgetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<RestoreReusableWidgetRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<ReusableWidgetDetail>,
+  input: __S(112, __c14, 0) as any as S.Schema<RestoreReusableWidgetRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<ReusableWidgetDetail>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -540,8 +566,8 @@ export const reusableWidgetsDemoFrame: API.OperationMethod<
   ReusableWidgetsDemoFrameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ReusableWidgetsDemoFrameRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<WidgetFrame>,
+  input: __S(120, __c15, 0) as any as S.Schema<ReusableWidgetsDemoFrameRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<WidgetFrame>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -556,8 +582,8 @@ export const reusableWidgetsDiscardVersion: API.OperationMethod<
   ReusableWidgetsDiscardVersionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ReusableWidgetsDiscardVersionRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<ReusableWidgetDetail>,
+  input: __S(136, __c17, 0) as any as S.Schema<ReusableWidgetsDiscardVersionRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<ReusableWidgetDetail>,
   errors: [NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -572,8 +598,8 @@ export const reusableWidgetsSaveVersion: API.OperationMethod<
   ReusableWidgetsSaveVersionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ReusableWidgetsSaveVersionRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<ReusableWidgetDetail>,
+  input: __S(8, __c1, 0) as any as S.Schema<ReusableWidgetsSaveVersionRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<ReusableWidgetDetail>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -588,8 +614,8 @@ export const reusableWidgetsSource: API.OperationMethod<
   ReusableWidgetsSourceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ReusableWidgetsSourceRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<WidgetSource>,
+  input: __S(16, __c2, 0) as any as S.Schema<ReusableWidgetsSourceRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<WidgetSource>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -604,8 +630,8 @@ export const reusableWidgetsStatus: API.OperationMethod<
   ReusableWidgetsStatusError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ReusableWidgetsStatusRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<WidgetStatus>,
+  input: __S(24, __c3, 0) as any as S.Schema<ReusableWidgetsStatusRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<WidgetStatus>,
   errors: [NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -620,8 +646,8 @@ export const reusableWidgetsVersions: API.OperationMethod<
   ReusableWidgetsVersionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ReusableWidgetsVersionsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ReusableWidgetVersionPage>,
+  input: __S(32, __c4, 0) as any as S.Schema<ReusableWidgetsVersionsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<ReusableWidgetVersionPage>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -636,8 +662,8 @@ export const updateReusableWidgetDemoData: API.OperationMethod<
   UpdateReusableWidgetDemoDataError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<UpdateReusableWidgetDemoDataRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<WidgetFrame>,
+  input: __S(40, __c5, 0) as any as S.Schema<UpdateReusableWidgetDemoDataRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<WidgetFrame>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -647,6 +673,17 @@ export const updateReusableWidgetDemoData: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "WidgetError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -665,7 +702,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "ReusableWidgetsSaveVersionRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -689,7 +726,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "WidgetSource" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -712,7 +749,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "WidgetStatusInputBindingsValue" });
     case 2:
-      return S.Record(S.String, __S(17, __c2, 1));
+      return S.Record(S.String, __S(25, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -732,23 +769,23 @@ function __c2(j: number): any {
           error_code: S.optional(S.NullOr(S.String)),
           failure_phase: S.optional(S.NullOr(S.String)),
           artifact_url: S.optional(S.NullOr(S.String)),
-          frame_names: __S(56, __c7, 0),
-          input_bindings: __S(18, __c2, 2),
-          input_contract: __S(81, __c10, 1),
+          frame_names: __S(64, __c8, 0),
+          input_bindings: __S(26, __c3, 2),
+          input_contract: __S(89, __c11, 1),
           current_version_id: S.NullOr(S.String),
           pinned_version_id: S.NullOr(S.String),
           widget_id: S.NullOr(S.String),
           instance_id: S.NullOr(S.String),
           has_versions: S.Boolean,
-          active_job: S.NullOr(__S(19, __c2, 3)),
-          security_review: S.NullOr(__S(84, __c10, 4)),
+          active_job: S.NullOr(__S(27, __c3, 3)),
+          security_review: S.NullOr(__S(92, __c11, 4)),
           is_reusable: S.Boolean,
           build_hash: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "WidgetStatus" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -766,20 +803,20 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ReusableWidgetsVersionsRequest" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(25, __c3, 1),
+          results: __S(33, __c4, 1),
           count: S.Number,
           next_offset: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ReusableWidgetVersionPage" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -788,7 +825,7 @@ function __c4(j: number): any {
           id: S.String.pipe(T.Label()),
           version_id: S.String,
           frame_name: S.String,
-          rows: __S(121, __c15, 1),
+          rows: __S(129, __c16, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -799,7 +836,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateReusableWidgetDemoDataRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -825,7 +862,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -842,13 +879,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetReusableWidgetRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -858,10 +895,10 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "WidgetInputContractColumn" });
     case 1:
-      return S.Array(__S(64, __c8, 0));
+      return S.Array(__S(72, __c9, 0));
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -869,10 +906,10 @@ function __c9(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          tags: __S(56, __c7, 0),
+          tags: __S(64, __c8, 0),
           publication_status: S.String,
-          current_version: __S(88, __c11, 0),
-          pending_version: S.NullOr(__S(88, __c11, 0)),
+          current_version: __S(96, __c12, 0),
+          pending_version: S.NullOr(__S(96, __c12, 0)),
           version_count: S.Number,
           instance_count: S.Number,
           created_at: S.String,
@@ -882,19 +919,19 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ReusableWidgetDetail" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           slot: S.String,
           sourceName: S.String,
-          columns: S.optional(__S(65, __c8, 1)),
+          columns: S.optional(__S(73, __c9, 1)),
           schemaHash: S.String,
         }),
       ).annotate({ identifier: "WidgetInputContractItem" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -904,13 +941,13 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "WidgetSecurityFinding" });
     case 3:
-      return S.Array(__S(82, __c10, 2));
+      return S.Array(__S(90, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           severity: S.String,
           summary: S.String,
-          findings: __S(83, __c10, 3),
+          findings: __S(91, __c11, 3),
           model: S.String,
           review_version: S.String,
           reviewed_at: S.String,
@@ -918,7 +955,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "WidgetSecurityReview" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -932,16 +969,16 @@ function __c11(j: number): any {
           artifact_url: S.NullOr(S.String),
           build_status: S.NullOr(S.String),
           build_hash: S.NullOr(S.String),
-          frame_names: __S(56, __c7, 0),
-          input_contract: __S(81, __c10, 1),
-          security_review: S.NullOr(__S(84, __c10, 4)),
+          frame_names: __S(64, __c8, 0),
+          input_contract: __S(89, __c11, 1),
+          security_review: S.NullOr(__S(92, __c11, 4)),
           has_demo_data: S.Boolean,
           created_at: S.String,
         }),
       ).annotate({ identifier: "ReusableWidgetVersionDetail" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -960,7 +997,7 @@ function __c12(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          tags: __S(56, __c7, 0),
+          tags: __S(64, __c8, 0),
           publication_status: S.String,
           current_version_id: S.String,
           version_count: S.Number,
@@ -971,20 +1008,20 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "ReusableWidgetSummary" });
     case 2:
-      return S.Array(__S(97, __c12, 1));
+      return S.Array(__S(105, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),
-          results: __S(98, __c12, 2),
+          results: __S(106, __c13, 2),
           count: S.Number,
           next_offset: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ReusableWidgetPage" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1003,7 +1040,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RestoreReusableWidgetRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1022,19 +1059,19 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ReusableWidgetsDemoFrameRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
-      return S.Array(__S(120, __c15, 0));
+      return S.Array(__S(128, __c16, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           runId: S.String,
-          columns: __S(65, __c8, 1),
-          rows: __S(121, __c15, 1),
+          columns: __S(73, __c9, 1),
+          rows: __S(129, __c16, 1),
           totalRowCount: S.Number,
           includedRowCount: S.Number,
           offset: S.Number,
@@ -1044,7 +1081,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "WidgetFrame" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -1803,7 +1803,12 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetTileInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ BinaryFile: S.optional(T.StreamingOutput).pipe(T.HttpPayload()) }),
+        S.Struct({
+          BinaryFile: S.optional(T.StreamingOutput).pipe(
+            T.HttpPayload(),
+            T.MediaType("application/x-binary"),
+          ),
+        }),
       ).annotate({ identifier: "GetTileOutput" });
   }
 }

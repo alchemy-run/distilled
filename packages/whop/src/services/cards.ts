@@ -30,44 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** The window the spend limit applies to. */
 export type CreateCardRequestSpendLimitFrequency = "daily" | "weekly" | "monthly" | "one_time";
@@ -497,6 +517,17 @@ export interface UpdateCardResponse {
   /** Cardholder user ID, prefixed `user_`, when assigned. */
   user_id: string | null;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateCardError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Card Issue a virtual card, or apply for card issuing. An account with no application files one here and gets back a `202`; call again to issue the card once it is approved. */
 export const createCard: API.OperationMethod<
@@ -505,8 +536,8 @@ export const createCard: API.OperationMethod<
   CreateCardError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateCardRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<CreateCardResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateCardRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<CreateCardResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -522,8 +553,8 @@ export const getCard: API.OperationMethod<
   GetCardError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetCardRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<GetCardResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetCardRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<GetCardResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -539,8 +570,8 @@ export const getCardTransaction: API.OperationMethod<
   GetCardTransactionError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetCardTransactionRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<CardTransaction>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetCardTransactionRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<CardTransaction>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -556,8 +587,8 @@ export const listCards: API.OperationMethod<
   ListCardsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListCardsRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<ListCardsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListCardsRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<ListCardsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -575,8 +606,8 @@ export const listCardTransactions: API.PaginatedOperationMethod<
   CardTransaction
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(49, __c6, 1) as any as S.Schema<ListCardTransactionsRequest>,
-    output: __S(52, __c6, 4) as any as S.Schema<ListCardTransactionsResponse>,
+    input: __S(57, __c7, 1) as any as S.Schema<ListCardTransactionsRequest>,
+    output: __S(60, __c7, 4) as any as S.Schema<ListCardTransactionsResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -602,8 +633,8 @@ export const updateCard: API.OperationMethod<
   UpdateCardError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c7, 2) as any as S.Schema<UpdateCardRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<UpdateCardResponse>,
+  input: __S(66, __c8, 2) as any as S.Schema<UpdateCardRequest>,
+  output: __S(19, __c2, 3) as any as S.Schema<UpdateCardResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -613,6 +644,24 @@ export const updateCard: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -629,7 +678,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateCardRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -661,17 +710,17 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          billing: S.NullOr(__S(8, __c1, 0)),
+          billing: S.NullOr(__S(16, __c2, 0)),
           canceled_at: S.NullOr(S.String),
           created_at: S.NullOr(S.String),
           expiration_month: S.NullOr(S.String),
           expiration_year: S.NullOr(S.String),
           id: S.String,
           last4: S.NullOr(S.String),
-          limit: S.NullOr(__S(9, __c1, 1)),
+          limit: S.NullOr(__S(17, __c2, 1)),
           name: S.NullOr(S.String),
           object: S.String,
-          secrets: S.optional(S.NullOr(__S(10, __c1, 2))),
+          secrets: S.optional(S.NullOr(__S(18, __c2, 2))),
           spent_last_month: S.NullOr(S.Number),
           status: S.NullOr(S.String),
           type: S.NullOr(S.String),
@@ -680,7 +729,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateCardResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -692,7 +741,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetCardRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -703,7 +752,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetCardTransactionRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -729,7 +778,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CardTransaction" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -739,16 +788,16 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cards", code: 200 })),
       ).annotate({ identifier: "ListCardsRequest" });
     case 1:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(41, __c5, 1),
+          data: __S(49, __c6, 1),
         }),
       ).annotate({ identifier: "ListCardsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -756,9 +805,9 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
-          transaction_ids: S.optional(__S(48, __c6, 0).pipe(T.Query())),
-          card_id: S.optional(__S(48, __c6, 0).pipe(T.Query())),
-          cardholder_id: S.optional(__S(48, __c6, 0).pipe(T.Query())),
+          transaction_ids: S.optional(__S(56, __c7, 0).pipe(T.Query())),
+          card_id: S.optional(__S(56, __c7, 0).pipe(T.Query())),
+          cardholder_id: S.optional(__S(56, __c7, 0).pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
@@ -771,7 +820,7 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/card_transactions", code: 200 })),
       ).annotate({ identifier: "ListCardTransactionsRequest" });
     case 2:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(40, __c5, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -784,13 +833,13 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(50, __c6, 2),
-          page_info: __S(51, __c6, 3),
+          data: __S(58, __c7, 2),
+          page_info: __S(59, __c7, 3),
         }),
       ).annotate({ identifier: "ListCardTransactionsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -817,9 +866,9 @@ function __c7(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           account_id: S.optional(S.String),
-          billing: S.optional(__S(56, __c7, 0)),
+          billing: S.optional(__S(64, __c8, 0)),
           canceled: S.optional(S.Boolean),
-          cardholder: S.optional(__S(57, __c7, 1)),
+          cardholder: S.optional(__S(65, __c8, 1)),
           frozen: S.optional(S.Boolean),
           name: S.optional(S.String),
           pin: S.optional(S.String),

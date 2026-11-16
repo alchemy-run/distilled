@@ -1036,15 +1036,24 @@ const declaredBodyFields = (
 
 /**
  * The fields every error built from a response gets, when its class declares
- * them: the body, the headers, and the server's retry hint from
- * `Retry-After` or `RateLimit`.
+ * them: the body (keys mapped to TS names when the class types it), the
+ * headers, and the server's retry hint from `Retry-After` or `RateLimit`.
  */
 export const responseErrorFields = (
   fields: Record<string, unknown> | undefined,
   response: ErrorResponse,
 ): Record<string, unknown> => {
+  // A typed body (the provider's documented error schema) gets the TS names
+  // a success body gets; an untyped one stays as the wire sent it.
+  const bodyAst = (fields?.body as { readonly ast?: AST.AST } | undefined)?.ast;
   const out: Record<string, unknown> = {
-    body: response.body,
+    body:
+      bodyAst !== undefined &&
+      typeof response.body === "object" &&
+      response.body !== null &&
+      !mapsVerbatim(bodyAst, "decode")
+        ? mapKeys(bodyAst, response.body, "decode")
+        : response.body,
     headers: response.headers,
   };
   if (fields !== undefined && Object.hasOwn(fields, "retryAfter") && response.headers) {

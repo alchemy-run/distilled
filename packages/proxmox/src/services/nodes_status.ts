@@ -61,10 +61,12 @@ export interface GetNodesByNodeStatusResult {
   cpu: number;
   cpuinfo: GetNodesByNodeStatusResultCpuinfo;
   "current-kernel": GetNodesByNodeStatusResultCurrentKernel;
+  idle: number;
   loadavg: GetNodesByNodeStatusResultLoadavg;
   memory: GetNodesByNodeStatusResultMemory;
   pveversion: string;
   rootfs: GetNodesByNodeStatusResultRootfs;
+  uptime: number;
 }
 export type GetNodesByNodeStatusResponse = GetNodesByNodeStatusResult;
 export type PostNodesByNodeStatusRequestCommand = "reboot" | "shutdown";
@@ -166,10 +168,12 @@ function __c0(j: number): any {
           cpu: S.Number,
           cpuinfo: __S(2, __c0, 2),
           "current-kernel": __S(3, __c0, 3),
+          idle: S.Number,
           loadavg: __S(4, __c0, 4),
           memory: __S(5, __c0, 5),
           pveversion: S.String,
           rootfs: __S(6, __c0, 6),
+          uptime: S.Number,
         }),
       ).annotate({ identifier: "GetNodesByNodeStatusResult" });
     case 8:

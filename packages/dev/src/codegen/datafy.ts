@@ -507,7 +507,8 @@ export const datafyOperations = (
       cls?.type === "ClassDeclaration" &&
       cls.id &&
       cls.superClass &&
-      !cls.body.body.length &&
+      // `declare` fields only state types (a typed error `body`); they emit no code.
+      (cls.body.body as Node[]).every((m) => m.declare === true) &&
       !cls.decorators?.length &&
       encodable(cls.superClass)
     ) {

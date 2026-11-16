@@ -218,7 +218,7 @@ describe("awsJson request serialization", () => {
     expect(JSON.parse(request.body as string)).toEqual({
       logGroupName: "/aws/lambda/example",
       startTime: 1704164645,
-      EndTime: "2024-01-02T04:00:00.000Z",
+      EndTime: "2024-01-02T04:00:00Z",
       Payload: "AP8=",
     });
   });
@@ -294,13 +294,15 @@ describe("awsJson response deserialization", () => {
     op(DynamoDB.getItem.input, DynamoDB.getItem.output, "GetItem"),
   );
 
-  test("returns the parsed JSON document with nulls dropped", async () => {
+  // The codec drops a null member, and keeps a null in a `@sparse` list or map.
+  test("returns the parsed JSON document with its nulls", async () => {
     const body = JSON.stringify({
       Item: { Artist: { S: "No One You Know" }, Year: { N: "2015" }, Missing: null },
       ConsumedCapacity: null,
     });
     expect(await run(handler.deserializeResponse(response(body)))).toEqual({
-      Item: { Artist: { S: "No One You Know" }, Year: { N: "2015" } },
+      Item: { Artist: { S: "No One You Know" }, Year: { N: "2015" }, Missing: null },
+      ConsumedCapacity: null,
     });
   });
 
@@ -534,7 +536,7 @@ describe("restJson1 request serialization: HTTP bindings", () => {
     const handler = restJson1Protocol(op(Lambda.invoke.input, Lambda.invoke.output));
     const request = await run(handler.serializeRequest({ FunctionName: "f" }));
     expect(request.body).toBeUndefined();
-    expect(request.headers).toEqual({ "Content-Type": "application/json" });
+    expect(request.headers).toEqual({});
     expect(request.hasStreamingInput).toBeUndefined();
   });
 
@@ -627,7 +629,7 @@ describe("restJson1 request serialization: HTTP bindings", () => {
       query: {
         maxResults: "10",
         includeDeleted: "false",
-        after: "2024-01-02T03:04:05.000Z",
+        after: "2024-01-02T03:04:05Z",
         before: "1704164645",
         status: "RUNNING",
       },
@@ -635,7 +637,6 @@ describe("restJson1 request serialization: HTTP bindings", () => {
         "If-Modified-Since": "Tue, 02 Jan 2024 03:04:05 GMT",
         "X-Amz-Priority": "3",
         "X-Amz-Dry-Run": "true",
-        "Content-Type": "application/json",
       },
     });
   });
@@ -683,7 +684,7 @@ describe("restJson1 request serialization: HTTP bindings", () => {
         "x-amzn-dataexchange-http-method": "PUT",
         "x-amzn-dataexchange-path": "/v1/items",
         "x-amzn-dataexchange-header-Accept": "text/csv",
-        "Content-Type": "application/json",
+        "Content-Type": "text/plain",
       },
       body: "plain text",
     });
@@ -760,7 +761,7 @@ describe("restJson1 request serialization: bodies", () => {
       method: "GET",
       path: "/v2/tiles/vector.basemap/1/2/3",
       query: { "additional-features": ["Buildings", "ContourLines"] },
-      headers: { "Content-Type": "application/json" },
+      headers: {},
     });
   });
 
@@ -802,10 +803,7 @@ describe("restJson1 request serialization: bodies", () => {
       ),
     );
     const request = await run(restJson1Protocol(op(input)).serializeRequest({ restapi_id: "abc" }));
-    expect(request.headers).toEqual({
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    });
+    expect(request.headers).toEqual({ Accept: "application/json" });
   });
 
   test("Glacier adds X-Amz-Glacier-Version", async () => {
@@ -1198,6 +1196,7 @@ describe("restJson1 response deserialization", () => {
       Truncated: false,
       LastModified: "Tue, 02 Jan 2024 03:04:05 GMT",
       Items: ["a"],
+      NextToken: null,
     });
   });
 

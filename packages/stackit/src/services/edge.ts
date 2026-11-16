@@ -30,11 +30,16 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(S.Unknown),
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: BadRequest2 | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -255,6 +260,10 @@ export interface UpdateInstanceByNameRequest {
   planId?: string | undefined;
 }
 export interface UpdateInstanceByNameResponse {}
+export interface BadRequest2 {
+  code?: string | undefined;
+  message?: string | undefined;
+}
 export type CreateInstanceError = BadRequest | Conflict | StackitOpError;
 /** Creates a new instance within the project. */
 export const createInstance: API.OperationMethod<
@@ -263,8 +272,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(39, __c9, 3) as any as S.Schema<Instance>,
+  input: __S(36, __c9, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<Instance>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -280,8 +289,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(48, __c12, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -297,8 +306,8 @@ export const deleteInstanceByName: API.OperationMethod<
   DeleteInstanceByNameError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<DeleteInstanceByNameRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<DeleteInstanceByNameResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<DeleteInstanceByNameRequest>,
+  output: __S(48, __c12, 0) as any as S.Schema<DeleteInstanceByNameResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -314,8 +323,8 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(39, __c9, 3) as any as S.Schema<Instance>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<Instance>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -331,8 +340,8 @@ export const getInstanceByName: API.OperationMethod<
   GetInstanceByNameError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetInstanceByNameRequest>,
-  output: __S(39, __c9, 3) as any as S.Schema<Instance>,
+  input: __S(60, __c15, 0) as any as S.Schema<GetInstanceByNameRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<Instance>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -348,8 +357,8 @@ export const getKubeconfigByInstanceId: API.OperationMethod<
   GetKubeconfigByInstanceIdError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetKubeconfigByInstanceIdRequest>,
-  output: __S(65, __c16, 1) as any as S.Schema<Kubeconfig>,
+  input: __S(64, __c16, 0) as any as S.Schema<GetKubeconfigByInstanceIdRequest>,
+  output: __S(69, __c17, 1) as any as S.Schema<Kubeconfig>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -365,8 +374,8 @@ export const getKubeconfigByInstanceName: API.OperationMethod<
   GetKubeconfigByInstanceNameError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetKubeconfigByInstanceNameRequest>,
-  output: __S(65, __c16, 1) as any as S.Schema<Kubeconfig>,
+  input: __S(72, __c18, 0) as any as S.Schema<GetKubeconfigByInstanceNameRequest>,
+  output: __S(69, __c17, 1) as any as S.Schema<Kubeconfig>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -382,8 +391,8 @@ export const getTokenByInstanceId: API.OperationMethod<
   GetTokenByInstanceIdError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetTokenByInstanceIdRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<Token>,
+  input: __S(4, __c1, 0) as any as S.Schema<GetTokenByInstanceIdRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<Token>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -399,8 +408,8 @@ export const getTokenByInstanceName: API.OperationMethod<
   GetTokenByInstanceNameError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetTokenByInstanceNameRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<Token>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetTokenByInstanceNameRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<Token>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -415,8 +424,8 @@ export const listCompatibleKubernetesReleases: API.OperationMethod<
   ListCompatibleKubernetesReleasesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListCompatibleKubernetesReleasesRequest>,
-  output: __S(14, __c3, 2) as any as S.Schema<KubernetesReleaseList>,
+  input: __S(16, __c4, 0) as any as S.Schema<ListCompatibleKubernetesReleasesRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<KubernetesReleaseList>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -432,8 +441,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<InstanceList>,
+  input: __S(20, __c5, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(22, __c5, 2) as any as S.Schema<InstanceList>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -449,8 +458,8 @@ export const listPlansProject: API.OperationMethod<
   ListPlansProjectError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ListPlansProjectRequest>,
-  output: __S(23, __c5, 3) as any as S.Schema<PlanList>,
+  input: __S(24, __c6, 0) as any as S.Schema<ListPlansProjectRequest>,
+  output: __S(27, __c6, 3) as any as S.Schema<PlanList>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -466,8 +475,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<UpdateInstanceResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(48, __c12, 0) as any as S.Schema<UpdateInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -483,8 +492,8 @@ export const updateInstanceByName: API.OperationMethod<
   UpdateInstanceByNameError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<UpdateInstanceByNameRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<UpdateInstanceByNameResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<UpdateInstanceByNameRequest>,
+  output: __S(48, __c12, 0) as any as S.Schema<UpdateInstanceByNameResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -494,6 +503,17 @@ export const updateInstanceByName: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BadRequest2" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -513,7 +533,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetTokenByInstanceIdRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -523,7 +543,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Token" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -543,7 +563,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetTokenByInstanceNameRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -563,12 +583,12 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          k8s_releases: __S(13, __c3, 1),
+          k8s_releases: __S(17, __c4, 1),
         }),
       ).annotate({ identifier: "KubernetesReleaseList" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -585,16 +605,16 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
-      return S.Array(__S(39, __c9, 3));
+      return S.Array(__S(43, __c10, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(17, __c4, 1),
+          instances: __S(21, __c5, 1),
         }),
       ).annotate({ identifier: "InstanceList" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -620,16 +640,16 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "Plan" });
     case 2:
-      return S.Array(__S(21, __c5, 1));
+      return S.Array(__S(25, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          validPlans: S.optional(__S(22, __c5, 2)),
+          validPlans: S.optional(__S(26, __c6, 2)),
         }),
       ).annotate({ identifier: "PlanList" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -650,7 +670,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -671,7 +691,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateInstanceByNameRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -692,7 +712,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -705,17 +725,17 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "IpAllowListEntry" });
     case 1:
-      return S.Array(__S(36, __c9, 0));
+      return S.Array(__S(40, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ipAllowList: S.optional(__S(37, __c9, 1)),
+          ipAllowList: S.optional(__S(41, __c10, 1)),
         }),
       ).annotate({ identifier: "Acl" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(38, __c9, 2)),
+          acl: S.optional(__S(42, __c10, 2)),
           created: S.String,
           description: S.optional(S.String),
           displayName: S.String,
@@ -727,7 +747,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -746,13 +766,13 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteInstanceResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -771,7 +791,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteInstanceByNameRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -790,7 +810,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetInstanceRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -809,7 +829,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetInstanceByNameRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -829,19 +849,19 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetKubeconfigByInstanceIdRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kubeconfig: __S(64, __c16, 0),
+          kubeconfig: __S(68, __c17, 0),
         }),
       ).annotate({ identifier: "Kubeconfig" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
