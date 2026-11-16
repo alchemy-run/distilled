@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Rebuild model.json from the Smithy AWS protocol tests (see README.md).
 # Bump SMITHY_VERSION here and the artifact version in smithy-build.json
-# together, run this, and commit model.json with failures.txt updated.
+# together, run this, and commit model.json.
 set -euo pipefail
 
 here="$(cd "$(dirname "$0")" && pwd)"
