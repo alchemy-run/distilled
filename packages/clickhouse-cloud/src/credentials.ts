@@ -36,6 +36,9 @@ export class Credentials
     "ClickHouseCloudCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   keyId: /*@__PURE__*/ EffectConfig.String("CLICKHOUSE_CLOUD_API_KEY_ID"),
   keySecret: /*@__PURE__*/ EffectConfig.Redacted("CLICKHOUSE_CLOUD_API_KEY_SECRET"),

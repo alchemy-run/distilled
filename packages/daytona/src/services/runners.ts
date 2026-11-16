@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDaytonaError } from "../errors.ts";
+import { DaytonaServiceErrors } from "../errors.ts";
 import { DaytonaProtocol, type DaytonaOpError, type DaytonaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -347,7 +347,8 @@ export const createRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<CreateRunnerRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<CreateRunnerResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -364,7 +365,8 @@ export const deleteRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<DeleteRunnerRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<DeleteRunnerResponse>,
-  errors: [RunnerNotFound, UnknownDaytonaError],
+  errors: [RunnerNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -381,7 +383,8 @@ export const getInfoForAuthenticatedRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetInfoForAuthenticatedRunnerRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<RunnerFull>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -398,7 +401,8 @@ export const getRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<GetRunnerRequest>,
   output: __S(44, __c11, 0) as any as S.Schema<Runner>,
-  errors: [RunnerNotFound, UnknownDaytonaError],
+  errors: [RunnerNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -415,7 +419,8 @@ export const getRunnerBySandboxId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<GetRunnerBySandboxIdRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<RunnerFull>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -432,7 +437,8 @@ export const getRunnerFullById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<GetRunnerFullByIdRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<RunnerFull>,
-  errors: [RunnerNotFound, UnknownDaytonaError],
+  errors: [RunnerNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -449,7 +455,8 @@ export const getRunnersBySnapshotRef: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetRunnersBySnapshotRefRequest>,
   output: __S(59, __c14, 3) as any as S.Schema<GetRunnersBySnapshotRefResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -466,7 +473,8 @@ export const getSnapshotRefsForAuthenticatedRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<GetSnapshotRefsForAuthenticatedRunnerRequest>,
   output: __S(61, __c15, 1) as any as S.Schema<GetSnapshotRefsForAuthenticatedRunnerResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -483,7 +491,8 @@ export const listRunners: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ListRunnersRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<ListRunnersResponse>,
-  errors: [RunnersUnavailable, UnknownDaytonaError],
+  errors: [RunnersUnavailable],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -500,7 +509,8 @@ export const runnerHealthcheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7, __c1, 3) as any as S.Schema<RunnerHealthcheckRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<RunnerHealthcheckResponse>,
-  errors: [UnknownDaytonaError],
+  errors: [],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -517,7 +527,8 @@ export const updateRunnerDraining: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<UpdateRunnerDrainingRequest>,
   output: __S(44, __c11, 0) as any as S.Schema<Runner>,
-  errors: [RunnerNotFound, UnknownDaytonaError],
+  errors: [RunnerNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -534,7 +545,8 @@ export const updateRunnerScheduling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<UpdateRunnerSchedulingRequest>,
   output: __S(44, __c11, 0) as any as S.Schema<Runner>,
-  errors: [RunnerNotFound, UnknownDaytonaError],
+  errors: [RunnerNotFound],
+  serviceErrors: DaytonaServiceErrors,
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

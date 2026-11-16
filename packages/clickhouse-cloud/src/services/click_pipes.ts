@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownClickHouseCloudError } from "../errors.ts";
+import { ClickHouseCloudServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   ClickHouseCloudProtocol,
@@ -1937,7 +1937,8 @@ export const createClickPipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c0, 8) as any as S.Schema<CreateClickPipeRequest>,
   output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1954,7 +1955,8 @@ export const createClickPipeReversePrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateClickPipeReversePrivateEndpointRequest>,
   output: __S(326, __c10, 6) as any as S.Schema<ReversePrivateEndpoint>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1971,7 +1973,8 @@ export const deleteClickPipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteClickPipeRequest>,
   output: __S(640, __c20, 0) as any as S.Schema<DeleteClickPipeResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1988,7 +1991,8 @@ export const deleteClickPipeReversePrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteClickPipeReversePrivateEndpointRequest>,
   output: __S(640, __c20, 0) as any as S.Schema<DeleteClickPipeReversePrivateEndpointResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2005,7 +2009,8 @@ export const discoverClickPipeSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(705, __c22, 1) as any as S.Schema<DiscoverClickPipeSchemaRequest>,
   output: __S(709, __c22, 5) as any as S.Schema<ClickPipeSchemaDiscoveryResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2022,7 +2027,8 @@ export const getClickPipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetClickPipeRequest>,
   output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2039,7 +2045,8 @@ export const getClickPipeCdcScaling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetClickPipeCdcScalingRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<ClickPipesCdcScaling>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2056,7 +2063,8 @@ export const getClickPipeReversePrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetClickPipeReversePrivateEndpointRequest>,
   output: __S(326, __c10, 6) as any as S.Schema<ReversePrivateEndpoint>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2073,7 +2081,8 @@ export const getClickPipeSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetClickPipeSettingsRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<ClickPipeSettings>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2090,7 +2099,8 @@ export const getClickPipesServiceContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetClickPipesServiceContextRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<ClickPipesServiceContext>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2107,7 +2117,8 @@ export const listClickPipeReversePrivateEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListClickPipeReversePrivateEndpointsRequest>,
   output: __S(354, __c11, 2) as any as S.Schema<ListClickPipeReversePrivateEndpointsResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2126,7 +2137,8 @@ export const listClickPipes: API.PaginatedOperationMethod<
   () => ({
     input: __S(384, __c12, 0) as any as S.Schema<ListClickPipesRequest>,
     output: __S(386, __c12, 2) as any as S.Schema<ListClickPipesResponse>,
-    errors: [UnknownClickHouseCloudError],
+    errors: [],
+    serviceErrors: ClickHouseCloudServiceErrors,
     protocol: ClickHouseCloudPaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2152,7 +2164,8 @@ export const updateClickPipe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(433, __c13, 17) as any as S.Schema<UpdateClickPipeRequest>,
   output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2169,7 +2182,8 @@ export const updateClickPipeCdcScaling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<UpdateClickPipeCdcScalingRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<ClickPipesCdcScaling>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2186,7 +2200,8 @@ export const updateClickPipeReversePrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<UpdateClickPipeReversePrivateEndpointRequest>,
   output: __S(326, __c10, 6) as any as S.Schema<ReversePrivateEndpoint>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2203,7 +2218,8 @@ export const updateClickPipeScaling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<UpdateClickPipeScalingRequest>,
   output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2220,7 +2236,8 @@ export const updateClickPipeSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<UpdateClickPipeSettingsRequest>,
   output: __S(256, __c8, 0) as any as S.Schema<ClickPipeSettings>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2237,7 +2254,8 @@ export const updateClickPipeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<UpdateClickPipeStateRequest>,
   output: __S(227, __c7, 3) as any as S.Schema<ClickPipe>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

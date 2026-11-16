@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDockerError } from "../errors.ts";
+import { DockerServiceErrors } from "../errors.ts";
 import { DockerProtocol, type DockerOpError, type DockerOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -4539,7 +4539,8 @@ export const archiveContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ArchiveContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ArchiveContainerResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4556,7 +4557,8 @@ export const attachContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<AttachContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<AttachContainerResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4573,7 +4575,8 @@ export const buildPrune: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<BuildPruneRequest>,
   output: __S(2817, __c88, 1) as any as S.Schema<BuildPruneResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4590,7 +4593,8 @@ export const commitImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<CommitImageRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<IDResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4607,7 +4611,8 @@ export const configInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<ConfigInspectRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<Config>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4624,7 +4629,8 @@ export const connectNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<ConnectNetworkRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ConnectNetworkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDockerError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4641,7 +4647,8 @@ export const containerAttachWebsocket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<ContainerAttachWebsocketRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ContainerAttachWebsocketResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4658,7 +4665,8 @@ export const containerChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ContainerChangesRequest>,
   output: __S(419, __c13, 3) as any as S.Schema<ContainerChangesResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4675,7 +4683,8 @@ export const containerInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ContainerInspectRequest>,
   output: __S(458, __c14, 10) as any as S.Schema<ContainerInspectResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4692,7 +4701,8 @@ export const containerLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ContainerLogsRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<ContainerLogsResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4709,7 +4719,8 @@ export const containerPrune: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ContainerPruneRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<ContainerPruneResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4726,7 +4737,8 @@ export const containerStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ContainerStatsRequest>,
   output: __S(941, __c29, 13) as any as S.Schema<ContainerStatsResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4743,7 +4755,8 @@ export const containerTop: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ContainerTopRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<ContainerTopResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4760,7 +4773,8 @@ export const createConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<CreateConfigRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<IDResponse>,
-  errors: [Conflict, UnknownDockerError],
+  errors: [Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4777,7 +4791,8 @@ export const createContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1025, __c32, 1) as any as S.Schema<CreateContainerRequest>,
   output: __S(1026, __c32, 2) as any as S.Schema<ContainerCreateResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDockerError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4794,7 +4809,8 @@ export const createImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<CreateImageRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<CreateImageResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4811,7 +4827,8 @@ export const createNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<CreateNetworkRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<NetworkCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDockerError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4828,7 +4845,8 @@ export const createPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<CreatePluginRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<CreatePluginResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4845,7 +4863,8 @@ export const createSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<CreateSecretRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<IDResponse>,
-  errors: [Conflict, UnknownDockerError],
+  errors: [Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4862,7 +4881,8 @@ export const createService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<CreateServiceRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<ServiceCreateResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDockerError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4879,7 +4899,8 @@ export const createVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<CreateVolumeRequest>,
   output: __S(1477, __c46, 5) as any as S.Schema<Volume>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4896,7 +4917,8 @@ export const deleteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<DeleteConfigRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DeleteConfigResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4913,7 +4935,8 @@ export const deleteContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<DeleteContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DeleteContainerResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDockerError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4930,7 +4953,8 @@ export const deleteImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<DeleteImageRequest>,
   output: __S(1569, __c49, 1) as any as S.Schema<DeleteImageResponse>,
-  errors: [NotFound, Conflict, UnknownDockerError],
+  errors: [NotFound, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4947,7 +4971,8 @@ export const deleteNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<DeleteNetworkRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DeleteNetworkResponse>,
-  errors: [Forbidden, NotFound, UnknownDockerError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4964,7 +4989,8 @@ export const deleteNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<DeleteNodeRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DeleteNodeResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4981,7 +5007,8 @@ export const deletePlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<DeletePluginRequest>,
   output: __S(1742, __c54, 14) as any as S.Schema<Plugin>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4998,7 +5025,8 @@ export const deleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DeleteSecretResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5015,7 +5043,8 @@ export const deleteService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5032,7 +5061,8 @@ export const deleteVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<DeleteVolumeRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DeleteVolumeResponse>,
-  errors: [NotFound, Conflict, UnknownDockerError],
+  errors: [NotFound, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5049,7 +5079,8 @@ export const disablePlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<DisablePluginRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DisablePluginResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5066,7 +5097,8 @@ export const disconnectNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<DisconnectNetworkRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<DisconnectNetworkResponse>,
-  errors: [Forbidden, NotFound, UnknownDockerError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5083,7 +5115,8 @@ export const distributionInspect2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<DistributionInspectRequest>,
   output: __S(1922, __c60, 2) as any as S.Schema<DistributionInspect>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5100,7 +5133,8 @@ export const enablePlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<EnablePluginRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<EnablePluginResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5117,7 +5151,8 @@ export const execContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ExecContainerRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<IDResponse>,
-  errors: [NotFound, Conflict, UnknownDockerError],
+  errors: [NotFound, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5134,7 +5169,8 @@ export const execInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ExecInspectRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<ExecInspectResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5151,7 +5187,8 @@ export const execResize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ExecResizeRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ExecResizeResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5168,7 +5205,8 @@ export const execStart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ExecStartRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ExecStartResponse>,
-  errors: [NotFound, Conflict, UnknownDockerError],
+  errors: [NotFound, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5185,7 +5223,8 @@ export const exportContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ExportContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ExportContainerResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5202,7 +5241,8 @@ export const getImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetImageRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<GetImageResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5219,7 +5259,8 @@ export const getPluginPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<GetPluginPrivilegesRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<GetPluginPrivilegesResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5236,7 +5277,8 @@ export const imageAttestations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ImageAttestationsRequest>,
   output: __S(2275, __c71, 3) as any as S.Schema<ImageAttestationsResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5253,7 +5295,8 @@ export const imageBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ImageBuildRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ImageBuildResponse>,
-  errors: [BadRequest, UnknownDockerError],
+  errors: [BadRequest],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5270,7 +5313,8 @@ export const imageGetAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ImageGetAllRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<ImageGetAllResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5287,7 +5331,8 @@ export const imageHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ImageHistoryRequest>,
   output: __S(2371, __c74, 3) as any as S.Schema<ImageHistoryResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5304,7 +5349,8 @@ export const imageInspect2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ImageInspectRequest>,
   output: __S(2404, __c75, 4) as any as S.Schema<ImageInspect>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5321,7 +5367,8 @@ export const imageLoad: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ImageLoadRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ImageLoadResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5338,7 +5385,8 @@ export const imagePrune: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ImagePruneRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<ImagePruneResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5355,7 +5403,8 @@ export const imagePush: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ImagePushRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ImagePushResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5372,7 +5421,8 @@ export const imageTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ImageTagRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ImageTagResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDockerError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5389,7 +5439,8 @@ export const joinSwarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<JoinSwarmRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<JoinSwarmResponse>,
-  errors: [BadRequest, UnknownDockerError],
+  errors: [BadRequest],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5406,7 +5457,8 @@ export const killContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<KillContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<KillContainerResponse>,
-  errors: [NotFound, Conflict, UnknownDockerError],
+  errors: [NotFound, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5423,7 +5475,8 @@ export const leaveSwarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<LeaveSwarmRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<LeaveSwarmResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5440,7 +5493,8 @@ export const listConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<ListConfigRequest>,
   output: __S(2722, __c85, 2) as any as S.Schema<ListConfigResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5457,7 +5511,8 @@ export const listContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListContainerRequest>,
   output: __S(2760, __c86, 8) as any as S.Schema<ListContainerResponse>,
-  errors: [BadRequest, UnknownDockerError],
+  errors: [BadRequest],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5474,7 +5529,8 @@ export const listImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<ListImageRequest>,
   output: __S(2787, __c87, 3) as any as S.Schema<ListImageResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5491,7 +5547,8 @@ export const listNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<ListNetworkRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<ListNetworkResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5508,7 +5565,8 @@ export const listNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ListNodeRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<ListNodeResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5525,7 +5583,8 @@ export const listPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ListPluginRequest>,
   output: __S(3074, __c96, 2) as any as S.Schema<ListPluginResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5542,7 +5601,8 @@ export const listSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ListSecretRequest>,
   output: __S(3106, __c97, 2) as any as S.Schema<ListSecretResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5559,7 +5619,8 @@ export const listService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ListServiceRequest>,
   output: __S(3170, __c99, 2) as any as S.Schema<ListServiceResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5576,7 +5637,8 @@ export const listTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<ListTaskRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<ListTaskResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5593,7 +5655,8 @@ export const listVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<ListVolumeRequest>,
   output: __S(3298, __c103, 2) as any as S.Schema<VolumeListResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5610,7 +5673,8 @@ export const networkInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<NetworkInspectRequest>,
   output: __S(3335, __c104, 7) as any as S.Schema<NetworkInspectResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5627,7 +5691,8 @@ export const networkPrune: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<NetworkPruneRequest>,
   output: __S(3361, __c105, 1) as any as S.Schema<NetworkPruneResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5644,7 +5709,8 @@ export const nodeInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<NodeInspectRequest>,
   output: __S(3015, __c94, 7) as any as S.Schema<Node>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5661,7 +5727,8 @@ export const pauseContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<PauseContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<PauseContainerResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5678,7 +5745,8 @@ export const pingSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<PingSystemRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<PingSystemResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5695,7 +5763,8 @@ export const pluginInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<PluginInspectRequest>,
   output: __S(1742, __c54, 14) as any as S.Schema<Plugin>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5712,7 +5781,8 @@ export const pluginPull: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<PluginPullRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<PluginPullResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5729,7 +5799,8 @@ export const pluginPush: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<PluginPushRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<PluginPushResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5746,7 +5817,8 @@ export const pluginUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<PluginUpgradeRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<PluginUpgradeResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5763,7 +5835,8 @@ export const putContainerArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<PutContainerArchiveRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<PutContainerArchiveResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDockerError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5780,7 +5853,8 @@ export const renameContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<RenameContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<RenameContainerResponse>,
-  errors: [NotFound, Conflict, UnknownDockerError],
+  errors: [NotFound, Conflict],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5797,7 +5871,8 @@ export const resizeContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<ResizeContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<ResizeContainerResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5814,7 +5889,8 @@ export const restartContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<RestartContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<RestartContainerResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5831,7 +5907,8 @@ export const searchImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<SearchImageRequest>,
   output: __S(4035, __c126, 3) as any as S.Schema<SearchImageResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5848,7 +5925,8 @@ export const secretInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<SecretInspectRequest>,
   output: __S(3137, __c98, 1) as any as S.Schema<Secret>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5865,7 +5943,8 @@ export const serviceInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<ServiceInspectRequest>,
   output: __S(3207, __c100, 7) as any as S.Schema<Service>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5882,7 +5961,8 @@ export const serviceLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<ServiceLogsRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<ServiceLogsResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5899,7 +5979,8 @@ export const session: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<SessionRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<SessionResponse>,
-  errors: [BadRequest, UnknownDockerError],
+  errors: [BadRequest],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5916,7 +5997,8 @@ export const setPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<SetPluginRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<SetPluginResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5933,7 +6015,8 @@ export const startContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<StartContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<StartContainerResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5950,7 +6033,8 @@ export const stopContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<StopContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<StopContainerResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5967,7 +6051,8 @@ export const swarmInit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<SwarmInitRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<SwarmInitResponse>,
-  errors: [BadRequest, UnknownDockerError],
+  errors: [BadRequest],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5984,7 +6069,8 @@ export const swarmInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<SwarmInspectRequest>,
   output: __S(4386, __c137, 2) as any as S.Schema<SwarmInspectResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6001,7 +6087,8 @@ export const swarmUnlockkey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<SwarmUnlockkeyRequest>,
   output: __S(4481, __c140, 1) as any as S.Schema<SwarmUnlockkeyResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6018,7 +6105,8 @@ export const systemAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<SystemAuthRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<AuthResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6035,7 +6123,8 @@ export const systemDataUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4545, __c142, 1) as any as S.Schema<SystemDataUsageRequest>,
   output: __S(4548, __c142, 4) as any as S.Schema<SystemDataUsageResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6052,7 +6141,8 @@ export const systemEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<SystemEventsRequest>,
   output: __S(4578, __c143, 2) as any as S.Schema<EventMessage>,
-  errors: [BadRequest, UnknownDockerError],
+  errors: [BadRequest],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6069,7 +6159,8 @@ export const systemInfo2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<SystemInfo2Request>,
   output: __S(4628, __c144, 20) as any as S.Schema<SystemInfo>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6086,7 +6177,8 @@ export const systemVersion2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<SystemVersion2Request>,
   output: __S(4644, __c145, 4) as any as S.Schema<SystemVersion>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6103,7 +6195,8 @@ export const taskInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<TaskInspectRequest>,
   output: __S(3269, __c102, 5) as any as S.Schema<Task>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6120,7 +6213,8 @@ export const taskLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<TaskLogsRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<TaskLogsResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6137,7 +6231,8 @@ export const unlockSwarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<UnlockSwarmRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UnlockSwarmResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6154,7 +6249,8 @@ export const unpauseContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<UnpauseContainerRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UnpauseContainerResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6171,7 +6267,8 @@ export const updateConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<UpdateConfigRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UpdateConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6188,7 +6285,8 @@ export const updateContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<UpdateContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ContainerUpdateResponse>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6205,7 +6303,8 @@ export const updateNode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<UpdateNodeRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UpdateNodeResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6222,7 +6321,8 @@ export const updateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<UpdateSecretRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UpdateSecretResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6239,7 +6339,8 @@ export const updateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<UpdateServiceRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ServiceUpdateResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6256,7 +6357,8 @@ export const updateSwarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<UpdateSwarmRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UpdateSwarmResponse>,
-  errors: [BadRequest, UnknownDockerError],
+  errors: [BadRequest],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6273,7 +6375,8 @@ export const updateVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<UpdateVolumeRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UpdateVolumeResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6290,7 +6393,8 @@ export const volumeInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<VolumeInspectRequest>,
   output: __S(1477, __c46, 5) as any as S.Schema<Volume>,
-  errors: [NotFound, UnknownDockerError],
+  errors: [NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6307,7 +6411,8 @@ export const volumePrune: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<VolumePruneRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<VolumePruneResponse>,
-  errors: [UnknownDockerError],
+  errors: [],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6324,7 +6429,8 @@ export const waitContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<WaitContainerRequest>,
   output: __S(386, __c12, 2) as any as S.Schema<ContainerWaitResponse>,
-  errors: [BadRequest, NotFound, UnknownDockerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DockerServiceErrors,
   protocol: DockerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

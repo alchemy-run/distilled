@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownClickHouseCloudError } from "../errors.ts";
+import { ClickHouseCloudServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   ClickHouseCloudProtocol,
@@ -952,7 +952,8 @@ export const createPostgresService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<CreatePostgresServiceRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -969,7 +970,8 @@ export const createPostgresServiceReadReplica: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<CreatePostgresServiceReadReplicaRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -986,7 +988,8 @@ export const deletePostgresService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<DeletePostgresServiceRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<DeletePostgresServiceResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1003,7 +1006,8 @@ export const getPostgresService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetPostgresServiceRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1020,7 +1024,8 @@ export const getPostgresServiceCaCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetPostgresServiceCaCertificatesRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<GetPostgresServiceCaCertificatesResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1037,7 +1042,8 @@ export const getPostgresServiceConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<GetPostgresServiceConfigRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<PostgresInstanceConfig>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1054,7 +1060,8 @@ export const getPostgresServiceMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetPostgresServiceMetricsRequest>,
   output: __S(167, __c20, 7) as any as S.Schema<PostgresMetrics>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1071,7 +1078,8 @@ export const getPostgresSlowQueryPattern: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<GetPostgresSlowQueryPatternRequest>,
   output: __S(171, __c21, 3) as any as S.Schema<PostgresSlowQueryPatternDetail>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1088,7 +1096,8 @@ export const listPostgresLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<ListPostgresLogsRequest>,
   output: __S(187, __c23, 3) as any as S.Schema<ListPostgresLogsResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1107,7 +1116,8 @@ export const listPostgresServiceBackups: API.PaginatedOperationMethod<
   () => ({
     input: __S(40, __c5, 0) as any as S.Schema<ListPostgresServiceBackupsRequest>,
     output: __S(43, __c5, 3) as any as S.Schema<ListPostgresServiceBackupsResponse>,
-    errors: [UnknownClickHouseCloudError],
+    errors: [],
+    serviceErrors: ClickHouseCloudServiceErrors,
     protocol: ClickHouseCloudPaginatedProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1133,7 +1143,8 @@ export const listPostgresServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListPostgresServicesRequest>,
   output: __S(51, __c6, 3) as any as S.Schema<ListPostgresServicesResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1150,7 +1161,8 @@ export const listPostgresSlowQueryPatterns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListPostgresSlowQueryPatternsRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<ListPostgresSlowQueryPatternsResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1167,7 +1179,8 @@ export const replacePostgresServiceConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ReplacePostgresServiceConfigRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1184,7 +1197,8 @@ export const restorePostgresService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<RestorePostgresServiceRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1201,7 +1215,8 @@ export const updatePostgresService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(91, __c11, 3) as any as S.Schema<UpdatePostgresServiceRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [DeletionProtectionNotEnabled, UnknownClickHouseCloudError],
+  errors: [DeletionProtectionNotEnabled],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1218,7 +1233,8 @@ export const updatePostgresServiceConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<UpdatePostgresServiceConfigRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<PostgresInstanceUpdateConfigResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1235,7 +1251,8 @@ export const updatePostgresServicePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<UpdatePostgresServicePasswordRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<PostgresServicePasswordResource>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1252,7 +1269,8 @@ export const updatePostgresServiceState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<UpdatePostgresServiceStateRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<PostgresService>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

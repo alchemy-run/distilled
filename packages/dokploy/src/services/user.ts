@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -257,7 +257,8 @@ export const assignUserPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85, __c21, 1) as any as S.Schema<AssignUserPermissionsRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<AssignUserPermissionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -273,7 +274,8 @@ export const checkUserOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<CheckUserOrganizationsRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<CheckUserOrganizationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -289,7 +291,8 @@ export const createUserApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(109, __c27, 1) as any as S.Schema<CreateUserApiKeyRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<CreateUserApiKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -305,7 +308,8 @@ export const createUserWithCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<CreateUserWithCredentialsRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<CreateUserWithCredentialsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -321,7 +325,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(116, __c29, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -337,7 +342,8 @@ export const deleteUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c30, 0) as any as S.Schema<DeleteUserAccountRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<DeleteUserAccountResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -353,7 +359,8 @@ export const deleteUserAccountByEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(124, __c31, 0) as any as S.Schema<DeleteUserAccountByEmailRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<DeleteUserAccountByEmailResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -369,7 +376,8 @@ export const deleteUserApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<DeleteUserApiKeyRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<DeleteUserApiKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -385,7 +393,8 @@ export const generateUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GenerateUserTokenRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GenerateUserTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -401,7 +410,8 @@ export const getCurrentUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetCurrentUserRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetCurrentUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -417,7 +427,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetUserRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -433,7 +444,8 @@ export const getUserBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetUserBackupsRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserBackupsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -449,7 +461,8 @@ export const getUserBookmarkedTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetUserBookmarkedTemplatesRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserBookmarkedTemplatesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -465,7 +478,8 @@ export const getUserByToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetUserByTokenRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserByTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -481,7 +495,8 @@ export const getUserContainerMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetUserContainerMetricsRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserContainerMetricsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -497,7 +512,8 @@ export const getUserInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetUserInvitationsRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserInvitationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -513,7 +529,8 @@ export const getUserMetricsToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<GetUserMetricsTokenRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserMetricsTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -529,7 +546,8 @@ export const getUserPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<GetUserPermissionsRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserPermissionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -545,7 +563,8 @@ export const getUserServerMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<GetUserServerMetricsRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserServerMetricsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -561,7 +580,8 @@ export const getUserSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<GetUserSessionRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetUserSessionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -577,7 +597,8 @@ export const hasPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<HasPasswordRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<HasPasswordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -593,7 +614,8 @@ export const haveRootAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<HaveRootAccessRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<HaveRootAccessResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -609,7 +631,8 @@ export const listUserPasskeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<ListUserPasskeysRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<ListUserPasskeysResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -625,7 +648,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<ListUsersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -641,7 +665,8 @@ export const listUserSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<ListUserSessionsRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<ListUserSessionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -657,7 +682,8 @@ export const requestUserAccountDeletionCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<RequestUserAccountDeletionCodeRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<RequestUserAccountDeletionCodeResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -673,7 +699,8 @@ export const revokeUserSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<RevokeUserSessionRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<RevokeUserSessionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -689,7 +716,8 @@ export const sendUserInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<SendUserInvitationRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<SendUserInvitationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -705,7 +733,8 @@ export const toggleUserTemplateBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<ToggleUserTemplateBookmarkRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<ToggleUserTemplateBookmarkResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -721,7 +750,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<UpdateUserResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
