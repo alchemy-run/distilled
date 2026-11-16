@@ -57,6 +57,7 @@ import {
 } from "../util/ast.ts";
 import { errorBody, inputEncoderSync } from "../util/codec.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
+import { headerReader } from "../util/headers.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
 import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
 import {
@@ -118,8 +119,8 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     name: string;
     header: string;
     headerLower: string;
-    isNumber: boolean;
-    isBoolean: boolean;
+    /** The header's wire value: lists split, numbers and booleans parsed. */
+    read: (value: string) => unknown;
   };
   type PrefixHeaderProp = { name: string; prefix: string };
   type PayloadProp = {
@@ -151,8 +152,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         name,
         header,
         headerLower: header.toLowerCase(),
-        isNumber: isNumberAST(prop.type),
-        isBoolean: isBooleanAST(prop.type),
+        read: headerReader(prop.type),
       });
     } else if (prefixHeader) {
       prefixHeaderProps.push({ name, prefix: prefixHeader.toLowerCase() });
@@ -227,7 +227,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     for (const hp of headerProps) {
       const v = response.headers[hp.headerLower] ?? response.headers[hp.header];
       if (v !== undefined) {
-        result[hp.name] = hp.isNumber ? Number(v) : hp.isBoolean ? v === "true" : v;
+        result[hp.name] = hp.read(v);
       }
     }
 
