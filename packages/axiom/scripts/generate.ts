@@ -60,7 +60,9 @@ const axiomSpec: SdkSpec = {
   operationDecl: {
     contextType: "AxiomOpContext",
     commonErrorType: "AxiomOpError",
-    commonErrorClasses: ["UnknownAxiomError"],
+    // UnknownAxiomError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "AxiomServiceErrors",
     protocol: "AxiomProtocol",
     retry: "Retry.Retry",
   },

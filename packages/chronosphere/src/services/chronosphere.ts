@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownChronosphereError } from "../errors.ts";
+import { ChronosphereServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   ChronosphereProtocol,
@@ -3586,7 +3586,8 @@ export const createBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<CreateBucketRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<Configv1CreateBucketResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3602,7 +3603,8 @@ export const createClassicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<CreateClassicDashboardRequest>,
   output: __S(5056, __c158, 0) as any as S.Schema<Configv1CreateClassicDashboardResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3618,7 +3620,8 @@ export const createCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<CreateCollectionRequest>,
   output: __S(5504, __c172, 0) as any as S.Schema<Configv1CreateCollectionResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3634,7 +3637,8 @@ export const createDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<CreateDashboardRequest>,
   output: __S(5952, __c186, 0) as any as S.Schema<Configv1CreateDashboardResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3650,7 +3654,8 @@ export const createDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<CreateDatasetRequest>,
   output: __S(6560, __c205, 0) as any as S.Schema<Configv1CreateDatasetResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3666,7 +3671,8 @@ export const createDerivedLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<CreateDerivedLabelRequest>,
   output: __S(7040, __c220, 0) as any as S.Schema<Configv1CreateDerivedLabelResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3682,7 +3688,8 @@ export const createDerivedMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<CreateDerivedMetricRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<Configv1CreateDerivedMetricResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3698,7 +3705,8 @@ export const createDropRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<CreateDropRuleRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<Configv1CreateDropRuleResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3714,7 +3722,8 @@ export const createGcpMetricsIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CreateGcpMetricsIntegrationRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<Configv1CreateGcpMetricsIntegrationResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3730,7 +3739,8 @@ export const createGrafanaDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<CreateGrafanaDashboardRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<Configv1CreateGrafanaDashboardResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3746,7 +3756,8 @@ export const createLogAllocationConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<CreateLogAllocationConfigRequest>,
   output: __S(1351, __c42, 7) as any as S.Schema<Configv1CreateLogAllocationConfigResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3762,7 +3773,8 @@ export const createLogIngestConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<CreateLogIngestConfigRequest>,
   output: __S(1763, __c55, 3) as any as S.Schema<Configv1CreateLogIngestConfigResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3778,7 +3790,8 @@ export const createLogScaleAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<CreateLogScaleActionRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<Configv1CreateLogScaleActionResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3794,7 +3807,8 @@ export const createLogScaleAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<CreateLogScaleAlertRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<Configv1CreateLogScaleAlertResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3810,7 +3824,8 @@ export const createMappingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<CreateMappingRuleRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<Configv1CreateMappingRuleResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3826,7 +3841,8 @@ export const createMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<CreateMonitorRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<Configv1CreateMonitorResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3842,7 +3858,8 @@ export const createMutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<CreateMutingRuleRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<Configv1CreateMutingRuleResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3858,7 +3875,8 @@ export const createNotificationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<CreateNotificationPolicyRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<Configv1CreateNotificationPolicyResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3874,7 +3892,8 @@ export const createNotifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<CreateNotifierRequest>,
   output: __S(3072, __c96, 0) as any as S.Schema<Configv1CreateNotifierResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3890,7 +3909,8 @@ export const createOtelMetricsIngestion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<CreateOtelMetricsIngestionRequest>,
   output: __S(3202, __c100, 2) as any as S.Schema<Configv1CreateOtelMetricsIngestionResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3906,7 +3926,8 @@ export const createRecordingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<CreateRecordingRuleRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<Configv1CreateRecordingRuleResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3923,7 +3944,8 @@ export const createResourcePools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<CreateResourcePoolsRequest>,
   output: __S(3435, __c107, 11) as any as S.Schema<Configv1CreateResourcePoolsResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3939,7 +3961,8 @@ export const createRollupRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<CreateRollupRuleRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<Configv1CreateRollupRuleResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3955,7 +3978,8 @@ export const createServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3617, __c113, 1) as any as S.Schema<CreateServiceAccountRequest>,
   output: __S(3648, __c114, 0) as any as S.Schema<Configv1CreateServiceAccountResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3971,7 +3995,8 @@ export const createSLO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<CreateSLORequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<Configv1CreateSLOResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3987,7 +4012,8 @@ export const createTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<CreateTeamRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<Configv1CreateTeamResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4003,7 +4029,8 @@ export const createTraceBehavior: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<CreateTraceBehaviorRequest>,
   output: __S(4000, __c125, 0) as any as S.Schema<Configv1CreateTraceBehaviorResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4019,7 +4046,8 @@ export const createTraceBehaviorConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<CreateTraceBehaviorConfigRequest>,
   output: __S(4293, __c134, 5) as any as S.Schema<Configv1CreateTraceBehaviorConfigResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4042,7 +4070,8 @@ export const createTraceJaegerRemoteSamplingStrategy: API.OperationMethod<
     __c137,
     0,
   ) as any as S.Schema<Configv1CreateTraceJaegerRemoteSamplingStrategyResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4059,7 +4088,8 @@ export const createTraceMetricsRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<CreateTraceMetricsRuleRequest>,
   output: __S(4512, __c141, 0) as any as S.Schema<Configv1CreateTraceMetricsRuleResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4076,7 +4106,8 @@ export const createTraceTailSamplingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<CreateTraceTailSamplingRulesRequest>,
   output: __S(4644, __c145, 4) as any as S.Schema<Configv1CreateTraceTailSamplingRulesResponse>,
-  errors: [BadRequest, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4092,7 +4123,8 @@ export const deleteBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<DeleteBucketRequest>,
   output: __S(4707, __c147, 3) as any as S.Schema<Configv1DeleteBucketResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4108,7 +4140,8 @@ export const deleteClassicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<DeleteClassicDashboardRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteClassicDashboardResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4124,7 +4157,8 @@ export const deleteCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<DeleteCollectionRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteCollectionResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4140,7 +4174,8 @@ export const deleteDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<DeleteDashboardRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteDashboardResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4156,7 +4191,8 @@ export const deleteDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<DeleteDatasetRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteDatasetResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4172,7 +4208,8 @@ export const deleteDerivedLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<DeleteDerivedLabelRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteDerivedLabelResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4188,7 +4225,8 @@ export const deleteDerivedMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<DeleteDerivedMetricRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteDerivedMetricResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4204,7 +4242,8 @@ export const deleteDropRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<DeleteDropRuleRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteDropRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4220,7 +4259,8 @@ export const deleteGcpMetricsIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<DeleteGcpMetricsIntegrationRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteGcpMetricsIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4236,7 +4276,8 @@ export const deleteGrafanaDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<DeleteGrafanaDashboardRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteGrafanaDashboardResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4252,7 +4293,8 @@ export const deleteLogAllocationConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<DeleteLogAllocationConfigRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteLogAllocationConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4268,7 +4310,8 @@ export const deleteLogIngestConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<DeleteLogIngestConfigRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteLogIngestConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4284,7 +4327,8 @@ export const deleteLogScaleAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<DeleteLogScaleActionRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteLogScaleActionResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4300,7 +4344,8 @@ export const deleteLogScaleAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<DeleteLogScaleAlertRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteLogScaleAlertResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4316,7 +4361,8 @@ export const deleteMappingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<DeleteMappingRuleRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteMappingRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4332,7 +4378,8 @@ export const deleteMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<DeleteMonitorRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteMonitorResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4348,7 +4395,8 @@ export const deleteMutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<DeleteMutingRuleRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteMutingRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4364,7 +4412,8 @@ export const deleteNotificationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<DeleteNotificationPolicyRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteNotificationPolicyResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4380,7 +4429,8 @@ export const deleteNotifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<DeleteNotifierRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteNotifierResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4396,7 +4446,8 @@ export const deleteOtelMetricsIngestion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<DeleteOtelMetricsIngestionRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteOtelMetricsIngestionResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4412,7 +4463,8 @@ export const deleteRecordingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<DeleteRecordingRuleRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteRecordingRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4428,7 +4480,8 @@ export const deleteResourcePools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<DeleteResourcePoolsRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteResourcePoolsResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4444,7 +4497,8 @@ export const deleteRollupRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<DeleteRollupRuleRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteRollupRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4460,7 +4514,8 @@ export const deleteServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<DeleteServiceAccountRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteServiceAccountResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4476,7 +4531,8 @@ export const deleteSLO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<DeleteSLORequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteSLOResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4492,7 +4548,8 @@ export const deleteTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<DeleteTeamRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteTeamResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4508,7 +4565,8 @@ export const deleteTraceBehavior: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<DeleteTraceBehaviorRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteTraceBehaviorResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4524,7 +4582,8 @@ export const deleteTraceBehaviorConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<DeleteTraceBehaviorConfigRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteTraceBehaviorConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4543,7 +4602,8 @@ export const deleteTraceJaegerRemoteSamplingStrategy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<DeleteTraceJaegerRemoteSamplingStrategyRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteTraceJaegerRemoteSamplingStrategyResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4559,7 +4619,8 @@ export const deleteTraceMetricsRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<DeleteTraceMetricsRuleRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteTraceMetricsRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4575,7 +4636,8 @@ export const deleteTraceTailSamplingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<DeleteTraceTailSamplingRulesRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteTraceTailSamplingRulesResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4593,7 +4655,8 @@ export const listBuckets: API.PaginatedOperationMethod<
   () => ({
     input: __S(6144, __c192, 0) as any as S.Schema<ListBucketsRequest>,
     output: __S(6146, __c192, 2) as any as S.Schema<Configv1ListBucketsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4620,7 +4683,8 @@ export const listClassicDashboards: API.PaginatedOperationMethod<
   () => ({
     input: __S(6208, __c194, 0) as any as S.Schema<ListClassicDashboardsRequest>,
     output: __S(6209, __c194, 1) as any as S.Schema<Configv1ListClassicDashboardsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4647,7 +4711,8 @@ export const listCollections: API.PaginatedOperationMethod<
   () => ({
     input: __S(6272, __c196, 0) as any as S.Schema<ListCollectionsRequest>,
     output: __S(6274, __c196, 2) as any as S.Schema<Configv1ListCollectionsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4674,7 +4739,8 @@ export const listDashboards: API.PaginatedOperationMethod<
   () => ({
     input: __S(6304, __c197, 0) as any as S.Schema<ListDashboardsRequest>,
     output: __S(6306, __c197, 2) as any as S.Schema<Configv1ListDashboardsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4701,7 +4767,8 @@ export const listDatasets: API.PaginatedOperationMethod<
   () => ({
     input: __S(6336, __c198, 0) as any as S.Schema<ListDatasetsRequest>,
     output: __S(6338, __c198, 2) as any as S.Schema<Configv1ListDatasetsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4728,7 +4795,8 @@ export const listDerivedLabels: API.PaginatedOperationMethod<
   () => ({
     input: __S(6592, __c206, 0) as any as S.Schema<ListDerivedLabelsRequest>,
     output: __S(6594, __c206, 2) as any as S.Schema<Configv1ListDerivedLabelsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4755,7 +4823,8 @@ export const listDerivedMetrics: API.PaginatedOperationMethod<
   () => ({
     input: __S(6624, __c207, 0) as any as S.Schema<ListDerivedMetricsRequest>,
     output: __S(6626, __c207, 2) as any as S.Schema<Configv1ListDerivedMetricsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4782,7 +4851,8 @@ export const listDropRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(6656, __c208, 0) as any as S.Schema<ListDropRulesRequest>,
     output: __S(6658, __c208, 2) as any as S.Schema<Configv1ListDropRulesResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4809,7 +4879,8 @@ export const listGcpMetricsIntegrations: API.PaginatedOperationMethod<
   () => ({
     input: __S(6688, __c209, 0) as any as S.Schema<ListGcpMetricsIntegrationsRequest>,
     output: __S(6690, __c209, 2) as any as S.Schema<Configv1ListGcpMetricsIntegrationsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4836,7 +4907,8 @@ export const listGrafanaDashboards: API.PaginatedOperationMethod<
   () => ({
     input: __S(6720, __c210, 0) as any as S.Schema<ListGrafanaDashboardsRequest>,
     output: __S(6721, __c210, 1) as any as S.Schema<Configv1ListGrafanaDashboardsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4863,7 +4935,8 @@ export const listLogScaleActions: API.PaginatedOperationMethod<
   () => ({
     input: __S(6752, __c211, 0) as any as S.Schema<ListLogScaleActionsRequest>,
     output: __S(6754, __c211, 2) as any as S.Schema<Configv1ListLogScaleActionsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4890,7 +4963,8 @@ export const listLogScaleAlerts: API.PaginatedOperationMethod<
   () => ({
     input: __S(6784, __c212, 0) as any as S.Schema<ListLogScaleAlertsRequest>,
     output: __S(6786, __c212, 2) as any as S.Schema<Configv1ListLogScaleAlertsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4917,7 +4991,8 @@ export const listMappingRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(6816, __c213, 0) as any as S.Schema<ListMappingRulesRequest>,
     output: __S(6818, __c213, 2) as any as S.Schema<Configv1ListMappingRulesResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4944,7 +5019,8 @@ export const listMonitors: API.PaginatedOperationMethod<
   () => ({
     input: __S(6848, __c214, 0) as any as S.Schema<ListMonitorsRequest>,
     output: __S(6850, __c214, 2) as any as S.Schema<Configv1ListMonitorsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4971,7 +5047,8 @@ export const listMutingRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(6881, __c215, 1) as any as S.Schema<ListMutingRulesRequest>,
     output: __S(6883, __c215, 3) as any as S.Schema<Configv1ListMutingRulesResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4998,7 +5075,8 @@ export const listNotificationPolicies: API.PaginatedOperationMethod<
   () => ({
     input: __S(7072, __c221, 0) as any as S.Schema<ListNotificationPoliciesRequest>,
     output: __S(7074, __c221, 2) as any as S.Schema<Configv1ListNotificationPoliciesResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5025,7 +5103,8 @@ export const listNotifiers: API.PaginatedOperationMethod<
   () => ({
     input: __S(7104, __c222, 0) as any as S.Schema<ListNotifiersRequest>,
     output: __S(7106, __c222, 2) as any as S.Schema<Configv1ListNotifiersResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5052,7 +5131,8 @@ export const listRecordingRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(7136, __c223, 0) as any as S.Schema<ListRecordingRulesRequest>,
     output: __S(7138, __c223, 2) as any as S.Schema<Configv1ListRecordingRulesResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5079,7 +5159,8 @@ export const listRollupRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(7168, __c224, 0) as any as S.Schema<ListRollupRulesRequest>,
     output: __S(7170, __c224, 2) as any as S.Schema<Configv1ListRollupRulesResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5106,7 +5187,8 @@ export const listServiceAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(7200, __c225, 0) as any as S.Schema<ListServiceAccountsRequest>,
     output: __S(7202, __c225, 2) as any as S.Schema<Configv1ListServiceAccountsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5133,7 +5215,8 @@ export const listSLOs: API.PaginatedOperationMethod<
   () => ({
     input: __S(7232, __c226, 0) as any as S.Schema<ListSLOsRequest>,
     output: __S(7234, __c226, 2) as any as S.Schema<Configv1ListSLOsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5160,7 +5243,8 @@ export const listTeams: API.PaginatedOperationMethod<
   () => ({
     input: __S(7264, __c227, 0) as any as S.Schema<ListTeamsRequest>,
     output: __S(7266, __c227, 2) as any as S.Schema<Configv1ListTeamsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5187,7 +5271,8 @@ export const listTraceBehaviors: API.PaginatedOperationMethod<
   () => ({
     input: __S(7296, __c228, 0) as any as S.Schema<ListTraceBehaviorsRequest>,
     output: __S(7298, __c228, 2) as any as S.Schema<Configv1ListTraceBehaviorsResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5218,7 +5303,8 @@ export const listTraceJaegerRemoteSamplingStrategies: API.PaginatedOperationMeth
       __c229,
       2,
     ) as any as S.Schema<Configv1ListTraceJaegerRemoteSamplingStrategiesResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5245,7 +5331,8 @@ export const listTraceMetricsRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(7360, __c230, 0) as any as S.Schema<ListTraceMetricsRulesRequest>,
     output: __S(7362, __c230, 2) as any as S.Schema<Configv1ListTraceMetricsRulesResponse>,
-    errors: [UnknownChronosphereError],
+    errors: [],
+    serviceErrors: ChronosphereServiceErrors,
     protocol: ChronosphereProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5270,7 +5357,8 @@ export const readBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<ReadBucketRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<Configv1ReadBucketResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5286,7 +5374,8 @@ export const readClassicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<ReadClassicDashboardRequest>,
   output: __S(5056, __c158, 0) as any as S.Schema<Configv1ReadClassicDashboardResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5302,7 +5391,8 @@ export const readCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<ReadCollectionRequest>,
   output: __S(5504, __c172, 0) as any as S.Schema<Configv1ReadCollectionResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5318,7 +5408,8 @@ export const readDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<ReadDashboardRequest>,
   output: __S(5952, __c186, 0) as any as S.Schema<Configv1ReadDashboardResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5334,7 +5425,8 @@ export const readDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<ReadDatasetRequest>,
   output: __S(6560, __c205, 0) as any as S.Schema<Configv1ReadDatasetResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5350,7 +5442,8 @@ export const readDerivedLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<ReadDerivedLabelRequest>,
   output: __S(7040, __c220, 0) as any as S.Schema<Configv1ReadDerivedLabelResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5366,7 +5459,8 @@ export const readDerivedMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<ReadDerivedMetricRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<Configv1ReadDerivedMetricResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5382,7 +5476,8 @@ export const readDropRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<ReadDropRuleRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<Configv1ReadDropRuleResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5398,7 +5493,8 @@ export const readGcpMetricsIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<ReadGcpMetricsIntegrationRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<Configv1ReadGcpMetricsIntegrationResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5414,7 +5510,8 @@ export const readGrafanaDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<ReadGrafanaDashboardRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<Configv1ReadGrafanaDashboardResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5430,7 +5527,8 @@ export const readLogAllocationConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<ReadLogAllocationConfigRequest>,
   output: __S(1351, __c42, 7) as any as S.Schema<Configv1ReadLogAllocationConfigResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5446,7 +5544,8 @@ export const readLogIngestConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<ReadLogIngestConfigRequest>,
   output: __S(1763, __c55, 3) as any as S.Schema<Configv1ReadLogIngestConfigResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5462,7 +5561,8 @@ export const readLogScaleAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<ReadLogScaleActionRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<Configv1ReadLogScaleActionResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5478,7 +5578,8 @@ export const readLogScaleAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ReadLogScaleAlertRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<Configv1ReadLogScaleAlertResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5494,7 +5595,8 @@ export const readMappingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<ReadMappingRuleRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<Configv1ReadMappingRuleResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5510,7 +5612,8 @@ export const readMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ReadMonitorRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<Configv1ReadMonitorResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5526,7 +5629,8 @@ export const readMutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ReadMutingRuleRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<Configv1ReadMutingRuleResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5542,7 +5646,8 @@ export const readNotificationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ReadNotificationPolicyRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<Configv1ReadNotificationPolicyResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5558,7 +5663,8 @@ export const readNotifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ReadNotifierRequest>,
   output: __S(3072, __c96, 0) as any as S.Schema<Configv1ReadNotifierResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5574,7 +5680,8 @@ export const readOtelMetricsIngestion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ReadOtelMetricsIngestionRequest>,
   output: __S(3202, __c100, 2) as any as S.Schema<Configv1ReadOtelMetricsIngestionResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5590,7 +5697,8 @@ export const readRecordingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ReadRecordingRuleRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<Configv1ReadRecordingRuleResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5606,7 +5714,8 @@ export const readResourcePools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ReadResourcePoolsRequest>,
   output: __S(3435, __c107, 11) as any as S.Schema<Configv1ReadResourcePoolsResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5622,7 +5731,8 @@ export const readRollupRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ReadRollupRuleRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<Configv1ReadRollupRuleResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5638,7 +5748,8 @@ export const readService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ReadServiceRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<Configv1ReadServiceResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5654,7 +5765,8 @@ export const readServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ReadServiceAccountRequest>,
   output: __S(3648, __c114, 0) as any as S.Schema<Configv1ReadServiceAccountResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5670,7 +5782,8 @@ export const readSLO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ReadSLORequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<Configv1ReadSLOResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5686,7 +5799,8 @@ export const readTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ReadTeamRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<Configv1ReadTeamResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5702,7 +5816,8 @@ export const readTraceBehavior: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ReadTraceBehaviorRequest>,
   output: __S(4000, __c125, 0) as any as S.Schema<Configv1ReadTraceBehaviorResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5718,7 +5833,8 @@ export const readTraceBehaviorConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ReadTraceBehaviorConfigRequest>,
   output: __S(4293, __c134, 5) as any as S.Schema<Configv1ReadTraceBehaviorConfigResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5738,7 +5854,8 @@ export const readTraceJaegerRemoteSamplingStrategy: API.OperationMethod<
     __c137,
     0,
   ) as any as S.Schema<Configv1ReadTraceJaegerRemoteSamplingStrategyResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5754,7 +5871,8 @@ export const readTraceMetricsRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ReadTraceMetricsRuleRequest>,
   output: __S(4512, __c141, 0) as any as S.Schema<Configv1ReadTraceMetricsRuleResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5770,7 +5888,8 @@ export const readTraceTailSamplingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ReadTraceTailSamplingRulesRequest>,
   output: __S(4644, __c145, 4) as any as S.Schema<Configv1ReadTraceTailSamplingRulesResponse>,
-  errors: [NotFound, UnknownChronosphereError],
+  errors: [NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5786,7 +5905,8 @@ export const updateBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<UpdateBucketRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<Configv1UpdateBucketResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5802,7 +5922,8 @@ export const updateClassicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<UpdateClassicDashboardRequest>,
   output: __S(5056, __c158, 0) as any as S.Schema<Configv1UpdateClassicDashboardResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5818,7 +5939,8 @@ export const updateCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<UpdateCollectionRequest>,
   output: __S(5504, __c172, 0) as any as S.Schema<Configv1UpdateCollectionResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5834,7 +5956,8 @@ export const updateDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<UpdateDashboardRequest>,
   output: __S(5952, __c186, 0) as any as S.Schema<Configv1UpdateDashboardResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5850,7 +5973,8 @@ export const updateDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<UpdateDatasetRequest>,
   output: __S(6560, __c205, 0) as any as S.Schema<Configv1UpdateDatasetResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5866,7 +5990,8 @@ export const updateDerivedLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<UpdateDerivedLabelRequest>,
   output: __S(7040, __c220, 0) as any as S.Schema<Configv1UpdateDerivedLabelResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5882,7 +6007,8 @@ export const updateDerivedMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<UpdateDerivedMetricRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<Configv1UpdateDerivedMetricResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5898,7 +6024,8 @@ export const updateDropRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<UpdateDropRuleRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<Configv1UpdateDropRuleResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5918,7 +6045,8 @@ export const updateGcpMetricsIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<UpdateGcpMetricsIntegrationRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<Configv1UpdateGcpMetricsIntegrationResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5934,7 +6062,8 @@ export const updateGrafanaDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<UpdateGrafanaDashboardRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<Configv1UpdateGrafanaDashboardResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5950,7 +6079,8 @@ export const updateLogAllocationConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<UpdateLogAllocationConfigRequest>,
   output: __S(1351, __c42, 7) as any as S.Schema<Configv1UpdateLogAllocationConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5966,7 +6096,8 @@ export const updateLogIngestConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<UpdateLogIngestConfigRequest>,
   output: __S(1763, __c55, 3) as any as S.Schema<Configv1UpdateLogIngestConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5982,7 +6113,8 @@ export const updateLogScaleAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<UpdateLogScaleActionRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<Configv1UpdateLogScaleActionResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5998,7 +6130,8 @@ export const updateLogScaleAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<UpdateLogScaleAlertRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<Configv1UpdateLogScaleAlertResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6014,7 +6147,8 @@ export const updateMappingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<UpdateMappingRuleRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<Configv1UpdateMappingRuleResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6030,7 +6164,8 @@ export const updateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<UpdateMonitorRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<Configv1UpdateMonitorResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6046,7 +6181,8 @@ export const updateMutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<UpdateMutingRuleRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<Configv1UpdateMutingRuleResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6062,7 +6198,8 @@ export const updateNotificationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<UpdateNotificationPolicyRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<Configv1UpdateNotificationPolicyResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6078,7 +6215,8 @@ export const updateNotifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<UpdateNotifierRequest>,
   output: __S(3072, __c96, 0) as any as S.Schema<Configv1UpdateNotifierResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6094,7 +6232,8 @@ export const updateOtelMetricsIngestion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<UpdateOtelMetricsIngestionRequest>,
   output: __S(3202, __c100, 2) as any as S.Schema<Configv1UpdateOtelMetricsIngestionResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6110,7 +6249,8 @@ export const updateRecordingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<UpdateRecordingRuleRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<Configv1UpdateRecordingRuleResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6126,7 +6266,8 @@ export const updateResourcePools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<UpdateResourcePoolsRequest>,
   output: __S(3435, __c107, 11) as any as S.Schema<Configv1UpdateResourcePoolsResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6142,7 +6283,8 @@ export const updateRollupRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<UpdateRollupRuleRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<Configv1UpdateRollupRuleResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6158,7 +6300,8 @@ export const updateSLO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<UpdateSLORequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<Configv1UpdateSLOResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6174,7 +6317,8 @@ export const updateTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<UpdateTeamRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<Configv1UpdateTeamResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6190,7 +6334,8 @@ export const updateTraceBehavior: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<UpdateTraceBehaviorRequest>,
   output: __S(4000, __c125, 0) as any as S.Schema<Configv1UpdateTraceBehaviorResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6206,7 +6351,8 @@ export const updateTraceBehaviorConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<UpdateTraceBehaviorConfigRequest>,
   output: __S(4293, __c134, 5) as any as S.Schema<Configv1UpdateTraceBehaviorConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6230,7 +6376,8 @@ export const updateTraceJaegerRemoteSamplingStrategy: API.OperationMethod<
     __c137,
     0,
   ) as any as S.Schema<Configv1UpdateTraceJaegerRemoteSamplingStrategyResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6246,7 +6393,8 @@ export const updateTraceMetricsRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<UpdateTraceMetricsRuleRequest>,
   output: __S(4512, __c141, 0) as any as S.Schema<Configv1UpdateTraceMetricsRuleResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownChronosphereError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6262,7 +6410,8 @@ export const updateTraceTailSamplingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<UpdateTraceTailSamplingRulesRequest>,
   output: __S(4644, __c145, 4) as any as S.Schema<Configv1UpdateTraceTailSamplingRulesResponse>,
-  errors: [BadRequest, NotFound, UnknownChronosphereError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ChronosphereServiceErrors,
   protocol: ChronosphereProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

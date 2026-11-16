@@ -30,6 +30,9 @@ export class Credentials
     "ChronosphereCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** Turn a domain or origin into `https://<host>`. */
 const originFrom = (value: string): string => {
   const trimmed = value.replace(/\/+$/, "");

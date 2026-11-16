@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownArchilError } from "../errors.ts";
+import { ArchilServiceErrors } from "../errors.ts";
 import { ArchilProtocol, type ArchilOpError, type ArchilOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1670,7 +1670,8 @@ export const addDiskUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<AddDiskUserRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<ApiResponseAuthorizedUser>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1687,7 +1688,8 @@ export const createApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateApiTokenRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<ApiResponseTokenCreated>,
-  errors: [BadRequest, UnknownArchilError],
+  errors: [BadRequest],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1704,7 +1706,8 @@ export const createBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateBranchRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<BranchApiResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1721,7 +1724,8 @@ export const createDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(114, __c7, 2) as any as S.Schema<CreateDiskRequest>,
   output: __S(116, __c7, 4) as any as S.Schema<ApiResponseCreateDisk>,
-  errors: [BadRequest, Forbidden, UnknownArchilError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1738,7 +1742,8 @@ export const createImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(145, __c9, 1) as any as S.Schema<CreateImageRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ApiResponseImage>,
-  errors: [BadRequest, NoCapacity, NotEnabled, UnknownArchilError],
+  errors: [BadRequest, NoCapacity, NotEnabled],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1760,7 +1765,8 @@ export const createSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(178, __c11, 2) as any as S.Schema<CreateSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, ImageNotReady, SandboxNameConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, ImageNotReady, SandboxNameConflict],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1777,7 +1783,8 @@ export const createSandboxConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<CreateSandboxConnectionRequest>,
   output: __S(290, __c18, 2) as any as S.Schema<ApiResponseSandboxConnection>,
-  errors: [NotFound, SandboxTerminated, UnknownArchilError],
+  errors: [NotFound, SandboxTerminated],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1794,7 +1801,8 @@ export const createSandboxPortToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<CreateSandboxPortTokenRequest>,
   output: __S(306, __c19, 2) as any as S.Schema<ApiResponseCreatedSandboxPortToken>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1811,7 +1819,8 @@ export const createShareUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<CreateShareUrlRequest>,
   output: __S(322, __c20, 2) as any as S.Schema<ApiResponseShareUrl>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1828,7 +1837,8 @@ export const deleteDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteDiskRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<ApiResponseEmpty>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1845,7 +1855,8 @@ export const deleteSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DeleteSandboxRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteSandboxResponse>,
-  errors: [NotFound, SandboxNotDeletable, SandboxHasForks, UnknownArchilError],
+  errors: [NotFound, SandboxNotDeletable, SandboxHasForks],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1862,7 +1873,8 @@ export const deleteSandboxPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<DeleteSandboxPortRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteSandboxPortResponse>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1879,7 +1891,8 @@ export const deleteSandboxPortToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteSandboxPortTokenRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<DeleteSandboxPortTokenResponse>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1896,7 +1909,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1909,7 +1923,8 @@ export const exec: API.OperationMethod<ExecRequest, ApiResponseExec, ExecError, 
   /*@__PURE__*/ API.make(() => ({
     input: __S(449, __c28, 1) as any as S.Schema<ExecRequest>,
     output: __S(466, __c29, 2) as any as S.Schema<ApiResponseExec>,
-    errors: [BadRequest, NotFound, UnknownArchilError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: ArchilServiceErrors,
     protocol: ArchilProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1926,7 +1941,8 @@ export const execDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ExecDiskRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<ApiResponseExecDisk>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1943,7 +1959,8 @@ export const exposeSandboxPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ExposeSandboxPortRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<ApiResponseSandboxPort>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1974,8 +1991,8 @@ export const forkSandbox: API.OperationMethod<
     SandboxForkMounted,
     SandboxForkCheckpoint,
     SandboxNotForkable,
-    UnknownArchilError,
   ],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1992,7 +2009,8 @@ export const getAllowedIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetAllowedIpsRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<ApiResponseAllowedIps>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2009,7 +2027,8 @@ export const getBillingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetBillingSubscriptionRequest>,
   output: __S(566, __c35, 6) as any as S.Schema<ApiResponseBillingSubscription>,
-  errors: [UnknownArchilError],
+  errors: [],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2026,7 +2045,8 @@ export const getBillingSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetBillingSummaryRequest>,
   output: __S(602, __c37, 10) as any as S.Schema<ApiResponseBillingSummary>,
-  errors: [BadRequest, UnknownArchilError],
+  errors: [BadRequest],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2043,7 +2063,8 @@ export const getBillingUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetBillingUsageRequest>,
   output: __S(615, __c38, 7) as any as S.Schema<ApiResponseBillingUsage>,
-  errors: [BadRequest, UnknownArchilError],
+  errors: [BadRequest],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2060,7 +2081,8 @@ export const getBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetBranchRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<BranchApiResponse>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2077,7 +2099,8 @@ export const getDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetDiskRequest>,
   output: __S(641, __c40, 1) as any as S.Schema<ApiResponseDisk>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2094,7 +2117,8 @@ export const getImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetImageRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ApiResponseImage>,
-  errors: [NotFound, NotEnabled, UnknownArchilError],
+  errors: [NotFound, NotEnabled],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2111,7 +2135,8 @@ export const getSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2128,7 +2153,8 @@ export const getSandboxMount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<GetSandboxMountRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<ApiResponseSandboxMount>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2145,7 +2171,8 @@ export const getSandboxNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetSandboxNetworkRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2162,7 +2189,8 @@ export const getSandboxPortToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetSandboxPortTokenRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<ApiResponseSandboxPortToken>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2179,7 +2207,8 @@ export const grepDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<GrepDiskRequest>,
   output: __S(808, __c50, 8) as any as S.Schema<ApiResponseGrepDisk>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2196,7 +2225,8 @@ export const listApiTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListApiTokensRequest>,
   output: __S(820, __c51, 4) as any as S.Schema<ApiResponseTokenList>,
-  errors: [UnknownArchilError],
+  errors: [],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2213,7 +2243,8 @@ export const listBranches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListBranchesRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<BranchListApiResponse>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2230,7 +2261,8 @@ export const listDelegations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListDelegationsRequest>,
   output: __S(852, __c53, 4) as any as S.Schema<ApiResponseDelegations>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2247,7 +2279,8 @@ export const listDisks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListDisksRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<ApiResponseDiskList>,
-  errors: [UnknownArchilError],
+  errors: [],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2264,7 +2297,8 @@ export const listSandboxes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ListSandboxesRequest>,
   output: __S(883, __c55, 3) as any as S.Schema<ApiResponseSandboxList>,
-  errors: [BadRequest, UnknownArchilError],
+  errors: [BadRequest],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2281,7 +2315,8 @@ export const listSandboxPorts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListSandboxPortsRequest>,
   output: __S(898, __c56, 2) as any as S.Schema<ApiResponseSandboxPortList>,
-  errors: [NotFound, UnknownArchilError],
+  errors: [NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2298,7 +2333,8 @@ export const listSandboxPortTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ListSandboxPortTokensRequest>,
   output: __S(915, __c57, 3) as any as S.Schema<ApiResponseSandboxPortTokenList>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2315,7 +2351,8 @@ export const pauseSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<PauseSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, SandboxNotReady, UnknownArchilError],
+  errors: [BadRequest, NotFound, SandboxNotReady],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2332,7 +2369,8 @@ export const prefetchDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(946, __c59, 2) as any as S.Schema<PrefetchDiskRequest>,
   output: __S(950, __c59, 6) as any as S.Schema<ApiResponsePrefetch>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2349,7 +2387,8 @@ export const removeDiskUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<RemoveDiskUserRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2366,7 +2405,8 @@ export const resumeSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ResumeSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, SandboxStartConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, SandboxStartConflict],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2383,7 +2423,8 @@ export const revokeDelegation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<RevokeDelegationRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2400,7 +2441,8 @@ export const setAllowedIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<SetAllowedIpsRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<ApiResponseAllowedIps>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2417,7 +2459,8 @@ export const setSandboxMount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<SetSandboxMountRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<ApiResponseSandboxMount>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2434,7 +2477,8 @@ export const setSandboxTimeout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2467,8 +2511,8 @@ export const startSandbox: API.OperationMethod<
     SandboxStartConflict,
     SandboxMountsWhileActive,
     SandboxTerminated,
-    UnknownArchilError,
   ],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2485,7 +2529,8 @@ export const stopSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<StopSandboxRequest>,
   output: __S(272, __c17, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, NotFound, SandboxStopConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, SandboxStopConflict],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2502,7 +2547,8 @@ export const updateSandboxNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownArchilError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ArchilServiceErrors,
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
