@@ -24,7 +24,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Vercel.CredentialsFromEnv,
-  Vercel.VercelProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

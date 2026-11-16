@@ -21,9 +21,7 @@ const program = Effect.gen(function* () {
 });
 
 // The credentials exchange the client id and secret for a token through the HttpClient.
-const Live = Layer.mergeAll(MongodbAtlas.CredentialsFromEnv, MongodbAtlas.MongodbAtlasProtocol).pipe(
-  Layer.provideMerge(FetchHttpClient.layer),
-);
+const Live = MongodbAtlas.CredentialsFromEnv.pipe(Layer.provideMerge(FetchHttpClient.layer));
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```

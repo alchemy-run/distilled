@@ -27,7 +27,6 @@
  * const Live = Layer.mergeAll(
  *   FetchHttpClient.layer,
  *   NamespaceLabs.CredentialsFromEnv,
- *   NamespaceLabs.NamespaceLabsProtocol,
  * );
  *
  * program.pipe(Effect.provide(Live), Effect.runPromise);
