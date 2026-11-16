@@ -109,14 +109,23 @@ const loadToken = (loginSession: string): Effect.Effect<LoginToken, CredentialSo
   );
 };
 
-/** Best effort: failing to update the cache does not invalidate the token. */
+/**
+ * Best effort: the refreshed token stays in use when the cache can't be
+ * written. The failure is logged, as the AWS SDK does, because the file may
+ * now hold a refresh token that no longer works.
+ */
 const saveToken = (loginSession: string, token: LoginToken) => {
   const path = tokenFilePath(loginSession);
   return Effect.tryPromise(() =>
     mkdir(dirname(path), { recursive: true }).then(() =>
       writeFile(path, JSON.stringify(token, null, 2), "utf8"),
     ),
-  ).pipe(Effect.ignore);
+  ).pipe(
+    Effect.ignore({
+      log: "Warn",
+      message: `Could not save the refreshed AWS login token to ${path}`,
+    }),
+  );
 };
 
 const unredact = (value: string | Redacted.Redacted<string>): string =>

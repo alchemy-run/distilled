@@ -536,7 +536,11 @@ const bodyFailure = async (script: ReadonlyArray<Step>, options?: ExchangeOption
   if (!Result.isFailure(body)) throw new Error("the body was read");
   expect(body.failure.reason._tag).toBe("DecodeError");
   expect(peer.closes).toBe(1);
-  expect(await Effect.runPromise(trailersOf(response))).toEqual({});
+  // The trailers fail with the body's cause; they never read as empty.
+  const trailers = await Effect.runPromise(Effect.result(trailersOf(response)));
+  if (!Result.isFailure(trailers)) throw new Error("the trailers were read");
+  expect(trailers.failure.reason._tag).toBe("DecodeError");
+  expect(causeOf(trailers.failure)).toBe(causeOf(body.failure));
   return { peer, response, cause: causeOf(body.failure) as Error };
 };
 
@@ -1942,12 +1946,14 @@ describe("HTTP/2 on cloudflare:sockets: the connection", () => {
     expect(peer.closes).toBe(1);
   });
 
-  test("is closed when the body is let go, and the trailers settle empty", async () => {
+  test("is closed when the body is let go, and the trailers then fail", async () => {
     const { peer, response } = await reply([head200, data("abc"), "hang"]);
     const first = await Effect.runPromise(Stream.runHead(response.stream));
     expect(Option.getOrThrow(first)).toEqual(text("abc"));
     await vi.waitFor(() => expect(peer.closes).toBe(1));
-    expect(await trailersFor(response)).toEqual({});
+    const trailers = await Effect.runPromise(Effect.result(trailersOf(response)));
+    if (!Result.isFailure(trailers)) throw new Error("the trailers were read");
+    expect((causeOf(trailers.failure) as Error).message).toBe("the body was not read to its end");
     expect(peer.closes).toBe(1);
   });
 
@@ -2045,26 +2051,20 @@ describe("HTTP/2 on cloudflare:sockets: the connection", () => {
 
 describe("a gRPC transport's response", () => {
   const request = () => HttpClientRequest.get("http://grpc.test/svc/Call");
-  /** A body that counts how often it is let go. */
-  const body = (cancel?: () => Promise<void>) => {
-    const seen = { cancels: 0, pulls: 0 };
-    const stream = new ReadableStream<Uint8Array>(
-      {
-        pull: (controller) => {
-          seen.pulls++;
-          controller.enqueue(text("abc"));
-          controller.close();
-        },
-        cancel: () => {
-          seen.cancels++;
-          return cancel?.();
-        },
-      },
-      { highWaterMark: 0 },
-    );
+  /** A body that counts how often it is run and finished. */
+  const body = () => {
+    const seen = { runs: 0, ends: 0 };
+    const stream = Stream.suspend(() => {
+      seen.runs++;
+      return Stream.make(text("abc"));
+    }).pipe(Stream.ensuring(Effect.sync(() => void seen.ends++)));
     return { stream, seen };
   };
-  const none = Promise.resolve({});
+  const none = Effect.succeed({});
+  const respondTo = (
+    sent: HttpClientRequest.HttpClientRequest,
+    reply: Parameters<typeof respond>[1],
+  ) => Effect.runPromise(respond(sent, reply));
 
   test.each([
     [199, false],
@@ -2086,73 +2086,75 @@ describe("a gRPC transport's response", () => {
   test("has the status, the headers, the body and the request", async () => {
     const sent = request();
     const { stream, seen } = body();
-    const response = respond(sent, {
+    const response = await respondTo(sent, {
       status: 418,
       headers: { "x-a": "1", "content-type": "application/grpc" },
       body: stream,
-      trailers: Promise.resolve({ "grpc-status": "0" }),
+      trailers: Effect.succeed({ "grpc-status": "0" }),
     });
     expect(response.status).toBe(418);
     expect(response.headers).toEqual({ "x-a": "1", "content-type": "application/grpc" });
     expect(response.request).toBe(sent);
-    // The body is not read until it is asked for.
-    expect(seen.pulls).toBe(0);
+    // The body is not run until it is asked for.
+    expect(seen.runs).toBe(0);
     expect(await textOf(response)).toBe("abc");
-    expect(seen.cancels).toBe(0);
+    expect(seen).toEqual({ runs: 1, ends: 1 });
+    // Read once, shared by every reader.
+    expect(new TextDecoder().decode(await Effect.runPromise(response.arrayBuffer))).toBe("abc");
+    expect(seen.runs).toBe(1);
     expect(await trailersFor(response)).toEqual({ "grpc-status": "0" });
   });
 
-  test.each([204, 205, 304])("a %i lets the body go and has none", async (status) => {
+  test.each([204, 205, 304])("a %i has no body and no trailers", async (status) => {
     const { stream, seen } = body();
-    const response = respond(request(), {
+    const response = await respondTo(request(), {
       status,
       headers: { "x-a": "1" },
       body: stream,
-      trailers: Promise.resolve({ "x-t": "1" }),
+      trailers: Effect.succeed({ "x-t": "1" }),
     });
     expect(response.status).toBe(status);
     expect(response.headers).toEqual({ "x-a": "1" });
-    expect(seen).toEqual({ cancels: 1, pulls: 0 });
     expect(await textOf(response)).toBe("");
-    expect(seen).toEqual({ cancels: 1, pulls: 0 });
-    expect(await trailersFor(response)).toEqual({ "x-t": "1" });
-  });
-
-  test("a body that fails to be let go does not fail the response", async () => {
-    const { stream, seen } = body(() => Promise.reject(new Error("cancel refused")));
-    const response = respond(request(), { status: 204, headers: {}, body: stream, trailers: none });
-    expect(response.status).toBe(204);
-    expect(seen.cancels).toBe(1);
-    expect(await textOf(response)).toBe("");
+    expect(seen.runs).toBe(0);
+    expect(await trailersFor(response)).toEqual({});
   });
 
   test.each([200, 201, 203, 206, 300, 303, 305, 404, 500])(
     "a %i keeps its body",
     async (status) => {
-      const { stream, seen } = body();
-      const response = respond(request(), { status, headers: {}, body: stream, trailers: none });
+      const { stream } = body();
+      const response = await respondTo(request(), {
+        status,
+        headers: {},
+        body: stream,
+        trailers: none,
+      });
       expect(await textOf(response)).toBe("abc");
-      expect(seen.cancels).toBe(0);
     },
   );
 
-  test("throws for a head `Response` refuses, which the transport reports", () => {
-    const heads: ReadonlyArray<{ status: number; headers: Record<string, string> }> = [
-      { status: 200, headers: { "x y": "1" } },
-      { status: 200, headers: { "x-a": "a\nb" } },
-      { status: 199, headers: {} },
-      { status: 600, headers: {} },
+  test("fails with fetch's TypeError for a head that is no HTTP head", async () => {
+    const heads: ReadonlyArray<Record<string, string>> = [
+      { "x y": "1" },
+      { "x-a": "a\nb" },
+      { "": "1" },
     ];
-    for (const reply of heads) {
-      const { stream } = body();
-      expect(() => respond(request(), { ...reply, body: stream, trailers: none })).toThrow();
+    for (const headers of heads) {
+      const result = await Effect.runPromise(
+        Effect.result(
+          respond(request(), { status: 200, headers, body: body().stream, trailers: none }),
+        ),
+      );
+      if (!Result.isFailure(result)) throw new Error(`accepted ${JSON.stringify(headers)}`);
+      expect(result.failure).toBeInstanceOf(TypeError);
     }
   });
 
-  test("its trailers always arrive unless the transport says otherwise", () => {
-    const reliable = (reliableTrailers?: boolean) =>
+  test("its trailers always arrive unless the transport says otherwise", async () => {
+    const reliable = async (reliableTrailers?: boolean) =>
       hasTrailers(
-        respond(request(), {
+        await respondTo(request(), {
           status: 200,
           headers: {},
           body: body().stream,
@@ -2160,17 +2162,17 @@ describe("a gRPC transport's response", () => {
           ...(reliableTrailers === undefined ? {} : { reliableTrailers }),
         }),
       );
-    expect(reliable()).toBe(true);
-    expect(reliable(true)).toBe(true);
-    expect(reliable(false)).toBe(false);
+    expect(await reliable()).toBe(true);
+    expect(await reliable(true)).toBe(true);
+    expect(await reliable(false)).toBe(false);
   });
 
   test("unreliable trailers are still read", async () => {
-    const response = respond(request(), {
+    const response = await respondTo(request(), {
       status: 200,
       headers: {},
       body: body().stream,
-      trailers: Promise.resolve({ "grpc-status": "0" }),
+      trailers: Effect.succeed({ "grpc-status": "0" }),
       reliableTrailers: false,
     });
     expect(await trailersFor(response)).toEqual({ "grpc-status": "0" });
@@ -2182,26 +2184,31 @@ describe("a gRPC transport's response", () => {
     expect(await trailersFor(response)).toEqual({});
   });
 
-  test("trailers that fail are no trailers", async () => {
-    const response = respond(request(), {
+  test("trailers that fail fail the read with a DecodeError, never as empty", async () => {
+    const failure = new Error("no trailers");
+    const response = await respondTo(request(), {
       status: 200,
       headers: {},
       body: body().stream,
-      trailers: Promise.reject(new Error("no trailers")),
+      trailers: Effect.fail(failure),
     });
     expect(hasTrailers(response)).toBe(true);
-    expect(await trailersFor(response)).toEqual({});
-    // Asked again, the answer is the same.
-    expect(await trailersFor(response)).toEqual({});
+    for (let read = 0; read < 2; read++) {
+      const result = await Effect.runPromise(Effect.result(trailersOf(response)));
+      if (!Result.isFailure(result)) throw new Error("the trailers were read");
+      expect(result.failure.reason._tag).toBe("DecodeError");
+      expect(causeOf(result.failure)).toBe(failure);
+    }
   });
 
   test("trailers wait for the transport to settle them", async () => {
     let settle!: (trailers: Record<string, string>) => void;
-    const response = respond(request(), {
+    const settled = new Promise<Record<string, string>>((resolve) => (settle = resolve));
+    const response = await respondTo(request(), {
       status: 200,
       headers: {},
       body: body().stream,
-      trailers: new Promise((resolve) => (settle = resolve)),
+      trailers: Effect.tryPromise({ try: () => settled, catch: (cause) => cause }),
     });
     let read: unknown;
     const pending = trailersFor(response).then((trailers) => (read = trailers));
@@ -2213,17 +2220,17 @@ describe("a gRPC transport's response", () => {
   });
 
   test("trailers belong to the request they answer", async () => {
-    const first = respond(request(), {
+    const first = await respondTo(request(), {
       status: 200,
       headers: {},
       body: body().stream,
-      trailers: Promise.resolve({ n: "1" }),
+      trailers: Effect.succeed({ n: "1" }),
     });
-    const second = respond(request(), {
+    const second = await respondTo(request(), {
       status: 200,
       headers: {},
       body: body().stream,
-      trailers: Promise.resolve({ n: "2" }),
+      trailers: Effect.succeed({ n: "2" }),
       reliableTrailers: false,
     });
     expect(await trailersFor(first)).toEqual({ n: "1" });
@@ -2234,17 +2241,17 @@ describe("a gRPC transport's response", () => {
 
   test("a request answered again has the later answer's trailers", async () => {
     const sent = request();
-    const first = respond(sent, {
+    const first = await respondTo(sent, {
       status: 200,
       headers: {},
       body: body().stream,
-      trailers: Promise.resolve({ n: "1" }),
+      trailers: Effect.succeed({ n: "1" }),
     });
-    respond(sent, {
+    await respondTo(sent, {
       status: 200,
       headers: {},
       body: body().stream,
-      trailers: Promise.resolve({ n: "2" }),
+      trailers: Effect.succeed({ n: "2" }),
     });
     expect(await trailersFor(first)).toEqual({ n: "2" });
   });

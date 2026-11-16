@@ -16,9 +16,12 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import * as Schema from "effect/Schema";
 
 export const DEFAULT_API_BASE_URL = "https://cloud.mongodb.com";
 
@@ -50,103 +53,115 @@ interface ResolvedClientCredentials {
   readonly apiBaseUrl: string;
 }
 
-/** Exchange service-account credentials for an OAuth2 access token. */
+const TokenResponse = /*@__PURE__*/ Schema.Struct({
+  access_token: Schema.String,
+  expires_in: /*@__PURE__*/ Schema.optional(Schema.Number),
+});
+
+const exchangeFailed = (reason: string) =>
+  new ConfigError({ message: `OAuth2 token exchange failed: ${reason}` });
+
+/**
+ * Exchange service-account credentials for an OAuth2 access token, through
+ * the caller's `HttpClient` (so it is traced, interruptible and testable).
+ */
 const exchangeToken = (
+  client: HttpClient.HttpClient,
   config: ResolvedClientCredentials,
 ): Effect.Effect<
   { accessToken: Redacted.Redacted<string>; expiresInSeconds: number },
   ConfigError
 > =>
   Effect.gen(function* () {
-    const res = yield* Effect.tryPromise(() =>
-      fetch(`${config.apiBaseUrl}/api/oauth/token`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${Base64.encode(`${config.clientId}:${Redacted.value(config.clientSecret)}`)}`,
-        },
-        body: "grant_type=client_credentials",
-      }),
-    ).pipe(
-      Effect.mapError(
-        (cause) =>
-          new ConfigError({
-            message: `OAuth2 token exchange request failed: ${String(cause)}`,
-          }),
-      ),
+    const response = yield* client
+      .execute(
+        HttpClientRequest.post(`${config.apiBaseUrl}/api/oauth/token`).pipe(
+          HttpClientRequest.basicAuth(config.clientId, config.clientSecret),
+          HttpClientRequest.bodyUrlParams({ grant_type: "client_credentials" }),
+        ),
+      )
+      .pipe(Effect.mapError((error) => exchangeFailed(error.message)));
+
+    if (response.status < 200 || response.status >= 300) {
+      const body = yield* response.text.pipe(
+        Effect.mapError((error) =>
+          exchangeFailed(`${response.status}, and its body could not be read: ${error.message}`),
+        ),
+      );
+      return yield* exchangeFailed(`${response.status} ${body}`);
+    }
+
+    const token = yield* HttpClientResponse.schemaBodyJson(TokenResponse)(response).pipe(
+      Effect.mapError((error) => exchangeFailed(`unexpected token response: ${error.message}`)),
     );
-
-    if (!res.ok) {
-      const text = yield* Effect.tryPromise(() => res.text()).pipe(Effect.orElseSucceed(() => ""));
-      return yield* new ConfigError({
-        message: `OAuth2 token exchange failed: ${res.status} ${text}`,
-      });
-    }
-
-    const data = (yield* Effect.tryPromise(() => res.json()).pipe(
-      Effect.mapError(
-        () =>
-          new ConfigError({
-            message: "OAuth2 token exchange returned a non-JSON response",
-          }),
-      ),
-    )) as { access_token?: unknown; expires_in?: unknown } | null;
-
-    if (typeof data?.access_token !== "string") {
-      return yield* new ConfigError({
-        message: "OAuth2 token exchange response is missing access_token",
-      });
-    }
-
     return {
-      accessToken: Redacted.make(data.access_token),
+      accessToken: Redacted.make(token.access_token),
       expiresInSeconds:
-        typeof data.expires_in === "number" && data.expires_in > 0
-          ? data.expires_in
+        token.expires_in !== undefined && token.expires_in > 0
+          ? token.expires_in
           : DEFAULT_TOKEN_TTL_SECONDS,
     };
   });
 
 /**
  * A per-layer cached resolver: exchanges once, reuses the token until
- * shortly before expiry, then re-exchanges.
+ * shortly before expiry, then re-exchanges. The cache belongs to the layer
+ * value, so it outlives each build of the layer; each build only supplies
+ * the `HttpClient` to exchange with.
  */
 const cachedTokenEffect = (
   load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
-): Effect.Effect<Config, ConfigError> => {
+): ((client: HttpClient.HttpClient) => Effect.Effect<Config, ConfigError>) => {
   let cached: Config | undefined;
   let refreshAt = 0;
 
-  return Effect.suspend(() => {
-    if (cached !== undefined && Date.now() < refreshAt) {
-      return Effect.succeed(cached);
-    }
-    return Effect.gen(function* () {
-      const config = yield* load;
-      const token = yield* exchangeToken(config);
-      cached = {
-        accessToken: token.accessToken,
-        apiBaseUrl: config.apiBaseUrl,
-      };
-      refreshAt =
-        Date.now() +
-        Math.max(token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS, TOKEN_REFRESH_WINDOW_MS);
-      return cached;
+  return (client) =>
+    Effect.suspend(() => {
+      if (cached !== undefined && Date.now() < refreshAt) {
+        return Effect.succeed(cached);
+      }
+      return Effect.gen(function* () {
+        const config = yield* load;
+        const token = yield* exchangeToken(client, config);
+        cached = {
+          accessToken: token.accessToken,
+          apiBaseUrl: config.apiBaseUrl,
+        };
+        refreshAt =
+          Date.now() +
+          Math.max(
+            token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
+            TOKEN_REFRESH_WINDOW_MS,
+          );
+        return cached;
+      });
     });
-  });
 };
 
-/** Layer from service-account client credentials (OAuth2 client_credentials). */
-export const fromClientCredentials = (config: ClientCredentialsConfig): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
-    cachedTokenEffect(
-      Effect.succeed({
-        clientId: config.clientId,
-        clientSecret: config.clientSecret,
-        apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
-      }),
-    ),
+/**
+ * A layer whose token cache exchanges `load`'s credentials through the
+ * `HttpClient` it is built with.
+ */
+const cachedTokenLayer = (
+  load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
+): Layer.Layer<Credentials, never, HttpClient.HttpClient> => {
+  const resolveWith = cachedTokenEffect(load);
+  return Layer.effect(Credentials, Effect.map(HttpClient.HttpClient, resolveWith));
+};
+
+/**
+ * Layer from service-account client credentials (OAuth2 client_credentials).
+ * Needs an `HttpClient` for the token exchange.
+ */
+export const fromClientCredentials = (
+  config: ClientCredentialsConfig,
+): Layer.Layer<Credentials, never, HttpClient.HttpClient> =>
+  cachedTokenLayer(
+    Effect.succeed({
+      clientId: config.clientId,
+      clientSecret: config.clientSecret,
+      apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
+    }),
   );
 
 /** Layer from an already-obtained bearer access token. */
@@ -167,28 +182,26 @@ export const fromAccessToken = (config: {
  * MONGODB_ATLAS_API_BASE_URL (optional), exchanging them for a cached OAuth2
  * access token on first use.
  */
-export const fromEnv = (): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
-    cachedTokenEffect(
-      Effect.suspend(() => {
-        const clientId = process.env.MONGODB_ATLAS_CLIENT_ID;
-        const clientSecret = process.env.MONGODB_ATLAS_CLIENT_SECRET;
-        if (!clientId || !clientSecret) {
-          return Effect.fail(
-            new ConfigError({
-              message:
-                "MONGODB_ATLAS_CLIENT_ID and MONGODB_ATLAS_CLIENT_SECRET environment variables are required",
-            }),
-          );
-        }
-        return Effect.succeed({
-          clientId,
-          clientSecret: Redacted.make(clientSecret),
-          apiBaseUrl: process.env.MONGODB_ATLAS_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-        });
-      }),
-    ),
+export const fromEnv = (): Layer.Layer<Credentials, never, HttpClient.HttpClient> =>
+  cachedTokenLayer(
+    Effect.suspend(() => {
+      const clientId = process.env.MONGODB_ATLAS_CLIENT_ID;
+      const clientSecret = process.env.MONGODB_ATLAS_CLIENT_SECRET;
+      if (!clientId || !clientSecret) {
+        return Effect.fail(
+          new ConfigError({
+            message:
+              "MONGODB_ATLAS_CLIENT_ID and MONGODB_ATLAS_CLIENT_SECRET environment variables are required",
+          }),
+        );
+      }
+      return Effect.succeed({
+        clientId,
+        clientSecret: Redacted.make(clientSecret),
+        apiBaseUrl: process.env.MONGODB_ATLAS_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+      });
+    }),
   );
 
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ fromEnv();
+export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.HttpClient> =
+  /*@__PURE__*/ fromEnv();
