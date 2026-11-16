@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -856,7 +856,8 @@ export const createCron: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateCronRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<Cron>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -873,7 +874,8 @@ export const createDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CreateDomainRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<Domain>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -890,7 +892,8 @@ export const createFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<CreateFunctionRequest>,
   output: __S(76, __c19, 0) as any as S.Schema<Function>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -907,7 +910,8 @@ export const createNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c30, 0) as any as S.Schema<CreateNamespaceRequest>,
   output: __S(124, __c31, 0) as any as S.Schema<Namespace>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -924,7 +928,8 @@ export const createTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(134, __c33, 2) as any as S.Schema<CreateTriggerRequest>,
   output: __S(138, __c34, 2) as any as S.Schema<Trigger>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -941,7 +946,8 @@ export const deleteCron: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(140, __c35, 0) as any as S.Schema<DeleteCronRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<Cron>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -958,7 +964,8 @@ export const deleteDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c36, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<Domain>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -975,7 +982,8 @@ export const deleteFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(148, __c37, 0) as any as S.Schema<DeleteFunctionRequest>,
   output: __S(76, __c19, 0) as any as S.Schema<Function>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -992,7 +1000,8 @@ export const deleteNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c38, 0) as any as S.Schema<DeleteNamespaceRequest>,
   output: __S(124, __c31, 0) as any as S.Schema<Namespace>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1009,7 +1018,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(156, __c39, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<Token>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1026,7 +1036,8 @@ export const deleteTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteTriggerRequest>,
   output: __S(138, __c34, 2) as any as S.Schema<Trigger>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1043,7 +1054,8 @@ export const deployFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<DeployFunctionRequest>,
   output: __S(76, __c19, 0) as any as S.Schema<Function>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1056,7 +1068,8 @@ export const getCron: API.OperationMethod<GetCronRequest, Cron, GetCronError, Sc
   /*@__PURE__*/ API.make(() => ({
     input: __S(24, __c6, 0) as any as S.Schema<GetCronRequest>,
     output: __S(5, __c1, 1) as any as S.Schema<Cron>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1073,7 +1086,8 @@ export const getDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<Domain>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1090,7 +1104,8 @@ export const getFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetFunctionRequest>,
   output: __S(76, __c19, 0) as any as S.Schema<Function>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1107,7 +1122,8 @@ export const getFunctionDownloadURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetFunctionDownloadURLRequest>,
   output: __S(41, __c10, 1) as any as S.Schema<DownloadURL>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1124,7 +1140,8 @@ export const getFunctionUploadURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<GetFunctionUploadURLRequest>,
   output: __S(41, __c10, 1) as any as S.Schema<UploadURL>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1141,7 +1158,8 @@ export const getNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<GetNamespaceRequest>,
   output: __S(124, __c31, 0) as any as S.Schema<Namespace>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1158,7 +1176,8 @@ export const getToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetTokenRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<Token>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1175,7 +1194,8 @@ export const getTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<GetTriggerRequest>,
   output: __S(138, __c34, 2) as any as S.Schema<Trigger>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1194,7 +1214,8 @@ export const listCrons: API.PaginatedOperationMethod<
   () => ({
     input: __S(80, __c20, 0) as any as S.Schema<ListCronsRequest>,
     output: __S(82, __c20, 2) as any as S.Schema<ListCronsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1222,7 +1243,8 @@ export const listDomains: API.PaginatedOperationMethod<
   () => ({
     input: __S(84, __c21, 0) as any as S.Schema<ListDomainsRequest>,
     output: __S(86, __c21, 2) as any as S.Schema<ListDomainsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1248,7 +1270,8 @@ export const listFunctionRuntimes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<ListFunctionRuntimesRequest>,
   output: __S(91, __c22, 3) as any as S.Schema<ListFunctionRuntimesResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1267,7 +1290,8 @@ export const listFunctions: API.PaginatedOperationMethod<
   () => ({
     input: __S(92, __c23, 0) as any as S.Schema<ListFunctionsRequest>,
     output: __S(94, __c23, 2) as any as S.Schema<ListFunctionsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1295,7 +1319,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(96, __c24, 0) as any as S.Schema<ListNamespacesRequest>,
     output: __S(98, __c24, 2) as any as S.Schema<ListNamespacesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1323,7 +1348,8 @@ export const listTokens: API.PaginatedOperationMethod<
   () => ({
     input: __S(100, __c25, 0) as any as S.Schema<ListTokensRequest>,
     output: __S(102, __c25, 2) as any as S.Schema<ListTokensResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1351,7 +1377,8 @@ export const listTriggers: API.PaginatedOperationMethod<
   () => ({
     input: __S(104, __c26, 0) as any as S.Schema<ListTriggersRequest>,
     output: __S(106, __c26, 2) as any as S.Schema<ListTriggersResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1377,7 +1404,8 @@ export const updateCron: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(108, __c27, 0) as any as S.Schema<UpdateCronRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<Cron>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1394,7 +1422,8 @@ export const updateFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<UpdateFunctionRequest>,
   output: __S(76, __c19, 0) as any as S.Schema<Function>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1411,7 +1440,8 @@ export const updateNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(116, __c29, 0) as any as S.Schema<UpdateNamespaceRequest>,
   output: __S(124, __c31, 0) as any as S.Schema<Namespace>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1428,7 +1458,8 @@ export const updateTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c32, 0) as any as S.Schema<UpdateTriggerRequest>,
   output: __S(138, __c34, 2) as any as S.Schema<Trigger>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

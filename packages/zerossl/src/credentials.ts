@@ -27,6 +27,9 @@ export class Credentials
     "ZeroSslCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.Redacted("ZEROSSL_ACCESS_KEY").pipe(
   /*@__PURE__*/ EffectConfig.orElse(() => EffectConfig.Redacted("ZERO_SSL_KEY")),
 );

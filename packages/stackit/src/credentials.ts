@@ -43,6 +43,9 @@ export class Credentials
     "StackitCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `STACKIT_SERVICE_ACCOUNT_TOKEN` / `STACKIT_REGION` are what the
   // official Go SDK, CLI and Terraform provider read.

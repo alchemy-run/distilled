@@ -1,11 +1,10 @@
-import * as API from "@distilled.cloud/core/api";
 import {
   HTTP_STATUS_MAP,
   InternalServerError,
-  type ConfigError,
   type InvalidInput,
   type UnknownErrorProps,
 } from "@distilled.cloud/core/errors";
+import type { DecodeArgs, EncodeArgs, Protocol } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   getAnn,
@@ -13,10 +12,12 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
-  makeRestProtocol,
+  declaredStatusClass,
+  restProtocol,
   unwrapRedactedDeep,
   validateSuccess,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
@@ -47,47 +48,81 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as MutableHashMap from "effect/MutableHashMap";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import type * as AST from "effect/SchemaAST";
 import {
   Credentials,
   DEFAULT_FLY_API_BASE_URL,
   DEFAULT_SPRITES_API_BASE_URL,
   type Config,
+  type CredentialsError,
 } from "./credentials.ts";
 import {
   ConfigError as FlyConfigError,
   FlyIoParseError,
   SpritesNotEnabled,
   UnknownFlyIoError,
-  type DefaultErrors,
+  type FlyIoServiceError,
 } from "./errors.ts";
 import { httpSymbol, type HttpTrait } from "./traits.ts";
 
 /**
- * Error channel shared by every generated Fly.io operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * FlyIoOpError, FlyIoOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * The errors declared on the Machines and MPG protocols: what the code that
+ * builds requests and reads responses fails with. A response that does not
+ * match its schema ({@link FlyIoParseError}), a failed response that neither
+ * the operation nor the service declares ({@link UnknownFlyIoError}), and
+ * core's REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type FlyIoOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type FlyIoProtocolError = RestProtocolError | FlyIoParseError | UnknownFlyIoError;
+
+/**
+ * What every generated Machines and MPG operation fails with besides its
+ * own errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, FlyIoOpError, FlyIoOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
+ */
+export type FlyIoOpError = FlyIoServiceError | FlyIoProtocolError | CredentialsError;
 
 /** Context (requirements) shared by Machines / MPG operations. */
 export type FlyIoOpContext = Credentials | HttpClient.HttpClient;
 
+/** An instance of one of core's status classes (`HTTP_STATUS_MAP`). */
+type CoreStatusError = InstanceType<(typeof HTTP_STATUS_MAP)[keyof typeof HTTP_STATUS_MAP]>;
+
 /**
- * Sprites operations resolve {@link Credentials} (`FLY_API_TOKEN`) and mint
- * a Sprites bearer. {@link SpritesNotEnabled} surfaces from that mint.
+ * The errors declared on the Sprites protocol. A response that does not
+ * match its schema ({@link FlyIoParseError}), a failed response that neither
+ * the operation nor the service declares ({@link UnknownFlyIoError}, and
+ * `InternalServerError` for a 5xx), {@link SpritesNotEnabled} for an
+ * organization without Sprites, a bad path label (`InvalidInput`), a
+ * request that can't be built (`SdkError`), and the transport or a body
+ * read (`HttpClientError`).
+ *
+ * Minting the Sprites bearer is the protocol's own request, sent while it
+ * builds an operation's request, so its failures are declared here too: no
+ * organization slug (`ConfigError`), and core's class for the mint's failed
+ * status.
  */
-export type SpritesOpError = FlyIoOpError | SpritesNotEnabled;
+export type SpritesProtocolError =
+  | FlyIoParseError
+  | UnknownFlyIoError
+  | InternalServerError
+  | SpritesNotEnabled
+  | FlyConfigError
+  | CoreStatusError
+  | InvalidInput
+  | SdkError
+  | HttpClientError.HttpClientError;
+
+/**
+ * What every generated Sprites operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with.
+ */
+export type SpritesOpError = FlyIoServiceError | SpritesProtocolError | CredentialsError;
 export type SpritesOpContext = FlyIoOpContext;
 
 const flyErrorEnvelope = (body: unknown) => {
@@ -125,7 +160,7 @@ const resolveFlyCreds = /*@__PURE__*/ Effect.gen(function* () {
 export class MachineIdentity
   extends /*@__PURE__*/ Context.Service<MachineIdentity, true>()("FlyIoMachineIdentity") {}
 
-const FlyIoProtocolRest: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+const FlyIoProtocolRest = /*@__PURE__*/ restProtocol({
   credentials: resolveFlyCreds,
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
@@ -136,37 +171,35 @@ const FlyIoProtocolRest: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProto
   parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
 });
 
-export const FlyIoProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.effect(
-  API.Protocol,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const rest = yield* API.Protocol;
-    return API.Protocol.of({
-      encode: (args) =>
-        Effect.gen(function* () {
-          const request = yield* rest.encode(args);
-          const machine = yield* Effect.serviceOption(MachineIdentity);
-          if (Option.isNone(machine)) return request;
-          return request.pipe(
-            HttpClientRequest.removeHeader("authorization"),
-            HttpClientRequest.setHeader("connection", "close"),
-          );
-        }),
-      decode: rest.decode,
-    });
-  }),
-).pipe(/*@__PURE__*/ Layer.provide(FlyIoProtocolRest));
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const FlyIoProtocol: Protocol<FlyIoProtocolError | CredentialsError, Credentials> = {
+  encode: (args) =>
+    Effect.gen(function* () {
+      const request = yield* FlyIoProtocolRest.encode(args);
+      const machine = yield* Effect.serviceOption(MachineIdentity);
+      if (Option.isNone(machine)) return request;
+      return request.pipe(
+        HttpClientRequest.removeHeader("authorization"),
+        HttpClientRequest.setHeader("connection", "close"),
+      );
+    }),
+  // Read on each call, so a bundle without Machines operations drops both.
+  decode: (args) => FlyIoProtocolRest.decode(args),
+};
 
 /** MPG UI-EX REST at `https://api.fly.io` with the Machines bearer token. */
-export const FlyApiProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  credentials: resolveFlyCreds,
-  baseUrl: () => DEFAULT_FLY_API_BASE_URL,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-  }),
-  errorEnvelope: flyErrorEnvelope,
-  unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
-});
+export const FlyApiProtocol: Protocol<FlyIoProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    credentials: resolveFlyCreds,
+    baseUrl: () => DEFAULT_FLY_API_BASE_URL,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    }),
+    errorEnvelope: flyErrorEnvelope,
+    unknownError: (info) => new UnknownFlyIoError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
+  });
 
 const parseMaybeNdjson = (body: unknown): unknown => {
   if (typeof body !== "string") return body;
@@ -211,8 +244,6 @@ const parseSpritesExecFrames = (
   }
   return { stdout, stderr, exit_code };
 };
-
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /** Strip a leading `FlyV1` / `Bearer` scheme so we can re-prefix `FlyV1`. */
 const stripFlyAuthScheme = (token: string): string => {
@@ -276,32 +307,45 @@ const unknownError = (
 const errorEnv = (body: unknown): { message?: string; code?: string } =>
   spritesErrorEnvelope(body) ?? flyErrorEnvelope(body) ?? {};
 
+// A numeric view of core's status map; every class takes `{ message, retryAfter? }`.
+const statusMap: Readonly<
+  Record<
+    number,
+    | (new (args: {
+        message: string;
+        retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
+      }) => CoreStatusError)
+    | undefined
+  >
+> = HTTP_STATUS_MAP;
+
+/**
+ * What a failed mint request fails with. It is not an operation's response,
+ * so there are no declared classes to match: the status class is core's.
+ */
 const failHttp = (
   status: number,
   body: unknown,
   text: string,
   headers: Record<string, string | undefined>,
-): Effect.Effect<never> => {
+) => {
   const env = errorEnv(body);
   const message = env.message ?? (text.trim().length > 0 ? text.trim() : `HTTP ${status}`);
   if (status === 401 && SPRITES_NOT_ENABLED.test(haystackOf(body, message))) {
-    return fail(new SpritesNotEnabled({ message }));
+    return Effect.fail(new SpritesNotEnabled({ message }));
   }
-  const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-    | (new (args: {
-        message: string;
-        retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-      }) => unknown)
-    | undefined;
+  const StatusClass = statusMap[status];
   if (StatusClass && status >= 400) {
-    return fail(
+    return Effect.fail(
       new StatusClass({
         message,
         retryAfter: parseRetryAfterForStatus(status, headers),
       }),
     );
   }
-  return fail(unknownError({ status, code: env.code, message, body: body ?? text }, headers));
+  return Effect.fail(
+    unknownError({ status, code: env.code, message, body: body ?? text }, headers),
+  );
 };
 
 const orgFromTokensCurrent = (body: unknown): string | undefined => {
@@ -411,7 +455,7 @@ const mintOnce = (fly: Config) =>
     const token =
       json !== null && typeof json === "object" ? (json as { token?: unknown }).token : undefined;
     if (typeof token !== "string" || token.length === 0) {
-      return yield* fail(
+      return yield* Effect.fail(
         new FlyIoParseError({
           body: "[REDACTED]",
           cause: "mint response missing token",
@@ -462,13 +506,7 @@ const mintSpritesToken = (fly: Config) =>
     }),
   );
 
-const encodeSpritesRequest = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encodeSpritesRequest = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
     const fly = yield* resolveFlyCreds;
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
@@ -491,15 +529,7 @@ const encodeSpritesRequest = ({
     });
   });
 
-const decodeSpritesResponse = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
+const decodeSpritesResponse = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
   Effect.gen(function* () {
     const buffer = yield* response.arrayBuffer.pipe(Effect.map((bytes) => new Uint8Array(bytes)));
     const text = new TextDecoder().decode(buffer);
@@ -520,7 +550,7 @@ const decodeSpritesResponse = ({
       const env = nonJson ? {} : errorEnv(json);
       const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
       if (SPRITES_NOT_ENABLED.test(haystackOf(nonJson ? text : json, message))) {
-        return yield* fail(new SpritesNotEnabled({ message }));
+        return yield* Effect.fail(new SpritesNotEnabled({ message }));
       }
       const typed = matchTypedError(
         errorClasses,
@@ -533,16 +563,13 @@ const decodeSpritesResponse = ({
         ],
         { body: nonJson ? text : json, headers },
       );
-      if (typed !== undefined) return yield* fail(typed);
+      if (typed !== undefined) return yield* Effect.fail(typed);
 
-      const StatusErrorClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-        | (new (args: {
-            message: string;
-            retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-          }) => unknown)
-        | undefined;
+      // Core's class for the status, which the service declares
+      // (`FlyIoServiceErrors`).
+      const StatusErrorClass = declaredStatusClass(status, errorClasses);
       if (StatusErrorClass) {
-        return yield* fail(
+        return yield* Effect.fail(
           new StatusErrorClass({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
@@ -550,14 +577,16 @@ const decodeSpritesResponse = ({
         );
       }
       if (status >= 500) {
-        return yield* fail(
+        return yield* Effect.fail(
           new InternalServerError({
             message,
             retryAfter: parseRetryAfterForStatus(status, headers),
           }),
         );
       }
-      return yield* fail(new UnknownFlyIoError({ status, message, body: nonJson ? text : json }));
+      return yield* Effect.fail(
+        new UnknownFlyIoError({ status, message, body: nonJson ? text : json }),
+      );
     }
 
     // Strict mode checks the mapped body (or parsed exec frames) against the
@@ -573,15 +602,15 @@ const decodeSpritesResponse = ({
         nonJson,
       },
       (info) => new FlyIoParseError(info),
-    ).pipe(Effect.catch(fail));
+    );
   });
 
 /** Sprites REST at `https://api.sprites.dev/v1`, minted from `FLY_API_TOKEN`. */
-export const SpritesProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    encode: (args) =>
-      encodeSpritesRequest(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: (args) => decodeSpritesResponse(args) as Effect.Effect<unknown>,
-  }),
-);
+// The annotation is the check, as on {@link FlyIoProtocol}.
+export const SpritesProtocol: Protocol<
+  SpritesProtocolError | CredentialsError,
+  Credentials | HttpClient.HttpClient
+> = {
+  encode: encodeSpritesRequest,
+  decode: decodeSpritesResponse,
+};

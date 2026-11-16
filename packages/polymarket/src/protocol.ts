@@ -1,7 +1,11 @@
-import * as API from "@distilled.cloud/core/api";
 import type { CryptoError } from "@distilled.cloud/core/crypto";
-import { HTTP_STATUS_MAP, type ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
+import {
+  restProtocol,
+  unknownErrorProps,
+  type RestProtocolError,
+} from "@distilled.cloud/core/protocol-rest";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * Polymarket protocols -- the shared bearer-REST protocol, once per API.
@@ -23,48 +27,68 @@ import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Clock from "effect/Clock";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type BaseUrls, type ClobCredentials, type Config } from "./credentials.ts";
 import {
-  PayloadTooLarge,
+  Credentials,
+  type BaseUrls,
+  type ClobCredentials,
+  type Config,
+  type CredentialsError,
+} from "./credentials.ts";
+import {
   PolymarketParseError,
   UnknownPolymarketError,
-  type DefaultErrors,
+  type PolymarketServiceError,
 } from "./errors.ts";
 import { signL2 } from "./signing.ts";
 
 /**
- * Error channel shared by every generated Polymarket operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * PolymarketOpError, PolymarketOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * The errors declared on Polymarket's protocols: what the code that builds
+ * requests and reads responses fails with. A response that does not match
+ * its schema ({@link PolymarketParseError}), a failed response that neither
+ * the operation nor the service declares ({@link UnknownPolymarketError}),
+ * an L2 secret that is not base64 (`ConfigError`) or a signature that can't
+ * be computed (`CryptoError`), and core's REST errors (a bad path label, a
+ * request that can't be built or signed, the transport).
  */
-export type PolymarketOpError =
-  | DefaultErrors
+export type PolymarketProtocolError =
+  | RestProtocolError
+  | PolymarketParseError
+  | UnknownPolymarketError
   | ConfigError
-  | CryptoError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+  | CryptoError;
+
+/**
+ * What every generated Polymarket operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, PolymarketOpError, PolymarketOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
+ */
+export type PolymarketOpError = PolymarketServiceError | PolymarketProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Polymarket operation. */
 export type PolymarketOpContext = Credentials | HttpClient.HttpClient;
 
+/** One of the Polymarket protocols: all declare the same errors. */
+type PolymarketProtocol = Protocol<PolymarketProtocolError | CredentialsError, Credentials>;
+
+// A failed status becomes the class the service declares for it
+// (`PolymarketServiceErrors`: core's status classes, and `PayloadTooLarge`
+// for 413).
 const rest = (
   api: keyof BaseUrls,
   headers: (creds: Config) => Record<string, string> = () => ({}),
-): Layer.Layer<API.Protocol> =>
-  makeRestProtocol<Config>({
+) =>
+  restProtocol({
     // Resolved on the calling fiber per request.
     credentials: Credentials,
     baseUrl: (creds) => creds.baseUrls[api],
     headers,
     // Failure bodies are `{ error, code? }`, which the default envelope
     // reader already handles (`error` as the message).
-    statusMap: { ...HTTP_STATUS_MAP, 413: PayloadTooLarge },
     unknownError: (info) => new UnknownPolymarketError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new PolymarketParseError({ body, cause }),
   });
@@ -137,33 +161,31 @@ const withL2Headers = (
  * configured. Only `encode`/`decode` are exposed, so every call goes
  * through the signing step.
  */
-const l2Signed = (api: "clob" | "combosRfq"): Layer.Layer<API.Protocol> =>
-  Layer.effect(
-    API.Protocol,
-    Effect.gen(function* () {
-      const inner = yield* API.Protocol;
-      return API.Protocol.of({
-        encode: (args) =>
-          Effect.gen(function* () {
-            const request = yield* inner.encode(args);
-            const resolve = yield* Credentials;
-            const creds = yield* resolve;
-            if (creds.clob === undefined) return request;
-            return yield* withL2Headers(request, creds.clob, creds.baseUrls[api]);
-          }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-        decode: inner.decode,
-      });
-    }),
-  ).pipe(Layer.provide(rest(api)));
+const l2Signed = (api: "clob" | "combosRfq"): PolymarketProtocol => {
+  const inner = rest(api);
+  return {
+    encode: (args) =>
+      Effect.gen(function* () {
+        const request = yield* inner.encode(args);
+        const resolve = yield* Credentials;
+        const creds = yield* resolve;
+        if (creds.clob === undefined) return request;
+        return yield* withL2Headers(request, creds.clob, creds.baseUrls[api]);
+      }),
+    decode: inner.decode,
+  };
+};
 
-export const GammaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest("gamma");
-export const DataProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest("data");
-export const BridgeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest("bridge");
+// The annotations are the check: everything a protocol fails with, besides
+// the errors an operation and the service declare, must be listed there.
+export const GammaProtocol: PolymarketProtocol = /*@__PURE__*/ rest("gamma");
+export const DataProtocol: PolymarketProtocol = /*@__PURE__*/ rest("data");
+export const BridgeProtocol: PolymarketProtocol = /*@__PURE__*/ rest("bridge");
 
-export const ClobProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ l2Signed("clob");
-export const CombosRfqProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ l2Signed("combosRfq");
+export const ClobProtocol: PolymarketProtocol = /*@__PURE__*/ l2Signed("clob");
+export const CombosRfqProtocol: PolymarketProtocol = /*@__PURE__*/ l2Signed("combosRfq");
 
-export const RelayerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest(
+export const RelayerProtocol: PolymarketProtocol = /*@__PURE__*/ rest(
   "relayer",
   (creds): Record<string, string> =>
     creds.relayer === undefined
@@ -174,7 +196,7 @@ export const RelayerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest(
         },
 );
 
-export const PerpsProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ rest(
+export const PerpsProtocol: PolymarketProtocol = /*@__PURE__*/ rest(
   "perps",
   (creds): Record<string, string> =>
     creds.perps === undefined

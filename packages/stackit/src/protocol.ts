@@ -1,10 +1,5 @@
-import * as API from "@distilled.cloud/core/api";
-import {
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type ConfigError,
-  type InvalidInput,
-} from "@distilled.cloud/core/errors";
+import { InternalServerError, type InvalidInput } from "@distilled.cloud/core/errors";
+import type { DecodeArgs, EncodeArgs, Protocol } from "@distilled.cloud/core/protocol";
 import {
   buildRequest,
   getAnn,
@@ -12,6 +7,7 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
+  declaredStatusClass,
   type RestErrorEnvelope,
   unwrapRedactedDeep,
   validateSuccess,
@@ -32,34 +28,44 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  * Auth is `Authorization: Bearer <token>`. The API version is a PATH
  * segment (`/v1`, `/v2`, ...), so the generated operations carry versioned
  * routes against a version-less host.
+ *
+ * A failed status becomes the operation's typed error, then core's class
+ * for the status, which the service declares (`StackitServiceErrors`).
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
-import { StackitParseError, UnknownStackitError } from "./errors.ts";
-import type { DefaultErrors } from "./errors.ts";
+import { Credentials, type Config, type CredentialsError } from "./credentials.ts";
+import { StackitParseError, UnknownStackitError, type StackitServiceError } from "./errors.ts";
 import type { StackitHttpTrait } from "./traits.ts";
 
 /**
- * Error channel shared by every generated STACKIT operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * StackitOpError, StackitOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * The errors declared on STACKIT's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match
+ * its schema ({@link StackitParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownStackitError}, and
+ * `InternalServerError` for a 5xx), a bad path label (`InvalidInput`), an
+ * operation without its `Http` trait or a request that can't be built
+ * (`SdkError`), and a body read (`HttpClientError`).
  */
-export type StackitOpError =
-  | DefaultErrors
-  | UnknownStackitError
+export type StackitProtocolError =
   | StackitParseError
-  | ConfigError
-  | HttpClientError.HttpClientError
+  | UnknownStackitError
+  | InternalServerError
   | InvalidInput
-  | SdkError;
+  | SdkError
+  | HttpClientError.HttpClientError;
+
+/**
+ * What every generated STACKIT operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, StackitOpError, StackitOpContext>` explicitly
+ * so the compiler never infers these back out of the schema generics.
+ */
+export type StackitOpError = StackitServiceError | StackitProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated STACKIT operation. */
 export type StackitOpContext = Credentials | HttpClient.HttpClient;
@@ -104,8 +110,6 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
-
 const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError => {
   if (creds.apiBaseUrl !== undefined && creds.apiBaseUrl !== "") {
     return creds.apiBaseUrl;
@@ -120,112 +124,98 @@ const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError => {
   return applyRegion(specUrl, creds.region);
 };
 
-export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    encode: ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
-      Effect.gen(function* () {
-        const resolve = yield* Credentials;
-        const creds = yield* resolve;
-        const baseUrl = baseUrlFor(creds, inputAst);
-        if (baseUrl instanceof SdkError) return yield* baseUrl;
-        return yield* buildRequest({
-          input: unwrapRedactedDeep(input),
-          inputAst,
-          baseUrl,
-          headers: {
-            Authorization: `Bearer ${Redacted.value(creds.token)}`,
-          },
-        });
-      }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: ({
-      response,
-      outputAst,
-      errors: errorClasses,
-    }: {
-      readonly response: HttpClientResponse.HttpClientResponse;
-      readonly outputAst: AST.AST;
-      readonly errors: ReadonlyArray<unknown>;
-    }) =>
-      Effect.gen(function* () {
-        const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-        let json: unknown;
-        let nonJson = false;
-        if (text.trim().length > 0) {
-          try {
-            json = JSON.parse(text);
-          } catch {
-            nonJson = true;
-          }
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const StackitProtocol: Protocol<StackitProtocolError | CredentialsError, Credentials> = {
+  encode: ({ input, inputAst }: EncodeArgs) =>
+    Effect.gen(function* () {
+      const resolve = yield* Credentials;
+      const creds = yield* resolve;
+      const baseUrl = baseUrlFor(creds, inputAst);
+      if (baseUrl instanceof SdkError) return yield* baseUrl;
+      return yield* buildRequest({
+        input: unwrapRedactedDeep(input),
+        inputAst,
+        baseUrl,
+        headers: {
+          Authorization: `Bearer ${Redacted.value(creds.token)}`,
+        },
+      });
+    }),
+  decode: ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
+    Effect.gen(function* () {
+      const text = (yield* response.text) ?? "";
+      let json: unknown;
+      let nonJson = false;
+      if (text.trim().length > 0) {
+        try {
+          json = JSON.parse(text);
+        } catch {
+          nonJson = true;
         }
-        const status = response.status;
-        const headers = response.headers as Record<string, string | undefined>;
+      }
+      const status = response.status;
+      const headers = response.headers as Record<string, string | undefined>;
 
-        if (status >= 400) {
-          const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
-          const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+      if (status >= 400) {
+        const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
+        const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
-          const typed = matchTypedError(
-            errorClasses,
-            status,
-            [
-              {
-                code: typeof env.code === "number" ? env.code : undefined,
-                message,
-              },
-            ],
-            { body: nonJson ? text : json, headers },
-          );
-          if (typed !== undefined) return yield* fail(typed);
-
-          const StatusErrorClass = (
-            HTTP_STATUS_MAP as Record<
-              number,
-              (new (args: { message: string; retryAfter?: unknown }) => unknown) | undefined
-            >
-          )[status];
-          if (StatusErrorClass) {
-            return yield* fail(
-              new StatusErrorClass({
-                message,
-                retryAfter: parseRetryAfterForStatus(status, headers),
-              }),
-            );
-          }
-
-          if (status >= 500) {
-            return yield* fail(
-              new InternalServerError({
-                message,
-                retryAfter: parseRetryAfterForStatus(status, headers),
-              }),
-            );
-          }
-
-          return yield* fail(
-            new UnknownStackitError({
-              status,
-              code:
-                typeof env.code === "string"
-                  ? env.code
-                  : env.code !== undefined
-                    ? String(env.code)
-                    : undefined,
+        const typed = matchTypedError(
+          errorClasses,
+          status,
+          [
+            {
+              code: typeof env.code === "number" ? env.code : undefined,
               message,
-              body: nonJson ? text : json,
+            },
+          ],
+          { body: nonJson ? text : json, headers },
+        );
+        if (typed !== undefined) return yield* Effect.fail(typed);
+
+        const StatusErrorClass = declaredStatusClass(status, errorClasses);
+        if (StatusErrorClass) {
+          return yield* Effect.fail(
+            new StatusErrorClass({
+              message,
+              retryAfter: parseRetryAfterForStatus(status, headers),
             }),
           );
         }
 
-        // Strict mode checks the mapped body against the output schema, and
-        // parse errors withhold a body that can hold a secret (core
-        // `validateSuccess`).
-        const body: unknown = nonJson ? text : json === undefined ? {} : json;
-        return yield* validateSuccess(
-          outputAst,
-          { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
-          (info) => new StackitParseError(info),
-        ).pipe(Effect.catch(fail));
-      }),
-  }),
-);
+        if (status >= 500) {
+          return yield* Effect.fail(
+            new InternalServerError({
+              message,
+              retryAfter: parseRetryAfterForStatus(status, headers),
+            }),
+          );
+        }
+
+        return yield* Effect.fail(
+          new UnknownStackitError({
+            status,
+            code:
+              typeof env.code === "string"
+                ? env.code
+                : env.code !== undefined
+                  ? String(env.code)
+                  : undefined,
+            message,
+            body: nonJson ? text : json,
+          }),
+        );
+      }
+
+      // Strict mode checks the mapped body against the output schema, and
+      // parse errors withhold a body that can hold a secret (core
+      // `validateSuccess`).
+      const body: unknown = nonJson ? text : json === undefined ? {} : json;
+      return yield* validateSuccess(
+        outputAst,
+        { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
+        (info) => new StackitParseError(info),
+      );
+    }),
+};

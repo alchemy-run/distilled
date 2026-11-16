@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -492,7 +492,8 @@ export const createAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<CreateAccessTokenRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<CreateAccessTokenResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -509,7 +510,8 @@ export const createDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<CreateDestinationRequest>,
   output: __S(117, __c14, 5) as any as S.Schema<DestinationResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -526,7 +528,8 @@ export const createTelemetryRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<CreateTelemetryRouterRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<TelemetryRouterResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -543,7 +546,8 @@ export const deleteAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<DeleteAccessTokenRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<DeleteAccessTokenResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -560,7 +564,8 @@ export const deleteDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<DeleteDestinationRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<DeleteDestinationResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -577,7 +582,8 @@ export const deleteTelemetryRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<DeleteTelemetryRouterRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<DeleteTelemetryRouterResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -594,7 +600,8 @@ export const getAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<GetAccessTokenRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<GetAccessTokenResponse2>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -611,7 +618,8 @@ export const getDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetDestinationRequest>,
   output: __S(117, __c14, 5) as any as S.Schema<DestinationResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -628,7 +636,8 @@ export const getTelemetryRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<GetTelemetryRouterRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<TelemetryRouterResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -645,7 +654,8 @@ export const listAccessTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<ListAccessTokensRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<ListAccessTokensResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -662,7 +672,8 @@ export const listDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ListDestinationsRequest>,
   output: __S(34, __c4, 2) as any as S.Schema<ListDestinationsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -679,7 +690,8 @@ export const listTelemetryRouters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListTelemetryRoutersRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<ListTelemetryRoutersResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -696,7 +708,8 @@ export const partialUpdateAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<PartialUpdateAccessTokenRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<PartialUpdateAccessTokenResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -713,7 +726,8 @@ export const partialUpdateDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<PartialUpdateDestinationRequest>,
   output: __S(117, __c14, 5) as any as S.Schema<DestinationResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -730,7 +744,8 @@ export const partialUpdateTelemetryRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<PartialUpdateTelemetryRouterRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<TelemetryRouterResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -747,7 +762,8 @@ export const updateAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<UpdateAccessTokenRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<UpdateAccessTokenResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -764,7 +780,8 @@ export const updateDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<UpdateDestinationRequest>,
   output: __S(117, __c14, 5) as any as S.Schema<DestinationResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -781,7 +798,8 @@ export const updateTelemetryRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<UpdateTelemetryRouterRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<TelemetryRouterResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

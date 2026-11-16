@@ -51,7 +51,9 @@ const tailscaleSpec: SdkSpec = {
   operationDecl: {
     contextType: "TailscaleOpContext",
     commonErrorType: "TailscaleOpError",
-    commonErrorClasses: ["UnknownTailscaleError"],
+    // UnknownTailscaleError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "TailscaleServiceErrors",
     protocol: "TailscaleProtocol",
     retry: "Retry.Retry",
   },

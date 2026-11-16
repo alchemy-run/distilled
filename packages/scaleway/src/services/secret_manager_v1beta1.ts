@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -396,7 +396,8 @@ export const accessSecretVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AccessSecretVersionRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<AccessSecretVersionResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -413,7 +414,8 @@ export const accessSecretVersionByPath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<AccessSecretVersionByPathRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<AccessSecretVersionResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -430,7 +432,8 @@ export const addSecretOwner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<AddSecretOwnerRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<AddSecretOwnerResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -447,7 +450,8 @@ export const createSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<CreateSecretRequest>,
   output: __S(66, __c16, 2) as any as S.Schema<Secret>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -464,7 +468,8 @@ export const createSecretVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<CreateSecretVersionRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<SecretVersion>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -481,7 +486,8 @@ export const deleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<DeleteSecretResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -498,7 +504,8 @@ export const deleteSecretVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<DeleteSecretVersionRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<DeleteSecretVersionResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -515,7 +522,8 @@ export const disableSecretVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<DisableSecretVersionRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<SecretVersion>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -532,7 +540,8 @@ export const enableSecretVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<EnableSecretVersionRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<SecretVersion>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -549,7 +558,8 @@ export const getSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<GetSecretRequest>,
   output: __S(66, __c16, 2) as any as S.Schema<Secret>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -566,7 +576,8 @@ export const getSecretVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetSecretVersionRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<SecretVersion>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -585,7 +596,8 @@ export const listSecrets: API.PaginatedOperationMethod<
   () => ({
     input: __S(16, __c4, 0) as any as S.Schema<ListSecretsRequest>,
     output: __S(18, __c4, 2) as any as S.Schema<ListSecretsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -613,7 +625,8 @@ export const listSecretVersions: API.PaginatedOperationMethod<
   () => ({
     input: __S(20, __c5, 0) as any as S.Schema<ListSecretVersionsRequest>,
     output: __S(22, __c5, 2) as any as S.Schema<ListSecretVersionsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -639,7 +652,8 @@ export const protectSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ProtectSecretRequest>,
   output: __S(66, __c16, 2) as any as S.Schema<Secret>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -656,7 +670,8 @@ export const restoreSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<RestoreSecretRequest>,
   output: __S(66, __c16, 2) as any as S.Schema<Secret>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -673,7 +688,8 @@ export const restoreSecretVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<RestoreSecretVersionRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<SecretVersion>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -690,7 +706,8 @@ export const unprotectSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UnprotectSecretRequest>,
   output: __S(66, __c16, 2) as any as S.Schema<Secret>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -707,7 +724,8 @@ export const updateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41, __c10, 1) as any as S.Schema<UpdateSecretRequest>,
   output: __S(66, __c16, 2) as any as S.Schema<Secret>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -724,7 +742,8 @@ export const updateSecretVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<UpdateSecretVersionRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<SecretVersion>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

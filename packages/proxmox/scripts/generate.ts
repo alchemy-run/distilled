@@ -69,7 +69,9 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "ProxmoxOpContext",
     commonErrorType: "ProxmoxOpError",
-    commonErrorClasses: ["UnknownProxmoxError"],
+    // UnknownProxmoxError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "ProxmoxServiceErrors",
     protocol: "ProxmoxProtocol",
     // No retry policy: replaying a write could start its task twice.
   },

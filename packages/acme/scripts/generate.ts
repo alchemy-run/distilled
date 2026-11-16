@@ -47,6 +47,7 @@ const spec: SdkSpec = {
     contextType: "AcmeOpContext",
     commonErrorType: "AcmeOpError",
     commonErrorClasses: [],
+    serviceErrors: "AcmeServiceErrors",
     protocol: "AcmeProtocol",
     retry: "Retry.Retry",
   },

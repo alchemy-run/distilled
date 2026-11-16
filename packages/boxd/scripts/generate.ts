@@ -50,7 +50,9 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "BoxdOpContext",
     commonErrorType: "BoxdOpError",
-    commonErrorClasses: ["UnknownBoxdError"],
+    // UnknownBoxdError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "BoxdServiceErrors",
     protocol: "BoxdProtocol",
     retry: "Retry.Retry",
   },

@@ -47,6 +47,9 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "ScalewayCredentials",
 ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const optional = (name: string) => EffectConfig.String(name).pipe(EffectConfig.option);
 
 const envConfig = EffectConfig.all({
