@@ -112,6 +112,7 @@ const loadToken = (loginSession: string): Effect.Effect<LoginToken, CredentialSo
 /** Best effort: failing to update the cache does not invalidate the token. */
 const saveToken = (loginSession: string, token: LoginToken) => {
   const path = tokenFilePath(loginSession);
+  // The token in hand stays valid; the next process logs in again.
   return Effect.tryPromise(() =>
     mkdir(dirname(path), { recursive: true }).then(() =>
       writeFile(path, JSON.stringify(token, null, 2), "utf8"),

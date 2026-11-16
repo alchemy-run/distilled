@@ -302,6 +302,7 @@ export const resolveServerRetryHintCapMs = (): Effect.Effect<number, never, neve
       | ProvidedConfigProvider
       | undefined;
     if (!provider) return readServerRetryHintCapMsFromEnv();
+    // An unset or unreadable cap is the default cap.
     const node = yield* provider
       .load([ENV_SERVER_RETRY_HINT_CAP_MS])
       .pipe(Effect.orElseSucceed(() => undefined));

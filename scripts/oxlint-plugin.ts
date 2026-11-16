@@ -9,6 +9,14 @@
  * instead. Plain helpers may throw; the Effect code that calls them wraps the
  * call in `Effect.try` / `Effect.tryPromise` (whose `try` may throw) or a
  * `try` block.
+ *
+ * `distilled/explain-ignored-failure`: `Effect.ignore`, `Effect.ignoreCause`,
+ * `Effect.orElseSucceed` and a `catch` / `catchCause` handler that never reads
+ * the failure (no parameter, or one named `_...`, and not one that fails in
+ * its turn with `new SomeError(...)` / `Effect.fail(...)`) turn a failure into a
+ * success. Each needs a comment that says why the failure doesn't matter, on
+ * the line above the statement it is in, or anywhere from there to its end.
+ * `Effect.ignore({ log })` logs the failure, so it needs no comment.
  */
 
 const EFFECT_MODULES = new Set(["Effect", "Stream", "Layer", "Channel", "Sink", "STM", "Micro"]);
@@ -115,6 +123,110 @@ const noFunctionConstructor = {
   },
 };
 
+/** Combinators that drop a failure whatever it is. */
+const IGNORING = new Set(["ignore", "ignoreCause", "orElseSucceed"]);
+/** Handlers that drop the failure when their callback doesn't read it. */
+const CATCH_HANDLERS = new Set(["catch", "catchCause"]);
+
+/** `new SomeError(...)` or `X.fail(...)`: a handler that fails in its turn. */
+const fails = (body: Node): boolean =>
+  body.type === "NewExpression" ||
+  (body.type === "CallExpression" &&
+    body.callee.type === "MemberExpression" &&
+    body.callee.property.type === "Identifier" &&
+    body.callee.property.name === "fail");
+
+const ignoresItsArgument = (fn: Node | undefined): boolean =>
+  fn !== undefined &&
+  isFunction(fn) &&
+  !fails(fn.body) &&
+  (fn.params.length === 0 ||
+    (fn.params.length === 1 &&
+      fn.params[0].type === "Identifier" &&
+      fn.params[0].name.startsWith("_")));
+
+/** `Effect.ignore({ log: ... })`: the failure is logged, not lost. */
+const logsIt = (member: Node): boolean => {
+  const call = member.parent;
+  const options = call?.type === "CallExpression" && call.callee === member ? call.arguments : [];
+  return options.some(
+    (arg: Node) =>
+      arg.type === "ObjectExpression" &&
+      arg.properties.some(
+        (prop: Node) =>
+          prop.type === "Property" && prop.key.type === "Identifier" && prop.key.name === "log",
+      ),
+  );
+};
+
+/** The nearest statement around `node` (or a class member, an object key). */
+const enclosingStatement = (node: Node): Node => {
+  let up: Node = node;
+  while (
+    up.parent &&
+    !/(Statement|Declaration)$/.test(up.type) &&
+    up.type !== "PropertyDefinition" &&
+    up.type !== "Property"
+  ) {
+    up = up.parent;
+  }
+  return up;
+};
+
+type LintContext = {
+  report(d: { node: Node; messageId: string; data?: Record<string, string> }): void;
+  sourceCode: {
+    getAllComments(): Array<{ loc: { start: { line: number }; end: { line: number } } }>;
+  };
+};
+
+const explainIgnoredFailure = {
+  meta: {
+    type: "problem",
+    docs: { description: "Require a comment on code that turns a failure into a success" },
+    messages: {
+      unexplained:
+        "{{what}} drops a failure. Say why that is safe in a comment above this statement, or handle the failure (fail with a typed error, or log it with Effect.ignore({ log })).",
+    },
+    schema: [],
+  },
+  create(context: LintContext) {
+    const commentLines = context.sourceCode.getAllComments().map((c) => c.loc);
+    const explained = (node: Node): boolean => {
+      const from = enclosingStatement(node).loc.start.line - 1;
+      const to = node.loc.end.line;
+      return commentLines.some((c) => c.end.line >= from && c.start.line <= to);
+    };
+    const check = (node: Node, what: string) => {
+      if (!explained(node)) context.report({ node, messageId: "unexplained", data: { what } });
+    };
+    return {
+      MemberExpression(node: Node) {
+        if (
+          node.object.type === "Identifier" &&
+          EFFECT_MODULES.has(node.object.name) &&
+          node.property.type === "Identifier" &&
+          IGNORING.has(node.property.name) &&
+          !logsIt(node)
+        ) {
+          check(node, `${node.object.name}.${node.property.name}`);
+        }
+      },
+      CallExpression(node: Node) {
+        const callee = node.callee;
+        if (
+          callee.type === "MemberExpression" &&
+          callee.property.type === "Identifier" &&
+          CATCH_HANDLERS.has(callee.property.name) &&
+          ignoresItsArgument(node.arguments[node.arguments.length - 1])
+        ) {
+          check(node, `A .${callee.property.name} handler that never reads the error`);
+        }
+      },
+    };
+  },
+};
+
 /** `no-empty` lets a comment stand in for handling; this rule wants a statement. */
 const noSwallowedCatch = {
   meta: {
@@ -139,6 +251,7 @@ export default {
   meta: { name: "distilled" },
   rules: {
     "no-swallowed-catch": noSwallowedCatch,
+    "explain-ignored-failure": explainIgnoredFailure,
     "no-throw-in-effect": noThrowInEffect,
     "no-function-constructor": noFunctionConstructor,
   },
