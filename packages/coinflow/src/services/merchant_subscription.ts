@@ -195,7 +195,6 @@ export type BlockchainETH = "eth";
 export type BlockchainPOLYGON = "polygon";
 export type BlockchainBASE = "base";
 export type BlockchainARBITRUM = "arbitrum";
-export type BlockchainSTELLAR = "stellar";
 export type BlockchainMONAD = "monad";
 export type BlockchainTEMPO = "tempo";
 export type OperationalBlockchain =
@@ -204,7 +203,6 @@ export type OperationalBlockchain =
   | BlockchainPOLYGON
   | BlockchainBASE
   | BlockchainARBITRUM
-  | BlockchainSTELLAR
   | BlockchainMONAD
   | BlockchainTEMPO;
 export interface CreatePlanRequest {

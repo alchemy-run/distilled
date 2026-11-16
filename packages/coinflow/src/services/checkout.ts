@@ -31,6 +31,7 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -40,6 +41,7 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -49,6 +51,7 @@ export class CustomerBlocked
     /*@__PURE__*/ S.TaggedError<CustomerBlocked>()("CustomerBlocked", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 423 }],
   ) {}
@@ -58,6 +61,7 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -67,6 +71,7 @@ export class Gone
     /*@__PURE__*/ S.TaggedError<Gone>()("Gone", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 410 }],
   ) {}
@@ -76,6 +81,7 @@ export class PaymentRequired
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
   ) {}
@@ -85,6 +91,7 @@ export class PreconditionFailed
     /*@__PURE__*/ S.TaggedError<PreconditionFailed>()("PreconditionFailed", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 412 }],
   ) {}
@@ -94,6 +101,7 @@ export class PreconditionRequired
     /*@__PURE__*/ S.TaggedError<PreconditionRequired>()("PreconditionRequired", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 428 }],
   ) {}
@@ -103,6 +111,7 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -112,6 +121,7 @@ export class UpgradeRequired
     /*@__PURE__*/ S.TaggedError<UpgradeRequired>()("UpgradeRequired", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 426 }],
   ) {}
@@ -131,6 +141,7 @@ export class VerificationRequired
           readonly message?: string;
         }>,
       ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 451 }],
   ) {}
@@ -785,7 +796,6 @@ export interface SafeMintRedeem {
 /** Transaction to be called. */
 export type ReturnedTokenIdRedeemTransaction = SafeMintRedeemTransaction;
 export type ReturnedTokenIdRedeemType = "returned";
-/** (EVM only) If your contract returns the NFT ID, then utilize this object. The contract mints the NFT to msg.sender (which is the Coinflow contract), the Coinflow contract picks up the returned NFT ID, and fwd's the NFT to the end user's wallet. */
 export interface ReturnedTokenIdRedeem {
   /** Whether the UI should wait for the transaction to be sent and the hash to be returned. */
   waitForHash?: boolean | undefined;
@@ -882,8 +892,6 @@ export interface AchCheckoutRequest {
   authOnly?: boolean | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   /** Token for the bankAccount to be used for the checkout. */
@@ -952,8 +960,6 @@ export interface ApaCheckoutRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   credentialType: ExcludeApaCredentialTypeApaCredentialTypePAN;
@@ -1111,8 +1117,6 @@ export interface ApplePayRequest {
   accountFundingTransaction?: AccountFundingTransaction | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   presentment?: Currency | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
@@ -1258,8 +1262,6 @@ export interface CardCheckoutRequest {
   destinationAuthKey?: string | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
@@ -1320,8 +1322,6 @@ export interface CardOnFileCheckoutArgsWithOriginalPaymentId {
   accountFundingTransaction?: AccountFundingTransaction | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   presentment?: Currency | (string & {}) | undefined;
   authentication3DS?: Authentication3DS | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
@@ -1356,8 +1356,6 @@ export interface CardOnFileCheckoutArgsWithToken {
   accountFundingTransaction?: AccountFundingTransaction | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   presentment?: Currency | (string & {}) | undefined;
   authentication3DS?: Authentication3DS | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
@@ -1397,8 +1395,6 @@ export interface CashAppCheckoutRequest {
   settlementType?: SettlementType | (string & {}) | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   email?: string | undefined;
@@ -1441,6 +1437,8 @@ export type IAchAuthorizationStringStatusHistoryList = Array<AuthorizationStatus
 /** Discriminated union keyed by `orderType`, matching the payload shape Tradepost sends on authorization submission (GitHub issue #17898). */
 export interface IAchAuthorizationString {
   createdAt: string;
+  /** Set when a `one_time_purchase` checkout claims this authorization, before the debit is sent. Cleared only if the processor definitively declines. */
+  consumedAt?: string | undefined;
   revokedAt?: string | undefined;
   /** Once true, no further payments may use this authorization. */
   revoked: boolean;
@@ -1478,8 +1476,6 @@ export interface CreatePixPaymentRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   email: string;
@@ -1515,8 +1511,6 @@ export interface CryptoHeadlessFixedCheckoutArgs {
   settlementType?: SettlementType | (string & {}) | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   /** The name of the chain to perform the crypto payin on. */
@@ -1546,8 +1540,6 @@ export interface CryptoHeadlessFlexibleCheckoutArgs {
   settlementType?: SettlementType | (string & {}) | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   /** The name of the chain to perform the crypto payin on. */
@@ -1597,7 +1589,6 @@ export type CoinflowBlockchain =
   | "polygon"
   | "base"
   | "arbitrum"
-  | "stellar"
   | "monad"
   | "tempo"
   | "user";
@@ -1659,6 +1650,7 @@ export type PaymentMethods =
 export type GetCheckoutJwtTokenRequestAllowedPaymentMethodsList = Array<
   PaymentMethods | (string & {})
 >;
+export type GetCheckoutLinkArgsCheckoutVersion = "v2" | "v3";
 export type CardFunding = "debit" | "credit" | "prepaid";
 /** Apple Pay sheet filter only (not enforced); `prepaid` shows as debit and `cardSettings.debitOnly` wins. */
 export type GetCheckoutJwtTokenRequestAllowedCardFundingList = Array<CardFunding | (string & {})>;
@@ -1717,8 +1709,10 @@ export interface GetCheckoutJwtTokenRequest {
   allowedPaymentMethods?: GetCheckoutJwtTokenRequestAllowedPaymentMethodsList | undefined;
   presentment?: Currency | (string & {}) | undefined;
   planCode?: string | undefined;
+  checkoutVersion?: GetCheckoutLinkArgsCheckoutVersion | (string & {}) | undefined;
   /** When true, the Apple Pay button skips the totals (fee quote) fetch and charges exactly the `subtotal` passed to the component. */
   useNativeSubtotal?: boolean | undefined;
+  inlineCryptoCheckout?: boolean | undefined;
   sessionKey?: string | undefined;
   /** Apple Pay sheet filter only (not enforced); `prepaid` shows as debit and `cardSettings.debitOnly` wins. */
   allowedCardFunding?: GetCheckoutJwtTokenRequestAllowedCardFundingList | undefined;
@@ -1742,8 +1736,6 @@ export interface GetCheckoutJwtTokenRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   authentication3DS?: Authentication3DS | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
@@ -1791,8 +1783,10 @@ export interface GetCheckoutLinkRequest {
   allowedPaymentMethods?: GetCheckoutLinkRequestAllowedPaymentMethodsList | undefined;
   presentment?: Currency | (string & {}) | undefined;
   planCode?: string | undefined;
+  checkoutVersion?: GetCheckoutLinkArgsCheckoutVersion | (string & {}) | undefined;
   /** When true, the Apple Pay button skips the totals (fee quote) fetch and charges exactly the `subtotal` passed to the component. */
   useNativeSubtotal?: boolean | undefined;
+  inlineCryptoCheckout?: boolean | undefined;
   sessionKey?: string | undefined;
   /** Apple Pay sheet filter only (not enforced); `prepaid` shows as debit and `cardSettings.debitOnly` wins. */
   allowedCardFunding?: GetCheckoutLinkRequestAllowedCardFundingList | undefined;
@@ -1816,8 +1810,6 @@ export interface GetCheckoutLinkRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   authentication3DS?: Authentication3DS | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
@@ -2069,8 +2061,6 @@ export interface GetTotalsRequest {
   transactionData?: EvmTransactionData | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call for a purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** The bin of the card to get the exact fees */
   bin?: string | undefined;
   creditsBalance?: Cents | undefined;
@@ -2288,8 +2278,6 @@ export interface GooglePayRequest {
   destinationAuthKey?: string | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
@@ -2339,8 +2327,6 @@ export interface IbanCheckoutRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   /** Merchant Identifier */
@@ -2386,8 +2372,6 @@ export interface IbanTokenCheckoutRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   /** Merchant Identifier */
@@ -2416,8 +2400,6 @@ export interface InteracCheckoutRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   /** Merchant Identifier */
@@ -2460,8 +2442,6 @@ export interface InteracTokenCheckoutRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   /** Merchant Identifier */
@@ -2493,8 +2473,6 @@ export interface MerchantInitiatedStandardTransactionArgs {
   accountFundingTransaction?: AccountFundingTransaction | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   presentment?: Currency | (string & {}) | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
@@ -2511,8 +2489,6 @@ export interface MerchantInitiatedSubscriptionTransactionArgs {
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
   l2l3Data?: L2L3Data | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** Specify if using Subscription Plans that are Merchant Initiated - otherwise must specify originalPaymentId. */
   subscriptionPlanCode: string;
 }
@@ -2562,8 +2538,6 @@ export interface NewPayPalCheckoutRequest {
   destinationAuthKey?: string | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
@@ -2623,8 +2597,6 @@ export interface NewVenmoCheckoutRequest {
   destinationAuthKey?: string | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
@@ -2690,8 +2662,6 @@ export interface SavedPayPalCheckoutRequest {
   destinationAuthKey?: string | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
@@ -2739,8 +2709,6 @@ export interface SavedVenmoCheckoutRequest {
   destinationAuthKey?: string | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
@@ -2802,8 +2770,6 @@ export interface TokenCheckoutRequest {
   destinationAuthKey?: string | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
@@ -2853,8 +2819,6 @@ export interface VaultedPayPalCheckoutRequest {
   destinationAuthKey?: string | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
@@ -2902,8 +2866,6 @@ export interface VaultedVenmoCheckoutRequest {
   destinationAuthKey?: string | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   userLocation?: IUserLocation | undefined;
   customPayInFees?: CustomPayInFeesConfig | undefined;
   overrideChargebackProtectionDecision?: boolean | undefined;
@@ -2971,8 +2933,6 @@ export interface WireCheckoutRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   /** Merchant Identifier */
@@ -3020,8 +2980,6 @@ export interface WireTokenCheckoutRequest {
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
   rent?: LamportsAmount | undefined;
   transactionData?: EvmTransactionData | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   /** If utilizing USDC settlement to addresses other than your main merchant settlement address. Utilize this destinationAuthKey which is a JWT encoded with the information for which address to send the USDC to. */
   destinationAuthKey?: string | undefined;
   /** Merchant Identifier */
@@ -3048,8 +3006,6 @@ export interface ZeroAuthorizationCheckoutArgsNewCardWithoutReason {
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   authentication3DS?: Authentication3DS | undefined;
 }
 export interface ZeroAuthorizationCheckoutArgsSavedCardWithoutReason {
@@ -3064,8 +3020,6 @@ export interface ZeroAuthorizationCheckoutArgsSavedCardWithoutReason {
   overrideChargebackProtectionDecision?: boolean | undefined;
   chargebackProtectionAccountType?: ChargebackProtectionAccountType | (string & {}) | undefined;
   doNotReviewChargebackProtection?: boolean | undefined;
-  /** (Stellar only) Base64 XDR transaction string for executing a merchant contract call on a successful purchase. For transaction purchases, pass the base64 XDR string created using `.toXDR()` on a transaction built with generated TypeScript bindings (e.g., `NftClientWrapper.buildNftPurchaseTx`). For direct USDC transfers (no merchant transaction), omit this field or pass undefined. Gas fees for the transaction will be automatically calculated and added to the total charged to the customer. */
-  stellarTransaction?: string | undefined;
   authentication3DS?: Authentication3DS | undefined;
 }
 export type ZeroAuthorizationCheckoutArgsWithoutReason =
@@ -3078,6 +3032,75 @@ export interface ZeroAuthorizationRequest {
   body?: ZeroAuthorizationCheckoutArgsWithoutReason | undefined;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
+}
+export interface MerchantInitiatedTransactionRequestConflictError {
+  paymentId?: string | undefined;
+  message: string;
+}
+export interface RevalidateCVVFields {
+  message: string;
+  reason: string;
+}
+export interface ChallengeFields {
+  transactionId: string;
+  url: string;
+  creq: string;
+}
+export type VerificationStatus =
+  | "pending"
+  | "partial-approval"
+  | "approved"
+  | "rejected"
+  | "expired";
+export type VerificationVendor =
+  | "middesk"
+  | "sumsub"
+  | "sumsub_docv"
+  | "persona"
+  | "persona_kyb"
+  | "unassigned";
+export type VerificationRejectionReasonsList = Array<string>;
+export interface Verification {
+  reference: string;
+  status: VerificationStatus;
+  vendor: VerificationVendor;
+  name?: string | undefined;
+  attested?: boolean | undefined;
+  shareToken?: string | undefined;
+  shareTokenStatus?: string | undefined;
+  sessionToken?: string | Redacted.Redacted<string> | undefined;
+  rejectionReasons?: VerificationRejectionReasonsList | undefined;
+}
+export interface AdditionalVerification {
+  name: string;
+  link: string;
+  reference: string;
+  vendor: VerificationVendor;
+  sessionToken?: string | Redacted.Redacted<string> | undefined;
+}
+/** Additional links which can be hosted in an iframe or redirect the user to complete verification. */
+export type VerificationRequiredResponseAdditionalVerificationLinksList =
+  Array<AdditionalVerification>;
+/** List of reasons as to why the verification was rejected. */
+export type VerificationRequiredResponseRejectionReasonsList = Array<string>;
+export interface VerificationRequiredResponse {
+  verification: Verification;
+  /** Link which can be hosted in an iframe or redirect the user to complete verification. */
+  verificationLink?: string | undefined;
+  /** Link where the user will be redirected to upon successful verification. */
+  redirectLink?: string | undefined;
+  /** Additional links which can be hosted in an iframe or redirect the user to complete verification. */
+  additionalVerificationLinks?:
+    | VerificationRequiredResponseAdditionalVerificationLinksList
+    | undefined;
+  /** List of reasons as to why the verification was rejected. */
+  rejectionReasons?: VerificationRequiredResponseRejectionReasonsList | undefined;
+}
+/** From T, pick a set of properties whose keys are in the union K */
+export interface PickVerificationRequiredResponseVerificationOrVerificationLink {
+  verification: Verification;
+  /** Link which can be hosted in an iframe or redirect the user to complete verification. */
+  verificationLink?: string | undefined;
 }
 export type AchCheckoutError =
   | CustomerBlocked
@@ -3904,7 +3927,6 @@ function __c0(j: number): any {
           authOnly: S.optional(S.Boolean),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           token: S.String,
           orderType: S.optional(S.String),
@@ -4009,7 +4031,6 @@ function __c8(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           credentialType: S.Unknown,
           credentialValue: S.String,
@@ -4148,7 +4169,6 @@ function __c10(j: number): any {
           accountFundingTransaction: S.optional(__S(193, __c12, 1)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           presentment: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           applePayPayment: __S(168, __c10, 8),
@@ -4251,7 +4271,6 @@ function __c15(j: number): any {
           destinationAuthKey: S.optional(S.String),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
-          stellarTransaction: S.optional(S.String),
           userLocation: S.optional(__S(64, __c4, 0)),
           customPayInFees: S.optional(__S(49, __c3, 1)),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
@@ -4337,7 +4356,6 @@ function __c19(j: number): any {
           settlementType: S.optional(S.String),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           email: S.optional(S.String),
           authSessionKey: S.String.pipe(
@@ -4387,6 +4405,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           createdAt: S.String,
+          consumedAt: S.optional(S.String),
           revokedAt: S.optional(S.String),
           revoked: S.Boolean,
           statusHistory: __S(322, __c20, 2),
@@ -4426,7 +4445,6 @@ function __c21(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           email: S.String,
           merchantId: S.String,
@@ -4560,7 +4578,9 @@ function __c27(j: number): any {
           allowedPaymentMethods: S.optional(__S(448, __c28, 0)),
           presentment: S.optional(S.String),
           planCode: S.optional(S.String),
+          checkoutVersion: S.optional(S.String),
           useNativeSubtotal: S.optional(S.Boolean),
+          inlineCryptoCheckout: S.optional(S.Boolean),
           sessionKey: S.optional(S.String),
           allowedCardFunding: S.optional(__S(448, __c28, 0)),
           isZeroAuthorization: S.optional(S.Boolean),
@@ -4579,7 +4599,6 @@ function __c27(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           authentication3DS: S.optional(S.Unknown),
           destinationAuthKey: S.optional(S.String),
           destination: S.optional(S.String),
@@ -4635,7 +4654,9 @@ function __c29(j: number): any {
           allowedPaymentMethods: S.optional(__S(448, __c28, 0)),
           presentment: S.optional(S.String),
           planCode: S.optional(S.String),
+          checkoutVersion: S.optional(S.String),
           useNativeSubtotal: S.optional(S.Boolean),
+          inlineCryptoCheckout: S.optional(S.Boolean),
           sessionKey: S.optional(S.String),
           allowedCardFunding: S.optional(__S(448, __c28, 0)),
           isZeroAuthorization: S.optional(S.Boolean),
@@ -4654,7 +4675,6 @@ function __c29(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           authentication3DS: S.optional(S.Unknown),
           destinationAuthKey: S.optional(S.String),
           destination: S.optional(S.String),
@@ -4782,7 +4802,6 @@ function __c33(j: number): any {
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
           destinationAuthKey: S.optional(S.String),
-          stellarTransaction: S.optional(S.String),
           bin: S.optional(S.String),
           creditsBalance: S.optional(__S(32, __c2, 0)),
           usdcBalance: S.optional(__S(32, __c2, 0)),
@@ -5000,7 +5019,6 @@ function __c35(j: number): any {
           destinationAuthKey: S.optional(S.String),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
-          stellarTransaction: S.optional(S.String),
           userLocation: S.optional(__S(64, __c4, 0)),
           customPayInFees: S.optional(__S(49, __c3, 1)),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
@@ -5055,7 +5073,6 @@ function __c36(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           merchantId: S.String,
           data: __S(576, __c36, 0),
@@ -5115,7 +5132,6 @@ function __c38(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           merchantId: S.String,
           token: S.String,
@@ -5148,7 +5164,6 @@ function __c39(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           merchantId: S.String,
           email: S.optional(S.String),
@@ -5196,7 +5211,6 @@ function __c41(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           merchantId: S.String,
           token: S.String,
@@ -5244,7 +5258,6 @@ function __c43(j: number): any {
           destinationAuthKey: S.optional(S.String),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
-          stellarTransaction: S.optional(S.String),
           userLocation: S.optional(__S(64, __c4, 0)),
           customPayInFees: S.optional(__S(49, __c3, 1)),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
@@ -5290,7 +5303,6 @@ function __c44(j: number): any {
           destinationAuthKey: S.optional(S.String),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
-          stellarTransaction: S.optional(S.String),
           userLocation: S.optional(__S(64, __c4, 0)),
           customPayInFees: S.optional(__S(49, __c3, 1)),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
@@ -5380,7 +5392,6 @@ function __c49(j: number): any {
           destinationAuthKey: S.optional(S.String),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
-          stellarTransaction: S.optional(S.String),
           userLocation: S.optional(__S(64, __c4, 0)),
           customPayInFees: S.optional(__S(49, __c3, 1)),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
@@ -5425,7 +5436,6 @@ function __c50(j: number): any {
           destinationAuthKey: S.optional(S.String),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
-          stellarTransaction: S.optional(S.String),
           userLocation: S.optional(__S(64, __c4, 0)),
           customPayInFees: S.optional(__S(49, __c3, 1)),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
@@ -5498,7 +5508,6 @@ function __c52(j: number): any {
           destinationAuthKey: S.optional(S.String),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
-          stellarTransaction: S.optional(S.String),
           userLocation: S.optional(__S(64, __c4, 0)),
           customPayInFees: S.optional(__S(49, __c3, 1)),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
@@ -5557,7 +5566,6 @@ function __c54(j: number): any {
           destinationAuthKey: S.optional(S.String),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
-          stellarTransaction: S.optional(S.String),
           userLocation: S.optional(__S(64, __c4, 0)),
           customPayInFees: S.optional(__S(49, __c3, 1)),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
@@ -5604,7 +5612,6 @@ function __c55(j: number): any {
           destinationAuthKey: S.optional(S.String),
           customerUsdcTransferData: S.optional(__S(176, __c11, 0)),
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
-          stellarTransaction: S.optional(S.String),
           userLocation: S.optional(__S(64, __c4, 0)),
           customPayInFees: S.optional(__S(49, __c3, 1)),
           overrideChargebackProtectionDecision: S.optional(S.Boolean),
@@ -5680,7 +5687,6 @@ function __c57(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           merchantId: S.String,
           data: __S(912, __c57, 0),
@@ -5741,7 +5747,6 @@ function __c59(j: number): any {
           customerUsdcTransferDataV2: S.optional(__S(144, __c9, 0)),
           rent: S.optional(__S(16, __c1, 0)),
           transactionData: S.optional(S.Unknown),
-          stellarTransaction: S.optional(S.String),
           destinationAuthKey: S.optional(S.String),
           merchantId: S.String,
           token: S.String,

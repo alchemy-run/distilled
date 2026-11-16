@@ -28,6 +28,7 @@ export class ExpectationFailed
     /*@__PURE__*/ S.TaggedError<ExpectationFailed>()("ExpectationFailed", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 417 }],
   ) {}
@@ -37,6 +38,7 @@ export class PreconditionFailed
     /*@__PURE__*/ S.TaggedError<PreconditionFailed>()("PreconditionFailed", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 412 }],
   ) {}
@@ -79,6 +81,11 @@ export interface SendSolanaTransactionResponse {
   /** To confirm that this transaction was successful call `connection.confirmTransaction(signature)` which will query the chain to see if the transaction was confirmed. */
   signature: string;
 }
+export interface SendCoinflowTransactionRequestPreconditionFailedError {
+  logs: string;
+}
+export type SendSolanaTransactionRequestPreconditionFailedError =
+  SendCoinflowTransactionRequestPreconditionFailedError;
 export type GetContractAddressesError = CoinflowOpError;
 /** Get the Coinflow Contract Address Get the Coinflow Contract address by blockchain */
 export const getContractAddresses: API.OperationMethod<
