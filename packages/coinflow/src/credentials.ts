@@ -47,6 +47,9 @@ export class Credentials
     "CoinflowCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const isEnvironment = (value: string): value is Environment =>
   value === "sandbox" || value === "production";
 
